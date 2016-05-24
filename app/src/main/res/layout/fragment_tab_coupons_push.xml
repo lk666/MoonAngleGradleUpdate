@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/num_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg_f2"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <LinearLayout
+            android:id="@+id/layout_activity"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:clickable="true"
+            android:background="@drawable/btn_white"
+            android:orientation="horizontal">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="@string/coupons_activity_name"
+                android:textSize="14sp"
+                android:gravity="center"
+                android:textColor="@color/text_black"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="*"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:gravity="left|center_vertical"
+                android:textColor="@color/btn_red"/>
+            <TextView
+                android:id="@+id/txt_activity_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:hint="@string/coupons_activity_name_hint"
+                android:textColorHint="@color/text_grep"
+                android:textSize="14sp"
+                android:gravity="center_vertical|right"
+                android:textColor="@color/btn_red"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_right"/>
+        </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/dotted_line"
+            android:layerType="software"/>
+
+        <LinearLayout
+            android:id="@+id/layout_consumer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:background="@drawable/btn_white"
+            android:padding="10dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_black"
+                        android:text="@string/coupons_record_customer"
+                        android:textSize="@dimen/text_size_14"
+                        />
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:text="*"
+                        android:layout_weight="1"
+                        android:textSize="14sp"
+                        android:gravity="left|center_vertical"
+                        android:textColor="@color/btn_red"/>
+                    <TextView
+                        android:id="@+id/txt_register_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/text_black_light"
+                        android:hint="@string/coupons_consumer_scan_code"
+                        android:gravity="right"
+                        android:textColorHint="@color/text_grep"
+                        android:textSize="@dimen/text_size_14"
+                        />
+                </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/layout_name_phone"
+                    android:visibility="gone"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:id="@+id/txt_customername"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="right"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/text_black_light"
+                        android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/txt_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_black_light"
+                        android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+            </LinearLayout>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:layout_gravity="center"
+                android:src="@mipmap/icon_right"/>
+
+        </LinearLayout>
+        <include layout="@layout/line_solid_view_d7"/>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:text="@string/coupons_list"
+            android:textSize="17sp"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/text_black"/>
+        <include layout="@layout/line_solid_view_e5"/>
+    </LinearLayout>
+
+    <ListView
+        android:id="@+id/list_coupons"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@color/white"
+        android:layout_weight="1"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:orientation="horizontal">
+        <Button
+            android:id="@+id/btn_cancel"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:layout_marginRight="10dp"
+            android:textSize="15sp"
+            android:textColor="@color/text_red"
+            android:text="@string/btn_cancel_with_space"
+            android:background="@drawable/btn_border_red_shape4"/>
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="wrap_content"
+            android:layout_height="35dp"
+            android:layout_weight="1"
+            android:textSize="15sp"
+            android:textColor="@color/white"
+            android:text="@string/btn_ok_with_space"
+            android:background="@drawable/btn_red_shape_large"/>
+
+    </LinearLayout>
+
+
+
+
+
+</LinearLayout>

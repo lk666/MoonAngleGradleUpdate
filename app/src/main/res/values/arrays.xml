@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="IconButton">
+		<attr name="iconPadding" format="dimension"/>
+	</declare-styleable>
+    <string-array name="array_eidt_appointment">
+        <item>联系不上收件人</item>
+        <item>收货人修改预约时间 </item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="array_sign_order">
+        <item>本人签收</item>
+        <item>他人代签</item>
+    </string-array>
+    <string-array name="array_search_history">
+        <item>全部</item>
+        <item>已发放</item>
+        <item>未发放</item>
+    </string-array>
+    <string-array name="array_sign_type">
+        <item>本人签收</item>
+        <item>他人签收</item>
+    </string-array>
+    <string-array name="array_edit_type">
+        <item>联系不上联系人</item>
+        <item>收货人修改预约时间</item>
+        <item>其他</item>
+    </string-array>
+    <string-array name="array_return_type">
+        <item>买家不想买了</item>
+        <item>产品出现问题</item>
+        <item>买家不满意产品</item>
+        <item>其他</item>
+    </string-array>
+</resources>

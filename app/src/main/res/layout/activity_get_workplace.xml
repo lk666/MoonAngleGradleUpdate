@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="horizontal">
+
+   <cn.com.bluemoon.lib.view.CommonClearEditText
+       android:id="@+id/et_search"
+       android:layout_width="0dp"
+       android:layout_height="40dp"
+       android:layout_weight="1"
+       android:background="@drawable/edittext_search"
+       android:drawableLeft="@mipmap/search_gray"
+       android:drawablePadding="10dp"
+       android:textColor="@color/text_black"
+       android:focusableInTouchMode="true"
+       android:textSize="@dimen/text_size_15"
+       android:singleLine="true"
+       android:gravity="center_vertical"
+       android:ellipsize="start"
+       android:hint="@string/card_input_code_hint"
+       android:textColorHint="@color/text_grep"
+       android:textCursorDrawable="@null"
+       android:imeOptions="actionSearch"
+       android:inputType="text"
+       android:digits="@string/key_limit_number_letter"
+       android:paddingLeft="15dp"
+       android:paddingRight="15dp"
+       android:layout_marginRight="10dp"
+       />
+
+        <TextView
+            android:id="@+id/txt_search"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/text_color_selector_grep_blue"
+            android:paddingRight="10dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp"
+            android:visibility="gone"
+            android:text="@string/card_btn_cancle"
+            />
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/view_pop_card"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" />
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_workplace"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:dividerHeight="0dp"
+        android:scrollbars="vertical"
+        ptr:ptrMode="both"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black" />
+    <View style="@style/line_solid_deep_style"/>
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/page_bg_f2"
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:minHeight="40dp">
+        <TextView
+            android:id="@+id/txt_workplace_address"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:textSize="@dimen/text_size_14"
+            android:layout_marginTop="15dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="15dp"
+            android:textColor="@color/text_black_light"
+            />
+        <Button
+            android:id="@+id/btn_ok"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:textColor="@color/white"
+            android:textSize="@dimen/text_size_15"
+            android:text="@string/btn_ok"
+            android:background="@drawable/btn_blue"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

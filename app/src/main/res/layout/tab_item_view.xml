@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <include layout="@layout/line_solid_view_d7"/>
+    <FrameLayout 
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" >
+
+	    <ImageView
+        	android:id="@+id/imageview"
+        	android:layout_width="20dp"
+        	android:layout_height="20dp"
+        	android:layout_marginTop="8dp"
+			android:layout_marginRight="12dp"
+			android:layout_marginLeft="12dp"
+        	android:scaleType="fitXY"
+        	android:focusable="false"
+        	/>
+
+	    <cn.com.bluemoon.lib.view.RedpointTextView
+	        android:id="@+id/txt_count"
+	        android:layout_width="@dimen/point_width"
+        	android:layout_height="@dimen/point_height"
+        	android:layout_marginLeft="26dp"
+        	android:layout_marginTop="2dp"
+        	android:background="@color/text_red"
+        	android:textColor="@color/white"
+        	android:textSize="8sp"
+	        android:layout_gravity="top"
+	        android:visibility="gone" />
+	</FrameLayout >
+
+    <TextView
+        android:id="@+id/textview"       
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+        android:layout_marginTop="4dp"
+        android:layout_marginBottom="2dp"
+        android:textSize="12sp"
+		android:layout_weight="1"
+        android:textColor="@color/text_color_selector">
+    </TextView>
+
+</LinearLayout>

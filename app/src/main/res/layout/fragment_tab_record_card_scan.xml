@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/num_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg_f2"
+    android:clickable="true"
+    android:gravity="center"
+    android:orientation="vertical" >
+
+    <cn.com.bluemoon.delivery.ui.IconButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btn_scan"
+        android:layout_width="163dp"
+        android:layout_height="30dp"
+        android:background="@drawable/btn_blue_shape"
+        android:drawableLeft="@mipmap/qrcode_icon"
+        android:text="@string/btn_san_punch_card_text"
+        android:textSize="14sp"
+        app:iconPadding="15dp" />
+
+    <cn.com.bluemoon.delivery.ui.IconButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btn_input"
+        android:layout_width="163dp"
+        android:layout_height="30dp"
+        android:layout_marginTop="50dp"
+        android:background="@drawable/btn_blue_shape"
+        android:drawableLeft="@mipmap/qrcode_icon"
+        android:text="@string/tab_bottom_punch_card_text"
+        android:textSize="14sp"
+        app:iconPadding="15dp" />
+
+</LinearLayout>

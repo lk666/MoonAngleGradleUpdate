@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#3F51B5</color>
+    <color name="colorPrimaryDark">#303F9F</color>
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="view_bg">#fefefe</color>
+    <color name="title_background">#ff1fb8ff</color> <!-- 顶部标题栏 蓝色 -->
+    <color name="page_bg_f2">#f2f2f2</color> <!-- 页面带灰色背景 -->
+    <color name="page_bg_ed">#ededed</color> <!-- 页面带灰色背景 -->
+    <color name="item_bg_f5">#f5f5f5</color> <!-- 页面带灰色背景 -->
+    <color name="transparent">#0000</color><!-- 透明 -->
+    <color name="line_dotted_bg">#ebebeb</color><!-- 分割线 虚线  颜色 -->
+    <color name="line_soild_bg">#e5e5e5</color> <!-- 实线 -->
+    <color name="line_solid_deep_bg">#d7d7d7</color> <!-- 深色实线 -->
+    <color name="line_solid_divider_bg">#dbdbdb</color> <!-- 深色实线 -->
+    <color name="bar_blue">#66cfff</color> <!--历史单顶部横条蓝色  -->
+    <color name="pink_background">#ffad99</color> <!-- 粉色背景 -->
+    <color name="ticket_msg_bg">#99011930</color><!-- 门票顶部半透明背景 -->
+    <color name="ticket_times_bg">#ffd9d9d9</color><!-- 门票场次自提颜色 -->
+
+    <color name="slide_menu">#104f73</color><!-- 侧滑背景 -->
+    <color name="slide_menu2">#0d4362</color><!-- 侧滑背景 -->
+    <color name="slide_menu_text_color">#7ea1b4</color><!-- 侧滑文字 -->
+
+
+
+    <!-- 文字颜色规范 -->
+    <color name="text_black">#333333</color><!-- 主体标题文字颜色-黑色-->
+    <color name="text_black_light">#666666</color><!-- 正文颜色-浅灰色 -->
+    <color name="text_grep">#999999</color><!-- 次要文字-灰色 -->
+    <color name="text_hint">#cfcfcf</color><!-- 提示文字-浅灰色 -->
+    <color name="text_red">#ff6c47</color><!-- 价格等文字-红色 -->
+    <color name="text_blue">#0a85cc</color><!-- 蓝色文字 -->
+    <color name="text_blue_light">#0a58f1</color><!-- 蓝色文字 -->
+    <color name="text_blue_deep">#0058f1</color><!-- 蓝色文字 -->
+    <color name="text_set_hint">#bebebe</color><!-- 设置横条右边的提示语颜色 -->
+
+    <!-- 按钮颜色 -->
+    <color name="btn_red">#ff6c47</color><!-- 红色 -->
+    <color name="btn_red_pressed">#e56140</color><!-- 点击红色 -->
+    <color name="btn_red_disable">#ffdad1</color><!-- 不可点击红色 -->
+
+    <color name="btn_blue">#1fb8ff</color><!-- 蓝色 -->
+    <color name="btn_blue_pressed">#1ca6e5</color><!-- 点击蓝色 -->
+    <color name="btn_blue_disable">#bce1f3</color><!-- 不可点击蓝色 -->
+
+    <color name="red_bg_light">#ffe4e1</color><!-- 点击背景 -->
+
+    <color name="btn_grep">#d7d7d7</color><!-- 灰色 -->
+    <color name="btn_grep_pressed">#b3b3b3</color><!-- 点击灰色 -->
+
+    <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
+    <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
+
+</resources>

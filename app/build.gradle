@@ -1,0 +1,99 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 21
+    buildToolsVersion "23.0.3"
+
+    signingConfigs {
+        release {
+            storeFile file('./BlueMoon.keystore')
+            storePassword "bluemoon"
+            keyAlias "bluemoon"
+            keyPassword "!12345678"
+        }
+    }
+
+    defaultConfig {
+        applicationId "cn.com.bluemoon.delivery"
+        minSdkVersion 12
+        targetSdkVersion 21
+        versionCode 14
+        versionName "3.3.0"
+        buildConfigField("Integer", "BUILD_CODE", "3557")
+
+    }
+
+    buildTypes {
+        debug {
+            buildConfigField("boolean", "RELEASE", "false")
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
+                        def fileName = "Delivery_${defaultConfig.versionName}_${defaultConfig.buildConfigFields["BUILD_CODE"].getAt("value")}_debug.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+        }
+        release {
+            buildConfigField("boolean", "RELEASE", "true")
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+            applicationVariants.all { variant ->
+                variant.outputs.each { output ->
+                    def outputFile = output.outputFile
+                    if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                        def fileName = "Delivery_${defaultConfig.versionName}_${defaultConfig.buildConfigFields["BUILD_CODE"].getAt("value")}_release.apk"
+                        output.outputFile = new File(outputFile.parent, fileName)
+                    }
+                }
+            }
+
+        }
+    }
+
+    packagingOptions {
+        exclude 'META-INF/DEPENDENCIES.txt'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/DEPENDENCIES'
+        exclude 'META-INF/notice.txt'
+        exclude 'META-INF/license.txt'
+        exclude 'META-INF/dependencies.txt'
+        exclude 'META-INF/LGPL2.1'
+    }
+
+    dexOptions{
+        incremental true
+        javaMaxHeapSize "2048m"
+        jumboMode true
+        preDexLibraries false
+    }
+
+    lintOptions {
+        abortOnError false
+    }
+
+    sourceSets {
+        main {
+            assets.srcDirs = ['src/main/assets', 'src/main/assets/']
+            jniLibs.srcDirs = ['libs']
+        }
+    }
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.*'])
+    compile project(':BlueMoonSDK')
+    compile project(':SlidingMenu')
+    compile 'org.apache.httpcomponents:httpcore:4.4.2'
+    compile 'junit:junit:4.12'
+}
+
+
+

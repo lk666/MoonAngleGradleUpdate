@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="LinearLayoutForTabSelector">
+        <attr name="left_text" format="string" />
+        <attr name="right_text" format="string"/>
+    </declare-styleable>
+    <declare-styleable name="TabSelector">
+        <attr name="text" format="string" />
+        <attr name="color_select_text" format="color"/>
+        <attr name="color_normal_text" format="color"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="margin_left" format="dimension"/>
+        <attr name="margin_right" format="dimension"/>
+    </declare-styleable>
+
+</resources>

@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/parent"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#22000000" >
+
+    <LinearLayout
+        android:id="@+id/ll_popup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        
+        android:orientation="vertical" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:visibility="gone"
+            android:background="@color/blue" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/item_popupwindows_camera"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_white_shape_top"
+                android:textColor="#0679c2"
+                android:textSize="18sp"
+                android:layout_marginLeft="5sp"
+            	android:layout_marginRight="5sp"
+                android:text="拍照" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="1px"
+            android:layout_marginLeft="5sp"
+            android:layout_marginRight="5sp"
+            android:background="#999999" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+
+            <Button
+                android:id="@+id/item_popupwindows_Photo"
+                android:layout_width="fill_parent"
+                android:layout_height="50dp"
+                android:background="@drawable/btn_white_shape_bottom"
+                android:textColor="#0679c2"
+                android:textSize="18sp"
+                android:layout_marginLeft="5sp"
+            	android:layout_marginRight="5sp"
+                android:text="从相册中选取" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#0000" />
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:orientation="horizontal" >
+        <Button
+            android:id="@+id/item_popupwindows_cancel"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:background="@drawable/btn_white_shape"
+            android:textColor="#0679c2"
+            android:textSize="18sp"
+            android:layout_margin="5sp"
+            android:text="取消" />
+        </LinearLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="3dp"
+            android:background="#0000" />
+    </LinearLayout>
+
+</RelativeLayout>

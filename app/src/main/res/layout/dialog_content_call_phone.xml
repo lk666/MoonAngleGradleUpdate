@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+     >
+
+
+        <TextView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+           android:layout_marginTop="20dp"
+            android:singleLine="true"
+            android:gravity="center"
+            android:textColor="#333333"
+            android:text="@string/title_dialog_customer_service"
+            android:textSize="15sp"
+        />
+
+    <TextView
+        android:id="@+id/txt_customer_service"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="15dp"
+        android:lineSpacingExtra="3dp"
+        android:textColor="@color/text_black_light"
+        android:gravity="center"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/txt_phone_num"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:lineSpacingExtra="3dp"
+        android:textColor="@color/text_black_light"
+        android:gravity="center"
+        android:textSize="14sp" />
+
+
+</LinearLayout>

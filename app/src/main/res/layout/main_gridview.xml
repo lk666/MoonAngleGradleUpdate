@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:descendantFocusability="blocksDescendants"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="15dp"
+        android:orientation="vertical">
+    </LinearLayout>
+
+    <cn.com.bluemoon.delivery.ui.CustomGridView
+        android:id="@+id/gridview_main"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:stretchMode="columnWidth"
+        android:horizontalSpacing="0.5dp"
+        android:listSelector="@null"
+        android:overScrollMode="never"
+        android:background="@color/line_soild_bg"
+        android:numColumns="4"
+        android:scrollbars="none"
+        android:verticalSpacing="0.5dp" />
+
+
+</LinearLayout>

@@ -1,0 +1,126 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+
+    android:layout_marginTop="10dp"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:id="@+id/img_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+           android:src="@mipmap/address" />
+
+        <TextView
+            android:id="@+id/txt_address"
+            android:layout_toRightOf="@id/img_address"
+            android:layout_marginLeft="10dp"
+            android:layout_alignTop="@id/img_address"
+            android:includeFontPadding="false"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:lineSpacingExtra="5dp"
+            android:maxLines="2"
+            android:ellipsize="end"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_15" />
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:layout_marginTop="10dp">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/user"
+           />
+
+        <TextView
+            android:id="@+id/txt_receiver"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/text_black_light"
+            />
+    </LinearLayout>
+
+    <View
+        style="@style/line_dotted_style"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        ></View>
+
+    <LinearLayout
+        android:id="@+id/layout_line"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginTop="10dp"
+        android:clickable="true"
+        android:layout_marginBottom="10dp">
+
+        <CheckBox
+            android:id="@+id/cb_select"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:button="@drawable/checkbox4" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/text_store_address_default"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/text_grep"
+            />
+
+        <TextView
+            android:id="@+id/txt_edit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableLeft="@mipmap/icon_edit"
+            android:drawablePadding="5dp"
+            android:text="@string/text_store_address_edit"
+            android:textSize="@dimen/text_size_12"
+            android:clickable="true"
+            android:textColor="@color/text_grep"
+            />
+
+        <TextView
+            android:id="@+id/txt_recycle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:clickable="true"
+            android:drawableLeft="@mipmap/icon_recycle"
+            android:drawablePadding="5dp"
+            android:text="@string/text_store_address_recycle"
+            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/text_grep"
+            />
+    </LinearLayout>
+    <View
+        style="@style/line_solid_style_bold"
+        ></View>
+</LinearLayout>

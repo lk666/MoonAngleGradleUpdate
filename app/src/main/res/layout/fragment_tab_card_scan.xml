@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/num_layout"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg_f2"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/img_banner"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:scaleType="fitCenter"
+        />
+
+    <cn.com.bluemoon.delivery.ui.IconButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btn_scan"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/btn_border_red_large"
+        android:drawableLeft="@mipmap/card_btn_scan"
+        android:text="@string/btn_san_punch_card_text"
+        android:textSize="@dimen/text_size_18"
+        android:textColor="@color/text_red"
+        app:iconPadding="11dp" />
+
+    <cn.com.bluemoon.delivery.ui.IconButton
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/btn_input"
+        android:layout_width="match_parent"
+        android:layout_height="53dp"
+        android:layout_marginLeft="45dp"
+        android:layout_marginRight="45dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/btn_border_blue_large"
+        android:drawableLeft="@mipmap/card_btn_input"
+        android:textColor="@color/text_blue_deep"
+        android:text="@string/btn_input_punch_card_text"
+        android:textSize="@dimen/text_size_18"
+        app:iconPadding="11dp" />
+
+</LinearLayout>

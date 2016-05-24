@@ -1,0 +1,314 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <View android:id="@+id/view_pop_start" 
+        android:layout_width="fill_parent"
+          android:layout_height="0dp"/>
+
+    <ScrollView
+        android:id="@+id/scroll_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+         >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingBottom="10dp"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/page_bg_f2"
+                android:paddingBottom="10dp"
+                android:orientation="vertical" >
+                <!-- 出货仓 -->
+                <LinearLayout
+                    android:id="@+id/layout_storehouse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:clickable="true"
+                    android:background="@drawable/btn_white"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:text="@string/extract_order_storehouse"
+                        android:textColor="@color/text_black"
+                		android:textSize="@dimen/text_size_14" />
+                        <TextView
+                        android:id="@+id/tv_storehouse"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:layout_width="0dp"
+                        android:gravity="right"
+                        android:singleLine="true"
+                        android:ellipsize="end"
+                        android:padding="10dp"
+                        android:textColor="@color/text_black_light"
+                		android:textSize="@dimen/text_size_14" />
+
+                    <ImageView 
+                        android:layout_height="wrap_content"
+                        android:layout_width="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginRight="10dp"
+                        android:src="@mipmap/icon_right"/>
+                </LinearLayout>
+                <View
+                	android:layout_width="fill_parent"
+                	android:layout_height="0.5dp"
+                	android:background="#d7d7d7" />
+				<!-- 订单编号 -->
+				<LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:text="@string/extract_order_number"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:id="@+id/tv_order_number"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black_light"
+                            android:textSize="@dimen/text_size_14" />
+                    </LinearLayout>
+					<!-- 
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="10dp"
+                        android:scaleType="fitXY"
+                        android:src="@drawable/dotted_line" />
+                         -->
+                </LinearLayout>
+                
+                <!-- 签收码 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="@string/extract_order_sign_code"
+                        android:textColor="@color/text_black"
+                		android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/tv_order_sign_code"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textColor="@color/text_black_light"
+                		android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+                -->
+                <View
+                	android:layout_width="fill_parent"
+                	android:layout_height="0.5dp"
+                	android:background="#d7d7d7" />
+                <!-- 下单人 -->
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:background="@color/white"
+                    android:orientation="vertical" >
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal" >
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:text="@string/extract_order_user"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_14" />
+                        
+                        <TextView
+                            android:id="@+id/tv_order_username"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:gravity="end"
+                            android:ellipsize="end"
+                            android:singleLine="true"
+                            android:textColor="@color/text_black_light"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:id="@+id/tv_order_userphone"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black_light"
+                            android:textSize="@dimen/text_size_14" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/dotted_line_bg" />
+                </LinearLayout>
+                
+                <!-- 下单时间 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/white"
+                    android:orientation="horizontal" >
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:padding="10dp"
+                        android:text="@string/extract_order_pay_time"
+                        android:textColor="@color/text_black"
+                		android:textSize="@dimen/text_size_14" />
+
+                    <TextView
+                        android:id="@+id/tv_order_pay_time"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="10dp"
+                        android:textColor="@color/text_black_light"
+                		android:textSize="@dimen/text_size_14" />
+                </LinearLayout>
+                <!-- 签收时间 gone-->
+                <LinearLayout
+                    android:id="@+id/layout_extract_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone"
+                    android:background="@color/white"
+                    android:orientation="vertical" >
+
+                    <ImageView
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:scaleType="fitXY"
+                        android:src="@mipmap/dotted_line_bg" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:padding="10dp"
+                            android:text="@string/extract_order_sign_time"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_14" />
+
+                        <TextView
+                            android:id="@+id/tv_order_sign_time"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="10dp"
+                            android:textColor="@color/text_black_light"
+                            android:textSize="@dimen/text_size_14" />
+                    </LinearLayout>
+                </LinearLayout>
+                
+                <View style="@style/line_solid_deep_style" />
+                
+            </LinearLayout>
+            
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="@string/extract_order_detail"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_14" />
+
+            <View style="@style/line_solid_style"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"/>
+
+            <cn.com.bluemoon.delivery.ui.LinearLayoutForListView
+                android:id="@+id/listview_product"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:orientation="vertical"
+                 />
+            
+            <View style="@style/line_solid_style" />
+
+            <TextView
+                android:id="@+id/tv_total_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="right"
+                android:paddingTop="5dp"
+                android:layout_marginRight="10dp"
+                android:textColor="@color/text_red"
+                android:textSize="@dimen/text_size_17" />
+            
+            <Button
+                android:id="@+id/btn_sign"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp"
+                android:padding="10dp"
+                android:background="@drawable/btn_red_shape"
+                android:text="@string/extract_comfire_btn"
+                android:textColor="@color/white"
+                android:textSize="@dimen/text_size_17" />
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

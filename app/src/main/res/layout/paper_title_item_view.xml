@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@color/view_bg"
+     >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:padding="10dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:gravity="center_vertical"
+            >
+            <TextView
+                android:id="@+id/txt_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:focusable="false"
+                android:text="2014-3-4 d234234"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_15" >
+            </TextView>
+            <TextView
+                android:id="@+id/txt_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:layout_marginTop="5dp"
+                android:text="2014-3-4 d234234"
+                android:textColor="@color/text_grep"
+                android:textSize="@dimen/text_size_12" >
+            </TextView>
+        </LinearLayout>
+
+
+        <ImageView
+            android:id="@+id/imageview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:focusable="false"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/icon_right" />
+    </LinearLayout>
+
+    <View
+        style="@style/line_solid_style" 
+        />
+
+</LinearLayout>

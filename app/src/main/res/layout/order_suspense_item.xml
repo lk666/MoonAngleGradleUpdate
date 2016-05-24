@@ -1,0 +1,32 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="55dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <include layout="@layout/order_inventory_item"></include>
+        <Button
+            android:id="@+id/btn_suspense"
+            android:layout_width="60dp"
+            android:layout_height="25dp"
+            android:layout_marginLeft="10dp"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/text_red"
+            android:background="@drawable/btn_border_red"
+            />
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_end"
+        style="@style/line_solid_style"
+        android:visibility="gone" />
+
+</LinearLayout>

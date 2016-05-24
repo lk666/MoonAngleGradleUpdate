@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical" >
+
+        <RelativeLayout
+            android:id="@+id/re_general"
+            style="@style/account_set_relative_style" >
+
+            <TextView
+                style="@style/account_set_txt_style"
+                android:text="@string/user_general" />
+
+            <ImageView style="@style/account_set_img_style" />
+        </RelativeLayout>
+
+        <View style="@style/line_solid_style" />
+
+    <!--<RelativeLayout
+        android:id="@+id/re_call"
+        style="@style/account_set_relative_style" >
+
+        <TextView
+            style="@style/account_set_txt_style"
+            android:text="@string/user_call" />
+
+        <ImageView style="@style/account_set_img_style" />
+    </RelativeLayout>
+
+    <View style="@style/line_solid_style" />-->
+
+        <RelativeLayout
+            android:id="@+id/re_about"
+            style="@style/account_set_relative_style" >
+
+            <TextView
+                style="@style/account_set_txt_style"
+                android:text="@string/user_about" />
+
+            <ImageView style="@style/account_set_img_style" />
+        </RelativeLayout>
+        
+        <View style="@style/line_solid_deep_style" />
+
+</LinearLayout>

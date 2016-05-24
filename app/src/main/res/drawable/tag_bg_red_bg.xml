@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item><shape>
+        <solid android:color="@color/white" />
+        <corners android:radius="4dip"  />
+        <stroke android:width="0.5dip" android:color="@color/line_solid_deep_bg" />
+    </shape></item>
+
+    <!-- pressed -->
+    <item android:state_pressed="true" android:state_checked="false">
+        <shape >
+            <solid android:color="@color/line_dotted_bg"/>
+            <corners android:radius="4dip" />
+            <stroke android:width="0.5dip" android:color="@color/line_solid_deep_bg" />
+        </shape></item>
+
+    <!-- pressed -->
+    <item android:state_pressed="false" android:state_checked="true">
+        <shape >
+            <solid android:color="@color/btn_red"/>
+            <corners android:radius="4dip" />
+            <stroke android:width="0.5dip" android:color="@color/btn_red" />
+        </shape></item>
+
+    <!-- pressed -->
+    <item android:state_pressed="true" android:state_checked="true">
+        <shape >
+            <solid android:color="@color/btn_red_pressed"/>
+            <corners android:radius="4dip" />
+            <stroke android:width="0.5dip" android:color="@color/btn_red" />
+        </shape></item>
+
+
+</selector>

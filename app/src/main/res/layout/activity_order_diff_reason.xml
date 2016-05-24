@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never" >
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/page_bg_f2"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical"
+                android:padding="10dp" >
+
+                <TextView
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/ic_mark"
+                    android:drawablePadding="10dp"
+                    android:text="@string/txt_order_diff_reason"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_17" />
+
+                <cn.com.bluemoon.lib.tagview.TagListView
+                    xmlns:f="http://schemas.android.com/apk/res-auto"
+                    android:id="@+id/tag_listview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    f:horizontalSpacing="10dp"
+                    f:orientation="horizontal"
+                    f:verticalSpacing="10dp"
+                    f:txtColorChecked="@color/white"
+                    f:bgChecked="@drawable/btn_red_shape_large" />
+
+                <EditText
+                    android:id="@+id/ed_content"
+                    android:layout_width="fill_parent"
+                    android:layout_height="100dp"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/edittext_border_grep_white"
+                    android:gravity="top"
+                    android:hint="请填写差异原因"
+                    android:padding="10dp"
+                    android:maxLength="500"
+                    android:textColor="@color/text_black_light"
+                    android:textColorHint="@color/text_hint"
+                    android:textCursorDrawable="@null"
+                    android:textSize="@dimen/text_size_12" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+    <Button
+        android:id="@+id/btn_submit"
+        android:layout_width="fill_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="18dp"
+        android:layout_marginBottom="18dp"
+        android:layout_marginLeft="25dp"
+        android:layout_marginRight="25dp"
+        android:background="@drawable/btn_blue_shape_large"
+        android:text="@string/btn_submit_sure" />
+</LinearLayout>

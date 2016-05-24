@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/cur_psw"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_large_16" />
+
+            <cn.com.bluemoon.lib.view.ClearEditText
+                android:id="@+id/current_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:hint="@string/cur_psw_hint"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/text_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/text_size_large_16" />
+        </LinearLayout>
+
+        <View style="@style/line_solid_style" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="16dp"
+                android:padding="5dp"
+                android:text="@string/new_psw"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_large_16" />
+
+            <cn.com.bluemoon.lib.view.ClearEditText
+                android:id="@+id/new_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:hint="@string/new_psw_hint"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/text_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/text_size_large_16" />
+        </LinearLayout>
+
+        <View style="@style/line_solid_style" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:gravity="center"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="5dp"
+                android:text="@string/confirm_psw"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_large_16" />
+
+            <cn.com.bluemoon.lib.view.ClearEditText
+                android:id="@+id/confirm_password"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="5dp"
+                android:background="@null"
+                android:hint="@string/confirm_psw_hint"
+                android:inputType="textPassword"
+                android:padding="5dp"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/text_hint"
+                android:textCursorDrawable="@null"
+                android:textSize="@dimen/text_size_large_16" />
+        </LinearLayout>
+
+        <View style="@style/line_solid_deep_style" />
+    </LinearLayout>
+    
+    <Button
+            android:id="@+id/submit_btn"
+            style="@style/btn_red"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="18dp"
+            android:text="@string/btn_submit" />
+
+</LinearLayout>
