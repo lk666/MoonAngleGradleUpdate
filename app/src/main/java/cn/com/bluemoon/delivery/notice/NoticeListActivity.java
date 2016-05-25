@@ -276,7 +276,9 @@ public class NoticeListActivity extends Activity{
                     Intent intent = new Intent(context, NoticeDetailActivity.class);
                     intent.putExtra("id",lists.get(position).getInfoId());
                     intent.putExtra("type",Constants.TYPE_NOTICE);
+                    lists.get(position).isRead = false;
                     context.startActivity(intent);
+                    adapter.notifyDataSetChanged();
                 }
             });
             return convertView;
