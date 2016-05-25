@@ -82,15 +82,15 @@
         <activity
             android:name=".order.OrderDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentTheme" />
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".order.OrdersTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentTheme" />
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".order.SelectStoreHouseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentTheme" />
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".order.ReturnOrderActivity"
             android:screenOrientation="portrait"
@@ -103,7 +103,7 @@
         <activity
             android:name=".order.SignActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentTheme" />
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".extract.OrderDetailActivity"
             android:screenOrientation="portrait"
@@ -127,7 +127,7 @@
         <activity
             android:name=".ticket.TicketChooseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentTheme" />
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".ticket.TicketScanActivity"
             android:screenOrientation="portrait"
@@ -213,7 +213,7 @@
         <activity
             android:name=".coupons.CouponsTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/TranslucentTheme" />
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".inventory.OrderDeliverDetailActivity"
             android:screenOrientation="portrait"
