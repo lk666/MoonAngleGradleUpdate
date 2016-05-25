@@ -2,8 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
     android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:orientation="horizontal">
 
         <ListView
             android:id="@+id/listview_menu"
@@ -23,6 +27,7 @@
             android:layout_height="fill_parent"
             android:layout_weight="1"
             android:groupIndicator="@null"
+            android:background="@color/view_bg"
             android:cacheColorHint="#00000000"
             android:divider="@color/line_soild_bg"
             android:dividerHeight="0.5dp"
@@ -37,11 +42,14 @@
             android:scrollbars="none"
             android:layout_height="fill_parent"
             android:layout_weight="1"
+            android:background="@color/view_bg"
             android:fadingEdge="none"
             ptr:ptrMode="both"
             ptr:ptrAnimationStyle="flip"
             ptr:ptrHeaderSubTextColor="@color/text_black"
             ptr:ptrHeaderTextColor="@color/text_black"
             />
+
+    </LinearLayout>
 
 </LinearLayout>
