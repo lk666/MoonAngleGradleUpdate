@@ -66,7 +66,6 @@ public class PaperListActivity extends Activity {
     private long timestamp = 0;
     private boolean pullUp;
     private boolean pullDown;
-    private int count = 0;
 
 
     @Override
@@ -112,8 +111,6 @@ public class PaperListActivity extends Activity {
         menuAdapter.setSelectItem(0);
         listMenu.setAdapter(menuAdapter);
 
-        pullUp = false;
-        pullDown = false;
         getFavoriteData(true);
 
         listMenu.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -125,6 +122,8 @@ public class PaperListActivity extends Activity {
                 menuAdapter.setSelectItem(position);
                 menuAdapter.notifyDataSetInvalidated();
                 if (position == 0) {
+                    pullUp = false;
+                    pullDown = false;
                     getFavoriteData(true);
                 } else {
                     setTitleData(position);
@@ -140,19 +139,33 @@ public class PaperListActivity extends Activity {
         if(!pullUp){
             timestamp = 0;
         }
-        PublicUtil.showToast(timestamp+"");
         DeliveryApi.getCollectList(ClientStateManager.getLoginToken(main), AppContext.PAGE_SIZE, timestamp, CollectListHandler);
     }
 
-    private void setFavoriteData(){
+    private void setFavoriteData(List<FavoriteItem> list){
+        listTitle.setVisibility(View.GONE);
+        listCollect.setVisibility(View.VISIBLE);
         if(favorites==null){
             favorites = new ArrayList<>();
         }
-        listTitle.setVisibility(View.GONE);
-        listCollect.setVisibility(View.VISIBLE);
-        titleFavoriteAdapter = new TitleFavoriteAdapter(main);
-        titleFavoriteAdapter.setList(favorites);
-        listCollect.setAdapter(titleFavoriteAdapter);
+        if(list==null){
+            list = new ArrayList<>();
+        }
+        if(pullUp){
+            favorites.addAll(list);
+        }else{
+            favorites = list;
+        }
+        if(titleFavoriteAdapter==null){
+            titleFavoriteAdapter = new TitleFavoriteAdapter(main);
+            titleFavoriteAdapter.setList(favorites);
+            listCollect.setAdapter(titleFavoriteAdapter);
+        }else{
+            titleFavoriteAdapter.setList(favorites);
+            titleFavoriteAdapter.notifyDataSetChanged();
+        }
+
+
 
     }
 
@@ -182,7 +195,7 @@ public class PaperListActivity extends Activity {
             menu = new ArrayList<>();
         }
         Knowledge item = new Knowledge();
-        item.setCatFirstName("收藏");
+        item.setCatFirstName(getString(R.string.paper_detail_collect));
         menu.add(0,item);
     }
 
@@ -235,23 +248,8 @@ public class PaperListActivity extends Activity {
                 ResultFavorites favoritesResult = JSON.parseObject(responseString,
                         ResultFavorites.class);
                 if (favoritesResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    if(favorites==null){
-                        favorites = new ArrayList<>();
-                    }
-                    if(pullUp){
-                        if(favoritesResult.getList()==null||favoritesResult.getList().size()==0){
-                            PublicUtil.showToast(getString(R.string.no_data));
-                        }else{
-                            favorites.addAll(favoritesResult.getList());
-                            timestamp = favoritesResult.getTimestamp();
-
-                        }
-                    }else{
-                        favorites = favoritesResult.getList();
-                        timestamp = 0;
-                    }
-
-                    setFavoriteData();
+                    timestamp = favoritesResult.getTimestamp();
+                    setFavoriteData(favoritesResult.getList());
                 } else {
                     PublicUtil.showErrorMsg(main, favoritesResult);
                 }
@@ -352,7 +350,7 @@ public class PaperListActivity extends Activity {
                         R.color.text_blue));
 
                 holder.txtMenu.setTextColor(getResources().getColor(
-                        R.color.white));
+                        R.color.view_bg));
 
                 if(position==0){
                     holder.imgIcon.setBackgroundResource(R.mipmap.collect_white);
@@ -469,7 +467,7 @@ public class PaperListActivity extends Activity {
 
     }
 
-        class ExpandableAdapter extends BaseExpandableListAdapter {
+    class ExpandableAdapter extends BaseExpandableListAdapter {
 
         private List<CartItem> list;
 

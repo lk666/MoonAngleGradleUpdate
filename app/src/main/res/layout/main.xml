@@ -54,7 +54,7 @@
             android:id="@+id/txt_tips"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
-            android:background="#ffffff"
+            android:background="@color/view_bg"
             android:drawableLeft="@mipmap/notice"
             android:drawableRight="@mipmap/arrow_top"
             android:drawablePadding="5dp"

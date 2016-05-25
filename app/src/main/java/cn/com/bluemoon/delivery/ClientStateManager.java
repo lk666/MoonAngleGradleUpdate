@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.view.Menu;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -43,7 +44,7 @@ public class ClientStateManager {
 	public static void clearData(Context context)
 	{
 		ClientStateManager.setLoginToken(context, "");
-		PersoninfoActivity.user = null;
+		MenuFragment.user = null;
 	}
 	
 	

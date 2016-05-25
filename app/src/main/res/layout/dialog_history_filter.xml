@@ -11,7 +11,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/white"
+            android:background="@color/view_bg"
             android:clickable="true"
             android:orientation="vertical"
             android:paddingTop="15dp">
