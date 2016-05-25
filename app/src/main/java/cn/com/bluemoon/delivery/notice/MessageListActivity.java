@@ -238,10 +238,10 @@ public class MessageListActivity extends Activity {
             LayoutInflater inflate = LayoutInflater.from(context);
             if (lists.size() == 0) {
                 View viewEmpty = inflate.inflate(R.layout.layout_no_data, null);
+                TextView txtContent = (TextView) viewEmpty.findViewById(R.id.txt_content);
                 AbsListView.LayoutParams params = new AbsListView.LayoutParams(
                         AbsListView.LayoutParams.MATCH_PARENT, listView.getHeight());
                 viewEmpty.setLayoutParams(params);
-                TextView txtContent = (TextView) viewEmpty.findViewById(R.id.txt_content);
                 txtContent.setText("当前无消息");
                 return viewEmpty;
             }
