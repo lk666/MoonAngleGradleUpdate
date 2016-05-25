@@ -71,6 +71,7 @@ import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.PushUtils;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -218,6 +219,7 @@ public class MainActivity extends SlidingActivity{
 */
 /*
         gridView = (GridView) findViewById(R.id.gridview_main);*/
+
 
         if(progressDialog!=null) progressDialog.show();
         DeliveryApi.getAppRights(token, appRightsHandler);
@@ -750,8 +752,13 @@ public class MainActivity extends SlidingActivity{
                 ResultNewInfo resultInfos = JSON.parseObject(responseString,
                         ResultNewInfo.class);
                 if (resultInfos.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    txtTips.setVisibility(View.VISIBLE);
-                    txtTips.setText(resultInfos.getMsgContent());
+                    if(!StringUtil.isEmpty(resultInfos.getMsgContent())){
+                        txtTips.setVisibility(View.VISIBLE);
+                        txtTips.setText(resultInfos.getMsgContent());
+                    }else{
+                        txtTips.setVisibility(View.GONE);
+                    }
+
                 } else {
                     PublicUtil.showErrorMsg(main, resultInfos);
                 }
