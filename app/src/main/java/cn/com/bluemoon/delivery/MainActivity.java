@@ -23,8 +23,6 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.baidu.android.pushservice.PushConstants;
 import com.baidu.android.pushservice.PushManager;
-import com.jeremyfeinstein.slidingmenu.lib.SlidingMenu;
-import com.jeremyfeinstein.slidingmenu.lib.app.SlidingActivity;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
@@ -35,11 +33,7 @@ import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.utils.StringUtils;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.MenuBean;
@@ -50,7 +44,6 @@ import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
-import cn.com.bluemoon.delivery.app.api.model.message.ResultInfos;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
@@ -64,7 +57,6 @@ import cn.com.bluemoon.delivery.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
-import cn.com.bluemoon.delivery.ui.RefleshListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
@@ -74,12 +66,14 @@ import cn.com.bluemoon.delivery.utils.PushUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
+import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.RedpointTextView;
 
-public class MainActivity extends SlidingActivity{
+public class MainActivity extends SlidingActivity {
 
     private String TAG = "MainActivity";
     private GridView gridView;
