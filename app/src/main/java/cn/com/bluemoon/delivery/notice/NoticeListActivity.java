@@ -256,9 +256,9 @@ public class NoticeListActivity extends Activity{
             TextView txtNoticeDate = (TextView) convertView.findViewById(R.id.txt_notice_date);
 
             if(lists.get(position).isRead){
-                txtReadSign.setVisibility(View.VISIBLE);
-            }else{
                 txtReadSign.setVisibility(View.GONE);
+            }else{
+                txtReadSign.setVisibility(View.VISIBLE);
             }
             txtNoticeContent.setText(lists.get(position).getInfoTitle());
             txtNoticeDate.setText(DateUtil.getTime(lists.get(position).getReleaseTime(), "yyyy-MM-dd HH:mm:ss"));
@@ -276,7 +276,7 @@ public class NoticeListActivity extends Activity{
                     Intent intent = new Intent(context, NoticeDetailActivity.class);
                     intent.putExtra("id",lists.get(position).getInfoId());
                     intent.putExtra("type",Constants.TYPE_NOTICE);
-                    lists.get(position).isRead = false;
+                    lists.get(position).isRead = true;
                     context.startActivity(intent);
                     adapter.notifyDataSetChanged();
                 }
