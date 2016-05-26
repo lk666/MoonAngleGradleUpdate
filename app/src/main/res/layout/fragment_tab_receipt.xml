@@ -18,7 +18,7 @@
         android:divider="@color/page_bg_f2"
         android:dividerHeight="15dp"
         android:fadingEdge="none"
-        android:listSelector="@color/white"
+        android:listSelector="@color/view_bg"
         android:overScrollMode="never" />
 
 </LinearLayout>

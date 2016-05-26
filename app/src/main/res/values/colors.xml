@@ -4,7 +4,7 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
 
-    <color name="view_bg">#fefefe</color>
+    <color name="view_bg">#ffffff</color>
     <color name="title_background">#ff1fb8ff</color> <!-- 顶部标题栏 蓝色 -->
     <color name="page_bg_f2">#f2f2f2</color> <!-- 页面带灰色背景 -->
     <color name="page_bg_ed">#ededed</color> <!-- 页面带灰色背景 -->

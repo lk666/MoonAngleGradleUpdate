@@ -3,7 +3,6 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/page_bg_f2"
-    android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
     <ScrollView
@@ -26,7 +25,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
@@ -55,14 +54,14 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:orientation="vertical"
                 android:padding="10dp" >
 
                 <LinearLayout
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/view_bg"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -256,7 +255,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp" >
@@ -264,7 +263,6 @@
                 <TextView
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/order_detail_detail"
@@ -277,7 +275,6 @@
                     android:id="@+id/listview_product"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
                     android:dividerHeight="0dp"
                     android:fadingEdge="none"
                     android:layerType="software"
@@ -291,7 +288,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
-                        android:background="@color/white"
                         android:layout_marginTop="10dp"
                         android:layout_marginBottom="10dp"
                         android:textColor="@color/text_red"

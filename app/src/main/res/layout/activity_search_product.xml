@@ -62,7 +62,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/white"
+        android:background="@color/view_bg"
         android:cacheColorHint="#00000000"
         android:dividerHeight="0dp"
         android:scrollbars="none"

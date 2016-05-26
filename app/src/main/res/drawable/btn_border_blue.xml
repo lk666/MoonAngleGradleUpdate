@@ -9,14 +9,14 @@
             <stroke android:width="0.5dp" android:color="@color/btn_blue" />
         </shape></item>
     <item android:state_focused="true"><shape>
-            <solid android:color="@color/white" />
+            <solid android:color="@color/view_bg" />
 
             <corners android:radius="2dip" />
 
             <stroke android:width="0.5dp" android:color="@color/btn_blue" />
         </shape></item>
     <item><shape>
-            <solid android:color="@color/white" />
+            <solid android:color="@color/view_bg" />
 
             <corners android:radius="2dip" />
 

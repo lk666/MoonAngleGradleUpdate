@@ -20,7 +20,7 @@
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
             android:text="@string/address_select_region_title"
-            android:textColor="@color/white"
+            android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_17" />
     </RelativeLayout>
 
@@ -35,7 +35,7 @@
       		android:layout_width="fill_parent"
       		android:layout_height="wrap_content"
       		android:layout_marginBottom="2dp"
-      		android:background="@color/white"
+      		android:background="@color/view_bg"
       		android:cacheColorHint="#00000000"
       		android:listSelector="#00000000"
       		android:divider="@drawable/dotted_line"

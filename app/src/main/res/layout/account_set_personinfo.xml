@@ -14,7 +14,7 @@
         <RelativeLayout
             android:id="@+id/re_username"
             style="@style/account_set_relative_style"
-            android:background="@color/white" >
+            android:background="@color/view_bg" >
 
             <TextView
                 style="@style/account_set_txt_style"
@@ -31,7 +31,7 @@
         <RelativeLayout
             android:id="@+id/re_userid"
             style="@style/account_set_relative_style"
-            android:background="@color/white" >
+            android:background="@color/view_bg" >
 
             <TextView
                 style="@style/account_set_txt_style"
@@ -48,7 +48,7 @@
         <RelativeLayout
             android:id="@+id/re_phone"
             style="@style/account_set_relative_style"
-            android:background="@color/white" >
+            android:background="@color/view_bg" >
 
             <TextView
                 style="@style/account_set_txt_style"

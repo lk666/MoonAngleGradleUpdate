@@ -12,7 +12,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:overScrollMode="never"
-        android:background="@color/white" />
+        android:background="@color/view_bg" />
     
     <include 
         layout="@layout/line_solid_view_d7"/>
@@ -62,14 +62,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/view_bg"
                 android:textSize="15sp"
                 android:text="@string/pending_order_select_ok_txt"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="@color/white"
+                android:textColor="@color/view_bg"
                 android:textSize="13sp"
                 android:text="@string/pending_order_select_txt" />
         </LinearLayout>

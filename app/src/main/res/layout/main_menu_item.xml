@@ -23,7 +23,7 @@
             android:layout_width="@dimen/point_width_large"
             android:layout_height="@dimen/point_height_large"
             android:background="@color/text_red"
-            android:textColor="@color/white"
+            android:textColor="@color/view_bg"
             android:layout_marginLeft="72dp"
             android:textSize="@dimen/text_size_10"
             android:visibility="gone"

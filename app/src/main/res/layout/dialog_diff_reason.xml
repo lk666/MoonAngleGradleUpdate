@@ -99,7 +99,7 @@
                 android:background="@drawable/btn_blue_shape_large"
                 android:gravity="center"
                 android:text="@string/btn_ok_differ_reason"
-                android:textColor="@color/white"
+                android:textColor="@color/view_bg"
                 android:textSize="17sp" />
         </LinearLayout>
     </LinearLayout>

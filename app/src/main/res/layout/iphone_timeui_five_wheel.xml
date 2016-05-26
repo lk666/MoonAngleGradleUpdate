@@ -77,7 +77,7 @@
             android:layout_weight="1"
             android:gravity="center"
             android:paddingLeft="10dip"
-            android:textColor="@color/white"
+            android:textColor="@color/view_bg"
             android:textSize="18sp" />
 
         <LinearLayout

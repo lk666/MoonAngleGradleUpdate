@@ -157,7 +157,7 @@
                 android:layout_marginTop="13dp"
                 android:background="@drawable/btn_blue_shape_large"
                 android:text="@string/pending_order_appointment_confirm"
-                android:textColor="@color/white" >
+                android:textColor="@color/view_bg" >
             </Button>
         </LinearLayout>
     </RelativeLayout>

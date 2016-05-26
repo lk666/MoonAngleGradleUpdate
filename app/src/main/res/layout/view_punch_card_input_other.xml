@@ -20,7 +20,7 @@
                 android:id="@+id/layout_card_other"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:orientation="vertical" >
                 <LinearLayout
                     android:id="@+id/layout_choose_address_other"
@@ -71,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"
-                    android:background="@color/white"
+                    android:background="@color/view_bg"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -118,7 +118,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:padding="10dp"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:orientation="vertical">
                 <LinearLayout
                     android:layout_width="match_parent"

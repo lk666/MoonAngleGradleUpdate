@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@color/view_bg"
     android:orientation="vertical">
 
 
@@ -22,7 +22,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:orientation="vertical"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp">
@@ -31,7 +31,7 @@
                     android:id="@+id/txt_list_order_detail_name"
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/view_bg"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/text_deliver_sent_detail"

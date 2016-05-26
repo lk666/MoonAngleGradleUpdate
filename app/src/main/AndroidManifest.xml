@@ -245,7 +245,8 @@
 
         <activity android:name=".knowledge.PaperListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme" />
+            android:theme="@style/App.Base.Theme"
+             />
 
         <service android:name=".card.LocationSvc" />
 

@@ -91,7 +91,7 @@
         android:clickable="false"
         android:drawableLeft="@mipmap/qrcode_icon"
         android:text="@string/ticket_check_btn_text"
-        android:textColor="@color/white"
+        android:textColor="@color/view_bg"
         android:textSize="@dimen/text_size_15"
         app:iconPadding="15dp" />
         </LinearLayout>

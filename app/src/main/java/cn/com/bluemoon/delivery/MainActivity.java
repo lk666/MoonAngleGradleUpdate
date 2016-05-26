@@ -5,9 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -152,6 +155,19 @@ public class MainActivity extends SlidingActivity {
             }
         });
         scrollViewMain = (PullToRefreshListView)findViewById(R.id.scrollView_main);
+        scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
+        /*scrollViewMain.setOnPullEventListener(new PullToRefreshBase.OnPullEventListener<ListView>() {
+            @Override
+            public void onPullEvent(PullToRefreshBase<ListView> refreshView, PullToRefreshBase.State state, PullToRefreshBase.Mode direction) {
+                if (state.equals(PullToRefreshBase.State.PULL_TO_REFRESH)) {
+                    refreshView.getLoadingLayoutProxy().setPullLabel(getString(R.string.pull_to_refresh));
+                    refreshView.getLoadingLayoutProxy().setReleaseLabel(getString(R.string.release_to_refresh));
+                    refreshView.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
+                }
+            }
+
+
+        });*/
 
         scrollViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override

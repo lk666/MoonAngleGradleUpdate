@@ -17,7 +17,7 @@
             android:id="@+id/txt_address"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white"
+            android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_17" />
         <TextView
             android:id="@+id/txt_count"
@@ -60,7 +60,7 @@
             android:layout_marginTop="10dp"
             android:background="@drawable/btn_blue_shape_disable"
             android:text="@string/ticket_submit_btn_text"
-            android:textColor="@color/white"
+            android:textColor="@color/view_bg"
             android:textSize="18sp" />
         <LinearLayout
         android:layout_width="wrap_content"
@@ -93,7 +93,7 @@
         android:background="@drawable/btn_blue_shape"
         android:drawableLeft="@mipmap/qrcode_icon"
         android:text="@string/ticket_scan_btn_text"
-        android:textColor="@color/white"
+        android:textColor="@color/view_bg"
         android:textSize="@dimen/text_size_16"
         app:iconPadding="15dp" />
 

@@ -4,6 +4,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="@color/title_background"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <LinearLayout
@@ -54,7 +55,7 @@
             android:id="@+id/txt_tips"
             android:layout_width="fill_parent"
             android:layout_height="30dp"
-            android:background="@color/view_bg"
+            android:background="#ffffff"
             android:drawableLeft="@mipmap/notice"
             android:drawableRight="@mipmap/arrow_top"
             android:drawablePadding="5dp"

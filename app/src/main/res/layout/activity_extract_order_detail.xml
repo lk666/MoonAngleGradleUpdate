@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/white"
+    android:background="@color/view_bg"
     android:orientation="vertical" >
     <View android:id="@+id/view_pop_start" 
         android:layout_width="fill_parent"
@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white"
+                    android:background="@color/view_bg"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -110,31 +110,6 @@
                          -->
                 </LinearLayout>
                 
-                <!-- 签收码 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:orientation="horizontal" >
-
-                    <TextView
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:padding="10dp"
-                        android:text="@string/extract_order_sign_code"
-                        android:textColor="@color/text_black"
-                		android:textSize="@dimen/text_size_14" />
-
-                    <TextView
-                        android:id="@+id/tv_order_sign_code"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="10dp"
-                        android:textColor="@color/text_black_light"
-                		android:textSize="@dimen/text_size_14" />
-                </LinearLayout>
-                -->
                 <View
                 	android:layout_width="fill_parent"
                 	android:layout_height="0.5dp"
@@ -145,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/white"
+                    android:background="@color/view_bg"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -195,7 +170,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="@color/view_bg"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -221,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:background="@color/white"
+                    android:background="@color/view_bg"
                     android:orientation="vertical" >
 
                     <ImageView
@@ -276,7 +251,7 @@
                 android:id="@+id/listview_product"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:orientation="vertical"
@@ -288,7 +263,7 @@
                 android:id="@+id/tv_total_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="@color/view_bg"
                 android:gravity="right"
                 android:paddingTop="5dp"
                 android:layout_marginRight="10dp"
@@ -306,7 +281,7 @@
                 android:padding="10dp"
                 android:background="@drawable/btn_red_shape"
                 android:text="@string/extract_comfire_btn"
-                android:textColor="@color/white"
+                android:textColor="@color/view_bg"
                 android:textSize="@dimen/text_size_17" />
         </LinearLayout>
     </ScrollView>

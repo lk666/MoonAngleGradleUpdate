@@ -174,6 +174,11 @@
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
     </style>
 
+    <style name="MoonWithACtionBar" parent="android:Theme.Light">
+        <item name="android:actionBarSize">50dip</item>
+        <item name="android:windowActionBar">true</item>
+    </style>
+
     <style name="Anim_style3" parent="android:Theme.Holo">
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
         <item name="android:actionBarSize">50dip</item>

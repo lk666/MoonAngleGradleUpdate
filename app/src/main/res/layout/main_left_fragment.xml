@@ -46,7 +46,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:textSize="14sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/view_bg"
                     />
         </LinearLayout>
         <LinearLayout
@@ -67,7 +67,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:textSize="14sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/view_bg"
                     />
         </LinearLayout>
         <LinearLayout
@@ -89,7 +89,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="8dp"
                     android:textSize="14sp"
-                    android:textColor="@color/white"
+                    android:textColor="@color/view_bg"
                     />
         </LinearLayout>
 
@@ -126,7 +126,7 @@
                                         android:layout_marginLeft="17.5dp"
                                         android:layout_marginRight="17.5dp"
                                         android:layout_height="0.5dp"
-                                        android:background="@color/white"/>
+                                        android:background="@color/view_bg"/>
                         </LinearLayout>
                 </LinearLayout>
 
@@ -154,7 +154,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:textSize="14sp"
                                     android:text="@string/cancel_account"
-                                    android:textColor="@color/white"/>
+                                    android:textColor="@color/view_bg"/>
                         </LinearLayout>
                         <LinearLayout
                             android:id="@+id/layout_setting"
@@ -174,7 +174,7 @@
                                     android:layout_marginLeft="5dp"
                                     android:textSize="14sp"
                                     android:text="@string/btn_setting"
-                                    android:textColor="@color/white"/>
+                                    android:textColor="@color/view_bg"/>
                         </LinearLayout>
 
                 </LinearLayout>
