@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/view_bg"
+    android:background="#fefefe"
     android:orientation="vertical" >
     <View android:id="@+id/view_pop_start" 
         android:layout_width="fill_parent"

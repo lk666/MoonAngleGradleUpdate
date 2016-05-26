@@ -12,7 +12,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/view_bg"
+            android:background="#fefefe"
             android:clickable="true"
             android:orientation="vertical"
             android:paddingTop="15dp">
@@ -108,7 +108,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_blue_shape_large"
                     android:text="确定"
-                    android:textColor="@color/view_bg" />
+                    android:textColor="#fefefe" />
             </LinearLayout>
         </LinearLayout>
 

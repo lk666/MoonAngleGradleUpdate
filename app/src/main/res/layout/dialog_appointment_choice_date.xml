@@ -12,7 +12,7 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="@color/view_bg"
+            android:background="#fefefe"
             android:clickable="true"
             android:orientation="vertical" >
 
@@ -157,7 +157,7 @@
                 android:layout_marginTop="13dp"
                 android:background="@drawable/btn_blue_shape_large"
                 android:text="@string/pending_order_appointment_confirm"
-                android:textColor="@color/view_bg" >
+                android:textColor="#fefefe" >
             </Button>
         </LinearLayout>
     </RelativeLayout>
