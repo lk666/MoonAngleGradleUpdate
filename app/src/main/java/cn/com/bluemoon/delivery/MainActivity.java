@@ -5,19 +5,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -79,8 +75,6 @@ import cn.com.bluemoon.lib.view.RedpointTextView;
 public class MainActivity extends SlidingActivity {
 
     private String TAG = "MainActivity";
-    private GridView gridView;
-    private UserRightAdapter adapter;
     private ImageView imgPerson;
     private ImageView imgScan;
     private AlwaysMarqueeTextView txtTips;
@@ -93,16 +87,10 @@ public class MainActivity extends SlidingActivity {
     private int groupCount = 0;
     private SlidingMenu mMenu;
     private MenuFragment mMenuFragment;
-   // private AlwaysMarqueeTextView txt_tips;
 
     private PullToRefreshListView scrollViewMain;
     private GridViewAdapter gridViewAdapter;
-    UserRightAdapter2 userRightAdapter2;
-    private boolean scrollFlag = false;// 标记是否滑动
-    private int lastVisibleItemPosition;// 标记上次滑动位置
-    private boolean isUpScroll = false;//标记上滑
-    private View head;
-
+    private UserRightAdapter userRightAdapter;
 
 //    private Map<Integer, View> map = new HashMap<Integer, View>();
 //    private KJBitmap kjb;
@@ -156,18 +144,6 @@ public class MainActivity extends SlidingActivity {
         });
         scrollViewMain = (PullToRefreshListView)findViewById(R.id.scrollView_main);
         scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-        /*scrollViewMain.setOnPullEventListener(new PullToRefreshBase.OnPullEventListener<ListView>() {
-            @Override
-            public void onPullEvent(PullToRefreshBase<ListView> refreshView, PullToRefreshBase.State state, PullToRefreshBase.Mode direction) {
-                if (state.equals(PullToRefreshBase.State.PULL_TO_REFRESH)) {
-                    refreshView.getLoadingLayoutProxy().setPullLabel(getString(R.string.pull_to_refresh));
-                    refreshView.getLoadingLayoutProxy().setReleaseLabel(getString(R.string.release_to_refresh));
-                    refreshView.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-                }
-            }
-
-
-        });*/
 
         scrollViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -177,58 +153,6 @@ public class MainActivity extends SlidingActivity {
                 DeliveryApi.getNewMessage(token, newMessageHandler);
             }
         });
-
-        /*scrollViewMain.refreshCompleted();
-        scrollViewMain.loadCompleted();
-        scrollViewMain.setOnRefreshListener(new RefleshListView.OnRefreshListener() {
-
-
-
-            @Override
-            public void onRefresh() {
-                txtTips.setVisibility(View.GONE);
-                DeliveryApi.getAppRights(token, appRightsHandler);
-                DeliveryApi.getNewMessage(token, newMessageHandler);
-            }
-
-        });*/
-
-       /* scrollViewMain.setOnScrollListener(new AbsListView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                if (scrollState == AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL) {
-                    scrollFlag = true;
-                } else {
-                    scrollFlag = false;
-                    if(isUpScroll){
-                        txtTips.setVisibility(View.VISIBLE);
-                        isUpScroll = false;
-                    }
-                }
-
-            }
-
-            @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-                if (scrollFlag) {
-                    if (firstVisibleItem > lastVisibleItemPosition) {
-                       // Log.d("dc", "上滑");
-                        isUpScroll = true;
-                        txtTips.setVisibility(View.GONE);
-                    }
-                    if (firstVisibleItem < lastVisibleItemPosition) {
-                       // Log.d("dc", "下滑");
-                    }
-                    if (firstVisibleItem == lastVisibleItemPosition) {
-                        return;
-                    }
-                    lastVisibleItemPosition = firstVisibleItem;
-                }
-            }
-        });
-*/
-/*
-        gridView = (GridView) findViewById(R.id.gridview_main);*/
 
 
         if(progressDialog!=null) progressDialog.show();
@@ -410,51 +334,6 @@ public class MainActivity extends SlidingActivity {
                 .show();
     }
 
-    /*private void setViews(List<UserRight> list) {
-
-        map.clear();
-        for (int i = 0; i < list.size(); i++) {
-            final View convertView = LayoutInflater.from(main).inflate(
-                    R.layout.main_menu_item, null);
-
-            ImageView imgItem = (ImageView) convertView
-                    .findViewById(R.id.img_menu_item);
-            TextView txtItem = (TextView) convertView
-                    .findViewById(R.id.txt_menu_item);
-            RedpointTextView countTextView = (RedpointTextView) convertView
-                    .findViewById(R.id.txt_dispatch_count);
-
-            final int index = i;
-            if (list.get(i).getAmount() <= 0) {
-                countTextView.setText(String.valueOf(list.get(i).getAmount()));
-                countTextView.setVisibility(View.GONE);
-            } else if (list.get(i).getAmount() < 100) {
-                countTextView.setText(String.valueOf(list.get(i).getAmount()));
-                countTextView.setVisibility(View.VISIBLE);
-            } else {
-                countTextView.setText(getText(R.string.more_amount));
-                countTextView.setVisibility(View.VISIBLE);
-            }
-            txtItem.setText(list.get(i).getMenuName());
-
-            if (!StringUtils.isEmpty(list.get(i).getIconImg())) {
-                if (kjb == null) kjb = new KJBitmap();
-                kjb.display(imgItem, list.get(i).getIconImg(),new BitmapCallBack() {
-
-                    @Override
-                    public void onFinish() {
-                        // TODO Auto-generated method stub
-                        super.onFinish();
-                        if(!isDestory)
-                        gridView.replaceView(index, convertView);
-                    }
-                });
-            }
-            map.put(index, convertView);
-        }
-        gridView.setViews(map);
-    }*/
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -470,72 +349,6 @@ public class MainActivity extends SlidingActivity {
         MobclickAgent.onPause(this);
         if (progressDialog != null)
             progressDialog.dismiss();
-    }
-
-    class UserRightAdapter extends BaseAdapter {
-
-        private Context context;
-        private List<UserRight> list;
-        private KJBitmap kjb;
-
-        public UserRightAdapter(Context context, List<UserRight> list) {
-            this.context = context;
-            this.list = list;
-        }
-
-        @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
-            if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(
-                        R.layout.main_menu_item, null);
-            }
-
-            ImageView imgItem = (ImageView) convertView
-                    .findViewById(R.id.img_menu_item);
-            TextView txtItem = (TextView) convertView
-                    .findViewById(R.id.txt_menu_item);
-            RedpointTextView countTextView = (RedpointTextView) convertView
-                    .findViewById(R.id.txt_dispatch_count);
-
-            if (list.get(position).getAmount() <= 0) {
-                countTextView.setText(String.valueOf(list.get(position).getAmount()));
-                countTextView.setVisibility(View.GONE);
-            } else if (list.get(position).getAmount() < 100) {
-                countTextView.setText(String.valueOf(list.get(position).getAmount()));
-                countTextView.setVisibility(View.VISIBLE);
-            } else {
-                countTextView.setText(getText(R.string.more_amount));
-                countTextView.setVisibility(View.VISIBLE);
-            }
-
-            if (!StringUtils.isEmpty(list.get(position).getIconImg())) {
-                if (kjb == null) kjb = new KJBitmap();
-                kjb.display(imgItem, list.get(position).getIconImg());
-            }
-            txtItem.setText(list.get(position).getMenuName());
-
-            return convertView;
-        }
-
     }
 
     @Override
@@ -576,22 +389,9 @@ public class MainActivity extends SlidingActivity {
             return;
         }
         DeliveryApi.getAppRights(token, appRightsHandler);
+        DeliveryApi.getNewMessage(token, newMessageHandler);
 
     }
-
-    /*private void orderList(){
-        List<String> list = ClientStateManager.getMenuOrder(main);
-        if(list==null||list.size()==0) return;
-        for (int i=list.size()-1;i>=0;i--){
-            for (int j=0;j<listRight.size();j++){
-                if(listRight.get(j).getMenuCode().equals(list.get(i))){
-                    UserRight item = listRight.remove(j);
-                    listRight.add(0,item);
-                    break;
-                }
-            }
-        }
-    }*/
 
     AsyncHttpResponseHandler appRightsHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
@@ -613,6 +413,7 @@ public class MainActivity extends SlidingActivity {
                         mockData();
                     }
                     setMenu();
+                    DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),getAmountHandler);
                 } else {
                     PublicUtil.showErrorMsg(main, userRightResult);
                 }
@@ -871,28 +672,9 @@ public class MainActivity extends SlidingActivity {
             } else {
                 holderView = (HolderView) convertView.getTag();
             }
-    /*
-            if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(
-                        R.layout.main_gridview, null);
-            }
-            CustomGridView gridView =(CustomGridView) convertView.findViewById(R.id.gridview_main);*/
 
-   /*         int divNum=0;
-            if(list.get(position).getItem().size()%4 != 0){
-                divNum =4- (list.get(position).getItem().size()%4);
-            }
-
-            if(divNum>0 && divNum != 4){
-                for(int i=0;i<divNum;i++){
-                    UserRight userRight = new UserRight();
-                    userRight.setMenuName("baikuai");
-                    list.get(position).getItem().add(userRight);
-                }
-            }
-*/
-            userRightAdapter2 = new UserRightAdapter2(main, list.get(position).getItem());
-            holderView.gridView.setAdapter(userRightAdapter2);
+            userRightAdapter = new UserRightAdapter(main, list.get(position).getItem());
+            holderView.gridView.setAdapter(userRightAdapter);
             holderView.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -966,13 +748,13 @@ public class MainActivity extends SlidingActivity {
    }
 
 
-    class UserRightAdapter2 extends BaseAdapter {
+    class UserRightAdapter extends BaseAdapter {
 
         private Context context;
         private List<UserRight> listUserRight;
         private KJBitmap kjb;
 
-        public UserRightAdapter2(Context context, List<UserRight> listUserRight) {
+        public UserRightAdapter(Context context, List<UserRight> listUserRight) {
             this.context = context;
             this.listUserRight = listUserRight;
         }

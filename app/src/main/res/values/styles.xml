@@ -7,6 +7,7 @@
     <style name="TranslucentTheme" parent="App.Base.Theme">
         - <!-- 在Android 4.4之前的版本上运行，直接跟随系统主题
   -->
+
     </style>
 
 
@@ -172,6 +173,7 @@
 
     <style name="Anim_style2" parent="android:Theme.NoTitleBar">
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
+
     </style>
 
     <style name="MoonWithACtionBar" parent="android:Theme.Light">
