@@ -46,6 +46,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class PaperListActivity extends Activity {
@@ -456,7 +457,7 @@ public class PaperListActivity extends Activity {
                     Intent intent = new Intent(main, NoticeDetailActivity.class);
                     intent.putExtra("id",lists.get(position).getPaperId());
                     intent.putExtra("type",Constants.TYPE_KNOWLEDGE);
-                    main.startActivity(intent);
+                    main.startActivityForResult(intent,0);
                 }
             });
 
@@ -496,7 +497,7 @@ public class PaperListActivity extends Activity {
             }
             TextView tv = (TextView) convertView
                     .findViewById(R.id.txt_children);
-            tv.setText(info.getPaperTitle());
+            tv.setText((groupPosition+1)+"."+(childPosition+1)+info.getPaperTitle());
             return convertView;
         }
 
@@ -534,7 +535,7 @@ public class PaperListActivity extends Activity {
                     .findViewById(R.id.txt_parent);
             ImageView img = (ImageView) convertView
                     .findViewById(R.id.img_icon);
-            tv.setText(list.get(groupPosition).getCatSecondName());
+            tv.setText((groupPosition+1)+"."+list.get(groupPosition).getCatSecondName());
             if(isExpanded){
                 img.setImageResource(R.mipmap.paper_fold);
             }else{
@@ -553,5 +554,15 @@ public class PaperListActivity extends Activity {
             return true;
         }
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode){
+            case 0:
+                getFavoriteData(true);
+                break;
+        }
     }
 }
