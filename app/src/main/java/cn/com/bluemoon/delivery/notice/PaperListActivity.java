@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.knowledge;
+package cn.com.bluemoon.delivery.notice;
 
 import android.app.Activity;
 import android.content.Context;
@@ -30,7 +30,6 @@ import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.knowledge.CartItem;
 import cn.com.bluemoon.delivery.app.api.model.knowledge.FavoriteItem;
 import cn.com.bluemoon.delivery.app.api.model.knowledge.Knowledge;
@@ -39,7 +38,6 @@ import cn.com.bluemoon.delivery.app.api.model.knowledge.ResultFavorites;
 import cn.com.bluemoon.delivery.app.api.model.knowledge.ResultKnowledges;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
-import cn.com.bluemoon.delivery.notice.NoticeDetailActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
@@ -450,7 +448,7 @@ public class PaperListActivity extends Activity {
                     .findViewById(R.id.txt_time);
 
             txtTitle.setText(lists.get(position).getPaperTitle());
-            txtTime.setText(DateUtil.getTime(lists.get(position).getCollectTime(), "yyyy-MM-dd HH:mm:ss"));
+            txtTime.setText(DateUtil.getTime(lists.get(position).getCollectTime(), "yyyy-MM-dd HH:mm"));
 
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override

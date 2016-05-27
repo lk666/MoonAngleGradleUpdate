@@ -254,7 +254,7 @@ public class MessageListActivity extends Activity {
                     .findViewById(R.id.txt_date);
 
             txtMessageContent.setText(lists.get(position).getMsgContent());
-            txtMessageDate.setText(DateUtil.getTime(lists.get(position).getPushTime(),"yyyy-MM-dd  HH:mm:ss"));
+            txtMessageDate.setText(DateUtil.getTime(lists.get(position).getPushTime(),"yyyy-MM-dd  HH:mm"));
 
             return convertView;
         }

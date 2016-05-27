@@ -261,7 +261,7 @@ public class NoticeListActivity extends Activity{
                 txtReadSign.setVisibility(View.VISIBLE);
             }
             txtNoticeContent.setText(lists.get(position).getInfoTitle());
-            txtNoticeDate.setText(DateUtil.getTime(lists.get(position).getReleaseTime(), "yyyy-MM-dd HH:mm:ss"));
+            txtNoticeDate.setText(DateUtil.getTime(lists.get(position).getReleaseTime(), "yyyy-MM-dd HH:mm"));
 
             int index = position % 2;
             if (index == 1) {

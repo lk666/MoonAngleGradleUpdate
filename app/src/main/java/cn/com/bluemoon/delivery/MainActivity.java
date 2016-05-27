@@ -47,7 +47,7 @@ import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
-import cn.com.bluemoon.delivery.knowledge.PaperListActivity;
+import cn.com.bluemoon.delivery.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.notice.NoticeListActivity;

@@ -191,7 +191,7 @@ public class NoticeDetailActivity extends Activity {
                 if (infoDetailResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     txtNoticeTitle.setText(infoDetailResult.getInfoTitle());
                     txtNoticeDate.setText(String.format(getString(R.string.paper_detail_date),
-                            DateUtil.getTime(infoDetailResult.getReleaseTime(), "yyyy-MM-dd HH:mm:ss")));
+                            DateUtil.getTime(infoDetailResult.getReleaseTime(), "yyyy-MM-dd HH:mm")));
                     setData(infoDetailResult.getInfoContent());
                 } else {
                     PublicUtil.showErrorMsg(main, infoDetailResult);
@@ -229,7 +229,7 @@ public class NoticeDetailActivity extends Activity {
                     setActionBarRightView(isCollect);
                     txtNoticeTitle.setText(paperDetailResult.getPaperTitle());
                     txtNoticeDate.setText(String.format(getString(R.string.paper_detail_date),
-                            DateUtil.getTime(paperDetailResult.getReleaseTime(), "yyyy-MM-dd HH:mm:ss")));
+                            DateUtil.getTime(paperDetailResult.getReleaseTime(), "yyyy-MM-dd HH:mm")));
                     setData(paperDetailResult.getPaperContent());
                 } else {
                     PublicUtil.showErrorMsg(main, paperDetailResult);

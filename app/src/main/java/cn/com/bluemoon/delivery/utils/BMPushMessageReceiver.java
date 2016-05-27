@@ -200,6 +200,7 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 		intent.setClass(context.getApplicationContext(),
 				AppStartActivity.class);
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+		intent.putExtra("","");
 		context.getApplicationContext().startActivity(intent);
 	}
 
