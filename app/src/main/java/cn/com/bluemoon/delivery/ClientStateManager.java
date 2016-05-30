@@ -3,21 +3,18 @@ package cn.com.bluemoon.delivery;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
-import android.view.Menu;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import cn.com.bluemoon.delivery.account.PersoninfoActivity;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultWorkPlaceList;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;

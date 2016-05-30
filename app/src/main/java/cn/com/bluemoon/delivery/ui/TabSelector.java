@@ -65,7 +65,7 @@ public class TabSelector extends LinearLayout {
 
         String text = typedArray.getString(R.styleable.TabSelector_text);
         selectColor = typedArray.getColor(R.styleable.TabSelector_color_select_text,
-                getContext().getResources().getColor(R.color.pink_background));
+                getContext().getResources().getColor(R.color.text_red));
         normalColor = typedArray.getColor(R.styleable.TabSelector_color_normal_text,
                 getContext().getResources().getColor(R.color.text_black_light));
         float textSize = typedArray.getDimension(R.styleable.TabSelector_text_size, 15);

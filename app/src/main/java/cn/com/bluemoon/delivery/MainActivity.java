@@ -165,6 +165,10 @@ public class MainActivity extends SlidingActivity {
         DeliveryApi.moonAngelQrCodeService(token, angelCodeHandler);
     }
 
+    public void CloseMenu(){
+        mMenu.toggle();
+    }
+
     private void initMenu() {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
@@ -400,7 +404,6 @@ public class MainActivity extends SlidingActivity {
                               String responseString) {
             LogUtils.d(TAG, "getAppRights result = " + responseString);
             if(progressDialog!=null) progressDialog.dismiss();
-//            scrollViewMain.refreshCompleted();
             scrollViewMain.onRefreshComplete();
 
             try {

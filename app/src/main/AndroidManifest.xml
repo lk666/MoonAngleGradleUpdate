@@ -55,10 +55,6 @@
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustResize" />
         <activity
-            android:name=".account.PersoninfoActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme" />
-        <activity
             android:name=".account.SettingInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />

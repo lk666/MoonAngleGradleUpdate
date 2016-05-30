@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
     private LinearLayout layoutChangePwd;
     private LinearLayout layoutExit;
     private LinearLayout layoutSetting;
+    private LinearLayout layoutEmpty;
     public static User user;
     private MainActivity mContext;
     private ImageView imgQcode;
@@ -72,8 +74,11 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         layoutChangePwd = (LinearLayout) view.findViewById(R.id.layout_changepwd);
         layoutExit = (LinearLayout) view.findViewById(R.id.layout_exit);
         layoutSetting = (LinearLayout) view.findViewById(R.id.layout_setting);
+        layoutEmpty = (LinearLayout) view.findViewById(R.id.layout_empty);
+
         View line = view.findViewById(R.id.view_line);
-        line.getBackground().setAlpha(255*3/10);
+        line.getBackground().setAlpha(255 * 3 / 10);
+        layoutEmpty.setOnClickListener(this);
         layoutChangePwd.setOnClickListener(this);
         layoutExit.setOnClickListener(this);
         layoutSetting.setOnClickListener(this);
@@ -178,6 +183,15 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         return result;
     }
 
+    private void close(){
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                mContext.CloseMenu();
+            }
+        },500);
+    }
+
     @Override
     public void onClick(View v) {
         String token = ClientStateManager.getLoginToken(mContext);
@@ -185,6 +199,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
             case R.id.layout_changepwd:
                 Intent intent = new Intent(mContext, ChangePswActivity.class);
                 startActivity(intent);
+                close();
                 break;
             case R.id.layout_exit:
                 if(StringUtils.isEmpty(token)){
@@ -197,9 +212,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 Intent settingIntent = new Intent(mContext,
                         SettingActivity.class);
                 startActivity(settingIntent);
+                close();
                 break;
             case  R.id.img_qcode:
-                mContext.openQcode ();
+                mContext.openQcode();
+                break;
+            case R.id.layout_empty:
+                mContext.CloseMenu();
                 break;
 
         }

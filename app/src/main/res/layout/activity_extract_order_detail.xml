@@ -74,7 +74,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/view_bg"
+                    android:background="#fefefe"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -120,7 +120,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="@color/view_bg"
+                    android:background="#fefefe"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -170,7 +170,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/view_bg"
+                    android:background="#fefefe"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -196,7 +196,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:background="@color/view_bg"
+                    android:background="#fefefe"
                     android:orientation="vertical" >
 
                     <ImageView
@@ -251,7 +251,7 @@
                 android:id="@+id/listview_product"
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/view_bg"
+                android:background="#fefefe"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:orientation="vertical"
@@ -263,7 +263,7 @@
                 android:id="@+id/tv_total_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/view_bg"
+                android:background="#fefefe"
                 android:gravity="right"
                 android:paddingTop="5dp"
                 android:layout_marginRight="10dp"

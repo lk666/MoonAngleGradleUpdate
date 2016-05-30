@@ -9,7 +9,7 @@
         android:id="@+id/listview_product"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/view_bg"
+        android:background="#fefefe"
         android:dividerHeight="0dp"
         android:fadingEdge="none"
         android:layerType="software"

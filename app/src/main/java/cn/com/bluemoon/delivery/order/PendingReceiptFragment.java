@@ -448,7 +448,6 @@ public class PendingReceiptFragment extends Fragment implements
 				
 				@Override
 				public void onClick(View v) {
-					//ǩ�ղ���
 					orderClicked = order;
 					PublicUtil.openScanOrder(getActivity(), PendingReceiptFragment.this,
 							getString(R.string.pending_order_receive_sign_title),

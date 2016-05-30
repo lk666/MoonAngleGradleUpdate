@@ -20,11 +20,12 @@
                     android:src="@mipmap/personal_default"/>
                 <ImageView
                     android:id="@+id/img_qcode"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
+                    android:layout_width="45dp"
+                    android:layout_height="45dp"
+                    android:padding="10dp"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="17.5dp"
+                    android:layout_marginRight="7.5dp"
                     android:src="@mipmap/qcode_left_nav"/>
         </RelativeLayout>
         
@@ -101,6 +102,7 @@
             android:background="@color/slide_menu2"
             android:orientation="vertical" >
                 <LinearLayout
+                    android:id="@+id/layout_empty"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -133,9 +135,11 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="12dp"
-                    android:layout_marginRight="12dp"
-                    android:layout_marginBottom="20dp"
+                    android:paddingTop="12dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingBottom="20dp"
+                    android:clickable="true"
                     android:orientation="horizontal">
                         <LinearLayout
                             android:id="@+id/layout_exit"
