@@ -88,6 +88,7 @@ public class UploadImageActivity extends Activity{
         manager.pushOneActivity(this);
         mContext = this;
         progressDialog = new CommonProgressDialog(mContext);
+        progressDialog.setCancelable(false);
         setContentView(R.layout.activiy_punchcard_upload_img);
         gridView = (GridView) findViewById(R.id.gridview_img);
         hasImage = getIntent().getBooleanExtra("hasImage",true);
@@ -101,9 +102,10 @@ public class UploadImageActivity extends Activity{
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!uploadControl) {
+
+                if (!uploadControl&&!PublicUtil.isFastDoubleClick(1000)) {
                     uploadControl = true;
-                    if (images.size() > 1) {
+                    if (images!=null&&images.size() > 1) {
                         needUploadList = new ArrayList<ImageBean>();
                         for (ImageBean img : images) {
                             if (StringUtils.isEmpty(img.getImgId())) {
@@ -249,6 +251,7 @@ public class UploadImageActivity extends Activity{
         @Override
         public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
             uploadControl = false;
+            if(progressDialog!=null)
             progressDialog.dismiss();
             showNetWorkErrorDialog();
             //PublicUtil.showToastServerOvertime();
@@ -265,16 +268,25 @@ public class UploadImageActivity extends Activity{
                         DeliveryApi.uploadImg(ClientStateManager.getLoginToken(UploadImageActivity.this), PublicUtil.getBytes(needUploadList.get(0).getBitmap()), uploadImageHandler);
                     } else {
                         uploadControl = false;
-                        progressDialog.dismiss();
+                        if(progressDialog!=null){
+                            progressDialog.dismiss();
+                        }
                         PublicUtil.showToast(result.getResponseMsg());
                         setResult(1);
                         finish();
                     }
                 }else{
+                    uploadControl = false;
+                    if(progressDialog!=null){
+                        progressDialog.dismiss();
+                    }
                     PublicUtil.showErrorMsg(mContext, result);
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
+                uploadControl = false;
+                if(progressDialog!=null){
+                    progressDialog.dismiss();
+                }
                 PublicUtil.showToastServerBusy();
             }
         }
@@ -325,6 +337,15 @@ public class UploadImageActivity extends Activity{
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(TAG);
+        if(progressDialog!=null){
+            progressDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        progressDialog = null;
     }
 
     class ImageAdapter extends BaseAdapter {
@@ -413,6 +434,7 @@ public class UploadImageActivity extends Activity{
                                 @Override
                                 public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
                                     deleteControl = false;
+                                    if(progressDialog!=null)
                                     progressDialog.dismiss();
                                     PublicUtil.showToastServerOvertime();
                                 }
@@ -420,6 +442,7 @@ public class UploadImageActivity extends Activity{
                                 @Override
                                 public void onSuccess(int i, Header[] headers, String s) {
                                     LogUtils.d(TAG, "deleteImg result = " + s);
+                                    if(progressDialog!=null)
                                     progressDialog.dismiss();
                                     try {
                                         ResultBase result = JSON.parseObject(s, ResultBase.class);
@@ -434,7 +457,6 @@ public class UploadImageActivity extends Activity{
                                         deleteControl = false;
                                     } catch (Exception e) {
                                         deleteControl = false;
-                                        progressDialog.dismiss();
                                         PublicUtil.showToastServerBusy();
                                     }
                                 }
