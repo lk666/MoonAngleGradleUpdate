@@ -31,7 +31,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
-                        def fileName = "Delivery_${defaultConfig.versionName}_(${gitSha})_debug.apk"
+                        def fileName = "Delivery_${defaultConfig.versionName}(${gitSha})_debug.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
@@ -46,7 +46,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('release.apk')) {
-                        def fileName = "Delivery_${defaultConfig.versionName}_(${gitSha})_release.apk"
+                        def fileName = "Delivery_${defaultConfig.versionName}(${gitSha})_release.apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
