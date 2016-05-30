@@ -87,5 +87,8 @@ public class Constants {
 	
 	public static final Map<Integer, String> ERROR_MAP = new HashMap<Integer,String>(){
 	};
-	
+
+	/************************baidu push jump key****************************/
+	public static final String KEY_JUMP = "jumpCode";
+
 }

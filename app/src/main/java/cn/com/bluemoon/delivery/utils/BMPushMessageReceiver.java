@@ -8,19 +8,31 @@
  */
 package cn.com.bluemoon.delivery.utils;
 
-import java.util.List;
+import android.app.ActivityManager;
+import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
+
+import com.baidu.android.pushservice.PushMessageReceiver;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import android.content.Context;
-import android.content.Intent;
-import android.text.TextUtils;
+import java.util.List;
+
 import cn.com.bluemoon.delivery.AppStartActivity;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.account.LoginActivity;
-
-import com.baidu.android.pushservice.PushMessageReceiver;
+import cn.com.bluemoon.delivery.app.api.model.MenuCode;
+import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
+import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
+import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
+import cn.com.bluemoon.delivery.notice.MessageListActivity;
+import cn.com.bluemoon.delivery.notice.NoticeListActivity;
+import cn.com.bluemoon.delivery.notice.PaperListActivity;
+import cn.com.bluemoon.delivery.order.OrdersTabActivity;
+import cn.com.bluemoon.delivery.storage.StorageTabActivity;
+import cn.com.bluemoon.delivery.ticket.TicketChooseActivity;
 
 /*
  *0 - Success
@@ -97,6 +109,8 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 				+ description + "\" customContent=" + customContentString;
 		LogUtils.d(TAG, notifyString);
 
+		String view = null;
+
 		if (!TextUtils.isEmpty(customContentString)) {
 			JSONObject customJson = null;
 			try {
@@ -113,12 +127,15 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 						context.getApplicationContext().startActivity(intent);
 					}
 				}
+				if(!customJson.isNull("view")){
+					view = customJson.getString("view");
+				}
 			} catch (JSONException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
-		 updateContent(context, notifyString);
+		 updateContent(context, view);
 	}
 
 
@@ -193,15 +210,63 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 
 	}
 
-	private void updateContent(Context context, String content) {
+	private boolean isAppRunning(Context context){
+		ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+		List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+		boolean isAppRunning = false;
+		String MY_PKG_NAME = "cn.com.bluemoon.delivery";
+		for (ActivityManager.RunningTaskInfo info : list) {
+			if (info.topActivity.getPackageName().equals(MY_PKG_NAME) || info.baseActivity.getPackageName().equals(MY_PKG_NAME)) {
+				isAppRunning = true;
+				break;
+			}
+		}
+		return isAppRunning;
+	}
+
+
+	private void updateContent(Context context, String view) {
 		LogUtils.d(TAG, "updateContent");
-		
+		String menuCode = view;
+
 		Intent intent = new Intent();
-		intent.setClass(context.getApplicationContext(),
-				AppStartActivity.class);
+		if(isAppRunning(context) && !StringUtil.isEmpty(menuCode)){
+			if (MenuCode.dispatch.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), OrdersTabActivity.class);
+
+			} else if (MenuCode.site_sign.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), ExtractTabActivity.class);
+			} else if (MenuCode.check_in.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), TicketChooseActivity.class);
+			} else if (MenuCode.mall_erp_delivery.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), InventoryTabActivity.class);
+				intent.putExtra("type",  InventoryTabActivity.DELIVERY_MANAGEMENT);
+			} else if (MenuCode.mall_erp_receipt.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), InventoryTabActivity.class);
+				intent.putExtra("type",  InventoryTabActivity.RECEIVE_MANAGEMENT);
+			} else if (MenuCode.mall_erp_stock.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), StorageTabActivity.class);
+			} else if (MenuCode.card_coupons.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), CouponsTabActivity.class);
+			}else if (MenuCode.my_news.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), MessageListActivity.class);
+			} else if (MenuCode.my_inform.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), NoticeListActivity.class);
+			} else if (MenuCode.knowledge_base.toString().equals(menuCode)) {
+				intent.setClass(context.getApplicationContext(), PaperListActivity.class);
+			}else{
+				intent.setClass(context.getApplicationContext(),
+						AppStartActivity.class);
+				intent.putExtra(Constants.KEY_JUMP,menuCode);
+			}
+		}else{
+			intent.setClass(context.getApplicationContext(), AppStartActivity.class);
+			intent.putExtra(Constants.KEY_JUMP,menuCode);
+		}
+
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		intent.putExtra("","");
 		context.getApplicationContext().startActivity(intent);
 	}
+
 
 }
