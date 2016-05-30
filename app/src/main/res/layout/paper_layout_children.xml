@@ -20,6 +20,8 @@
             android:textSize="@dimen/text_size_15"
             android:layout_weight="1"
             android:layout_marginLeft="14dp"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textColor="@color/text_black_light"
             />
         <ImageView
