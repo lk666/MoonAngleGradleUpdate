@@ -1,2 +1,2 @@
-include ':app', ':SDK'
-
+include ':app'
+include ':BlueMoonSDK'
