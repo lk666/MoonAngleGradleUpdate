@@ -52,7 +52,7 @@
             android:name=".account.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
+            android:theme="@style/Anim_style2"
             android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".account.SettingInfoActivity"
