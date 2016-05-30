@@ -62,6 +62,7 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 	private ResultOrderInfoPickup pickupInfo;
 	private CommonProgressDialog progressDialog;
 	private String signType;
+	private boolean lock;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -145,6 +146,8 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 		public void onSuccess(int statusCode, Header[] headers,
 				String responseString) {
 			LogUtils.d("test", "pickupOrderHandler result = " + responseString);
+			if(progressDialog!=null) progressDialog.dismiss();
+			lock = false;
 			try {
 				ResultBase result = JSON.parseObject(responseString, ResultBase.class);
 				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
@@ -161,6 +164,8 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 		@Override
 		public void onFailure(int statusCode, Header[] headers,
 				String responseString, Throwable throwable) {
+			if(progressDialog!=null) progressDialog.dismiss();
+			lock = false;
 			PublicUtil.showToastServerOvertime(mContext);
 		}
 	};
@@ -177,10 +182,11 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
-		if(PublicUtil.isFastDoubleClick()){return;}
-		if (v == btnSign) {
 
-			if (null != pickupInfo) {
+		if (v == btnSign) {
+			if (null != pickupInfo&&!lock) {
+				lock = true;
+				if(progressDialog!=null) progressDialog.show();
 				DeliveryApi.pickupOrder(signType, ClientStateManager.getLoginToken(mContext), pickupInfo, pickupOrderHandler);
 			}
 
