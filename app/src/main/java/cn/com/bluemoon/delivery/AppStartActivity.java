@@ -41,14 +41,22 @@ public class AppStartActivity extends Activity {
 	private static Version lastSuccessfulCheckVersionResponse = null;
 	// private RetrieveVersionInfo retrieveVersionInfo = null;
 	private AppStartActivity main;
+	private String jumpCode="";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.appstart);
+		init();
 		LocationService locationService = ((AppContext) getApplication()).locationService;
 		locationService.start();
 		main = this;
+	}
+
+	private void init(){
+		if(getIntent().hasExtra(Constants.KEY_JUMP)){
+			jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
+		}
 	}
 
 	@Override
@@ -319,6 +327,9 @@ public class AppStartActivity extends Activity {
 						Intent intent = new Intent();
 						intent.setClass(AppStartActivity.this,
 								MainActivity.class);
+						if(!StringUtil.isEmpty(jumpCode)){
+							intent.putExtra("jumpCode",jumpCode);
+						}
 						startActivity(intent);
 					} else {
 						Intent intent = new Intent(AppStartActivity.this,

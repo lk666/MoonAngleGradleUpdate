@@ -95,6 +95,8 @@ public class MainActivity extends SlidingActivity {
 //    private Map<Integer, View> map = new HashMap<Integer, View>();
 //    private KJBitmap kjb;
 
+    private String jumpCode = "";
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -105,7 +107,7 @@ public class MainActivity extends SlidingActivity {
 
         setContentView(R.layout.main);
         initMenu();
-
+        init();
         main = this;
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
@@ -164,6 +166,13 @@ public class MainActivity extends SlidingActivity {
         mMenu.toggle();
         DeliveryApi.moonAngelQrCodeService(token, angelCodeHandler);
     }
+
+    private  void init(){
+        if(getIntent().hasExtra(Constants.KEY_JUMP)){
+            jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
+        }
+    }
+
 
     public void CloseMenu(){
         mMenu.toggle();
@@ -304,8 +313,23 @@ public class MainActivity extends SlidingActivity {
             gridViewAdapter.setList(list);
             gridViewAdapter.notifyDataSetChanged();
         }
+        if(!StringUtil.isEmpty(jumpCode)){
+            jump(jumpCode);
+        }
 
     }
+    private void jump(String menuCode){
+        UserRight userRight = new UserRight();
+        userRight.setMenuCode(menuCode);
+        userRight.setMenuName("");
+        userRight.setIconImg("");
+        userRight.setIconResId(0);
+        userRight.setUrl("");
+        userRight.setMenuId("");
+        clickGridView(userRight);
+        jumpCode = "";
+    }
+
 
     private void gotoPunchCard(){
         if (PublicUtil.isTipsByDay(main)) {
