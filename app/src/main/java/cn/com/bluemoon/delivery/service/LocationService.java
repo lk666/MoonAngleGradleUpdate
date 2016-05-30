@@ -121,10 +121,10 @@ public class LocationService {
 	public LocationClientOption getDefaultLocationClientOption(){
 		if(mOption == null){
 			mOption = new LocationClientOption();
-			mOption.setLocationMode(LocationMode.Hight_Accuracy);
+			mOption.setLocationMode(LocationMode.Battery_Saving);
 			mOption.setCoorType("bd09ll");
 			mOption.setScanSpan(5*60*1000);
-			mOption.setOpenGps(true);
+			mOption.setOpenGps(false);
 			/*mOption.setLocationNotify(false);
 		    mOption.setIsNeedAddress(true);
 		    mOption.setIsNeedLocationDescribe(true);
