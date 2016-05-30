@@ -57,22 +57,27 @@ public class LogActivity extends Activity {
         manager.pushOneActivity(this);
         mContext = this;
         progressDialog = new CommonProgressDialog(this);
+        progressDialog.setCancelable(false);
         setContentView(R.layout.activity_work_log);
         etLog = (EditText) findViewById(R.id.et_log);
         btnSave = (Button) findViewById(R.id.btn_save);
         hasWorkDiary = getIntent().getBooleanExtra("hasWorkDiary", true);
         if (hasWorkDiary) {
+            if(progressDialog!=null) progressDialog.show();
             DeliveryApi.getWorkDiary(ClientStateManager.getLoginToken(mContext), getWorkDiaryHandler);
         }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if(PublicUtil.isFastDoubleClick(1000)) return;
                 String text = etLog.getText().toString();
                 if (StringUtils.isNotBlank(text)) {
+                    if(progressDialog!=null)
                     progressDialog.show();
                     DeliveryApi.confirmWorkDiary(ClientStateManager.getLoginToken(mContext), text, new TextHttpResponseHandler(HTTP.UTF_8) {
                         @Override
                         public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
+                            if(progressDialog!=null)
                             progressDialog.dismiss();
                             PublicUtil.showToastServerOvertime(mContext);
                         }
@@ -80,6 +85,7 @@ public class LogActivity extends Activity {
                         @Override
                         public void onSuccess(int i, Header[] headers, String s) {
                             LogUtils.d("test", "confirmWorkDiary result = " + s);
+                            if(progressDialog!=null)
                             progressDialog.dismiss();
                             try {
                                 ResultBase result = JSON.parseObject(s, ResultBase.class);
@@ -127,6 +133,7 @@ public class LogActivity extends Activity {
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             LogUtils.d("test", "getWorkDiaryHandler result = " + responseString);
+            if(progressDialog!=null)
             progressDialog.dismiss();
             try {
                 ResultDiaryContent result = JSON.parseObject(responseString, ResultDiaryContent.class);
@@ -137,7 +144,6 @@ public class LogActivity extends Activity {
                     PublicUtil.showToast(result.getResponseMsg());
                 }
             } catch (Exception e) {
-                progressDialog.dismiss();
                 PublicUtil.showToastServerBusy();
             }
         }
@@ -145,7 +151,8 @@ public class LogActivity extends Activity {
         public void onFailure(int statusCode, Header[] headers, String responseString,
                               Throwable throwable) {
             LogUtils.d("statusCode="+statusCode);
-            progressDialog.dismiss();
+            if(progressDialog!=null)
+                progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
         }
     };

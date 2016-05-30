@@ -55,6 +55,7 @@ public class SignActivity extends Activity implements OnClickListener{
 		setContentView(R.layout.activity_sign);
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(this);
+		progressDialog.setCancelable(false);
 		initCustomActionBar();
 		btnScan = (Button) findViewById(R.id.btn_scan);
 		btnSign = (Button) findViewById(R.id.btn_sign);
@@ -86,6 +87,9 @@ public class SignActivity extends Activity implements OnClickListener{
 	
 	@Override
 	public void onClick(View v) {
+		if(PublicUtil.isFastDoubleClick(1000)){
+			return;
+		}
 		if (v == btnScan) {
 			setResult(3);
 			finish();
@@ -93,6 +97,7 @@ public class SignActivity extends Activity implements OnClickListener{
 			if(getIntent()!=null){
 				String orderId = getIntent().getStringExtra("orderId");
 				if (StringUtils.isNotBlank(etNumber.getText().toString())) {
+					if(progressDialog!=null)
 					progressDialog.show();
 					DeliveryApi.orderSign(ClientStateManager.getLoginToken(this), orderId, "digital", etNumber.getText().toString(), orderSignHandler);
 				} else {
@@ -109,6 +114,7 @@ public class SignActivity extends Activity implements OnClickListener{
 		public void onSuccess(int statusCode, Header[] headers,
 				String responseString) {
 			LogUtils.d("test", "OrderSignHandler result = " + responseString);
+			if(progressDialog!=null)
 			progressDialog.dismiss();
 			try {
 				ResultBase result = JSON.parseObject(responseString, ResultBase.class);
@@ -127,6 +133,7 @@ public class SignActivity extends Activity implements OnClickListener{
 		@Override
 		public void onFailure(int statusCode, Header[] headers,
 				String responseString, Throwable throwable) {
+			if(progressDialog!=null)
 			progressDialog.dismiss();
 			PublicUtil.showToastServerOvertime(SignActivity.this);
 		}
