@@ -701,7 +701,14 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         for (int i = 0; i < lis.size(); i++) {
             lis.get(i).setDifferNum(lis.get(i).getOutNum());
             lis.get(i).setReNum(lis.get(i).getOutNum());
-            lis.get(i).setDiffCase(lis.get(i).getOutCase());
+            //lis.get(i).setDiffCase(lis.get(i).getOutCase());
+
+            if("90000714".equals(lis.get(i).getProductNo())){
+                lis.get(i).setDiffCase(lis.get(i).getOutCase()/500);
+            }else{
+                lis.get(i).setDiffCase(lis.get(i).getOutCase());
+            }
+
         }
         lists.addAll(lis);
         setHeadViewData(result);
@@ -758,13 +765,15 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         xianshu = 0;
         diffNums = 0;
         for (int i = 0; i < lists.size(); i++) {
-            String productNo = lists.get(i).getProductNo();
-            String flag = productNo.substring(0, 1);
+    /*        String productNo = lists.get(i).getProductNo();
+            String flag = productNo.substring(0, 1);*/
           //  if (!"9".equals(flag)) {
                 sumCount = sumCount + lists.get(i).getDifferNum();
                 xianshu = xianshu + lists.get(i).getDiffCase();
                 diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
          //   }
+
+
         }
 
         txtShouldDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(xianshu))
@@ -842,8 +851,26 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
             holder.txt_box_rule_num.setText(list.get(position).getCarton() + "");
             holder.txt_order_product_name.setText(list.get(position).getProductName());
             holder.txt_delivery_nums.setText(list.get(position).getOutNum() + "");
-            holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
-                    StringUtil.formatBoxesNum(list.get(position).getOutCase()))));
+            //应发箱数
+            if("90000714".equals(list.get(position).getProductNo())){
+                holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(list.get(position).getOutCase() / 500))));
+            }else{
+                holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(list.get(position).getOutCase()))));
+            }
+          /*  holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                    StringUtil.formatBoxesNum(list.get(position).getOutCase()))));*/
+
+            //实发箱数
+       /*     if("90000714".equals(list.get(position).getProductNo())){
+                holder.txt_real_box_nums.setText(String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(list.get(position).getDiffCase() / 500)));
+            }else{
+                holder.txt_real_box_nums.setText(String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
+            }*/
+
             holder.txt_real_box_nums.setText(String.format(getString(R.string.order_boxes),
                     StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
             holder.book_count.setText(list.get(position).getDifferNum() + "");
@@ -967,7 +994,13 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                     return;
                 }
                 lists.get(postion).setDifferNum(Integer.valueOf(nums));
-                double num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
+                double num;
+                if("90000714".equals(lists.get(postion).getProductNo())){
+                    num = (double) (Integer.valueOf(nums)) / (lists.get(postion).getCarton()*500);
+                }else{
+                    num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
+                }
+              //  double num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
                 lists.get(postion).setDiffCase(num);
 
                 adapter.notifyDataSetChanged();

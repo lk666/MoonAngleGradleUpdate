@@ -702,7 +702,12 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
         List<ProductPreDeliverVo> lis = result.getOrderDetail().getProductDetails();
         for (int i = 0; i < lis.size(); i++) {
             lis.get(i).setDifferNum(lis.get(i).getOutNum());
-            lis.get(i).setDiffCase(lis.get(i).getOutCase());
+           // lis.get(i).setDiffCase(lis.get(i).getOutCase());
+            if("90000714".equals(lis.get(i).getProductNo())){
+                lis.get(i).setDiffCase(lis.get(i).getOutCase()/500);
+            }else{
+                lis.get(i).setDiffCase(lis.get(i).getOutCase());
+            }
         }
         lists.addAll(lis);
         setHeadViewData(result);
@@ -861,8 +866,17 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
             holder.txt_box_rule_num.setText(list.get(position).getCarton() + "");
             holder.txt_order_product_name.setText(list.get(position).getProductName());
             holder.txt_delivery_nums.setText(list.get(position).getOutNum() + "");
-            holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
-                    StringUtil.formatBoxesNum(list.get(position).getOutCase()))));
+            //应发箱数
+            if("90000714".equals(list.get(position).getProductNo())){
+                holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(list.get(position).getOutCase() / 500))));
+            }else{
+                holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(list.get(position).getOutCase()))));
+            }
+
+         /*   holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                    StringUtil.formatBoxesNum(list.get(position).getOutCase()))));*/
 
             holder.txt_real_box_nums.setText(String.format(getString(R.string.order_boxes),
                     StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
@@ -961,7 +975,14 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
                     return;
                 }
                 lists.get(postion).setDifferNum(Integer.valueOf(nums));
-                double num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
+                double num;
+                if("90000714".equals(lists.get(postion).getProductNo())){
+                    num = (double) (Integer.valueOf(nums)) / (lists.get(postion).getCarton()*500);
+                }else{
+                    num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
+                }
+
+               // double num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
                 lists.get(postion).setDiffCase(num);
 
                 adapter.notifyDataSetChanged();
