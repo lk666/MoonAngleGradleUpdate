@@ -72,6 +72,7 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 		mContext = this;
 		initCustomActionBar();
 		progressDialog = new CommonProgressDialog(mContext);
+		progressDialog.setCancelable(false);
 		popStart = (View) findViewById(R.id.view_pop_start);
 		listviewProduct = (LinearLayoutForListView) findViewById(R.id.listview_product);
 		btnSign = (Button) findViewById(R.id.btn_sign);
@@ -147,26 +148,29 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 				String responseString) {
 			LogUtils.d("test", "pickupOrderHandler result = " + responseString);
 			if(progressDialog!=null) progressDialog.dismiss();
-			lock = false;
+
 			try {
 				ResultBase result = JSON.parseObject(responseString, ResultBase.class);
 				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
 					PublicUtil.showCustomToast(mContext, result.getResponseMsg(), true);
 					finish();
 				} else {
+					lock = false;
 					PublicUtil.showErrorMsg(mContext, result);
 				}
 			} catch (Exception e) {
+				lock = false;
 				PublicUtil.showToastServerBusy(mContext);
 			}
+
 		}
 
 		@Override
 		public void onFailure(int statusCode, Header[] headers,
 				String responseString, Throwable throwable) {
 			if(progressDialog!=null) progressDialog.dismiss();
-			lock = false;
 			PublicUtil.showToastServerOvertime(mContext);
+			lock = false;
 		}
 	};
 	

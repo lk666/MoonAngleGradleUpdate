@@ -53,8 +53,7 @@ import cn.com.bluemoon.delivery.ticket.TicketChooseActivity;
 
 public class BMPushMessageReceiver extends PushMessageReceiver {
 	/** TAG to Log */
-	public static final String TAG = BMPushMessageReceiver.class
-			.getSimpleName();
+	public static final String TAG = "test";
 
 
 	@Override
