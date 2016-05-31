@@ -328,7 +328,7 @@ public class AppStartActivity extends Activity {
 						intent.setClass(AppStartActivity.this,
 								MainActivity.class);
 						if(!StringUtil.isEmpty(jumpCode)){
-							intent.putExtra("jumpCode",jumpCode);
+							intent.putExtra(Constants.KEY_JUMP,jumpCode);
 						}
 						startActivity(intent);
 					} else {
