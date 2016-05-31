@@ -248,6 +248,13 @@ public class MessageListActivity extends Activity {
 
             convertView = inflate.inflate(R.layout.activity_message_item, null);
 
+            int index = position % 2;
+            if (index == 1) {
+                convertView.setBackgroundResource(R.drawable.list_item_grep_bg);
+            } else {
+                convertView.setBackgroundResource(R.drawable.list_item_white_bg);
+            }
+
             TextView txtMessageContent = (TextView) convertView
                     .findViewById(R.id.txt_message_content);
             TextView txtMessageDate = (TextView) convertView
