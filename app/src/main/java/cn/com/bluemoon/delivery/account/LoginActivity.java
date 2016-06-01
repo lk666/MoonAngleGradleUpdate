@@ -23,6 +23,7 @@ import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.view.ClearEditText;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
@@ -46,6 +47,7 @@ public class LoginActivity extends KJActivity {
 	private CommonProgressDialog progressDialog;
 	private ActivityManager manager;
 	private String account;
+	private String jumpCode="";
 
 	@Override
 	public void setRootView() {
@@ -58,12 +60,14 @@ public class LoginActivity extends KJActivity {
 		// TODO Auto-generated method stub
 		super.initWidget();
 		ClientStateManager.clearData(aty);
+		if(getIntent()!=null&&getIntent().hasExtra(Constants.KEY_JUMP)){
+			jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
+		}
 		manager = ActivityManager.getInstance();
 		manager.pushOneActivity(aty);
 		progressDialog = new CommonProgressDialog(aty);
 		loginUserEdit.setMaxLength(9);
 		loginPwdEdit.setMaxLength(16);
-
 
 		loginUserEdit.setKeyListener(new NumberKeyListener() {
 			@Override
@@ -125,6 +129,14 @@ public class LoginActivity extends KJActivity {
 
 	}
 
+	@Override
+	protected void onNewIntent(Intent intent) {
+		super.onNewIntent(intent);
+		if(intent!=null&&intent.hasExtra(Constants.KEY_JUMP)){
+			jumpCode = intent.getStringExtra(Constants.KEY_JUMP);
+		}
+	}
+
 	AsyncHttpResponseHandler loginHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
 		@Override
@@ -137,11 +149,14 @@ public class LoginActivity extends KJActivity {
 				ResultToken tokenResult = JSON.parseObject(responseString,
 						ResultToken.class);
 				if (tokenResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-					ClientStateManager.setLoginToken(aty,tokenResult.getToken());
+					ClientStateManager.setLoginToken(aty, tokenResult.getToken());
 					ClientStateManager.setUserName(aty, account);
 					MobclickAgent.onProfileSignIn(account);
 					Intent intent = new Intent();
 					intent.setClass(LoginActivity.this, MainActivity.class);
+					if(!StringUtil.isEmpty(jumpCode)){
+						intent.putExtra(Constants.KEY_JUMP,jumpCode);
+					}
 					startActivity(intent);
 					LoginActivity.this.finish();
 				} else {

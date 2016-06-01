@@ -106,14 +106,17 @@ public class MainActivity extends SlidingActivity {
                 PushUtils.getMetaValue(this, "api_key"));
 
         setContentView(R.layout.main);
-        initMenu();
-        init();
         main = this;
+        initMenu();
+        if(getIntent()!=null&&getIntent().hasExtra(Constants.KEY_JUMP)){
+            jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
+        }
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
             return;
         }
+
         manager = ActivityManager.getInstance();
         manager.pushOneActivity(main);
         progressDialog = new CommonProgressDialog(main);
@@ -166,13 +169,6 @@ public class MainActivity extends SlidingActivity {
         mMenu.toggle();
         DeliveryApi.moonAngelQrCodeService(token, angelCodeHandler);
     }
-
-    private  void init(){
-        if(getIntent().hasExtra(Constants.KEY_JUMP)){
-            jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
-        }
-    }
-
 
     public void CloseMenu(){
         mMenu.toggle();
@@ -411,6 +407,9 @@ public class MainActivity extends SlidingActivity {
         super.onNewIntent(intent);
         isDestory = false;
         if(listRight!=null) listRight.clear();
+        if(intent!=null&&intent.hasExtra(Constants.KEY_JUMP)){
+            jumpCode = intent.getStringExtra(Constants.KEY_JUMP);
+        }
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);

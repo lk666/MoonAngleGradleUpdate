@@ -219,7 +219,6 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 	private void updateContent(Context context, String view) {
 		LogUtils.d(TAG, "updateContent");
 		String token = ClientStateManager.getLoginToken(context);
-		LogUtils.d(TAG,"token:"+token);
 		String menuCode = view;
 		Intent intent = new Intent();
 

@@ -323,7 +323,7 @@ public class AppStartActivity extends Activity {
 					String token = ClientStateManager
 							.getLoginToken(AppStartActivity.this);
 
-					if (!"".equals(token)) {
+					if (!StringUtils.isEmpty(token)) {
 						Intent intent = new Intent();
 						intent.setClass(AppStartActivity.this,
 								MainActivity.class);
@@ -334,6 +334,9 @@ public class AppStartActivity extends Activity {
 					} else {
 						Intent intent = new Intent(AppStartActivity.this,
 								LoginActivity.class);
+						if(!StringUtil.isEmpty(jumpCode)){
+							intent.putExtra(Constants.KEY_JUMP,jumpCode);
+						}
 						startActivity(intent);
 						if (LibFileUtil.checkExternalSDExists()) {
 							File file = new File(Constants.PATH_PHOTO);
