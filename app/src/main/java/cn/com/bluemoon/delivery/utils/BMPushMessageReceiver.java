@@ -229,7 +229,9 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 		String menuCode = view;
 
 		Intent intent = new Intent();
-		if(isAppRunning(context) && !StringUtil.isEmpty(menuCode)){
+		String token = ClientStateManager
+				.getLoginToken(context.getApplicationContext());
+		if(isAppRunning(context) && !StringUtil.isEmpty(menuCode) && !StringUtil.isEmpty(token)){
 			if (MenuCode.dispatch.toString().equals(menuCode)) {
 				intent.setClass(context.getApplicationContext(), OrdersTabActivity.class);
 			} else if (MenuCode.site_sign.toString().equals(menuCode)) {
