@@ -25,6 +25,7 @@ import java.util.Stack;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
@@ -76,7 +77,7 @@ public class WebViewActivity extends Activity {
 		if(getIntent()!=null){
 			url = getIntent().getStringExtra("url");
 			title = getIntent().getStringExtra("title");
-			txtTitle.setText(title);
+			if(title!=null) pushTitle(title);
 			isActionBar = getIntent().getBooleanExtra("actionbar",false);
 			isProgress = getIntent().getBooleanExtra("progress",false);
 			isBackByJs = getIntent().getBooleanExtra("back",false);
@@ -89,11 +90,11 @@ public class WebViewActivity extends Activity {
 		imgBack.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				if(isBackFinish||(isBackByJs&&viewNowify.getVisibility()==View.VISIBLE)){
+				if (isBackFinish || (isBackByJs && viewNowify.getVisibility() == View.VISIBLE)) {
 					finish();
-				}else if(isBackByJs){
+				} else if (isBackByJs) {
 					JsConnectManager.keyBack(moonWebView);
-				}else if (moonWebView.canGoBack()) {
+				} else if (moonWebView.canGoBack()) {
 					moonWebView.goBack();
 					popTitle();
 				} else {

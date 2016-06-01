@@ -114,18 +114,6 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 			JSONObject customJson = null;
 			try {
 				customJson = new JSONObject(customContentString);
-				String value = null;
-				/*if (!customJson.isNull("bluemoon")) {
-					value = customJson.getString("bluemoon");
-					if ("open".equals(value)) {
-						Intent intent = new Intent();
-						intent.putExtra("key", "value-->");
-						intent.setClass(context.getApplicationContext(),
-								LoginActivity.class);
-						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-						context.getApplicationContext().startActivity(intent);
-					}
-				}*/
 				if(!customJson.isNull("view")){
 					view = customJson.getString("view");
 				}
@@ -204,21 +192,25 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 		LogUtils.d(TAG, responseString);
 
 		if (errorCode == 0) {
-			LogUtils.d(TAG, "���ɹ�");
+			LogUtils.d(TAG, "unbind success");
 		}
 
 	}
 
 	private boolean isAppRunning(Context context){
-		ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
-		List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
 		boolean isAppRunning = false;
-		String MY_PKG_NAME = "cn.com.bluemoon.delivery";
-		for (ActivityManager.RunningTaskInfo info : list) {
-			if (info.topActivity.getPackageName().equals(MY_PKG_NAME) || info.baseActivity.getPackageName().equals(MY_PKG_NAME)) {
-				isAppRunning = true;
-				break;
+		try {
+			ActivityManager am = (ActivityManager)context.getSystemService(Context.ACTIVITY_SERVICE);
+			List<ActivityManager.RunningTaskInfo> list = am.getRunningTasks(100);
+			String MY_PKG_NAME = context.getPackageName();
+			for (ActivityManager.RunningTaskInfo info : list) {
+				if (info.topActivity.getPackageName().equals(MY_PKG_NAME) || info.baseActivity.getPackageName().equals(MY_PKG_NAME)) {
+					isAppRunning = true;
+					break;
+				}
 			}
+		}catch (Exception e){
+			e.printStackTrace();
 		}
 		return isAppRunning;
 	}
@@ -226,46 +218,45 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 
 	private void updateContent(Context context, String view) {
 		LogUtils.d(TAG, "updateContent");
+		String token = ClientStateManager.getLoginToken(context);
+		LogUtils.d(TAG,"token:"+token);
 		String menuCode = view;
-
 		Intent intent = new Intent();
-		String token = ClientStateManager
-				.getLoginToken(context.getApplicationContext());
+
 		if(isAppRunning(context) && !StringUtil.isEmpty(menuCode) && !StringUtil.isEmpty(token)){
 			if (MenuCode.dispatch.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), OrdersTabActivity.class);
+				intent.setClass(context, OrdersTabActivity.class);
 			} else if (MenuCode.site_sign.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), ExtractTabActivity.class);
+				intent.setClass(context, ExtractTabActivity.class);
 			} else if (MenuCode.check_in.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), TicketChooseActivity.class);
+				intent.setClass(context, TicketChooseActivity.class);
 			} else if (MenuCode.mall_erp_delivery.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), InventoryTabActivity.class);
+				intent.setClass(context, InventoryTabActivity.class);
 				intent.putExtra("type",  InventoryTabActivity.DELIVERY_MANAGEMENT);
 			} else if (MenuCode.mall_erp_receipt.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), InventoryTabActivity.class);
+				intent.setClass(context, InventoryTabActivity.class);
 				intent.putExtra("type",  InventoryTabActivity.RECEIVE_MANAGEMENT);
 			} else if (MenuCode.mall_erp_stock.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), StorageTabActivity.class);
+				intent.setClass(context, StorageTabActivity.class);
 			} else if (MenuCode.card_coupons.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), CouponsTabActivity.class);
+				intent.setClass(context, CouponsTabActivity.class);
 			}else if (MenuCode.my_news.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), MessageListActivity.class);
+				intent.setClass(context, MessageListActivity.class);
 			} else if (MenuCode.my_inform.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), NoticeListActivity.class);
+				intent.setClass(context, NoticeListActivity.class);
 			} else if (MenuCode.knowledge_base.toString().equals(menuCode)) {
-				intent.setClass(context.getApplicationContext(), PaperListActivity.class);
+				intent.setClass(context, PaperListActivity.class);
 			}else{
-				intent.setClass(context.getApplicationContext(),
-						AppStartActivity.class);
+				intent.setClass(context,AppStartActivity.class);
 				intent.putExtra(Constants.KEY_JUMP,menuCode);
 			}
 		}else{
-			intent.setClass(context.getApplicationContext(), AppStartActivity.class);
+			intent.setClass(context, AppStartActivity.class);
 			intent.putExtra(Constants.KEY_JUMP,menuCode);
 		}
 
 		intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-		context.getApplicationContext().startActivity(intent);
+		context.startActivity(intent);
 	}
 
 

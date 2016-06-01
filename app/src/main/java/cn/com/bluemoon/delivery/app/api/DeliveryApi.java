@@ -83,8 +83,8 @@ public class DeliveryApi {
 	public static void getUserInfo(String token,
 								   AsyncHttpResponseHandler handler) {
 
-		if (token == null) {
-			throw new NullPointerException("the param is not init");
+		if (null == token) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -99,8 +99,8 @@ public class DeliveryApi {
 	/* 返回： ResultBase */
 	public static void logout(String token, AsyncHttpResponseHandler handler) {
 
-		if (token == null) {
-			throw new NullPointerException("the param is not init");
+		if (null == token) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -119,9 +119,9 @@ public class DeliveryApi {
 	public static void updatePassword(String token, String oldPassword,
 									  String newPassword, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(oldPassword)
+		if (null == token || StringUtils.isEmpty(oldPassword)
 				|| StringUtils.isEmpty(newPassword)) {
-			throw new NullPointerException("the param is not init");
+			return;
 		}
 
 		oldPassword = DES.encrypt(oldPassword, Constants.DES_KEY);
@@ -144,7 +144,7 @@ public class DeliveryApi {
 
 		if (StringUtils.isEmpty(mobileNo) || StringUtils.isEmpty(verifyCode)
 				|| StringUtils.isEmpty(newPassword)) {
-			throw new NullPointerException("the param is not init");
+			return;
 		}
 
 		newPassword = DES.encrypt(newPassword, Constants.DES_KEY);
@@ -165,7 +165,7 @@ public class DeliveryApi {
 									 AsyncHttpResponseHandler handler) {
 
 		if (StringUtils.isEmpty(mobileNo) || StringUtils.isEmpty(account)) {
-			throw new NullPointerException("the param is not init");
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -182,8 +182,8 @@ public class DeliveryApi {
 	public static void getAppRights(String token,
 									AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -202,8 +202,8 @@ public class DeliveryApi {
 	public static void getOrderCount(String token,
 									 AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -219,8 +219,8 @@ public class DeliveryApi {
 	public static void getOrdersByType(String token, OrderType type,
 									   AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -237,8 +237,8 @@ public class DeliveryApi {
 	public static void getOrderDetailByOrderId(String token, String orderId,
 											   AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token||orderId==null) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -256,8 +256,8 @@ public class DeliveryApi {
 	public static void acceptOrder(String token, String orderId,
 								   AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token||orderId==null) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -275,9 +275,8 @@ public class DeliveryApi {
 													   String orderId, Long date, String type,
 													   AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId)
-				|| StringUtils.isEmpty(type)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token||orderId==null||type==null) {
+			return;
 		}
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -297,8 +296,8 @@ public class DeliveryApi {
 	public static void toDelivery(String token, String orderId,
 								  AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token||orderId==null) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -316,10 +315,10 @@ public class DeliveryApi {
 	public static void orderSign(String token, String orderId, String signType,
 								 String receiveCode, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId)
-				|| StringUtils.isEmpty(signType)
-				|| StringUtils.isEmpty(receiveCode)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token || orderId==null
+				|| signType==null
+				|| receiveCode==null) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -338,8 +337,8 @@ public class DeliveryApi {
 	public static void cancelAppointmentOrder(String token, String orderId,
 											  AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId)) {
-			throw new NullPointerException("the param is not init");
+		if (null==token|| orderId==null) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -361,7 +360,7 @@ public class DeliveryApi {
 											 int productTotal, byte[] file, String explain,
 											 AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId)
+		if (null == token || orderId == null
 				|| StringUtils.isEmpty(dispatchId) || StringUtils.isEmpty(type)
 				|| StringUtils.isEmpty(type)
 				|| StringUtils.isEmpty(orderSource) || StringUtils.isEmpty(msg)
@@ -407,8 +406,8 @@ public class DeliveryApi {
 										String orderType, int count, long timestamp, long startTime, long endTime,
 										AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderType)) {
-			throw new NullPointerException("the param is not init");
+		if (null == token || orderType == null) {
+			return;
 		}
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -430,8 +429,8 @@ public class DeliveryApi {
 	public static void getOrderLogistics(String orderId, String orderSource,
 										 AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(orderId) || StringUtils.isEmpty(orderSource)) {
-			throw new NullPointerException("the param is not init");
+		if (orderId == null || StringUtils.isEmpty(orderSource)) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -452,8 +451,8 @@ public class DeliveryApi {
 	public static void getStorehouseList(String token,
 										 AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
-			throw new NullPointerException("the param is not init");
+		if (null == token) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -471,9 +470,9 @@ public class DeliveryApi {
 	public static void saveStorehouse(String token, String dispatchId,
 									  Storehouse storehouse, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(dispatchId)
+		if (null == token || StringUtils.isEmpty(dispatchId)
 				|| null == storehouse) {
-			throw new NullPointerException("the param is not init");
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -498,8 +497,8 @@ public class DeliveryApi {
 	public static void moonAngelQrCodeService(String token,
 											  AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
-			throw new NullPointerException("the param is not init");
+		if (null == token) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -517,8 +516,8 @@ public class DeliveryApi {
 	public static void findCustomerBindingState(String token,
 												String customerCode, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(customerCode)) {
-			throw new NullPointerException("the param is not init");
+		if (null == token || StringUtils.isEmpty(customerCode)) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -537,10 +536,10 @@ public class DeliveryApi {
 										  String inventoryCode, String orgCode,
 										  AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(customerCode)
+		if (null == token || StringUtils.isEmpty(customerCode)
 				|| StringUtils.isEmpty(inventoryCode)
 				|| StringUtils.isEmpty(orgCode)) {
-			throw new NullPointerException("the param is not init");
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -560,8 +559,8 @@ public class DeliveryApi {
 	/* 返回： ResultOrderInfoPickup */
 	public static void getOrderInfo(String token, String pickupCode, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(pickupCode)) {
-			throw new NullPointerException("the param is not init");
+		if (null == token || StringUtils.isEmpty(pickupCode)) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -586,12 +585,12 @@ public class DeliveryApi {
 		String pickupCode = result.getPickupCode();
 		String mobilePhone = result.getMobilePhone();
 
-		/*if (StringUtils.isEmpty(token) || StringUtils.isEmpty(orderId) || StringUtil.isEmpty(orderSource)
+		/*if (null == token || StringUtils.isEmpty(orderId) || StringUtil.isEmpty(orderSource)
 				|| StringUtils.isEmpty(storehouseCode) || StringUtils.isEmpty(storehouseName)
 				|| StringUtils.isEmpty(storechargeCode) || StringUtils.isEmpty(storechargeName)
 				|| StringUtils.isEmpty(storechargeMobileno) || StringUtils.isEmpty(pickupCode)
 				|| StringUtils.isEmpty(mobilePhone) || StringUtils.isEmpty(signType)) {
-			throw new NullPointerException("the param is not init");
+			return;
 		}*/
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -644,8 +643,8 @@ public class DeliveryApi {
 	/* 返回： ResultVenueInfo */
 	public static void getVenueList(String token,String type,String venueCode,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || StringUtils.isEmpty(type)) {
-			throw new NullPointerException("the param is not init");
+		if (null == token || StringUtils.isEmpty(type)) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -664,8 +663,8 @@ public class DeliveryApi {
 	/* 返回： ResultAppointmentInfo */
 	public static void checkScanCode(String token,String ticketCode,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) ||StringUtils.isEmpty(ticketCode)) {
-			throw new NullPointerException("the param is not init");
+		if (null == token ||StringUtils.isEmpty(ticketCode)) {
+			return;
 		}
 
 		Map<String, String> params = new HashMap<String, String>();
@@ -683,7 +682,7 @@ public class DeliveryApi {
 	/* 返回： ResultBase */
 	public static void comesInto(String token,String venueCode,String timesCode,String ticketCode,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) ||StringUtils.isEmpty(ticketCode)) {
+		if (null == token ||StringUtils.isEmpty(ticketCode)) {
 			return;
 		}
 
@@ -706,7 +705,7 @@ public class DeliveryApi {
 	/* 返回： ResultOrderVo */
 	public static void getWaitReceiptOrders(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -723,7 +722,7 @@ public class DeliveryApi {
 	/* 返回： ResultOrderVo */
 	public static void getReceiptOrders(String token,long startDate,long endDate,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -740,10 +739,7 @@ public class DeliveryApi {
 	/*待收货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
 	public static void getReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
-			return;
-		}
-		if (StringUtils.isEmpty(orderCode)) {
+		if (null == token||StringUtils.isEmpty(orderCode)) {
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -763,7 +759,7 @@ public class DeliveryApi {
 	/* 返回： ResultOrderVo */
 	public static void getWaitOutOrders(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -779,7 +775,7 @@ public class DeliveryApi {
 	/*待发货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
 	public static void getDeliverDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		if (StringUtils.isEmpty(orderCode)) {
@@ -797,7 +793,7 @@ public class DeliveryApi {
 	/*已发货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
 	public static void getOutDeliverDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		if (StringUtils.isEmpty(orderCode)) {
@@ -815,7 +811,7 @@ public class DeliveryApi {
 	/*已收货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
 	public static void getOutReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		if (StringUtils.isEmpty(orderCode)) {
@@ -836,7 +832,7 @@ public class DeliveryApi {
 	/* 返回： ResultOrderVo */
 	public static void getOutOrders(String token,long startDate,long endDate,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -856,7 +852,7 @@ public class DeliveryApi {
 	/* 返回： ResultCustormerService */
 	public static void queryOperatorPersons(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -878,7 +874,7 @@ public class DeliveryApi {
 	/* 返回： ResultStock */
 	public static void queryStockSummary(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -898,7 +894,7 @@ public class DeliveryApi {
 	/* 返回： ResultStore */
 	public static void queryStoresBycharger(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -993,7 +989,7 @@ public class DeliveryApi {
 	/* 返回： ResultProductDetail */
 	public static void queryStockDetail(String token,String storeCode,ProductType productType,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)||StringUtils.isEmpty(storeCode)) {
+		if (null == token||StringUtils.isEmpty(storeCode)) {
 			return;
 		}
 
@@ -1042,7 +1038,7 @@ public class DeliveryApi {
 	/* 返回： ResultIsPunchCard */
 	public static void isPunchCard(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -1059,7 +1055,7 @@ public class DeliveryApi {
 	/* 返回： ResultCheckScanCode */
 	public static void checkScanCodeCard(String token,String attendanceCode,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)||StringUtils.isEmpty(attendanceCode)) {
+		if (null == token||StringUtils.isEmpty(attendanceCode)) {
 			return;
 		}
 
@@ -1077,7 +1073,7 @@ public class DeliveryApi {
 	/* 返回： ResultBase */
 	public static void confirmAttendance(String token,PunchCard punchCard,String workTask,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)||punchCard==null||StringUtils.isEmpty(workTask)) {
+		if (null == token||punchCard==null||StringUtils.isEmpty(workTask)) {
 			return;
 		}
 
@@ -1105,7 +1101,7 @@ public class DeliveryApi {
 	/* 返回： ResultShowPunchCardDetail */
 	public static void getPunchCard(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -1121,7 +1117,7 @@ public class DeliveryApi {
 	/* 返回： ResultGetProduct */
 	public static void getProductList(String token, String condition, long timestamp, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -1139,7 +1135,7 @@ public class DeliveryApi {
 	/* 返回： ResultDiaryContent */
 	public static void getWorkDiary(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -1154,7 +1150,7 @@ public class DeliveryApi {
 
 	/*收货和发货详情获取单据图片列表*/
 	public static void getPicDetail(String token, String relativeOrderCode, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		if (StringUtils.isEmpty(relativeOrderCode)) {
@@ -1173,8 +1169,8 @@ public class DeliveryApi {
 	public static void uploadTicketPic(String token,String relativeOrderCode,String operateType, Bitmap file,
 								 AsyncHttpResponseHandler handler) {
 
-		if (token == null) {
-			throw new NullPointerException("the param is not init");
+		if (null == token) {
+			return;
 		}
 
 		/*BASE64Encoder encoder = new BASE64Encoder();
@@ -1197,7 +1193,7 @@ public class DeliveryApi {
 	/* 返回： ResultImage */
 	public static void getImgList(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 
@@ -1212,7 +1208,7 @@ public class DeliveryApi {
 	/* 2.9.13 展示打卡记录 */
 	/* 返回： ResultPunchCardList */
 	public static void getPunchCardList(String token,long timestamp,AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1227,7 +1223,7 @@ public class DeliveryApi {
 	/* 2.9.14 选择上班点（分页） */
 	/* 返回： ResultWorkPlaceList */
 	public static void getWorkplaceList(String token,String condition,int count,long timestamp,AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1245,7 +1241,7 @@ public class DeliveryApi {
 	/* 返回： ResultGetWorkTask */
 	public static void getWorkTask(String token,String workTaskType,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)||StringUtils.isEmpty(workTaskType)) {
+		if (null == token||StringUtils.isEmpty(workTaskType)) {
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1261,7 +1257,7 @@ public class DeliveryApi {
 	/* 返回： ResultBase */
 	public static void confirmWorkDiary(String token,String diaryContent,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)||StringUtils.isEmpty(diaryContent)) {
+		if (null == token||StringUtils.isEmpty(diaryContent)) {
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1277,7 +1273,7 @@ public class DeliveryApi {
 	/* 返回： ResultGetWorkDiaryList */
 	public static void getWorkDiaryList(String token,AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1292,7 +1288,7 @@ public class DeliveryApi {
 	/* 返回： ResultBase */
 	public static void confirmWorkDaily(String token,int totalBreedSalesNum,int totalSalesNum, Product[] wd, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1310,7 +1306,7 @@ public class DeliveryApi {
 	/* 返回： ResultBase */
 	public static void uploadImg(String token,byte[] file, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) ||  null == file) {
+		if (null == token ||  null == file) {
 			return;
 		}
 
@@ -1329,7 +1325,7 @@ public class DeliveryApi {
 	/* 2.9.10 2.9.12 删除图片 */
 	/* 返回： ResultBase */
 	public static void removeImg(String token,long imgId, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token) ||  imgId == 0) {
+		if (null == token ||  imgId == 0) {
 			return;
 		}
 
@@ -1346,8 +1342,8 @@ public class DeliveryApi {
 	/* 返回： ResultGetPunchCardById */
 	public static void getPunchCardById(String token,long punchCardId, AsyncHttpResponseHandler handler) {
 
-		if (StringUtils.isEmpty(token) || punchCardId == 0) {
-			throw new NullPointerException("the param is not init");
+		if (null == token || punchCardId == 0) {
+			return;
 		}
 
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1362,7 +1358,7 @@ public class DeliveryApi {
 
 	/* 获取差异原因*/
 	public static void getDictInfo(String token,AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1379,10 +1375,7 @@ public class DeliveryApi {
 	/*提交发货详情*/
 	public static void getSubmitDeliverDetail(String token, String orderCode,long deliDate,String outBackup
 			,int deliStoreAddrId,  List<ProductPreDeliverVo> outOrderDetail, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
-			return;
-		}
-		if (StringUtils.isEmpty(orderCode)) {
+		if (null == token||StringUtils.isEmpty(orderCode)) {
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1404,10 +1397,7 @@ public class DeliveryApi {
 	/*提交收货详情*/
 	public static void getSubmitReceiveDetail(String token, String orderCode,long reDate,int reStoreAddrId,
 									   List<ProductPreReceiveVo> receiptOrderDetail, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
-			return;
-		}
-		if (StringUtils.isEmpty(orderCode)) {
+		if (null == token||StringUtils.isEmpty(orderCode)) {
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1428,7 +1418,7 @@ public class DeliveryApi {
 	/* 首页未读消息数量统计接口 */
 	/* 返回： ResultModelNum */
 	public static void getModelNum(String token, AsyncHttpResponseHandler handler) {
-		if (StringUtils.isEmpty(token)) {
+		if (null == token) {
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1443,7 +1433,7 @@ public class DeliveryApi {
 	/*2.10.1查询消费者基本信息*/
 	/*返回：ResultUserBase*/
 	public static void getCustomerInfo(String token,String contents,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)||contents==null){
+		if(null == token||contents==null){
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1459,7 +1449,7 @@ public class DeliveryApi {
 	/*2.10.2查询有发券权限的活动*/
 	/*返回：ResultCouponAct*/
 	public static void getOwnAuthCouponAct(String token,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)){
+		if(null == token){
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1474,7 +1464,7 @@ public class DeliveryApi {
 	/*2.10.3人工发券*/
 	/*返回：ResultBase*/
 	public static void mensendCoupon(String token,String mobile,String activityCode,List<Coupon> coupons,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)||StringUtils.isEmpty(mobile)
+		if(null == token||StringUtils.isEmpty(mobile)
 				||StringUtils.isEmpty(activityCode)||coupons==null){
 			return;
 		}
@@ -1493,7 +1483,7 @@ public class DeliveryApi {
 	/*2.10.4获取天使推送记录*/
 	/*返回：ResultMensendLog*/
 	public static void getMensendCouponLog(String token,long date,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)){
+		if(null == token){
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1515,7 +1505,7 @@ public class DeliveryApi {
 	/*2.11.1 最新消息*/
 	/*返回：ResultNews*/
 	public static void getNewMessage(String token,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)){
+		if(null == token){
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1532,7 +1522,7 @@ public class DeliveryApi {
 	/*2.11.2 消息列表*/
 	/*返回：ResultMessages*/
 	public static void getMessageList(String token,int pageSize,long timestamp,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token) || pageSize<=0){
+		if(null == token || pageSize<=0){
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1550,7 +1540,7 @@ public class DeliveryApi {
 	/*2.11.3通知列表*/
 	/*返回：ResultInfos*/
 	public static void getInformationList(String token,int pageSize,long timestamp,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)|| pageSize<=0){
+		if(null == token|| pageSize<=0){
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1566,7 +1556,7 @@ public class DeliveryApi {
 	/*2.11.4通知详情*/
 	/*返回：ResultInfoDetail*/
 	public static void getInfoDetail(String token,String infoId,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token) || StringUtils.isEmpty(infoId)){
+		if(null == token || StringUtils.isEmpty(infoId)){
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1581,7 +1571,7 @@ public class DeliveryApi {
 	/*2.11.5知识库菜单列表*/
 	/*返回：ResultKnowledges*/
 	public static void getMenuList(String token,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)){
+		if(null == token){
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1596,7 +1586,7 @@ public class DeliveryApi {
 	/*2.11.6知识库文章详情*/
 	/*返回：ResultPaperDetail*/
 	public static void getPaperDetail(String token,String paperId,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token)||StringUtils.isEmpty(paperId)){
+		if(null == token||StringUtils.isEmpty(paperId)){
 			return;
 		}
 		Map<String, String> params = new HashMap<String, String>();
@@ -1612,7 +1602,7 @@ public class DeliveryApi {
 	/*2.11.7收藏列表*/
 	/*返回：ResultFavorites*/
 	public static void getCollectList(String token,int pageSize,long timestamp,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token) || pageSize<=0){
+		if(null == token || pageSize<=0){
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
@@ -1628,7 +1618,7 @@ public class DeliveryApi {
 	/*2.11.8收藏/取消收藏*/
 	/*返回：ResultBase*/
 	public static void collectPaper(String token,String paperId,boolean isCollect,AsyncHttpResponseHandler handler){
-		if(StringUtils.isEmpty(token) || StringUtils.isEmpty(paperId)){
+		if(null == token || StringUtils.isEmpty(paperId)){
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
