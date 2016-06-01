@@ -47,6 +47,7 @@ public class SignActivity extends Activity implements OnClickListener{
 	private Button btnSign;
 	private ClearEditText etNumber;
 	private CommonProgressDialog progressDialog;
+	private boolean lock;
 	
 
 	@Override
@@ -93,10 +94,11 @@ public class SignActivity extends Activity implements OnClickListener{
 		if (v == btnScan) {
 			setResult(3);
 			finish();
-		} else {
+		} else if(v==btnSign && !lock) {
 			if(getIntent()!=null){
 				String orderId = getIntent().getStringExtra("orderId");
 				if (StringUtils.isNotBlank(etNumber.getText().toString())) {
+					lock = true;
 					if(progressDialog!=null)
 					progressDialog.show();
 					DeliveryApi.orderSign(ClientStateManager.getLoginToken(this), orderId, "digital", etNumber.getText().toString(), orderSignHandler);
@@ -123,9 +125,11 @@ public class SignActivity extends Activity implements OnClickListener{
 					setResult(2);
 					SignActivity.this.finish();
 				} else {
+					lock = false;
 					PublicUtil.showErrorMsg(SignActivity.this, result);
 				}
 			} catch (Exception e) {
+				lock = false;
 				PublicUtil.showToastServerBusy(SignActivity.this);
 			}
 		}
@@ -136,6 +140,7 @@ public class SignActivity extends Activity implements OnClickListener{
 			if(progressDialog!=null)
 			progressDialog.dismiss();
 			PublicUtil.showToastServerOvertime(SignActivity.this);
+			lock = false;
 		}
 	};
 	

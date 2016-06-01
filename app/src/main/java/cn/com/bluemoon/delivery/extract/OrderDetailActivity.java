@@ -186,6 +186,7 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 
 	@Override
 	public void onClick(View v) {
+		if(PublicUtil.isFastDoubleClick(1000)) return;
 
 		if (v == btnSign) {
 			if (null != pickupInfo&&!lock) {

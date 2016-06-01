@@ -115,7 +115,7 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 			try {
 				customJson = new JSONObject(customContentString);
 				String value = null;
-				if (!customJson.isNull("bluemoon")) {
+				/*if (!customJson.isNull("bluemoon")) {
 					value = customJson.getString("bluemoon");
 					if ("open".equals(value)) {
 						Intent intent = new Intent();
@@ -125,7 +125,7 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 						intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 						context.getApplicationContext().startActivity(intent);
 					}
-				}
+				}*/
 				if(!customJson.isNull("view")){
 					view = customJson.getString("view");
 				}
@@ -232,7 +232,6 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 		if(isAppRunning(context) && !StringUtil.isEmpty(menuCode)){
 			if (MenuCode.dispatch.toString().equals(menuCode)) {
 				intent.setClass(context.getApplicationContext(), OrdersTabActivity.class);
-
 			} else if (MenuCode.site_sign.toString().equals(menuCode)) {
 				intent.setClass(context.getApplicationContext(), ExtractTabActivity.class);
 			} else if (MenuCode.check_in.toString().equals(menuCode)) {

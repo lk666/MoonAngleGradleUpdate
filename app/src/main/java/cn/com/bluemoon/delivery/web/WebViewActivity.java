@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.web;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -27,7 +28,9 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
+import cn.com.bluemoon.lib.utils.LibCacheUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class WebViewActivity extends Activity {
@@ -239,6 +242,15 @@ public class WebViewActivity extends Activity {
 			return PublicUtil.getAppInfo();
 		}
 
+		@Override
+		public String getCacheSize(WebView view) {
+			return LibCacheUtil.getWebViewCacheSize(aty);
+		}
+
+		@Override
+		public void cleanCache(WebView view) {
+			LibCacheUtil.cleanWebViewCache(aty);
+		}
 	};
 
 	private void callback(String result){
