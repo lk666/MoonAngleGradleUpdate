@@ -636,7 +636,7 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_CANCELED){
+        /*if(resultCode==RESULT_CANCELED){
             return;
         }
         if(resultCode==RESULT_OK){
@@ -647,7 +647,7 @@ public class MainActivity extends SlidingActivity {
                     PublicUtil.showToast(result);
                     break;
             }
-        }
+        }*/
     }
 
 
