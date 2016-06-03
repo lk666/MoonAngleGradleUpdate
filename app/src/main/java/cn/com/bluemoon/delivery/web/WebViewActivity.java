@@ -20,6 +20,10 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Stack;
 
 import cn.com.bluemoon.delivery.R;
@@ -52,7 +56,7 @@ public class WebViewActivity extends Activity {
 	private boolean isProgress;
 	private boolean isBackByJs;
 	private boolean isBackFinish;
-	private Stack<String> titles;
+	private Map<String,String> map;
 	/**
 	 * TODO 
 	 * @see Activity#onCreate(Bundle)
@@ -65,7 +69,7 @@ public class WebViewActivity extends Activity {
 		setContentView(R.layout.activity_webview);
 		aty = this;
 		ActivityManager.getInstance().pushOneActivity(this);
-		titles = new Stack<String>();
+		map = new HashMap<>();
 		progressDialog = new CommonProgressDialog(this);
 		pro = (ProgressBar) findViewById(R.id.pro_web);
 		layout_title = (RelativeLayout) findViewById(R.id.layout_title);
@@ -77,7 +81,7 @@ public class WebViewActivity extends Activity {
 		if(getIntent()!=null){
 			url = getIntent().getStringExtra("url");
 			title = getIntent().getStringExtra("title");
-			if(title!=null) pushTitle(title);
+			if(title!=null) pushTitle(url,title);
 			isActionBar = getIntent().getBooleanExtra("actionbar",false);
 			isProgress = getIntent().getBooleanExtra("progress",false);
 			isBackByJs = getIntent().getBooleanExtra("back",false);
@@ -113,7 +117,7 @@ public class WebViewActivity extends Activity {
 			public void onReceivedTitle(WebView view, String title) {
 				// TODO Auto-generated method stub
 				super.onReceivedTitle(view, title);
-				pushTitle(title);
+				pushTitle(view.getOriginalUrl(),title);
 
 			}
 
@@ -205,20 +209,17 @@ public class WebViewActivity extends Activity {
 		moonWebView.loadUrl(url);
 	}
 
-	private void pushTitle(String title){
-		titles.push(title);
+	private void pushTitle(String url,String title){
+		map.put(url, title);
 		txtTitle.setText(title);
 	}
 
 	private void popTitle(){
-		try {
-			titles.pop();
-			if(titles.size()>0){
-				txtTitle.setText(titles.get(titles.size() - 1));
-			}
-		} catch (Exception ex) {
-			ex.printStackTrace();
+		String title = map.get(moonWebView.getOriginalUrl());
+		if(title!=null){
+			txtTitle.setText(title);
 		}
+
 	}
 
 	JsConnectCallBack callBack = new JsConnectCallBack() {
@@ -271,6 +272,15 @@ public class WebViewActivity extends Activity {
 		    	progressDialog.dismiss();
 		}
 
+	@Override
+	protected void onDestroy() {
+		super.onDestroy();
+		progressDialog = null;
+		if(map!=null){
+			map.clear();
+			map = null;
+		}
+	}
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
