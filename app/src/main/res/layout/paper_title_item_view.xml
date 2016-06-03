@@ -8,9 +8,9 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:padding="10dp"
+        android:layout_height="match_parent"
         android:gravity="center_vertical"
+        android:layout_margin="10dp"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -18,15 +18,12 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:orientation="vertical"
-            android:paddingRight="10dp"
-            android:gravity="center_vertical"
             >
             <TextView
                 android:id="@+id/txt_title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center_vertical"
-                android:focusable="false"
                 android:singleLine="true"
                 android:ellipsize="end"
                 android:textColor="@color/text_black"
@@ -36,7 +33,6 @@
                 android:id="@+id/txt_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_vertical"
                 android:layout_marginTop="5dp"
                 android:singleLine="true"
                 android:ellipsize="end"
@@ -49,8 +45,8 @@
         <ImageView
             android:id="@+id/imageview"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:focusable="false"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="10dp"
             android:scaleType="fitCenter"
             android:src="@mipmap/icon_right" />
     </LinearLayout>

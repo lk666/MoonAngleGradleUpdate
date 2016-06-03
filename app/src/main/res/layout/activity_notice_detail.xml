@@ -31,6 +31,7 @@
         android:id="@+id/wv_notice"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:scrollbars="none"
         android:layout_marginLeft="9dp"
         android:layout_marginRight="9dp"
         android:layout_marginTop="10dp">
