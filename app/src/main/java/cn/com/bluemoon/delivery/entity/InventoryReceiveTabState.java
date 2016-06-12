@@ -1,7 +1,5 @@
 package cn.com.bluemoon.delivery.entity;
 
-import android.os.Bundle;
-
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.inventory.ProcessedFragment;
 import cn.com.bluemoon.delivery.inventory.SuspenseFragment;

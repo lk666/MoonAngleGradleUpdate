@@ -47,6 +47,7 @@ import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.notice.MessageListActivity;
@@ -67,7 +68,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
-import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.RedpointTextView;
@@ -99,7 +99,6 @@ public class MainActivity extends SlidingActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
 
         PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
@@ -135,7 +134,6 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 PublicUtil.openScanCard(main, null, 0);
             }
         });
@@ -265,11 +263,10 @@ public class MainActivity extends SlidingActivity {
         setMenu();
     }
 
-
     private void setMenu() {
-
         List<MenuBean> list = new ArrayList<>();
         if(listRight!=null){
+            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级 
             for(int i=0;i<groupCount;i++){
                 List<UserRight> item = new ArrayList<>();
                 for(UserRight right : listRight){
@@ -301,6 +298,39 @@ public class MainActivity extends SlidingActivity {
                 }
             }
         }
+
+
+
+
+        List<UserRight> item = new ArrayList<>();
+        UserRight u = new UserRight();
+        u.setMenuCode(MenuCode.mall_erp_clothing_collect_normal.toString());
+        u.setMenuName("收衣管理");
+        u.setIconImg("http://img4.duitang.com/uploads/item/201604/11/20160411233438_4iaL3.thumb.700_0.jpeg");
+        u.setIconResId(0);
+        u.setUrl("");
+        u.setMenuId("1111");
+        item.add(u);
+
+        for(int j=0;j<3;j++){
+            UserRight userRight = new UserRight();
+            userRight.setMenuCode(MenuCode.empty.toString());
+            userRight.setMenuName("");
+            userRight.setIconImg("");
+            userRight.setIconResId(0);
+            userRight.setUrl("");
+            userRight.setMenuId("");
+            item.add(userRight);
+        }
+
+        MenuBean bean = new MenuBean();
+        bean.setGroup(list.size() + 1);
+        bean.setItem(item);
+        list.add(bean);
+
+
+
+
 
         if(gridViewAdapter==null){
             gridViewAdapter = new GridViewAdapter(main,list);
@@ -388,7 +418,6 @@ public class MainActivity extends SlidingActivity {
                         @Override
                         public void onClick(DialogInterface dialog,
                                             int which) {
-                            // TODO Auto-generated method stub
                             finish();
                             manager.finishAllActivity();
                             MobclickAgent.onProfileSignOff();
@@ -403,7 +432,6 @@ public class MainActivity extends SlidingActivity {
 
     @Override
     protected void onNewIntent(Intent intent) {
-        // TODO Auto-generated method stub
         super.onNewIntent(intent);
         isDestory = false;
         if(listRight!=null) listRight.clear();
@@ -619,7 +647,6 @@ public class MainActivity extends SlidingActivity {
 
     @Override
     protected void onStop() {
-        // TODO Auto-generated method stub
         super.onStop();
         isDestory = true;
 //        ClientStateManager.setMenuOrder(main,listRight);
@@ -627,7 +654,6 @@ public class MainActivity extends SlidingActivity {
 
     @Override
     protected void onDestroy() {
-        // TODO Auto-generated method stub
         super.onDestroy();
         isDestory = true;
     }
@@ -669,25 +695,21 @@ public class MainActivity extends SlidingActivity {
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return list.size();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
             HolderView holderView = null;
             if (convertView == null) {
                 holderView = new HolderView();
@@ -762,7 +784,10 @@ public class MainActivity extends SlidingActivity {
                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                + "token=" + ClientStateManager.getLoginToken(main),
                        userRight.getMenuName(), true, true, false,false);
-
+           }
+           // TODO: lk 2016/6/12 有订单收衣管理，待定
+           else if (MenuCode.mall_erp_clothing_collect_normal.toString().equals(userRight.getMenuCode())) {
+               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER);
            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
            } else{
@@ -787,25 +812,21 @@ public class MainActivity extends SlidingActivity {
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub
             return listUserRight.size();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return 0;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-            // TODO Auto-generated method stub
 
             HolderView holderView = null;
             if (convertView == null) {

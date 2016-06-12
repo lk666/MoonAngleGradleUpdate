@@ -245,6 +245,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
              />
+        <activity
+            android:name=".module.clothing.collect.ClothingTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
 
         <service android:name=".card.LocationSvc" />
 

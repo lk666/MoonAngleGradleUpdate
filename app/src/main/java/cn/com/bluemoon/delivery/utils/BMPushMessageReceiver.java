@@ -22,7 +22,6 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.AppStartActivity;
 import cn.com.bluemoon.delivery.ClientStateManager;
-import cn.com.bluemoon.delivery.account.LoginActivity;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
@@ -245,7 +244,12 @@ public class BMPushMessageReceiver extends PushMessageReceiver {
 				intent.setClass(context, NoticeListActivity.class);
 			} else if (MenuCode.knowledge_base.toString().equals(menuCode)) {
 				intent.setClass(context, PaperListActivity.class);
-			}else{
+			}
+			// TODO: lk 2016/6/12 收衣管理是否需要？
+//			else if (MenuCode.mall_erp_clothing_collect_normal.toString().equals(userRight.getMenuCode())) {
+//				ClothingCollectManageTabActivity.actionStart(main);
+//			}
+			else{
 				intent.setClass(context,AppStartActivity.class);
 				intent.putExtra(Constants.KEY_JUMP,menuCode);
 			}
