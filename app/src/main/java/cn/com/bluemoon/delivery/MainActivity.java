@@ -299,39 +299,6 @@ public class MainActivity extends SlidingActivity {
             }
         }
 
-
-
-
-        List<UserRight> item = new ArrayList<>();
-        UserRight u = new UserRight();
-        u.setMenuCode(MenuCode.mall_erp_clothing_collect_normal.toString());
-        u.setMenuName("收衣管理");
-        u.setIconImg("http://img4.duitang.com/uploads/item/201604/11/20160411233438_4iaL3.thumb.700_0.jpeg");
-        u.setIconResId(0);
-        u.setUrl("");
-        u.setMenuId("1111");
-        item.add(u);
-
-        for(int j=0;j<3;j++){
-            UserRight userRight = new UserRight();
-            userRight.setMenuCode(MenuCode.empty.toString());
-            userRight.setMenuName("");
-            userRight.setIconImg("");
-            userRight.setIconResId(0);
-            userRight.setUrl("");
-            userRight.setMenuId("");
-            item.add(userRight);
-        }
-
-        MenuBean bean = new MenuBean();
-        bean.setGroup(list.size() + 1);
-        bean.setItem(item);
-        list.add(bean);
-
-
-
-
-
         if(gridViewAdapter==null){
             gridViewAdapter = new GridViewAdapter(main,list);
             scrollViewMain.setAdapter(gridViewAdapter);
@@ -530,6 +497,17 @@ public class MainActivity extends SlidingActivity {
         if(item.getGroupNum()>groupCount) {
             groupCount = item.getGroupNum();
         }*/
+
+        UserRight item = new UserRight();
+        item.setMenuCode(MenuCode.mall_erp_clothing_collect_normal.toString());
+        item.setMenuName("收衣管理");
+        item.setIconImg("http://img4.duitang.com/uploads/item/201604/11/20160411233438_4iaL3.thumb.700_0.jpeg");
+        item.setIconImg(listRight.get(0).getIconImg());
+        item.setGroupNum(1);
+        listRight.add(item);
+        if(item.getGroupNum()>groupCount) {
+            groupCount = item.getGroupNum();
+        }
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -787,7 +765,7 @@ public class MainActivity extends SlidingActivity {
            }
            // TODO: lk 2016/6/12 有订单收衣管理，待定
            else if (MenuCode.mall_erp_clothing_collect_normal.toString().equals(userRight.getMenuCode())) {
-               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER);
+               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
            } else{
