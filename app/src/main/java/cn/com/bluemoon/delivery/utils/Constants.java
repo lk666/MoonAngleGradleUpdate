@@ -67,6 +67,7 @@ public class Constants {
 	public static final String PATH_MAIN = Environment.getExternalStorageDirectory() + "/BMDelivery";
 	public static final String PATH_PHOTO = PATH_MAIN + "/images";
 	public static final String PATH_TEMP = PATH_MAIN + "/temp";
+	public static final String PATH_CACHE = PATH_MAIN + "/cache";
 	public static final String PATH_CAMERA = Environment.getExternalStorageDirectory() + "/DCIM/Camera";
 	
 	public static final int RETURN_TYPE = 1;

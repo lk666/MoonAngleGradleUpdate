@@ -351,6 +351,10 @@ public class AppStartActivity extends Activity {
 							if (!file2.exists()) {
 								file2.mkdirs();
 							}
+							File file3 = new File(Constants.PATH_CACHE);
+							if (!file3.exists()) {
+								file3.mkdirs();
+							}
 						}
 					}
 					if (!isFinishing())

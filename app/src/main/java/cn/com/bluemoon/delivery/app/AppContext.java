@@ -10,6 +10,7 @@ import android.view.WindowManager;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.base.BaseApplication;
 import cn.com.bluemoon.delivery.service.LocationService;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 import com.baidu.location.LocationClientOption;
@@ -55,6 +56,7 @@ public class AppContext extends BaseApplication {
 
 		shareInit();
 
+		ImageLoaderUtil.init(this);
 	}
 
 	private void shareInit() {
