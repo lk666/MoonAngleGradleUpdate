@@ -335,13 +335,6 @@
     <string name="tab_bottom_my_warehouse_text">我的仓库</string>
     <string name="tab_bottom_my_stock_text">我的库存</string>
 
-    <!-- 有订单收衣管理 -->
-
-    <string name="tab_title_with_order_collect_manage">收衣管理</string>
-
-    <string name="tab_bottom_with_order_collect_manage">收衣管理</string>
-    <string name="tab_bottom_with_order_collect_record">收衣记录</string>
-
     <!-- 收发货 -->
 
     <string name="tab_bottom_receive_text">待收货</string>
@@ -633,9 +626,6 @@
     <string name="paper_detail_collect">收藏</string>
 
 
-
-
-
     <!--keyListener-->
     <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
@@ -644,4 +634,15 @@
 
     <string name="title_message">消息</string>
     <string name="title_notify">通知</string>
+
+    <!-- 有订单收衣管理 -->
+    <string name="tab_title_with_order_collect_manage">收衣管理</string>
+    <string name="tab_bottom_with_order_collect_manage">收衣管理</string>
+    <string name="tab_bottom_with_order_collect_record">收衣记录</string>
+
+    <!-- 收衣登记 -->
+    <string name="title_with_order_collect_book_in">收衣登记</string>
+
+    <!-- 衣物登记 -->
+    <string name="title_clothing_book_in">衣物登记</string>
 </resources>

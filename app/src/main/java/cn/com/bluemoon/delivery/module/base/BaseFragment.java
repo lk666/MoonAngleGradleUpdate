@@ -8,7 +8,7 @@ import com.umeng.analytics.MobclickAgent;
  * 基础fragment
  * Created by lk on 2016/6/13.
  */
-public class BaseFragment extends Fragment implements IShowDialog{
+public abstract class BaseFragment extends Fragment implements IShowDialog{
 
     /**
      * 默认TAG

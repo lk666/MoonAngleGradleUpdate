@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -30,11 +29,14 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultWithOrderCl
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.WithOrderClothingCollectOrder;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -43,7 +45,8 @@ import cn.com.bluemoon.lib.utils.LibConstants;
  * 有订单收衣管理
  * Created by luokai on 2016/6/12.
  */
-public class WithOrderManageFragment extends BaseFragment {
+public class WithOrderManageFragment extends BaseFragment implements OnListItemClickListener {
+    private final static int REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY = 0x12;
 
     private ClothingTabActivity main;
     private ResultWithOrderClothingCollectList orderList;
@@ -77,6 +80,10 @@ public class WithOrderManageFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         listviewMain.setMode(PullToRefreshBase.Mode.BOTH);
 
+        adapter = new OrderAdapter(main, this);
+        listviewMain.setAdapter(adapter);
+        orderList = null;
+
         listviewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
 
             @Override
@@ -104,10 +111,12 @@ public class WithOrderManageFragment extends BaseFragment {
 
         if (type.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
             // TODO: lk 2016/6/13 获取列表数据
-            listviewMain.postDelayed(new Runnable() {
+            showProgressDialog();
+            main.runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
                     // TODO: lk 2016/6/14 onRefreshComplete若此时直接放主线程执行会不成功，为何？
+                    dismissProgressDialog();
                     listviewMain.onRefreshComplete();
                     ResultWithOrderClothingCollectList s = new ResultWithOrderClothingCollectList();
                     s.setTimestamp(System.currentTimeMillis());
@@ -123,9 +132,8 @@ public class WithOrderManageFragment extends BaseFragment {
                     s.setOrderList(orderList);
                     setData(s);
                 }
-            }, 2000);
+            });
 
-            //  showProgressDialog();
 //            DeliveryApi.getOrderList(token, AppContext.PAGE_SIZE,
 //                    (null == orderList ? 0 : orderList.getTimestamp()), withOrderListHandler);
         }
@@ -134,15 +142,12 @@ public class WithOrderManageFragment extends BaseFragment {
     private void setData(ResultWithOrderClothingCollectList resultOrder) {
         if (orderList == null) {
             orderList = resultOrder;
-            if (adapter == null) {
-                adapter = new OrderAdapter(main);
-                listviewMain.setAdapter(adapter);
-            }
             adapter.setList(orderList.getOrderList());
         } else {
             orderList.getOrderList().addAll(resultOrder.getOrderList());
             orderList.setTimestamp(resultOrder.getTimestamp());
         }
+
         adapter.notifyDataSetChanged();
     }
 
@@ -211,26 +216,6 @@ public class WithOrderManageFragment extends BaseFragment {
         actionBar.getImgRightView().setVisibility(View.VISIBLE);
     }
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
-
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-                case Constants.REQUEST_SCAN:
-                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    // TODO: lk 2016/6/13 处理 WithOrderManageFragment 扫码返回
-                    PublicUtil.showToast(resultStr);
-//                    progressDialog.show();
-//                    DeliveryApi.getCustomerInfo(ClientStateManager.getLoginToken(mContext), resultStr, getCustomerInfoHandler);
-                    break;
-            }
-        }
-    }
-
     // TODO: lk 2016/6/13 拨打电话，UI也未定
     private void call(String name, String num) {
         View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_content_call_phone, null);
@@ -241,51 +226,29 @@ public class WithOrderManageFragment extends BaseFragment {
         PublicUtil.showCallPhoneDialog(main, view, num);
     }
 
-    class OrderAdapter extends BaseAdapter {
-
-        private Context context;
-        private List<WithOrderClothingCollectOrder> list;
-
-        public OrderAdapter(Context context) {
-            this.context = context;
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
         }
 
-        public void setList(List<WithOrderClothingCollectOrder> list) {
-            this.list = list;
-        }
-
-        @Override
-        public int getCount() {
-            return list == null ? 0 : list.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return list == null ? null : list.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            boolean isNew = false;
-            // TODO: lk 2016/6/13 Adapter View
-            if (convertView == null) {
-                isNew = true;
-                convertView = LayoutInflater.from(context).inflate(
-                        R.layout.item_with_order_clothing_collect_order_list, null);
-            }
-
-//            final ImageView imgDelete = ViewHolder.get(convertView,R.id.img_delete);
-//            if (isNew) {
-//                imgDelete.setOnClickListener();
-//            }
-
-            return convertView;
+        switch (requestCode) {
+            case Constants.REQUEST_SCAN:
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    // TODO: lk 2016/6/13 处理 WithOrderManageFragment 扫码返回
+                    PublicUtil.showToast(resultStr);
+//                    progressDialog.show();
+//                    DeliveryApi.getCustomerInfo(ClientStateManager.getLoginToken(mContext), resultStr, getCustomerInfoHandler);
+                }
+                break;
+            // TODO: lk 2016/6/14  收衣登记返回
+            case REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY:
+                if (resultCode == Activity.RESULT_OK) {
+                    getData();
+                }
+                break;
         }
     }
 
@@ -293,5 +256,43 @@ public class WithOrderManageFragment extends BaseFragment {
     public void onDestroyView() {
         super.onDestroyView();
         ButterKnife.unbind(this);
+    }
+
+    /**
+     * 收衣订单Adapter
+     */
+    class OrderAdapter extends BaseListAdapter<WithOrderClothingCollectOrder> {
+
+        public OrderAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
+        }
+
+        @Override
+        protected int getLayoutId() {
+            return R.layout.item_with_order_clothing_collect_order_list;
+        }
+
+        @Override
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            // TODO: lk 2016/6/13 Adapter View
+            final TextView tvCollect = ViewHolder.get(convertView, R.id.tv_collect);
+            setClickEvent(tvCollect, position);
+        }
+    }
+
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+        switch (view.getId()) {
+            case R.id.tv_collect:
+                // TODO: lk 2016/6/14 开始收衣
+                Intent intent = new Intent(main, WithOrderCollectBookInActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable(WithOrderCollectBookInActivity.EXTRA_ORDER,
+                        ((WithOrderClothingCollectOrder) item).toString());
+                intent.putExtras(bundle);
+                WithOrderManageFragment.this.startActivityForResult(intent,
+                        REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY);
+                break;
+        }
     }
 }
