@@ -1,6 +1,9 @@
 <resources>
     <string name="action_settings">Settings</string>
 
+    <string name="required_filed">*</string>
+    <string name="btn_delete">删除</string>
+
     <string name="app_name">月亮天使</string>
     <string name="test_name">(%s)测试</string>
     <string name="none">无</string>
@@ -645,4 +648,20 @@
 
     <!-- 衣物登记 -->
     <string name="title_clothing_book_in">衣物登记</string>
+    <string name="clothing_book_in_base_info">衣物基本信息</string>
+    <string name="clothing_book_in_number">衣物编码</string>
+    <string name="clothing_book_in_number_hint">请扫描/输入衣物编码</string>
+    <string name="clothing_book_in_service_type">服务类型</string>
+    <string name="clothing_book_in_service_type_hint">请选择服务类型</string>
+    <string name="clothing_book_in_name">衣物名称</string>
+    <string name="clothing_book_in_name_hint">请选择衣物名称</string>
+    <string name="clothing_book_in_falw">有无瑕疵</string>
+    <string name="clothing_book_in_falw_hint">请输入衣物瑕疵信息，如：色差、破损、缺件等</string>
+    <string name="clothing_book_in_stain">有无污渍</string>
+    <string name="clothing_book_in_backup">备注</string>
+    <string name="clothing_book_in_backup_hint">请输入备注信息，上限100字</string>
+    <string name="clothing_book_in_phote">衣物照片</string>
+    <string name="clothing_book_in_phote_hint">首张为正面整体照，其他拍摄瑕疵部位</string>
+    <string name="clothing_book_in_phote_most">（最多十张）</string>
+
 </resources>

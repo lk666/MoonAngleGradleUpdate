@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -210,20 +211,20 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         }
                     }
                 });
+listviewMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
+    }
+});
         // TODO: lk 2016/6/13 扫码图标
         actionBar.getImgRightView().setImageResource(R.mipmap.scan_top_nav);
         actionBar.getImgRightView().setVisibility(View.VISIBLE);
     }
 
     // TODO: lk 2016/6/13 拨打电话，UI也未定
-    private void call(String name, String num) {
-        View view = getActivity().getLayoutInflater().inflate(R.layout.dialog_content_call_phone, null);
-        TextView txtCustomer = (TextView) view.findViewById(R.id.txt_customer_service);
-        TextView txtPhone = (TextView) view.findViewById(R.id.txt_phone_num);
-        txtCustomer.setText(String.format(getString(R.string.dialog_customer_name), name));
-        txtPhone.setText(num);
-        PublicUtil.showCallPhoneDialog(main, view, num);
+    private void call(String num) {
+        PublicUtil.showCallPhoneDialog(main, num);
     }
 
     @Override

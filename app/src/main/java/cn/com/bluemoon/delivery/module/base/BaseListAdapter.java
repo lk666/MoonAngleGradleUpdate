@@ -50,7 +50,6 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
     public View getView(int position, View convertView, ViewGroup parent) {
 
         boolean isNew = false;
-        // TODO: lk 2016/6/13 Adapter View
         if (convertView == null) {
             isNew = true;
             convertView = LayoutInflater.from(context).inflate(getLayoutId(), null);
