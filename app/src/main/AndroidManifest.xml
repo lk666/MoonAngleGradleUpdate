@@ -27,8 +27,8 @@
 
     <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
     <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-    <uses-permission android:name="android.permission.REAL_GET_TASKS"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.REAL_GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:name=".app.AppContext"
@@ -240,11 +240,14 @@
             android:name=".notice.MessageListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
-        <activity android:name=".notice.PaperListActivity"
+        <activity
+            android:name=".notice.PaperListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-             />
+            android:theme="@style/App.Base.Theme" />
+
+        <activity android:name=".team.MyTeamActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
 
         <service android:name=".card.LocationSvc" />
 

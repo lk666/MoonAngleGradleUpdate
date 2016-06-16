@@ -53,6 +53,7 @@ import cn.com.bluemoon.delivery.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.storage.StorageTabActivity;
+import cn.com.bluemoon.delivery.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
@@ -67,7 +68,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
-import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.RedpointTextView;
@@ -492,16 +492,16 @@ public class MainActivity extends SlidingActivity {
 
 
     private void mockData() {
-        /*UserRight item = new UserRight();
-        item.setMenuCode("sfa");
-        item.setMenuName("sfa");
-        item.setUrl("http://www.runoob.com/try/try.php?filename=tryjsref_oninput");
+        UserRight item = new UserRight();
+        item.setMenuCode(MenuCode.ceo_team.toString());
+        item.setMenuName(getString(R.string.ceo_team_title));
         item.setIconImg(listRight.get(0).getIconImg());
-        item.setGroupNum(1);
+        item.setGroupNum(5);
         listRight.add(item);
         if(item.getGroupNum()>groupCount) {
             groupCount = item.getGroupNum();
-        }*/
+        }
+
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -757,6 +757,9 @@ public class MainActivity extends SlidingActivity {
                startActivity(intent);
            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
                PublicUtil.showMessageService(main);
+           } else if (MenuCode.ceo_team.toString().equals(userRight.getMenuCode())) {
+               intent = new Intent(main, MyTeamActivity.class);
+               startActivity(intent);
            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
                PublicUtil.openWebView(main, userRight.getUrl()
                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
