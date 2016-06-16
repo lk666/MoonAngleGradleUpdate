@@ -15,6 +15,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.ui.switchbutton.SwitchButton;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -41,14 +42,14 @@ public class ClothingBookInActivity extends BaseActionBarActivity {
     TextView tvName;
     @Bind(R.id.ll_name)
     LinearLayout llName;
-    @Bind(R.id.cb_falw)
-    CheckBox cbFalw;
+    @Bind(R.id.sb_falw)
+    SwitchButton sbFalw;
     @Bind(R.id.v_div_falw)
     View vDivFalw;
     @Bind(R.id.et_flaw)
     EditText etFlaw;
-    @Bind(R.id.cb_stain)
-    CheckBox cbStain;
+    @Bind(R.id.sb_stain)
+    SwitchButton sbStain;
     @Bind(R.id.et_backup)
     EditText etBackup;
     @Bind(R.id.sgv_photo)
@@ -57,6 +58,8 @@ public class ClothingBookInActivity extends BaseActionBarActivity {
     Button btnDelete;
     @Bind(R.id.btn_ok)
     Button btnOk;
+    @Bind(R.id.v_div_btn)
+    View vDivBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

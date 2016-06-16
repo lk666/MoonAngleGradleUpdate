@@ -2,15 +2,60 @@
 <resources>
     <declare-styleable name="LinearLayoutForTabSelector">
         <attr name="left_text" format="string" />
-        <attr name="right_text" format="string"/>
+        <attr name="right_text" format="string" />
     </declare-styleable>
     <declare-styleable name="TabSelector">
         <attr name="text" format="string" />
-        <attr name="color_select_text" format="color"/>
-        <attr name="color_normal_text" format="color"/>
-        <attr name="text_size" format="dimension"/>
-        <attr name="margin_left" format="dimension"/>
-        <attr name="margin_right" format="dimension"/>
+        <attr name="color_select_text" format="color" />
+        <attr name="color_normal_text" format="color" />
+        <attr name="text_size" format="dimension" />
+        <attr name="margin_left" format="dimension" />
+        <attr name="margin_right" format="dimension" />
+    </declare-styleable>
+
+    <!--SwitchButton-->
+    <declare-styleable name="SwitchButton">
+        <!--圆点图片-->
+        <attr format="reference" name="kswThumbDrawable"/>
+        <!--圆点颜色-->
+        <attr format="color|reference" name="kswThumbColor"/>
+        <!--圆点距离外边框Margin-->
+        <attr format="dimension|reference" name="kswThumbMargin"/>
+        <attr format="dimension|reference" name="kswThumbMarginTop"/>
+        <attr format="dimension|reference" name="kswThumbMarginBottom"/>
+        <attr format="dimension|reference" name="kswThumbMarginLeft"/>
+        <attr format="dimension|reference" name="kswThumbMarginRight"/>
+
+        <!--圆点宽度-->
+        <attr format="dimension|reference" name="kswThumbWidth"/>
+        <!--圆点高度-->
+        <attr format="dimension|reference" name="kswThumbHeight"/>
+        <!--圆点圆角半径-->
+        <attr format="dimension|reference" name="kswThumbRadius"/>
+        <!--背景圆角半径-->
+        <attr format="dimension|reference" name="kswBackRadius"/>
+        <!--背景图片-->
+        <attr format="reference" name="kswBackDrawable"/>
+        <!--背景色-->
+        <attr format="color|reference" name="kswBackColor"/>
+
+        <!--滑动过程中背景是否会逐渐变色-->
+        <attr format="boolean" name="kswFadeBack"/>
+
+        <!--背景宽度是圆点的多少倍-->
+        <attr format="float" name="kswBackMeasureRatio"/>
+        <!--动画时间-->
+        <attr format="integer" name="kswAnimationDuration"/>
+
+        <!--偷懒用，使用用默认的变化来初始化style的初始化颜色-->
+        <attr format="color|reference" name="kswTintColor"/>
+
+        <!--选中文本-->
+        <attr format="string" name="kswTextOn"/>
+        <!--未选中文本-->
+        <attr format="string" name="kswTextOff"/>
+        <!--文本与背景的水平间距-->
+        <attr format="dimension" name="kswTextMarginH"/>
     </declare-styleable>
 
 </resources>

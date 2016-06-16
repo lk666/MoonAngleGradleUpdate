@@ -211,12 +211,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         }
                     }
                 });
-listviewMain.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-    }
-});
         // TODO: lk 2016/6/13 扫码图标
         actionBar.getImgRightView().setImageResource(R.mipmap.scan_top_nav);
         actionBar.getImgRightView().setVisibility(View.VISIBLE);
