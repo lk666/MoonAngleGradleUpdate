@@ -16,6 +16,7 @@ import cn.com.bluemoon.delivery.module.base.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderManageFragment;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderRecordFragment;
 
+// TODO: lk 2016/6/16 可干掉与当前activity重复layout的资源文件 
 /**
  * 收衣公共界面
  * Created by lk on 2016/6/12.
