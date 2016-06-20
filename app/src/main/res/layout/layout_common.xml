@@ -15,35 +15,32 @@
         android:padding="10dp"
         >
         <TextView
-            android:id="@+id/txt_groupnum"
+            android:id="@+id/txt_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:textColor="@color/view_bg"
-            android:text="@string/team_group_groupnum"
             android:textSize="@dimen/text_size_14"
             />
         <TextView
-            android:id="@+id/txt_membernum"
+            android:id="@+id/txt_right"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:gravity="right"
             android:textColor="@color/view_bg"
-            android:text="@string/team_group_membernum"
             android:ellipsize="start"
             android:textSize="@dimen/text_size_14"
             android:layout_weight="1"/>
     </LinearLayout>
 
     <ListView
-        android:id="@+id/listview_group"
+        android:id="@+id/listview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/page_bg_f2"
         android:cacheColorHint="#00000000"
-        android:dividerHeight="10dp"
-        android:divider="@color/page_bg_f2"
+        android:dividerHeight="0dp"
         />
 
 </LinearLayout>

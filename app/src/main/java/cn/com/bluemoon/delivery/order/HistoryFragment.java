@@ -260,6 +260,8 @@ public class HistoryFragment extends Fragment {
 			LayoutInflater inflate = LayoutInflater.from(context);
 			if (lists.size() == 0) {
 				View viewEmpty = inflate.inflate(R.layout.layout_no_data, null);
+				TextView txtContent = (TextView)viewEmpty.findViewById(R.id.txt_content);
+				txtContent.setText(R.string.history_content);
 				LayoutParams params = new LayoutParams(
 						LayoutParams.MATCH_PARENT, listView.getHeight());
 				viewEmpty.setLayoutParams(params);
@@ -270,9 +272,9 @@ public class HistoryFragment extends Fragment {
 						.inflate(R.layout.list_notmore_item, null);
 				return viewEnd;
 			}
-			// if (convertView == null) {
+			 if (convertView == null) {
 			convertView = inflate.inflate(R.layout.order_history_item, null);
-			// }
+			 }
 
 			TextView txtOrderid = (TextView) convertView
 					.findViewById(R.id.txt_orderid);

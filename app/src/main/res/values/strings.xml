@@ -625,10 +625,15 @@
     <string name="paper_detail_date">发布日期：%s</string>
     <string name="paper_detail_collect">收藏</string>
 
-    <!-- ceo -->
-    <string name="ceo_team_title">我的团队</string>
-    <string name="ceo_team_group_title">小组信息</string>
-    <string name="ceo_team_member_title">团队成员</string>
+    <!-- team -->
+    <string name="team_title">我的团队</string>
+    <string name="team_group_title">小组信息</string>
+    <string name="team_member_title">团队成员</string>
+    <string name="team_group_groupnum">总小组数：%s</string>
+    <string name="team_group_membernum">总人数：%1$s/%2$s</string>
+    <string name="team_group_leader">组长：%s</string>
+    <string name="team_group_empty_group">无小组信息</string>
+    <string name="team_group_empty_member">无团队成员信息</string>
 
 
     <!--keyListener-->

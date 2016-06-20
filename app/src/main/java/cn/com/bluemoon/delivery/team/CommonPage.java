@@ -22,14 +22,14 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 
-public class GroupFragment extends Fragment {
+public class CommonPage extends Fragment {
 
     private MyTeamActivity mContext;
-    private String TAG = "GroupFragment";
-    private TextView txtGroupNum;
-    private TextView txtMembernum;
-    private ListView listviewGroup;
-    private GroupAdapter groupAdapter;
+    private String TAG = "CommonPage";
+    private TextView txtLeft;
+    private TextView txtRight;
+    private ListView listview;
+    private CommonAdapter adapter;
 
 
     public void onAttach(Activity activity) {
@@ -41,12 +41,12 @@ public class GroupFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         initCustomActionBar();
-        View v = inflater.inflate(R.layout.fragment_group,
+        View v = inflater.inflate(R.layout.layout_common,
                 container, false);
-        txtGroupNum = (TextView) v.findViewById(R.id.txt_groupnum);
-        txtMembernum = (TextView) v.findViewById(R.id.txt_membernum);
-        listviewGroup = (ListView) v.findViewById(R.id.listview_group);
-        PublicUtil.setEmptyView(listviewGroup, getString(R.string.team_group_empty_group));
+        txtLeft = (TextView) v.findViewById(R.id.txt_left);
+        txtRight = (TextView) v.findViewById(R.id.txt_right);
+        listview = (ListView) v.findViewById(R.id.listview);
+        PublicUtil.setEmptyView(listview, getString(R.string.none));
         setData();
         return v;
     }
@@ -60,9 +60,9 @@ public class GroupFragment extends Fragment {
     }
 
     private void setAdapter(List<Object> list){
-        groupAdapter = new GroupAdapter(mContext,R.layout.item_team_group);
-        groupAdapter.setList(list);
-        listviewGroup.setAdapter(groupAdapter);
+        adapter = new CommonAdapter(mContext,R.layout.layout_no_data);
+        adapter.setList(list);
+        listview.setAdapter(adapter);
     }
 
     private void initCustomActionBar() {
@@ -99,14 +99,14 @@ public class GroupFragment extends Fragment {
         MobclickAgent.onPageStart(TAG);
     }
 
-    class GroupAdapter extends BaseAdapter{
+    class CommonAdapter extends BaseAdapter{
 
         private LayoutInflater mInflater;
         private Context context;
         private int layoutID;
         private List<Object> list;
 
-        public GroupAdapter(Context context, int layoutID){
+        public CommonAdapter(Context context,int layoutID){
             this.mInflater = LayoutInflater.from(context);
             this.layoutID = layoutID;
             this.context = context;
@@ -140,12 +140,11 @@ public class GroupFragment extends Fragment {
             if (convertView == null) {
                 convertView = mInflater.inflate(layoutID, null);
             }
-            TextView txtId = ViewHolder.get(convertView, R.id.txt_id);
-            TextView txtName = ViewHolder.get(convertView, R.id.txt_name);
-            TextView txtNum = ViewHolder.get(convertView, R.id.txt_num);
-            TextView txtLeader = ViewHolder.get(convertView, R.id.txt_leader);
+            final TextView txtContent = ViewHolder.get(convertView,R.id.txt_content);
+            txtContent.setText(list.get(position).toString());
 
             return convertView;
         }
     }
+
 }

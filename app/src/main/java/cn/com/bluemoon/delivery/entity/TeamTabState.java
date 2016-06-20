@@ -1,14 +1,12 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.card.PunchCardFragment;
-import cn.com.bluemoon.delivery.card.RecordCardFragment;
 import cn.com.bluemoon.delivery.team.GroupFragment;
 import cn.com.bluemoon.delivery.team.MemberFragment;
 
 public enum TeamTabState {
-	GROUP(GroupFragment.class, R.drawable.card_tab_punch, R.string.ceo_team_group_title),
-	MEMBER(MemberFragment.class, R.drawable.card_tab_record,R.string.ceo_team_member_title);
+	GROUP(GroupFragment.class, R.drawable.card_tab_punch, R.string.team_group_title),
+	MEMBER(MemberFragment.class, R.drawable.card_tab_record,R.string.team_member_title);
 
 	private Class clazz;
 	private int image;

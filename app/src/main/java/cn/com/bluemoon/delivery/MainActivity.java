@@ -494,7 +494,7 @@ public class MainActivity extends SlidingActivity {
     private void mockData() {
         UserRight item = new UserRight();
         item.setMenuCode(MenuCode.ceo_team.toString());
-        item.setMenuName(getString(R.string.ceo_team_title));
+        item.setMenuName(getString(R.string.team_title));
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(5);
         listRight.add(item);
