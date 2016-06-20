@@ -10,8 +10,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -21,9 +19,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -105,12 +100,16 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
         });
 
-        // TODO: lk 2016/6/17 空白页UI未确定
         View emptyView = LayoutInflater.from(main).inflate(R.layout.layout_no_data, null);
         ((TextView) emptyView.findViewById(R.id.txt_content)).setText(R.string.with_order_collect_no_order);
         listviewMain.setEmptyView(emptyView);
 
         getData();
+
+        Intent intent = new Intent(main, WithOrderCollectBookInActivity.class);
+
+        WithOrderManageFragment.this.startActivityForResult(intent,
+                REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY);
     }
 
     private void getData() {
@@ -125,9 +124,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private void setData(ResultWithOrderClothingCollectList resultOrder) {
         orderList = resultOrder;
         adapter.setList(orderList.getOrderInfos());
-
         main.setAmountShow(type, orderList.getOrderInfos().size());
-
         adapter.notifyDataSetChanged();
     }
 
@@ -314,7 +311,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     // 开始收衣
                     if (order.getActualCount() <= 0) {
                         btnRightAction.setVisibility(View.VISIBLE);
-                        tvRightAction.setVisibility(View.INVISIBLE);
+                        tvRightAction.setVisibility(View.GONE);
 
                         btnRightAction.setText(getString(R.string.with_order_collect_btn_start_collect));
                     }
@@ -331,7 +328,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                 // 衣物转交
                 case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
-                    btnRightAction.setVisibility(View.INVISIBLE);
+                    btnRightAction.setVisibility(View.GONE);
                     tvRightAction.setVisibility(View.VISIBLE);
 
                     tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
@@ -349,8 +346,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
                 case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
                 default:
-                    btnRightAction.setVisibility(View.INVISIBLE);
-                    tvRightAction.setVisibility(View.INVISIBLE);
+                    btnRightAction.setVisibility(View.GONE);
+                    tvRightAction.setVisibility(View.GONE);
                     break;
             }
 
@@ -358,7 +355,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             tvReceivableCount.setText(order.getReceivableCount() + "");
             tvActualCount.setText(order.getActualCount() + "");
 
-            setClickEvent(position, tvDetail, ivDetail, btnRightAction, tvRightAction, tvCustomerPhone);
+            setClickEvent(isNew, position, tvDetail, ivDetail, btnRightAction, tvRightAction, tvCustomerPhone);
         }
     }
 

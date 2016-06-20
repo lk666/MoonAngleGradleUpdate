@@ -30,13 +30,13 @@ import cn.com.bluemoon.delivery.utils.DES;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
- * ClassName:DeliveryApi <br/>  
- * Function: TODO ADD FUNCTION. <br/>  
- * Reason:   TODO ADD REASON. <br/>  
- * Date:     2016年2月16日 上午9:25:36 <br/>  
+ * ClassName:DeliveryApi <br/>
+ * Function: TODO ADD FUNCTION. <br/>
+ * Reason:   TODO ADD REASON. <br/>
+ * Date:     2016年2月16日 上午9:25:36 <br/>
  * @author   allenli
  * @version
- * @since    JDK 1.6  
+ * @since    JDK 1.6
  * @see
  */
 /**
@@ -1649,4 +1649,20 @@ public class DeliveryApi {
 		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
+	/**
+	 * 2.2.1.2.	获取衣物配置项
+	 */
+	public static void getClothesTypeConfigs(String token, String typeCode, AsyncHttpResponseHandler handler){
+		if(null == token){
+			return;
+		}
+
+		Map<String, Object> params = new HashMap<>();
+		params.put("token", token);
+        params.put("typeCode", typeCode);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("washingService-controller/wash/getClothesTypeConfigs%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+	}
 }

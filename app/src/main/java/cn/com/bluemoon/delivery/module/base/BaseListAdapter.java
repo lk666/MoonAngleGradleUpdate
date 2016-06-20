@@ -63,10 +63,12 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
     /**
      * 设置点击事件
      */
-    protected void setClickEvent(int position, View... vs) {
+    protected void setClickEvent(boolean isNew, int position, View... vs) {
         for (View v :vs) {
             v.setTag(KEY_POSITON, position);
-            v.setOnClickListener(this);
+            if (isNew) {
+                v.setOnClickListener(this);
+            }
         }
     }
 
