@@ -51,6 +51,7 @@ import cn.com.bluemoon.lib.utils.LibConstants;
 public class WithOrderManageFragment extends BaseFragment implements OnListItemClickListener {
     private final static int REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY = 0x12;
     private static final int RESULT_CODE_MANUAL = 0x23;
+    private static final int REQUEST_CODE_MANUAL = 0x43;
 
     private ClothingTabActivity main;
     private ResultWithOrderClothingCollectList orderList;
@@ -105,11 +106,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         listviewMain.setEmptyView(emptyView);
 
         getData();
-
-        Intent intent = new Intent(main, WithOrderCollectBookInActivity.class);
-
-        WithOrderManageFragment.this.startActivityForResult(intent,
-                REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY);
     }
 
     private void getData() {
@@ -170,11 +166,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                     @Override
                     public void onBtnRight(View v) {
-                        // TODO: lk 2016/6/17 扫码自定义
-                        PublicUtil.openScanOrder(main, WithOrderManageFragment.this,
-                                getString(R.string.coupons_scan_code_title),
-                                getString(R.string.with_order_collect_manual_input_code_btn),
-                                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+                        goScanCode();
                     }
 
                     @Override
@@ -194,6 +186,20 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         actionBar.getImgRightView().setVisibility(View.VISIBLE);
     }
 
+    /**
+     * 打开扫码界面
+     */
+    private void goScanCode(){
+        PublicUtil.openScanOrder(main, WithOrderManageFragment.this,
+                getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+    }
+
+    /**
+     * 弹出拨打电话
+     * @param num
+     */
     private void call(String num) {
         PublicUtil.showCallPhoneDialog(main, num);
     }
@@ -207,21 +213,31 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
         switch (requestCode) {
             case Constants.REQUEST_SCAN:
+                // TODO: lk 2016/6/17 扫码返回
                 if (resultCode == Activity.RESULT_OK) {
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    // TODO: lk 2016/6/17 扫码返回
                     PublicUtil.showToast("扫码返回" + resultStr);
-                    // getData();
-                } else if (resultCode == RESULT_CODE_MANUAL) {
-                    // TODO: lk 2016/6/17 跳转到手动输入
-                    PublicUtil.showToast("跳转到手动输入");
-                    // 跳转到手动输入
-//                    ManualInputCodeActivity
-//                    Intent intent = new Intent(getActivity(),SignActivity.class);
-//                    intent.putExtra("orderId", orderClicked.getOrderId());
-//                    PendingReceiptFragment.this.startActivityForResult(intent, Constants.REQUEST_SCAN);
+                }
+                //   跳转到手动输入
+                else if (resultCode == RESULT_CODE_MANUAL) {
+                    Intent intent = new Intent(getActivity(), ManualInputCodeActivity.class);
+                    WithOrderManageFragment.this.startActivityForResult(intent, REQUEST_CODE_MANUAL);
                 }
                 break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // TODO 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity.RESULT_EXTRA_CODE);
+                    PublicUtil.showToast("输入码返回" + resultStr);
+                }
+                //   跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
+                break;
+
             // TODO: lk 2016/6/14  收衣登记返回
             case REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY:
                 if (resultCode == Activity.RESULT_OK) {
