@@ -1631,4 +1631,22 @@ public class DeliveryApi {
 		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
+	/************************ 洗衣服务 **********************************/
+	/**
+	 * 2.1.1.	获取洗衣服务订单信息
+	 * @param token
+     * @param handler
+     */
+	public static void getOrderInfos(String token,AsyncHttpResponseHandler handler){
+		if(null == token ){
+			return;
+		}
+		Map<String, Object> params = new HashMap<>();
+		params.put("token", token);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("washingService-controller/wash/getOrderInfos%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+	}
+
 }

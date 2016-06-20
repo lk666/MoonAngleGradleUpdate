@@ -22,12 +22,31 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
  */
 public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
     private final static int REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY = 0x13;
-    public final static String EXTRA_ORDER = "EXTRA_ORDER";
+    /**
+     * 洗衣服务订单号
+     */
+    public final static String EXTRA_OUTERCODE = "EXTRA_OUTERCODE";
+    /**
+     * 收衣单号
+     */
+    public final static String EXTRA_COLLECTCODE = "EXTRA_COLLECTCODE";
+
+    /**
+     * 洗衣服务订单号
+     */
+    private String outerCode;
+    /**
+     * 收衣单号
+     */
+    private String collectCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_with_order_collect_book_in);
+
+        outerCode = getIntent().getStringExtra(EXTRA_OUTERCODE);
+        collectCode = getIntent().getStringExtra(EXTRA_COLLECTCODE);
 
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override

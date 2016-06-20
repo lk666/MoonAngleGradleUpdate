@@ -17,6 +17,7 @@ import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderManag
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderRecordFragment;
 
 // TODO: lk 2016/6/16 可干掉与当前activity重复layout的资源文件 
+
 /**
  * 收衣公共界面
  * Created by lk on 2016/6/12.
@@ -92,6 +93,19 @@ public class ClothingTabActivity extends BaseFragmentActivity {
 //                amountTv.setVisibility(View.GONE);
 //            }
 //            TabTo(1);
+        }
+    }
+
+    public void setAmountShow(String type, int amount) {
+        switch (type) {
+            // 收衣管理
+            case WITH_ORDER_COLLECT_MANAGE:
+                if (amount > 0) {
+                    amountTv.setText(String.valueOf(amount));
+                    amountTv.setVisibility(View.VISIBLE);
+                } else {
+                    amountTv.setVisibility(View.GONE);
+                }
         }
     }
 

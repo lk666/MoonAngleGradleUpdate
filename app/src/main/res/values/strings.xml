@@ -642,6 +642,19 @@
     <string name="tab_title_with_order_collect_manage">收衣管理</string>
     <string name="tab_bottom_with_order_collect_manage">收衣管理</string>
     <string name="tab_bottom_with_order_collect_record">收衣记录</string>
+    <string name="with_order_collect_no_order">当前无订单数据</string>
+    <string name="with_order_collect_manual_input_code_btn">手动输入</string>
+    <string name="with_order_collect_collect_number_text">收衣单号:</string>
+    <string name="with_order_collect_btn_accept">接单</string>
+    <string name="with_order_collect_btn_start_collect">开始收衣</string>
+    <string name="with_order_collect_btn_continue_collect">继续收衣</string>
+    <string name="with_order_collect_btn_confirm_translate">确认接收</string>
+    <string name="with_order_collect_txt_cancle_accept">取消接收</string>
+    <string name="with_order_collect_txt_translate">衣物转交</string>
+    <string name="with_order_collect_txt_refuse_translate">拒绝接收</string>
+    <string name="with_order_collect_title_pay_total">总金额:</string>
+    <string name="with_order_collect_title_receivable_count">应收数量:</string>
+    <string name="with_order_collect_title_actual_count">实收数量:</string>
 
     <!-- 收衣登记 -->
     <string name="title_with_order_collect_book_in">收衣登记</string>
