@@ -20,6 +20,10 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -219,7 +223,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * @param result
      */
     private void setClothesTypeData(ResultClothesTypeList result) {
-        nameAdapter.setList(result.getClothesTypeConfigs());
+        List<ClothesType> clothesTypeConfigs = result.getClothesTypeConfigs();
+        Collections.sort(clothesTypeConfigs);
+
+        nameAdapter.setList(clothesTypeConfigs);
         nameAdapter.notifyDataSetChanged();
     }
 

@@ -102,7 +102,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         });
 
         View emptyView = LayoutInflater.from(main).inflate(R.layout.layout_no_data, null);
-        ((TextView) emptyView.findViewById(R.id.txt_content)).setText(R.string.with_order_collect_no_order);
+        ((TextView) emptyView.findViewById(R.id.txt_content)).setText(R.string
+                .with_order_collect_no_order);
         listviewMain.setEmptyView(emptyView);
 
         getData();
@@ -189,7 +190,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     /**
      * 打开扫码界面
      */
-    private void goScanCode(){
+    private void goScanCode() {
         PublicUtil.openScanOrder(main, WithOrderManageFragment.this,
                 getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
@@ -198,6 +199,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
     /**
      * 弹出拨打电话
+     *
      * @param num
      */
     private void call(String num) {
@@ -221,7 +223,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 //   跳转到手动输入
                 else if (resultCode == RESULT_CODE_MANUAL) {
                     Intent intent = new Intent(getActivity(), ManualInputCodeActivity.class);
-                    WithOrderManageFragment.this.startActivityForResult(intent, REQUEST_CODE_MANUAL);
+                    WithOrderManageFragment.this.startActivityForResult(intent,
+                            REQUEST_CODE_MANUAL);
                 }
                 break;
 
@@ -229,7 +232,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             case REQUEST_CODE_MANUAL:
                 // 数字码返回
                 if (resultCode == Activity.RESULT_OK) {
-                    String resultStr = data.getStringExtra(ManualInputCodeActivity.RESULT_EXTRA_CODE);
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
                     handleScaneCodeBack(resultStr);
                 }
                 //   跳转到扫码输入
@@ -238,18 +242,20 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 }
                 break;
 
-            // TODO: lk 2016/6/14  收衣登记返回
+            // 收衣登记返回，不管有没操作，统一刷一次数据
             case REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY:
-                if (resultCode == Activity.RESULT_OK) {
-                    getData();
-                }
+                getData();
+                break;
+            default:
                 break;
         }
     }
 
-    // TODO: lk 2016/6/20
+    // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
+
     /**
      * 处理扫码、手动输入数字码返回
+     *
      * @param code
      */
     private void handleScaneCodeBack(String code) {
@@ -277,12 +283,14 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            final WithOrderClothingCollectOrder order = (WithOrderClothingCollectOrder) getItem(position);
+            final WithOrderClothingCollectOrder order = (WithOrderClothingCollectOrder) getItem
+                    (position);
             if (order == null) {
                 return;
             }
 
-            TextView tvCollectNumberTitle = ViewHolder.get(convertView, R.id.tv_collect_number_title);
+            TextView tvCollectNumberTitle = ViewHolder.get(convertView, R.id
+                    .tv_collect_number_title);
             TextView tvNumber = ViewHolder.get(convertView, R.id.tv_number);
             View tvDetail = ViewHolder.get(convertView, R.id.tv_detail);
             View ivDetail = ViewHolder.get(convertView, R.id.iv_detail);
@@ -297,7 +305,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
             // 订单编号开头
             tvCollectNumberTitle.setVisibility(View.GONE);
-            if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder.OUTERCODE_TYPE_WASHORDER)) {
+            if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
+                    .OUTERCODE_TYPE_WASHORDER)) {
                 tvCollectNumberTitle.setVisibility(View.VISIBLE);
                 // 服务单号
                 tvNumber.setText(order.getCollectCode());
@@ -317,7 +326,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             }
 
             // 地址
-            tvAddress.setText(order.getAddress());
+            StringBuilder address = new StringBuilder(order.getProvince()).append(order.getCity())
+                    .append(order.getCounty()).append(order.getStreet()).append(order.getVillage
+                            ()).append(order.getAddress());
+            tvAddress.setText(address);
 
             switch (order.getWashStatus()) {
                 // 待接单
@@ -338,7 +350,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         btnRightAction.setVisibility(View.VISIBLE);
                         tvRightAction.setVisibility(View.GONE);
 
-                        btnRightAction.setText(getString(R.string.with_order_collect_btn_start_collect));
+                        btnRightAction.setText(getString(R.string
+                                .with_order_collect_btn_start_collect));
                     }
 
                     // 继续收衣
@@ -346,7 +359,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         btnRightAction.setVisibility(View.VISIBLE);
                         tvRightAction.setVisibility(View.VISIBLE);
 
-                        btnRightAction.setText(getString(R.string.with_order_collect_btn_continue_collect));
+                        btnRightAction.setText(getString(R.string
+                                .with_order_collect_btn_continue_collect));
                         tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
                     }
                     break;
@@ -364,8 +378,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     btnRightAction.setVisibility(View.VISIBLE);
                     tvRightAction.setVisibility(View.VISIBLE);
 
-                    btnRightAction.setText(getString(R.string.with_order_collect_btn_confirm_translate));
-                    tvRightAction.setText(getString(R.string.with_order_collect_txt_refuse_translate));
+                    btnRightAction.setText(getString(R.string
+                            .with_order_collect_btn_confirm_translate));
+                    tvRightAction.setText(getString(R.string
+                            .with_order_collect_txt_refuse_translate));
                     break;
                 case WithOrderClothingCollectOrder.WASH_STATUS_CONTINUE_LAUNDRYING:
                 case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
@@ -376,11 +392,12 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     break;
             }
 
-            tvPayTotal.setText((order.getPayTotal() / 100.00) + "");
+            tvPayTotal.setText((order.getPayTotal() / 100.0) + "");
             tvReceivableCount.setText(order.getReceivableCount() + "");
             tvActualCount.setText(order.getActualCount() + "");
 
-            setClickEvent(isNew, position, tvDetail, ivDetail, btnRightAction, tvRightAction, tvCustomerPhone);
+            setClickEvent(isNew, position, tvDetail, ivDetail, btnRightAction, tvRightAction,
+                    tvCustomerPhone);
         }
     }
 
@@ -413,13 +430,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     // 开始/继续收衣
                     case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
                         Intent intent = new Intent(main, WithOrderCollectBookInActivity.class);
-                        if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder.OUTERCODE_TYPE_ORDER)) {
-                            intent.putExtra(WithOrderCollectBookInActivity.EXTRA_OUTERCODE, order.getOuterCode());
-                            intent.putExtra(WithOrderCollectBookInActivity.EXTRA_COLLECTCODE, "");
-                        } else {
-                            intent.putExtra(WithOrderCollectBookInActivity.EXTRA_OUTERCODE, "");
-                            intent.putExtra(WithOrderCollectBookInActivity.EXTRA_COLLECTCODE, order.getCollectCode());
-                        }
+                        intent.putExtra(WithOrderCollectBookInActivity.EXTRA_OUTERCODE, order
+                                .getOuterCode() == null ? "" : order.getOuterCode());
+                        intent.putExtra(WithOrderCollectBookInActivity.EXTRA_COLLECTCODE, order
+                                .getCollectCode() == null ? "" : order.getCollectCode());
                         WithOrderManageFragment.this.startActivityForResult(intent,
                                 REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY);
                         break;

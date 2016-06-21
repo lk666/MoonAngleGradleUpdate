@@ -2,25 +2,46 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
 
-import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
-import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
-import cn.com.bluemoon.delivery.order.ReturnOrderActivity;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
 
-// TODO: lk 2016/6/14 界面
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+import cn.com.bluemoon.delivery.ClientStateManager;
+import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollectInfo;
+import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
  * 收衣登记
  * Created by luokai on 2016/6/12.
  */
 public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
+    private static final int RESULT_CODE_MANUAL = 0x23;
+    private static final int REQUEST_CODE_MANUAL = 0x43;
+
     private final static int REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY = 0x13;
     /**
      * 洗衣服务订单号
@@ -30,6 +51,36 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
      * 收衣单号
      */
     public final static String EXTRA_COLLECTCODE = "EXTRA_COLLECTCODE";
+    @Bind(R.id.tv_number)
+    TextView tvNumber;
+    @Bind(R.id.tv_customer_name)
+    TextView tvCustomerName;
+    @Bind(R.id.tv_customer_phone)
+    TextView tvCustomerPhone;
+    @Bind(R.id.tv_address)
+    TextView tvAddress;
+    @Bind(R.id.tv_pay_total)
+    TextView tvPayTotal;
+    @Bind(R.id.tv_receivable_count)
+    TextView tvReceivableCount;
+    @Bind(R.id.tv_actual_count)
+    TextView tvActualCount;
+    @Bind(R.id.tv_collect_code)
+    TextView tvCollectCode;
+    @Bind(R.id.sb_urgent)
+    SwitchButton sbUrgent;
+    @Bind(R.id.tv_appoint_back_time)
+    TextView tvAppointBackTime;
+    @Bind(R.id.v_div_appoint_back_time)
+    View vDivAppointBackTime;
+    @Bind(R.id.ll_appoint_back_time)
+    LinearLayout llAppointBackTime;
+    @Bind(R.id.lv_order_detail)
+    ListView lvOrderDetail;
+    @Bind(R.id.tv_actual_collect_count)
+    TextView tvActualCollectCount;
+    @Bind(R.id.lv_order_receive)
+    ListView lvOrderReceive;
 
     /**
      * 洗衣服务订单号
@@ -44,23 +95,171 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_with_order_collect_book_in);
+        ButterKnife.bind(this);
 
         outerCode = getIntent().getStringExtra(EXTRA_OUTERCODE);
         collectCode = getIntent().getStringExtra(EXTRA_COLLECTCODE);
 
-        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
+
+        sbUrgent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onClick(View view) {
-                // TODO: lk 2016/6/14 添加衣物
-                Intent intent = new Intent(WithOrderCollectBookInActivity.this,
-                        ClothingBookInActivity.class);
-                intent.putExtra(ClothingBookInActivity.EXTRA_COLLECT_CODE, collectCode);
-                intent.putExtra(ClothingBookInActivity.EXTRA_OUTER_CODE, outerCode);
-                intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, "类型码");
-                WithOrderCollectBookInActivity.this.startActivityForResult(intent,
-                        REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    llAppointBackTime.setVisibility(View.VISIBLE);
+                    vDivAppointBackTime.setVisibility(View.VISIBLE);
+                } else {
+                    llAppointBackTime.setVisibility(View.VISIBLE);
+                    vDivAppointBackTime.setVisibility(View.VISIBLE);
+                }
+                // TODO: lk 2016/6/21 发送加急更改
             }
         });
+
+        getData();
+    }
+
+    private void getData() {
+        String token = ClientStateManager.getLoginToken(this);
+        showProgressDialog();
+        DeliveryApi.startCollectInfo(token, outerCode, collectCode, startCollectInfoHandler);
+    }
+
+    /**
+     * 获取收衣登记界面数据返回
+     */
+    AsyncHttpResponseHandler startCollectInfoHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            // TODO: lk 2016/6/21 待测试
+            LogUtils.d(getDefaultTag(), "startCollectInfo result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultStartCollectInfo result = JSON.parseObject(responseString,
+                        ResultStartCollectInfo.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    setStartCollectInfo(result);
+                } else {
+                    PublicUtil.showErrorMsg(WithOrderCollectBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    /**
+     * 设置数据
+     *
+     * @param result
+     */
+    private void setStartCollectInfo(ResultStartCollectInfo result) {
+        collectCode = result.getOrderReceive().getCollectCode();
+        outerCode = result.getOuterCode();
+
+        tvNumber.setText(result.getOuterCode());
+        tvCustomerName.setText(result.getCustomerName());
+
+        tvCustomerPhone.setText(result.getCustomerPhone());
+        tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvCustomerPhone.getPaint().setAntiAlias(true);
+
+        StringBuilder address = new StringBuilder(result.getProvince()).append(result.getCity())
+                .append(result.getCounty()).append(result.getStreet()).append(result.getVillage()
+                ).append(result.getAddress());
+        tvAddress.setText(address);
+
+        tvPayTotal.setText(result.getPayTotal() / 100.0 + "");
+        tvReceivableCount.setText(result.getReceivableCount() + "");
+        tvActualCount.setText(result.getActualCount() + "");
+
+        // 包装袋码（收衣单条码）
+        tvCollectCode.setEnabled(true);
+
+        sbUrgent.setEnabled(true);
+        sbUrgent.setChecked(result.getIsUrgent() == 1);
+
+        tvAppointBackTime.setText(result.getAppointBackTime() <= 0 ? "" : DateUtil.getTime(result
+                .getAppointBackTime(), "YYYY-MM-DD hh:mm"));
+
+        tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
+                " " + result.getOrderReceive().getCollectCount());
+
+// TODO: lk 2016/6/21 做到这里，暂存
+//        lvOrderReceive;
+//        lvOrderDetail;
+    }
+
+
+//
+//        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                // TODO: lk 2016/6/14 添加衣物
+//                Intent intent = new Intent(WithOrderCollectBookInActivity.this,
+//                        ClothingBookInActivity.class);
+//                intent.putExtra(ClothingBookInActivity.EXTRA_COLLECT_CODE, collectCode);
+//                intent.putExtra(ClothingBookInActivity.EXTRA_OUTER_CODE, outerCode);
+//                intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, "类型码");
+//                WithOrderCollectBookInActivity.this.startActivityForResult(intent,
+//                        REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
+//            }
+//        });
+//    }
+
+    @Override
+    protected int getActionBarTitleRes() {
+        return R.string.title_with_order_collect_book_in;
+    }
+
+    @OnClick({R.id.tv_customer_phone, R.id.tv_collect_code, R.id.tv_appoint_back_time})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            // 打电话
+            case R.id.tv_customer_phone:
+                PublicUtil.callPhone(WithOrderCollectBookInActivity.this, tvCustomerPhone.getText
+                        ().toString());
+                break;
+
+            // 扫收衣单条码
+            case R.id.tv_collect_code:
+                goScanCode();
+                break;
+
+            // TODO: lk 2016/6/21 预约时间
+            case R.id.tv_appoint_back_time:
+                break;
+        }
+    }
+
+    /**
+     * 打开扫码界面
+     */
+    private void goScanCode() {
+        PublicUtil.openScanOrder(this, null, getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+    }
+
+    // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
+
+    /**
+     * 处理扫码、手动输入数字码返回
+     *
+     * @param code
+     */
+    private void handleScaneCodeBack(String code) {
+        PublicUtil.showToast("处理扫码、手动输入数字码返回" + code);
     }
 
     @Override
@@ -71,18 +270,42 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
         }
 
         switch (requestCode) {
-
             // TODO: lk 2016/6/14  衣物登记返回
             case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
                 if (resultCode == Activity.RESULT_OK) {
 
                 }
                 break;
-        }
-    }
 
-    @Override
-    protected int getActionBarTitleRes() {
-        return R.string.title_with_order_collect_book_in;
+            case Constants.REQUEST_SCAN:
+                // 扫码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    handleScaneCodeBack(resultStr);
+                }
+                //   跳转到手动输入
+                else if (resultCode == RESULT_CODE_MANUAL) {
+                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
+                }
+                break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
+                    handleScaneCodeBack(resultStr);
+                }
+                //  跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 }

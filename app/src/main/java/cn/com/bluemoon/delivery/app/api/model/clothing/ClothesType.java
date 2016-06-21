@@ -4,7 +4,7 @@ package cn.com.bluemoon.delivery.app.api.model.clothing;
  * 衣物名称项
  * Created by lk on 2016/6/20.
  */
-public class ClothesType {
+public class ClothesType implements Comparable<ClothesType> {
 
     /**
      * 衣物名称
@@ -69,5 +69,10 @@ public class ClothesType {
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    @Override
+    public int compareTo(ClothesType another) {
+        return sequenceNo - another.sequenceNo;
     }
 }

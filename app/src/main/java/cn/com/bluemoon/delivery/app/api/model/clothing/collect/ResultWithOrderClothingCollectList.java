@@ -5,7 +5,7 @@ import java.util.List;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**
- * 有订单收衣服务器返回json（不包含timestamp）
+ * 有订单收衣服务器返回json
  * Created by luokai on 2016/6/13.
  */
 public class ResultWithOrderClothingCollectList extends ResultBase {

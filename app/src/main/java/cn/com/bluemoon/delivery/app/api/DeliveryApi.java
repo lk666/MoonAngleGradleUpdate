@@ -14,10 +14,10 @@ import java.util.Map;
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.app.AppContext;
-import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
 import cn.com.bluemoon.delivery.app.api.model.Storehouse;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
+import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreDeliverVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreReceiveVo;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.Product;
@@ -218,7 +218,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.2 根据类型获取订单列表 */
-	/* 返回： ResultOrderVo */
+    /* 返回： ResultOrderVo */
     public static void getOrdersByType(String token, OrderType type,
                                        AsyncHttpResponseHandler handler) {
 
@@ -236,7 +236,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.3 根据外部订单编号获取订单详情 */
-	/* 返回： ResultOrderInfo */
+    /* 返回： ResultOrderInfo */
     public static void getOrderDetailByOrderId(String token, String orderId,
                                                AsyncHttpResponseHandler handler) {
 
@@ -358,8 +358,10 @@ public class DeliveryApi {
     /* 2.2.9 订单退换货 */
 	/* 返回： ResultBase */
     public static void returnOrExchangeGoods(String token, String orderId,
-                                             String dispatchId, String type, String orderSource, String msg,
-                                             String productId, String productType, int productAmount,
+                                             String dispatchId, String type, String orderSource,
+                                             String msg,
+                                             String productId, String productType, int
+                                                     productAmount,
                                              int productTotal, byte[] file, String explain,
                                              AsyncHttpResponseHandler handler) {
 
@@ -397,7 +399,8 @@ public class DeliveryApi {
     /* 2.2.9.1 订单退货 */
 	/* 返回： ResultBase */
     public static void returnOrExchangeGoods(String token, String orderId,
-                                             String dispatchId, String orderSource, String msg, byte[] file,
+                                             String dispatchId, String orderSource, String msg,
+                                             byte[] file,
                                              String explain, AsyncHttpResponseHandler handler) {
         returnOrExchangeGoods(token, orderId, dispatchId, "return",
                 orderSource, msg, "-1", "all", -1, -1, file, explain, handler);
@@ -406,7 +409,8 @@ public class DeliveryApi {
     /* 2.2.10 获取历史订单列表 */
 	/* 返回： ResultOrder */
     public static void getHistoryOrders(String token,
-                                        String orderType, int count, long timestamp, long startTime, long endTime,
+                                        String orderType, int count, long timestamp, long
+                                                startTime, long endTime,
                                         AsyncHttpResponseHandler handler) {
 
         if (null == token || orderType == null) {
@@ -521,7 +525,8 @@ public class DeliveryApi {
     /* 2.4.2 月亮小屋APP扫描天使二维码关系绑定情况 */
 	/* 返回： ResultBindState */
     public static void findCustomerBindingState(String token,
-                                                String customerCode, AsyncHttpResponseHandler handler) {
+                                                String customerCode, AsyncHttpResponseHandler
+                                                        handler) {
 
         if (null == token || StringUtils.isEmpty(customerCode)) {
             return;
@@ -564,7 +569,8 @@ public class DeliveryApi {
 
     /* 2.5.1 扫描自提码获取订单信息接口 */
 	/* 返回： ResultOrderInfoPickup */
-    public static void getOrderInfo(String token, String pickupCode, AsyncHttpResponseHandler handler) {
+    public static void getOrderInfo(String token, String pickupCode, AsyncHttpResponseHandler
+            handler) {
 
         if (null == token || StringUtils.isEmpty(pickupCode)) {
             return;
@@ -581,7 +587,8 @@ public class DeliveryApi {
 
     /* 2.5.2 确定自提订单 */
 	/* 返回： ResultBase */
-    public static void pickupOrder(String signType, String token, ResultOrderInfoPickup result, AsyncHttpResponseHandler handler) {
+    public static void pickupOrder(String signType, String token, ResultOrderInfoPickup result,
+                                   AsyncHttpResponseHandler handler) {
         String orderId = result.getOrderId();
         String orderSource = result.getOrderSource();
         String storehouseCode = result.getStorehouseCode();
@@ -646,7 +653,8 @@ public class DeliveryApi {
 
     /* 2.8.1 获取场馆/场次列表 */
 	/* 返回： ResultVenueInfo */
-    public static void getVenueList(String token, String type, String venueCode, AsyncHttpResponseHandler handler) {
+    public static void getVenueList(String token, String type, String venueCode,
+                                    AsyncHttpResponseHandler handler) {
 
         if (null == token || StringUtils.isEmpty(type)) {
             return;
@@ -665,7 +673,8 @@ public class DeliveryApi {
 
     /*2.8.2 科技馆检票扫码 */
 	/* 返回： ResultAppointmentInfo */
-    public static void checkScanCode(String token, String ticketCode, AsyncHttpResponseHandler handler) {
+    public static void checkScanCode(String token, String ticketCode, AsyncHttpResponseHandler
+            handler) {
 
         if (null == token || StringUtils.isEmpty(ticketCode)) {
             return;
@@ -683,7 +692,8 @@ public class DeliveryApi {
 
     /*2.8.3 扫描门票后进场 */
 	/* 返回： ResultBase */
-    public static void comesInto(String token, String venueCode, String timesCode, String ticketCode, AsyncHttpResponseHandler handler) {
+    public static void comesInto(String token, String venueCode, String timesCode, String
+            ticketCode, AsyncHttpResponseHandler handler) {
 
         if (null == token || StringUtils.isEmpty(ticketCode)) {
             return;
@@ -724,7 +734,8 @@ public class DeliveryApi {
 
     /*已收货-汇总接口 */
 	/* 返回： ResultOrderVo */
-    public static void getReceiptOrders(String token, long startDate, long endDate, AsyncHttpResponseHandler handler) {
+    public static void getReceiptOrders(String token, long startDate, long endDate,
+                                        AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
@@ -742,7 +753,8 @@ public class DeliveryApi {
 
     /*待收货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
-    public static void getReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
+    public static void getReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler
+            handler) {
         if (null == token || StringUtils.isEmpty(orderCode)) {
             return;
         }
@@ -780,7 +792,8 @@ public class DeliveryApi {
 
     /*待发货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
-    public static void getDeliverDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
+    public static void getDeliverDetail(String token, String orderCode, AsyncHttpResponseHandler
+            handler) {
         if (null == token) {
             return;
         }
@@ -798,7 +811,8 @@ public class DeliveryApi {
 
     /*已发货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
-    public static void getOutDeliverDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
+    public static void getOutDeliverDetail(String token, String orderCode,
+                                           AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -816,7 +830,8 @@ public class DeliveryApi {
 
     /*已收货详情*/
 	/* 返回： ResultDeliverOrderDetailInfo */
-    public static void getOutReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler handler) {
+    public static void getOutReceiveDetail(String token, String orderCode,
+                                           AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -835,7 +850,8 @@ public class DeliveryApi {
 
     /*已发货-汇总接口 */
 	/* 返回： ResultOrderVo */
-    public static void getOutOrders(String token, long startDate, long endDate, AsyncHttpResponseHandler handler) {
+    public static void getOutOrders(String token, long startDate, long endDate,
+                                    AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
@@ -914,7 +930,8 @@ public class DeliveryApi {
 
     /*仓库收货地址查询接口 */
 	/* 返回： ResultMallStoreRecieverAddress */
-    public static void queryReceiveAddressByStoreCode(String token, String storeCode, AsyncHttpResponseHandler handler) {
+    public static void queryReceiveAddressByStoreCode(String token, String storeCode,
+                                                      AsyncHttpResponseHandler handler) {
 
         if (StringUtil.isEmpty(token) || StringUtil.isEmpty(storeCode)) {
             return;
@@ -932,7 +949,8 @@ public class DeliveryApi {
 
     /*仓库地址新增与编辑接口 */
 	/* 返回： Result */
-    public static void manageReceiveAddress(String token, MallStoreRecieverAddress mallStoreRecieverAddress, AsyncHttpResponseHandler handler) {
+    public static void manageReceiveAddress(String token, MallStoreRecieverAddress
+            mallStoreRecieverAddress, AsyncHttpResponseHandler handler) {
 
         if (StringUtil.isEmpty(token) || null == mallStoreRecieverAddress) {
             return;
@@ -950,7 +968,8 @@ public class DeliveryApi {
 
     /*默认仓库地址修改接口 */
 	/* 返回： Result */
-    public static void modifyDefaultAddress(String token, String storeCode, int addressId, AsyncHttpResponseHandler handler) {
+    public static void modifyDefaultAddress(String token, String storeCode, int addressId,
+                                            AsyncHttpResponseHandler handler) {
 
         if (StringUtil.isEmpty(token) || StringUtil.isEmpty(storeCode) || addressId == 0) {
             return;
@@ -969,7 +988,8 @@ public class DeliveryApi {
 
     /*删除仓库收货地址 */
 	/* 返回： Result */
-    public static void deleteReceiveAddress(String token, int addressId, AsyncHttpResponseHandler handler) {
+    public static void deleteReceiveAddress(String token, int addressId, AsyncHttpResponseHandler
+            handler) {
 
         if (StringUtil.isEmpty(token) || addressId == 0) {
             return;
@@ -987,7 +1007,8 @@ public class DeliveryApi {
 
     /* 正常品/不良品 库存详情查询 */
 	/* 返回： ResultProductDetail */
-    public static void queryStockDetail(String token, String storeCode, ProductType productType, AsyncHttpResponseHandler handler) {
+    public static void queryStockDetail(String token, String storeCode, ProductType productType,
+                                        AsyncHttpResponseHandler handler) {
 
         if (null == token || StringUtils.isEmpty(storeCode)) {
             return;
@@ -1030,7 +1051,8 @@ public class DeliveryApi {
                 "moonRegion/region/getRegionSelect.action%s",
                 ApiClientHelper.getParamUrl());
 
-        ApiHttpClient.postDirect(AppContext.getInstance(), String.format(ApiHttpClient.ADDRESS_URL, url), jsonString, handler);
+        ApiHttpClient.postDirect(AppContext.getInstance(), String.format(ApiHttpClient
+                .ADDRESS_URL, url), jsonString, handler);
 
     }
 
@@ -1054,7 +1076,8 @@ public class DeliveryApi {
 
     /*2.9.2考勤打卡扫码 */
 	/* 返回： ResultCheckScanCode */
-    public static void checkScanCodeCard(String token, String attendanceCode, AsyncHttpResponseHandler handler) {
+    public static void checkScanCodeCard(String token, String attendanceCode,
+                                         AsyncHttpResponseHandler handler) {
 
         if (null == token || StringUtils.isEmpty(attendanceCode)) {
             return;
@@ -1072,7 +1095,8 @@ public class DeliveryApi {
 
     /*2.9.3保存更新打卡信息 */
 	/* 返回： ResultBase */
-    public static void confirmAttendance(String token, PunchCard punchCard, String workTask, AsyncHttpResponseHandler handler) {
+    public static void confirmAttendance(String token, PunchCard punchCard, String workTask,
+                                         AsyncHttpResponseHandler handler) {
 
         if (null == token || punchCard == null || StringUtils.isEmpty(workTask)) {
             return;
@@ -1116,7 +1140,8 @@ public class DeliveryApi {
 
     /* 2.9.4 展示打卡信息 */
 	/* 返回： ResultGetProduct */
-    public static void getProductList(String token, String condition, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getProductList(String token, String condition, long timestamp,
+                                      AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
@@ -1150,7 +1175,8 @@ public class DeliveryApi {
 
 
     /*收货和发货详情获取单据图片列表*/
-    public static void getPicDetail(String token, String relativeOrderCode, AsyncHttpResponseHandler handler) {
+    public static void getPicDetail(String token, String relativeOrderCode,
+                                    AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -1167,7 +1193,8 @@ public class DeliveryApi {
     }
 
     /* 上传单据图片 */
-    public static void uploadTicketPic(String token, String relativeOrderCode, String operateType, Bitmap file,
+    public static void uploadTicketPic(String token, String relativeOrderCode, String
+            operateType, Bitmap file,
                                        AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -1208,7 +1235,8 @@ public class DeliveryApi {
 
     /* 2.9.13 展示打卡记录 */
 	/* 返回： ResultPunchCardList */
-    public static void getPunchCardList(String token, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getPunchCardList(String token, long timestamp, AsyncHttpResponseHandler
+            handler) {
         if (null == token) {
             return;
         }
@@ -1223,7 +1251,8 @@ public class DeliveryApi {
 
     /* 2.9.14 选择上班点（分页） */
 	/* 返回： ResultWorkPlaceList */
-    public static void getWorkplaceList(String token, String condition, int count, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getWorkplaceList(String token, String condition, int count, long
+            timestamp, AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -1240,7 +1269,8 @@ public class DeliveryApi {
 
     /* 2.9.15 展示工作任务 */
 	/* 返回： ResultGetWorkTask */
-    public static void getWorkTask(String token, String workTaskType, AsyncHttpResponseHandler handler) {
+    public static void getWorkTask(String token, String workTaskType, AsyncHttpResponseHandler
+            handler) {
 
         if (null == token || StringUtils.isEmpty(workTaskType)) {
             return;
@@ -1256,7 +1286,8 @@ public class DeliveryApi {
 
     /* 2.9.6 保存更新工作日志 */
 	/* 返回： ResultBase */
-    public static void confirmWorkDiary(String token, String diaryContent, AsyncHttpResponseHandler handler) {
+    public static void confirmWorkDiary(String token, String diaryContent,
+                                        AsyncHttpResponseHandler handler) {
 
         if (null == token || StringUtils.isEmpty(diaryContent)) {
             return;
@@ -1287,7 +1318,8 @@ public class DeliveryApi {
 
     /* 2.9.9 保存更新日报 */
 	/* 返回： ResultBase */
-    public static void confirmWorkDaily(String token, int totalBreedSalesNum, int totalSalesNum, Product[] wd, AsyncHttpResponseHandler handler) {
+    public static void confirmWorkDaily(String token, int totalBreedSalesNum, int totalSalesNum,
+                                        Product[] wd, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
@@ -1341,7 +1373,8 @@ public class DeliveryApi {
 
     /* 2.9.16 根据主键获取打卡信息 */
 	/* 返回： ResultGetPunchCardById */
-    public static void getPunchCardById(String token, long punchCardId, AsyncHttpResponseHandler handler) {
+    public static void getPunchCardById(String token, long punchCardId, AsyncHttpResponseHandler
+            handler) {
 
         if (null == token || punchCardId == 0) {
             return;
@@ -1374,8 +1407,10 @@ public class DeliveryApi {
 
 
     /*提交发货详情*/
-    public static void getSubmitDeliverDetail(String token, String orderCode, long deliDate, String outBackup
-            , int deliStoreAddrId, List<ProductPreDeliverVo> outOrderDetail, AsyncHttpResponseHandler handler) {
+    public static void getSubmitDeliverDetail(String token, String orderCode, long deliDate,
+                                              String outBackup
+            , int deliStoreAddrId, List<ProductPreDeliverVo> outOrderDetail,
+                                              AsyncHttpResponseHandler handler) {
         if (null == token || StringUtils.isEmpty(orderCode)) {
             return;
         }
@@ -1395,8 +1430,10 @@ public class DeliveryApi {
 
 
     /*提交收货详情*/
-    public static void getSubmitReceiveDetail(String token, String orderCode, long reDate, int reStoreAddrId,
-                                              List<ProductPreReceiveVo> receiptOrderDetail, AsyncHttpResponseHandler handler) {
+    public static void getSubmitReceiveDetail(String token, String orderCode, long reDate, int
+            reStoreAddrId,
+                                              List<ProductPreReceiveVo> receiptOrderDetail,
+                                              AsyncHttpResponseHandler handler) {
         if (null == token || StringUtils.isEmpty(orderCode)) {
             return;
         }
@@ -1431,7 +1468,8 @@ public class DeliveryApi {
 
     /*2.10.1查询消费者基本信息*/
 	/*返回：ResultUserBase*/
-    public static void getCustomerInfo(String token, String contents, AsyncHttpResponseHandler handler) {
+    public static void getCustomerInfo(String token, String contents, AsyncHttpResponseHandler
+            handler) {
         if (null == token || contents == null) {
             return;
         }
@@ -1462,7 +1500,8 @@ public class DeliveryApi {
 
     /*2.10.3人工发券*/
 	/*返回：ResultBase*/
-    public static void mensendCoupon(String token, String mobile, String activityCode, List<Coupon> coupons, AsyncHttpResponseHandler handler) {
+    public static void mensendCoupon(String token, String mobile, String activityCode,
+                                     List<Coupon> coupons, AsyncHttpResponseHandler handler) {
         if (null == token || StringUtils.isEmpty(mobile)
                 || StringUtils.isEmpty(activityCode) || coupons == null) {
             return;
@@ -1481,7 +1520,8 @@ public class DeliveryApi {
 
     /*2.10.4获取天使推送记录*/
 	/*返回：ResultMensendLog*/
-    public static void getMensendCouponLog(String token, long date, AsyncHttpResponseHandler handler) {
+    public static void getMensendCouponLog(String token, long date, AsyncHttpResponseHandler
+            handler) {
         if (null == token) {
             return;
         }
@@ -1518,7 +1558,8 @@ public class DeliveryApi {
 
     /*2.11.2 消息列表*/
 	/*返回：ResultMessages*/
-    public static void getMessageList(String token, int pageSize, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getMessageList(String token, int pageSize, long timestamp,
+                                      AsyncHttpResponseHandler handler) {
         if (null == token || pageSize <= 0) {
             return;
         }
@@ -1535,7 +1576,8 @@ public class DeliveryApi {
 
     /*2.11.3通知列表*/
 	/*返回：ResultInfos*/
-    public static void getInformationList(String token, int pageSize, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getInformationList(String token, int pageSize, long timestamp,
+                                          AsyncHttpResponseHandler handler) {
         if (null == token || pageSize <= 0) {
             return;
         }
@@ -1551,7 +1593,8 @@ public class DeliveryApi {
 
     /*2.11.4通知详情*/
 	/*返回：ResultInfoDetail*/
-    public static void getInfoDetail(String token, String infoId, AsyncHttpResponseHandler handler) {
+    public static void getInfoDetail(String token, String infoId, AsyncHttpResponseHandler
+            handler) {
         if (null == token || StringUtils.isEmpty(infoId)) {
             return;
         }
@@ -1581,7 +1624,8 @@ public class DeliveryApi {
 
     /*2.11.6知识库文章详情*/
 	/*返回：ResultPaperDetail*/
-    public static void getPaperDetail(String token, String paperId, AsyncHttpResponseHandler handler) {
+    public static void getPaperDetail(String token, String paperId, AsyncHttpResponseHandler
+            handler) {
         if (null == token || StringUtils.isEmpty(paperId)) {
             return;
         }
@@ -1597,7 +1641,8 @@ public class DeliveryApi {
 
     /*2.11.7收藏列表*/
 	/*返回：ResultFavorites*/
-    public static void getCollectList(String token, int pageSize, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getCollectList(String token, int pageSize, long timestamp,
+                                      AsyncHttpResponseHandler handler) {
         if (null == token || pageSize <= 0) {
             return;
         }
@@ -1613,7 +1658,8 @@ public class DeliveryApi {
 
     /*2.11.8收藏/取消收藏*/
 	/*返回：ResultBase*/
-    public static void collectPaper(String token, String paperId, boolean isCollect, AsyncHttpResponseHandler handler) {
+    public static void collectPaper(String token, String paperId, boolean isCollect,
+                                    AsyncHttpResponseHandler handler) {
         if (null == token || StringUtils.isEmpty(paperId)) {
             return;
         }
@@ -1631,8 +1677,7 @@ public class DeliveryApi {
     /**
      * 2.1.1.	获取洗衣服务订单信息
      *
-     * @param token
-     * @param handler
+     * @param token String	Y		登录凭证
      */
     public static void getOrderInfos(String token, AsyncHttpResponseHandler handler) {
         if (null == token) {
@@ -1648,8 +1693,11 @@ public class DeliveryApi {
 
     /**
      * 2.2.1.2.	获取衣物配置项
+     *
+     * @param token String	Y		登录凭证
      */
-    public static void getClothesTypeConfigs(String token, String typeCode, AsyncHttpResponseHandler handler) {
+    public static void getClothesTypeConfigs(String token, String typeCode,
+                                             AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -1701,11 +1749,32 @@ public class DeliveryApi {
         params.put("clothesImgIds", clothesImgIds);
         params.put("outer_code", outer_code);
 
-
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerCollectInfo%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /**
+     * 2.1.4.1.	收衣登记
+     *
+     * @param token       String	Y		登录凭证
+     * @param outerCode   String	N		洗衣服务订单号
+     * @param collectCode String	N		收衣单号
+     */
+    public static void startCollectInfo(String token, String outerCode, String collectCode,
+                                        AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("outerCode", outerCode);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/registerCollectInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 }
