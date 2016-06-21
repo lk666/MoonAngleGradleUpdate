@@ -677,4 +677,13 @@
     <string name="clothing_book_in_phote_hint">首张为正面整体照，其他拍摄瑕疵部位</string>
     <string name="clothing_book_in_phote_most">（最多十张）</string>
 
+
+
+
+    <string name="clothing_deliver_code">接收人编号</string>
+    <string name="clothing_btn_search">查 询</string>
+    <string name="clothing_deliver_name">接收人姓名</string>
+    <string name="clothing_deliver_phone">接收人电话</string>
+    <string name="clothing_deliver_code_hint">请输入转交人编码</string>
+    <string name="clothing_deliver_mark_hint">请输入备注，最多50字</string>
 </resources>

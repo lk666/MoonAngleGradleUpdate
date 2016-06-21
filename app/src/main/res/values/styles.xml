@@ -36,6 +36,9 @@
         <item name="android:background">@color/line_soild_bg</item>
     </style>
 
+
+
+
     <style name="line_solid_style_bold">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">1dp</item>
@@ -53,6 +56,13 @@
         <item name="android:layout_height">1dp</item>
         <item name="android:background">@drawable/dotted_line</item>
         <item name="android:layerType">software</item>
+    </style>
+
+    <style name="row_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@color/view_bg</item>
+        <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="btn_red">
