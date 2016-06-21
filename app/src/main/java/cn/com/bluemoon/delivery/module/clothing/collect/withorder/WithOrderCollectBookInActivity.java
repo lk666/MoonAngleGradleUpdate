@@ -1,12 +1,14 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -24,21 +26,28 @@ import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OrderDetailItem;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollectInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
  * 收衣登记
  * Created by luokai on 2016/6/12.
  */
-public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
+public class WithOrderCollectBookInActivity extends BaseActionBarActivity implements
+        OnListItemClickListener {
     private static final int RESULT_CODE_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
 
@@ -91,6 +100,9 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
      */
     private String collectCode;
 
+    private ClothesInfoAdapter clothesInfoAdapter;
+    private OrderDetailAdapter orderDetailAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -99,7 +111,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
 
         outerCode = getIntent().getStringExtra(EXTRA_OUTERCODE);
         collectCode = getIntent().getStringExtra(EXTRA_COLLECTCODE);
-
 
         sbUrgent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -114,6 +125,12 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
                 // TODO: lk 2016/6/21 发送加急更改
             }
         });
+
+        clothesInfoAdapter = new ClothesInfoAdapter(this, this);
+        lvOrderReceive.setAdapter(clothesInfoAdapter);
+
+        orderDetailAdapter = new OrderDetailAdapter(this, this);
+        lvOrderDetail.setAdapter(orderDetailAdapter);
 
         getData();
     }
@@ -195,27 +212,12 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
         tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
                 " " + result.getOrderReceive().getCollectCount());
 
-// TODO: lk 2016/6/21 做到这里，暂存
-//        lvOrderReceive;
-//        lvOrderDetail;
+        clothesInfoAdapter.setList(result.getOrderReceive().getClothesInfo());
+        clothesInfoAdapter.notifyDataSetInvalidated();
+
+        orderDetailAdapter.setList(result.getOrderDetail());
+        orderDetailAdapter.notifyDataSetInvalidated();
     }
-
-
-//
-//        findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                // TODO: lk 2016/6/14 添加衣物
-//                Intent intent = new Intent(WithOrderCollectBookInActivity.this,
-//                        ClothingBookInActivity.class);
-//                intent.putExtra(ClothingBookInActivity.EXTRA_COLLECT_CODE, collectCode);
-//                intent.putExtra(ClothingBookInActivity.EXTRA_OUTER_CODE, outerCode);
-//                intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, "类型码");
-//                WithOrderCollectBookInActivity.this.startActivityForResult(intent,
-//                        REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
-//            }
-//        });
-//    }
 
     @Override
     protected int getActionBarTitleRes() {
@@ -306,6 +308,111 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
 
             default:
                 break;
+        }
+    }
+
+    /**
+     * 收衣明细Adapter
+     */
+    class ClothesInfoAdapter extends BaseListAdapter<ClothesInfo> {
+        public ClothesInfoAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
+        }
+
+        @Override
+        protected int getLayoutId() {
+            return R.layout.item_with_order_clothes_info;
+        }
+
+        @Override
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            final ClothesInfo item = (ClothesInfo) getItem(position);
+            if (item == null) {
+                return;
+            }
+
+            ImageView ivClothImg = ViewHolder.get(convertView, R.id.iv_cloth_img);
+            TextView tvClothesCode = ViewHolder.get(convertView, R.id.tv_clothes_code);
+            TextView tvTypeName = ViewHolder.get(convertView, R.id.tv_type_name);
+            TextView tvClothesName = ViewHolder.get(convertView, R.id.tv_clothes_name);
+
+            tvClothesCode.setText(item.getClothesCode());
+            tvTypeName.setText(item.getTypeName());
+            tvClothesName.setText(item.getClothesName());
+
+            ImageLoaderUtil.displayImage(context, item.getImgPath(), ivClothImg);
+
+            setClickEvent(isNew, position, convertView);
+        }
+    }
+
+    /**
+     * 衣物类型Adapter
+     */
+    class OrderDetailAdapter extends BaseListAdapter<OrderDetailItem> {
+        public OrderDetailAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
+        }
+
+        @Override
+        protected int getLayoutId() {
+            return R.layout.item_with_order_detail;
+        }
+
+        @Override
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            final OrderDetailItem item = (OrderDetailItem) getItem(position);
+            if (item == null) {
+                return;
+            }
+
+            View vAdd = ViewHolder.get(convertView, R.id.v_add);
+            TextView tvTypeName = ViewHolder.get(convertView, R.id.tv_type_name);
+            TextView tvReceivableCount = ViewHolder.get(convertView, R.id.tv_receivable_count);
+            TextView tvActualCount = ViewHolder.get(convertView, R.id.tv_actual_count);
+
+            tvTypeName.setText(item.getTypeName());
+
+            int receivableCount = item.getReceivableCount();
+            tvReceivableCount.setText(getString(R.string
+                    .with_order_collect_appoint_receivable_count) + receivableCount);
+
+            int actualCount = item.getActualCount();
+            tvActualCount.setText(getString(R.string
+                    .with_order_collect_appoint_actual_count) + actualCount);
+
+            // 可点击
+            if (receivableCount > actualCount) {
+                vAdd.setEnabled(true);
+            }
+            // 不可点击
+            else {
+                vAdd.setEnabled(false);
+            }
+
+            setClickEvent(isNew, position, vAdd);
+        }
+    }
+
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+        // 点击收衣明细项
+        if (item instanceof ClothesInfo) {
+            ClothesInfo info = (ClothesInfo) item;
+            // TODO: lk 2016/6/21  点击收衣明细项
+        }
+
+        // 点击洗衣类型项的加号
+        else if (item instanceof OrderDetailItem) {
+            OrderDetailItem type = (OrderDetailItem) item;
+            //  添加衣物
+            Intent intent = new Intent(WithOrderCollectBookInActivity.this,
+                    ClothingBookInActivity.class);
+            intent.putExtra(ClothingBookInActivity.EXTRA_COLLECT_CODE, collectCode);
+            intent.putExtra(ClothingBookInActivity.EXTRA_OUTER_CODE, outerCode);
+            intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, type.getTypeCode());
+            WithOrderCollectBookInActivity.this.startActivityForResult(intent,
+                    REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
         }
     }
 }
