@@ -58,4 +58,23 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
 
         setClickEvent(isNew, position, ivPic, ivDelete);
     }
+
+    /**
+     * 获取图片IDs，多个用逗号隔开，如：3232,3234223
+     *
+     * @return
+     */
+    public String getAllIdsString() {
+        StringBuilder builder = new StringBuilder("");
+        for (ClothingPic pic : list) {
+            if (!TextUtils.isEmpty(pic.getClothesImgId())) {
+                builder.append(",").append(pic.getClothesImgId());
+            }
+        }
+        String ids = builder.toString();
+        if (!TextUtils.isEmpty(ids)) {
+            ids = ids.substring(1);
+        }
+        return ids;
+    }
 }

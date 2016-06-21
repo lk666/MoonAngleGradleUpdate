@@ -213,10 +213,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
         switch (requestCode) {
             case Constants.REQUEST_SCAN:
-                // TODO: lk 2016/6/17 扫码返回
+                // 扫码返回
                 if (resultCode == Activity.RESULT_OK) {
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    PublicUtil.showToast("扫码返回" + resultStr);
+                    handleScaneCodeBack(resultStr);
                 }
                 //   跳转到手动输入
                 else if (resultCode == RESULT_CODE_MANUAL) {
@@ -227,10 +227,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
             // 手动输入返回
             case REQUEST_CODE_MANUAL:
-                // TODO 数字码返回
+                // 数字码返回
                 if (resultCode == Activity.RESULT_OK) {
                     String resultStr = data.getStringExtra(ManualInputCodeActivity.RESULT_EXTRA_CODE);
-                    PublicUtil.showToast("输入码返回" + resultStr);
+                    handleScaneCodeBack(resultStr);
                 }
                 //   跳转到扫码输入
                 else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
@@ -245,6 +245,15 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 }
                 break;
         }
+    }
+
+    // TODO: lk 2016/6/20
+    /**
+     * 处理扫码、手动输入数字码返回
+     * @param code
+     */
+    private void handleScaneCodeBack(String code) {
+        PublicUtil.showToast("处理扫码、手动输入数字码返回" + code);
     }
 
     @Override

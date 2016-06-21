@@ -26,6 +26,7 @@ import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
@@ -36,7 +37,6 @@ import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
-import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
@@ -46,7 +46,8 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
  * 衣物登记
  * Created by luokai on 2016/6/12.
  */
-public class ClothingBookInActivity extends BaseActionBarActivity implements OnListItemClickListener {
+public class ClothingBookInActivity extends BaseActionBarActivity implements
+        OnListItemClickListener {
     /**
      * 衣物类型编号(如：洗衣服务A类)
      */
@@ -57,6 +58,26 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements OnL
     private String typeCode;
 
     /**
+     * 收衣单号（可空）
+     */
+    public static final String EXTRA_COLLECT_CODE = "EXTRA_COLLECT_CODE";
+
+    /**
+     * 收衣单号，不为空时表示是新增衣物
+     */
+    private String collectCode;
+
+    /**
+     * 洗衣服务订单号
+     */
+    public static final String EXTRA_OUTER_CODE = "EXTRA_OUTER_CODE";
+
+    /**
+     * 洗衣服务订单号
+     */
+    private String outerCode;
+
+    /**
      * 衣物名称列表adapter
      */
     NameAdapter nameAdapter;
@@ -65,6 +86,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements OnL
      * 已上传衣物图片列表adapter
      */
     AddPhotoAdapter clothingAdapter;
+
+    /**
+     * 保存衣物信息成功
+     */
+    public final static int RESULT_CODE_SAVE_CLOTHES_SUCCESS = 0x44;
 
 //    /**
 //     * 由于初始化可能要等待多个网络数据返回，可采用此种方式
@@ -100,6 +126,16 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements OnL
         setContentView(R.layout.activity_clothing_book_in);
         ButterKnife.bind(this);
         typeCode = getIntent().getStringExtra(EXTRA_TYPE_CODE);
+
+        collectCode = getIntent().getStringExtra(EXTRA_COLLECT_CODE);
+        if (collectCode == null) {
+            collectCode = "";
+        }
+
+        outerCode = getIntent().getStringExtra(EXTRA_OUTER_CODE);
+        if (outerCode == null) {
+            outerCode = "";
+        }
 
         initAddClothing();
         getAddClothingData();
@@ -190,16 +226,66 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements OnL
     @OnClick({R.id.btn_ok, R.id.tv_number})
     public void onClick(View view) {
         switch (view.getId()) {
-            // todo 确定
+            // 确定
             case R.id.btn_ok:
+                showProgressDialog();
+                String clothesnameCode = nameAdapter.getSelectedNameCode();
+                String clothesCode = tvNumber.getText().toString();
+                int hasFlaw = sbFalw.isChecked() ? 1 : 0;
+                String flawDesc = etFlaw.getText().toString();
+                int hasStain = sbStain.isChecked() ? 1 : 0;
+                String remark = etBackup.getText().toString();
+                String clothesImgIds = clothingAdapter.getAllIdsString();
+
+                DeliveryApi.registerCollectInfo(ClientStateManager.getLoginToken(this),
+                        collectCode, typeCode, clothesnameCode, clothesCode, hasFlaw, flawDesc,
+                        hasStain, remark, clothesImgIds, outerCode, registerCollectInfoHandler);
+
                 break;
-            // todo 输入衣物编码
+            // todo 输入衣物编码，tvNumber有文本，确定按钮可点击
             case R.id.tv_number:
+
+
                 break;
             default:
                 break;
         }
     }
+
+    /**
+     * 点击确定响应
+     */
+    AsyncHttpResponseHandler registerCollectInfoHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            // TODO: lk 2016/6/20 待测试
+            LogUtils.d(getDefaultTag(), "getClothesTypeConfigs result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString, ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    setResult(RESULT_CODE_SAVE_CLOTHES_SUCCESS);
+                    finish();
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -261,6 +347,14 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements OnL
             }
 
             setClickEvent(isNew, position, convertView);
+        }
+
+        public String getSelectedNameCode() {
+            ClothesType type = (ClothesType) getItem(selectedPos);
+            if (type != null) {
+                return type.getClothesnameCode();
+            }
+            return null;
         }
     }
 

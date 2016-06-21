@@ -51,12 +51,12 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity {
         findViewById(R.id.tv).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // TODO: lk 2016/6/14 衣物登记
+                // TODO: lk 2016/6/14 添加衣物
                 Intent intent = new Intent(WithOrderCollectBookInActivity.this,
                         ClothingBookInActivity.class);
-                Bundle bundle = new Bundle();
-                // bundle.putSerializable(WithOrderCollectBookInActivity, orderClicked);
-                intent.putExtras(bundle);
+                intent.putExtra(ClothingBookInActivity.EXTRA_COLLECT_CODE, collectCode);
+                intent.putExtra(ClothingBookInActivity.EXTRA_OUTER_CODE, outerCode);
+                intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, "类型码");
                 WithOrderCollectBookInActivity.this.startActivityForResult(intent,
                         REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
             }
