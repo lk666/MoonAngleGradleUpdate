@@ -319,10 +319,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
             //电话
             tvCustomerPhone.setText(order.getReceivePhone());
-            if (isNew) {
-                tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-                tvCustomerPhone.getPaint().setAntiAlias(true);
-            }
 
             // 地址
             StringBuilder address = new StringBuilder(order.getProvince()).append(order.getCity())
@@ -391,9 +387,17 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     break;
             }
 
-            tvPayTotal.setText((order.getPayTotal() / 100.0) + "");
+            tvPayTotal.setText(String.format("%.2f", (order.getPayTotal() / 100.0)));
             tvReceivableCount.setText(order.getReceivableCount() + "");
             tvActualCount.setText(order.getActualCount() + "");
+
+            if (isNew) {
+                tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                tvCustomerPhone.getPaint().setAntiAlias(true);
+
+                tvRightAction.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                tvRightAction.getPaint().setAntiAlias(true);
+            }
 
             setClickEvent(isNew, position, tvDetail, ivDetail, btnRightAction, tvRightAction,
                     tvCustomerPhone);
