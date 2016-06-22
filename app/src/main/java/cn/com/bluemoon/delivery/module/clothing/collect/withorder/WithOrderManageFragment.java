@@ -1,7 +1,9 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -10,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -25,21 +28,25 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultWithOrderClothingCollectList;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.WithOrderClothingCollectOrder;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingDeliverActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 // TODO: lk 2016/6/13 可写个基类专门处理这种基本逻辑一样的fragment，将公共逻辑抽取（一步步来），
 // 可参照dobago的BaseRefreshListFragment
@@ -57,6 +64,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private ResultWithOrderClothingCollectList orderList;
     private OrderAdapter adapter;
 
+    Dialog refuseDialog;
+    EditText editReason;
+    Button btnOk;
+    Button btnCancel;
 
     @Bind(R.id.listview_main)
     PullToRefreshListView listviewMain;
@@ -421,10 +432,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
             case R.id.btn_right_action:
                 switch (order.getWashStatus()) {
-                    // TODO: lk 2016/6/19 接单
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
-                        PublicUtil.showToast("接单:" + order.getOuterCodeType() + ","
-                                + order.getOuterCode() + ", " + order.getCollectCode());
+//                        PublicUtil.showToast("接单:" + order.getOuterCodeType() + ","
+//                                + order.getOuterCode() + ", " + order.getCollectCode());
+                        acceptOrder(ClientStateManager.getLoginToken(getActivity()), order.getOuterCode());
                         break;
 
                     // 开始/继续收衣
@@ -457,33 +468,27 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 switch (order.getWashStatus()) {
                     // 取消订单
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
-                        // TODO: lk 2016/6/19 取消订单
-                        PublicUtil.showToast(" 取消订单:" + order.getOuterCodeType() + ","
-                                + order.getOuterCode() + ", " + order.getCollectCode());
+//                        PublicUtil.showToast(" 取消订单:" + order.getOuterCodeType() + ","
+//                                + order.getOuterCode() + ", " + order.getCollectCode());
+                        cancelOrder(ClientStateManager.getLoginToken(getActivity()), order.getOuterCode());
                         break;
 
                     // 衣服转交
                     case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
                         if (order.getActualCount() > 0 &&
                                 order.getReceivableCount() > order.getActualCount()) {
-                            // TODO: lk 2016/6/19 衣服转交
-                            PublicUtil.showToast(" 衣服转交:" + order.getOuterCodeType() + ","
-                                    + order.getOuterCode() + ", " + order.getCollectCode());
+                          deliver(order.getCollectCode());
                         }
                         break;
 
                     // 衣物转交
                     case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
-                        // TODO: lk 2016/6/19 衣服转交
-                        PublicUtil.showToast(" 衣服转交:" + order.getOuterCodeType() + ","
-                                + order.getOuterCode() + ", " + order.getCollectCode());
+                        deliver(order.getCollectCode());
                         break;
 
                     // 拒绝接收
                     case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
-                        // TODO: lk 2016/6/19 拒绝接收
-                        PublicUtil.showToast(" 拒绝接收:" + order.getOuterCodeType() + ","
-                                + order.getOuterCode() + ", " + order.getCollectCode());
+                        refuseDialogInit(order.getOuterCode());
                         break;
                     case WithOrderClothingCollectOrder.WASH_STATUS_CONTINUE_LAUNDRYING:
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
@@ -495,6 +500,89 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             default:
                 break;
         }
+    }
+
+
+    private void refuseDialogInit(String collectCode) {
+        final String code = collectCode;
+        if (null == refuseDialog) {
+            refuseDialog = new Dialog(getActivity(), R.style.dialog);
+            refuseDialog.setContentView(R.layout.dialog_refuse_reason_view);
+            editReason = (EditText) refuseDialog.findViewById(R.id.txt_reason);
+            btnOk = (Button) refuseDialog.findViewById(R.id.positiveButton);
+            btnCancel = (Button) refuseDialog.findViewById(R.id.negativeButton);
+            btnOk.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (!StringUtil.isEmpty(editReason.getText().toString())) {
+                        refuseDeliver(ClientStateManager.getLoginToken(getActivity()), code, editReason.getText().toString());
+                        refuseDialog.dismiss();
+                    }
+                }
+            });
+
+            btnCancel.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    refuseDialog.dismiss();
+                }
+            });
+        }
+        editReason.setText("");
+        refuseDialog.show();
+    }
+
+
+    private void cancelOrder(String token, String outerCode) {
+        showProgressDialog();
+        DeliveryApi.signOrderInfo(token, outerCode, Constants.STATUS_CANCEL_ORDER, baseHandler);
+    }
+
+    private void acceptOrder(String token, String outerCode) {
+        showProgressDialog();
+        DeliveryApi.signOrderInfo(token, outerCode, Constants.STATUS_ACCEPTL_ORDER, baseHandler);
+    }
+
+
+    private void refuseDeliver(String token, String collectCode, String remark) {
+        showProgressDialog();
+        DeliveryApi.refuseOrderInfo(token, collectCode, remark, baseHandler);
+    }
+
+
+    AsyncHttpResponseHandler baseHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(getDefaultTag(), "refuseHandler result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    PublicUtil.showToast(result.getResponseMsg());
+                    getData();
+                } else {
+                    PublicUtil.showErrorMsg(getActivity(), result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    private void deliver(String collectCode){
+        ClothingDeliverActivity.actionStart(getActivity(),collectCode);
     }
 
 }
