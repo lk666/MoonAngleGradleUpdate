@@ -286,10 +286,10 @@
 
         <TextView
             android:id="@+id/tv_actual_collect_count"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:layout_marginLeft="16dp"
-            android:layout_marginRight="16dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:background="@color/white_bg"
             android:gravity="center_vertical"
             android:text="@string/with_order_collect_order_receive_count"

@@ -253,14 +253,13 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
     }
 
-    // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
-
     /**
      * 处理扫码、手动输入数字码返回
      *
      * @param code
      */
     private void handleScaneCodeBack(String code) {
+        // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
         PublicUtil.showToast("处理扫码、手动输入数字码返回" + code);
     }
 
