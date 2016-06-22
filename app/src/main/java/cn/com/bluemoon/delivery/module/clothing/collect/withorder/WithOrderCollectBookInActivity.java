@@ -21,8 +21,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -245,12 +243,10 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     /**
      * 获取收衣登记界面数据返回
      */
-    AsyncHttpResponseHandler startCollectInfoHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
+    AsyncHttpResponseHandler startCollectInfoHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            // TODO: lk 2016/6/21 待测试
             LogUtils.d(getDefaultTag(), "startCollectInfo result = " + responseString);
             dismissProgressDialog();
             try {
@@ -286,9 +282,9 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         outerCode = result.getOuterCode();
 
         tvNumber.setText(result.getOuterCode());
-        tvCustomerName.setText(result.getCustomerName());
+        tvCustomerName.setText(result.getReceiveName());
 
-        tvCustomerPhone.setText(result.getCustomerPhone());
+        tvCustomerPhone.setText(result.getReceivePhone());
         tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvCustomerPhone.getPaint().setAntiAlias(true);
 
