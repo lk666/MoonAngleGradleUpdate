@@ -10,6 +10,19 @@ public class ClothesType implements Comparable<ClothesType> {
      * 衣物名称
      */
     private String clothesName;
+    /**
+     * 衣物名称编码
+     */
+    private String clothesnameCode;
+    /**
+     * 排序
+     */
+    private int sequenceNo;
+    /**
+     * 图片地址
+     */
+    private String imgPath;
+
 
     public String getClothesName() {
         return clothesName;
@@ -18,11 +31,6 @@ public class ClothesType implements Comparable<ClothesType> {
     public void setClothesName(String clothesName) {
         this.clothesName = clothesName;
     }
-
-    /**
-     * 衣物名称编码
-     */
-    private String clothesnameCode;
 
     public String getClothesnameCode() {
         return clothesnameCode;
@@ -45,11 +53,6 @@ public class ClothesType implements Comparable<ClothesType> {
 //        this.normalPrice = normalPrice;
 //    }
 
-    /**
-     * 排序
-     */
-    private int sequenceNo;
-
     public int getSequenceNo() {
         return sequenceNo;
     }
@@ -57,11 +60,6 @@ public class ClothesType implements Comparable<ClothesType> {
     public void setSequenceNo(int sequenceNo) {
         this.sequenceNo = sequenceNo;
     }
-
-    /**
-     * 图片地址
-     */
-    private String imgPath;
 
     public String getImgPath() {
         return imgPath;

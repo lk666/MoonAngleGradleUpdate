@@ -10,6 +10,18 @@ public class OrderDetail {
      * 衣物类型名称
      */
     private String typeName;
+    /**
+     * 应收数量
+     */
+    private int receivableCount;
+    /**
+     * 实收数量
+     */
+    private int actualCount;
+    /**
+     * 类型编号
+     */
+    private String typeCode;
 
     public String getTypeName() {
         return typeName;
@@ -19,10 +31,6 @@ public class OrderDetail {
         this.typeName = typeName;
     }
 
-    /**
-     * 应收数量
-     */
-    private int receivableCount;
 
     public int getReceivableCount() {
         return receivableCount;
@@ -32,10 +40,6 @@ public class OrderDetail {
         this.receivableCount = receivableCount;
     }
 
-    /**
-     * 实收数量
-     */
-    private int actualCount;
 
     public int getActualCount() {
         return actualCount;
@@ -45,10 +49,6 @@ public class OrderDetail {
         this.actualCount = actualCount;
     }
 
-    /**
-     * 类型编号
-     */
-    private String typeCode;
 
     public String getTypeCode() {
         return typeCode;

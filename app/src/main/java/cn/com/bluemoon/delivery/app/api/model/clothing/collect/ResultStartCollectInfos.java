@@ -17,6 +17,67 @@ public class ResultStartCollectInfos extends ResultBase {
      * 洗衣服务订单号
      */
     private String outerCode;
+    /**
+     * 消费者姓名
+     */
+    private String customerName;
+
+    /**
+     * 消费者电话
+     */
+    private String customerPhone;
+    /**
+     * 省份
+     */
+    private String province;
+    /**
+     * 市
+     */
+    private String city;
+    /**
+     * 区/县
+     */
+    private String county;
+    /**
+     * 乡镇/街道
+     */
+    private String street;
+    /**
+     * 村/社区
+     */
+    private String village;
+    /**
+     * 详细地址
+     */
+    private String address;
+    /**
+     * 订单支付金额
+     */
+    private int payTotal;
+    /**
+     * 应收数量
+     */
+    private int receivableCount;
+    /**
+     * 实收数量
+     */
+    private int actualCount;
+    /**
+     * 是否加急
+     */
+    private int isUrgent;
+    /**
+     * 预约还衣时间
+     */
+    private long appointBackTime;
+    /**
+     * 衣物类型列表
+     */
+    List<OrderDetail> orderDetail;
+    /**
+     * 收衣明细列表
+     */
+    OrderReceiveItem orderReceive;
 
     public String getOuterCode() {
         return outerCode;
@@ -26,11 +87,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.outerCode = outerCode;
     }
 
-    /**
-     * 消费者姓名
-     */
-    private String customerName;
-
     public String getCustomerName() {
         return customerName;
     }
@@ -38,11 +94,6 @@ public class ResultStartCollectInfos extends ResultBase {
     public void setCustomerName(String customerName) {
         this.customerName = customerName;
     }
-
-    /**
-     * 消费者电话
-     */
-    private String customerPhone;
 
     public String getCustomerPhone() {
         return customerPhone;
@@ -52,10 +103,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.customerPhone = customerPhone;
     }
 
-    /**
-     * 省份
-     */
-    private String province;
 
     public String getProvince() {
         return province;
@@ -65,11 +112,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.province = province;
     }
 
-    /**
-     * 市
-     */
-    private String city;
-
     public String getCity() {
         return city;
     }
@@ -77,11 +119,6 @@ public class ResultStartCollectInfos extends ResultBase {
     public void setCity(String city) {
         this.city = city;
     }
-
-    /**
-     * 区/县
-     */
-    private String county;
 
     public String getCounty() {
         return county;
@@ -91,11 +128,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.county = county;
     }
 
-    /**
-     * 乡镇/街道
-     */
-    private String street;
-
     public String getStreet() {
         return street;
     }
@@ -103,11 +135,6 @@ public class ResultStartCollectInfos extends ResultBase {
     public void setStreet(String street) {
         this.street = street;
     }
-
-    /**
-     * 村/社区
-     */
-    private String village;
 
     public String getVillage() {
         return village;
@@ -117,11 +144,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.village = village;
     }
 
-    /**
-     * 详细地址
-     */
-    private String address;
-
     public String getAddress() {
         return address;
     }
@@ -129,11 +151,6 @@ public class ResultStartCollectInfos extends ResultBase {
     public void setAddress(String address) {
         this.address = address;
     }
-
-    /**
-     * 订单支付金额
-     */
-    private int payTotal;
 
     public int getPayTotal() {
         return payTotal;
@@ -143,11 +160,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.payTotal = payTotal;
     }
 
-    /**
-     * 应收数量
-     */
-    private int receivableCount;
-
     public int getReceivableCount() {
         return receivableCount;
     }
@@ -155,11 +167,6 @@ public class ResultStartCollectInfos extends ResultBase {
     public void setReceivableCount(int receivableCount) {
         this.receivableCount = receivableCount;
     }
-
-    /**
-     * 实收数量
-     */
-    private int actualCount;
 
     public int getActualCount() {
         return actualCount;
@@ -169,11 +176,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.actualCount = actualCount;
     }
 
-    /**
-     * 是否加急
-     */
-    private int isUrgent;
-
     public int getIsUrgent() {
         return isUrgent;
     }
@@ -181,11 +183,6 @@ public class ResultStartCollectInfos extends ResultBase {
     public void setIsUrgent(int isUrgent) {
         this.isUrgent = isUrgent;
     }
-
-    /**
-     * 预约还衣时间
-     */
-    private long appointBackTime;
 
     public long getAppointBackTime() {
         return appointBackTime;
@@ -195,11 +192,6 @@ public class ResultStartCollectInfos extends ResultBase {
         this.appointBackTime = appointBackTime;
     }
 
-    /**
-     * 衣物类型列表
-     */
-    List<OrderDetail> orderDetail;
-
     public List<OrderDetail> getOrderDetail() {
         return orderDetail;
     }
@@ -207,11 +199,6 @@ public class ResultStartCollectInfos extends ResultBase {
     public void setOrderDetail(List<OrderDetail> orderDetail) {
         this.orderDetail = orderDetail;
     }
-
-    /**
-     * 收衣明细列表
-     */
-    OrderReceiveItem orderReceive;
 
     public OrderReceiveItem getOrderReceive() {
         return orderReceive;

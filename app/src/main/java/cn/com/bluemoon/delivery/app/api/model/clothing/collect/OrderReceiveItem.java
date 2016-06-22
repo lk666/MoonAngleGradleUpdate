@@ -3,7 +3,7 @@ package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 import java.util.List;
 
 /**
- * {@link ResultstartCollectInfo#orderReceive}数据类
+ * {@link ResultStartCollectInfos#orderReceive}数据类
  * Created by lk on 2016/6/21.
  */
 public class OrderReceiveItem {
@@ -11,6 +11,14 @@ public class OrderReceiveItem {
      * 收衣单号
      */
     private String collectCode;
+    /**
+     * 实收数量
+     */
+    private int collectCount;
+    /**
+     * 衣物列表
+     */
+    List<ClothesInfo> clothesInfo;
 
     public String getCollectCode() {
         return collectCode;
@@ -20,10 +28,6 @@ public class OrderReceiveItem {
         this.collectCode = collectCode;
     }
 
-    /**
-     * 实收数量
-     */
-    private int collectCount;
 
     public int getCollectCount() {
         return collectCount;
@@ -33,10 +37,6 @@ public class OrderReceiveItem {
         this.collectCount = collectCount;
     }
 
-    /**
-     * 衣物列表
-     */
-    List<ClothesInfo> clothesInfo;
 
     public List<ClothesInfo> getClothesInfo() {
         return clothesInfo;

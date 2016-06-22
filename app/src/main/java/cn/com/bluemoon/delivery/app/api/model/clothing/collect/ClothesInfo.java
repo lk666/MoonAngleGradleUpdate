@@ -10,6 +10,27 @@ public class ClothesInfo {
      * 衣物编码
      */
     private String clothesCode;
+    /**
+     * 衣物名称
+     */
+    private String clothesName;
+    /**
+     * 衣物类型名称
+     */
+    private String typeName;
+    /**
+     * 衣物类型编号
+     */
+    private String typeCode;
+    /**
+     * 图片
+     */
+    private String imgPath;
+
+    /**
+     * 衣物名称编码
+     */
+    private String clothesnameCode;
 
     public String getClothesCode() {
         return clothesCode;
@@ -19,10 +40,6 @@ public class ClothesInfo {
         this.clothesCode = clothesCode;
     }
 
-    /**
-     * 衣物名称
-     */
-    private String clothesName;
 
     public String getClothesName() {
         return clothesName;
@@ -32,10 +49,6 @@ public class ClothesInfo {
         this.clothesName = clothesName;
     }
 
-    /**
-     * 衣物类型名称
-     */
-    private String typeName;
 
     public String getTypeName() {
         return typeName;
@@ -45,10 +58,6 @@ public class ClothesInfo {
         this.typeName = typeName;
     }
 
-    /**
-     * 衣物类型编号
-     */
-    private String typeCode;
 
     public String getTypeCode() {
         return typeCode;
@@ -58,16 +67,19 @@ public class ClothesInfo {
         this.typeCode = typeCode;
     }
 
-    /**
-     * 图片
-     */
-    private String imgPath;
-
     public String getImgPath() {
         return imgPath;
     }
 
     public void setImgPath(String imgPath) {
         this.imgPath = imgPath;
+    }
+
+    public String getClothesnameCode() {
+        return clothesnameCode;
+    }
+
+    public void setClothesnameCode(String clothesnameCode) {
+        this.clothesnameCode = clothesnameCode;
     }
 }
