@@ -3,7 +3,7 @@ package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 import java.util.List;
 
 /**
- * {@link ResultStartCollectInfo#orderReceive}数据类
+ * {@link ResultstartCollectInfo#orderReceive}数据类
  * Created by lk on 2016/6/21.
  */
 public class OrderReceiveItem {

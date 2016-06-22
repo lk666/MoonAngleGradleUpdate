@@ -27,8 +27,8 @@ import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OrderDetailItem;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollectInfo;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.orderDetailItem;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultstartCollectInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -153,8 +153,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
             LogUtils.d(getDefaultTag(), "startCollectInfo result = " + responseString);
             dismissProgressDialog();
             try {
-                ResultStartCollectInfo result = JSON.parseObject(responseString,
-                        ResultStartCollectInfo.class);
+                ResultstartCollectInfo result = JSON.parseObject(responseString,
+                        ResultstartCollectInfo.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     setStartCollectInfo(result);
                 } else {
@@ -180,7 +180,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      *
      * @param result
      */
-    private void setStartCollectInfo(ResultStartCollectInfo result) {
+    private void setStartCollectInfo(ResultstartCollectInfo result) {
         collectCode = result.getOrderReceive().getCollectCode();
         outerCode = result.getOuterCode();
 
@@ -348,7 +348,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     /**
      * 衣物类型Adapter
      */
-    class OrderDetailAdapter extends BaseListAdapter<OrderDetailItem> {
+    class OrderDetailAdapter extends BaseListAdapter<orderDetailItem> {
         public OrderDetailAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
         }
@@ -360,7 +360,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            final OrderDetailItem item = (OrderDetailItem) getItem(position);
+            final orderDetailItem item = (orderDetailItem) getItem(position);
             if (item == null) {
                 return;
             }
@@ -402,8 +402,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         }
 
         // 点击洗衣类型项的加号
-        else if (item instanceof OrderDetailItem) {
-            OrderDetailItem type = (OrderDetailItem) item;
+        else if (item instanceof orderDetailItem) {
+            orderDetailItem type = (orderDetailItem) item;
             //  添加衣物
             Intent intent = new Intent(WithOrderCollectBookInActivity.this,
                     ClothingBookInActivity.class);

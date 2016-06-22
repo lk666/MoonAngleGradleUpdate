@@ -1,10 +1,10 @@
 package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 
 /**
- * {@link ResultStartCollectInfo#orderDetail}数据类
+ * {@link ResultstartCollectInfo#orderDetail}数据类
  * Created by lk on 2016/6/21.
  */
-public class OrderDetailItem {
+public class orderDetailItem {
 
     /**
      * 衣物类型名称
