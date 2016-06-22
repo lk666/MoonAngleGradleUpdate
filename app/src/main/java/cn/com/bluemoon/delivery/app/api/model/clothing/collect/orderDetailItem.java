@@ -5,6 +5,7 @@ package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
  * Created by lk on 2016/6/21.
  */
 public class OrderDetailItem {
+
     /**
      * 衣物类型名称
      */

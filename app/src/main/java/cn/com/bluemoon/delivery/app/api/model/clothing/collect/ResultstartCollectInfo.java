@@ -12,6 +12,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
  * Created by lk on 2016/6/21.
  */
 public class ResultStartCollectInfo extends ResultBase {
+
     /**
      * 洗衣服务订单号
      */
