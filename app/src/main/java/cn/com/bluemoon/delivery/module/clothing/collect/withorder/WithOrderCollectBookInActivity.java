@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -20,20 +21,23 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OrderDetail;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OrderReceiveItem;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollectInfos;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
+import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
@@ -41,6 +45,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibDateUtil;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -75,8 +80,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     TextView tvReceivableCount;
     @Bind(R.id.tv_actual_count)
     TextView tvActualCount;
-    @Bind(R.id.tv_collect_code)
-    TextView tvCollectCode;
+    @Bind(R.id.tv_collect_brcode)
+    TextView tvCollectBrcode;
     @Bind(R.id.sb_urgent)
     SwitchButton sbUrgent;
     @Bind(R.id.tv_appoint_back_time)
@@ -91,6 +96,21 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     TextView tvActualCollectCount;
     @Bind(R.id.lv_order_receive)
     ListView lvOrderReceive;
+    @Bind(R.id.v_div_isurgent)
+    View vDivIsurgent;
+    @Bind(R.id.ll_isurgent)
+    LinearLayout llIsurgent;
+
+
+    /**
+     * 是否加急
+     */
+    private boolean isUrgent = false;
+
+    /**
+     * 预约时间
+     */
+    private long appointBackTime = 0;
 
     /**
      * 洗衣服务订单号
@@ -113,19 +133,38 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         outerCode = getIntent().getStringExtra(EXTRA_OUTERCODE);
         collectCode = getIntent().getStringExtra(EXTRA_COLLECTCODE);
 
+        // 至少48小时后的时间
+        final long maxTime = System.currentTimeMillis() / 1000 + 48 * 3600;
         sbUrgent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (isChecked) {
-                    llAppointBackTime.setVisibility(View.VISIBLE);
-                    vDivAppointBackTime.setVisibility(View.VISIBLE);
+                if (isChecked && !isUrgent) {
+                    DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
+                            WithOrderCollectBookInActivity.this, maxTime, new
+                            DateTimePickDialogUtil.OnDetailClickLister() {
+                                @Override
+                                public void btnClickLister(long time, String datetime) {
+                                    // 只能选择1小时之后的时间
+                                    if (time < maxTime) {
+                                        PublicUtil.showToast(getString(R.string
+                                                .with_order_collect_appoint_back_time_later_hint));
+                                    } else {
+                                        appointBackTime = time * 1000;
+                                        // 发送加急更改
+                                        updateCollectInfoParam(appointBackTime, true);
+                                    }
+                                }
+                            });
+                    dateTimePicKDialog.dateTimePicKDialog();
                 } else {
-                    llAppointBackTime.setVisibility(View.VISIBLE);
-                    vDivAppointBackTime.setVisibility(View.VISIBLE);
+                    // 发送加急更改
+                    updateCollectInfoParam(0, false);
                 }
-                // TODO: lk 2016/6/21 发送加急更改
             }
         });
+
+        vDivIsurgent.setVisibility(View.GONE);
+        llIsurgent.setVisibility(View.GONE);
 
         clothesInfoAdapter = new ClothesInfoAdapter(this, this);
         lvOrderReceive.setAdapter(clothesInfoAdapter);
@@ -135,6 +174,67 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         getData();
     }
+
+    private void updateCollectInfoParam(long appointBackTime, boolean isUrgent) {
+        this.appointBackTime = appointBackTime;
+        String collectBrcode = tvCollectBrcode.getText().toString();
+        if (collectBrcode == null) {
+            collectBrcode = "";
+        }
+
+        String token = ClientStateManager.getLoginToken(this);
+        showProgressDialog();
+        DeliveryApi.updateCollectInfoParam(token, appointBackTime, collectBrcode,
+                collectCode, isUrgent ? 1 : 0, updateCollectInfoParamHandler);
+    }
+
+    /**
+     * 更改收衣登记数据返回
+     */
+    AsyncHttpResponseHandler updateCollectInfoParamHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            // TODO: lk 2016/6/21 待测试
+            LogUtils.d(getDefaultTag(), "更改收衣登记 result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    // 否->是
+                    if (!isUrgent) {
+                        llAppointBackTime.setVisibility(View.VISIBLE);
+                        vDivAppointBackTime.setVisibility(View.VISIBLE);
+                        tvAppointBackTime.setText(LibDateUtil.getTimeStringByCustTime
+                                (appointBackTime, "yyyy-MM-dd HH:mm:ss"));
+                    }
+                    // 是->否
+                    else {
+                        llAppointBackTime.setVisibility(View.GONE);
+                        vDivAppointBackTime.setVisibility(View.GONE);
+                        tvAppointBackTime.setText("");
+                    }
+                    isUrgent = !isUrgent;
+                } else {
+                    PublicUtil.showErrorMsg(WithOrderCollectBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
 
     private void getData() {
         String token = ClientStateManager.getLoginToken(this);
@@ -202,16 +302,21 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         tvActualCount.setText(result.getActualCount() + "");
 
         // 包装袋码（收衣单条码）
-        tvCollectCode.setEnabled(true);
-
-        sbUrgent.setEnabled(true);
-        sbUrgent.setChecked(result.getIsUrgent() == 1);
+        tvCollectBrcode.setEnabled(true);
 
         tvAppointBackTime.setText(result.getAppointBackTime() <= 0 ? "" : DateUtil.getTime(result
                 .getAppointBackTime(), "YYYY-MM-DD hh:mm"));
 
         tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
                 " " + result.getOrderReceive().getCollectCount());
+
+        if (TextUtils.isEmpty(collectCode)) {
+            vDivIsurgent.setVisibility(View.GONE);
+            llIsurgent.setVisibility(View.GONE);
+        } else {
+            vDivIsurgent.setVisibility(View.VISIBLE);
+            llIsurgent.setVisibility(View.VISIBLE);
+        }
 
         clothesInfoAdapter.setList(result.getOrderReceive().getClothesInfo());
         clothesInfoAdapter.notifyDataSetInvalidated();
@@ -225,7 +330,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         return R.string.title_with_order_collect_book_in;
     }
 
-    @OnClick({R.id.tv_customer_phone, R.id.tv_collect_code, R.id.tv_appoint_back_time})
+    @OnClick({R.id.tv_customer_phone, R.id.tv_collect_brcode, R.id.tv_appoint_back_time})
     public void onClick(View view) {
         switch (view.getId()) {
             // 打电话
@@ -235,7 +340,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 break;
 
             // 扫收衣单条码
-            case R.id.tv_collect_code:
+            case R.id.tv_collect_brcode:
                 goScanCode();
                 break;
 
