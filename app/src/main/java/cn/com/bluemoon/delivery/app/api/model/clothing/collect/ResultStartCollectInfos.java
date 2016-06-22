@@ -11,7 +11,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
  * 服务器返回json
  * Created by lk on 2016/6/21.
  */
-public class ResultstartCollectInfo extends ResultBase {
+public class ResultStartCollectInfos extends ResultBase {
 
     /**
      * 洗衣服务订单号
@@ -198,13 +198,13 @@ public class ResultstartCollectInfo extends ResultBase {
     /**
      * 衣物类型列表
      */
-    List<orderDetailItem> orderDetail;
+    List<OrderDetail> orderDetail;
 
-    public List<orderDetailItem> getOrderDetail() {
+    public List<OrderDetail> getOrderDetail() {
         return orderDetail;
     }
 
-    public void setOrderDetail(List<orderDetailItem> orderDetail) {
+    public void setOrderDetail(List<OrderDetail> orderDetail) {
         this.orderDetail = orderDetail;
     }
 
