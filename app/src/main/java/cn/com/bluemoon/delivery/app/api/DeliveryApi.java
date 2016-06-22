@@ -255,7 +255,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.4 接单 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void acceptOrder(String token, String orderId,
                                    AsyncHttpResponseHandler handler) {
 
@@ -273,7 +273,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.5 修改/预约送货时间 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void updateOrAppointmentDeliveryTime(String token,
                                                        String orderId, Long date, String type,
                                                        AsyncHttpResponseHandler handler) {
@@ -295,7 +295,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.6 送货 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void toDelivery(String token, String orderId,
                                   AsyncHttpResponseHandler handler) {
 
@@ -1675,7 +1675,7 @@ public class DeliveryApi {
 
     /************************ 洗衣服务 **********************************/
     /**
-     * 2.1.1.	获取洗衣服务订单信息
+     * 2.1	获取洗衣服务订单信息
      *
      * @param token String	Y		登录凭证
      */
@@ -1692,7 +1692,7 @@ public class DeliveryApi {
     }
 
     /**
-     * 2.2.1.2.	获取衣物配置项
+     * 5.2	获取衣物配置项
      *
      * @param token String	Y		登录凭证
      */
@@ -1712,7 +1712,7 @@ public class DeliveryApi {
     }
 
     /**
-     * 2.1.4.4.	衣物登记 保存
+     * 3.4	衣物登记 保存
      *
      * @param token           String	Y		登录凭证
      * @param collectCode     String	N		收衣单号
@@ -1756,7 +1756,7 @@ public class DeliveryApi {
     }
 
     /**
-     * 2.1.4.1.	收衣登记
+     * 3.1	收衣登记
      *
      * @param token       String	Y		登录凭证
      * @param outerCode   String	N		洗衣服务订单号
@@ -1801,12 +1801,12 @@ public class DeliveryApi {
     /*4.1拒绝接收*/
 	/*返回：ResultBase*/
     public static void refuseOrderInfo(String token, String collectCode, String remark,
-                                        AsyncHttpResponseHandler handler) {
-        if (null == token||StringUtil.isEmpty(collectCode) || StringUtil.isEmpty(remark)) {
+                                       AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(collectCode) || StringUtil.isEmpty(remark)) {
             return;
         }
 
-        Map<String, String> params = new HashMap<String,String>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
         params.put("remark", remark);
         params.put("collectCode", collectCode);
@@ -1820,12 +1820,12 @@ public class DeliveryApi {
     /*4.2接收洗衣*/
 	/*返回：ResultReceiveCollectInfo */
     public static void receiveCollectInfo(String token, String collectCode,
-                                       AsyncHttpResponseHandler handler) {
-        if (null == token||StringUtil.isEmpty(collectCode)) {
+                                          AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(collectCode)) {
             return;
         }
 
-        Map<String, String> params = new HashMap<String,String>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
@@ -1838,12 +1838,12 @@ public class DeliveryApi {
     /*4.3确认收衣 保存*/
 	/*返回：ResultBase*/
     public static void confirmOrderInfo(String token, String collectCode,
-                                       AsyncHttpResponseHandler handler) {
-        if (null == token||StringUtil.isEmpty(collectCode) ) {
+                                        AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(collectCode)) {
             return;
         }
 
-        Map<String, String> params = new HashMap<String,String>();
+        Map<String, String> params = new HashMap<String, String>();
         params.put("token", token);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
@@ -1871,8 +1871,8 @@ public class DeliveryApi {
     /*5.4获取活动说明*/
 	/*返回：ResultActivityInfo*/
     public static void getActivityInfo(String token, String activityCode,
-                                        AsyncHttpResponseHandler handler) {
-        if (StringUtil.isEmpty(token)||StringUtil.isEmpty(activityCode)) {
+                                       AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token) || StringUtil.isEmpty(activityCode)) {
             return;
         }
 
@@ -1889,8 +1889,8 @@ public class DeliveryApi {
     /*5.5获取注意事项*/
 	/*返回：ResultMatter*/
     public static void getMatters(String token, String activityCode,
-                                       AsyncHttpResponseHandler handler) {
-        if (StringUtil.isEmpty(token)||StringUtil.isEmpty(activityCode)) {
+                                  AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token) || StringUtil.isEmpty(activityCode)) {
             return;
         }
 
@@ -1903,4 +1903,30 @@ public class DeliveryApi {
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /**
+     * 3.2 更改收衣登记
+     *
+     * @param token           登录凭证（必填）	string
+     * @param appointBackTime 预约还衣时间（如果加急，此字段必填） number
+     * @param collectBrcode   收衣单条码	string
+     * @param collectCode     收衣单号(必填)	string
+     * @param isUrgent        是否加急 1为加急 0为不普通(必填)	number
+     */
+    public static void updateCollectInfoParam(String token, long appointBackTime, String
+            collectBrcode, String collectCode, int isUrgent, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("appointBackTime", appointBackTime);
+        params.put("collectBrcode", collectBrcode);
+        params.put("collectBrcode", collectBrcode);
+        params.put("isUrgent", isUrgent);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/registerCollectInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 }

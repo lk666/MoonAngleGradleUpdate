@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
-    android:overScrollMode="never"
-    tools:context=".module.clothing.collect.withorder.WithOrderCollectBookInActivity">
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:overScrollMode="never"
+            tools:context=".module.clothing.collect.withorder.WithOrderCollectBookInActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -27,7 +27,7 @@
                 android:layout_marginTop="16dp"
                 android:singleLine="true"
                 android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_13" />
+                android:textSize="@dimen/text_size_13"/>
 
             <ImageView
                 android:id="@+id/iv_customer"
@@ -36,7 +36,7 @@
                 android:layout_below="@+id/tv_number"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:src="@mipmap/user" />
+                android:src="@mipmap/user"/>
 
 
             <cn.com.bluemoon.lib.tagview.FlowLayout
@@ -54,14 +54,14 @@
                     android:layout_height="wrap_content"
                     android:paddingRight="10dp"
                     android:textColor="@color/text_black_light"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:id="@+id/tv_customer_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_blue"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
             </cn.com.bluemoon.lib.tagview.FlowLayout>
 
             <ImageView
@@ -71,7 +71,7 @@
                 android:layout_alignLeft="@+id/iv_customer"
                 android:layout_below="@+id/iv_customer"
                 android:layout_marginTop="16dp"
-                android:src="@mipmap/address" />
+                android:src="@mipmap/address"/>
 
             <TextView
                 android:id="@+id/tv_address"
@@ -82,7 +82,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_toRightOf="@+id/iv_address"
                 android:textColor="@color/text_black_light"
-                android:textSize="@dimen/text_size_13" />
+                android:textSize="@dimen/text_size_13"/>
 
             <include
                 android:id="@+id/v_div_count"
@@ -91,7 +91,7 @@
                 android:layout_height="1px"
                 android:layout_below="@+id/tv_address"
                 android:layout_marginLeft="12dp"
-                android:layout_marginTop="16dp" />
+                android:layout_marginTop="16dp"/>
 
             <!--todo lk 可以写到include中，可重用-->
             <LinearLayout
@@ -108,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/with_order_collect_title_pay_total"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:id="@+id/tv_pay_total"
@@ -116,14 +116,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/with_order_collect_title_receivable_count"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:id="@+id/tv_receivable_count"
@@ -131,21 +131,21 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/with_order_collect_title_actual_count"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:id="@+id/tv_actual_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
             </LinearLayout>
         </RelativeLayout>
 
@@ -171,25 +171,28 @@
                     android:gravity="center_vertical"
                     android:text="@string/with_order_collect_collect_code"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
-                    android:id="@+id/tv_collect_code"
+                    android:id="@+id/tv_collect_brcode"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:enabled="false"
                     android:layout_marginLeft="20dp"
+                    android:enabled="false"
                     android:gravity="right"
                     android:hint="@string/with_order_collect_collect_code_hint"
                     android:singleLine="true"
                     android:textColor="@color/text_black"
                     android:textColorHint="@color/text_black_light"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_ed" />
+            <include
+                android:id="@+id/v_div_isurgent"
+                layout="@layout/line_solid_view_ed"/>
 
             <LinearLayout
+                android:id="@+id/ll_isurgent"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:gravity="center_vertical"
@@ -202,14 +205,13 @@
                     android:layout_weight="1"
                     android:text="@string/clothing_book_in_falw"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <cn.com.bluemoon.lib.view.switchbutton.SwitchButton
                     android:id="@+id/sb_urgent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:checked="false"
-                    android:enabled="false"
                     android:textColor="@drawable/switch_checkbox_text_color"
                     android:textSize="@dimen/text_size_15"
                     app:kswBackDrawable="@drawable/switch_checkbox_bg"
@@ -221,12 +223,12 @@
                     app:kswThumbHeight="24dp"
                     app:kswThumbMargin="3dp"
                     app:kswThumbRadius="12dp"
-                    app:kswThumbWidth="24dp" />
+                    app:kswThumbWidth="24dp"/>
             </LinearLayout>
 
             <include
                 android:id="@+id/v_div_appoint_back_time"
-                layout="@layout/line_solid_view_ed" />
+                layout="@layout/line_solid_view_ed"/>
 
             <LinearLayout
                 android:id="@+id/ll_appoint_back_time"
@@ -243,7 +245,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/with_order_collect_appoint_back_time"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:id="@+id/tv_appoint_back_time"
@@ -251,14 +253,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:drawablePadding="5dp"
-                    android:enabled="false"
                     android:drawableRight="@mipmap/icon_right"
+                    android:enabled="false"
                     android:gravity="right"
                     android:hint="@string/with_order_collect_appoint_back_time_hint"
                     android:singleLine="true"
                     android:textColor="@color/text_black"
                     android:textColorHint="@color/text_black_light"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -272,7 +274,7 @@
             android:dividerHeight="1px"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"
-            android:paddingLeft="16dp" />
+            android:paddingLeft="16dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -282,19 +284,19 @@
             android:gravity="center_vertical"
             android:text="@string/with_order_collect_order_receive"
             android:textColor="@color/text_black_light"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="@dimen/text_size_15"/>
 
         <TextView
             android:id="@+id/tv_actual_collect_count"
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
             android:background="@color/white_bg"
             android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:text="@string/with_order_collect_order_receive_count"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_15" />
+            android:textSize="@dimen/text_size_15"/>
 
         <ListView
             android:id="@+id/lv_order_receive"
@@ -305,7 +307,7 @@
             android:dividerHeight="1px"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="true"
-            android:paddingLeft="16dp" />
+            android:paddingLeft="16dp"/>
     </LinearLayout>
 
 

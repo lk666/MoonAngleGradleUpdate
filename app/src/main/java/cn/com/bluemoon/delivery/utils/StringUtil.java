@@ -14,7 +14,7 @@ import java.util.regex.Pattern;
 
 import cn.com.bluemoon.delivery.entity.ItemListBean;
 
-
+// TODO: lk 2016/6/22 各种乱码
 /**  
  * ClassName:StringUtils <br/>  
  * Function: TODO ADD FUNCTION. <br/>  
