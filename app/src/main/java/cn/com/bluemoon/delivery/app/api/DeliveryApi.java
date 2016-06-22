@@ -1768,7 +1768,7 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("outerCode", outerCode);
         params.put("collectCode", collectCode);
@@ -1777,4 +1777,111 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
+
+
+    /*4.1拒绝接收*/
+	/*返回：ResultBase*/
+    public static void refuseOrderInfo(String token, String collectCode, String remark,
+                                        AsyncHttpResponseHandler handler) {
+        if (null == token||StringUtil.isEmpty(collectCode) || StringUtil.isEmpty(remark)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<String,String>();
+        params.put("token", token);
+        params.put("remark", remark);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/refuseOrderInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /*4.2接收洗衣*/
+	/*返回：ResultReceiveCollectInfo */
+    public static void receiveCollectInfo(String token, String collectCode,
+                                       AsyncHttpResponseHandler handler) {
+        if (null == token||StringUtil.isEmpty(collectCode)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<String,String>();
+        params.put("token", token);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/receiveCollectInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /*4.3确认收衣 保存*/
+	/*返回：ResultBase*/
+    public static void confirmOrderInfo(String token, String collectCode,
+                                       AsyncHttpResponseHandler handler) {
+        if (null == token||StringUtil.isEmpty(collectCode) ) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<String,String>();
+        params.put("token", token);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/confirmOrderInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*5.3获取活动列表*/
+	/*返回：ResultActivityInfo*/
+    public static void getActivityInfos(String token,
+                                        AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/activity/getActivityInfos%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*5.4获取活动说明*/
+	/*返回：ResultActivityInfo*/
+    public static void getActivityInfo(String token, String activityCode,
+                                        AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token)||StringUtil.isEmpty(activityCode)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("activityCode", activityCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/activity/getActivityInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /*5.5获取注意事项*/
+	/*返回：ResultMatter*/
+    public static void getMatters(String token, String activityCode,
+                                       AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token)||StringUtil.isEmpty(activityCode)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("activityCode", activityCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/activity/getMatters%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
 }
