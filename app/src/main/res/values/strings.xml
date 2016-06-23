@@ -668,7 +668,7 @@
     <string name="with_order_collect_appoint_receivable_count">应收:</string>
     <string name="with_order_collect_order_receive">收衣明细</string>
     <string name="with_order_collect_order_receive_count">实收数量:</string>
-    <string name="with_order_collect_appoint_back_time_later_hint">预约时间必需在1小时之后！</string>
+    <string name="with_order_collect_appoint_back_time_later_hint">预约时间必需在48小时之后！</string>
 
     <!-- 衣物登记 -->
     <string name="title_clothing_book_in">衣物登记</string>

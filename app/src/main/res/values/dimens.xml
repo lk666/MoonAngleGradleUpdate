@@ -45,4 +45,5 @@
     <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
 
+    <dimen name="div_btn_clothes_book_in">18dp</dimen>
 </resources>

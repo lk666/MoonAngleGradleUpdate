@@ -54,5 +54,6 @@
     <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
     <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
 
+    <color name="div_999">#999999</color> <!-- 洗衣服务分割线颜色 -->
     <color name = "deliver_background">#f8f8f8</color>
 </resources>

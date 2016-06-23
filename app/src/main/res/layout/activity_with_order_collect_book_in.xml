@@ -2,6 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@color/page_bg_f2"
@@ -86,7 +87,7 @@
 
             <include
                 android:id="@+id/v_div_count"
-                layout="@layout/line_solid_view_ed"
+                layout="@layout/line_solid_view_999"
                 android:layout_width="match_parent"
                 android:layout_height="1px"
                 android:layout_below="@+id/tv_address"
@@ -189,7 +190,7 @@
 
             <include
                 android:id="@+id/v_div_isurgent"
-                layout="@layout/line_solid_view_ed"/>
+                layout="@layout/line_solid_view_999"/>
 
             <LinearLayout
                 android:id="@+id/ll_isurgent"
@@ -203,7 +204,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/clothing_book_in_falw"
+                    android:text="@string/with_order_collect_is_urgent"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_15"/>
 
@@ -228,7 +229,7 @@
 
             <include
                 android:id="@+id/v_div_appoint_back_time"
-                layout="@layout/line_solid_view_ed"/>
+                layout="@layout/line_solid_view_999"/>
 
             <LinearLayout
                 android:id="@+id/ll_appoint_back_time"
@@ -254,7 +255,6 @@
                     android:layout_marginLeft="20dp"
                     android:drawablePadding="5dp"
                     android:drawableRight="@mipmap/icon_right"
-                    android:enabled="false"
                     android:gravity="right"
                     android:hint="@string/with_order_collect_appoint_back_time_hint"
                     android:singleLine="true"
@@ -264,17 +264,16 @@
             </LinearLayout>
         </LinearLayout>
 
-        <ListView
+        <cn.com.bluemoon.delivery.ui.NoScrollListView
             android:id="@+id/lv_order_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/white_bg"
-            android:divider="@color/page_bg_ed"
+            android:divider="@drawable/div_left_padding_16"
             android:dividerHeight="1px"
             android:footerDividersEnabled="false"
-            android:headerDividersEnabled="false"
-            android:paddingLeft="16dp"/>
+            android:headerDividersEnabled="false"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -286,28 +285,39 @@
             android:textColor="@color/text_black_light"
             android:textSize="@dimen/text_size_15"/>
 
-        <TextView
-            android:id="@+id/tv_actual_collect_count"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
             android:background="@color/white_bg"
-            android:gravity="center_vertical"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:text="@string/with_order_collect_order_receive_count"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_15"/>
+            android:orientation="vertical">
 
-        <ListView
+            <TextView
+                android:id="@+id/tv_actual_collect_count"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:text="@string/with_order_collect_order_receive_count"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_15"/>
+
+            <include
+                layout="@layout/line_solid_view_999"
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_marginLeft="16dp"/>
+        </LinearLayout>
+
+        <cn.com.bluemoon.delivery.ui.NoScrollListView
             android:id="@+id/lv_order_receive"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white_bg"
-            android:divider="@color/page_bg_ed"
+            android:divider="@drawable/div_left_padding_16"
             android:dividerHeight="1px"
             android:footerDividersEnabled="false"
-            android:headerDividersEnabled="true"
-            android:paddingLeft="16dp"/>
+            android:headerDividersEnabled="false"/>
     </LinearLayout>
 
 

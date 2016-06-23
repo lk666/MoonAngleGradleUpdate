@@ -193,6 +193,21 @@ public class PublicUtil extends LibPublicUtil{
 		BarcodeUtil.openScan(aty, fragment, requestCode, resultCode);
 	}
 
+	/**
+	 * 打开扫描界面
+	 * @param aty
+	 * @param requestCode
+	 * @param resultCode  大于1的正整数
+	 */
+	public static void openScan(Activity aty, String title,
+									 String btnString, int requestCode, int resultCode){
+		initScanConfigure(aty);
+		Configure.TITLE_TXT = title;
+		Configure.BTN_CLICK_TXT = btnString;
+		Configure.BUTTON_VISIBILITY = View.VISIBLE;
+		BarcodeUtil.openScan(aty, requestCode, resultCode);
+	}
+
 	public static void openScanTicket(Activity aty,String ticketName,
 									  String ticketCount,int requestCode,int resultCode){
 		initScanConfigure(aty);
