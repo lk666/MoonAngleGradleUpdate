@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollec
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
@@ -581,41 +582,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
             default:
                 break;
-        }
-    }
-
-    /**
-     * 收衣明细Adapter
-     */
-    class ClothesInfoAdapter extends BaseListAdapter<ClothesInfo> {
-        public ClothesInfoAdapter(Context context, OnListItemClickListener listener) {
-            super(context, listener);
-        }
-
-        @Override
-        protected int getLayoutId() {
-            return R.layout.item_with_order_clothes_info;
-        }
-
-        @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            final ClothesInfo item = (ClothesInfo) getItem(position);
-            if (item == null) {
-                return;
-            }
-
-            ImageView ivClothImg = ViewHolder.get(convertView, R.id.iv_cloth_img);
-            TextView tvClothesCode = ViewHolder.get(convertView, R.id.tv_clothes_code);
-            TextView tvTypeName = ViewHolder.get(convertView, R.id.tv_type_name);
-            TextView tvClothesName = ViewHolder.get(convertView, R.id.tv_clothes_name);
-
-            tvClothesCode.setText(item.getClothesCode());
-            tvTypeName.setText(item.getTypeName());
-            tvClothesName.setText(item.getClothesName());
-
-            ImageLoaderUtil.displayImage(context, item.getImgPath(), ivClothImg);
-
-            setClickEvent(isNew, position, convertView);
         }
     }
 
