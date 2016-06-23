@@ -322,7 +322,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         tvCollectBrcode.setEnabled(true);
 
         tvAppointBackTime.setText(result.getAppointBackTime() <= 0 ? "" : DateUtil.getTime(result
-                .getAppointBackTime(), "YYYY-MM-DD hh:mm"));
+                .getAppointBackTime(), "yyyy-MM-dd HH:mm"));
 
         tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
                 " " + result.getOrderReceive().getCollectCount());
@@ -372,7 +372,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      * 打开扫码界面
      */
     private void goScanCode() {
-        PublicUtil.openScanOrder(this, null, getString(R.string.coupons_scan_code_title),
+        PublicUtil.openScan(this, getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
                 Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
     }
