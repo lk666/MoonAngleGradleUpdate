@@ -314,7 +314,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.7 订单签收 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void orderSign(String token, String orderId, String signType,
                                  String receiveCode, AsyncHttpResponseHandler handler) {
 
@@ -336,7 +336,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.8 取消已接单订单 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void cancelAppointmentOrder(String token, String orderId,
                                               AsyncHttpResponseHandler handler) {
 
@@ -1692,21 +1692,70 @@ public class DeliveryApi {
     }
 
     /**
-     * 5.2	获取衣物配置项
+     * 3.1	收衣登记
      *
-     * @param token String	Y		登录凭证
+     * @param token       String	Y		登录凭证
+     * @param outerCode   String	N		洗衣服务订单号
+     * @param collectCode String	N		收衣单号
      */
-    public static void getClothesTypeConfigs(String token, String typeCode,
-                                             AsyncHttpResponseHandler handler) {
+    public static void startCollectInfo(String token, String outerCode, String collectCode,
+                                        AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("outerCode", outerCode);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/startCollectInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /**
+     * 3.2 更改收衣登记
+     *
+     * @param token           登录凭证（必填）	string
+     * @param appointBackTime 预约还衣时间（如果加急，此字段必填） number
+     * @param collectBrcode   收衣单条码	string
+     * @param collectCode     收衣单号(必填)	string
+     * @param isUrgent        是否加急 1为加急 0为不普通(必填)	number
+     */
+    public static void updateCollectInfoParam(String token, long appointBackTime, String
+            collectBrcode, String collectCode, int isUrgent, AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put("token", token);
-        params.put("typeCode", typeCode);
+        params.put("appointBackTime", appointBackTime);
+        params.put("collectBrcode", collectBrcode);
+        params.put("collectBrcode", collectBrcode);
+        params.put("isUrgent", isUrgent);
         String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("washingService-controller/wash/getClothesTypeConfigs%s",
+        String url = String.format("washingService-controller/wash/updateCollectInfoParam%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /**
+     * 3.3.衣物编码 (查看)
+     *
+     * @param token       登录凭证（必填）	string
+     * @param clothesCode 衣物编码（必填）	string
+     */
+
+    public static void registerClothesCode(String token, String clothesCode,
+                                           AsyncHttpResponseHandler handler) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("clothesCode", clothesCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("/washingService-controller/wash/registerClothesCode%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -1754,30 +1803,6 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
-
-    /**
-     * 3.1	收衣登记
-     *
-     * @param token       String	Y		登录凭证
-     * @param outerCode   String	N		洗衣服务订单号
-     * @param collectCode String	N		收衣单号
-     */
-    public static void startCollectInfo(String token, String outerCode, String collectCode,
-                                        AsyncHttpResponseHandler handler) {
-        if (null == token) {
-            return;
-        }
-
-        Map<String, String> params = new HashMap<>();
-        params.put("token", token);
-        params.put("outerCode", outerCode);
-        params.put("collectCode", collectCode);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("washingService-controller/wash/registerCollectInfo%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
-    }
-
 
     /*4.1拒绝接收*/
 	/*返回：ResultBase*/
@@ -1833,6 +1858,26 @@ public class DeliveryApi {
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /**
+     * 5.2	获取衣物配置项
+     *
+     * @param token String	Y		登录凭证
+     */
+    public static void getClothesTypeConfigs(String token, String typeCode,
+                                             AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("typeCode", typeCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/getClothesTypeConfigs%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
     /*5.3获取活动列表*/
 	/*返回：ResultActivityInfo*/
     public static void getActivityInfos(String token,
@@ -1880,33 +1925,6 @@ public class DeliveryApi {
         params.put("activityCode", activityCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getMatters%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
-    }
-
-    /**
-     * 3.2 更改收衣登记
-     *
-     * @param token           登录凭证（必填）	string
-     * @param appointBackTime 预约还衣时间（如果加急，此字段必填） number
-     * @param collectBrcode   收衣单条码	string
-     * @param collectCode     收衣单号(必填)	string
-     * @param isUrgent        是否加急 1为加急 0为不普通(必填)	number
-     */
-    public static void updateCollectInfoParam(String token, long appointBackTime, String
-            collectBrcode, String collectCode, int isUrgent, AsyncHttpResponseHandler handler) {
-        if (null == token) {
-            return;
-        }
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
-        params.put("appointBackTime", appointBackTime);
-        params.put("collectBrcode", collectBrcode);
-        params.put("collectBrcode", collectBrcode);
-        params.put("isUrgent", isUrgent);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("washingService-controller/wash/registerCollectInfo%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }

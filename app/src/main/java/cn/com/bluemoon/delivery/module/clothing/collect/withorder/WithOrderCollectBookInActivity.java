@@ -532,6 +532,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
             intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_NAME, info.getTypeName());
             intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, info.getTypeCode());
             intent.putExtra(ClothingBookInActivity.EXTRA_MODE, ClothingBookInActivity.MODE_MODIFY);
+            intent.putExtra(ClothingBookInActivity.EXTRA_CLOTHES_CODE, info.getClothesCode());
             WithOrderCollectBookInActivity.this.startActivityForResult(intent,
                     REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
         }

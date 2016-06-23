@@ -22,6 +22,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -32,6 +33,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClothesCode;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -73,7 +75,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     public static final String EXTRA_COLLECT_CODE = "EXTRA_COLLECT_CODE";
 
     /**
-     * 收衣单号，不为空时表示是新增衣物
+     * 收衣单号
      */
     private String collectCode;
 
@@ -86,6 +88,16 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * 洗衣服务订单号
      */
     private String outerCode;
+
+    /**
+     * 衣物编码（修改时必填）
+     */
+    public static final String EXTRA_CLOTHES_CODE = "EXTRA_CLOTHES_CODE";
+
+    /**
+     * 衣物编码
+     */
+    private String clothesCode;
 
     /**
      * 打开方式
@@ -119,10 +131,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      */
     public final static int RESULT_CODE_SAVE_CLOTHES_SUCCESS = 0x44;
 
-//    /**
-//     * 由于初始化可能要等待多个网络数据返回，可采用此种方式
-//     */
-//    private AtomicInteger addInitLatch = new AtomicInteger(2);
+    /**
+     * 修改时需要等获取衣物配置项和获取衣物信息返回后才结束初始化
+     */
+    private int modifyInitLatch = 0;
 
     @Bind(R.id.tv_title)
     TextView tvTitle;
@@ -158,7 +170,8 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         if (extraMode.equals(MODE_ADD)) {
             getAddClothingData();
         } else if (extraMode.equals(MODE_MODIFY)) {
-            // TODO: lk 2016/6/22 修改
+            modifyInitLatch = 2;
+            getModifyClothingData();
         }
     }
 
@@ -186,6 +199,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         extraMode = getIntent().getStringExtra(EXTRA_MODE);
         if (extraMode == null || !extraMode.equals(MODE_MODIFY)) {
             extraMode = MODE_ADD;
+        }
+
+        clothesCode = getIntent().getStringExtra(EXTRA_CLOTHES_CODE);
+        if (clothesCode == null) {
+            clothesCode = "";
         }
     }
 
@@ -225,6 +243,67 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         showProgressDialog();
         DeliveryApi.getClothesTypeConfigs(token, typeCode, clothesTypesHandler);
     }
+
+    private void getModifyClothingData() {
+        String token = ClientStateManager.getLoginToken(this);
+        showProgressDialog();
+        DeliveryApi.getClothesTypeConfigs(token, typeCode, clothesTypesHandler);
+        DeliveryApi.registerClothesCode(token, clothesCode, registerClothesCodeHandler);
+    }
+
+    /**
+     * 获取衣物信息返回
+     */
+    AsyncHttpResponseHandler registerClothesCodeHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            // TODO: lk 2016/6/20 待测试
+            LogUtils.d(getDefaultTag(), "registerClothesCode result = " + responseString);
+            --modifyInitLatch;
+            try {
+                ResultRegisterClothesCode result = JSON.parseObject(responseString,
+                        ResultRegisterClothesCode.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    setClothesInfo(result);
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+            checkModifyInitFinish();
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            --modifyInitLatch;
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            PublicUtil.showToastServerOvertime();
+            checkModifyInitFinish();
+        }
+    };
+
+    /**
+     * todo 修改时衣物信息、衣物名称都获取完后刷新界面
+     */
+    private void checkModifyInitFinish() {
+        if (modifyInitLatch == 0) {
+            dismissProgressDialog();
+        }
+    }
+
+    /**
+     * todo 设置衣物信息
+     */
+    private void setClothesInfo(ResultRegisterClothesCode result) {
+
+    }
+
 
     /**
      * 获取衣物配置项（衣物名称）返回
