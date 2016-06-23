@@ -25,7 +25,6 @@
     <color name="slide_menu_text_color">#7ea1b4</color><!-- 侧滑文字 -->
 
 
-
     <!-- 文字颜色规范 -->
     <color name="text_black">#333333</color><!-- 主体标题文字颜色-黑色-->
     <color name="text_black_light">#666666</color><!-- 正文颜色-浅灰色 -->
@@ -54,4 +53,5 @@
     <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
     <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
 
+    <color name="div_999">#999999</color> <!-- 洗衣服务分割线颜色 -->
 </resources>
