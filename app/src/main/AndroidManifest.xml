@@ -253,6 +253,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
 
+        <activity android:name=".module.clothing.collect.ClothingDeliverActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
         <activity android:name=".module.clothing.collect.ClothingBookInActivity"
             android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait"

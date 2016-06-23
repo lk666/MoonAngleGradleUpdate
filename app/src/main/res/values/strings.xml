@@ -690,11 +690,15 @@
 
 
 
-
+    <string name="clothing_deliver_title">衣物转交</string>
     <string name="clothing_deliver_code">接收人编号</string>
     <string name="clothing_btn_search">查 询</string>
     <string name="clothing_deliver_name">接收人姓名</string>
     <string name="clothing_deliver_phone">接收人电话</string>
     <string name="clothing_deliver_code_hint">请输入转交人编码</string>
     <string name="clothing_deliver_mark_hint">请输入备注，最多50字</string>
+
+
+
+    <string name="clothing_title_refuse">拒绝原因</string>
 </resources>

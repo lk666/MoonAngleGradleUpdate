@@ -92,4 +92,9 @@ public class Constants {
 	/************************baidu push jump key****************************/
 	public static final String KEY_JUMP = "jumpCode";
 
+
+	/************************洗衣服务取消和同意状态****************************/
+	public static final String STATUS_CANCEL_ORDER="CANCEL";
+	public static final  String STATUS_ACCEPTL_ORDER="RECEIVE";
+
 }
