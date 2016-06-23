@@ -1987,4 +1987,20 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
+
+    /**
+     * 3.5.衣物登记 删除
+     *
+     * @param token       登录凭证（必填）	string
+     * @param clothesCode 衣物编码（必填）
+     */
+    public static void delCollectInfo(String token, String clothesCode,  AsyncHttpResponseHandler handler) {
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("clothesCode", clothesCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/delCollectInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
 }

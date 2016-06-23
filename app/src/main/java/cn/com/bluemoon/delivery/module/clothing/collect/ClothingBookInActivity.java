@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,7 +24,6 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -37,11 +38,13 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClo
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
@@ -51,6 +54,9 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
  */
 public class ClothingBookInActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
+    private static final int RESULT_CODE_MANUAL = 0x23;
+    private static final int REQUEST_CODE_MANUAL = 0x43;
+
     /**
      * 衣物类型编号
      */
@@ -130,6 +136,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * 保存衣物信息成功
      */
     public final static int RESULT_CODE_SAVE_CLOTHES_SUCCESS = 0x44;
+    /**
+     * 删除衣物信息成功
+     */
+    public final static int RESULT_CODE_DELETE_CLOTHES_SUCCESS = 0x45;
 
     /**
      * 修改时需要等获取衣物配置项和获取衣物信息返回后才结束初始化
@@ -150,14 +160,21 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     View vDivFlaw;
     @Bind(R.id.sb_stain)
     SwitchButton sbStain;
-    @Bind(R.id.tv_backup)
-    TextView tvBackup;
     @Bind(R.id.et_backup)
     EditText etBackup;
     @Bind(R.id.sgv_photo)
     ScrollGridView sgvPhoto;
+
+    @Bind(R.id.v_div_btn_left)
+    View vDivLeft;
+    @Bind(R.id.btn_delete)
+    Button btnDelete;
+    @Bind(R.id.v_div_btn)
+    View vDivBtn;
     @Bind(R.id.btn_ok)
     Button btnOk;
+    @Bind(R.id.v_div_btn_right)
+    View vDivRight;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -221,6 +238,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         nameAdapter = new NameAdapter(this, this);
         gvClothingName.setAdapter(nameAdapter);
 
+        btnOk.setEnabled(false);
         clothingAdapter = new AddPhotoAdapter(this, this);
         sgvPhoto.setAdapter(clothingAdapter);
 
@@ -236,6 +254,21 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 }
             }
         });
+
+        if (extraMode.equals(MODE_ADD)) {
+            btnDelete.setVisibility(View.GONE);
+            vDivBtn.setVisibility(View.GONE);
+        } else if (extraMode.equals(MODE_MODIFY)) {
+            btnDelete.setVisibility(View.VISIBLE);
+            vDivBtn.setVisibility(View.VISIBLE);
+
+            LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) vDivLeft.getLayoutParams();
+            lp.setMargins(getResources().getDimensionPixelSize(R.dimen.div_btn_clothes_book_in),
+                    0, 0, 0);
+            vDivBtn.setLayoutParams(lp);
+            vDivLeft.setLayoutParams(lp);
+            vDivRight.setLayoutParams(lp);
+        }
     }
 
     private void getAddClothingData() {
@@ -258,8 +291,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             HTTP.UTF_8) {
 
         @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
             // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "registerClothesCode result = " + responseString);
             --modifyInitLatch;
@@ -268,6 +300,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         ResultRegisterClothesCode.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     setClothesInfo(result);
+                    return;
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
@@ -275,7 +308,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 LogUtils.e(getDefaultTag(), e.getMessage());
                 PublicUtil.showToastServerBusy();
             }
-            checkModifyInitFinish();
+            checkModifyInitFinish(0);
         }
 
         @Override
@@ -284,24 +317,43 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             --modifyInitLatch;
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             PublicUtil.showToastServerOvertime();
-            checkModifyInitFinish();
+            checkModifyInitFinish(0);
         }
     };
 
     /**
-     * todo 修改时衣物信息、衣物名称都获取完后刷新界面
+     * 修改时衣物信息、衣物名称都获取完后刷新界面
+     *
+     * @param selectPos 衣物名称选中项
      */
-    private void checkModifyInitFinish() {
+    private void checkModifyInitFinish(int selectPos) {
         if (modifyInitLatch == 0) {
             dismissProgressDialog();
+            checkBtnOKEnable();
+            if (selectPos > nameAdapter.getSelectedPos()) {
+                nameAdapter.setSelectedPos(selectPos);
+                nameAdapter.notifyDataSetInvalidated();
+            }
         }
     }
 
     /**
-     * todo 设置衣物信息
+     * 设置衣物信息
      */
     private void setClothesInfo(ResultRegisterClothesCode result) {
+        tvNumber.setText(result.getClothesCode());
+        tvNumber.setEnabled(false);
 
+        sbFalw.setChecked(result.getHasFlaw() == 1);
+        etFlaw.setText(result.getFlawDesc());
+
+        sbStain.setChecked(result.getHasStain() == 1);
+
+        etBackup.setText(result.getRemark());
+
+        clothingAdapter.setList(result.getClothesImg());
+        clothingAdapter.notifyDataSetChanged();
+        checkModifyInitFinish(nameAdapter.getSelectedIndex(result.getClothesnameCode()));
     }
 
 
@@ -350,10 +402,27 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         Collections.sort(clothesTypeConfigs);
 
         nameAdapter.setList(clothesTypeConfigs);
-        nameAdapter.notifyDataSetChanged();
+        if (extraMode.equals(MODE_ADD)) {
+            nameAdapter.notifyDataSetChanged();
+        } else if (extraMode.equals(MODE_MODIFY)) {
+            checkModifyInitFinish(0);
+        }
     }
 
-    @OnClick({R.id.btn_ok, R.id.tv_number})
+    /**
+     * 设置确定按钮的可点击性
+     */
+    private void checkBtnOKEnable() {
+        if (nameAdapter == null || nameAdapter.getSelectedPos() < 0 ||
+                TextUtils.isEmpty(tvNumber.getText().toString()) ||
+                clothingAdapter == null || clothingAdapter.getCount() < 1) {
+            btnOk.setEnabled(false);
+        } else {
+            btnOk.setEnabled(true);
+        }
+    }
+
+    @OnClick({R.id.btn_ok, R.id.btn_delete, R.id.tv_number})
     public void onClick(View view) {
         switch (view.getId()) {
             // 确定
@@ -372,14 +441,66 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         hasStain, remark, clothesImgIds, outerCode, registerCollectInfoHandler);
 
                 break;
-            // todo 输入衣物编码，tvNumber有文本，确定按钮可点击
+
+            // 删除
+            case R.id.btn_delete:
+                showProgressDialog();
+                String code = tvNumber.getText().toString();
+                DeliveryApi.delCollectInfo(ClientStateManager.getLoginToken(this), code,
+                        delCollectInfoHandler);
+                break;
+
+            //  输入衣物编码
             case R.id.tv_number:
-
-
+                goScanCode();
                 break;
             default:
                 break;
         }
+    }
+
+    /**
+     * 点击删除响应
+     */
+    AsyncHttpResponseHandler delCollectInfoHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            // TODO: lk 2016/6/20 待测试
+            LogUtils.d(getDefaultTag(), "delCollectInfo result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString, ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    setResult(RESULT_CODE_DELETE_CLOTHES_SUCCESS);
+                    finish();
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    /**
+     * 打开扫码界面
+     */
+    private void goScanCode() {
+        PublicUtil.openScanOrder(this, null, getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
     }
 
     /**
@@ -420,16 +541,53 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
+        if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
 
         switch (requestCode) {
+            case Constants.REQUEST_SCAN:
+                // 扫码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    handleScaneCodeBack(resultStr);
+                }
+                //   跳转到手动输入
+                else if (resultCode == RESULT_CODE_MANUAL) {
+                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
+                }
+                break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
+                    handleScaneCodeBack(resultStr);
+                }
+                //  跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
+                break;
+
             default:
                 break;
         }
     }
 
+    /**
+     * 处理扫码、手动输入数字码返回
+     *
+     * @param code
+     */
+    private void handleScaneCodeBack(String code) {
+        // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
+        PublicUtil.showToast("处理扫码、手动输入数字码返回" + code);
+        checkBtnOKEnable();
+    }
 
     /**
      * 衣物名称Adapter
@@ -439,10 +597,14 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         /**
          * 当前选中的位置
          */
-        private int selectedPos = 0;
+        private int selectedPos = -1;
 
         public void setSelectedPos(int pos) {
             this.selectedPos = pos;
+        }
+
+        public int getSelectedPos() {
+            return selectedPos;
         }
 
         public NameAdapter(Context context, OnListItemClickListener listener) {
@@ -486,6 +648,23 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             }
             return null;
         }
+
+        /**
+         * 获取选中的衣物名称序号
+         *
+         * @param clothesnameCode
+         * @return
+         */
+        public int getSelectedIndex(String clothesnameCode) {
+            int num = getCount();
+            for (int i = 0; i < num; i++) {
+                ClothesType type = (ClothesType) getItem(i);
+                if (type.getClothesnameCode().equals(clothesnameCode)) {
+                    return i;
+                }
+            }
+            return -1;
+        }
     }
 
     @Override
@@ -498,7 +677,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         else if (item instanceof ClothingPic) {
             ClothingPic pic = (ClothingPic) item;
             // 添加相片按钮
-            if (TextUtils.isEmpty(pic.getClothesImgId())) {
+            if (TextUtils.isEmpty(pic.getImgId())) {
                 // TODO: lk 2016/6/20 添加图片
             }
 

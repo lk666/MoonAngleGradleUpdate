@@ -400,8 +400,10 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
                     getData();
                 }
-
-                // TODO: lk 2016/6/14  衣物登记删除返回
+                // 删除成功
+                else if (resultCode == ClothingBookInActivity.RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
+                    getData();
+                }
                 break;
 
             case Constants.REQUEST_SCAN:

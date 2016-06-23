@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
-    android:orientation="vertical">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/page_bg_f2"
+              android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -29,7 +29,7 @@
                 android:singleLine="true"
                 android:text="@string/clothing_book_in_base_info"
                 android:textColor="@color/text_black_light"
-                android:textSize="@dimen/text_size_15" />
+                android:textSize="@dimen/text_size_15"/>
 
 
             <!--<LinearLayout-->
@@ -80,17 +80,17 @@
                     android:gravity="center_vertical"
                     android:text="@string/clothing_book_in_name"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/required_filed"
                     android:textColor="@color/text_red"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_ed" />
+            <include layout="@layout/line_solid_view_ed"/>
 
             <GridView
                 android:id="@+id/gv_clothing_name"
@@ -105,9 +105,9 @@
                 android:paddingRight="12dp"
                 android:paddingTop="5dp"
                 android:scrollbars="none"
-                android:stretchMode="columnWidth" />
+                android:stretchMode="columnWidth"/>
 
-            <include layout="@layout/line_solid_view_ed" />
+            <include layout="@layout/line_solid_view_ed"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -123,33 +123,33 @@
                     android:layout_height="wrap_content"
                     android:text="@string/clothing_book_in_number"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/required_filed"
                     android:textColor="@color/text_red"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:id="@+id/tv_number"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="40dp"
                     android:layout_marginLeft="20dp"
-                    android:gravity="right"
+                    android:gravity="right|center_vertical"
                     android:hint="@string/clothing_book_in_number_hint"
                     android:singleLine="true"
                     android:textColor="@color/text_black"
                     android:textColorHint="@color/text_black_light"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
             <include
                 layout="@layout/line_solid_view_ed"
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:layout_marginLeft="12dp" />
+                android:layout_marginLeft="12dp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -165,7 +165,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/clothing_book_in_falw"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -173,7 +173,7 @@
                     android:layout_weight="1"
                     android:text="@string/required_filed"
                     android:textColor="@color/text_red"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <cn.com.bluemoon.lib.view.switchbutton.SwitchButton
                     android:id="@+id/sb_falw"
@@ -191,14 +191,14 @@
                     app:kswThumbHeight="24dp"
                     app:kswThumbMargin="3dp"
                     app:kswThumbRadius="12dp"
-                    app:kswThumbWidth="24dp" />
+                    app:kswThumbWidth="24dp"/>
             </LinearLayout>
 
             <include
                 layout="@layout/line_solid_view_ed"
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:layout_marginLeft="12dp" />
+                android:layout_marginLeft="12dp"/>
 
             <EditText
                 android:id="@+id/et_flaw"
@@ -213,7 +213,7 @@
                 android:textColor="@color/text_black"
                 android:textColorHint="@color/text_black_light"
                 android:textSize="@dimen/text_size_13"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <include
                 android:id="@+id/v_div_flaw"
@@ -221,7 +221,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
                 android:layout_marginLeft="12dp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -237,7 +237,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/clothing_book_in_stain"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:layout_width="0dp"
@@ -245,7 +245,7 @@
                     android:layout_weight="1"
                     android:text="@string/required_filed"
                     android:textColor="@color/text_red"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <cn.com.bluemoon.lib.view.switchbutton.SwitchButton
                     android:id="@+id/sb_stain"
@@ -263,14 +263,14 @@
                     app:kswThumbHeight="24dp"
                     app:kswThumbMargin="3dp"
                     app:kswThumbRadius="12dp"
-                    app:kswThumbWidth="24dp" />
+                    app:kswThumbWidth="24dp"/>
             </LinearLayout>
 
             <include
                 layout="@layout/line_solid_view_ed"
                 android:layout_width="fill_parent"
                 android:layout_height="1px"
-                android:layout_marginLeft="12dp" />
+                android:layout_marginLeft="12dp"/>
 
 
             <RelativeLayout
@@ -287,7 +287,7 @@
                     android:gravity="center_vertical"
                     android:text="@string/clothing_book_in_backup"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <EditText
                     android:id="@+id/et_backup"
@@ -303,7 +303,7 @@
                     android:minHeight="44dp"
                     android:textColor="@color/text_black"
                     android:textColorHint="@color/text_black_light"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
             </RelativeLayout>
 
             <LinearLayout
@@ -318,14 +318,14 @@
                     android:layout_height="wrap_content"
                     android:text="@string/clothing_book_in_phote"
                     android:textColor="@color/text_black_light"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
                     android:hint="@string/clothing_book_in_phote_hint"
-                    android:textSize="@dimen/text_size_11" />
+                    android:textSize="@dimen/text_size_11"/>
             </LinearLayout>
 
             <cn.com.bluemoon.lib.view.ScrollGridView
@@ -344,7 +344,7 @@
                 android:paddingRight="6dp"
                 android:scrollbars="none"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="6dp" />
+                android:verticalSpacing="6dp"/>
 
         </LinearLayout>
     </ScrollView>
@@ -358,22 +358,22 @@
         <View
             android:id="@+id/v_div_btn_left"
             android:layout_width="8dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
-        <!--<Button-->
-        <!--android:id="@+id/btn_delete"-->
-        <!--style="@style/btn_red"-->
-        <!--android:layout_width="0dp"-->
-        <!--android:layout_height="40dp"-->
-        <!--android:layout_weight="1"-->
-        <!--android:background="@drawable/btn_border_red_large"-->
-        <!--android:text="@string/btn_delete"-->
-        <!--android:textColor="@color/text_red" />-->
+        <Button
+            android:id="@+id/btn_delete"
+            style="@style/btn_red"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_weight="1"
+            android:background="@drawable/btn_border_red_large"
+            android:text="@string/btn_delete"
+            android:textColor="@color/text_red"/>
 
-        <!--<View-->
-        <!--android:id="@+id/v_div_btn"-->
-        <!--android:layout_width="26dp"-->
-        <!--android:layout_height="wrap_content" />-->
+        <View
+            android:id="@+id/v_div_btn"
+            android:layout_width="8dp"
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btn_ok"
@@ -381,12 +381,12 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="1"
-            android:text="@string/btn_ok" />
+            android:text="@string/btn_ok"/>
 
         <View
             android:id="@+id/v_div_btn_right"
             android:layout_width="8dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

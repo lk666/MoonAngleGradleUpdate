@@ -2,7 +2,10 @@ package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.List;
+
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 
 /**
  * {@link cn.com.bluemoon.delivery.app.api.DeliveryApi#registerClothesCode(String, String, AsyncHttpResponseHandler)}
@@ -35,22 +38,12 @@ public class ResultRegisterClothesCode extends ResultBase {
      * 有无污渍（1:有；0：无）
      */
     private int hasStain;
-    /**
-     * 成功标志
-     */
-    private boolean isSuccess;
+
     /**
      * 备注
      */
     private String remark;
-    /**
-     * 返回码
-     */
-    private int responseCode;
-    /**
-     * 返回提示
-     */
-    private String responseMsg;
+
     /**
      * 衣物类型编号
      */
@@ -59,6 +52,11 @@ public class ResultRegisterClothesCode extends ResultBase {
      * 衣物类型名称
      */
     private String typeName;
+
+    /**
+     * 衣物图片列表
+     */
+    private List<ClothingPic> clothesImg;
 
     public String getClothesCode() {
         return clothesCode;
@@ -108,36 +106,12 @@ public class ResultRegisterClothesCode extends ResultBase {
         this.hasStain = hasStain;
     }
 
-    public boolean getIsSuccess() {
-        return isSuccess;
-    }
-
-    public void setIsSuccess(boolean isSuccess) {
-        this.isSuccess = isSuccess;
-    }
-
     public String getRemark() {
         return remark;
     }
 
     public void setRemark(String remark) {
         this.remark = remark;
-    }
-
-    public int getResponseCode() {
-        return responseCode;
-    }
-
-    public void setResponseCode(int responseCode) {
-        this.responseCode = responseCode;
-    }
-
-    public String getResponseMsg() {
-        return responseMsg;
-    }
-
-    public void setResponseMsg(String responseMsg) {
-        this.responseMsg = responseMsg;
     }
 
     public String getTypeCode() {
@@ -154,6 +128,14 @@ public class ResultRegisterClothesCode extends ResultBase {
 
     public void setTypeName(String typeName) {
         this.typeName = typeName;
+    }
+
+    public List<ClothingPic> getClothesImg() {
+        return clothesImg;
+    }
+
+    public void setClothesImg(List<ClothingPic> clothesImg) {
+        this.clothesImg = clothesImg;
     }
 
 }

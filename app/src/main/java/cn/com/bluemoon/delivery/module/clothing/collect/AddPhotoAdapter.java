@@ -41,7 +41,7 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
         TextView tvAdd = ViewHolder.get(convertView, R.id.tv_add);
 
         // 添加相片按钮
-        if (TextUtils.isEmpty(pic.getClothesImgId())) {
+        if (TextUtils.isEmpty(pic.getImgId())) {
             ivPic.setImageResource(R.drawable.btn_border_grep_shape4);
             ivDelete.setVisibility(View.GONE);
             ivAdd.setVisibility(View.VISIBLE);
@@ -50,7 +50,7 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
 
         // 已上传图片
         else {
-            ImageLoaderUtil.displayImage(context, pic.getImgServicePath(), ivPic);
+            ImageLoaderUtil.displayImage(context, pic.getImgPath(), ivPic);
             ivDelete.setVisibility(View.VISIBLE);
             ivAdd.setVisibility(View.GONE);
             tvAdd.setVisibility(View.GONE);
@@ -67,8 +67,8 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
     public String getAllIdsString() {
         StringBuilder builder = new StringBuilder("");
         for (ClothingPic pic : list) {
-            if (!TextUtils.isEmpty(pic.getClothesImgId())) {
-                builder.append(",").append(pic.getClothesImgId());
+            if (!TextUtils.isEmpty(pic.getImgId())) {
+                builder.append(",").append(pic.getImgId());
             }
         }
         String ids = builder.toString();
