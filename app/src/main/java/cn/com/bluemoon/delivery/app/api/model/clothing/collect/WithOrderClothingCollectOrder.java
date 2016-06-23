@@ -52,11 +52,11 @@ public class WithOrderClothingCollectOrder {
     /**
      * 消费者姓名
      */
-    private String customerName;
+    private String receiveName;
     /**
      * 消费者电话
      */
-    private String customerPhone;
+    private String receivePhone;
     /**
      * 省份
      */
@@ -116,20 +116,20 @@ public class WithOrderClothingCollectOrder {
         this.outerCode = outerCode;
     }
 
-    public String getCustomerName() {
-        return customerName;
+    public String getReceiveName() {
+        return receiveName;
     }
 
-    public void setCustomerName(String customerName) {
-        this.customerName = customerName;
+    public void setReceiveName(String receiveName) {
+        this.receiveName = receiveName;
     }
 
-    public String getCustomerPhone() {
-        return customerPhone;
+    public String getReceivePhone() {
+        return receivePhone;
     }
 
-    public void setCustomerPhone(String customerPhone) {
-        this.customerPhone = customerPhone;
+    public void setReceivePhone(String receivePhone) {
+        this.receivePhone = receivePhone;
     }
 
     public String getProvince() {

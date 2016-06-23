@@ -72,11 +72,11 @@
         <TextView
             android:id="@+id/tv_right_action"
             android:layout_width="66dp"
-            android:layout_height="wrap_content"
+            android:layout_height="30dp"
             android:layout_alignParentRight="true"
             android:layout_below="@+id/btn_right_action"
             android:layout_marginRight="12dp"
-            android:layout_marginTop="18dp"
+            android:layout_marginTop="13dp"
             android:gravity="center"
             android:textColor="@color/text_black_light"
             android:textSize="@dimen/text_size_13" />

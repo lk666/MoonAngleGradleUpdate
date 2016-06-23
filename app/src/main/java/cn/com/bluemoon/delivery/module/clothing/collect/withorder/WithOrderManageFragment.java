@@ -142,7 +142,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "getOrderInfos result = " + responseString);
             dismissProgressDialog();
             listviewMain.onRefreshComplete();
@@ -327,14 +326,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             }
 
             // 名称
-            tvCustomerName.setText(order.getCustomerName());
+            tvCustomerName.setText(order.getReceiveName());
 
             //电话
-            tvCustomerPhone.setText(order.getCustomerPhone());
-            if (isNew) {
-                tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-                tvCustomerPhone.getPaint().setAntiAlias(true);
-            }
+            tvCustomerPhone.setText(order.getReceivePhone());
 
             // 地址
             StringBuilder address = new StringBuilder(order.getProvince()).append(order.getCity())
@@ -378,7 +373,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                 // 衣物转交
                 case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
-                    btnRightAction.setVisibility(View.GONE);
+                    btnRightAction.setVisibility(View.INVISIBLE);
                     tvRightAction.setVisibility(View.VISIBLE);
 
                     tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
@@ -403,9 +398,17 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     break;
             }
 
-            tvPayTotal.setText((order.getPayTotal() / 100.0) + "");
+            tvPayTotal.setText(String.format("%.2f", (order.getPayTotal() / 100.0)));
             tvReceivableCount.setText(order.getReceivableCount() + "");
             tvActualCount.setText(order.getActualCount() + "");
+
+            if (isNew) {
+                tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                tvCustomerPhone.getPaint().setAntiAlias(true);
+
+                tvRightAction.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                tvRightAction.getPaint().setAntiAlias(true);
+            }
 
             setClickEvent(isNew, position, tvDetail, ivDetail, btnRightAction, tvRightAction,
                     tvCustomerPhone);
@@ -421,7 +424,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         switch (view.getId()) {
             // 打电话
             case R.id.tv_customer_phone:
-                call(order.getCustomerPhone());
+                call(order.getReceivePhone());
                 break;
             // TODO: lk 2016/6/19    订单详情
             case R.id.tv_detail:

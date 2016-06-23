@@ -1949,7 +1949,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
 
 

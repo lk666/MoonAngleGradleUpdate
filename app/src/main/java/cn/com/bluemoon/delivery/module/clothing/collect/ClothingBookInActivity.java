@@ -20,7 +20,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
@@ -44,8 +43,6 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
-// TODO: lk 2016/6/14 暂时只是新增收衣界面
-
 /**
  * 衣物登记
  * Created by luokai on 2016/6/12.
@@ -53,13 +50,22 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 public class ClothingBookInActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
     /**
-     * 衣物类型编号(如：洗衣服务A类)
+     * 衣物类型编号
      */
     public static final String EXTRA_TYPE_CODE = "EXTRA_TYPE_CODE";
     /**
      * 衣物类型编号(如：洗衣服务A类)，不为空时表示是新增衣物
      */
     private String typeCode;
+
+    /**
+     * 衣物类型名称(如：洗衣服务A类)
+     */
+    public static final String EXTRA_TYPE_NAME = "EXTRA_TYPE_NAME";
+    /**
+     * 衣物类型编号(如：洗衣服务A类)，不为空时表示是新增衣物
+     */
+    private String typeName;
 
     /**
      * 收衣单号（可空）
@@ -80,6 +86,23 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * 洗衣服务订单号
      */
     private String outerCode;
+
+    /**
+     * 打开方式
+     */
+    public static final String EXTRA_MODE = "EXTRA_MODE";
+    /**
+     * 打开方式：有订单收衣添加
+     */
+    public static final String MODE_ADD = "MODE_ADD";
+    /**
+     * 打开方式：有订单收衣修改、删除
+     */
+    public static final String MODE_MODIFY = "MODE_MODIFY";
+    /**
+     * 打开方式
+     */
+    private String extraMode;
 
     /**
      * 衣物名称列表adapter
@@ -129,7 +152,26 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clothing_book_in);
         ButterKnife.bind(this);
+        setIntentData();
+
+        initView();
+        if (extraMode.equals(MODE_ADD)) {
+            getAddClothingData();
+        } else if (extraMode.equals(MODE_MODIFY)) {
+            // TODO: lk 2016/6/22 修改
+        }
+    }
+
+    private void setIntentData() {
         typeCode = getIntent().getStringExtra(EXTRA_TYPE_CODE);
+        if (typeCode == null) {
+            typeCode = "";
+        }
+
+        typeName = getIntent().getStringExtra(EXTRA_TYPE_NAME);
+        if (typeName == null) {
+            typeName = "";
+        }
 
         collectCode = getIntent().getStringExtra(EXTRA_COLLECT_CODE);
         if (collectCode == null) {
@@ -141,8 +183,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             outerCode = "";
         }
 
-        initAddClothing();
-        getAddClothingData();
+        extraMode = getIntent().getStringExtra(EXTRA_MODE);
+        if (extraMode == null || !extraMode.equals(MODE_MODIFY)) {
+            extraMode = MODE_ADD;
+        }
     }
 
     @Override
@@ -151,10 +195,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     }
 
     /**
-     * 初始化新增衣物界面
+     * 初始化衣物界面
      */
-    private void initAddClothing() {
-        tvTitle.setText(getString(R.string.clothing_book_in_base_info) + "-" + typeCode);
+    private void initView() {
+        tvTitle.setText(getString(R.string.clothing_book_in_base_info) + "-" + typeName);
 
         nameAdapter = new NameAdapter(this, this);
         gvClothingName.setAdapter(nameAdapter);
