@@ -34,23 +34,12 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"/>
 
-    <LinearLayout
+    <RelativeLayout
         style="@style/row_style"
         >
-        <EditText
-            android:id="@+id/txt_user_id"
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="wrap_content"
-            android:maxLength="8"
-            android:singleLine="true"
-            android:inputType="number"
-            android:hint="@string/clothing_deliver_code_hint"
-            android:textSize="@dimen/text_size_15"
-            android:textColor="@color/text_black"
-            android:background="@null"
-            />
+
         <Button
+            android:id="@+id/btn_search"
             android:layout_width="66dp"
             android:layout_height="30dp"
             android:layout_alignParentRight="true"
@@ -59,9 +48,26 @@
             android:background="@drawable/btn_red_shape_large"
             android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_15" />
-    </LinearLayout>
 
-    <View style="@style/line_solid_style" />
+        <EditText
+            android:id="@+id/ed_user_id"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:maxLength="8"
+            android:singleLine="true"
+            android:inputType="number"
+            android:hint="@string/clothing_deliver_code_hint"
+            android:layout_alignTop="@id/btn_search"
+            android:layout_alignBottom="@id/btn_search"
+            android:textSize="@dimen/text_size_15"
+            android:textColor="@color/text_black"
+            android:background="@null"
+            />
+    </RelativeLayout>
+
+    <View style="@style/line_solid_style"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"/>
 
     <RelativeLayout
         style="@style/row_style"
@@ -75,9 +81,9 @@
             android:textColor="@color/text_black"
             />
         <TextView
+            android:id="@+id/txt_deliver_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="张琳琳"
             android:layout_alignParentRight="true"
             android:singleLine="true"
             android:layout_marginRight="16dp"
@@ -104,9 +110,9 @@
             android:textColor="@color/text_black"
             />
         <TextView
+            android:id="@+id/txt_deliver_phone"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="18620798515"
             android:layout_alignParentRight="true"
             android:singleLine="true"
             android:layout_marginRight="16dp"
@@ -128,13 +134,13 @@
             android:textColor="@color/text_black"
             />
         <EditText
+            android:id="@+id/txt_deliver_remark"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
             android:hint="@string/clothing_deliver_mark_hint"
             android:layout_alignParentRight="true"
             android:singleLine="true"
             android:layout_marginRight="16dp"
-            android:gravity="right"
             android:textSize="@dimen/text_size_15"
             android:textColor="@color/text_black"
             android:background="@null"
@@ -159,7 +165,7 @@
 
 
         <Button
-            android:id="@+id/btn_delete"
+            android:id="@+id/btn_cancel"
             style="@style/btn_red"
             android:layout_width="0dp"
             android:layout_height="40dp"

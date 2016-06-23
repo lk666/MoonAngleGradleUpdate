@@ -555,7 +555,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(getDefaultTag(), "refuseHandler result = " + responseString);
+            LogUtils.d(getDefaultTag(), "baseHandler result = " + responseString);
             dismissProgressDialog();
             try {
                 ResultBase result = JSON.parseObject(responseString,
