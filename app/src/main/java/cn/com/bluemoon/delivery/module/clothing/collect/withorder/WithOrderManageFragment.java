@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -35,7 +34,6 @@ import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingDeliverActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -46,7 +44,6 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 // TODO: lk 2016/6/13 可写个基类专门处理这种基本逻辑一样的fragment，将公共逻辑抽取（一步步来），
 // 可参照dobago的BaseRefreshListFragment
@@ -454,9 +451,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                     //确认接收
                     case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
-                        // TODO: lk 2016/6/19 确认接收
-                        PublicUtil.showToast(" 确认接收:" + order.getOuterCodeType() + ","
-                                + order.getOuterCode() + ", " + order.getCollectCode());
+                        confirmDeliver(order.getCollectCode());
                         break;
 
                     case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
@@ -586,6 +581,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
     private void deliver(String collectCode){
         ClothingDeliverActivity.actionStart(getActivity(),collectCode);
+    }
+
+    private void confirmDeliver(String collectCode){
+        ClothingDeliverConfirmActivity.actionStart(getActivity(),collectCode);
     }
 
 }

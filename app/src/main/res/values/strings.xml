@@ -698,7 +698,9 @@
     <string name="clothing_deliver_code_hint">请输入转交人编码</string>
     <string name="clothing_deliver_mark_hint">请输入备注，最多50字</string>
 
+    <string name="clothing_deliver_user">转交人</string>
+    <string name="title_clothing_deliver_confirm">确认收衣</string>
 
-
+    <string name="link_phone"><u>18620798515</u></string>
     <string name="clothing_title_refuse">拒绝原因</string>
 </resources>

@@ -4,8 +4,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * 具有自定义actionBar的基础Activity
@@ -68,4 +79,44 @@ public abstract class BaseActionBarActivity extends BaseActivity {
     protected void ontActionBarBtnRightClick() {
 
     }
+
+    protected void onResponseSuccess(String responseString){
+        ResultBase result = JSON.parseObject(responseString,
+                ResultBase.class);
+        if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+            PublicUtil.showToast(result.getResponseMsg());
+            finish();
+        }
+    }
+
+   protected   AsyncHttpResponseHandler baseHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(getDefaultTag(), "baseHandler result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    onResponseSuccess(responseString);
+                } else {
+                    PublicUtil.showErrorMsg(BaseActionBarActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
 }
