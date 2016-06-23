@@ -280,6 +280,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private void getModifyClothingData() {
         String token = ClientStateManager.getLoginToken(this);
         showProgressDialog();
+        modifyInitLatch = 2;
         DeliveryApi.getClothesTypeConfigs(token, typeCode, clothesTypesHandler);
         DeliveryApi.registerClothesCode(token, clothesCode, registerClothesCodeHandler);
     }
@@ -381,6 +382,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 LogUtils.e(getDefaultTag(), e.getMessage());
                 PublicUtil.showToastServerBusy();
             }
+            --modifyInitLatch;
         }
 
         @Override
@@ -389,6 +391,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             dismissProgressDialog();
             PublicUtil.showToastServerOvertime();
+            --modifyInitLatch;
         }
     };
 

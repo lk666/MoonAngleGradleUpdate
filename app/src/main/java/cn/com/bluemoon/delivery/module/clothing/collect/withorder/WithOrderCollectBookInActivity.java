@@ -12,8 +12,6 @@ import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -38,6 +36,7 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
+import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
@@ -90,11 +89,11 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     @Bind(R.id.ll_appoint_back_time)
     LinearLayout llAppointBackTime;
     @Bind(R.id.lv_order_detail)
-    ListView lvOrderDetail;
+    NoScrollListView lvOrderDetail;
     @Bind(R.id.tv_actual_collect_count)
     TextView tvActualCollectCount;
     @Bind(R.id.lv_order_receive)
-    ListView lvOrderReceive;
+    NoScrollListView lvOrderReceive;
     @Bind(R.id.v_div_isurgent)
     View vDivIsurgent;
     @Bind(R.id.ll_isurgent)
@@ -387,7 +386,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         orderDetailAdapter.setList(result.getOrderDetail());
         orderDetailAdapter.notifyDataSetInvalidated();
 
-        ((ScrollView) findViewById(R.id.main)).scrollTo(0, 0);
+        findViewById(R.id.main).scrollTo(0, 0);
     }
 
     @Override
@@ -647,11 +646,11 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
             tvTypeName.setText(item.getTypeName());
 
-            int receivableCount = item.getReceivableCount();
+            int receivableCount = item.getDetailReceivableCount();
             tvReceivableCount.setText(getString(R.string
                     .with_order_collect_appoint_receivable_count) + receivableCount);
 
-            int actualCount = item.getActualCount();
+            int actualCount = item.getDetailActualCount();
             tvActualCount.setText(getString(R.string
                     .with_order_collect_appoint_actual_count) + actualCount);
 

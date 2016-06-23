@@ -13,11 +13,13 @@ public class OrderDetail {
     /**
      * 应收数量
      */
-    private int receivableCount;
+    private int detailReceivableCount;
+
     /**
      * 实收数量
      */
-    private int actualCount;
+    private int detailActualCount;
+
     /**
      * 类型编号
      */
@@ -32,21 +34,21 @@ public class OrderDetail {
     }
 
 
-    public int getReceivableCount() {
-        return receivableCount;
+    public int getDetailReceivableCount() {
+        return detailReceivableCount;
     }
 
-    public void setReceivableCount(int receivableCount) {
-        this.receivableCount = receivableCount;
+    public void setDetailReceivableCount(int detailReceivableCount) {
+        this.detailReceivableCount = detailReceivableCount;
     }
 
 
-    public int getActualCount() {
-        return actualCount;
+    public int getDetailActualCount() {
+        return detailActualCount;
     }
 
-    public void setActualCount(int actualCount) {
-        this.actualCount = actualCount;
+    public void setDetailActualCount(int detailActualCount) {
+        this.detailActualCount = detailActualCount;
     }
 
 
