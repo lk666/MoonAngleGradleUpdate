@@ -333,7 +333,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             checkBtnOKEnable();
             if (selectPos > nameAdapter.getSelectedPos()) {
                 nameAdapter.setSelectedPos(selectPos);
-                nameAdapter.notifyDataSetInvalidated();
+                nameAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -406,6 +406,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         nameAdapter.setList(clothesTypeConfigs);
         if (extraMode.equals(MODE_ADD)) {
+            nameAdapter.setSelectedPos(0);
             nameAdapter.notifyDataSetChanged();
         } else if (extraMode.equals(MODE_MODIFY)) {
             checkModifyInitFinish(0);
@@ -675,6 +676,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         // 点击衣物名称
         if (item instanceof ClothesType) {
             nameAdapter.setSelectedPos(position);
+            nameAdapter.notifyDataSetChanged();
         }
         // 衣物照片
         else if (item instanceof ClothingPic) {

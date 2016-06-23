@@ -10,7 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -40,7 +39,6 @@ import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
@@ -355,6 +353,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         // 包装袋码（收衣单条码）
         tvCollectBrcode.setEnabled(true);
+        tvCollectBrcode.setText(result.getCollectBrcode());
 
         appointBackTime = result.getAppointBackTime();
         if (result.getIsUrgent() == 1) {

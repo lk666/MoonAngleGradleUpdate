@@ -12,6 +12,10 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
  * Created by lk on 2016/6/21.
  */
 public class ResultStartCollectInfos extends ResultBase {
+    /**
+     * 洗衣单条码
+     */
+    private String collectBrcode;
 
     /**
      * 洗衣服务订单号
@@ -166,6 +170,14 @@ public class ResultStartCollectInfos extends ResultBase {
 
     public void setReceivableCount(int receivableCount) {
         this.receivableCount = receivableCount;
+    }
+
+    public String getCollectBrcode() {
+        return collectBrcode;
+    }
+
+    public void setCollectBrcode(String collectBrcode) {
+        this.collectBrcode = collectBrcode;
     }
 
     public int getActualCount() {
