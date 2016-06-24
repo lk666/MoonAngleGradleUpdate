@@ -7,6 +7,7 @@
         android:id="@+id/iv_pic"
         android:layout_width="60dp"
         android:scaleType="fitCenter"
+        android:layout_marginTop="10dp"
         android:layout_height="60dp"
         android:layout_centerHorizontal="true" />
 
@@ -14,6 +15,7 @@
         android:id="@+id/iv_delete"
         android:layout_width="20dp"
         android:layout_height="20dp"
+        android:layout_marginRight="-10dp"
         android:scaleType="fitCenter"
         android:src="@mipmap/ic_delete_reveal"
         android:layout_alignRight="@+id/iv_pic" />
@@ -24,7 +26,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:scaleType="fitCenter"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="23dp"
         android:src="@mipmap/ic_camera" />
 
     <TextView
@@ -34,6 +36,7 @@
         android:layout_below="@+id/iv_add"
         android:layout_centerHorizontal="true"
         android:gravity="center"
+        android:layout_marginTop="8dp"
         android:singleLine="true"
         android:textColor="@color/text_black"
         android:text="@string/clothing_book_in_phote_most"

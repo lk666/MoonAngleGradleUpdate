@@ -92,7 +92,7 @@
 
             <include layout="@layout/line_solid_view_999"/>
 
-            <GridView
+            <cn.com.bluemoon.lib.view.ScrollGridView
                 android:id="@+id/gv_clothing_name"
                 android:layout_width="match_parent"
                 android:layout_height="113dp"
