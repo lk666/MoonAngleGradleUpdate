@@ -689,7 +689,12 @@
     <string name="clothing_book_in_phote_most">（最多10张）</string>
 
 
+    <!--无订单收衣-->
+    <string name="tab_title_without_order_collect_manage">无订单收衣</string>
 
+
+
+    <!--衣物转交-->
     <string name="clothing_deliver_title">衣物转交</string>
     <string name="clothing_deliver_code">接收人编号</string>
     <string name="clothing_btn_search">查 询</string>
@@ -703,4 +708,8 @@
 
     <string name="link_phone"><u>18620798515</u></string>
     <string name="clothing_title_refuse">拒绝原因</string>
+
+    <string name="title_clothing_without_order">无订单收衣</string>
+    <string name="clothing_without_order_activity_desc">活动说明</string>
+
 </resources>

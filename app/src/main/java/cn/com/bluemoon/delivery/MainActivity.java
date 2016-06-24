@@ -504,7 +504,16 @@ public class MainActivity extends SlidingActivity {
         item.setIconImg("http://img4.duitang.com/uploads/item/201604/11/20160411233438_4iaL3.thumb.700_0.jpeg");
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
+
+        UserRight item1 = new UserRight();
+        item1.setMenuCode(MenuCode.mall_erp_clothing_collect_without_order.toString());
+        item1.setMenuName("无订单收衣");
+        item1.setIconImg("http://img4.duitang.com/uploads/item/201604/11/20160411233438_4iaL3.thumb.700_0.jpeg");
+        item1.setIconImg(listRight.get(0).getIconImg());
+        item1.setGroupNum(2);
+
         listRight.add(item);
+        listRight.add(item1);
         if(item.getGroupNum()>groupCount) {
             groupCount = item.getGroupNum();
         }
@@ -766,7 +775,11 @@ public class MainActivity extends SlidingActivity {
            // TODO: lk 2016/6/12 有订单收衣管理，待定
            else if (MenuCode.mall_erp_clothing_collect_normal.toString().equals(userRight.getMenuCode())) {
                ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
-           } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+           }
+           else if (MenuCode.mall_erp_clothing_collect_without_order.toString().equals(userRight.getMenuCode())) {
+               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
+           }
+           else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
            } else{
                PublicUtil.showToast(getString(R.string.main_tab_no_data));

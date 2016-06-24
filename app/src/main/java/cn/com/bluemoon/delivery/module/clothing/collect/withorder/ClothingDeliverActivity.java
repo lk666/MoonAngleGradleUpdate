@@ -225,7 +225,7 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             tvContent.setText(String.format("%s,%s,%s,%s\n%s", DateUtil.getTime(deliver.getTransmitTime(), "yyyy-MM-dd HH:mm:ss"),
                     deliver.getReceiverCode(),
                     deliver.getReceiverName(),
-                    deliver.getReceiverPhoneer(),
+                    deliver.getReceiverPhone(),
                     deliver.getRefusalReason()));
 
         }

@@ -69,7 +69,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     @Bind(R.id.listview_main)
     PullToRefreshListView listviewMain;
 
-    private String type;
+    private String manager;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -77,7 +78,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         main = (ClothingTabActivity) getActivity();
 
         Bundle bundle = getArguments();
-        type = bundle.getString(ClothingTabActivity.TYPE);
+        manager = bundle.getString("manager");
 
         initCustomActionBar();
 
@@ -120,7 +121,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private void getData() {
         String token = ClientStateManager.getLoginToken(main);
 
-        if (type.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
+        if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
             showProgressDialog();
             DeliveryApi.getOrderInfos(token, withOrderListHandler);
         }
@@ -129,7 +130,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private void setData(ResultWithOrderClothingCollectList resultOrder) {
         orderList = resultOrder;
         adapter.setList(orderList.getOrderInfos());
-        main.setAmountShow(type, orderList.getOrderInfos().size());
+        main.setAmountShow(manager, orderList.getOrderInfos().size());
         adapter.notifyDataSetChanged();
     }
 
@@ -184,9 +185,9 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                     @Override
                     public void setTitle(TextView v) {
-                        if (type.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
+                       // if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
                             v.setText(R.string.tab_title_with_order_collect_manage);
-                        }
+                       // }
                     }
                 });
 
