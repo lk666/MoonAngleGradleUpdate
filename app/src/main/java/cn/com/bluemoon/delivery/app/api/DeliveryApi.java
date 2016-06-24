@@ -1821,6 +1821,24 @@ public class DeliveryApi {
     }
 
 
+    /*2.9查询衣物转交记录*/
+	/*返回：ResultClothesDeliverInfos*/
+    public static void queryClothesDeliverInfo(String token, String collectCode,
+                                     AsyncHttpResponseHandler handler) {
+        if (null == token||StringUtil.isEmpty(collectCode) ) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/queryClothesDeliverInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
     /*4.1拒绝接收*/
 	/*返回：ResultBase*/
     public static void refuseOrderInfo(String token, String collectCode, String remark,
