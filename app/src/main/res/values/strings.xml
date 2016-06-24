@@ -686,7 +686,8 @@
     <string name="clothing_book_in_backup_hint">请输入备注信息，上限100字</string>
     <string name="clothing_book_in_phote">衣物照片</string>
     <string name="clothing_book_in_phote_hint">首张为正面整体照，其他拍摄瑕疵部位</string>
-    <string name="clothing_book_in_phote_most">（最多10张）</string>
+    <string name="clothing_book_in_phote_most">(最多10张)</string>
+    <string name="clothing_book_delete_hint">确认删除该衣物信息？</string>
 
 
     <!--无订单收衣-->

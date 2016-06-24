@@ -18,6 +18,10 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
  * Created by lk on 2016/6/15.
  */
 public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
+    /**
+     * 标记最后一个添加按钮
+     */
+    public final static String ADD_IMG_ID = "ADD_IMG_ID";
 
     public AddPhotoAdapter(Context context, OnListItemClickListener listener) {
         super(context, listener);
@@ -41,7 +45,7 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
         TextView tvAdd = ViewHolder.get(convertView, R.id.tv_add);
 
         // 添加相片按钮
-        if (TextUtils.isEmpty(pic.getImgId())) {
+        if (pic.getImgId().equals(ADD_IMG_ID)) {
             ivPic.setImageResource(R.drawable.btn_border_grep_shape4);
             ivDelete.setVisibility(View.GONE);
             ivAdd.setVisibility(View.VISIBLE);

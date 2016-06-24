@@ -92,7 +92,7 @@
 
             <include layout="@layout/line_solid_view_999"/>
 
-            <GridView
+            <cn.com.bluemoon.lib.view.ScrollGridView
                 android:id="@+id/gv_clothing_name"
                 android:layout_width="match_parent"
                 android:layout_height="113dp"
@@ -175,23 +175,10 @@
                     android:textColor="@color/text_red"
                     android:textSize="@dimen/text_size_15"/>
 
-                <cn.com.bluemoon.lib.view.switchbutton.SwitchButton
+                <include
                     android:id="@+id/sb_falw"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:textColor="@drawable/switch_checkbox_text_color"
-                    android:textSize="@dimen/text_size_15"
-                    app:kswBackDrawable="@drawable/switch_checkbox_bg"
-                    app:kswBackMeasureRatio="2.17"
-                    app:kswFadeBack="true"
-                    app:kswTextOff="无"
-                    app:kswTextOn="有"
-                    app:kswThumbColor="@drawable/switch_checkbox_text_color"
-                    app:kswThumbHeight="24dp"
-                    app:kswThumbMargin="3dp"
-                    app:kswThumbRadius="12dp"
-                    app:kswThumbWidth="24dp"/>
+                    layout="@layout/widget_switch_button_has_none" />
+
             </LinearLayout>
 
             <include
@@ -247,23 +234,9 @@
                     android:textColor="@color/text_red"
                     android:textSize="@dimen/text_size_15"/>
 
-                <cn.com.bluemoon.lib.view.switchbutton.SwitchButton
+                <include
                     android:id="@+id/sb_stain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:checked="false"
-                    android:textColor="@drawable/switch_checkbox_text_color"
-                    android:textSize="@dimen/text_size_15"
-                    app:kswBackDrawable="@drawable/switch_checkbox_bg"
-                    app:kswBackMeasureRatio="2.17"
-                    app:kswFadeBack="true"
-                    app:kswTextOff="无"
-                    app:kswTextOn="有"
-                    app:kswThumbColor="@drawable/switch_checkbox_text_color"
-                    app:kswThumbHeight="24dp"
-                    app:kswThumbMargin="3dp"
-                    app:kswThumbRadius="12dp"
-                    app:kswThumbWidth="24dp"/>
+                    layout="@layout/widget_switch_button_has_none" />
             </LinearLayout>
 
             <include
@@ -276,8 +249,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white_bg"
-                android:orientation="horizontal">
+                android:background="@color/white_bg">
 
                 <TextView
                     android:id="@+id/tv_backup"
@@ -291,16 +263,19 @@
 
                 <EditText
                     android:id="@+id/et_backup"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_alignParentRight="true"
                     android:layout_toRightOf="@+id/tv_backup"
                     android:background="@null"
-                    android:gravity="right|center_vertical"
+                    android:gravity="right"
                     android:hint="@string/clothing_book_in_backup_hint"
                     android:maxLength="100"
                     android:minHeight="44dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="12dp"
                     android:textColor="@color/text_black"
                     android:textColorHint="@color/text_black_light"
                     android:textSize="@dimen/text_size_13"/>

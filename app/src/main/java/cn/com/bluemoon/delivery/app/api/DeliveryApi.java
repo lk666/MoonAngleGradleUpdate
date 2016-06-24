@@ -336,7 +336,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.8 取消已接单订单 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void cancelAppointmentOrder(String token, String orderId,
                                               AsyncHttpResponseHandler handler) {
 
@@ -2012,12 +2012,32 @@ public class DeliveryApi {
      * @param token       登录凭证（必填）	string
      * @param clothesCode 衣物编码（必填）
      */
-    public static void delCollectInfo(String token, String clothesCode,  AsyncHttpResponseHandler handler) {
+    public static void delCollectInfo(String token, String clothesCode, AsyncHttpResponseHandler
+            handler) {
         Map<String, String> params = new HashMap<>();
         params.put("token", token);
         params.put("clothesCode", clothesCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delCollectInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /**
+     * 6.2删除图片
+     *
+     * @param token 登录凭证（必填）	string
+     * @param imgId 衣物编码（必填）图片id(必填)
+     */
+    public static void delImg(String imgId, String token, AsyncHttpResponseHandler handler) {
+        if (null == imgId || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("imgId", imgId);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/delImg%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }

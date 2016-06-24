@@ -5,6 +5,7 @@ package cn.com.bluemoon.delivery.module.clothing.collect;
  * Created by lk on 2016/6/20.
  */
 public class ClothingPic {
+
     /**
      * 上传到服务器后的图片id
      */

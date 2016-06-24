@@ -2,9 +2,13 @@ package cn.com.bluemoon.delivery.module.clothing.collect;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,6 +26,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -45,6 +50,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
@@ -144,12 +150,27 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     /**
      * 修改时需要等获取衣物配置项和获取衣物信息返回后才结束初始化
      */
-    private int modifyInitLatch = 0;
+    private int modifyDataInitLatch = 0;
+    /**
+     * 获取衣物配置项的列表
+     */
+    private List<ClothesType> clothesTypes = new ArrayList<>();
+
+    /**
+     * 删除的图片位置
+     */
+    private int delImgPos;
+
+    /**
+     * 已上传的图片列表
+     */
+    private List<ClothingPic> clothesImg;
 
     @Bind(R.id.tv_title)
     TextView tvTitle;
+    // TODO: lk 2016/6/24 暂时无法做到固定高度
     @Bind(R.id.gv_clothing_name)
-    GridView gvClothingName;
+    ScrollGridView gvClothingName;
     @Bind(R.id.tv_number)
     TextView tvNumber;
     @Bind(R.id.sb_falw)
@@ -187,7 +208,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         if (extraMode.equals(MODE_ADD)) {
             getAddClothingData();
         } else if (extraMode.equals(MODE_MODIFY)) {
-            modifyInitLatch = 2;
             getModifyClothingData();
         }
     }
@@ -238,6 +258,27 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         nameAdapter = new NameAdapter(this, this);
         gvClothingName.setAdapter(nameAdapter);
 
+        etBackup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (etBackup.getLineCount() > 1) {
+                    etBackup.setGravity(Gravity.LEFT);
+                } else {
+                    etBackup.setGravity(Gravity.RIGHT);
+                }
+            }
+        });
+
         btnOk.setEnabled(false);
         clothingAdapter = new AddPhotoAdapter(this, this);
         sgvPhoto.setAdapter(clothingAdapter);
@@ -280,13 +321,15 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private void getModifyClothingData() {
         String token = ClientStateManager.getLoginToken(this);
         showProgressDialog();
-        modifyInitLatch = 2;
+        modifyDataInitLatch = 2;
+        clothesTypes = new ArrayList<>();
+        nameAdapter.setSelectedPos(-1);
         DeliveryApi.getClothesTypeConfigs(token, typeCode, clothesTypesHandler);
         DeliveryApi.registerClothesCode(token, clothesCode, registerClothesCodeHandler);
     }
 
     /**
-     * 获取衣物信息返回
+     * 修改时获取衣物信息返回
      */
     AsyncHttpResponseHandler registerClothesCodeHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
@@ -295,7 +338,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "registerClothesCode result = " + responseString);
-            --modifyInitLatch;
+            --modifyDataInitLatch;
             try {
                 ResultRegisterClothesCode result = JSON.parseObject(responseString,
                         ResultRegisterClothesCode.class);
@@ -315,7 +358,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
-            --modifyInitLatch;
+            --modifyDataInitLatch;
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             PublicUtil.showToastServerOvertime();
             checkModifyInitFinish(0);
@@ -328,12 +371,12 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * @param selectPos 衣物名称选中项
      */
     private void checkModifyInitFinish(int selectPos) {
-        if (modifyInitLatch == 0) {
+        if (modifyDataInitLatch == 0) {
             dismissProgressDialog();
             checkBtnOKEnable();
             if (selectPos > nameAdapter.getSelectedPos()) {
                 nameAdapter.setSelectedPos(selectPos);
-                nameAdapter.notifyDataSetInvalidated();
+                nameAdapter.notifyDataSetChanged();
             }
         }
     }
@@ -352,7 +395,16 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         etBackup.setText(result.getRemark());
 
-        clothingAdapter.setList(result.getClothesImg());
+        clothesImg = new ArrayList<>();
+        clothesImg.addAll(result.getClothesImg());
+
+        if (clothesImg.size() < 10) {
+            ClothingPic addPic = new ClothingPic();
+            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
+            clothesImg.add(addPic);
+        }
+
+        clothingAdapter.setList(clothesImg);
         clothingAdapter.notifyDataSetChanged();
         checkModifyInitFinish(nameAdapter.getSelectedIndex(result.getClothesnameCode()));
     }
@@ -369,7 +421,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                               String responseString) {
             // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "getClothesTypeConfigs result = " + responseString);
-            dismissProgressDialog();
+            if (extraMode.equals(MODE_ADD)) {
+                dismissProgressDialog();
+            } else if (extraMode.equals(MODE_MODIFY)) {
+                --modifyDataInitLatch;
+            }
             try {
                 ResultClothesTypeList result = JSON.parseObject(responseString,
                         ResultClothesTypeList.class);
@@ -382,16 +438,23 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 LogUtils.e(getDefaultTag(), e.getMessage());
                 PublicUtil.showToastServerBusy();
             }
-            --modifyInitLatch;
+
+            if (extraMode.equals(MODE_MODIFY)) {
+                checkModifyInitFinish(0);
+            }
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
+            if (extraMode.equals(MODE_ADD)) {
+                dismissProgressDialog();
+            } else if (extraMode.equals(MODE_MODIFY)) {
+                --modifyDataInitLatch;
+                checkModifyInitFinish(0);
+            }
             LogUtils.e(getDefaultTag(), throwable.getMessage());
-            dismissProgressDialog();
             PublicUtil.showToastServerOvertime();
-            --modifyInitLatch;
         }
     };
 
@@ -406,9 +469,8 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         nameAdapter.setList(clothesTypeConfigs);
         if (extraMode.equals(MODE_ADD)) {
+            nameAdapter.setSelectedPos(0);
             nameAdapter.notifyDataSetChanged();
-        } else if (extraMode.equals(MODE_MODIFY)) {
-            checkModifyInitFinish(0);
         }
     }
 
@@ -447,10 +509,23 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
             // 删除
             case R.id.btn_delete:
-                showProgressDialog();
-                String code = tvNumber.getText().toString();
-                DeliveryApi.delCollectInfo(ClientStateManager.getLoginToken(this), code,
-                        delCollectInfoHandler);
+                CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(
+                        ClothingBookInActivity.this);
+                dialog.setMessage(getString(R.string.clothing_book_delete_hint));
+                dialog.setPositiveButton(R.string.btn_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showProgressDialog();
+                                String code = tvNumber.getText().toString();
+                                DeliveryApi.delCollectInfo(ClientStateManager.getLoginToken
+                                        (ClothingBookInActivity.this), code, delCollectInfoHandler);
+                            }
+
+                        });
+                dialog.setNegativeButton(R.string.btn_cancel, null);
+                dialog.show();
+
                 break;
 
             //  输入衣物编码
@@ -675,27 +750,69 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         // 点击衣物名称
         if (item instanceof ClothesType) {
             nameAdapter.setSelectedPos(position);
+            nameAdapter.notifyDataSetChanged();
         }
         // 衣物照片
         else if (item instanceof ClothingPic) {
             ClothingPic pic = (ClothingPic) item;
             // 添加相片按钮
-            if (TextUtils.isEmpty(pic.getImgId())) {
+            if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
                 // TODO: lk 2016/6/20 添加图片
+
+//                takePhotoPop = new TakePhotoPopView(this,
+//                        Constants.TAKE_PIC_RESULT,Constants.CHOSE_PIC_RESULT);
             }
 
             // 已上传图片
             else {
                 switch (view.getId()) {
+                    //  删除图片
                     case R.id.iv_delete:
-                        // TODO: lk 2016/6/20 删除图片
+                        showProgressDialog();
+                        delImgPos = position;
+                        DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
+                                (ClothingBookInActivity.this), delImgHandler);
                         break;
+                    // TODO: lk 2016/6/20 暂时不浏览图片
                     case R.id.iv_pic:
-                        // TODO: lk 2016/6/20 浏览图片
                         break;
                 }
             }
         }
-
     }
+
+    /**
+     * 点击删除图片响应
+     */
+    AsyncHttpResponseHandler delImgHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            // TODO: lk 2016/6/20 待测试
+            LogUtils.d(getDefaultTag(), "点击删除图片响应 result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString, ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    clothesImg.remove(delImgPos);
+                    clothingAdapter.notifyDataSetChanged();
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 }
