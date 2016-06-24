@@ -276,8 +276,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white_bg"
-                android:orientation="horizontal">
+                android:background="@color/white_bg">
 
                 <TextView
                     android:id="@+id/tv_backup"
@@ -291,16 +290,19 @@
 
                 <EditText
                     android:id="@+id/et_backup"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="30dp"
-                    android:layout_marginRight="16dp"
+                    android:layout_alignParentRight="true"
                     android:layout_toRightOf="@+id/tv_backup"
                     android:background="@null"
-                    android:gravity="right|center_vertical"
+                    android:gravity="right"
                     android:hint="@string/clothing_book_in_backup_hint"
                     android:maxLength="100"
                     android:minHeight="44dp"
+                    android:paddingBottom="12dp"
+                    android:paddingLeft="30dp"
+                    android:paddingRight="16dp"
+                    android:paddingTop="12dp"
                     android:textColor="@color/text_black"
                     android:textColorHint="@color/text_black_light"
                     android:textSize="@dimen/text_size_13"/>

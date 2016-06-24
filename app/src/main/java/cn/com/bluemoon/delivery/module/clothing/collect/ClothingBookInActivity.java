@@ -4,7 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,6 +25,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,6 +50,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.ScrollGridView;
+import cn.com.bluemoon.lib.view.TakePhotoPopView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -146,6 +151,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      */
     private int modifyInitLatch = 0;
 
+    /**
+     * 删除的图片位置
+     */
+    private int delImgPos;
+
     @Bind(R.id.tv_title)
     TextView tvTitle;
     @Bind(R.id.gv_clothing_name)
@@ -175,6 +185,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     Button btnOk;
     @Bind(R.id.v_div_btn_right)
     View vDivRight;
+
+    /**
+     * 已上传的图片列表
+     */
+    private List<ClothingPic> clothesImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -237,6 +252,27 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         nameAdapter = new NameAdapter(this, this);
         gvClothingName.setAdapter(nameAdapter);
+
+        etBackup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (etBackup.getLineCount() > 1) {
+                    etBackup.setGravity(Gravity.LEFT);
+                } else {
+                    etBackup.setGravity(Gravity.RIGHT);
+                }
+            }
+        });
 
         btnOk.setEnabled(false);
         clothingAdapter = new AddPhotoAdapter(this, this);
@@ -352,7 +388,16 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         etBackup.setText(result.getRemark());
 
-        clothingAdapter.setList(result.getClothesImg());
+        clothesImg = new ArrayList<>();
+        clothesImg.addAll(result.getClothesImg());
+
+        if (clothesImg.size() < 10) {
+            ClothingPic addPic = new ClothingPic();
+            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
+            clothesImg.add(addPic);
+        }
+
+        clothingAdapter.setList(clothesImg);
         clothingAdapter.notifyDataSetChanged();
         checkModifyInitFinish(nameAdapter.getSelectedIndex(result.getClothesnameCode()));
     }
@@ -682,22 +727,63 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         else if (item instanceof ClothingPic) {
             ClothingPic pic = (ClothingPic) item;
             // 添加相片按钮
-            if (TextUtils.isEmpty(pic.getImgId())) {
+            if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
                 // TODO: lk 2016/6/20 添加图片
+
+//                takePhotoPop = new TakePhotoPopView(this,
+//                        Constants.TAKE_PIC_RESULT,Constants.CHOSE_PIC_RESULT);
             }
 
             // 已上传图片
             else {
                 switch (view.getId()) {
+                    //  删除图片
                     case R.id.iv_delete:
-                        // TODO: lk 2016/6/20 删除图片
+                        showProgressDialog();
+                        delImgPos = position;
+                        DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
+                                (ClothingBookInActivity.this), delImgHandler);
                         break;
+                    // TODO: lk 2016/6/20 暂时不浏览图片
                     case R.id.iv_pic:
-                        // TODO: lk 2016/6/20 浏览图片
                         break;
                 }
             }
         }
-
     }
+
+    /**
+     * 点击删除图片响应
+     */
+    AsyncHttpResponseHandler delImgHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            // TODO: lk 2016/6/20 待测试
+            LogUtils.d(getDefaultTag(), "点击删除图片响应 result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString, ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    clothesImg.remove(delImgPos);
+                    clothingAdapter.notifyDataSetChanged();
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 }

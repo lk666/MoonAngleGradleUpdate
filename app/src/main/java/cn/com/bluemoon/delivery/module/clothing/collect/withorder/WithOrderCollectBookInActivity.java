@@ -666,3 +666,4 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         }
     }
 }
+// TODO: lk 2016/6/24 代码过多，拆 

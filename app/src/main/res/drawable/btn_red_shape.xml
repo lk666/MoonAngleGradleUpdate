@@ -8,6 +8,12 @@
             <corners android:radius="2dip" />
         </shape></item>
 
+    <!-- pressed -->
+    <item android:state_enabled="false">
+        <shape >
+            <solid android:color="@color/btn_red_disable"/>
+            <corners android:radius="2dip" />
+        </shape></item>
         
     <item><shape>
             <solid android:color="@color/btn_red" />
