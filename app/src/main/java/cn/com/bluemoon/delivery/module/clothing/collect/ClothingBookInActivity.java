@@ -151,10 +151,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * 修改时需要等获取衣物配置项和获取衣物信息返回后才结束初始化
      */
     private int modifyDataInitLatch = 0;
-    /**
-     * 获取衣物配置项的列表
-     */
-    private List<ClothesType> clothesTypes = new ArrayList<>();
 
     /**
      * 删除的图片位置
@@ -322,7 +318,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         String token = ClientStateManager.getLoginToken(this);
         showProgressDialog();
         modifyDataInitLatch = 2;
-        clothesTypes = new ArrayList<>();
         nameAdapter.setSelectedPos(-1);
         DeliveryApi.getClothesTypeConfigs(token, typeCode, clothesTypesHandler);
         DeliveryApi.registerClothesCode(token, clothesCode, registerClothesCodeHandler);
@@ -746,39 +741,39 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     }
 
     @Override
-    public void onItemClick(Object item, View view, int position) {
-        // 点击衣物名称
-        if (item instanceof ClothesType) {
-            nameAdapter.setSelectedPos(position);
-            nameAdapter.notifyDataSetChanged();
-        }
-        // 衣物照片
-        else if (item instanceof ClothingPic) {
-            ClothingPic pic = (ClothingPic) item;
-            // 添加相片按钮
-            if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
-                // TODO: lk 2016/6/20 添加图片
+        public void onItemClick(Object item, View view, int position) {
+            // 点击衣物名称
+            if (item instanceof ClothesType) {
+                nameAdapter.setSelectedPos(position);
+                nameAdapter.notifyDataSetChanged();
+            }
+            // 衣物照片
+            else if (item instanceof ClothingPic) {
+                ClothingPic pic = (ClothingPic) item;
+                // 添加相片按钮
+                if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
+                    // TODO: lk 2016/6/20 添加图片
 
 //                takePhotoPop = new TakePhotoPopView(this,
 //                        Constants.TAKE_PIC_RESULT,Constants.CHOSE_PIC_RESULT);
-            }
+                }
 
-            // 已上传图片
-            else {
-                switch (view.getId()) {
-                    //  删除图片
-                    case R.id.iv_delete:
-                        showProgressDialog();
-                        delImgPos = position;
-                        DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
-                                (ClothingBookInActivity.this), delImgHandler);
-                        break;
-                    // TODO: lk 2016/6/20 暂时不浏览图片
-                    case R.id.iv_pic:
-                        break;
+                // 已上传图片
+                else {
+                    switch (view.getId()) {
+                        //  删除图片
+                        case R.id.iv_delete:
+                            showProgressDialog();
+                            delImgPos = position;
+                            DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
+                                    (ClothingBookInActivity.this), delImgHandler);
+                            break;
+                        // TODO: lk 2016/6/20 暂时不浏览图片
+                        case R.id.iv_pic:
+                            break;
+                    }
                 }
             }
-        }
     }
 
     /**

@@ -356,7 +356,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.9 订单退换货 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void returnOrExchangeGoods(String token, String orderId,
                                              String dispatchId, String type, String orderSource,
                                              String msg,
@@ -397,7 +397,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.9.1 订单退货 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void returnOrExchangeGoods(String token, String orderId,
                                              String dispatchId, String orderSource, String msg,
                                              byte[] file,
@@ -1824,8 +1824,8 @@ public class DeliveryApi {
     /*2.9查询衣物转交记录*/
 	/*返回：ResultClothesDeliverInfos*/
     public static void queryClothesDeliverInfo(String token, String collectCode,
-                                     AsyncHttpResponseHandler handler) {
-        if (null == token||StringUtil.isEmpty(collectCode) ) {
+                                               AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(collectCode)) {
             return;
         }
 
@@ -2038,6 +2038,26 @@ public class DeliveryApi {
         params.put("token", token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delImg%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /**
+     * 2.7.衣物详情（共用）
+     *
+     * @param clothesCode 衣物编码(必填) String
+     * @param token       登录凭证(必填) String
+     */
+    public static void getCollectInfoDetailsItem(String clothesCode, String token,
+                                                 AsyncHttpResponseHandler handler) {
+        if (null == clothesCode || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("clothesCode", clothesCode);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/getCollectInfoDetailsItem%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
