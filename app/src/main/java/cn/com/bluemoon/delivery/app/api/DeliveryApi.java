@@ -432,7 +432,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.11获取订单物流信息 */
-	/* 返回： ResultLogistics */
+    /* 返回： ResultLogistics */
     public static void getOrderLogistics(String orderId, String orderSource,
                                          AsyncHttpResponseHandler handler) {
 
@@ -2077,6 +2077,26 @@ public class DeliveryApi {
         params.put("token", token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/scanOrderInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /**
+     * 5.7验证衣物编码
+     *
+     * @param clothesCode 衣物编码(必填) String
+     * @param token       登录凭证(必填) String
+     */
+    public static void validateClothesCode(String clothesCode, String token,
+                                           AsyncHttpResponseHandler handler) {
+        if (null == clothesCode || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("clothesCode", clothesCode);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/activity/validateClothesCode%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }

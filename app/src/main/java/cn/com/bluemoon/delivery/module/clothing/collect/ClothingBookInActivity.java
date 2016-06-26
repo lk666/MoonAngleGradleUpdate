@@ -158,6 +158,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private int delImgPos;
 
     /**
+     * 扫描到/输入的数字码
+     */
+    private String scaneCode;
+
+    /**
      * 已上传的图片列表
      */
     private List<ClothingPic> clothesImg;
@@ -652,15 +657,50 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     }
 
     /**
-     * 处理扫码、手动输入数字码返回
+     * 新增模式下处理扫码、手动输入数字码返回
      *
      * @param code
      */
     private void handleScaneCodeBack(String code) {
-        // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
-        PublicUtil.showToast("处理扫码、手动输入数字码返回" + code);
-        checkBtnOKEnable();
+        scaneCode = code;
+        DeliveryApi.validateClothesCode(scaneCode, ClientStateManager.getLoginToken(this),
+                validateClothesCodeHandler);
     }
+
+
+    /**
+     * 验证衣物编码返回
+     */
+    AsyncHttpResponseHandler validateClothesCodeHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            LogUtils.d(getDefaultTag(), "验证衣物编码 result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    tvNumber.setText(scaneCode);
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 
     /**
      * 衣物名称Adapter
@@ -741,39 +781,39 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     }
 
     @Override
-        public void onItemClick(Object item, View view, int position) {
-            // 点击衣物名称
-            if (item instanceof ClothesType) {
-                nameAdapter.setSelectedPos(position);
-                nameAdapter.notifyDataSetChanged();
-            }
-            // 衣物照片
-            else if (item instanceof ClothingPic) {
-                ClothingPic pic = (ClothingPic) item;
-                // 添加相片按钮
-                if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
-                    // TODO: lk 2016/6/20 添加图片
+    public void onItemClick(Object item, View view, int position) {
+        // 点击衣物名称
+        if (item instanceof ClothesType) {
+            nameAdapter.setSelectedPos(position);
+            nameAdapter.notifyDataSetChanged();
+        }
+        // 衣物照片
+        else if (item instanceof ClothingPic) {
+            ClothingPic pic = (ClothingPic) item;
+            // 添加相片按钮
+            if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
+                // TODO: lk 2016/6/20 添加图片
 
 //                takePhotoPop = new TakePhotoPopView(this,
 //                        Constants.TAKE_PIC_RESULT,Constants.CHOSE_PIC_RESULT);
-                }
+            }
 
-                // 已上传图片
-                else {
-                    switch (view.getId()) {
-                        //  删除图片
-                        case R.id.iv_delete:
-                            showProgressDialog();
-                            delImgPos = position;
-                            DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
-                                    (ClothingBookInActivity.this), delImgHandler);
-                            break;
-                        // TODO: lk 2016/6/20 暂时不浏览图片
-                        case R.id.iv_pic:
-                            break;
-                    }
+            // 已上传图片
+            else {
+                switch (view.getId()) {
+                    //  删除图片
+                    case R.id.iv_delete:
+                        showProgressDialog();
+                        delImgPos = position;
+                        DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
+                                (ClothingBookInActivity.this), delImgHandler);
+                        break;
+                    // TODO: lk 2016/6/20 暂时不浏览图片
+                    case R.id.iv_pic:
+                        break;
                 }
             }
+        }
     }
 
     /**

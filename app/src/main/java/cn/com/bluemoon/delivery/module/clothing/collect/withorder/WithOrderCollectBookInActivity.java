@@ -119,12 +119,12 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     private String outerCode;
 
     /**
-     * 临时记录的扫码返回的收衣单号
+     * 临时记录的扫码返回的收衣单条码号
      */
     private String tmpCollectBrcode;
 
     /**
-     * 收衣单条码号
+     * 收衣单号
      */
     private String collectCode;
 
@@ -514,7 +514,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    getData();
+                    tvCollectBrcode.setText(tmpCollectBrcode);
                 } else {
                     PublicUtil.showErrorMsg(WithOrderCollectBookInActivity.this, result);
                 }
