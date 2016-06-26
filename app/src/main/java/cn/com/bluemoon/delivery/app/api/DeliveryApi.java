@@ -407,7 +407,7 @@ public class DeliveryApi {
     }
 
     /* 2.2.10 获取历史订单列表 */
-	/* 返回： ResultOrder */
+    /* 返回： ResultOrder */
     public static void getHistoryOrders(String token,
                                         String orderType, int count, long timestamp, long
                                                 startTime, long endTime,
@@ -2061,4 +2061,24 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
+
+    /**
+     * 2.8扫描接单
+     *
+     * @param code  洗衣订单号或衣物编码(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanOrderInfo(String code, String token, AsyncHttpResponseHandler handler) {
+        if (null == code || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("code", code);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/scanOrderInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
 }
