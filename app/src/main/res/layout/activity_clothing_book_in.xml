@@ -147,8 +147,8 @@
 
             <include
                 layout="@layout/line_solid_view_999"
-                android:layout_width="fill_parent"
-                android:layout_height="1px"
+                android:layout_height="@dimen/div_height"
+                android:layout_width="match_parent"
                 android:layout_marginLeft="12dp"/>
 
             <LinearLayout
@@ -184,7 +184,7 @@
             <include
                 layout="@layout/line_solid_view_999"
                 android:layout_width="fill_parent"
-                android:layout_height="1px"
+                android:layout_height="@dimen/div_height"
                 android:layout_marginLeft="12dp"/>
 
             <EditText
@@ -206,7 +206,7 @@
                 android:id="@+id/v_div_flaw"
                 layout="@layout/line_solid_view_999"
                 android:layout_width="fill_parent"
-                android:layout_height="1px"
+                android:layout_height="@dimen/div_height"
                 android:layout_marginLeft="12dp"
                 android:visibility="gone"/>
 
@@ -242,7 +242,7 @@
             <include
                 layout="@layout/line_solid_view_999"
                 android:layout_width="fill_parent"
-                android:layout_height="1px"
+                android:layout_height="@dimen/div_height"
                 android:layout_marginLeft="12dp"/>
 
 

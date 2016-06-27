@@ -456,7 +456,7 @@ public class DeliveryApi {
      *******************************/
 
 	/* 2.3.1 获取仓库列表信息 */
-	/* 返回： ResultStorehouse */
+    /* 返回： ResultStorehouse */
     public static void getStorehouseList(String token,
                                          AsyncHttpResponseHandler handler) {
 
@@ -2097,6 +2097,26 @@ public class DeliveryApi {
         params.put("token", token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/validateClothesCode%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /**
+     * 2.2获取订单详情
+     *
+     * @param outerCode 洗衣服务订单号(必填) String
+     * @param token     登录凭证(必填) String
+     */
+    public static void getOuterOrderInfo(String outerCode, String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == outerCode || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/getOrderInfo%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }

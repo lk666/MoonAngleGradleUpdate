@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:gravity="center_vertical"
+              android:orientation="horizontal">
+
+    <TextView
+        android:id="@+id/tv_type_name"
+        style="@style/txt_title_13"
+        android:layout_weight="1"
+        android:ellipsize="end"
+        android:singleLine="true"/>
+
+    <TextView
+        style="@style/txt_title_13"
+        android:text="x"/>
+
+    <TextView
+        android:id="@+id/tv_count"
+        style="@style/txt_title_13"/>
+</LinearLayout>

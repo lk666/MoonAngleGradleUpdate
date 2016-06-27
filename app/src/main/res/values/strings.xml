@@ -725,4 +725,7 @@
     <string name="title_clothing_without_order">无订单收衣</string>
     <string name="clothing_without_order_activity_desc">活动说明</string>
 
+    <!-- 洗衣服务订单 -->
+    <string name="title_outer_detail">洗衣服务订单</string>
+
 </resources>

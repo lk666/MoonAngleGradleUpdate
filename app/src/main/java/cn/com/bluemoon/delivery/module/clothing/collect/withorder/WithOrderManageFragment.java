@@ -191,9 +191,9 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                     @Override
                     public void setTitle(TextView v) {
-                       // if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
-                            v.setText(R.string.tab_title_with_order_collect_manage);
-                       // }
+                        // if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
+                        v.setText(R.string.tab_title_with_order_collect_manage);
+                        // }
                     }
                 });
 
@@ -283,7 +283,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
      */
     AsyncHttpResponseHandler scanOrderInfoHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
-
+        // TODO: lk 2016/6/26 待测试
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
@@ -293,7 +293,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 ResultScanOrderInfo result = JSON.parseObject(responseString,
                         ResultScanOrderInfo.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    // TODO: lk 2016/6/26 模拟数据返回的ResponseCode为1
                     handleScaneCodeInfo(result);
                 } else {
                     PublicUtil.showErrorMsg(main, result);
@@ -317,7 +316,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         // 扫描的是衣物编码
         if (result.getCodeType().equals(ResultScanOrderInfo.CODE_TYPE_CLOTHES_CODE)) {
 // TODO: lk 2016/6/26 跳转到确认接收界面，需要新增一个参数 scaneCode
-               //confirmDeliver(result.getCollectCode(), scaneCode);
+            //confirmDeliver(result.getCollectCode(), scaneCode);
         }
 
         // 扫描的是订单编码
@@ -493,11 +492,20 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             case R.id.tv_customer_phone:
                 call(order.getReceivePhone());
                 break;
-            // TODO: lk 2016/6/19    订单详情
             case R.id.tv_detail:
             case R.id.iv_detail:
-                PublicUtil.showToast("订单详情:" + order.getOuterCodeType() + ","
-                        + order.getOuterCode() + ", " + order.getCollectCode());
+                if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
+                        .OUTERCODE_TYPE_ORDER)) {
+                    // 服务单号
+                    Intent i = new Intent(main, WithOrderOuterDetailActivity.class);
+                    i.putExtra(WithOrderOuterDetailActivity.EXTRA_OUTERCODE, order.getOuterCode());
+                    startActivity(i);
+
+                } else if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
+                        .OUTERCODE_TYPE_WASHORDER)) {
+                    // 收衣单号
+                    // TODO: lk 2016/6/19   收衣单单详情
+                }
                 break;
 
             case R.id.btn_right_action:

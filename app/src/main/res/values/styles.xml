@@ -243,6 +243,11 @@
         <item name="android:textSize">@dimen/text_size_13</item>
     </style>
 
+    <!--黑色11正文字体-->
+    <style name="txt_content_11" parent="txt_content_13">
+        <item name="android:textSize">@dimen/text_size_11</item>
+    </style>
+
     <!--普通黑色13标题字体-->
     <style name="txt_title_13">
         <item name="android:layout_width">wrap_content</item>
@@ -254,6 +259,11 @@
     <!--普通黑色15标题字体-->
     <style name="txt_title_15" parent="txt_title_13">
         <item name="android:textSize">@dimen/text_size_15</item>
+    </style>
+
+    <!--普通黑色11标题字体-->
+    <style name="txt_title_11" parent="txt_title_13">
+        <item name="android:textSize">@dimen/text_size_11</item>
     </style>
 
 </resources>
