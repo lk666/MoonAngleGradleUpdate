@@ -1910,7 +1910,7 @@ public class DeliveryApi {
     }
 
     /*5.4获取活动说明*/
-	/*返回：ResultActivityInfo*/
+	/*返回：ResultActivityDesc*/
     public static void getActivityInfo(String token, String activityCode,
                                        AsyncHttpResponseHandler handler) {
         if (StringUtil.isEmpty(token) || StringUtil.isEmpty(activityCode)) {

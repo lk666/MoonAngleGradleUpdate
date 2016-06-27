@@ -691,6 +691,9 @@
 
 
 
+
+
+    <!--衣物转交-->
     <string name="clothing_deliver_title">衣物转交</string>
     <string name="clothing_deliver_code">接收人编号</string>
     <string name="clothing_btn_search">查 询</string>
@@ -716,4 +719,8 @@
     <string name="clothing_detail_flaw">瑕疵信息：</string>
     <string name="clothing_detail_backup">备注：</string>
     <string name="clothing_detail_photo">衣物照片</string>
+
+    <string name="title_clothing_without_order">无订单收衣</string>
+    <string name="clothing_without_order_activity_desc">活动说明</string>
+
 </resources>

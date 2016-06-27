@@ -54,6 +54,13 @@
         <item name="android:layerType">software</item>
     </style>
 
+    <style name="row_style_no_padding">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:background">@color/view_bg</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
     <style name="row_style">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">44dp</item>
@@ -62,6 +69,23 @@
         <item name="android:background">@color/view_bg</item>
         <item name="android:gravity">center_vertical</item>
     </style>
+
+    <style name="multi_row_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:paddingLeft">16dp</item>
+        <item name="android:paddingRight">16dp</item>
+        <item name="android:background">@color/view_bg</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
+    <style name="multi_row_no_padding_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/view_bg</item>
+        <item name="android:gravity">center_vertical</item>
+    </style>
+
 
     <style name="btn_red">
         <item name="android:layout_width">219dp</item>

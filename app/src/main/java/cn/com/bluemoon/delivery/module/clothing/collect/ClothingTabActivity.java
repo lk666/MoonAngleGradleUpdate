@@ -15,6 +15,7 @@ import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.module.base.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderManageFragment;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderRecordFragment;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.WithoutOrderManageFragment;
 
 // TODO: lk 2016/6/16 可干掉与当前activity重复layout的资源文件 
 
@@ -24,17 +25,13 @@ import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderRecor
  */
 public class ClothingTabActivity extends BaseFragmentActivity {
 
-    public static final String TYPE = "type";
+    public static String TYPE = "";
     public static final String WITH_ORDER_COLLECT_MANAGE = "WITH_ORDER_COLLECT_MANAGE";
-    public static final String WITH_ORDER_COLLECT_RECORD = "WITH_ORDER_COLLECT_RECORD";
+    public static final String WITHOUT_ORDER_COLLECT_MANAGE = "WITHOUT_ORDER_COLLECT_MANAGE";
 
     // TODO: lk 2016/6/12 图片未确定
-    private final static TabState[] TAB_WITH_ORDER = {
-            new TabState(WithOrderManageFragment.class, R.drawable.tab_receive_selector,
-                    R.string.tab_bottom_with_order_collect_manage, WITH_ORDER_COLLECT_MANAGE),
-            new TabState(WithOrderRecordFragment.class, R.drawable.tab_received_selector,
-                    R.string.tab_bottom_with_order_collect_record, WITH_ORDER_COLLECT_RECORD)
-    };
+    private final static TabState[] TAB_WITH_ORDER =new TabState[2];
+
 
     private FragmentTabHost mTabHost;
     private TextView amountTv;
@@ -45,11 +42,26 @@ public class ClothingTabActivity extends BaseFragmentActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.extract_tab);
 
+        TYPE = getIntent().getStringExtra("type");
+
+        if(TYPE.equals(WITH_ORDER_COLLECT_MANAGE)){
+
+                TAB_WITH_ORDER[0]=new TabState(WithOrderManageFragment.class, R.drawable.tab_receive_selector,
+                        R.string.tab_bottom_with_order_collect_manage, WITH_ORDER_COLLECT_MANAGE);
+                TAB_WITH_ORDER[1]= new TabState(WithOrderRecordFragment.class, R.drawable.tab_received_selector,
+                    R.string.tab_bottom_with_order_collect_record, WITH_ORDER_COLLECT_MANAGE);
+        }else{
+            TAB_WITH_ORDER[0]=new TabState(WithoutOrderManageFragment.class, R.drawable.tab_without_order_receive_selector,
+                    R.string.tab_title_without_order_collect_manage, WITHOUT_ORDER_COLLECT_MANAGE);
+            TAB_WITH_ORDER[1]= new TabState(WithOrderRecordFragment.class, R.drawable.tab_without_order_record_selector,
+                    R.string.tab_bottom_with_order_collect_record, WITHOUT_ORDER_COLLECT_MANAGE);
+        }
+
         mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
 
-        if (getIntent().getStringExtra(TYPE).equals(WITH_ORDER_COLLECT_MANAGE)) {
+       // if (getIntent().getStringExtra(TYPE).equals(WITH_ORDER_COLLECT_MANAGE)) {
             for (int i = 0; i < TAB_WITH_ORDER.length; i++) {
                 TabHost.TabSpec tabSpec = mTabHost.newTabSpec(getResources()
                         .getString(TAB_WITH_ORDER[i].getContent()))
@@ -57,10 +69,10 @@ public class ClothingTabActivity extends BaseFragmentActivity {
                                 getResources().getString(TAB_WITH_ORDER[i].getContent()), i));
 
                 Bundle bundle = new Bundle();
-                bundle.putString(TYPE, TAB_WITH_ORDER[i].getManager());
+                bundle.putString("manager", TAB_WITH_ORDER[i].getManager());
                 mTabHost.addTab(tabSpec, TAB_WITH_ORDER[i].getClazz(), bundle);
             }
-        }
+       // }
     }
 
     private View getTabItemView(int resId, String content, int index) {
@@ -97,21 +109,22 @@ public class ClothingTabActivity extends BaseFragmentActivity {
     }
 
     public void setAmountShow(String type, int amount) {
-        switch (type) {
-            // 收衣管理
-            case WITH_ORDER_COLLECT_MANAGE:
+//        switch (type) {
+//            // 收衣管理
+//            case WITH_ORDER_COLLECT_MANAGE:
                 if (amount > 0) {
                     amountTv.setText(String.valueOf(amount));
                     amountTv.setVisibility(View.VISIBLE);
                 } else {
                     amountTv.setVisibility(View.GONE);
                 }
-        }
+//                break;
+//        }
     }
 
     public static void actionStart(Context context, String type) {
         Intent intent = new Intent(context, ClothingTabActivity.class);
-        intent.putExtra(TYPE, type);
+        intent.putExtra("type", type);
         context.startActivity(intent);
     }
 }

@@ -6,7 +6,7 @@ package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 public class ClothesDeliverInfo {
     private String receiverCode;
     private String receiverName;
-    private String  receiverPhoneer;
+    private String  receiverPhone;
     private String  refusalReason;
     private long transmitTime;
 
@@ -26,12 +26,12 @@ public class ClothesDeliverInfo {
         this.receiverName = receiverName;
     }
 
-    public String getReceiverPhoneer() {
-        return receiverPhoneer;
+    public String getReceiverPhone() {
+        return receiverPhone;
     }
 
-    public void setReceiverPhoneer(String receiverPhoneer) {
-        this.receiverPhoneer = receiverPhoneer;
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 
     public String getRefusalReason() {
