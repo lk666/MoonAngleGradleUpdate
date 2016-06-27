@@ -10,6 +10,7 @@ import org.kymjs.kjframe.utils.StringUtils;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.ClientStateManager;
@@ -475,7 +476,7 @@ public class DeliveryApi {
     }
 
     /* 2.3.2 保存选择仓库信息 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void saveStorehouse(String token, String dispatchId,
                                       Storehouse storehouse, AsyncHttpResponseHandler handler) {
 
@@ -504,7 +505,7 @@ public class DeliveryApi {
      *******************************/
 
 	/* 2.4.1 月亮天使获取二维码 */
-	/* 返回： ResultAngelQr */
+    /* 返回： ResultAngelQr */
     public static void moonAngelQrCodeService(String token,
                                               AsyncHttpResponseHandler handler) {
 
@@ -523,7 +524,7 @@ public class DeliveryApi {
     }
 
     /* 2.4.2 月亮小屋APP扫描天使二维码关系绑定情况 */
-	/* 返回： ResultBindState */
+    /* 返回： ResultBindState */
     public static void findCustomerBindingState(String token,
                                                 String customerCode, AsyncHttpResponseHandler
                                                         handler) {
@@ -543,7 +544,7 @@ public class DeliveryApi {
     }
 
     /* 2.4.3 消费者绑定月亮天使关系 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void customerBindingOrg(String token, String customerCode,
                                           String inventoryCode, String orgCode,
                                           AsyncHttpResponseHandler handler) {
@@ -568,7 +569,7 @@ public class DeliveryApi {
     }
 
     /* 2.5.1 扫描自提码获取订单信息接口 */
-	/* 返回： ResultOrderInfoPickup */
+    /* 返回： ResultOrderInfoPickup */
     public static void getOrderInfo(String token, String pickupCode, AsyncHttpResponseHandler
             handler) {
 
@@ -586,7 +587,7 @@ public class DeliveryApi {
     }
 
     /* 2.5.2 确定自提订单 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void pickupOrder(String signType, String token, ResultOrderInfoPickup result,
                                    AsyncHttpResponseHandler handler) {
         String orderId = result.getOrderId();
@@ -600,7 +601,7 @@ public class DeliveryApi {
         String mobilePhone = result.getMobilePhone();
 
 		/*if (null == token || StringUtils.isEmpty(orderId) || StringUtil.isEmpty(orderSource)
-				|| StringUtils.isEmpty(storehouseCode) || StringUtils.isEmpty(storehouseName)
+                || StringUtils.isEmpty(storehouseCode) || StringUtils.isEmpty(storehouseName)
 				|| StringUtils.isEmpty(storechargeCode) || StringUtils.isEmpty(storechargeName)
 				|| StringUtils.isEmpty(storechargeMobileno) || StringUtils.isEmpty(pickupCode)
 				|| StringUtils.isEmpty(mobilePhone) || StringUtils.isEmpty(signType)) {
@@ -626,7 +627,7 @@ public class DeliveryApi {
     }
 
     /* 2.6.1 获取业务字典接口 */
-	/* 返回： ResultDict */
+    /* 返回： ResultDict */
     public static void getDictInfo(AsyncHttpResponseHandler handler) {
 
         Map<String, String> params = new HashMap<String, String>();
@@ -2120,5 +2121,31 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
+
+    /**
+     * 6.1图片上传，fileName直接用临时文件名
+     *
+     * @param token    登录凭证(必填) String
+     * @param fileData 文件名称(必填) String
+     */
+    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler
+            handler) {
+        if (null == token || null == fileData) {
+            return;
+        }
+
+        BASE64Encoder encoder = new BASE64Encoder();
+        String fileString = encoder.encode(fileData);
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("fileName", UUID.randomUUID() + ".png");
+        params.put("fileData", fileString);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("/washingService-controller/wash/uploadImg%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
 
 }
