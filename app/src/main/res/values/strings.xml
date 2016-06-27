@@ -691,6 +691,8 @@
 
 
 
+    <!--无订单收衣-->
+    <string name="tab_title_without_order_collect_manage">无订单收衣</string>
 
 
     <!--衣物转交-->

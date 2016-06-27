@@ -317,7 +317,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         // 扫描的是衣物编码
         if (result.getCodeType().equals(ResultScanOrderInfo.CODE_TYPE_CLOTHES_CODE)) {
 // TODO: lk 2016/6/26 跳转到确认接收界面，需要新增一个参数 scaneCode
-            //    confirmDeliver(result.getCollectCode(), scaneCode);
+               //confirmDeliver(result.getCollectCode(), scaneCode);
         }
 
         // 扫描的是订单编码
