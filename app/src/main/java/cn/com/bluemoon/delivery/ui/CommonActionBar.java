@@ -15,7 +15,6 @@ public class CommonActionBar implements OnClickListener{
 	private ImageView imgLeft;
 	private TextView tvLeft;
 	private ImageView imgRight;
-	private ImageView imgRight2;
 	private TextView tvRight;
 	private IActionBarListener listener;
 	
@@ -47,12 +46,10 @@ public class CommonActionBar implements OnClickListener{
 		imgLeft = (ImageView) actionBar.getCustomView().findViewById(R.id.img_back);
 		tvLeft = (TextView) actionBar.getCustomView().findViewById(R.id.tv_back);
 		imgRight = (ImageView) actionBar.getCustomView().findViewById(R.id.img_right);
-		imgRight2 = (ImageView) actionBar.getCustomView().findViewById(R.id.img_right2);
 		tvRight = (TextView) actionBar.getCustomView().findViewById(R.id.tv_right);
 		imgLeft.setOnClickListener(this);
 		tvLeft.setOnClickListener(this);
 		imgRight.setOnClickListener(this);
-		imgRight2.setOnClickListener(this);
 		tvRight.setOnClickListener(this);
 	}
 	
@@ -73,10 +70,6 @@ public class CommonActionBar implements OnClickListener{
 	{
 		return imgRight;
 	}
-	public ImageView getImgRightView2()
-	{
-		return imgRight2;
-	}
 	public TextView getTvRightView()
 	{
 		return tvRight;
@@ -88,7 +81,7 @@ public class CommonActionBar implements OnClickListener{
 		if(listener!=null){
 			if (v == imgLeft || v == tvLeft) {
 				listener.onBtnLeft(v);
-			} else if (v == imgRight || v == tvRight || v == imgRight2) {
+			} else if (v == imgRight || v == tvRight) {
 				listener.onBtnRight(v);
 			}
 		}

@@ -36,9 +36,10 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name">
         <activity
-            android:name=".AppStartActivity"
+            android:name=".jobrecord.PromoteActivity"
             android:label="@string/app_name"
-            android:theme="@style/AnimStartStyle">
+            android:windowSoftInputMode="adjustResize"
+            android:theme="@style/App.Base.Theme"> <!--AnimStartStyle-->
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -245,6 +246,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
              />
+
+        <activity android:name=".jobrecord.PromoteDetailActivity"
+           android:screenOrientation="portrait"
+           android:theme="@style/App.Base.Theme"/>
+
+       <!--<activity android:name=".jobrecord.PromoteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>-->
+
+        <activity android:name=".jobrecord.AddPromoteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity android:name=".jobrecord.PeopleFlowActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
 
         <service android:name=".card.LocationSvc" />
 

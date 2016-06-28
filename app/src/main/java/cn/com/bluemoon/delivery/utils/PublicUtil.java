@@ -8,10 +8,16 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.location.LocationManager;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
+import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebView;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -631,6 +637,31 @@ public class PublicUtil extends LibPublicUtil{
 		params.put("version",AppContext.getInstance().getPackageInfo().versionName);
 		params.put("client", ApiClientHelper.CLIENT);
 		return JSONObject.toJSONString(params);
+	}
+
+	public static void setGravity(final EditText tv) {
+		tv.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				int lineCount = tv.getLineCount();
+				if (lineCount > 1) {
+					tv.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+				} else {
+					tv.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+
 	}
 
 }

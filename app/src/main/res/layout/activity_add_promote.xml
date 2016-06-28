@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+   <cn.com.bluemoon.delivery.ui.ObservableScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/root"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:background="@color/white"
+        android:layout_weight="1"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:orientation="vertical">
+
+           <!--场地基本信息-->
+            <include layout="@layout/promote_place_info" />
+
+            <!--租金信息-->
+             <include layout="@layout/promote_rent" />
+
+             <TextView
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@color/page_bg_f2"
+                 android:paddingBottom="5dp"
+                 android:paddingLeft="10dp"
+                 android:paddingTop="10dp"
+                 android:text="网络信息"
+                 android:textColor="@color/text_grep"
+                 android:textSize="12sp" />
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="45dp">
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="10dp"
+                     android:layout_weight="1"
+                     android:gravity="center_vertical"
+                     android:text="Wi-Fi设备"
+                     android:textColor="@color/text_black"
+                     android:textSize="15sp" />
+
+                 <include
+                     layout="@layout/widget_switch_button_has_none"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_vertical"
+                     android:layout_marginRight="10dp" />
+             </LinearLayout>
+
+             <View
+                 android:layout_width="fill_parent"
+                 android:layout_height="0.5dp"
+                 android:layout_marginLeft="10dp"
+                 android:background="@color/line_soild_bg" />
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="45dp">
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="match_parent"
+                     android:layout_marginLeft="10dp"
+                     android:layout_weight="1"
+                     android:gravity="center_vertical"
+                     android:text="有线网络设备"
+                     android:textColor="@color/text_black"
+                     android:textSize="15sp" />
+                 <include
+                     layout="@layout/widget_switch_button_has_none"
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:layout_gravity="center_vertical"
+                     android:layout_marginRight="10dp" />
+             </LinearLayout>
+
+             <include layout="@layout/line_solid_view_d7" />
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@color/page_bg_f2"
+                 android:paddingBottom="5dp"
+                 android:paddingLeft="10dp"
+                 android:paddingTop="10dp">
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="图片上传"
+                     android:textColor="@color/text_grep"
+                     android:textSize="12sp" />
+
+                 <TextView
+                     android:layout_width="wrap_content"
+                     android:layout_height="wrap_content"
+                     android:text="(最多上传5张)"
+                     android:textColor="@color/text_grep"
+                     android:textSize="10sp" />
+             </LinearLayout>
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content">
+
+                 <ImageView
+                     android:layout_width="60dp"
+                     android:layout_height="60dp"
+                     android:layout_margin="20dp"
+                     android:src="@mipmap/addpic" />
+             </LinearLayout>
+
+             <include layout="@layout/line_solid_view_d7" />
+
+            <!--人流量测试-->
+             <include layout="@layout/promote_people_flow" />
+
+             <LinearLayout
+                 android:layout_width="match_parent"
+                 android:layout_height="wrap_content"
+                 android:background="@color/page_bg_f2">
+
+                 <Button
+                     android:id="@+id/btn_ok"
+                     android:layout_width="match_parent"
+                     android:layout_height="44dp"
+                     android:layout_marginBottom="15dp"
+                     android:layout_marginLeft="10dp"
+                     android:layout_marginRight="10dp"
+                     android:layout_marginTop="12dp"
+                     android:background="@drawable/btn_red_shape_large"
+                     android:text="@string/btn_save_with_space"
+                     android:textColor="@color/white" />
+             </LinearLayout>
+
+         </LinearLayout>
+     </cn.com.bluemoon.delivery.ui.ObservableScrollView>
+
+     <Button
+         android:id="@+id/btn_ok2"
+         android:layout_width="match_parent"
+         android:layout_height="44dp"
+         android:layout_marginBottom="15dp"
+         android:layout_marginLeft="10dp"
+         android:layout_marginRight="10dp"
+         android:layout_marginTop="12dp"
+         android:visibility="gone"
+         android:background="@drawable/btn_red_shape_large"
+         android:text="@string/btn_save_with_space"
+         android:textColor="@color/white" />
+ </LinearLayout>
