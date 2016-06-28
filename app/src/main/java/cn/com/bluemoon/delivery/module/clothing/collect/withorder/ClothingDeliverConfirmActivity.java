@@ -25,6 +25,8 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDeliverInfos
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultReceiveCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -32,7 +34,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 /**
  * Created by allenli on 2016/6/23.
  */
-public class ClothingDeliverConfirmActivity extends BaseActionBarActivity {
+public class ClothingDeliverConfirmActivity extends BaseActionBarActivity  implements OnListItemClickListener {
 
     @Bind(R.id.txt_deliver_name)
     TextView txtDeliverName;
@@ -45,7 +47,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity {
     @Bind(R.id.btn_cancel)
     Button btnCancel;
     @Bind(R.id.listview_info)
-    ListView listViewLog;
+    ListView listViewInfo;
     @Bind(R.id.txt_collect_num)
     TextView txtCollectNum;
     @Bind(R.id.txt_actual)
@@ -54,7 +56,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity {
     TextView txtScanCode;
     @Bind(R.id.txt_urgent)
     TextView txtUrgent;
-
+    ClothesInfoAdapter adapter;
     private String collectCode;
 
     @Override
@@ -83,6 +85,11 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity {
         txtCollectNum.setText(result.getCollectCode());
         txtScanCode.setText(result.getCollectBrcode());
         txtUrgent.setVisibility(result.getIsUrgent()>0? View.VISIBLE:View.GONE);
+
+       adapter = new ClothesInfoAdapter(this,this);
+       adapter.setList(result.getClothesInfo());
+        listViewInfo.setAdapter(adapter);
+
     }
 
     public static void actionStart(Context context, String collectCode) {
@@ -121,4 +128,18 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity {
             PublicUtil.showToastServerOvertime();
         }
     };
+
+
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+//        CollectInfo order = (CollectInfo) item;
+//        if (order == null) {
+//            return;
+//        }
+        switch (view.getId()) {
+            case R.id.layout_detail:
+
+                break;
+        }
+    }
 }

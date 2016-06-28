@@ -89,6 +89,22 @@ public class Constants {
 	public static final Map<Integer, String> ERROR_MAP = new HashMap<Integer,String>(){
 	};
 
+	public static final Map<String, String> WASH_STATUS_MAP = new HashMap<String,String>(){
+		{
+			put("ANGEL_LAUNDRYING", "收衣中");
+			put("ANGEL_LAUNDRYING", "收衣中(开始收衣)");
+			put("RECEIVE", "确认接收");
+			put("TRANSFER", "衣物转交");
+			put("WAIT_ACCEPT", "待接单");
+			put("WAIT_DISPATCH", "待派单");
+			put("WASHINGCENTER_ACCEPTING", "洗衣中心接收中");
+			put("WASHINGCENTER_RECEIVE_END", "洗衣中心完成接收");
+			put("RECEIVE", "网络繁忙，请稍后再试（1101");
+			put("RECEIVE", "网络繁忙，请稍后再试（1101");
+
+		}
+	};
+
 	/************************baidu push jump key****************************/
 	public static final String KEY_JUMP = "jumpCode";
 

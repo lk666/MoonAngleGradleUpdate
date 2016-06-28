@@ -660,6 +660,7 @@
     <!-- 收衣登记 -->
     <string name="title_with_order_collect_book_in">收衣登记</string>
     <string name="with_order_collect_collect_code">收衣单条码</string>
+    <string name="with_order_collect_collect_code2">收衣单条码:</string>
     <string name="with_order_collect_collect_code_hint">请扫描/输入收衣单条码</string>
     <string name="with_order_collect_is_urgent">加急</string>
     <string name="with_order_collect_appoint_back_time">预约还衣时间</string>

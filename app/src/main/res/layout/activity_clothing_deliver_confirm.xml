@@ -26,9 +26,9 @@
                 android:id="@+id/txt_deliver_name"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:text="王** 801010164"
-                android:gravity="center"
                 android:layout_weight="1"
+                android:gravity="center"
+                android:text="王** 801010164"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_15" />
 
@@ -36,9 +36,9 @@
                 android:id="@+id/txt_deliver_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/link_phone"
-                android:inputType="phone"
                 android:autoLink="phone"
+                android:inputType="phone"
+                android:text="@string/link_phone"
                 android:textColor="@color/btn_blue"
                 android:textSize="@dimen/text_size_15" />
         </LinearLayout>
@@ -70,87 +70,7 @@
         </RelativeLayout>
 
 
-        <LinearLayout
-            style="@style/row_style"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/with_order_collect_collect_number_text"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_13" />
-
-            <TextView
-                android:id="@+id/txt_collect_num"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="10100001000000"
-                android:gravity="left"
-                android:layout_weight="1"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_13" />
-
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/with_order_collect_title_actual_count"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_13" />
-
-
-            <TextView
-                android:id="@+id/txt_actual"
-                android:text="5"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_13" />
-        </LinearLayout>
-
-        <ListView
-            android:id="@+id/listview_info"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/deliver_background">
-
-        </ListView>
-
-        <LinearLayout
-            style="@style/row_style"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/with_order_collect_collect_code"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_13" />
-
-            <TextView
-                android:id="@+id/txt_scan_code"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:text="10100001000000"
-                android:gravity="left"
-                android:layout_weight="1"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_13" />
-
-            <TextView
-                android:id="@+id/txt_urgent"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/with_order_collect_is_urgent"
-                android:textColor="@color/text_red"
-                android:textSize="@dimen/text_size_13" />
-
-        </LinearLayout>
-
+        <include layout="@layout/layout_clothing_list" />
     </LinearLayout>
 
     <LinearLayout
@@ -186,5 +106,6 @@
             android:text="@string/btn_ok" />
 
     </LinearLayout>
+
 
 </LinearLayout>

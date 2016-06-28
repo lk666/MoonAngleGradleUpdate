@@ -1,43 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layout_detail"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#fefefe"
     android:orientation="vertical">
 
     <LinearLayout
-        android:id="@+id/layout_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:paddingLeft="10dp"
-        android:paddingTop="10dp">
+        style="@style/row_style"
+        android:orientation="horizontal">
 
         <TextView
-            android:id="@+id/txt_dispatchId"
+            android:id="@+id/txt_dispatch_id"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="收衣单号："
+            android:text="@string/with_order_collect_collect_number_text"
             android:textColor="@color/text_black"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_size_13" />
 
         <TextView
-            android:id="@+id/txt_num"
+            android:id="@+id/txt_collect_num"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="00001123XXX"
             android:textColor="@color/text_black"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_size_13" />
 
         <TextView
-            android:id="@+id/txt_detail"
+            android:id="@+id/txt_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:text="收衣中"
+            android:layout_marginRight="16dp"
             android:textColor="@color/text_black_light"
-            android:textSize="15sp" />
+            android:textSize="@dimen/text_size_13" />
     </LinearLayout>
 
     <include layout="@layout/line_dotted_view" />
@@ -62,33 +57,46 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
                     android:src="@mipmap/time" />
 
                 <TextView
-                    android:id="@+id/txt_paytime"
+                    android:id="@+id/txt_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="王三三"
                     android:textColor="@color/text_black_light"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_13" />
                 <TextView
-                    android:id="@+id/txt_phone"
+                    android:id="@+id/txt_user_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:ellipsize="end"
+                    android:inputType="phone"
+                    android:autoLink="phone"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:text="133333333333"
-                    android:textColor="@color/text_black_light"
-                    android:textSize="14sp" />
+                    android:textColor="@color/btn_blue"
+                    android:textSize="@dimen/text_size_13" />
+
+                <TextView
+                    android:id="@+id/txt_urgent"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/orange_red"
+                    android:layout_marginLeft="12dp"
+                    android:paddingLeft="5dp"
+                    android:paddingRight="5dp"
+                    android:layout_centerInParent="true"
+                    android:background="@drawable/tag_bg_red"
+                    android:text="@string/with_order_collect_is_urgent"
+                    android:textSize="@dimen/text_size_12" />
             </LinearLayout>
 
             <LinearLayout
@@ -101,19 +109,19 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
                     android:src="@mipmap/address" />
 
                 <TextView
                     android:id="@+id/txt_address"
+
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:gravity="center_vertical"
-                    android:text="古大纷纷大幅答dsdsds大苏打实打实大苏打实打实打算大苏打实打实"
                     android:textColor="@color/text_black_light"
-                    android:textSize="14sp" />
+                    android:textSize="@dimen/text_size_13" />
             </LinearLayout>
         </LinearLayout>
 
@@ -122,7 +130,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="22dp"
             android:layout_marginRight="15dp"
             android:src="@mipmap/icon_right" />
     </LinearLayout>
@@ -132,8 +140,8 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
+        android:paddingRight="12dp"
+        android:paddingLeft="12dp"
         android:layout_marginBottom="10dp">
 
         <TextView
@@ -142,48 +150,35 @@
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
-            android:text="实际数量："
-            android:textColor="@color/text_grep"
-            android:textSize="12sp" />
+            android:text="@string/with_order_collect_title_actual_count"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_11" />
 
         <TextView
-            android:id="@+id/txt_totalAmount"
+            android:id="@+id/txt_actual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:textColor="@color/text_grep"
+            android:textColor="@color/text_black"
             android:layout_toRightOf="@+id/txt_cateAmount"
-            android:text="123"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_11" />
         <TextView
-            android:id="@+id/txt_collect_num"
+            android:id="@+id/txt_scan_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:text="实际数量："
-            android:textColor="@color/text_grep"
-            android:textSize="12sp" />
+            android:text="@string/with_order_collect_collect_code2"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_11" />
         <TextView
-            android:id="@+id/txt_order_number"
+            android:id="@+id/txt_scan_bar_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/text_grep"
+            android:textColor="@color/text_black"
             android:layout_centerInParent="true"
-            android:layout_toRightOf="@+id/txt_collect_num"
-            android:text="0000123xxx"
-            android:textSize="12sp" />
-        <TextView
-            android:id="@+id/txt_totalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:textColor="@color/orangered"
-            android:paddingLeft="3dp"
-            android:paddingRight="3dp"
-            android:layout_centerInParent="true"
-            android:background="@drawable/tag_bg_red"
-            android:text="加急"
-            android:textSize="12sp" />
+            android:layout_toRightOf="@+id/txt_scan_code"
+            android:textSize="@dimen/text_size_11" />
+
     </RelativeLayout>
 
 <!--    <include layout="@layout/line_solid_view_d7" />-->

@@ -13,6 +13,7 @@ import android.widget.TextView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.module.base.BaseFragmentActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withorder.CollectClothesRecordFragment;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderManageFragment;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderRecordFragment;
 import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.WithoutOrderManageFragment;
@@ -48,12 +49,12 @@ public class ClothingTabActivity extends BaseFragmentActivity {
 
                 TAB_WITH_ORDER[0]=new TabState(WithOrderManageFragment.class, R.drawable.tab_receive_selector,
                         R.string.tab_bottom_with_order_collect_manage, WITH_ORDER_COLLECT_MANAGE);
-                TAB_WITH_ORDER[1]= new TabState(WithOrderRecordFragment.class, R.drawable.tab_received_selector,
+                TAB_WITH_ORDER[1]= new TabState(CollectClothesRecordFragment.class, R.drawable.tab_received_selector,
                     R.string.tab_bottom_with_order_collect_record, WITH_ORDER_COLLECT_MANAGE);
         }else{
             TAB_WITH_ORDER[0]=new TabState(WithoutOrderManageFragment.class, R.drawable.tab_without_order_receive_selector,
                     R.string.tab_title_without_order_collect_manage, WITHOUT_ORDER_COLLECT_MANAGE);
-            TAB_WITH_ORDER[1]= new TabState(WithOrderRecordFragment.class, R.drawable.tab_without_order_record_selector,
+            TAB_WITH_ORDER[1]= new TabState(CollectClothesRecordFragment.class, R.drawable.tab_without_order_record_selector,
                     R.string.tab_bottom_with_order_collect_record, WITHOUT_ORDER_COLLECT_MANAGE);
         }
 

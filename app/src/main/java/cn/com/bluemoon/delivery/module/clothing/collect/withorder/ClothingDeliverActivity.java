@@ -33,6 +33,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesDeliverInf
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.DeliverAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -202,33 +203,5 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
         }
     };
 
-    class DeliverAdapter extends BaseListAdapter<ClothesDeliverInfo> {
 
-        public DeliverAdapter(Context context, OnListItemClickListener listener) {
-            super(context, listener);
-        }
-
-        @Override
-        protected int getLayoutId() {
-            return R.layout.item_deliver_log;
-        }
-
-        @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            final ClothesDeliverInfo deliver = (ClothesDeliverInfo) getItem(position);
-            if (deliver == null) {
-                return;
-            }
-
-            TextView tvContent = ViewHolder.get(convertView, R.id.txt_content);
-
-            tvContent.setText(String.format("%s,%s,%s,%s\n%s", DateUtil.getTime(deliver.getTransmitTime(), "yyyy-MM-dd HH:mm:ss"),
-                    deliver.getReceiverCode(),
-                    deliver.getReceiverName(),
-                    deliver.getReceiverPhone(),
-                    deliver.getRefusalReason()));
-
-        }
-
-    }
 }

@@ -1691,6 +1691,42 @@ public class DeliveryApi {
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
 
+
+    /*2.5 收衣记录*/
+	/*返回：ResultCollectInfo*/
+    public static void collectInfoRecord(String token,long startDate,long endDate, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/collectInfoRecord%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /*5.8收衣记录*/
+	/*返回：ResultCollectInfo*/
+    public static void collectInfoRecord2(String token,long startDate,long endDate, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/activity/collectInfoRecord%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+
     /**
      * 5.2	获取衣物配置项
      *
