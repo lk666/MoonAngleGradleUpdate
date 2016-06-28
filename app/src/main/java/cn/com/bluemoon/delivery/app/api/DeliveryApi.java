@@ -1631,4 +1631,220 @@ public class DeliveryApi {
 		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
+	/*获取小组信息列表*/
+	/*返回：ResultGroupList*/
+	public static void getGroupList(String token,String content,int pageSize,long timestamp,AsyncHttpResponseHandler handler){
+		if(null == token){
+			return;
+		}
+		if(content==null){
+			content = "";
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("token", token);
+		params.put("content", content);
+		params.put("pageSize", pageSize);
+		params.put("timestamp", timestamp);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getGroupList%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/*CEO获取社区列表*/
+	/*返回：ResultCommunityList*/
+	public static void getCommunityList(String token,AsyncHttpResponseHandler handler){
+		if(null == token){
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("token", token);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getCommunityList%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/*CEO获取人员关系列表*/
+	/*返回：ResultEmpList*/
+	public static void getEmpList(String token,String content,AsyncHttpResponseHandler handler){
+		if(null == token){
+			return;
+		}
+		if(content==null){
+			content = "";
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("token", token);
+		params.put("content", content);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getEmpList%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/*CEO删除人员辖区*/
+	/*返回：ResultBase*/
+	public static void deletePersonnelArea(String token,String bpCode,String empCode,AsyncHttpResponseHandler handler){
+		if(null == token||empCode==null||bpCode==null){
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("token", token);
+		params.put("bpCode", bpCode);
+		params.put("empCode", empCode);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/deletePersonnelArea%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/*CEO搜索服务区域列表*/
+	/*返回：ResultServiceAreaList*/
+	public static void getServiceAreaList(String token,String bpCode,String empCode,String content,int pageindex,int pageSize,AsyncHttpResponseHandler handler){
+		if(null == token||empCode==null||bpCode==null){
+			return;
+		}
+		if(null==content) content = "";
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("token", token);
+		params.put("bpCode", bpCode);
+		params.put("empCode", empCode);
+		params.put("content", content);
+		params.put("pageindex", pageindex);
+		params.put("pageSize", pageSize);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getServiceAreaList%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/* 机构新增人员关系 */
+	public static void addRelationShip(String communityCode,String communityName,String empCode,String empName,int endDate,String groupCode,String groupName,String relationType,String remark,int startDate,String token,int workLength,String workType,AsyncHttpResponseHandler handler){
+		if(null == communityCode||null == communityName||null == empCode||null == empName||null == groupCode||null == groupName||null == relationType||null == remark||null == token||null == workType) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("communityCode",communityCode);
+		params.put("communityName",communityName);
+		params.put("empCode",empCode);
+		params.put("empName",empName);
+		params.put("endDate",endDate);
+		params.put("groupCode",groupCode);
+		params.put("groupName",groupName);
+		params.put("relationType",relationType);
+		params.put("remark",remark);
+		params.put("startDate",startDate);
+		params.put("token",token);
+		params.put("workLength",workLength);
+		params.put("workType",workType);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/addRelationShip%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/* 添加服务区域 */
+	public static void addServiceArea(String bpCode,List<String> bpCodeList,String empCode,String token,AsyncHttpResponseHandler handler){
+		if(null == bpCode||null == bpCodeList||null == empCode||null == token) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("bpCode",bpCode);
+		params.put("bpCodeList",bpCodeList);
+		params.put("empCode",empCode);
+		params.put("token",token);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/addServiceArea%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/* 获取人员关系详情 */
+	public static void getRelationShipDetail(String bpCode,String empCode,String token,AsyncHttpResponseHandler handler){
+		if(null == bpCode||null == empCode||null == token) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("bpCode",bpCode);
+		params.put("empCode",empCode);
+		params.put("token",token);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/* 获取人员辖区列表 */
+	public static void getPersonnelAreaList(String empCode,int pageSize,long timestamp,String token,AsyncHttpResponseHandler handler){
+		if(null == empCode||null == token) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("empCode",empCode);
+		params.put("pageSize",pageSize);
+		params.put("timestamp",timestamp);
+		params.put("token",token);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getPersonnelAreaList%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/* 获取小组/社区详情 */
+	public static void getGroupDetailInfo(String content,int pageSize,long timestamp,String token,String type,AsyncHttpResponseHandler handler){
+		if(null == content||null == token||null == type) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("content",content);
+		params.put("pageSize",pageSize);
+		params.put("timestamp",timestamp);
+		params.put("token",token);
+		params.put("type",type);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getGroupDetailInfo%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/* 获取社区的小组列表 */
+	public static void getGroupListByCommunity(String bpCode,String token,AsyncHttpResponseHandler handler){
+		if(null == bpCode||null == token) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("bpCode",bpCode);
+		params.put("token",token);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/getGroupListByCommunity%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+	/* 解除人员关系 */
+	public static void deleteRelationShip(String bpCode,String empCode,long endDate,String token,String type,AsyncHttpResponseHandler handler){
+		if(null == bpCode||null == empCode||null == token||null == type) {
+			return;
+		}
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("bpCode",bpCode);
+		params.put("empCode",empCode);
+		params.put("endDate",endDate);
+		params.put("token",token);
+		params.put("type",type);
+		String jsonString = JSONObject.toJSONString(params);
+		String url = String.format("bluemoon-control/team/deleteRelationShip%s",
+				ApiClientHelper.getParamUrl());
+		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+	}
+
+
+
+
+
+
+
+
+
 }

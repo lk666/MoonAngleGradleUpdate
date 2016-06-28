@@ -1,49 +1,64 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    >
+    android:layout_height="match_parent">
 
 
     <LinearLayout
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center_vertical"
+        android:layout_height="35dp"
         android:background="@color/bar_blue"
-        android:padding="10dp"
-        >
+        android:gravity="center_vertical"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
         <TextView
             android:id="@+id/txt_groupnum"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
             android:singleLine="true"
             android:textColor="@color/view_bg"
-            android:text="@string/team_group_groupnum"
-            android:textSize="@dimen/text_size_14"
-            />
+            android:textSize="@dimen/text_size_15" />
+
         <TextView
             android:id="@+id/txt_membernum"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:singleLine="true"
-            android:gravity="right"
-            android:textColor="@color/view_bg"
-            android:text="@string/team_group_membernum"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
             android:ellipsize="start"
-            android:textSize="@dimen/text_size_14"
-            android:layout_weight="1"/>
+            android:gravity="right"
+            android:singleLine="true"
+            android:textColor="@color/view_bg"
+            android:textSize="@dimen/text_size_15" />
     </LinearLayout>
 
-    <ListView
-        android:id="@+id/listview_group"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/page_bg_f2"
-        android:cacheColorHint="#00000000"
-        android:dividerHeight="10dp"
-        android:divider="@color/page_bg_f2"
-        />
+        android:layout_below="@+id/layout_title">
+        <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/listview_group"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:cacheColorHint="#00000000"
+            android:dividerHeight="0dp"
+            android:scrollbars="vertical"
+            ptr:ptrMode="both"
+            ptr:ptrAnimationStyle="flip"
+            ptr:ptrHeaderSubTextColor="@color/text_black"
+            ptr:ptrHeaderTextColor="@color/text_black" />
+    </RelativeLayout>
 
-</LinearLayout>
+    <cn.com.bluemoon.lib.view.CommonSearchView
+        xmlns:search="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/searchview_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"
+        search:text_hint="@string/team_group_search_hint" />
+
+</RelativeLayout>

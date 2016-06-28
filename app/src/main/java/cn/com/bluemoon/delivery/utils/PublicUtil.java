@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Paint;
 import android.location.LocationManager;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -15,6 +16,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.AbsListView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -22,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
+import org.w3c.dom.Text;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayOutputStream;
@@ -48,6 +52,7 @@ import cn.com.bluemoon.delivery.card.CardTabActivity;
 import cn.com.bluemoon.delivery.order.OrderDetailActivity;
 import cn.com.bluemoon.delivery.web.WebViewActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
 import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
@@ -199,7 +204,11 @@ public class PublicUtil extends LibPublicUtil {
         Configure.TITLE_TXT = title;
         Configure.BTN_CLICK_TXT = btnString;
         Configure.BUTTON_VISIBILITY = View.VISIBLE;
-        BarcodeUtil.openScan(aty, fragment, requestCode, resultCode);
+        if(fragment!=null){
+            BarcodeUtil.openScan(aty, fragment, requestCode, resultCode);
+        }else{
+            BarcodeUtil.openScan(aty, requestCode, resultCode);
+        }
     }
 
     public static void openScanTicket(Activity aty, String ticketName,
@@ -649,22 +658,55 @@ public class PublicUtil extends LibPublicUtil {
         return JSONObject.toJSONString(params);
     }
 
-    public static View getEmptyView(String content) {
-        Context context = AppContext.getInstance();
-        TextView emptyView = new TextView(context);
-        emptyView.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-        emptyView.setGravity(Gravity.CENTER);
-        emptyView.setText(content);
-        emptyView.setBackgroundColor(context.getResources().getColor(R.color.page_bg_f2));
-        emptyView.setTextColor(context.getResources().getColor(R.color.text_grep));
-        emptyView.setTextSize(14);
-        return emptyView;
+    public static View getEmptyView(String content,int imgResid){
+        LayoutInflater inflater = LayoutInflater.from(AppContext.getInstance());
+        View view = inflater.inflate(R.layout.layout_empty, null);
+        ((TextView) view.findViewById(R.id.txt_content)).setText(content);
+        if(imgResid!=0){
+            ((ImageView)view.findViewById(R.id.img_empty)).setImageResource(imgResid);
+        }
+        AbsListView.LayoutParams params = new AbsListView.LayoutParams(
+                AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
+        view.setLayoutParams(params);
+        return view;
     }
 
-    public static void setEmptyView(ListView list,String content) {
-        View emptyView = getEmptyView(content);
-        ((ViewGroup) list.getParent()).addView(emptyView);
-        list.setEmptyView(emptyView);
+    public static void setEmptyView(View listview,View emptyView) {
+        ((ViewGroup) listview.getParent()).addView(emptyView);
+        try{
+            ((PullToRefreshListView)listview).setEmptyView(emptyView);
+        }catch (Exception e){
+            ((ListView)listview).setEmptyView(emptyView);
+        }
     }
+
+    public static void setEmptyView(View listview,String content) {
+        View emptyView = getEmptyView(content,0);
+        setEmptyView(listview, emptyView);
+    }
+
+    public static void setEmptyView(View listview,String content,int imgResid) {
+        View emptyView = getEmptyView(content,imgResid);
+        setEmptyView(listview, emptyView);
+    }
+
+    public static String getString2(String param1,String param2){
+       return String.format(AppContext.getInstance().getString(R.string.param_two), param1, param1);
+    }
+
+    public static TextView getPhoneView(final Activity aty,final TextView txtPhone){
+        txtPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        txtPhone.getPaint().setAntiAlias(true);
+        txtPhone.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                PublicUtil.showCallPhoneDialog(aty, txtPhone.getText().toString());
+            }
+        });
+        return txtPhone;
+    }
+
 
 }

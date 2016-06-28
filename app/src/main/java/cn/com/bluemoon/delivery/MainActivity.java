@@ -66,6 +66,7 @@ import cn.com.bluemoon.delivery.utils.PushUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -136,7 +137,13 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                PublicUtil.openScanCard(main, null, 0);
+                if(!BuildConfig.RELEASE){
+                    Intent intent = new Intent(main, MyTeamActivity.class);
+                    startActivity(intent);
+                }else{
+                    PublicUtil.openScanCard(main, null, 0);
+                }
+
             }
         });
         txtTips =(AlwaysMarqueeTextView) findViewById(R.id.txt_tips);

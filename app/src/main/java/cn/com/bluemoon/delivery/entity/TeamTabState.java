@@ -5,8 +5,8 @@ import cn.com.bluemoon.delivery.team.GroupFragment;
 import cn.com.bluemoon.delivery.team.MemberFragment;
 
 public enum TeamTabState {
-	GROUP(GroupFragment.class, R.drawable.card_tab_punch, R.string.team_group_title),
-	MEMBER(MemberFragment.class, R.drawable.card_tab_record,R.string.team_member_title);
+	GROUP(GroupFragment.class, R.drawable.team_tab_group, R.string.team_group_title),
+	MEMBER(MemberFragment.class, R.drawable.team_tab_member,R.string.team_member_title);
 
 	private Class clazz;
 	private int image;

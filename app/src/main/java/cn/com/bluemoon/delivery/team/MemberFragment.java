@@ -3,31 +3,33 @@ package cn.com.bluemoon.delivery.team;
 import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
-import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class MemberFragment extends Fragment {
+public class MemberFragment extends BackHandledFragment {
 
     private MyTeamActivity mContext;
     private String TAG = "MemberFragment";
-    private ListView listview;
+    private PullToRefreshListView listview;
     private MemberAdapter adapter;
+    private CommonSearchView searchView;
+    private View rootView;
 
 
     public void onAttach(Activity activity) {
@@ -38,28 +40,47 @@ public class MemberFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        if(!"CEO".equals(MyTeamActivity.roleCode)){
+            return rootView;
+        }
         initCustomActionBar();
-        View v = inflater.inflate(R.layout.fragment_member,
+        if(rootView!=null){
+            return rootView;
+        }
+        rootView = inflater.inflate(R.layout.fragment_member,
                 container, false);
-        listview = (ListView) v.findViewById(R.id.listview_member);
-        PublicUtil.setEmptyView(listview, getString(R.string.none));
+        listview = (PullToRefreshListView) rootView.findViewById(R.id.listview_member);
+        PublicUtil.setEmptyView(listview, getString(R.string.team_group_empty_member),R.mipmap.team_empty_member);
+        searchView = (CommonSearchView) rootView.findViewById(R.id.searchview_member);
+        searchView.setSearchViewListener(searchViewListener);
+        searchView.hideHistoryView();
+        searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_MEMBER));
         setData();
-        return v;
+        return rootView;
     }
 
     private void setData(){
-        List<Object> list = new ArrayList<>();
-        list.add("sssssssssssssss");
-        list.add("aaaaaaaaaaaaaaaaaa");
-        list.add("bbbbbbbbbbbbbbbb");
-        setAdapter(list);
+        setAdapter(null);
     }
 
-    private void setAdapter(List<Object> list){
+    private void setAdapter(List<String> list){
         adapter = new MemberAdapter(mContext,R.layout.layout_no_data);
         adapter.setList(list);
         listview.setAdapter(adapter);
     }
+
+    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
+        @Override
+        public void onSearch(String str) {
+            searchView.hideHistoryView();
+        }
+
+        @Override
+        public void onCancel() {
+            searchView.hideHistoryView();
+        }
+
+    };
 
     private void initCustomActionBar() {
         CommonActionBar actionBar = new CommonActionBar(mContext.getActionBar(), new IActionBarListener() {
@@ -81,7 +102,7 @@ public class MemberFragment extends Fragment {
 
         });
 
-        actionBar.getImgRightView().setImageResource(R.mipmap.ico_customer_service);
+        actionBar.getImgRightView().setImageResource(R.mipmap.team_add);
         actionBar.getImgRightView().setVisibility(View.VISIBLE);
     }
 
@@ -96,12 +117,24 @@ public class MemberFragment extends Fragment {
         MobclickAgent.onPageStart(TAG);
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        if(searchView!=null)
+        ClientStateManager.setHistory(searchView.getListHistory(),ClientStateManager.HISTORY_MEMBER);
+    }
+
+    @Override
+    protected boolean onBackPressed() {
+        return false;
+    }
+
     class MemberAdapter extends BaseAdapter {
 
         private LayoutInflater mInflater;
         private Context context;
         private int layoutID;
-        private List<Object> list;
+        private List<String> list;
 
         public MemberAdapter(Context context, int layoutID){
             this.mInflater = LayoutInflater.from(context);
@@ -109,7 +142,7 @@ public class MemberFragment extends Fragment {
             this.context = context;
         }
 
-        public void setList(List<Object> list){
+        public void setList(List<String> list){
             this.list = list;
         }
 

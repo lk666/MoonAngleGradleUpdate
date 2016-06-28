@@ -244,10 +244,30 @@
             android:name=".notice.PaperListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
-        <activity android:name=".team.MyTeamActivity"
+        <activity
+            android:name=".team.MyTeamActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".team.GroupDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".team.SelectEmpActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".team.RelationShipDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name=".team.RelationInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
 
         <service android:name=".card.LocationSvc" />
 

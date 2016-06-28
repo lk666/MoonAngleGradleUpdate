@@ -4,6 +4,7 @@
     <string name="app_name">月亮天使</string>
     <string name="test_name">(%s)测试</string>
     <string name="none">无</string>
+    <string name="no_history">没有历史记录</string>
     <string name="start_error">启动异常</string>
     <string name="order_refresh">重新加载</string>
     <string name="order_null_content">加载失败，请检查您当前的网络环境</string>
@@ -97,6 +98,7 @@
     <string name="btn_later">稍后</string>
     <string name="btn_setting">设置</string>
     <string name="btn_search">搜索</string>
+    <string name="point_end">&#8230;</string>
 
     <!-- promt messsage -->
     <string name="request_server_busy">服务器繁忙，请稍后再试</string>
@@ -593,7 +595,7 @@
     <string name="input_code_and_name">请输入编码/名称</string>
     <string name="card_search_history">历史记录</string>
     <string name="card_btn_cancle">取 消</string>
-    <string name="card_btn_search">搜 索</string>
+    <string name="card_btn_search">确 定</string>
 
     <!-- coupons -->
     <string name="coupons_tab_push">卡券推送</string>
@@ -627,13 +629,50 @@
 
     <!-- team -->
     <string name="team_title">我的团队</string>
+    <string name="team_group">小组</string>
+    <string name="team_community">社区</string>
+    <string name="team_work_full">全职</string>
+    <string name="team_work_part">兼职</string>
+    <string name="team_work_part_hint">兼职需录入作业时长</string>
     <string name="team_group_title">小组信息</string>
     <string name="team_member_title">团队成员</string>
     <string name="team_group_groupnum">总小组数：%s</string>
     <string name="team_group_membernum">总人数：%1$s/%2$s</string>
     <string name="team_group_leader">组长：%s</string>
-    <string name="team_group_empty_group">无小组信息</string>
-    <string name="team_group_empty_member">无团队成员信息</string>
+    <string name="team_group_empty_group">暂无小组信息</string>
+    <string name="team_group_empty_member">暂无团队成员</string>
+    <string name="team_group_search_hint">请输入编码/小组名称</string>
+    <string name="team_member_search_hint">请输入关键字</string>
+    <string name="team_group_member_search_hint">请输入人员编码或名称</string>
+    <string name="team_member_limit">该功能只对\n社区CEO开放</string>
+    <string name="team_group_detail_total_num">总人数/规划数：%1$d / %2$d</string>
+    <string name="team_group_detail_full_num">全职人数：%s</string>
+    <string name="team_group_detail_part_num">兼职人数：%s</string>
+    <string name="team_group_detail_unlock">解除组关系</string>
+    <string name="team_group_detail_member">人员辖区</string>
+    <string name="team_group_detail_edit">编辑</string>
+    <string name="team_group_detail_msg">加入：%1$s，%2$s</string>
+    <string name="param_two">%1$s — %2$s</string>
+    <string name="team_group_start_date">开始日期</string>
+    <string name="team_group_end_date">结束日期</string>
+    <string name="team_group_date_hint">请选择</string>
+    <string name="team_group_add_member">添加人员</string>
+    <string name="team_group_add_member_code">编码添加</string>
+    <string name="team_group_select_member">选择人员</string>
+    <string name="team_group_select_member_tips">请选择人员</string>
+    <string name="team_member_detail_title">人员关系详情</string>
+    <string name="team_member_detail_type">关系类型</string>
+    <string name="team_member_detail_community">所属社区</string>
+    <string name="team_member_detail_community_hint">请选择社区</string>
+    <string name="team_member_detail_group">所属小组</string>
+    <string name="team_member_detail_group_hint">请选择小组</string>
+    <string name="team_member_detail_style">作业性质</string>
+    <string name="team_member_detail_lengh">作业时长(h)</string>
+    <string name="team_member_detail_wait">待定</string>
+    <string name="team_member_detail_content">备注</string>
+    <string name="team_member_detail_content_hint">请填写备注</string>
+    <string name="team_member_add_title">填写关系信息</string>
+    <string name="team_member_edit_title">编辑关系信息</string>
 
 
     <!--keyListener-->

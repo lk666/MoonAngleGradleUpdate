@@ -10,6 +10,7 @@ import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCardType;
 import cn.com.bluemoon.delivery.app.api.model.card.Workplace;
+import cn.com.bluemoon.delivery.app.api.model.team.TeamGroup;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.tagview.Tag;
 
@@ -145,6 +146,15 @@ public class CardUtils {
             }
         }
         return str;
+    }
+
+    public static String getTeamGroupListName(TeamGroup item){
+        StringBuffer strBuffer = new StringBuffer();
+        strBuffer.append(String.format(AppContext.getInstance().getString(R.string.param_two),item.getBpCode(),item.getBpName()));
+        if(!StringUtils.isEmpty(item.getChargeName())){
+            strBuffer.append(String.format(AppContext.getInstance().getString(R.string.param_two),"",item.getChargeName()));
+        }
+        return strBuffer.toString();
     }
 
 }

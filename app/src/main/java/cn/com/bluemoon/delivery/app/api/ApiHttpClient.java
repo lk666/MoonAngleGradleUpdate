@@ -21,7 +21,7 @@ public class ApiHttpClient {
 
 	public static String HOST;
 	public static String API_URL;
-	public static String MOCK_URL = "http://angelapi.bluemoon.com.cn:8884/%s";
+	public static String MOCK_URL = "http://tmallapi.bluemoon.com.cn:9002/mockjsdata/5/%s";
 	public static String ADDRESS_URL="http://mallapi.bluemoon.com.cn/%s";
 	public static String PUNCH_DETAILDS_DOMAIN;
 

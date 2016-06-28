@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 public class CommonPage extends Fragment {
 
@@ -28,7 +29,7 @@ public class CommonPage extends Fragment {
     private String TAG = "CommonPage";
     private TextView txtLeft;
     private TextView txtRight;
-    private ListView listview;
+    private PullToRefreshListView listview;
     private CommonAdapter adapter;
 
 
@@ -45,7 +46,7 @@ public class CommonPage extends Fragment {
                 container, false);
         txtLeft = (TextView) v.findViewById(R.id.txt_left);
         txtRight = (TextView) v.findViewById(R.id.txt_right);
-        listview = (ListView) v.findViewById(R.id.listview);
+        listview = (PullToRefreshListView) v.findViewById(R.id.listview);
         PublicUtil.setEmptyView(listview, getString(R.string.none));
         setData();
         return v;
