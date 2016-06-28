@@ -248,23 +248,19 @@
             android:name=".module.clothing.collect.ClothingTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.clothing.collect.withorder.WithOrderCollectBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.clothing.collect.withorder.ClothingDeliverActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
-
         <activity
             android:name=".module.clothing.collect.ClothesDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.clothing.collect.withorder.ClothingDeliverConfirmActivity"
             android:screenOrientation="portrait"
@@ -275,23 +271,25 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
-
         <activity
             android:name=".module.clothing.collect.ClothingBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateHidden"/>
-
         <activity
             android:name=".module.clothing.collect.withorder.ManualInputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.clothing.collect.withorder.WithOrderOuterDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
 
+
+        <activity
+            android:name=".module.clothing.collect.withoutorder.ActivityDescActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
 
         <service android:name=".card.LocationSvc"/>
 

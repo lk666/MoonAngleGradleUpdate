@@ -689,8 +689,6 @@
     <string name="clothing_book_in_phote_most">(最多10张)</string>
     <string name="clothing_book_delete_hint">确认删除该衣物信息？</string>
 
-
-
     <!--无订单收衣-->
     <string name="tab_title_without_order_collect_manage">无订单收衣</string>
 
@@ -727,5 +725,9 @@
 
     <!-- 洗衣服务订单 -->
     <string name="title_outer_detail">洗衣服务订单</string>
+
+    <!-- 活动收衣 -->
+    <string name="title_activity_dec">活动收衣</string>
+    <string name="activity_dec_note">收衣注意事项</string>
 
 </resources>

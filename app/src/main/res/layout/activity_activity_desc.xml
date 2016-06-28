@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/page_bg_f2"
+    tools:context=".module.clothing.collect.withoutorder.ActivityDescActivity">
+
+    <TextView
+        android:id="@+id/tv_title"
+        style="@style/txt_title_13"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white_bg"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"/>
+
+    <TextView
+        style="@style/txt_content_13"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="12dp"
+        android:text="@string/activity_dec_note"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/tv_desc"
+            style="@style/txt_content_13"/>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/btn_start"
+        android:layout_width="99dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="204dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/btn_red_shape_large"
+        android:text="@string/with_order_collect_btn_start_collect"
+        android:textColor="@color/white_bg"
+        android:textSize="17sp"/>
+</LinearLayout>
