@@ -89,7 +89,7 @@
                 android:id="@+id/v_div_count"
                 layout="@layout/line_solid_view_999"
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="@dimen/div_height"
                 android:layout_below="@+id/tv_address"
                 android:layout_marginLeft="12dp"
                 android:layout_marginTop="16dp"/>
@@ -253,12 +253,11 @@
 
         <cn.com.bluemoon.delivery.ui.NoScrollListView
             android:id="@+id/lv_order_detail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/white_bg"
             android:divider="@drawable/div_left_padding_16"
-            android:dividerHeight="1px"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/div_height"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"/>
 
@@ -292,7 +291,7 @@
             <include
                 layout="@layout/line_solid_view_999"
                 android:layout_width="match_parent"
-                android:layout_height="1px"
+                android:layout_height="@dimen/div_height"
                 android:layout_marginLeft="16dp"/>
         </LinearLayout>
 
@@ -302,7 +301,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white_bg"
             android:divider="@drawable/div_left_padding_16"
-            android:dividerHeight="1px"
+            android:dividerHeight="@dimen/div_height"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"/>
     </LinearLayout>

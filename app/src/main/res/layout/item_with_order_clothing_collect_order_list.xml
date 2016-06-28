@@ -50,7 +50,7 @@
     <include
         layout="@layout/line_solid_view_999"
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="@dimen/div_height"
         android:layout_marginLeft="12dp" />
 
     <RelativeLayout
@@ -142,7 +142,7 @@
     <include
         layout="@layout/line_solid_view_999"
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="@dimen/div_height"
         android:layout_marginLeft="12dp" />
 
     <LinearLayout

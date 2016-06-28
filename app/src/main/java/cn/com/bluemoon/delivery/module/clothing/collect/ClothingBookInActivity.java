@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -14,7 +15,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -52,6 +52,7 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ScrollGridView;
+import cn.com.bluemoon.lib.view.TakePhotoPopView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -60,8 +61,15 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
  */
 public class ClothingBookInActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
+    /**
+     * 最多上传图片数量
+     */
+    private static final int MAX_UPLOAD_IMG = 10;
+
     private static final int RESULT_CODE_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
+
+    TakePhotoPopView takePhotoPop;
 
     /**
      * 衣物类型编号
@@ -151,15 +159,16 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * 修改时需要等获取衣物配置项和获取衣物信息返回后才结束初始化
      */
     private int modifyDataInitLatch = 0;
-    /**
-     * 获取衣物配置项的列表
-     */
-    private List<ClothesType> clothesTypes = new ArrayList<>();
 
     /**
      * 删除的图片位置
      */
     private int delImgPos;
+
+    /**
+     * 扫描到/输入的数字码
+     */
+    private String scaneCode;
 
     /**
      * 已上传的图片列表
@@ -322,7 +331,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         String token = ClientStateManager.getLoginToken(this);
         showProgressDialog();
         modifyDataInitLatch = 2;
-        clothesTypes = new ArrayList<>();
         nameAdapter.setSelectedPos(-1);
         DeliveryApi.getClothesTypeConfigs(token, typeCode, clothesTypesHandler);
         DeliveryApi.registerClothesCode(token, clothesCode, registerClothesCodeHandler);
@@ -472,6 +480,17 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             nameAdapter.setSelectedPos(0);
             nameAdapter.notifyDataSetChanged();
         }
+
+        if (extraMode.equals(MODE_ADD)) {
+            clothesImg = new ArrayList<>();
+
+            ClothingPic addPic = new ClothingPic();
+            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
+            clothesImg.add(addPic);
+
+            clothingAdapter.setList(clothesImg);
+            clothingAdapter.notifyDataSetChanged();
+        }
     }
 
     /**
@@ -480,7 +499,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private void checkBtnOKEnable() {
         if (nameAdapter == null || nameAdapter.getSelectedPos() < 0 ||
                 TextUtils.isEmpty(tvNumber.getText().toString()) ||
-                clothingAdapter == null || clothingAdapter.getCount() < 1) {
+                clothingAdapter == null || clothingAdapter.getCount() < 2) {
             btnOk.setEnabled(false);
         } else {
             btnOk.setEnabled(true);
@@ -651,21 +670,119 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 }
                 break;
 
+            // 拍照
+            case Constants.TAKE_PIC_RESULT:
+                if (takePhotoPop != null) {
+                    Bitmap bm = takePhotoPop.getTakeImageBitmap();
+                    uploadImg(bm);
+                }
+                break;
+
+            // 选择照片
+            case Constants.CHOSE_PIC_RESULT:
+                if (takePhotoPop != null) {
+                    Bitmap bm = takePhotoPop.getPickImageBitmap(data);
+                    uploadImg(bm);
+                }
+                break;
             default:
                 break;
         }
     }
 
+    private void uploadImg(Bitmap bm) {
+        showProgressDialog();
+        DeliveryApi.uploadClothesImg(ClientStateManager.getLoginToken(ClothingBookInActivity.this),
+                PublicUtil.getBytes(bm), uploadImageHandler);
+    }
+
+
     /**
-     * 处理扫码、手动输入数字码返回
+     * 上传图片返回
+     */
+    AsyncHttpResponseHandler uploadImageHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            LogUtils.d(getDefaultTag(), "上传图片返回 result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    ClothingPic pic = JSON.parseObject(responseString, ClothingPic.class);
+
+                    clothesImg.add(clothesImg.size() - 1, pic);
+                    if (clothesImg.size() > MAX_UPLOAD_IMG) {
+                        clothesImg.remove(clothesImg.size() - 1);
+                    }
+                    clothingAdapter.notifyDataSetChanged();
+                    checkBtnOKEnable();
+
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    /**
+     * 新增模式下处理扫码、手动输入数字码返回
      *
      * @param code
      */
     private void handleScaneCodeBack(String code) {
-        // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
-        PublicUtil.showToast("处理扫码、手动输入数字码返回" + code);
-        checkBtnOKEnable();
+        scaneCode = code;
+        DeliveryApi.validateClothesCode(scaneCode, ClientStateManager.getLoginToken(this),
+                validateClothesCodeHandler);
     }
+
+
+    /**
+     * 验证衣物编码返回
+     */
+    AsyncHttpResponseHandler validateClothesCodeHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            LogUtils.d(getDefaultTag(), "验证衣物编码 result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    tvNumber.setText(scaneCode);
+                } else {
+                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 
     /**
      * 衣物名称Adapter
@@ -743,6 +860,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             }
             return -1;
         }
+
     }
 
     @Override
@@ -757,10 +875,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             ClothingPic pic = (ClothingPic) item;
             // 添加相片按钮
             if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
-                // TODO: lk 2016/6/20 添加图片
-
-//                takePhotoPop = new TakePhotoPopView(this,
-//                        Constants.TAKE_PIC_RESULT,Constants.CHOSE_PIC_RESULT);
+                if (takePhotoPop == null) {
+                    takePhotoPop = new TakePhotoPopView(this, Constants
+                            .TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
+                }
+                takePhotoPop.getPic(view);
             }
 
             // 已上传图片
@@ -798,6 +917,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     clothesImg.remove(delImgPos);
                     clothingAdapter.notifyDataSetChanged();
+                    checkBtnOKEnable();
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
@@ -816,3 +936,4 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         }
     };
 }
+// TODO: lk 2016/6/27 将Add和Modify拆开

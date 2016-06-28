@@ -28,6 +28,7 @@ import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultScanOrderInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultWithOrderClothingCollectList;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.WithOrderClothingCollectOrder;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
@@ -71,6 +72,11 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
     private String manager;
 
+
+    /**
+     * 扫描到/输入的数字码
+     */
+    private String scaneCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -185,9 +191,9 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                     @Override
                     public void setTitle(TextView v) {
-                       // if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
-                            v.setText(R.string.tab_title_with_order_collect_manage);
-                       // }
+                        // if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
+                        v.setText(R.string.tab_title_with_order_collect_manage);
+                        // }
                     }
                 });
 
@@ -259,7 +265,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         }
     }
 
-    // TODO: lk  2016/6/20 处理扫码、手动输入数字码返回
 
     /**
      * 处理扫码、手动输入数字码返回
@@ -267,7 +272,57 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
      * @param code
      */
     private void handleScaneCodeBack(String code) {
-        PublicUtil.showToast("处理扫码、手动输入数字码返回" + code);
+        showProgressDialog();
+        scaneCode = code;
+        DeliveryApi.scanOrderInfo(scaneCode, ClientStateManager.getLoginToken(main),
+                scanOrderInfoHandler);
+    }
+
+    /**
+     * 扫描接单接口返回
+     */
+    AsyncHttpResponseHandler scanOrderInfoHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+        // TODO: lk 2016/6/26 待测试
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            LogUtils.d(getDefaultTag(), "扫描接单接口 result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultScanOrderInfo result = JSON.parseObject(responseString,
+                        ResultScanOrderInfo.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    handleScaneCodeInfo(result);
+                } else {
+                    PublicUtil.showErrorMsg(main, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    private void handleScaneCodeInfo(ResultScanOrderInfo result) {
+        // 扫描的是衣物编码
+        if (result.getCodeType().equals(ResultScanOrderInfo.CODE_TYPE_CLOTHES_CODE)) {
+// TODO: lk 2016/6/26 跳转到确认接收界面，需要新增一个参数 scaneCode
+            //confirmDeliver(result.getCollectCode(), scaneCode);
+        }
+
+        // 扫描的是订单编码
+        else if (result.getCodeType().equals(ResultScanOrderInfo.CODE_TYPE_OUTER_CODE)) {
+            gotoCollectBookIn(scaneCode, null);
+        }
     }
 
     @Override
@@ -413,6 +468,19 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         }
     }
 
+    /**
+     * 开始/继续收衣
+     */
+    private void gotoCollectBookIn(String outerCode, String collectCode) {
+        Intent intent = new Intent(main, WithOrderCollectBookInActivity.class);
+        intent.putExtra(WithOrderCollectBookInActivity.EXTRA_OUTERCODE, outerCode == null ? "" :
+                outerCode);
+        intent.putExtra(WithOrderCollectBookInActivity.EXTRA_COLLECTCODE, collectCode == null ?
+                "" : collectCode);
+        WithOrderManageFragment.this.startActivityForResult(intent,
+                REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY);
+    }
+
     @Override
     public void onItemClick(Object item, View view, int position) {
         WithOrderClothingCollectOrder order = (WithOrderClothingCollectOrder) item;
@@ -424,11 +492,20 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             case R.id.tv_customer_phone:
                 call(order.getReceivePhone());
                 break;
-            // TODO: lk 2016/6/19    订单详情
             case R.id.tv_detail:
             case R.id.iv_detail:
-                PublicUtil.showToast("订单详情:" + order.getOuterCodeType() + ","
-                        + order.getOuterCode() + ", " + order.getCollectCode());
+                if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
+                        .OUTERCODE_TYPE_ORDER)) {
+                    // 服务单号
+                    Intent i = new Intent(main, WithOrderOuterDetailActivity.class);
+                    i.putExtra(WithOrderOuterDetailActivity.EXTRA_OUTERCODE, order.getOuterCode());
+                    startActivity(i);
+
+                } else if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
+                        .OUTERCODE_TYPE_WASHORDER)) {
+                    // 收衣单号
+                    // TODO: lk 2016/6/19   收衣单单详情
+                }
                 break;
 
             case R.id.btn_right_action:
@@ -436,18 +513,13 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
 //                        PublicUtil.showToast("接单:" + order.getOuterCodeType() + ","
 //                                + order.getOuterCode() + ", " + order.getCollectCode());
-                        acceptOrder(ClientStateManager.getLoginToken(getActivity()), order.getOuterCode());
+                        acceptOrder(ClientStateManager.getLoginToken(getActivity()), order
+                                .getOuterCode());
                         break;
 
                     // 开始/继续收衣
                     case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
-                        Intent intent = new Intent(main, WithOrderCollectBookInActivity.class);
-                        intent.putExtra(WithOrderCollectBookInActivity.EXTRA_OUTERCODE, order
-                                .getOuterCode() == null ? "" : order.getOuterCode());
-                        intent.putExtra(WithOrderCollectBookInActivity.EXTRA_COLLECTCODE, order
-                                .getCollectCode() == null ? "" : order.getCollectCode());
-                        WithOrderManageFragment.this.startActivityForResult(intent,
-                                REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY);
+                        gotoCollectBookIn(order.getOuterCode(), order.getCollectCode());
                         break;
 
                     //确认接收
@@ -469,14 +541,15 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
 //                        PublicUtil.showToast(" 取消订单:" + order.getOuterCodeType() + ","
 //                                + order.getOuterCode() + ", " + order.getCollectCode());
-                        cancelOrder(ClientStateManager.getLoginToken(getActivity()), order.getOuterCode());
+                        cancelOrder(ClientStateManager.getLoginToken(getActivity()), order
+                                .getOuterCode());
                         break;
 
                     // 衣服转交
                     case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
                         if (order.getActualCount() > 0 &&
                                 order.getReceivableCount() > order.getActualCount()) {
-                          deliver(order.getCollectCode());
+                            deliver(order.getCollectCode());
                         }
                         break;
 
@@ -514,7 +587,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 @Override
                 public void onClick(View v) {
                     if (!StringUtil.isEmpty(editReason.getText().toString())) {
-                        refuseDeliver(ClientStateManager.getLoginToken(getActivity()), code, editReason.getText().toString());
+                        refuseDeliver(ClientStateManager.getLoginToken(getActivity()), code,
+                                editReason.getText().toString());
                         refuseDialog.dismiss();
                     }
                 }
@@ -580,12 +654,12 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         }
     };
 
-    private void deliver(String collectCode){
-        ClothingDeliverActivity.actionStart(getActivity(),collectCode);
+    private void deliver(String collectCode) {
+        ClothingDeliverActivity.actionStart(getActivity(), collectCode);
     }
 
-    private void confirmDeliver(String collectCode){
-        ClothingDeliverConfirmActivity.actionStart(getActivity(),collectCode);
+    private void confirmDeliver(String collectCode) {
+        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode);
     }
 
 }

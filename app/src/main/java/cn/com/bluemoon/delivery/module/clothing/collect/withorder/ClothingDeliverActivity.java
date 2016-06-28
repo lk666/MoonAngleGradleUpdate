@@ -26,7 +26,6 @@ import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDeliverInfos;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesDeliverInfo;
@@ -94,7 +93,7 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
 
     private void init() {
         showProgressDialog();
-        DeliveryApi.queryClothesDeliverInfo(ClientStateManager.getLoginToken(ClothingDeliverActivity.this), collectCode, logHandler);
+        DeliveryApi.queryTransmitInfo(ClientStateManager.getLoginToken(ClothingDeliverActivity.this), collectCode, logHandler);
     }
 
 

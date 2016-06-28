@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white_bg">
+
+    <TextView
+        android:id="@+id/tv_count"
+        style="@style/txt_title_11"
+        android:layout_height="44dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="12dp"
+        android:gravity="center_vertical"/>
+
+    <TextView
+        android:id="@+id/tv_collect_code"
+        style="@style/txt_title_13"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="16dp"
+        android:layout_toLeftOf="@+id/tv_count"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"/>
+
+    <include
+        android:id="@+id/div_1"
+        layout="@layout/line_solid_view_999"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/div_height"
+        android:layout_below="@+id/tv_count"
+        android:layout_marginLeft="16dp"/>
+
+    <cn.com.bluemoon.delivery.ui.NoScrollListView
+        android:id="@+id/lv_order_receive"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div_1"
+        android:divider="@drawable/div_left_padding_16"
+        android:dividerHeight="@dimen/div_height"
+        android:headerDividersEnabled="false"/>
+
+    <include
+        android:id="@+id/div_2"
+        layout="@layout/line_solid_view_999"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/div_height"
+        android:layout_below="@+id/lv_order_receive"
+        android:layout_marginLeft="16dp"/>
+
+    <TextView
+        android:id="@+id/tv_urgent"
+        style="@style/txt_title_13"
+        android:layout_height="32dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/div_2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/with_order_collect_is_urgent"
+        android:textColor="@color/btn_red"/>
+
+    <TextView
+        android:id="@+id/tv_brcode"
+        style="@style/txt_title_11"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignTop="@+id/tv_urgent"
+        android:layout_marginLeft="16dp"
+        android:layout_toLeftOf="@+id/tv_urgent"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"/>
+</RelativeLayout>

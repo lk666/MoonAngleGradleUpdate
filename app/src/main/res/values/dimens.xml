@@ -46,4 +46,7 @@
     <dimen name="shadow_width">15dp</dimen>
 
     <dimen name="div_btn_clothes_book_in">18dp</dimen>
+
+    <!--分割线高度-->
+    <dimen name="div_height">0.5dp</dimen>
 </resources>
