@@ -896,7 +896,7 @@ public class DeliveryApi {
 
 
 	/*库存汇总信息查询接口 */
-	/* 返回： ResultStock */
+    /* 返回： ResultStock */
     public static void queryStockSummary(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -914,7 +914,7 @@ public class DeliveryApi {
 
 
     /*仓库列表查询接口 */
-	/* 返回： ResultStore */
+    /* 返回： ResultStore */
     public static void queryStoresBycharger(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -932,7 +932,7 @@ public class DeliveryApi {
 
 
     /*仓库收货地址查询接口 */
-	/* 返回： ResultMallStoreRecieverAddress */
+    /* 返回： ResultMallStoreRecieverAddress */
     public static void queryReceiveAddressByStoreCode(String token, String storeCode,
                                                       AsyncHttpResponseHandler handler) {
 
@@ -951,7 +951,7 @@ public class DeliveryApi {
 
 
     /*仓库地址新增与编辑接口 */
-	/* 返回： Result */
+    /* 返回： Result */
     public static void manageReceiveAddress(String token, MallStoreRecieverAddress
             mallStoreRecieverAddress, AsyncHttpResponseHandler handler) {
 
@@ -1697,7 +1697,8 @@ public class DeliveryApi {
 
     /*2.5 收衣记录*/
 	/*返回：ResultCollectInfo*/
-    public static void collectInfoRecord(String token,long startDate,long endDate, AsyncHttpResponseHandler handler) {
+    public static void collectInfoRecord(String token, long startDate, long endDate,
+                                         AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -1714,7 +1715,8 @@ public class DeliveryApi {
 
     /*5.8收衣记录*/
 	/*返回：ResultCollectInfo*/
-    public static void collectInfoRecord2(String token,long startDate,long endDate, AsyncHttpResponseHandler handler) {
+    public static void collectInfoRecord2(String token, long startDate, long endDate,
+                                          AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -1727,7 +1729,6 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
-
 
 
     /**
@@ -1838,8 +1839,8 @@ public class DeliveryApi {
 
     /*2.6收衣订单详情*/
 	/*返回：ResultClothingRecord*/
-    public static void collectInfoDetails(String token, String collectCode ,
-                                     AsyncHttpResponseHandler handler) {
+    public static void collectInfoDetails(String token, String collectCode,
+                                          AsyncHttpResponseHandler handler) {
         if (null == token || StringUtil.isEmpty(collectCode)) {
             return;
         }
@@ -1856,8 +1857,8 @@ public class DeliveryApi {
 
     /*5.9收衣订单详情*/
 	/*返回：ResultClothingRecord*/
-    public static void collectInfoDetails2(String token, String collectCode ,
-                                          AsyncHttpResponseHandler handler) {
+    public static void collectInfoDetails2(String token, String collectCode,
+                                           AsyncHttpResponseHandler handler) {
         if (null == token || StringUtil.isEmpty(collectCode)) {
             return;
         }
@@ -1870,7 +1871,6 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
-
 
 
     /*2.4.衣物转交*/
@@ -2244,13 +2244,12 @@ public class DeliveryApi {
      */
     public static void registerCreatedCollectInfo(String activityCode, String address,
                                                   long appointBackTime, String city,
-                                                  UploadClothesInfo clothesInfo, String
-                                                          collectBrcode,
-                                                  String county, String customerName,
-                                                  String customerPhone, int isFee, int isUrgent,
-                                                  String province, String street, String token,
-                                                  String village, AsyncHttpResponseHandler
-                                                          handler) {
+                                                  List<UploadClothesInfo> clothesInfo,
+                                                  String collectBrcode, String county,
+                                                  String customerName, String customerPhone,
+                                                  int isFee, int isUrgent, String province,
+                                                  String street, String token, String village,
+                                                  AsyncHttpResponseHandler handler) {
 
         if (null == activityCode || null == address || null == city || null == clothesInfo ||
                 null == collectBrcode || null == county || null == customerName ||

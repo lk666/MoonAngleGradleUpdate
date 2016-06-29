@@ -29,9 +29,7 @@ public class ClothingTabActivity extends BaseFragmentActivity {
     public static final String WITH_ORDER_COLLECT_MANAGE = "WITH_ORDER_COLLECT_MANAGE";
     public static final String WITHOUT_ORDER_COLLECT_MANAGE = "WITHOUT_ORDER_COLLECT_MANAGE";
 
-    // TODO: lk 2016/6/12 图片未确定
     private final static TabState[] TAB_WITH_ORDER =new TabState[2];
-
 
     private FragmentTabHost mTabHost;
     private TextView amountTv;
@@ -46,9 +44,9 @@ public class ClothingTabActivity extends BaseFragmentActivity {
 
         if(TYPE.equals(WITH_ORDER_COLLECT_MANAGE)){
 
-                TAB_WITH_ORDER[0]=new TabState(WithOrderManageFragment.class, R.drawable.tab_receive_selector,
+                TAB_WITH_ORDER[0]=new TabState(WithOrderManageFragment.class, R.drawable.tab_without_order_receive_selector,
                         R.string.tab_bottom_with_order_collect_manage, WITH_ORDER_COLLECT_MANAGE);
-                TAB_WITH_ORDER[1]= new TabState(CollectClothesRecordFragment.class, R.drawable.tab_received_selector,
+                TAB_WITH_ORDER[1]= new TabState(CollectClothesRecordFragment.class, R.drawable.tab_without_order_record_selector,
                     R.string.tab_bottom_with_order_collect_record, WITH_ORDER_COLLECT_MANAGE);
         }else{
             TAB_WITH_ORDER[0]=new TabState(WithoutOrderManageFragment.class, R.drawable.tab_without_order_receive_selector,

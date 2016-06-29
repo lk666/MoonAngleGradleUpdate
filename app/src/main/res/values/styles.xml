@@ -117,6 +117,11 @@
         <item name="android:textSize">17sp</item>
     </style>
 
+    <style name="btn_red4" parent="btn_red">
+        <item name="android:background">@drawable/btn_red_shape4</item>
+        <item name="android:textColor">@color/white_bg</item>
+    </style>
+
     <style name="btn_red_large">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">42dp</item>
