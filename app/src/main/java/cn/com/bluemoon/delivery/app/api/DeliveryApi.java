@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.app.api;
 
 import android.graphics.Bitmap;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
@@ -18,6 +19,7 @@ import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
 import cn.com.bluemoon.delivery.app.api.model.Storehouse;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreDeliverVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreReceiveVo;
@@ -639,7 +641,7 @@ public class DeliveryApi {
     }
 
     /* 2.7.1 获取app最新版本 */
-	/* 返回： ResultVersionInfo */
+    /* 返回： ResultVersionInfo */
     public static void getLastVersion(AsyncHttpResponseHandler handler) {
         Map<String, String> params = new HashMap<String, String>();
         params.put("platform", ApiClientHelper.CLIENT);
@@ -653,7 +655,7 @@ public class DeliveryApi {
 
 
     /* 2.8.1 获取场馆/场次列表 */
-	/* 返回： ResultVenueInfo */
+    /* 返回： ResultVenueInfo */
     public static void getVenueList(String token, String type, String venueCode,
                                     AsyncHttpResponseHandler handler) {
 
@@ -673,7 +675,7 @@ public class DeliveryApi {
 
 
     /*2.8.2 科技馆检票扫码 */
-	/* 返回： ResultAppointmentInfo */
+    /* 返回： ResultAppointmentInfo */
     public static void checkScanCode(String token, String ticketCode, AsyncHttpResponseHandler
             handler) {
 
@@ -692,7 +694,7 @@ public class DeliveryApi {
 
 
     /*2.8.3 扫描门票后进场 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void comesInto(String token, String venueCode, String timesCode, String
             ticketCode, AsyncHttpResponseHandler handler) {
 
@@ -717,7 +719,7 @@ public class DeliveryApi {
      *********************************/
 
 	/*待收货-汇总接口 */
-	/* 返回： ResultOrderVo */
+    /* 返回： ResultOrderVo */
     public static void getWaitReceiptOrders(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -734,7 +736,7 @@ public class DeliveryApi {
     }
 
     /*已收货-汇总接口 */
-	/* 返回： ResultOrderVo */
+    /* 返回： ResultOrderVo */
     public static void getReceiptOrders(String token, long startDate, long endDate,
                                         AsyncHttpResponseHandler handler) {
 
@@ -753,7 +755,7 @@ public class DeliveryApi {
     }
 
     /*待收货详情*/
-	/* 返回： ResultDeliverOrderDetailInfo */
+    /* 返回： ResultDeliverOrderDetailInfo */
     public static void getReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler
             handler) {
         if (null == token || StringUtils.isEmpty(orderCode)) {
@@ -775,7 +777,7 @@ public class DeliveryApi {
 
 
 	/*待发货-汇总接口 */
-	/* 返回： ResultOrderVo */
+    /* 返回： ResultOrderVo */
     public static void getWaitOutOrders(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -792,7 +794,7 @@ public class DeliveryApi {
     }
 
     /*待发货详情*/
-	/* 返回： ResultDeliverOrderDetailInfo */
+    /* 返回： ResultDeliverOrderDetailInfo */
     public static void getDeliverDetail(String token, String orderCode, AsyncHttpResponseHandler
             handler) {
         if (null == token) {
@@ -811,7 +813,7 @@ public class DeliveryApi {
     }
 
     /*已发货详情*/
-	/* 返回： ResultDeliverOrderDetailInfo */
+    /* 返回： ResultDeliverOrderDetailInfo */
     public static void getOutDeliverDetail(String token, String orderCode,
                                            AsyncHttpResponseHandler handler) {
         if (null == token) {
@@ -830,7 +832,7 @@ public class DeliveryApi {
     }
 
     /*已收货详情*/
-	/* 返回： ResultDeliverOrderDetailInfo */
+    /* 返回： ResultDeliverOrderDetailInfo */
     public static void getOutReceiveDetail(String token, String orderCode,
                                            AsyncHttpResponseHandler handler) {
         if (null == token) {
@@ -850,7 +852,7 @@ public class DeliveryApi {
 
 
     /*已发货-汇总接口 */
-	/* 返回： ResultOrderVo */
+    /* 返回： ResultOrderVo */
     public static void getOutOrders(String token, long startDate, long endDate,
                                     AsyncHttpResponseHandler handler) {
 
@@ -870,7 +872,7 @@ public class DeliveryApi {
 
 
     /*客服（营运专员）查询接口 */
-	/* 返回： ResultCustormerService */
+    /* 返回： ResultCustormerService */
     public static void queryOperatorPersons(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -2221,4 +2223,86 @@ public class DeliveryApi {
     }
 
 
+    /**
+     * 5.6收衣登记 保存(整合收衣记录)
+     *
+     * @param activityCode    活动编码(必填) String
+     * @param address         详细地址(必填) String
+     * @param appointBackTime 预约还衣时间 int
+     * @param city            市(必填) String
+     * @param clothesInfo     衣物列表 {@link UploadClothesInfo}
+     * @param collectBrcode   收衣单条码(必填) String
+     * @param county          区/县(必填) String
+     * @param customerName    消费者姓名(必填) String
+     * @param customerPhone   消费者电话(必填) String
+     * @param isFee           是否收费（1.收费，0免费）(必填) String
+     * @param isUrgent        是否加急(1,加急， 0 不加急)(必填) int
+     * @param province        省份(必填) String
+     * @param street          乡镇/街道(必填) String
+     * @param token           登录凭证(必填) String
+     * @param village         村/社区(必填) String
+     */
+    public static void registerCreatedCollectInfo(String activityCode, String address,
+                                                  long appointBackTime, String city,
+                                                  UploadClothesInfo clothesInfo, String
+                                                          collectBrcode,
+                                                  String county, String customerName,
+                                                  String customerPhone, int isFee, int isUrgent,
+                                                  String province, String street, String token,
+                                                  String village, AsyncHttpResponseHandler
+                                                          handler) {
+
+        if (null == activityCode || null == address || null == city || null == clothesInfo ||
+                null == collectBrcode || null == county || null == customerName ||
+                null == customerPhone || null == province || null == street ||
+                null == token || null == village) {
+            // TODO: lk 2016/6/28 报参数错误（未知错误啥的）
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("activityCode", activityCode);
+        params.put("address", address);
+        params.put("appointBackTime", appointBackTime);
+        params.put("city", city);
+        params.put("collectBrcode", collectBrcode);
+        params.put("county", county);
+        params.put("customerName", customerName);
+        params.put("customerPhone", customerPhone);
+        params.put("isFee", isFee);
+        params.put("isUrgent", isUrgent);
+        params.put("province", province);
+        params.put("street", street);
+        params.put("token", token);
+        params.put("village", village);
+        params.put("clothesInfo", JSON.toJSONString(clothesInfo));
+
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/activity/registerCollectInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /**
+     * 5.10查询活动收衣上限
+     *
+     * @param token        登录凭证(必填) String
+     * @param activityCode 活动编码(必填) String
+     */
+    public static void queryActivityLimitNum(String token, String activityCode,
+                                             AsyncHttpResponseHandler handler) {
+        if (null == token || null == activityCode) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("activityCode", activityCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format
+                ("/washingService-controller/wash/activity/queryActivityLimitNum%s",
+                        ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
 }

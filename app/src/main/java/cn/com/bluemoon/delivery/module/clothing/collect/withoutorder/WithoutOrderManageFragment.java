@@ -10,13 +10,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
+
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
+
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
@@ -36,13 +38,17 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+
 public class WithoutOrderManageFragment extends BaseFragment implements OnListItemClickListener {
+    private static final int REQUEST_CODE_ACTIVITY_DESC = 0x55;
+
     private ClothingTabActivity main;
     @Bind(R.id.listview_main)
     PullToRefreshListView listviewMain;
     ActivityAdapter adapter;
     private ResultActivityInfo activityInfo;
     private String manager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -122,7 +128,7 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
 
     private void initCustomActionBar() {
 
-          new CommonActionBar(main.getActionBar(),
+        new CommonActionBar(main.getActionBar(),
                 new IActionBarListener() {
 
                     @Override
@@ -137,7 +143,7 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
 
                     @Override
                     public void setTitle(TextView v) {
-                            v.setText(R.string.tab_title_without_order_collect_manage);
+                        v.setText(R.string.tab_title_without_order_collect_manage);
                     }
                 });
     }
@@ -148,6 +154,18 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
+        }
+
+        switch (requestCode) {
+            // 开始收衣返回
+            case REQUEST_CODE_ACTIVITY_DESC:
+                if (resultCode == ActivityDescActivity.RESULT_HAS_COLLECT) {
+                    getData();
+                    return;
+                }
+                break;
+            default:
+                break;
         }
 
     }
@@ -180,14 +198,14 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
             LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
 
             txtActivityName.setText(order.getActivityName());
-            txtAddress.setText(String.format("%s%s%s%s%s%s",order.getProvince(),
+            txtAddress.setText(String.format("%s%s%s%s%s%s", order.getProvince(),
                     order.getCity(),
                     order.getCounty(),
                     order.getVillage(),
                     order.getStreet(),
                     order.getAddress()));
 
-            setClickEvent(isNew, position,btnStart,layoutDetail );
+            setClickEvent(isNew, position, btnStart, layoutDetail);
         }
     }
 
@@ -200,10 +218,12 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
         switch (view.getId()) {
             //// TODO: 2016/6/24
             case R.id.layout_detail:
-                ActivityDetailActivity.actionStart(main,order.getActivityCode());
+                ActivityDetailActivity.actionStart(main, order.getActivityCode());
                 break;
-           //// TODO: 2016/6/24  
+            // 开始收衣
             case R.id.btn_start:
+                ActivityDescActivity.actionStart(main, REQUEST_CODE_ACTIVITY_DESC, order
+                        .getActivityCode());
 
         }
     }
