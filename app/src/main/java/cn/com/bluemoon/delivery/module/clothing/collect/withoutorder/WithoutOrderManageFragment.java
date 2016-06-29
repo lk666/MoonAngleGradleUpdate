@@ -222,9 +222,8 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
                 break;
             // 开始收衣
             case R.id.btn_start:
-                Intent i = new Intent(main, ActivityDescActivity.class);
-                i.putExtra(ActivityDescActivity.EXTRA_ACTIVITY_CODE, order.getActivityCode());
-                startActivityForResult(i, REQUEST_CODE_ACTIVITY_DESC);
+                ActivityDescActivity.actionStart(main, REQUEST_CODE_ACTIVITY_DESC, order
+                        .getActivityCode());
 
         }
     }

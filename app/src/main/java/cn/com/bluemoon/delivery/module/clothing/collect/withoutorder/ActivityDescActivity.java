@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -24,16 +26,21 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
+/**
+ * 活动收衣
+ * Created by luokai on 2016/6/28.
+ */
 public class ActivityDescActivity extends BaseActionBarActivity {
-
-    /**
-     * 活动编码
-     */
-    public final static String EXTRA_ACTIVITY_CODE = "EXTRA_ACTIVITY_CODE";
     /**
      * 有进行过成功的收衣操作
      */
     public static final int RESULT_HAS_COLLECT = 0x66;
+
+    /**
+     * 活动编码
+     */
+    private final static String EXTRA_ACTIVITY_CODE = "EXTRA_ACTIVITY_CODE";
+    private static final int REQUEST_CODE_CREATE_COLLECT_ORDER = 0x77;
 
     /**
      * 活动编号
@@ -120,7 +127,35 @@ public class ActivityDescActivity extends BaseActionBarActivity {
 
     @OnClick(R.id.btn_start)
     public void onClick() {
-        // TODO: lk 2016/6/28 收衣登记
-        PublicUtil.showToast("收衣登记" + activityCode);
+        // 创建收衣订单
+        CreateCollectOrderActivity.actionStart(this, REQUEST_CODE_CREATE_COLLECT_ORDER,
+                activityCode);
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+
+        switch (requestCode) {
+            // 收衣
+            case REQUEST_CODE_CREATE_COLLECT_ORDER:
+                if (resultCode == CreateCollectOrderActivity.RESULT_COLLECT_SCUUESS) {
+                    setResult(RESULT_HAS_COLLECT);
+                    return;
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    public static void actionStart(Activity activity, int requestCode, String activityCode) {
+        Intent intent = new Intent(activity, ActivityDescActivity.class);
+        intent.putExtra(EXTRA_ACTIVITY_CODE, activityCode);
+        activity.startActivityForResult(intent, requestCode);
+    }
+
 }

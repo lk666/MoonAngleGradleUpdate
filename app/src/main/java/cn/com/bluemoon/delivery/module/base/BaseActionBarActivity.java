@@ -89,6 +89,7 @@ public abstract class BaseActionBarActivity extends BaseActivity {
         }
     }
 
+    // TODO: lk 2016/6/29 尽量将所有 AsyncHttpResponseHandler改为baseHandler
    protected   AsyncHttpResponseHandler baseHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
 

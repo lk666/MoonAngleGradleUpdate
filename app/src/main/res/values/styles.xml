@@ -237,6 +237,7 @@
 
     <!--黑色13正文字体-->
     <style name="txt_content_13">
+        <item name="android:textColorHint">@color/text_grep</item>
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:textColor">@color/text_black_light</item>
@@ -246,6 +247,11 @@
     <!--黑色11正文字体-->
     <style name="txt_content_11" parent="txt_content_13">
         <item name="android:textSize">@dimen/text_size_11</item>
+    </style>
+
+    <!--黑色15正文字体-->
+    <style name="txt_content_15" parent="txt_content_13">
+        <item name="android:textSize">@dimen/text_size_15</item>
     </style>
 
     <!--普通黑色13标题字体-->

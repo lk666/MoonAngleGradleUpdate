@@ -1,0 +1,333 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:overScrollMode="never"
+            tools:context=".module.clothing.collect.withorder.WithOrderCollectBookInActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_bg"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginRight="16dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/create_collect_order_customer_name"/>
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"/>
+
+                <EditText
+                    android:id="@+id/et_name"
+                    style="@style/txt_content_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="@string/create_collect_order_customer_name_hint"
+                    android:singleLine="true"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginRight="16dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/create_collect_order_customer_phone"/>
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"/>
+
+                <EditText
+                    android:id="@+id/et_phone"
+                    style="@style/txt_content_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="@string/create_collect_order_customer_phone_hint"
+                    android:inputType="phone"
+                    android:singleLine="true"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginRight="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/create_collect_order_province_county"/>
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"/>
+
+                <TextView
+                    android:id="@+id/tv_province_county"
+                    style="@style/txt_content_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@mipmap/icon_right"
+                    android:gravity="right"
+                    android:hint="@string/create_collect_order_province_county_hint"
+                    android:singleLine="true"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginRight="12dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/create_collect_order_street_village"/>
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"/>
+
+                <TextView
+                    android:id="@+id/tv_province_street_village"
+                    style="@style/txt_content_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:drawablePadding="8dp"
+                    android:drawableRight="@mipmap/icon_right"
+                    android:gravity="right"
+                    android:hint="@string/create_collect_order_street_village_hint"
+                    android:singleLine="true"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginRight="16dp"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/create_collect_order_address"/>
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"/>
+
+                <EditText
+                    android:id="@+id/et_address"
+                    style="@style/txt_content_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:background="@null"
+                    android:gravity="right"
+                    android:hint="@string/create_collect_order_address_hint"
+                    android:inputType="phone"
+                    android:singleLine="true"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="12dp">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/create_collect_order_is_fee"/>
+
+                <include
+                    android:id="@+id/sb_is_fee"
+                    layout="@layout/widget_switch_button_yes_no"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="16dp">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/with_order_collect_collect_code"/>
+
+                <TextView
+                    android:id="@+id/tv_collect_brcode"
+                    style="@style/txt_content_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="right"
+                    android:hint="@string/with_order_collect_collect_code_hint"
+                    android:singleLine="true"/>
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="12dp">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/with_order_collect_is_urgent"/>
+
+                <include
+                    android:id="@+id/sb_is_urgent"
+                    layout="@layout/widget_switch_button_yes_no"/>
+            </LinearLayout>
+
+            <include
+                android:id="@+id/v_div_appoint_back_time"
+                layout="@layout/line_solid_view_999"/>
+
+            <LinearLayout
+                android:id="@+id/ll_appoint_back_time"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="16dp">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/with_order_collect_appoint_back_time"/>
+
+                <TextView
+                    android:id="@+id/tv_appoint_back_time"
+                    style="@style/txt_content_15"
+                    android:layout_width="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:gravity="right"
+                    android:hint="@string/with_order_collect_appoint_back_time_hint"
+                    android:singleLine="true"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <TextView
+            style="@style/txt_content_15"
+            android:layout_height="44dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:gravity="center_vertical"
+            android:text="@string/with_order_collect_order_receive"/>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_bg">
+
+            <TextView
+                android:id="@+id/tv_actual_collect_count"
+                style="@style/txt_title_15"
+                android:layout_height="44dp"
+                android:layout_marginLeft="16dp"
+                android:gravity="center_vertical"
+                android:text="@string/with_order_collect_order_receive_count"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_15"/>
+
+            <Button
+                android:id="@+id/btn_add"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginTop="7dp"
+                android:background="@drawable/btn_add"
+                android:scaleType="fitCenter"/>
+
+            <include
+                android:id="@+id/v_div_order_receive"
+                layout="@layout/line_solid_view_999"
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/div_height"
+                android:layout_below="@+id/tv_actual_collect_count"
+                android:layout_marginLeft="16dp"/>
+        </RelativeLayout>
+
+        <cn.com.bluemoon.delivery.ui.NoScrollListView
+            android:id="@+id/lv_order_receive"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white_bg"
+            android:divider="@drawable/div_left_padding_16"
+            android:dividerHeight="@dimen/div_height"
+            android:footerDividersEnabled="false"
+            android:headerDividersEnabled="false"/>
+
+        <Button
+            android:id="@+id/btn_finish"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/btn_red_shape_large"
+            android:text="@string/create_collect_order_finish"
+            android:textColor="@color/white_bg"
+            android:textSize="17sp"/>
+    </LinearLayout>
+
+
+</ScrollView>

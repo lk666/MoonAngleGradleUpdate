@@ -730,4 +730,18 @@
     <string name="title_activity_dec">活动收衣</string>
     <string name="activity_dec_note">收衣注意事项</string>
 
+    <!-- 创建收衣订单 -->
+    <string name="title_create_collect_order">创建收衣订单</string>
+    <string name="create_collect_order_customer_name">姓名</string>
+    <string name="create_collect_order_customer_name_hint">请输入消费者姓名</string>
+    <string name="create_collect_order_customer_phone">手机</string>
+    <string name="create_collect_order_customer_phone_hint">请输入消费者手机号码</string>
+    <string name="create_collect_order_province_county">所在区域</string>
+    <string name="create_collect_order_province_county_hint">请选择市区</string>
+    <string name="create_collect_order_street_village">乡镇/街道+村/社区</string>
+    <string name="create_collect_order_street_village_hint">请选择</string>
+    <string name="create_collect_order_address">详细地址</string>
+    <string name="create_collect_order_address_hint">请输入详细地址</string>
+    <string name="create_collect_order_is_fee">是否收费</string>
+    <string name="create_collect_order_finish">完成本次收衣</string>
 </resources>
