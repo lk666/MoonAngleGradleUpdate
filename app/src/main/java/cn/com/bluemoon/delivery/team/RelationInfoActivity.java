@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.team;
 
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -20,6 +21,8 @@ import org.kymjs.kjframe.utils.StringUtils;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.team.Emp;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultRelationDetail;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
@@ -28,6 +31,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonClearEditText;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
@@ -74,6 +78,9 @@ public class RelationInfoActivity extends KJActivity {
     private boolean mode = true;
     private CommonProgressDialog progressDialog;
     private RelationDetail item;
+    private Emp emp;
+    private String relType;
+    private String type;
 
 
     @Override
@@ -86,30 +93,48 @@ public class RelationInfoActivity extends KJActivity {
         super.initWidget();
         if(getIntent()!=null){
             mode = getIntent().getBooleanExtra("mode",true);
+            emp = (Emp)getIntent().getSerializableExtra("emp");
+            relType = getIntent().getStringExtra("relType");
         }
         initCustomActionBar();
+        if(emp==null) return;
         progressDialog = new CommonProgressDialog(aty);
+        txtPhone = PublicUtil.getPhoneView(aty,txtPhone);
+        txtWorkLengh.setCallBack(new CommonEditTextCallBack() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                int index = s.toString().indexOf(".");
+                if(s.toString().length()>index+2){
+                    txtWorkLengh.setText(s.toString().substring(0,index+2));
+                    txtWorkLengh.setSelection(txtWorkLengh.length());
+                }
+            }
+        });
         if(item==null){
             item = new RelationDetail();
         }
-        item.setEmpCode(getIntent().getStringExtra("empCode"));
+        item.setBpCode(emp.getBpCode());
+        item.setEmpCode(emp.getEmpCode());
+        item.setEmpName(emp.getEmpName());
+        item.setMobileNo(emp.getMobileNo());
+        txtName.setText(PublicUtil.getString2(item.getEmpCode(), item.getEmpName()));
+        txtPhone.setText(item.getMobileNo());
         if(mode){
-            item.setRelType(getIntent().getStringExtra("relType"));
-            txtName.setText(item.getEmpCode());
-            if ("group".equals(item.getRelType())) {
+            type = "add";
+            if ("group".equals(relType)) {
                 line1.setVisibility(View.VISIBLE);
                 layoutGroup.setVisibility(View.VISIBLE);
                 txtType.setText(getString(R.string.team_group));
             } else {
                 txtType.setText(getString(R.string.team_community));
             }
-
         }else{
+            type = "update";
             imgRight1.setVisibility(View.GONE);
             imgRight2.setVisibility(View.GONE);
             txtCommunity.setClickable(false);
             txtService.setClickable(false);
-            item.setBpCode(getIntent().getStringExtra("bpCode"));
             if (progressDialog != null) {
                 progressDialog.show();
             }
@@ -134,7 +159,7 @@ public class RelationInfoActivity extends KJActivity {
         }else if(v == txtEndDate){
 
         }else if(v == btnOk){
-
+            submit();
         }
     }
 
@@ -168,6 +193,37 @@ public class RelationInfoActivity extends KJActivity {
         txtEndDate.setText(DateUtil.getTime(item.getEndDate(), "yyyy-MM-dd"));
         txtRemark.setText(item.getRemark());
         txtRemark.updateCleanable(0, false);
+    }
+
+    private void submit(){
+        if(item.getBpCode1()==null){
+            PublicUtil.showToast("社区不能为空");
+            return;
+        }
+        if("group".equals(relType)&&item.getBpCode()==null){
+            PublicUtil.showToast("小组不能为空");
+                return;
+        }
+        if(item.getStartDate()==0){
+            PublicUtil.showToast("开始时间不能为空");
+            return;
+        }
+        if(item.getWorkType()==null){
+            PublicUtil.showToast("作业性质不能为空");
+            return;
+        }
+        if("partTime".equals(item.getWorkType())&&(txtWorkLengh.getText().toString().length()==0)){
+            PublicUtil.showToast("兼职时长不能为空");
+            return;
+        }else{
+            txtWorkLengh.setText("0");
+        }
+
+        if(progressDialog!=null) progressDialog.show();
+        DeliveryApi.addRelationShip(item.getBpCode1(),item.getBpName(),item.getEmpCode(),
+                item.getEmpName(),item.getEndDate(),item.getBpCode(),item.getBpName(),item.getRelType(),
+                txtRemark.getText().toString(),item.getStartDate(),ClientStateManager.getLoginToken(aty),
+               Double.parseDouble(txtWorkLengh.getText().toString()),item.getWorkType(),addRelationShipHandler);
     }
 
     private void setWorkType(boolean isFull){
@@ -210,6 +266,37 @@ public class RelationInfoActivity extends KJActivity {
                     setData();
                 } else {
                     PublicUtil.showErrorMsg(aty, relationDetailResult);
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG, e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            LogUtils.e(TAG, throwable.getMessage());
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    AsyncHttpResponseHandler addRelationShipHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(TAG, "addRelationShipHandler result = " + responseString);
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            try {
+                ResultBase baseResult = JSON.parseObject(responseString, ResultBase.class);
+                if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    PublicUtil.showToast(baseResult.getResponseMsg());
+                    finish();
+                } else {
+                    PublicUtil.showErrorMsg(aty, baseResult);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());

@@ -1,9 +1,11 @@
 package cn.com.bluemoon.delivery.app.api.model.team;
 
+import java.io.Serializable;
+
 /**
  * Created by bm on 2016/6/22.
  */
-public class Emp {
+public class Emp implements Serializable{
     /** 所属机构编码 */
     private String bpCode;
     /** 所属机构名称 */
@@ -12,6 +14,8 @@ public class Emp {
     private String empCode;
     /** 人员名称 */
     private String empName;
+    /** 手机号码*/
+    private String mobileNo;
     private boolean isCheck;
 
     public boolean isCheck() {
@@ -20,6 +24,14 @@ public class Emp {
 
     public void setIsCheck(boolean isCheck) {
         this.isCheck = isCheck;
+    }
+
+    public String getMobileNo() {
+        return mobileNo;
+    }
+
+    public void setMobileNo(String mobileNo) {
+        this.mobileNo = mobileNo;
     }
 
     public String getBpCode() {

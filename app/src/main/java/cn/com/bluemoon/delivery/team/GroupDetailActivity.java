@@ -30,7 +30,9 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.team.Emp;
 import cn.com.bluemoon.delivery.app.api.model.team.GroupDetail;
+import cn.com.bluemoon.delivery.app.api.model.team.ResultEmpList;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultGroupDetailInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.order.TimerFilterWindow;
@@ -266,12 +268,8 @@ public class GroupDetailActivity extends KJActivity {
                 case RESULT_OK:
                     if(data==null) return;
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    Intent intent = new Intent(aty,RelationInfoActivity.class);
-                    intent.putExtra("bpCode",bpCode);
-                    intent.putExtra("empCode",resultStr);
-                    intent.putExtra("mode", 0);
-                    intent.putExtra("relType","group");
-                    startActivity(intent);
+                    if(progressDialog!=null) progressDialog.show();
+                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), resultStr, getEmpListHandler);
                     break;
                 case 4:
                     Intent intent2 = new Intent(aty,SelectEmpActivity.class);
@@ -280,21 +278,57 @@ public class GroupDetailActivity extends KJActivity {
             }
         }else if(requestCode == 1){
             if(data==null) return;
-            if(data.hasExtra("code")){
-                String code = data.getStringExtra("code");
-                openRelationInfo(code,true);
+            if(data.hasExtra("emp")){
+                Emp emp = (Emp)data.getSerializableExtra("emp");
+                openRelationInfo(emp,true);
             }
         }
     }
 
-    private void openRelationInfo(String empCode,boolean isNew){
+    private void openRelationInfo(Emp emp,boolean isNew){
         Intent intent = new Intent(aty,RelationInfoActivity.class);
-        intent.putExtra("bpCode",bpCode);
-        intent.putExtra("empCode",empCode);
+        intent.putExtra("emp", emp);
         intent.putExtra("mode",isNew);
         intent.putExtra("relType","group");
         startActivity(intent);
     }
+
+    AsyncHttpResponseHandler getEmpListHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(TAG, "getEmpListHandler result = " + responseString);
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            try {
+                ResultEmpList empListResult = JSON.parseObject(responseString, ResultEmpList.class);
+                if (empListResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    if(empListResult.getItemList()!=null&&empListResult.getItemList().size()>0){
+                        Emp emp = empListResult.getItemList().get(0);
+                        if(StringUtils.isEmpty(emp.getBpCode())){
+                            openRelationInfo(emp,true);
+                        }else{
+                            PublicUtil.showMessageNoTitle(aty,getString(R.string.team_member_add_existed));
+                        }
+                    }
+                } else {
+                    PublicUtil.showErrorMsg(aty, empListResult);
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG, e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            LogUtils.e(TAG, throwable.getMessage());
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 
     class GroupDetailAdapter extends BaseAdapter {
 
@@ -366,7 +400,12 @@ public class GroupDetailActivity extends KJActivity {
                     }else if(v == txtMember){
 
                     }else if(v == txtEdit){
-                        openRelationInfo(item.getBpCode(),false);
+                        Emp emp = new Emp();
+                        emp.setBpCode(bpCode);
+                        emp.setEmpCode(item.getBpCode());
+                        emp.setEmpName(item.getBpName());
+                        emp.setMobileNo(item.getMobileNo());
+                        openRelationInfo(emp, false);
                     }else if(v == layoutInfo){
                         Intent intent = new Intent(aty,RelationShipDetailActivity.class);
                         intent.putExtra("bpCode",bpCode);

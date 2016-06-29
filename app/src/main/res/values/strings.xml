@@ -673,7 +673,7 @@
     <string name="team_member_detail_content_hint">请填写备注</string>
     <string name="team_member_add_title">填写关系信息</string>
     <string name="team_member_edit_title">编辑关系信息</string>
-
+    <string name="team_member_add_existed">该人员已建立关系，\n不可重复建关系！</string>
 
     <!--keyListener-->
     <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>

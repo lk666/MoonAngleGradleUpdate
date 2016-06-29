@@ -48,7 +48,7 @@ public class SelectEmpActivity extends Activity {
     private Button btnOk;
     private SelectMemberAdapter adapter;
     private CommonProgressDialog progressDialog;
-    private String empCode;
+    private Emp emp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,9 +76,9 @@ public class SelectEmpActivity extends Activity {
                 return;
             }
             if(v==btnOk){
-                if(!StringUtils.isEmpty(empCode)){
+                if(emp!=null){
                     Intent intent = new Intent();
-                    intent.putExtra("code",empCode);
+                    intent.putExtra("emp",emp);
                     setResult(RESULT_OK, intent);
                     finish();
                 }else{
@@ -98,15 +98,7 @@ public class SelectEmpActivity extends Activity {
     }
 
     private void setData(List<Emp> list){
-        Emp emp = new Emp();
-        emp.setEmpCode("123");
-        emp.setEmpName("很好很好很好很好很好");
-        Emp emp2 = new Emp();
-        emp2.setEmpCode("1233");
-        emp2.setEmpName("很好很好很好很好很好很好很好很好很好很好很好很好很好很好很好");
-        list.add(emp);
-        list.add(emp2);
-        empCode = null;
+        this.emp = null;
         adapter = new SelectMemberAdapter(aty);
         adapter.setList(list);
         listview.setAdapter(adapter);
@@ -276,7 +268,7 @@ public class SelectEmpActivity extends Activity {
                         emp.setIsCheck(i == position);
                         list.set(i, emp);
                     }
-                    empCode = item.getEmpCode();
+                    emp = item;
                     notifyDataSetChanged();
 
                 }

@@ -691,7 +691,7 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     public static String getString2(String param1,String param2){
-       return String.format(AppContext.getInstance().getString(R.string.param_two), param1, param1);
+       return String.format(AppContext.getInstance().getString(R.string.param_two), param1, param2);
     }
 
     public static TextView getPhoneView(final Activity aty,final TextView txtPhone){

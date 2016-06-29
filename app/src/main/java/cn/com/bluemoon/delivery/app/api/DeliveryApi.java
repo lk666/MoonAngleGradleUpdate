@@ -1720,7 +1720,7 @@ public class DeliveryApi {
 	}
 
 	/* 机构新增人员关系 */
-	public static void addRelationShip(String communityCode,String communityName,String empCode,String empName,int endDate,String groupCode,String groupName,String relationType,String remark,int startDate,String token,int workLength,String workType,AsyncHttpResponseHandler handler){
+	public static void addRelationShip(String communityCode,String communityName,String empCode,String empName,long endDate,String groupCode,String groupName,String relationType,String remark,long startDate,String token,double workLength,String workType,AsyncHttpResponseHandler handler){
 		if(null == communityCode||null == communityName||null == empCode||null == empName||null == groupCode||null == groupName||null == relationType||null == remark||null == token||null == workType) {
 			return;
 		}
