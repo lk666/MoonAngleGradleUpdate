@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:background="@color/white_bg"
+    android:layout_height="wrap_content">
 
     <LinearLayout
         style="@style/row_style"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <TextView
@@ -41,14 +42,17 @@
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_13" />
     </LinearLayout>
-
+    <View style="@style/line_solid_padding_left_style"/>
     <ListView
         android:id="@+id/listview_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:divider="@drawable/line_solid_divider"
+        android:dividerHeight="0.5dp"
+        >
 
     </ListView>
-
+    <View style="@style/line_solid_padding_left_style"/>
     <LinearLayout
         style="@style/row_style"
         android:orientation="horizontal">

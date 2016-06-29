@@ -51,6 +51,8 @@
                 <TextView
                     android:id="@+id/tv_customer_phone"
                     style="@style/txt_content_13"
+                    android:autoLink="phone"
+                    android:inputType="phone"
                     android:textColor="@color/text_blue"/>
             </cn.com.bluemoon.lib.tagview.FlowLayout>
 
@@ -71,14 +73,11 @@
                 android:layout_marginRight="16dp"
                 android:layout_toRightOf="@+id/iv_address"/>
 
-            <include
+            <View
                 android:id="@+id/v_div_count"
-                layout="@layout/line_solid_view_999"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/div_height"
                 android:layout_below="@+id/tv_address"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="12dp"/>
+                android:layout_marginTop="12dp"
+                style="@style/line_solid_padding_left_style"/>
 
             <LinearLayout
                 android:id="@+id/ll_count"

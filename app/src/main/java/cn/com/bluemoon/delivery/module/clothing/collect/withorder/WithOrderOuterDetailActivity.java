@@ -148,13 +148,13 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
         tvCustomerPhone.setText(result.getReceivePhone());
         tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvCustomerPhone.getPaint().setAntiAlias(true);
-        tvCustomerPhone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                PublicUtil.callPhone(WithOrderOuterDetailActivity.this, tvCustomerPhone.getText()
-                        .toString());
-            }
-        });
+//        tvCustomerPhone.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                PublicUtil.callPhone(WithOrderOuterDetailActivity.this, tvCustomerPhone.getText()
+//                        .toString());
+//            }
+//        });
 
         tvAddress.setText(result.getAddress());
 
@@ -175,10 +175,6 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
         if (outerCode == null) {
             outerCode = "";
         }
-    }
-
-    @OnClick(R.id.tv_customer_phone)
-    public void onClick() {
     }
 
     /**

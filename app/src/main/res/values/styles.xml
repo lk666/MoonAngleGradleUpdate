@@ -34,6 +34,31 @@
         <item name="android:background">@color/line_soild_bg</item>
     </style>
 
+    <!-- 浅色实线 -->
+    <style name="line_solid_padding_left_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:background">@color/line_soild_bg</item>
+    </style>
+
+    <!-- 浅色实线 -->
+    <style name="line_solid_padding_right_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:background">@color/line_soild_bg</item>
+    </style>
+
+    <!-- 浅色实线 -->
+    <style name="line_solid_padding_both_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:layout_marginLeft">12dp</item>
+        <item name="android:layout_marginRight">12dp</item>
+        <item name="android:background">@color/line_soild_bg</item>
+    </style>
+
 
     <style name="line_solid_style_bold">
         <item name="android:layout_width">fill_parent</item>
@@ -57,7 +82,6 @@
     <style name="row_style_no_padding">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">44dp</item>
-        <item name="android:background">@color/view_bg</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
@@ -66,7 +90,6 @@
         <item name="android:layout_height">44dp</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
-        <item name="android:background">@color/view_bg</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
@@ -75,14 +98,12 @@
         <item name="android:layout_height">wrap_content</item>
         <item name="android:paddingLeft">12dp</item>
         <item name="android:paddingRight">12dp</item>
-        <item name="android:background">@color/view_bg</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 
     <style name="multi_row_no_padding_style">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:background">@color/view_bg</item>
         <item name="android:gravity">center_vertical</item>
     </style>
 

@@ -24,13 +24,9 @@
         android:gravity="center_vertical"
         android:singleLine="true"/>
 
-    <include
-        android:id="@+id/div_1"
-        layout="@layout/line_solid_view_999"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/div_height"
+    <View  android:id="@+id/div_1"
         android:layout_below="@+id/tv_count"
-        android:layout_marginLeft="16dp"/>
+        style="@style/line_solid_padding_left_style"/>
 
     <cn.com.bluemoon.delivery.ui.NoScrollListView
         android:id="@+id/lv_order_receive"
@@ -41,13 +37,9 @@
         android:dividerHeight="@dimen/div_height"
         android:headerDividersEnabled="false"/>
 
-    <include
-        android:id="@+id/div_2"
-        layout="@layout/line_solid_view_999"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/div_height"
+    <View  android:id="@+id/div_2"
         android:layout_below="@+id/lv_order_receive"
-        android:layout_marginLeft="16dp"/>
+        style="@style/line_solid_padding_left_style"/>
 
     <TextView
         android:id="@+id/tv_urgent"

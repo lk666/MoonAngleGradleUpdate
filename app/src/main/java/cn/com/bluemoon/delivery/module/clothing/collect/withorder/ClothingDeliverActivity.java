@@ -123,8 +123,10 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
     }
 
     private void search() {
-        showProgressDialog();
-        DeliveryApi.getEmp(ClientStateManager.getLoginToken(this), editDeliverId.getText().toString(), searchHandler);
+        if(!StringUtil.isEmpty(editDeliverId.getText().toString())) {
+            showProgressDialog();
+            DeliveryApi.getEmp(ClientStateManager.getLoginToken(this), editDeliverId.getText().toString(), searchHandler);
+        }
     }
 
 

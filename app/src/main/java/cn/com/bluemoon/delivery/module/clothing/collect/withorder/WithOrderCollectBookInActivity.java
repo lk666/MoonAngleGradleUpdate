@@ -394,14 +394,14 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         return R.string.title_with_order_collect_book_in;
     }
 
-    @OnClick({R.id.tv_customer_phone, R.id.tv_collect_brcode, R.id.tv_appoint_back_time})
+    @OnClick({R.id.tv_collect_brcode, R.id.tv_appoint_back_time})
     public void onClick(View view) {
         switch (view.getId()) {
-            // 打电话
-            case R.id.tv_customer_phone:
-                PublicUtil.callPhone(WithOrderCollectBookInActivity.this, tvCustomerPhone.getText
-                        ().toString());
-                break;
+//            // 打电话
+//            case R.id.tv_customer_phone:
+//                PublicUtil.callPhone(WithOrderCollectBookInActivity.this, tvCustomerPhone.getText
+//                        ().toString());
+//                break;
 
             // 扫收衣单条码
             case R.id.tv_collect_brcode:

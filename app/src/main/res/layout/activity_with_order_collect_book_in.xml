@@ -61,7 +61,9 @@
                     android:id="@+id/tv_customer_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_blue"
+                    android:autoLink="phone"
+                    android:inputType="phone"
+                    android:textColor="@color/btn_blue"
                     android:textSize="@dimen/text_size_13"/>
             </cn.com.bluemoon.lib.tagview.FlowLayout>
 
@@ -85,14 +87,9 @@
                 android:textColor="@color/text_black_light"
                 android:textSize="@dimen/text_size_13"/>
 
-            <include
-                android:id="@+id/v_div_count"
-                layout="@layout/line_solid_view_999"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/div_height"
+            <View  android:id="@+id/v_div_count"
                 android:layout_below="@+id/tv_address"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="16dp"/>
+                style="@style/line_solid_padding_left_style"/>
 
             <!--todo lk 可以写到include中，可重用-->
             <LinearLayout
@@ -156,7 +153,7 @@
             android:layout_marginTop="10dp"
             android:background="@color/white_bg"
             android:orientation="vertical"
-            android:paddingLeft="16dp">
+            android:paddingLeft="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -188,9 +185,9 @@
                     android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
-            <include
-                android:id="@+id/v_div_isurgent"
-                layout="@layout/line_solid_view_999"/>
+
+            <View  android:id="@+id/v_div_isurgent"
+                style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:id="@+id/ll_isurgent"
@@ -214,9 +211,8 @@
                     layout="@layout/widget_switch_button_yes_no"/>
             </LinearLayout>
 
-            <include
-                android:id="@+id/v_div_appoint_back_time"
-                layout="@layout/line_solid_view_999"/>
+            <View  android:id="@+id/v_div_appoint_back_time"
+                style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:id="@+id/ll_appoint_back_time"
@@ -255,9 +251,10 @@
             android:id="@+id/lv_order_detail"
             android:layout_marginTop="10dp"
             android:background="@color/white_bg"
-            android:divider="@drawable/div_left_padding_16"
+            android:divider="@drawable/line_solid_divider"
+            android:dividerHeight="0.5dp"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/div_height"
+            android:layout_height="wrap_content"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"/>
 
@@ -288,11 +285,9 @@
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_15"/>
 
-            <include
-                layout="@layout/line_solid_view_999"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/div_height"
-                android:layout_marginLeft="16dp"/>
+
+            <View
+                style="@style/line_solid_padding_left_style"/>
         </LinearLayout>
 
         <cn.com.bluemoon.delivery.ui.NoScrollListView

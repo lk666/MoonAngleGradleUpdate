@@ -55,6 +55,8 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     private ClothesInfoAdapter clothingInfoAdapter;
     @Bind(R.id.txt_log)
     TextView txtLog;
+    @Bind(R.id.line_logs)
+    View lineLog;
     @Bind(R.id.txt_log_open)
     TextView txtLogOpen;
     @Bind(R.id.list_view_log)
@@ -250,6 +252,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
         switch (view.getId()) {
             case R.id.txt_log_open:
                 if (listViewLog.getVisibility() == View.GONE) {
+                    lineLog.setVisibility(View.VISIBLE);
                     listViewLog.setVisibility(View.VISIBLE);
                     txtLogOpen.setText(getString(R.string.txt_close));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
@@ -257,6 +260,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     txtLogOpen.setCompoundDrawables(null, null, drawable, null);
 
                 } else {
+                    lineLog.setVisibility(View.GONE);
                     listViewLog.setVisibility(View.GONE);
                     txtLogOpen.setText(getString(R.string.txt_open));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_down);

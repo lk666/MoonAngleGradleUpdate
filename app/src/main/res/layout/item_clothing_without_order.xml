@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white_bg"
     android:layout_height="match_parent">
 
     <LinearLayout
@@ -34,7 +35,7 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_padding_left_style"></View>
         <LinearLayout
             style="@style/multi_row_no_padding_style"
             android:paddingTop="12dp"

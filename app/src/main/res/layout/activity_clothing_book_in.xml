@@ -10,6 +10,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@color/white_bg"
         android:overScrollMode="never">
 
         <LinearLayout
@@ -90,7 +91,8 @@
                     android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+           <View
+               style="@style/line_solid_style"/>
 
             <cn.com.bluemoon.lib.view.ScrollGridView
                 android:id="@+id/gv_clothing_name"
@@ -107,7 +109,9 @@
                 android:scrollbars="none"
                 android:stretchMode="columnWidth"/>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <View
+                style="@style/line_solid_style"/>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -145,11 +149,8 @@
                     android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
-            <include
-                layout="@layout/line_solid_view_999"
-                android:layout_height="@dimen/div_height"
-                android:layout_width="match_parent"
-                android:layout_marginLeft="12dp"/>
+            <View
+                style="@style/line_solid_padding_left_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -181,12 +182,8 @@
 
             </LinearLayout>
 
-            <include
-                layout="@layout/line_solid_view_999"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/div_height"
-                android:layout_marginLeft="12dp"/>
-
+            <View
+                style="@style/line_solid_padding_left_style"/>
             <EditText
                 android:id="@+id/et_flaw"
                 android:layout_width="match_parent"
@@ -202,12 +199,9 @@
                 android:textSize="@dimen/text_size_13"
                 android:visibility="gone"/>
 
-            <include
+            <View
                 android:id="@+id/v_div_flaw"
-                layout="@layout/line_solid_view_999"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/div_height"
-                android:layout_marginLeft="12dp"
+                style="@style/line_solid_padding_left_style"
                 android:visibility="gone"/>
 
             <LinearLayout
@@ -239,11 +233,8 @@
                     layout="@layout/widget_switch_button_has_none" />
             </LinearLayout>
 
-            <include
-                layout="@layout/line_solid_view_999"
-                android:layout_width="fill_parent"
-                android:layout_height="@dimen/div_height"
-                android:layout_marginLeft="12dp"/>
+            <View
+                style="@style/line_solid_padding_left_style"/>
 
 
             <RelativeLayout
@@ -280,7 +271,6 @@
                     android:textColorHint="@color/text_black_light"
                     android:textSize="@dimen/text_size_13"/>
             </RelativeLayout>
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dp"

@@ -67,8 +67,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     Button btnOk;
     Button btnCancel;
 
-    @Bind(R.id.listview_main)
-    PullToRefreshListView listviewMain;
+    @Bind(R.id.list_view_main)
+    PullToRefreshListView listViewMain;
 
     private String manager;
 
@@ -98,12 +98,12 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        listviewMain.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+        listViewMain.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
 
         adapter = new OrderAdapter(main, this);
-        listviewMain.setAdapter(adapter);
+        listViewMain.setAdapter(adapter);
 
-        listviewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+        listViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
 
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -119,7 +119,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         View emptyView = LayoutInflater.from(main).inflate(R.layout.layout_no_data, null);
         ((TextView) emptyView.findViewById(R.id.txt_content)).setText(R.string
                 .with_order_collect_no_order);
-        listviewMain.setEmptyView(emptyView);
+        listViewMain.setEmptyView(emptyView);
 
         getData();
     }
@@ -148,7 +148,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                               String responseString) {
             LogUtils.d(getDefaultTag(), "getOrderInfos result = " + responseString);
             dismissProgressDialog();
-            listviewMain.onRefreshComplete();
+            listViewMain.onRefreshComplete();
             try {
                 ResultWithOrderClothingCollectList result = JSON.parseObject(responseString,
                         ResultWithOrderClothingCollectList.class);
@@ -169,7 +169,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             // TODO: lk 2016/6/19  LogUtils要换，tag没卵用
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             dismissProgressDialog();
-            listviewMain.onRefreshComplete();
+            listViewMain.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
         }
     };
@@ -356,7 +356,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     .tv_collect_number_title);
             TextView tvNumber = ViewHolder.get(convertView, R.id.tv_number);
             View tvDetail = ViewHolder.get(convertView, R.id.tv_detail);
-            View ivDetail = ViewHolder.get(convertView, R.id.iv_detail);
+        //    View ivDetail = ViewHolder.get(convertView, R.id.iv_detail);
             Button btnRightAction = ViewHolder.get(convertView, R.id.btn_right_action);
             TextView tvRightAction = ViewHolder.get(convertView, R.id.tv_right_action);
             TextView tvCustomerName = ViewHolder.get(convertView, R.id.tv_customer_name);
@@ -379,10 +379,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             }
 
             // 名称
-            tvCustomerName.setText(order.getReceiveName());
+            tvCustomerName.setText(order.getCustomerName());
 
             //电话
-            tvCustomerPhone.setText(order.getReceivePhone());
+            tvCustomerPhone.setText(order.getCustomerPhone());
 
             // 地址
             StringBuilder address = new StringBuilder(order.getProvince()).append(order.getCity())
@@ -463,8 +463,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 tvRightAction.getPaint().setAntiAlias(true);
             }
 
-            setClickEvent(isNew, position, tvDetail, ivDetail, btnRightAction, tvRightAction,
-                    tvCustomerPhone);
+            setClickEvent(isNew, position, tvDetail, btnRightAction, tvRightAction
+                    );
         }
     }
 
@@ -488,12 +488,11 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             return;
         }
         switch (view.getId()) {
-            // 打电话
-            case R.id.tv_customer_phone:
-                call(order.getReceivePhone());
-                break;
+//            // 打电话
+//            case R.id.tv_customer_phone:
+//                call(order.getCustomerPhone());
+//                break;
             case R.id.tv_detail:
-            case R.id.iv_detail:
                 if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
                         .OUTERCODE_TYPE_ORDER)) {
                     // 服务单号
