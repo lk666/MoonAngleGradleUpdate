@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,8 +16,11 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -24,18 +28,23 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDeliverInfos;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultReceiveCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
+import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
  * Created by allenli on 2016/6/23.
  */
-public class ClothingDeliverConfirmActivity extends BaseActionBarActivity  implements OnListItemClickListener {
-
+public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implements OnListItemClickListener {
+    private static final int RESULT_CODE_MANUAL = 0x23;
     @Bind(R.id.txt_deliver_name)
     TextView txtDeliverName;
     @Bind(R.id.txt_deliver_phone)
@@ -58,6 +67,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity  imple
     TextView txtUrgent;
     ClothesInfoAdapter adapter;
     private String collectCode;
+    private List<ClothesInfo> clothesInfos;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +75,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity  imple
         setContentView(R.layout.activity_clothing_deliver_confirm);
         collectCode = getIntent().getStringExtra("collectCode");
         ButterKnife.bind(this);
+        initCustomActionBar();
         init();
     }
 
@@ -73,21 +84,56 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity  imple
         return R.string.title_clothing_deliver_confirm;
     }
 
+
+    private void initCustomActionBar() {
+
+        CommonActionBar actionBar = new CommonActionBar(getActionBar(),
+                new IActionBarListener() {
+
+                    @Override
+                    public void onBtnRight(View v) {
+                        goScanCode();
+                    }
+
+                    @Override
+                    public void onBtnLeft(View v) {
+                        finish();
+                    }
+
+                    @Override
+                    public void setTitle(TextView v) {
+                        v.setText(R.string.title_clothing_deliver_confirm);
+                    }
+                });
+
+        actionBar.getImgRightView().setImageResource(R.mipmap.scan_top_nav);
+        actionBar.getImgRightView().setVisibility(View.VISIBLE);
+    }
+
+
+    private void goScanCode() {
+        PublicUtil.openScan(ClothingDeliverConfirmActivity.this,
+                getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+    }
+
     private void init() {
         showProgressDialog();
         DeliveryApi.receiveCollectInfo(ClientStateManager.getLoginToken(ClothingDeliverConfirmActivity.this), collectCode, infoHandler);
     }
 
-    private void initView(ResultReceiveCollectInfo result){
-        txtDeliverName.setText(String.format("%s %s",result.getTransmitName(),result.getTransmitCode()));
+    private void initView(ResultReceiveCollectInfo result) {
+        txtDeliverName.setText(String.format("%s %s", result.getTransmitName(), result.getTransmitCode()));
         txtDeliverPhone.setText(result.getTransmitPhone());
         txtActual.setText(String.valueOf(result.getActualCount()));
         txtCollectNum.setText(result.getCollectCode());
         txtScanCode.setText(result.getCollectBrcode());
-        txtUrgent.setVisibility(result.getIsUrgent()>0? View.VISIBLE:View.GONE);
+        txtUrgent.setVisibility(result.getIsUrgent() > 0 ? View.VISIBLE : View.GONE);
 
-       adapter = new ClothesInfoAdapter(this,this);
-       adapter.setList(result.getClothesInfo());
+        adapter = new ClothesInfoAdapter(this, this);
+        clothesInfos = result.getClothesInfo();
+        adapter.setList(clothesInfos);
         listViewInfo.setAdapter(adapter);
 
     }
@@ -132,14 +178,60 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity  imple
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-//        CollectInfo order = (CollectInfo) item;
-//        if (order == null) {
-//            return;
-//        }
-        switch (view.getId()) {
-            case R.id.layout_detail:
-
-                break;
+        if (item instanceof ClothesInfo) {
+            ClothesInfo info = (ClothesInfo) item;
+            ClothesDetailActivity.actionStart(ClothingDeliverConfirmActivity.this, info.getClothesCode());
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+
+        switch (requestCode) {
+            case Constants.REQUEST_SCAN:
+                // 扫码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    handleScaneCodeBack(resultStr);
+                }
+        }
+    }
+
+    private void handleScaneCodeBack(String code) {
+        if(null!=clothesInfos && clothesInfos.size()>0){
+            for (ClothesInfo info:clothesInfos
+                 ) {
+                if(info.getClothesCode().equals(code)){
+                    info.setCheck(true);
+                }
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
+
+    @OnClick(R.id.btn_ok)
+      void confirm(View view){
+        if(null!=clothesInfos && clothesInfos.size()>0){
+            int checkNum =0 ;
+            for (ClothesInfo info:clothesInfos
+                    ) {
+               if(info.isCheck()){
+                   checkNum++;
+               }
+            }
+            if(checkNum==clothesInfos.size()){
+                showProgressDialog();
+                DeliveryApi.confirmOrderInfo(ClientStateManager.getLoginToken(ClothingDeliverConfirmActivity.this),collectCode,baseHandler);
+            }
+        }
+    }
+
+    @OnClick(R.id.btn_cancel)
+     void cancel(View view){
+        this.finish();
     }
 }

@@ -52,6 +52,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
     private long startTime = 0;
     private long endTime = 0;
     private String manager;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -75,9 +76,9 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
         String token = ClientStateManager.getLoginToken(main);
 
         showProgressDialog();
-        if(manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
+        if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
             DeliveryApi.collectInfoRecord(token, startTime, endTime, collectHandler);
-        }else{
+        } else {
             DeliveryApi.collectInfoRecord2(token, startTime, endTime, collectHandler);
         }
 
@@ -166,7 +167,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
             if (order == null) {
                 return;
             }
-            TextView   txtDispatchId = ViewHolder.get(convertView, R.id.txt_dispatch_id);
+            TextView txtDispatchId = ViewHolder.get(convertView, R.id.txt_dispatch_id);
             TextView txtCollectNum = ViewHolder.get(convertView, R.id.txt_collect_num);
             TextView txtStatus = ViewHolder.get(convertView, R.id.txt_status);
             TextView txtUserName = ViewHolder.get(convertView, R.id.txt_username);
@@ -177,7 +178,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
             TextView txtUrgent = ViewHolder.get(convertView, R.id.txt_urgent);
             TextView txtScan = ViewHolder.get(convertView, R.id.txt_scan_code);
             LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
-            if(manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
+            if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
                 if (StringUtil.isEmpty(order.getCollectBrcode())) {
                     txtScan.setVisibility(View.GONE);
                 }
@@ -185,11 +186,11 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                 txtScanBarCode.setText(order.getCollectBrcode());
                 txtUserName.setText(order.getReceiveName());
                 txtUserPhone.setText(order.getReceivePhone());
-            }else{
+            } else {
                 txtDispatchId.setVisibility(View.GONE);
                 txtScan.setVisibility(View.GONE);
                 txtScanBarCode.setVisibility(View.GONE);
-                txtCollectNum.setText(DateUtil.getTime(order.getOpTime(),"yyyy/MM/dd HH:mm"));
+                txtCollectNum.setText(DateUtil.getTime(order.getOpTime(), "yyyy/MM/dd HH:mm"));
                 txtUserName.setText(order.getCustomerName());
                 txtUserPhone.setText(order.getCustomerPhone());
 
@@ -250,14 +251,10 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
     @Override
     public void onItemClick(Object item, View view, int position) {
         CollectInfo order = (CollectInfo) item;
-        if (order == null) {
-            return;
+        if (null!=order) {
+            ClothingRecordDetailActivity.actionStart(main, order.getCollectCode(), manager);
         }
-        switch (view.getId()) {
-            case R.id.layout_detail:
 
-                break;
-        }
     }
-
 }
+

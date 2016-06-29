@@ -25,6 +25,16 @@ public class OrderDetail {
      */
     private String typeCode;
 
+    private int   receivableCount;
+
+    public int getReceivableCount() {
+        return receivableCount;
+    }
+
+    public void setReceivableCount(int receivableCount) {
+        this.receivableCount = receivableCount;
+    }
+
     public String getTypeName() {
         return typeName;
     }

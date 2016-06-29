@@ -1834,6 +1834,43 @@ public class DeliveryApi {
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /*2.6收衣订单详情*/
+	/*返回：ResultClothingRecord*/
+    public static void collectInfoDetails(String token, String collectCode ,
+                                     AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(collectCode)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/collectInfoDetails%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /*5.9收衣订单详情*/
+	/*返回：ResultClothingRecord*/
+    public static void collectInfoDetails2(String token, String collectCode ,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(collectCode)) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put("token", token);
+        params.put("collectCode", collectCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/activity/collectInfoDetails%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+
     /*2.4.衣物转交*/
 	/*返回：ResultBase*/
     public static void turnOrderInfo(String token, String collectCode, String receiverCode,

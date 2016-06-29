@@ -32,6 +32,16 @@ public class ClothesInfo {
      */
     private String clothesnameCode;
 
+    private boolean isCheck;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setCheck(boolean check) {
+        isCheck = check;
+    }
+
     public String getClothesCode() {
         return clothesCode;
     }

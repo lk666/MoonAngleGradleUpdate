@@ -638,6 +638,9 @@
     <string name="title_message">消息</string>
     <string name="title_notify">通知</string>
 
+    <string name="txt_open">展开</string>
+    <string name="txt_close">收起</string>
+
     <!-- 有订单收衣管理 -->
     <string name="tab_title_with_order_collect_manage">收衣管理</string>
     <string name="tab_bottom_with_order_collect_manage">收衣管理</string>
@@ -722,11 +725,11 @@
     <string name="clothing_detail_flaw">瑕疵信息：</string>
     <string name="clothing_detail_backup">备注：</string>
     <string name="clothing_detail_photo">衣物照片</string>
-
+    <string name="clothing_record_detail">收衣订单</string>
     <string name="title_clothing_without_order">无订单收衣</string>
     <string name="clothing_without_order_activity_desc">活动说明</string>
 
     <!-- 洗衣服务订单 -->
     <string name="title_outer_detail">洗衣服务订单</string>
-
+    <string name="text_count_format">X%d</string>
 </resources>

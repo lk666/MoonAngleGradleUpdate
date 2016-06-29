@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.module.clothing.collect;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -252,5 +254,12 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
                     break;
             }
         }
+    }
+
+
+    public static void actionStart(Context context, String clothesCode) {
+        Intent intent = new Intent(context, ClothesDetailActivity.class);
+        intent.putExtra(EXTRA_CLOTHES_CODE, clothesCode);
+        context.startActivity(intent);
     }
 }
