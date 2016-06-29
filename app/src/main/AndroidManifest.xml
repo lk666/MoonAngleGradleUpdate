@@ -180,6 +180,10 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
+            android:name=".address.SelectAddressByDepthActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
             android:name=".inventory.PhotoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
@@ -299,8 +303,8 @@
         <activity
             android:name=".module.clothing.collect.withoutorder.CreateCollectOrderActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateHidden"/>
 
         <service android:name=".card.LocationSvc"/>
 

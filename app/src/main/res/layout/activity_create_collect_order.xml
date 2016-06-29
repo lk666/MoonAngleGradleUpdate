@@ -99,7 +99,7 @@
                     android:textColor="@color/text_red"/>
 
                 <TextView
-                    android:id="@+id/tv_province_county"
+                    android:id="@+id/tv_province_city_country"
                     style="@style/txt_content_15"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="15dp"
@@ -110,9 +110,12 @@
                     android:singleLine="true"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <include
+                android:id="@+id/v_div_street_village"
+                layout="@layout/line_solid_view_999"/>
 
             <LinearLayout
+                android:id="@+id/ll_street_village"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginRight="12dp"
@@ -129,7 +132,7 @@
                     android:textColor="@color/text_red"/>
 
                 <TextView
-                    android:id="@+id/tv_province_street_village"
+                    android:id="@+id/tv_street_village"
                     style="@style/txt_content_15"
                     android:layout_width="match_parent"
                     android:layout_marginLeft="15dp"
@@ -318,15 +321,13 @@
 
         <Button
             android:id="@+id/btn_finish"
+            style="@style/btn_red4"
             android:layout_width="200dp"
             android:layout_height="40dp"
             android:layout_gravity="center_horizontal"
             android:layout_marginBottom="20dp"
             android:layout_marginTop="50dp"
-            android:background="@drawable/btn_red_shape_large"
-            android:text="@string/create_collect_order_finish"
-            android:textColor="@color/white_bg"
-            android:textSize="17sp"/>
+            android:text="@string/create_collect_order_finish"/>
     </LinearLayout>
 
 

@@ -1,6 +1,5 @@
 package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 
-import com.alibaba.fastjson.annotation.JSONField;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 /**
@@ -10,7 +9,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
  * <p/>
  * Created by lk on 2016/6/28.
  */
-public class UploadClothesInfo extends ClothesInfo{
+public class UploadClothesInfo extends ClothesInfo {
 
     /**
      * 图片IDs 多个用豆号隔开3232,3234223
