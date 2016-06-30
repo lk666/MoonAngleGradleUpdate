@@ -28,14 +28,14 @@
 //    OnListItemClickListener listener;
 //
 //    private int colorSelected;
-//    private int colorNormai;
+//    private int colorNormal;
 //
 //    public TypeAdapter(Context context, OnListItemClickListener listener) {
 //        selectedIndex = 0;
 //        this.listener = listener;
 //        layoutInflater = LayoutInflater.from(context);
 //        colorSelected = context.getResources().getColor(R.color.text_red);
-//        colorNormai = context.getResources().getColor(R.color.text_black_light);
+//        colorNormal = context.getResources().getColor(R.color.text_black_light);
 //    }
 //
 //    public void setSelectedIndex(int selectedIndex) {
@@ -61,7 +61,7 @@
 //            holder.tvTypeName.setTextColor(colorSelected);
 //            holder.vUnderLine.setVisibility(View.VISIBLE);
 //        } else {
-//            holder.tvTypeName.setTextColor(colorNormai);
+//            holder.tvTypeName.setTextColor(colorNormal);
 //            holder.vUnderLine.setVisibility(View.VISIBLE);
 //        }
 //    }

@@ -1,7 +1,9 @@
 package cn.com.bluemoon.delivery.app.api.model;
 
+import cn.com.bluemoon.delivery.utils.Constants;
+
 public class ResultBase {
-	private int responseCode;
+	private int responseCode = -1;
 	public boolean isSuccess;
 	private String responseMsg;
 

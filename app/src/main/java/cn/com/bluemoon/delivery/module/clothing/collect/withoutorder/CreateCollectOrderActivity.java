@@ -402,9 +402,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // 收衣单条码扫描/输入
             case R.id.tv_collect_brcode:
-// TODO: lk 2016/6/30
-                CreateClothesInfoActivity.actionStart(this, REQUEST_CODE_ADD_CLOTHES_INFO);
-//                goScanCode();
+                goScanCode();
                 break;
             // 预约时间选择
             case R.id.tv_appoint_back_time:
@@ -412,7 +410,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // 添加衣物
             case R.id.btn_add:
-                CreateClothesInfoActivity.actionStart(this, REQUEST_CODE_ADD_CLOTHES_INFO);
+                CreateClothesInfoActivity.actionStart(this, activityCode,
+                        REQUEST_CODE_ADD_CLOTHES_INFO);
                 break;
             //  完成收衣
             case R.id.btn_finish:
@@ -529,7 +528,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 }
                 break;
 
-            // TODO: lk 2016/6/30   添加衣物
+            // TODO: lk 2016/6/30   添加衣物返回
             case REQUEST_CODE_ADD_CLOTHES_INFO:
                 break;
 

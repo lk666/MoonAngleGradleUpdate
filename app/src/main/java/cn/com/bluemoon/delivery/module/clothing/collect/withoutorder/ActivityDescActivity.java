@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -22,6 +21,8 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultActivityDesc;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo
+        .CreateClothesInfoActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -128,8 +129,10 @@ public class ActivityDescActivity extends BaseActionBarActivity {
     @OnClick(R.id.btn_start)
     public void onClick() {
         // 创建收衣订单
-        CreateCollectOrderActivity.actionStart(this, REQUEST_CODE_CREATE_COLLECT_ORDER,
-                activityCode);
+        // TODO: lk 2016/6/30 删掉
+        CreateClothesInfoActivity.actionStart(this, activityCode, 12122);
+//        CreateCollectOrderActivity.actionStart(this, REQUEST_CODE_CREATE_COLLECT_ORDER,
+//                activityCode);
     }
 
     @Override
