@@ -306,6 +306,13 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateHidden"/>
 
+        <activity
+            android:name=".module.clothing.collect.withoutorder.CreateClothesInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateHidden"/>
+
+
         <service android:name=".card.LocationSvc"/>
 
         <!-- push应用定义消息receiver声明 -->

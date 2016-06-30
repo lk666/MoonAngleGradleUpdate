@@ -76,7 +76,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      */
     public static final String EXTRA_TYPE_CODE = "EXTRA_TYPE_CODE";
     /**
-     * 衣物类型编号(如：洗衣服务A类)，不为空时表示是新增衣物
+     * 衣物类型编号(如：洗衣服务A类的编号)，不为空时表示是新增衣物
      */
     private String typeCode;
 
@@ -85,7 +85,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      */
     public static final String EXTRA_TYPE_NAME = "EXTRA_TYPE_NAME";
     /**
-     * 衣物类型编号(如：洗衣服务A类)，不为空时表示是新增衣物
+     * 衣物类型名称(如：洗衣服务A类)，不为空时表示是新增衣物
      */
     private String typeName;
 
