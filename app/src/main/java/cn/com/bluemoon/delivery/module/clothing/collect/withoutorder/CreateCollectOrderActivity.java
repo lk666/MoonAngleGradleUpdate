@@ -36,10 +36,13 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
+import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -48,6 +51,11 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
  */
 public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
+    /**
+     * 扫描二维码跳转到手动输入的返回码
+     */
+    private static final int RESULT_CODE_TO_MANUAL = 0x23;
+    private static final int REQUEST_CODE_MANUAL = 0x43;
 
     /**
      * 选择省市区
@@ -384,10 +392,11 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         countyArea.getDcode(), countyArea.getChildType(), 2,
                         REQUEST_CODE_SELECT_STREET_VILLAGE);
                 break;
-            // TODO: lk 2016/6/28 收衣单条码扫描/输入
+            // 收衣单条码扫描/输入
             case R.id.tv_collect_brcode:
+                goScanCode();
                 break;
-            // TODO: lk 2016/6/28 预约时间选择
+            // 预约时间选择
             case R.id.tv_appoint_back_time:
                 selectAppointBackTime();
                 break;
@@ -408,6 +417,15 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             default:
                 break;
         }
+    }
+
+    /**
+     * 打开扫码界面
+     */
+    private void goScanCode() {
+        PublicUtil.openScan(this, getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN, RESULT_CODE_TO_MANUAL);
     }
 
     /**
@@ -513,35 +531,45 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 //                }
 //                break;
 //
-//            case Constants.REQUEST_SCAN:
-//                // 扫码返回
-//                if (resultCode == Activity.RESULT_OK) {
-//                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-//                    handleScaneCodeBack(resultStr);
-//                }
-//                //   跳转到手动输入
-//                else if (resultCode == RESULT_CODE_MANUAL) {
-//                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
-//                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
-//                }
-//                break;
-//
-//            // 手动输入返回
-//            case REQUEST_CODE_MANUAL:
-//                // 数字码返回
-//                if (resultCode == Activity.RESULT_OK) {
-//                    String resultStr = data.getStringExtra(ManualInputCodeActivity
-//                            .RESULT_EXTRA_CODE);
-//                    handleScaneCodeBack(resultStr);
-//                }
-//                //  跳转到扫码输入
-//                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
-//                    goScanCode();
-//                }
-//                break;
+
+            case Constants.REQUEST_SCAN:
+                // 扫码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    handleScaneCodeBack(resultStr);
+                }
+                //   跳转到手动输入
+                else if (resultCode == RESULT_CODE_TO_MANUAL) {
+                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
+                }
+                break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
+                    handleScaneCodeBack(resultStr);
+                }
+                //  跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
+                break;
 
             default:
                 break;
         }
+    }
+
+    /**
+     * 处理扫码、手动输入数字码返回
+     *
+     * @param code
+     */
+    private void handleScaneCodeBack(String code) {
+        tvCollectBrcode.setText(code);
     }
 }
