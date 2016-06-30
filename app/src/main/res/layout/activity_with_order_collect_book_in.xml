@@ -37,7 +37,7 @@
                 android:layout_below="@+id/tv_number"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="16dp"
-                android:src="@mipmap/user"/>
+                android:src="@mipmap/user_new"/>
 
 
             <cn.com.bluemoon.lib.tagview.FlowLayout
@@ -63,7 +63,7 @@
                     android:layout_height="wrap_content"
                     android:autoLink="phone"
                     android:inputType="phone"
-                    android:textColor="@color/btn_blue"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_size_13"/>
             </cn.com.bluemoon.lib.tagview.FlowLayout>
 
@@ -74,7 +74,7 @@
                 android:layout_alignLeft="@+id/iv_customer"
                 android:layout_below="@+id/iv_customer"
                 android:layout_marginTop="16dp"
-                android:src="@mipmap/address"/>
+                android:src="@mipmap/address_new"/>
 
             <TextView
                 android:id="@+id/tv_address"
@@ -82,7 +82,9 @@
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/iv_address"
                 android:layout_marginLeft="12dp"
+                android:lineSpacingExtra="6dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginBottom="12dp"
                 android:layout_toRightOf="@+id/iv_address"
                 android:textColor="@color/text_black_light"
                 android:textSize="@dimen/text_size_13"/>
@@ -106,7 +108,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/with_order_collect_title_pay_total"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13"/>
+                    android:textSize="@dimen/text_size_11"/>
 
                 <TextView
                     android:id="@+id/tv_pay_total"
@@ -114,14 +116,14 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13"/>
+                    android:textSize="@dimen/text_size_11"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/with_order_collect_title_receivable_count"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13"/>
+                    android:textSize="@dimen/text_size_11"/>
 
                 <TextView
                     android:id="@+id/tv_receivable_count"
@@ -129,21 +131,21 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13"/>
+                    android:textSize="@dimen/text_size_11"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/with_order_collect_title_actual_count"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13"/>
+                    android:textSize="@dimen/text_size_11"/>
 
                 <TextView
                     android:id="@+id/tv_actual_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13"/>
+                    android:textSize="@dimen/text_size_11"/>
             </LinearLayout>
         </RelativeLayout>
 

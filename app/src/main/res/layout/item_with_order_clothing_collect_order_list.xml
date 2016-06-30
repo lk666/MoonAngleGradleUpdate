@@ -80,7 +80,7 @@
             android:layout_height="14dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/user" />
+            android:src="@mipmap/user_new" />
 
         <TextView
             android:id="@+id/tv_customer_name"
@@ -117,7 +117,7 @@
             android:layout_alignLeft="@+id/iv_customer"
             android:layout_below="@+id/iv_customer"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/address" />
+            android:src="@mipmap/address_new" />
 
         <TextView
             android:id="@+id/tv_address"
@@ -150,7 +150,7 @@
             android:layout_height="wrap_content"
             android:text="@string/with_order_collect_title_pay_total"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_11" />
 
         <TextView
             android:id="@+id/tv_pay_total"
@@ -158,14 +158,14 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_11" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/with_order_collect_title_receivable_count"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_11" />
 
         <TextView
             android:id="@+id/tv_receivable_count"
@@ -173,21 +173,21 @@
             android:layout_weight="1"
             android:layout_height="wrap_content"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_11" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/with_order_collect_title_actual_count"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_11" />
 
         <TextView
             android:id="@+id/tv_actual_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_11" />
     </LinearLayout>
 
 </LinearLayout>
