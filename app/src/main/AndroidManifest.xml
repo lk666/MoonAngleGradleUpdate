@@ -307,7 +307,7 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
-            android:name=".module.clothing.collect.withoutorder.CreateClothesInfoActivity"
+            android:name=".module.clothing.collect.withoutorder.createclothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateHidden"/>

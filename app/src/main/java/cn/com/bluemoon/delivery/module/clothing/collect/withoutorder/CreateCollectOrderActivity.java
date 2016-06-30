@@ -37,6 +37,8 @@ import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo
+        .CreateClothesInfoActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -56,6 +58,12 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      */
     private static final int RESULT_CODE_TO_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
+
+
+    /**
+     * 新增衣物
+     */
+    public static final int REQUEST_CODE_ADD_CLOTHES_INFO = 0x91;
 
     /**
      * 选择省市区
@@ -394,14 +402,17 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // 收衣单条码扫描/输入
             case R.id.tv_collect_brcode:
-                goScanCode();
+// TODO: lk 2016/6/30
+                CreateClothesInfoActivity.actionStart(this, REQUEST_CODE_ADD_CLOTHES_INFO);
+//                goScanCode();
                 break;
             // 预约时间选择
             case R.id.tv_appoint_back_time:
                 selectAppointBackTime();
                 break;
-            // TODO: lk 2016/6/28 添加衣物
+            // 添加衣物
             case R.id.btn_add:
+                CreateClothesInfoActivity.actionStart(this, REQUEST_CODE_ADD_CLOTHES_INFO);
                 break;
             //  完成收衣
             case R.id.btn_finish:
@@ -518,6 +529,9 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 }
                 break;
 
+            // TODO: lk 2016/6/30   添加衣物
+            case REQUEST_CODE_ADD_CLOTHES_INFO:
+                break;
 
 //            case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
 //                // 保存成功

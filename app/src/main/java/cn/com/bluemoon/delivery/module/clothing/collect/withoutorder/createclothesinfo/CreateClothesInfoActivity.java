@@ -1,29 +1,33 @@
-package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
+package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Canvas;
 import android.os.Bundle;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesTypeInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 
 /**
  * 创建收衣订单新增衣物
  * Created by luokai on 2016/6/30.
  */
-public class CreateClothesInfoActivity extends BaseActionBarActivity  {
+public class CreateClothesInfoActivity extends BaseActionBarActivity implements
+        OnListItemClickListener {
 
 
-    @Bind(R.id.rv_type)
-    RecyclerView rvType;
     @Bind(R.id.gv_clothing_name)
     ScrollGridView gvClothingName;
     @Bind(R.id.tv_number)
@@ -44,6 +48,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity  {
     Button btnOk;
     @Bind(R.id.v_div_btn_right)
     View vDivBtnRight;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,17 +77,19 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity  {
      * 初始化衣物界面
      */
     private void initView() {
-        StaggeredGridLayoutManager lm = new StaggeredGridLayoutManager(1,
-                StaggeredGridLayoutManager.HORIZONTAL);
-        rvType.setLayoutManager(lm);
-        rvType.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(Canvas c, RecyclerView parent, RecyclerView.State state) {
-                super.onDraw(c, parent, state);
-            }
-        });
-//        rvType.setAdapter();
+
     }
 
-//    class TypeAdapter extends
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+        //  todo 选择服务类型
+        if (item instanceof ClothesTypeInfo) {
+        }
+    }
+
+    public static void actionStart(Activity context, int requestCode) {
+        Intent intent = new Intent(context, CreateClothesInfoActivity.class);
+        context.startActivityForResult(intent,requestCode);
+    }
+
 }
