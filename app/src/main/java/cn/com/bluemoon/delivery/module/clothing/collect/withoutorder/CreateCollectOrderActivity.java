@@ -36,7 +36,10 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
+import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
+import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -211,7 +214,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                     llAppointBackTime.setVisibility(View.VISIBLE);
                     tvAppointBackTime.setText("");
                     appointBackTime = 0;
-                    // TODO: lk 2016/6/29 时间选择
+                    // 时间选择
+                    getAppointBackTime();
                 } else {
                     vDivAppointBackTime.setVisibility(View.GONE);
                     llAppointBackTime.setVisibility(View.GONE);
@@ -220,6 +224,36 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 }
             }
         });
+    }
+
+    /**
+     * 加急改为true时弹出预约时间选择框
+     */
+    private void getAppointBackTime() {
+        // 至少48小时后的时间
+        final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
+        DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(this, minTime,
+                new DateTimePickDialogUtil.OnDetailClickLister() {
+                    @Override
+                    public void btnClickLister(long time, String datetime) {
+                        if (datetime.equals("time")) {
+                            // 只能选择48小时之后的时间
+                            if (time + 3600 < minTime) {
+                                PublicUtil.showToast(getString(R.string
+                                        .with_order_collect_appoint_back_time_later_hint));
+                            } else {
+                                // 预约时间更改
+                                appointBackTime = time * 1000;
+                                tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
+                                        "yyyy-MM-dd " + "HH:mm"));
+                                return;
+                            }
+                        }
+
+                        sbIsUrgent.setChecked(false);
+                    }
+                });
+        dateTimePicKDialog.dateTimePicKDialog();
     }
 
     private TextWatcher etChangedWatcher = new TextWatcher() {
@@ -355,7 +389,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // TODO: lk 2016/6/28 预约时间选择
             case R.id.tv_appoint_back_time:
-                showFinishDialog("455465478645132132");
+                selectAppointBackTime();
                 break;
             // TODO: lk 2016/6/28 添加衣物
             case R.id.btn_add:
@@ -374,6 +408,33 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             default:
                 break;
         }
+    }
+
+    /**
+     * 改变预约时间弹出预约时间选择框
+     */
+    private void selectAppointBackTime() {
+        // 至少48小时后的时间
+        final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
+        DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(this, minTime, new
+                DateTimePickDialogUtil.OnDetailClickLister() {
+                    @Override
+                    public void btnClickLister(long time, String datetime) {
+                        if (datetime.equals("time")) {
+                            // 只能选择48小时之后的时间
+                            if (time + 3600 < minTime) {
+                                PublicUtil.showToast(getString(R.string
+                                        .with_order_collect_appoint_back_time_later_hint));
+                            } else {
+                                // 预约时间更改
+                                appointBackTime = time * 1000;
+                                tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
+                                        "yyyy-MM-dd " + "HH:mm"));
+                            }
+                        }
+                    }
+                });
+        dateTimePicKDialog.dateTimePicKDialog();
     }
 
     public static void actionStart(Activity activity, int requestCode, String activityCode) {

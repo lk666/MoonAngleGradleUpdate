@@ -244,15 +244,15 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      */
     private void getAppointBackTime(final AsyncHttpResponseHandler handler) {
         // 至少48小时后的时间
-        final long maxTime = System.currentTimeMillis() / 1000 + 48 * 3600;
+        final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
         DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
-                WithOrderCollectBookInActivity.this, maxTime, new
+                WithOrderCollectBookInActivity.this, minTime, new
                 DateTimePickDialogUtil.OnDetailClickLister() {
                     @Override
                     public void btnClickLister(long time, String datetime) {
                         if (datetime.equals("time")) {
                             // 只能选择48小时之后的时间
-                            if (time < maxTime) {
+                            if (time + 3600 < minTime) {
                                 PublicUtil.showToast(getString(R.string
                                         .with_order_collect_appoint_back_time_later_hint));
                             } else {
@@ -421,15 +421,15 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      */
     private void selectAppointBackTime(final AsyncHttpResponseHandler handler) {
         // 至少48小时后的时间
-        final long maxTime = System.currentTimeMillis() / 1000 + 48 * 3600;
+        final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
         DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
-                WithOrderCollectBookInActivity.this, maxTime, new
+                WithOrderCollectBookInActivity.this, minTime, new
                 DateTimePickDialogUtil.OnDetailClickLister() {
                     @Override
                     public void btnClickLister(long time, String datetime) {
                         if (datetime.equals("time")) {
                             // 只能选择48小时之后的时间
-                            if (time < maxTime) {
+                            if (time + 3600 < minTime) {
                                 PublicUtil.showToast(getString(R.string
                                         .with_order_collect_appoint_back_time_later_hint));
                             } else {
