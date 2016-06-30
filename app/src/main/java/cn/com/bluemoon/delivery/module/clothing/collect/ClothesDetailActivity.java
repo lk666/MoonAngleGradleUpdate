@@ -101,17 +101,6 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
         getData();
     }
 
-    @OnClick({R.id.tv_op_phone})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            // 打电话
-            case R.id.tv_op_phone:
-                PublicUtil.callPhone(ClothesDetailActivity.this, tvOpPhone.getText
-                        ().toString());
-                break;
-        }
-    }
-
     @Override
     protected int getActionBarTitleRes() {
         return R.string.title_clothing_detail;

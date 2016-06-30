@@ -48,7 +48,7 @@
                     android:singleLine="true"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <View style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -80,7 +80,7 @@
                     android:singleLine="true"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <View style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -110,9 +110,9 @@
                     android:singleLine="true"/>
             </LinearLayout>
 
-            <include
+            <View
                 android:id="@+id/v_div_street_village"
-                layout="@layout/line_solid_view_999"/>
+                style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:id="@+id/ll_street_village"
@@ -143,7 +143,7 @@
                     android:singleLine="true"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <View style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -175,7 +175,7 @@
                     android:singleLine="true"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <View style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -195,7 +195,7 @@
                     layout="@layout/widget_switch_button_yes_no"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <View style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -218,7 +218,7 @@
                     android:singleLine="true"/>
             </LinearLayout>
 
-            <include layout="@layout/line_solid_view_999"/>
+            <View style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -238,9 +238,9 @@
                     layout="@layout/widget_switch_button_yes_no"/>
             </LinearLayout>
 
-            <include
+            <View
                 android:id="@+id/v_div_appoint_back_time"
-                layout="@layout/line_solid_view_999"/>
+                style="@style/line_solid_style"/>
 
             <LinearLayout
                 android:id="@+id/ll_appoint_back_time"
@@ -300,11 +300,9 @@
                 android:background="@drawable/btn_add"
                 android:scaleType="fitCenter"/>
 
-            <include
+            <View
                 android:id="@+id/v_div_order_receive"
-                layout="@layout/line_solid_view_999"
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/div_height"
+                style="@style/line_solid_style"
                 android:layout_below="@+id/tv_actual_collect_count"
                 android:layout_marginLeft="16dp"/>
         </RelativeLayout>

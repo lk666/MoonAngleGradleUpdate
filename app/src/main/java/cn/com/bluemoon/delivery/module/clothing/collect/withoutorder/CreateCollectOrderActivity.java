@@ -1,11 +1,13 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
@@ -14,6 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+
+import org.apache.commons.lang3.text.StrBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +31,8 @@ import cn.com.bluemoon.delivery.address.SelectAddressByDepthActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultQueryActivityLimitNum;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCreateCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
-import cn.com.bluemoon.delivery.entity.SubRegion;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
@@ -276,17 +280,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         return R.string.title_activity_dec;
     }
 
-    @OnClick(R.id.btn_finish)
-    public void onClick() {
-        //  完成收衣
-        showProgressDialog();
-        DeliveryApi.registerCreatedCollectInfo(activityCode, etAddress.getText().toString(),
-                appointBackTime, city, clothesInfo, tvCollectBrcode.getText().toString(), county,
-                etName.getText().toString(), etPhone.getText().toString(),
-                sbIsFee.isChecked() ? 1 : 0, sbIsUrgent.isChecked() ? 1 : 0, province, street,
-                ClientStateManager.getLoginToken(this), village, baseHandler);
-    }
-
     @Override
     protected void onResponseSuccess(String responseString) {
         // 初始化时查询活动收衣上限返回
@@ -297,9 +290,48 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             return;
         }
 
-        // TODO: lk 2016/6/29   完成收衣返回成功，弹出显示信息窗口，服务器未返回收衣单号
-        setResult(RESULT_COLLECT_SCUUESS);
-        super.onResponseSuccess(responseString);
+        // 完成收衣返回成功，弹出显示信息窗口，服务器未返回收衣单号
+        ResultRegisterCreateCollectInfo info = JSON.parseObject(responseString,
+                ResultRegisterCreateCollectInfo.class);
+        if (info != null) {
+            setResult(RESULT_COLLECT_SCUUESS);
+            showFinishDialog(info.getCollectCode());
+            return;
+        }
+    }
+
+    private void showFinishDialog(String collectCode) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_create_wash_order_finish,
+                null);
+
+        TextView tvCode = (TextView) view.findViewById(R.id.tv_code);
+        TextView tvName = (TextView) view.findViewById(R.id.tv_name);
+        TextView tvPhone = (TextView) view.findViewById(R.id.tv_phone);
+        TextView tvAddress = (TextView) view.findViewById(R.id.tv_address);
+        TextView tvActualReceive = (TextView) view.findViewById(R.id.tv_actual_receive);
+        Button btnClose = (Button) view.findViewById(R.id.btn_close);
+
+        tvCode.setText(collectCode);
+        tvName.setText(etName.getText().toString());
+        tvPhone.setText(etPhone.getText().toString());
+        tvAddress.setText((new StrBuilder(province)).append(city).append(county).append(street)
+                .append(view).append(address).toString());
+        tvActualReceive.setText(getString(R.string.create_collect_dialog_actual_receive) +
+                clothesInfo.size());
+
+        btnClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
+
+        dialog.setView(view);
+        dialog.setCancelable(false);
+        dialog.show();
+
+
     }
 
     @OnClick({R.id.tv_province_city_country, R.id.tv_street_village, R.id.tv_collect_brcode,
@@ -323,12 +355,21 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // TODO: lk 2016/6/28 预约时间选择
             case R.id.tv_appoint_back_time:
+                showFinishDialog("455465478645132132");
                 break;
             // TODO: lk 2016/6/28 添加衣物
             case R.id.btn_add:
                 break;
-            // TODO: lk 2016/6/28 完成收衣
+            //  完成收衣
             case R.id.btn_finish:
+                showProgressDialog();
+                DeliveryApi.registerCreatedCollectInfo(activityCode, etAddress.getText().toString(),
+                        appointBackTime, city, clothesInfo, tvCollectBrcode.getText().toString(),
+                        county,
+                        etName.getText().toString(), etPhone.getText().toString(),
+                        sbIsFee.isChecked() ? 1 : 0, sbIsUrgent.isChecked() ? 1 : 0, province,
+                        street,
+                        ClientStateManager.getLoginToken(this), village, baseHandler);
                 break;
             default:
                 break;

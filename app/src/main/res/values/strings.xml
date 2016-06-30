@@ -3,6 +3,7 @@
 
     <string name="required_filed">*</string>
     <string name="btn_delete">删除</string>
+    <string name="btn_close">关闭</string>
 
     <string name="app_name">月亮天使</string>
     <string name="test_name">(%s)测试</string>
@@ -751,4 +752,8 @@
     <string name="create_collect_order_address_hint">请输入详细地址</string>
     <string name="create_collect_order_is_fee">是否收费</string>
     <string name="create_collect_order_finish">完成本次收衣</string>
+    <string name="create_collect_dialog_collect_code">收衣单号</string>
+    <string name="create_collect_dialog_name_phone">姓名电话</string>
+    <string name="create_collect_dialog_address">地址</string>
+    <string name="create_collect_dialog_actual_receive">实收：</string>
 </resources>

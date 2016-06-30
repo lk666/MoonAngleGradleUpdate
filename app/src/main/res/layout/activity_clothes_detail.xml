@@ -69,6 +69,7 @@
                 <TextView
                     android:id="@+id/tv_op_phone"
                     style="@style/txt_title_13"
+                    android:autoLink="phone"
                     android:text="@string/clothing_detail_receiver_name"
                     android:textColor="@color/btn_blue"/>
 
