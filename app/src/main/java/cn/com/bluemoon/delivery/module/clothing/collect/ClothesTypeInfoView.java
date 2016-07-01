@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo;
+package cn.com.bluemoon.delivery.module.clothing.collect;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesTypeInfo;
 
 /**
- * 衣物类型View
+ * 服务类型View
  * Created by lk on 2016/6/30.
  */
 public class ClothesTypeInfoView extends FrameLayout {

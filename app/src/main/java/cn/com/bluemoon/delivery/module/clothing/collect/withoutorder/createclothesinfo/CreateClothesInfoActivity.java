@@ -3,14 +3,19 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclot
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
+import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
@@ -18,11 +23,16 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesTypeInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeInfos;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesTypeInfoView;
 import cn.com.bluemoon.lib.view.ScrollGridView;
+import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
  * 创建收衣订单新增衣物
@@ -37,8 +47,8 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     @Bind(R.id.ll_type)
     LinearLayout llType;
-    @Bind(R.id.gv_clothing_name)
-    ScrollGridView gvClothingName;
+    @Bind(R.id.ll_clothes_name)
+    LinearLayout llClothesName;
     @Bind(R.id.tv_number)
     TextView tvNumber;
     @Bind(R.id.et_flaw)
@@ -51,12 +61,13 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     EditText etBackup;
     @Bind(R.id.sgv_photo)
     ScrollGridView sgvPhoto;
-    @Bind(R.id.v_div_btn_left)
-    View vDivBtnLeft;
     @Bind(R.id.btn_ok)
     Button btnOk;
-    @Bind(R.id.v_div_btn_right)
-    View vDivBtnRight;
+
+    @Bind(R.id.sb_falw)
+    SwitchButton sbFalw;
+    @Bind(R.id.sb_stain)
+    SwitchButton sbStain;
 
     /**
      * 活动编号
@@ -67,6 +78,11 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
      * 服务类型选中的item
      */
     ClothesTypeInfoView selectedTypeView;
+
+    /**
+     * 衣物名称选中的item
+     */
+    ClothesNameView selectedNameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,6 +113,45 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
      */
     private void initView() {
         selectedTypeView = null;
+        selectedNameView = null;
+        llType.removeAllViews();
+        llClothesName.removeAllViews();
+
+        etBackup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (etBackup.getLineCount() > 1) {
+                    etBackup.setGravity(Gravity.LEFT);
+                } else {
+                    etBackup.setGravity(Gravity.RIGHT);
+                }
+            }
+        });
+
+        btnOk.setEnabled(false);
+
+        sbFalw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    vDivFlaw.setVisibility(View.VISIBLE);
+                    etFlaw.setVisibility(View.VISIBLE);
+                } else {
+                    vDivFlaw.setVisibility(View.GONE);
+                    etFlaw.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
 
@@ -104,7 +159,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
      * 设置服务类型数据
      */
     public void setClothesTypeInfo(List<ClothesTypeInfo> datas) {
-        if (datas == null || datas.size() < 1) {
+        if (datas == null || datas.isEmpty()) {
             return;
         }
         llType.removeAllViews();
@@ -116,8 +171,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             llType.addView(v);
         }
 
-        selectedTypeView = (ClothesTypeInfoView) llType.getChildAt(0);
-        selectedTypeView.setChecked(true);
+        setClothesTypeSelected((ClothesTypeInfoView) llType.getChildAt(0));
     }
 
     /**
@@ -138,7 +192,23 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 selectedTypeView.setChecked(false);
             }
             selectedTypeView = typeView;
+            getClothingData(selectedTypeView.getTypeInfo().getTypeCode());
         }
+    }
+
+    private void getClothingData(String typeCode) {
+        String token = ClientStateManager.getLoginToken(this);
+        showProgressDialog();
+        DeliveryApi.getClothesTypeConfigs(token, typeCode, createResponseHandler(new IHttpResponseHandler() {
+            @Override
+            public void onResponseSuccess(String responseString) {
+                // TODO: lk 2016/6/30 待测试
+                // 获取衣物配置项
+                ResultClothesTypeList clothesType = JSON.parseObject(responseString,
+                        ResultClothesTypeList.class);
+                setClothesTypeData(clothesType);
+            }
+        }));
     }
 
     @Override
@@ -149,19 +219,61 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     private void getData() {
         showProgressDialog();
         DeliveryApi.getClothesTypeInfos(activityCode, ClientStateManager.getLoginToken(this),
-                baseHandler);
+                createResponseHandler(new IHttpResponseHandler() {
+                    @Override
+                    public void onResponseSuccess(String responseString) {
+                        // TODO: lk 2016/6/30 待测试
+                        // 获取服务类型
+                        ResultClothesTypeInfos type = JSON.parseObject(responseString,
+                                ResultClothesTypeInfos.class);
+                        setData(type);
+                    }
+                }));
     }
 
-    @Override
-    protected void onResponseSuccess(String responseString) {
-        // 获取服务类型
-        ResultClothesTypeInfos type = JSON.parseObject(responseString,
-                ResultClothesTypeInfos.class);
-        if (type != null) {
-            setData(type);
+    /**
+     * 设置衣物名称列表
+     */
+    private void setClothesTypeData(ResultClothesTypeList result) {
+        List<ClothesType> clothesTypeConfigs = result.getClothesTypeConfigs();
+        Collections.sort(clothesTypeConfigs);
+
+        if (clothesTypeConfigs == null || clothesTypeConfigs.isEmpty()) {
             return;
         }
+
+        llClothesName.removeAllViews();
+        int count = clothesTypeConfigs.size();
+        for (int i = 0; i < count; i++) {
+            ClothesType type = clothesTypeConfigs.get(i);
+            ClothesNameView v = new ClothesNameView(this, type, i);
+            v.setOnClickListener(nameClick);
+            llClothesName.addView(v);
+        }
+
+        setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
     }
+
+    private void setClothesNameSelected(ClothesNameView nameView) {
+        if (nameView != selectedNameView) {
+            nameView.setChecked(true);
+            if (selectedNameView != null) {
+                selectedNameView.setChecked(false);
+            }
+            selectedNameView = nameView;
+        }
+    }
+
+    /**
+     * 点击衣物名称
+     */
+    private View.OnClickListener nameClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ClothesNameView nameView = (ClothesNameView) view;
+            setClothesNameSelected(nameView);
+        }
+    };
 
     private void setData(ResultClothesTypeInfos type) {
         setClothesTypeInfo(type.getClothesTypeInfos());

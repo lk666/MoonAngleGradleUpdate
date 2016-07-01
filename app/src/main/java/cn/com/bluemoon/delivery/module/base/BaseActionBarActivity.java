@@ -80,7 +80,9 @@ public abstract class BaseActionBarActivity extends BaseActivity {
 
     }
 
-    protected void onResponseSuccess(String responseString){
+    // TODO: lk 2016/6/29 改为工厂模式，删掉此处
+    @Deprecated
+    protected void onResponseSuccess(String responseString) {
         ResultBase result = JSON.parseObject(responseString,
                 ResultBase.class);
         if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
@@ -89,8 +91,8 @@ public abstract class BaseActionBarActivity extends BaseActivity {
         }
     }
 
-    // TODO: lk 2016/6/29 尽量将所有 AsyncHttpResponseHandler改为baseHandler
-   protected   AsyncHttpResponseHandler baseHandler = new TextHttpResponseHandler(
+    @Deprecated
+    protected AsyncHttpResponseHandler baseHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
 
         @Override
@@ -119,5 +121,4 @@ public abstract class BaseActionBarActivity extends BaseActivity {
             PublicUtil.showToastServerOvertime();
         }
     };
-
 }

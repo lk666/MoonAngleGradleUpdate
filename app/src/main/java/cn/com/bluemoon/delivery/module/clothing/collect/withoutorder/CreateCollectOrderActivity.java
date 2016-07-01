@@ -311,7 +311,16 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     private void getData() {
         showProgressDialog();
         DeliveryApi.queryActivityLimitNum(ClientStateManager.getLoginToken(this), activityCode,
-                baseHandler);
+                createResponseHandler(new IHttpResponseHandler() {
+                    @Override
+                    public void onResponseSuccess(String responseString) {
+                        // TODO: lk 2016/6/30 待测试
+                        // 初始化时查询活动收衣上限返回
+                        ResultQueryActivityLimitNum result = JSON.parseObject(responseString,
+                                ResultQueryActivityLimitNum.class);
+                        setData(result);
+                    }
+                }));
 
     }
 
@@ -328,26 +337,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     @Override
     protected int getActionBarTitleRes() {
         return R.string.title_activity_dec;
-    }
-
-    @Override
-    protected void onResponseSuccess(String responseString) {
-        // 初始化时查询活动收衣上限返回
-        ResultQueryActivityLimitNum result = JSON.parseObject(responseString,
-                ResultQueryActivityLimitNum.class);
-        if (result != null) {
-            setData(result);
-            return;
-        }
-
-        // 完成收衣返回成功，弹出显示信息窗口，服务器未返回收衣单号
-        ResultRegisterCreateCollectInfo info = JSON.parseObject(responseString,
-                ResultRegisterCreateCollectInfo.class);
-        if (info != null) {
-            setResult(RESULT_COLLECT_SCUUESS);
-            showFinishDialog(info.getCollectCode());
-            return;
-        }
     }
 
     private void showFinishDialog(String collectCode) {
@@ -380,8 +369,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         dialog.setView(view);
         dialog.setCancelable(false);
         dialog.show();
-
-
     }
 
     @OnClick({R.id.tv_province_city_country, R.id.tv_street_village, R.id.tv_collect_brcode,
@@ -422,7 +409,19 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         etName.getText().toString(), etPhone.getText().toString(),
                         sbIsFee.isChecked() ? 1 : 0, sbIsUrgent.isChecked() ? 1 : 0, province,
                         street,
-                        ClientStateManager.getLoginToken(this), village, baseHandler);
+                        ClientStateManager.getLoginToken(this), village,
+                        createResponseHandler(new IHttpResponseHandler() {
+                            @Override
+                            public void onResponseSuccess(String responseString) {
+                                // TODO: lk 2016/6/30 待测试
+                                // 完成收衣返回成功，弹出显示信息窗口，服务器未返回收衣单号
+                                ResultRegisterCreateCollectInfo info = JSON.parseObject
+                                        (responseString,
+                                                ResultRegisterCreateCollectInfo.class);
+                                setResult(RESULT_COLLECT_SCUUESS);
+                                showFinishDialog(info.getCollectCode());
+                            }
+                        }));
                 break;
             default:
                 break;
