@@ -61,20 +61,20 @@
            <View
                style="@style/line_solid_style"/>
 
-            <cn.com.bluemoon.lib.view.ScrollGridView
-                android:id="@+id/gv_clothing_name"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="113dp"
-                android:background="@color/white_bg"
-                android:gravity="center"
-                android:listSelector="@null"
-                android:numColumns="5"
-                android:overScrollMode="never"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="5dp"
-                android:scrollbars="none"
-                android:stretchMode="columnWidth"/>
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_clothes_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"/>
+            </HorizontalScrollView>
 
             <View
                 style="@style/line_solid_style"/>
