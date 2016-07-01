@@ -150,6 +150,53 @@
             android:background="@color/line_soild_bg" />
 
         <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="10dp"
+                android:gravity="center_vertical"
+                android:text="场地押金(元)"
+                android:textColor="@color/text_black"
+                android:textSize="15sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="*"
+                android:textColor="@color/text_red"
+                android:textSize="15sp" />
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="10dp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:background="@null"
+                android:textCursorDrawable="@null"
+                android:gravity="center_vertical|right"
+                android:hint="请输入"
+                android:inputType="numberDecimal"
+                android:singleLine="true"
+                android:textColor="@color/text_black_light"
+                android:textColorHint="@color/text_grep"
+                android:textSize="15sp" />
+
+
+        </LinearLayout>
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="10dp"
+            android:background="@color/line_soild_bg" />
+
+        <LinearLayout
             android:id="@+id/layout_other_fee"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -184,54 +231,6 @@
                 android:textColor="@color/text_black_light"
                 android:textColorHint="@color/text_grep"
                 android:textSize="15sp" />
-        </LinearLayout>
-
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.5dp"
-            android:layout_marginLeft="10dp"
-            android:background="@color/line_soild_bg" />
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginLeft="10dp"
-                android:gravity="center_vertical"
-                android:text="场地押金"
-                android:textColor="@color/text_black"
-                android:textSize="15sp" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:text="*"
-                android:textColor="@color/text_red"
-                android:textSize="15sp" />
-
-            <EditText
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="10dp"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:background="@null"
-                android:textCursorDrawable="@null"
-                android:gravity="center_vertical|right"
-                android:hint="请输入"
-                android:inputType="numberDecimal"
-                android:singleLine="true"
-                android:textColor="@color/text_black_light"
-                android:textColorHint="@color/text_grep"
-                android:textSize="15sp" />
-
-
         </LinearLayout>
 
     </LinearLayout>

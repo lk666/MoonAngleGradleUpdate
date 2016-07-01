@@ -28,4 +28,8 @@ public class DateUtil extends LibDateUtil{
 	public static String getCurDate(){
 		return getTime(System.currentTimeMillis(), "yyyy-MM-dd");
 	}
+
+	public static String getCurDateAndWeek(){
+		return getTime(System.currentTimeMillis(), "yyyy-MM-dd  EE");
+	}
 }

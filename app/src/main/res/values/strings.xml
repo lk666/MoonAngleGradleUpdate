@@ -31,8 +31,8 @@
     <string name="btn_ok_with_space">确  定</string>
     <string name="btn_ok2_with_space">确  认</string>
     <string name="btn_ok3">确认</string>
-    <string name="btn_save_with_space">保  存</string>
     <string name="btn_cancel_with_space">取  消</string>
+    <string name="btn_save_with_space">保  存</string>
 
     <!-- ticket -->
     <string name="ticket_type_ticket">门票</string>
@@ -635,10 +635,11 @@
     <string name="promote_outdoor_area">%s㎡</string>
     <string name="promote_add_title">新增推广点</string>
     <string name="promote_detail_title">推广点详情</string>
-    <string name="promote_date_txt">%1$s&#160;&#160;%2$s，%3$s</string>
+    <string name="promote_date_txt">%1$s，%2$s</string>
     <string name="promote_time_txt">%1$s-%2$s，%3$s (人)</string>
     <string name="people_flow_add_title">新增测试</string>
     <string name="people_flow_title">人流量测试</string>
+    <string name="community_title">选择小区/商业中心</string>
     <!--推广点详情-->
     <string name="paper_detail_collect28">推广点详情</string>
     <string name="paper_detail_collect29">场地基本信息</string>

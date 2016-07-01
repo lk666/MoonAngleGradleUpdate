@@ -3,8 +3,8 @@
     android:layout_height="wrap_content">
     <ImageView
         android:id="@+id/img_work"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:scaleType="centerCrop"
         android:src="@mipmap/place_holder" />
 </LinearLayout>

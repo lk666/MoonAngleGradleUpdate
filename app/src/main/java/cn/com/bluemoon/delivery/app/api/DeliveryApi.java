@@ -1703,7 +1703,7 @@ public class DeliveryApi {
 
 	/*2.14.4 获取小区/商业中心列表*/
 	/* 返回： ResultBpList */
-	public static void getBpList(String token,String content, AsyncHttpResponseHandler handler) {
+	public static void getBpList(String token, String content, AsyncHttpResponseHandler handler) {
 		if (null == token ||  null == content) {
 			return;
 		}

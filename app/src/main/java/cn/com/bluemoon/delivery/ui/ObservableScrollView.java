@@ -52,7 +52,7 @@ public class ObservableScrollView extends ScrollView {
             int scrollY = ObservableScrollView.this.getScrollY();
             //此时的距离和记录下的距离不相等，在隔5毫秒给handler发送消息
             if(lastScrollY != scrollY){
-                handler.sendMessageDelayed(handler.obtainMessage(), 5);
+                handler.sendMessageDelayed(handler.obtainMessage(), 20);
             }
             if(mListener != null){
                 mListener.scrollOritention(scrollY - lastScrollY);

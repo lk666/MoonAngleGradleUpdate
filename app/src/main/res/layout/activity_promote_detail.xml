@@ -261,7 +261,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:text="场地押金"
+                    android:text="场地押金(元)"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
 
@@ -419,7 +419,7 @@
 
         <cn.com.bluemoon.delivery.ui.GridViewInScrollview
             android:id="@+id/gridview_img"
-            android:layout_width="310dp"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="15dp"
@@ -437,7 +437,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="人流测试"
+            android:text="人流量测试"
             android:textColor="@color/text_grep"
             android:textSize="12sp" />
         <LinearLayout

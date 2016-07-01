@@ -33,6 +33,7 @@ import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.ImageInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
@@ -46,6 +47,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
 /**
  * Created by LIANGJIANGLI on 2016/6/27.
@@ -68,7 +70,7 @@ public class PromoteDetailActivity extends Activity {
     private TextView txtBpname1;
     private GridView gridView;
     private ListView listview;
-    private List<String> images;
+    private List<ImageInfo> images;
     private List<PeopleFlow> people;
     private KJBitmap kjBitmap = new KJBitmap();
 
@@ -203,16 +205,27 @@ public class PromoteDetailActivity extends Activity {
             convertView = LayoutInflater.from(mContext).inflate( R.layout.layout_image_for_gridview, null);
 
             final ImageView imgWork = (ImageView) convertView.findViewById(R.id.img_work);
-            final String imgUrl = images.get(position);
+            final ImageInfo img = images.get(position);
             Bitmap imgBitmap = null;
-            if (StringUtils.isNotBlank(imgUrl) && images.size() > 1) {
-                kjBitmap.display(imgWork, imgUrl, new BitmapCallBack() {
+            if (StringUtils.isNotBlank(img.getFilePath()) && images.size() > 1) {
+                kjBitmap.display(imgWork, img.getFilePath(), new BitmapCallBack() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {
-                        //imgBitmap = bitmap;
+                        img.setBitmap(bitmap);
                     }
                 });
             }
+
+            imgWork.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(img.getBitmap()==null){
+                        PublicUtil.showToast(getString(R.string.down_image_not_complete));
+                    } else {
+                        DialogUtil.showPictureDialog(PromoteDetailActivity.this, images.get(position).getBitmap());
+                    }
+                }
+            });
             return convertView;
         }
 
@@ -256,7 +269,7 @@ public class PromoteDetailActivity extends Activity {
             }
 
             String dateStr = String.format(getString(R.string.promote_date_txt),
-                    DateUtil.getTime(person.getCreateDate(), "yyyy-MM-dd"), person.getWeekday(), person.getAddress());
+                    DateUtil.getTime(person.getCreateDate(), "yyyy-MM-dd  EE"), person.getAddress());
             String timeStr = String.format(getString(R.string.promote_time_txt),
                     DateUtil.getTime(person.getStartTime(), "HH:mm"), DateUtil.getTime(person.getEndTime(), "HH:mm"), person.getPeopleFlow());
             txtDate.setText(dateStr);
@@ -264,7 +277,6 @@ public class PromoteDetailActivity extends Activity {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    LogUtils.d("test","-------on");
                     Intent intent = new Intent(mContext, PeopleFlowActivity.class);
                     intent.putExtra("type", 3);
                     Bundle bundle = new Bundle();

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    xmlns:CommonSearchView="http://schemas.android.com/apk/res-auto"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+    <cn.com.bluemoon.lib.view.CommonSearchView1
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        CommonSearchView:text_hint = "请输入关键字"/>
+
+    <ListView
+        android:id="@+id/listview_community"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:overScrollMode="never" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/btn_red_shape_large"
+        android:text="@string/btn_ok_with_space"
+        android:textColor="@color/white" />
+
+</LinearLayout>

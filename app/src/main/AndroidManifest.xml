@@ -261,6 +261,9 @@
         <activity android:name=".jobrecord.PeopleFlowActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity android:name=".jobrecord.CommunitySelectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
 
         <service android:name=".card.LocationSvc" />
 

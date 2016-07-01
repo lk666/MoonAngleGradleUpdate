@@ -13,6 +13,15 @@ public class PeopleFlow implements Serializable{
     private String peopleStatus;
     private long startTime;
     private String weekday;
+    private String recordStatus;
+
+    public String getRecordStatus() {
+        return recordStatus;
+    }
+
+    public void setRecordStatus(String recordStatus) {
+        this.recordStatus = recordStatus;
+    }
 
     public String getAddress() {
         return address;

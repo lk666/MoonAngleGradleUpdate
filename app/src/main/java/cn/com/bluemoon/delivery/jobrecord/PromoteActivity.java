@@ -135,8 +135,8 @@ public class PromoteActivity extends Activity{
             TextView txtOutdoorArea = ViewHolder.get(convertView, R.id.txt_outdoor_area);
             TextView txtEdit = ViewHolder.get(convertView, R.id.txt_edit);
             LinearLayout layoutCommunity = ViewHolder.get(convertView, R.id.layout_community);
-            txtCommunity.setText(item.getBpCode()+"-"+item.getBpName());
-            txtCommunity2.setText(item.getBpCode1()+"-"+item.getBpName1());
+            txtCommunity.setText(item.getBpCode()+"—"+item.getBpName());
+            txtCommunity2.setText(item.getBpCode1()+"—"+item.getBpName1());
             txtWorkDate.setText(String.format(getString(R.string.promote_work_date), item.getWorkPrice()));
 
             txtHolidayDate.setText(String.format(getString(R.string.promote_holiday_date), item.getHolidayPrice()));

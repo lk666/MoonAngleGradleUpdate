@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.jobrecord;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -7,7 +8,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 /**
  * Created by LIANGJIANGLI on 2016/6/22.
  */
-public class ResultBpList extends ResultBase{
+public class ResultBpList extends ResultBase implements Serializable{
     private List<Item> itemList;
 
     public List<Item> getItemList() {
@@ -18,11 +19,20 @@ public class ResultBpList extends ResultBase{
         this.itemList = itemList;
     }
 
-    class Item {
+    public class Item implements Serializable{
         private String bpCode;
         private String bpCode1;
         private String bpName;
         private String bpName1;
+        private boolean isSelect;
+
+        public boolean isSelect() {
+            return isSelect;
+        }
+
+        public void setSelect(boolean select) {
+            isSelect = select;
+        }
 
         public String getBpCode() {
             return bpCode;

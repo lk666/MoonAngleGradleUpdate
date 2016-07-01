@@ -28,7 +28,7 @@ public class ResultPromoteInfo extends ResultBase{
         private int number;
         private String holidayPrice;
         private List<PeopleFlow> peopleFlow;
-        private List<String> picInfo;
+        private List<ImageInfo> picInfo;
         private String remark;
         private String siteType;
         private String siteTypeName;
@@ -110,11 +110,11 @@ public class ResultPromoteInfo extends ResultBase{
             this.peopleFlow = peopleFlow;
         }
 
-        public List<String> getPicInfo() {
+        public List<ImageInfo> getPicInfo() {
             return picInfo;
         }
 
-        public void setPicInfo(List<String> picInfo) {
+        public void setPicInfo(List<ImageInfo> picInfo) {
             this.picInfo = picInfo;
         }
 

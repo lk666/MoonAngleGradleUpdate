@@ -44,21 +44,26 @@ import org.apache.commons.logging.Log;
 import org.apache.http.Header;
 
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultBpList;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.ObservableScrollView;
 import cn.com.bluemoon.delivery.utils.AnimationUtils;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.tagview.FlowLayout;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 /**
@@ -80,6 +85,13 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private Button btnOk;
     private ImageView imgAddFlow;
     private LinearLayout layoutOtherFee;
+    private LinearLayout layoutCommunitySelect;
+    private TextView txtBpname;
+    private ListView listview;
+    private PeopleFlowAdapter peopleFlowAdapter;
+    private List<PeopleFlow> flows = new ArrayList<PeopleFlow>();
+    private int index;
+    private ResultBpList.Item bp;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -92,7 +104,10 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         layoutRent = (LinearLayout) findViewById(R.id.layout_rent);
         btnOk2 = (Button) findViewById(R.id.btn_ok2);
         btnOk = (Button) findViewById(R.id.btn_ok);
+        listview = (ListView) findViewById(R.id.listview_people_flow);
         layoutOtherFee = (LinearLayout) findViewById(R.id.layout_other_fee);
+        layoutCommunitySelect = (LinearLayout) findViewById(R.id.layout_community_select);
+        txtBpname = (TextView) findViewById(R.id.txt_bpname);
         layoutRentHeight = AnimationUtils.getTargetHeight(layoutRent);
 
         imgAddFlow = (ImageView) findViewById(R.id.img_add_flow);
@@ -101,20 +116,25 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         progressDialog = new CommonProgressDialog(this);
         PublicUtil.setGravity(etPromotePlace);
         PublicUtil.setGravity(etPromoteOtherFee);
+
+        peopleFlowAdapter = new PeopleFlowAdapter();
+        listview.setAdapter(peopleFlowAdapter);
+        LibViewUtil.setListViewHeight(listview);
+
         imgAddFlow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddPromoteActivity.this, PeopleFlowActivity.class);
                 intent.putExtra("type", 1);
-                startActivity(intent);
+                startActivityForResult(intent, 1);
             }
         });
 
         txtOutdoor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtOutdoor.setBackgroundResource(R.drawable.btn_border_red_shape4);
-                txtOutdoor.setTextColor(getResources().getColor(R.color.pink_background));
+                txtOutdoor.setBackgroundResource(R.drawable.btn_border_pink_shape4);
+                txtOutdoor.setTextColor(getResources().getColor(R.color.text_red));
                 txtIndoor.setBackgroundResource(R.drawable.btn_border_grep_shape4);
                 txtIndoor.setTextColor(getResources().getColor(R.color.text_black_light));
             }
@@ -122,8 +142,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         txtIndoor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                txtIndoor.setBackgroundResource(R.drawable.btn_border_red_shape4);
-                txtIndoor.setTextColor(getResources().getColor(R.color.pink_background));
+                txtIndoor.setBackgroundResource(R.drawable.btn_border_pink_shape4);
+                txtIndoor.setTextColor(getResources().getColor(R.color.text_red));
                 txtOutdoor.setBackgroundResource(R.drawable.btn_border_grep_shape4);
                 txtOutdoor.setTextColor(getResources().getColor(R.color.text_black_light));
             }
@@ -142,6 +162,14 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             }
         });
 
+        layoutCommunitySelect.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AddPromoteActivity.this, CommunitySelectActivity.class);
+                startActivityForResult(intent, 2);
+            }
+        });
+
         initCustomActionBar();
     }
 
@@ -154,6 +182,27 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         super.onPause();
 
         MobclickAgent.onPageEnd(TAG);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            if (data != null && resultCode == 1) {
+                PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
+                flows.add(peopleFlow);
+            } else if (data != null && resultCode == 2) {
+                PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
+                flows.set(index, peopleFlow);
+            } else if (resultCode == 3) {
+                flows.remove(index);
+            }
+            peopleFlowAdapter.notifyDataSetChanged();
+            LibViewUtil.setListViewHeight(listview);
+        } else if (requestCode == 2 && resultCode == 4 && data != null) {
+            bp = (ResultBpList.Item)data.getSerializableExtra("community");
+            txtBpname.setText(bp.getBpCode()+"—"+bp.getBpName());
+        }
     }
 
     private void initCustomActionBar() {
@@ -188,5 +237,58 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             btnOk2.setVisibility(View.VISIBLE);
             btnOk.setVisibility(View.GONE);
         }
+    }
+
+
+    class PeopleFlowAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return flows.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(AddPromoteActivity.this).inflate( R.layout.list_item_people_flow, null);
+            }
+            final PeopleFlow person = flows.get(position);
+            final TextView txtDate = (TextView) convertView.findViewById(R.id.txt_date);
+            final TextView txtTime = (TextView) convertView.findViewById(R.id.txt_time);
+
+            String dateStr = String.format(getString(R.string.promote_date_txt),
+                    DateUtil.getTime(person.getCreateDate(), "yyyy-MM-dd EE"), person.getAddress());
+            String timeStr = String.format(getString(R.string.promote_time_txt),
+                    DateUtil.getTime(person.getStartTime(), "HH:mm"), DateUtil.getTime(person.getEndTime(), "HH:mm"), person.getPeopleFlow());
+            txtDate.setText(dateStr);
+            txtTime.setText(timeStr);
+
+            convertView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(AddPromoteActivity.this, PeopleFlowActivity.class);
+                    intent.putExtra("type", 2);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("peopleFlow", person);
+                    intent.putExtras(bundle);
+                    startActivityForResult(intent, 1);
+                }
+            });
+
+            return convertView;
+        }
+
     }
 }
