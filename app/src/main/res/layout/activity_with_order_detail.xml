@@ -31,7 +31,7 @@
                 android:layout_below="@+id/tv_number"
                 android:layout_marginLeft="16dp"
                 android:layout_marginTop="8dp"
-                android:src="@mipmap/user"/>
+                android:src="@mipmap/user_new"/>
 
 
             <cn.com.bluemoon.lib.tagview.FlowLayout
@@ -63,7 +63,7 @@
                 android:layout_alignLeft="@+id/iv_customer"
                 android:layout_below="@+id/iv_customer"
                 android:layout_marginTop="8dp"
-                android:src="@mipmap/address"/>
+                android:src="@mipmap/address_new"/>
 
             <TextView
                 android:id="@+id/tv_address"
@@ -116,6 +116,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_count"
                 android:layout_margin="12dp"
+                android:layout_marginBottom="12dp"
                 android:divider="@color/transparent"
                 android:dividerHeight="8dp"
                 android:footerDividersEnabled="false"

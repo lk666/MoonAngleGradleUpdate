@@ -45,7 +45,6 @@
                     android:layout_width="66dp"
                     android:layout_height="30dp"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="12dp"
                     android:background="@drawable/btn_red_shape_large"
                     android:text="@string/clothing_btn_search"
                     android:textColor="@color/view_bg"
@@ -142,7 +141,7 @@
                     android:layout_width="230dp"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="16dp"
+                    android:gravity="right"
                     android:background="@null"
                     android:hint="@string/clothing_deliver_mark_hint"
                     android:singleLine="true"
@@ -178,7 +177,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="3"
-            android:background="@drawable/btn_border_red_large"
+            android:background="@drawable/btn_border_red_middle"
             android:text="@string/btn_cancel"
             android:textColor="@color/text_red" />
 
@@ -189,7 +188,7 @@
 
         <Button
             android:id="@+id/btn_ok"
-            style="@style/btn_red"
+            style="@style/btn_red4"
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="3"

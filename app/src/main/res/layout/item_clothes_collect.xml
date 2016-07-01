@@ -60,7 +60,7 @@
                     android:layout_gravity="center"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
-                    android:src="@mipmap/time" />
+                    android:src="@mipmap/user_new" />
 
                 <TextView
                     android:id="@+id/txt_username"
@@ -83,7 +83,7 @@
                     android:autoLink="phone"
                     android:gravity="center_vertical"
                     android:singleLine="true"
-                    android:textColor="@color/btn_blue"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_size_13" />
 
                 <TextView
@@ -95,7 +95,6 @@
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
                     android:layout_centerInParent="true"
-                    android:background="@drawable/tag_bg_red"
                     android:text="@string/with_order_collect_is_urgent"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
@@ -112,7 +111,7 @@
                     android:layout_gravity="center"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
-                    android:src="@mipmap/address" />
+                    android:src="@mipmap/address_new" />
 
                 <TextView
                     android:id="@+id/txt_address"
