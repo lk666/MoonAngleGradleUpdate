@@ -32,6 +32,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultQueryActivityLimitNum;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCreateCollectInfo;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -310,7 +311,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 
     private void getData() {
         showProgressDialog();
-        DeliveryApi.queryActivityLimitNum(ClientStateManager.getLoginToken(this), activityCode,
+        DeliveryApi.queryActivityLimitNum(activityCode, ClientStateManager.getLoginToken(this),
                 createResponseHandler(new IHttpResponseHandler() {
                     @Override
                     public void onResponseSuccess(String responseString) {
@@ -527,8 +528,15 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 }
                 break;
 
-            // TODO: lk 2016/6/30   添加衣物返回
+            //   添加衣物返回
             case REQUEST_CODE_ADD_CLOTHES_INFO:
+                if (resultCode == RESULT_OK) {
+                    UploadClothesInfo info = (UploadClothesInfo) data.getSerializableExtra
+                            (CreateClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
+                    clothesInfo.add(info);
+                    clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
+                    clothesInfoAdapter.notifyDataSetChanged();
+                }
                 break;
 
 //            case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
@@ -574,6 +582,13 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             default:
                 break;
         }
+    }
+
+    // TODO: lk 2016/7/1 为什么不能直接  clothesInfoAdapter.setList(clothesInfo);
+    private List<ClothesInfo> getClothesInfoList(List<UploadClothesInfo> list) {
+        List<ClothesInfo> clothes = new ArrayList<>();
+        clothes.addAll(list);
+        return clothes;
     }
 
     /**

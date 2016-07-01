@@ -2,8 +2,10 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclot
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -15,11 +17,13 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -27,11 +31,19 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesTypeInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeInfos;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesTypeInfoView;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
+import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.ScrollGridView;
+import cn.com.bluemoon.lib.view.TakePhotoPopView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -40,6 +52,17 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
  */
 public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
+
+    public static final String RESULT_UPLOAD_CLOTHES_INFO = "RESULT_UPLOAD_CLOTHES_INFO";
+
+    /**
+     * 最多上传图片数量
+     */
+    private static final int MAX_UPLOAD_IMG = 10;
+
+    private static final int RESULT_CODE_MANUAL = 0x23;
+    private static final int REQUEST_CODE_MANUAL = 0x43;
+
     /**
      * 活动编码
      */
@@ -69,6 +92,9 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     @Bind(R.id.sb_stain)
     SwitchButton sbStain;
 
+
+    private TakePhotoPopView takePhotoPop;
+
     /**
      * 活动编号
      */
@@ -77,14 +103,35 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     /**
      * 服务类型选中的item
      */
-    ClothesTypeInfoView selectedTypeView;
+    private ClothesTypeInfoView selectedTypeView;
 
     /**
      * 衣物名称选中的item
      */
-    ClothesNameView selectedNameView;
+    private ClothesNameView selectedNameView;
+
+    /**
+     * 已上传衣物图片列表adapter
+     */
+    private AddPhotoAdapter clothingAdapter;
+
+    /**
+     * 已上传的图片列表
+     */
+    private List<ClothingPic> clothesImg;
+
+    /**
+     * 扫描到/输入的数字码
+     */
+    private String scaneCode;
+
+    /**
+     * 删除的图片位置
+     */
+    private int delImgPos;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_clothes_info);
@@ -93,7 +140,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         setIntentData();
         initView();
         getData();
-
     }
 
     private void setIntentData() {
@@ -152,8 +198,30 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 }
             }
         });
+
+        clothingAdapter = new AddPhotoAdapter(this, this);
+        sgvPhoto.setAdapter(clothingAdapter);
+        initClothesImgList();
     }
 
+    private void getData() {
+        showProgressDialog();
+        DeliveryApi.getClothesTypeInfos(activityCode, ClientStateManager.getLoginToken(this),
+                createResponseHandler(new IHttpResponseHandler() {
+                    @Override
+                    public void onResponseSuccess(String responseString) {
+                        // TODO: lk 2016/6/30 待测试
+                        // 获取服务类型
+                        ResultClothesTypeInfos type = JSON.parseObject(responseString,
+                                ResultClothesTypeInfos.class);
+                        setData(type);
+                    }
+                }));
+    }
+
+    private void setData(ResultClothesTypeInfos type) {
+        setClothesTypeInfo(type.getClothesTypeInfos());
+    }
 
     /**
      * 设置服务类型数据
@@ -174,6 +242,19 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         setClothesTypeSelected((ClothesTypeInfoView) llType.getChildAt(0));
     }
 
+    private void setClothesTypeSelected(ClothesTypeInfoView typeView) {
+        if (typeView != selectedTypeView) {
+            typeView.setChecked(true);
+            if (selectedTypeView != null) {
+                selectedTypeView.setChecked(false);
+            }
+            selectedTypeView = typeView;
+
+            // 改变服务类型时自动去获取对应的衣物名称
+            getClothingData(selectedTypeView.getTypeInfo().getTypeCode());
+        }
+    }
+
     /**
      * 点击服务类型
      */
@@ -184,17 +265,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             setClothesTypeSelected(typeView);
         }
     };
-
-    private void setClothesTypeSelected(ClothesTypeInfoView typeView) {
-        if (typeView != selectedTypeView) {
-            typeView.setChecked(true);
-            if (selectedTypeView != null) {
-                selectedTypeView.setChecked(false);
-            }
-            selectedTypeView = typeView;
-            getClothingData(selectedTypeView.getTypeInfo().getTypeCode());
-        }
-    }
 
     private void getClothingData(String typeCode) {
         String token = ClientStateManager.getLoginToken(this);
@@ -209,26 +279,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 setClothesTypeData(clothesType);
             }
         }));
-    }
-
-    @Override
-    public void onItemClick(Object item, View view, int position) {
-
-    }
-
-    private void getData() {
-        showProgressDialog();
-        DeliveryApi.getClothesTypeInfos(activityCode, ClientStateManager.getLoginToken(this),
-                createResponseHandler(new IHttpResponseHandler() {
-                    @Override
-                    public void onResponseSuccess(String responseString) {
-                        // TODO: lk 2016/6/30 待测试
-                        // 获取服务类型
-                        ResultClothesTypeInfos type = JSON.parseObject(responseString,
-                                ResultClothesTypeInfos.class);
-                        setData(type);
-                    }
-                }));
     }
 
     /**
@@ -275,8 +325,212 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         }
     };
 
-    private void setData(ResultClothesTypeInfos type) {
-        setClothesTypeInfo(type.getClothesTypeInfos());
+
+    /**
+     * 衣物图片初始化
+     */
+    private void initClothesImgList() {
+        clothesImg = new ArrayList<>();
+
+        ClothingPic addPic = new ClothingPic();
+        addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
+        clothesImg.add(addPic);
+
+        clothingAdapter.setList(clothesImg);
+        clothingAdapter.notifyDataSetChanged();
+    }
+
+    /**
+     * 设置确定按钮的可点击性
+     */
+    private void checkBtnOKEnable() {
+        if (selectedTypeView == null || selectedNameView == null ||
+                TextUtils.isEmpty(tvNumber.getText().toString()) ||
+                clothingAdapter == null || clothingAdapter.getCount() < 2) {
+            btnOk.setEnabled(false);
+        } else {
+            btnOk.setEnabled(true);
+        }
+    }
+
+    @OnClick({R.id.btn_ok, R.id.tv_number})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            // 确定按钮
+            case R.id.btn_ok:
+                showProgressDialog();
+                UploadClothesInfo tmpUploadClothesInfo = new UploadClothesInfo();
+                tmpUploadClothesInfo.setClothesCode(tvNumber.getText().toString());
+                tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
+                tmpUploadClothesInfo.setClothesnameCode(selectedNameView.getType()
+                        .getClothesnameCode());
+                tmpUploadClothesInfo.setFlawDesc(etFlaw.getText().toString());
+                tmpUploadClothesInfo.setHasFlaw(sbFalw.isChecked() ? 1 : 0);
+                tmpUploadClothesInfo.setHasStain(sbStain.isChecked() ? 1 : 0);
+                tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
+                tmpUploadClothesInfo.setTypeCode(etBackup.getText().toString());
+
+                Intent i = new Intent();
+                i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
+                setResult(RESULT_OK, i);
+                finish();
+                break;
+
+            //  输入衣物编码
+            case R.id.tv_number:
+                goScanCode();
+                break;
+            default:
+                break;
+        }
+    }
+
+    // TODO: lk 2016/7/1 有、无订单，增、改操作界面可把逻辑抽出来公用，界面可使用include重用公共部分，底部按钮等分开
+
+    // TODO: lk 2016/7/1 多处用到，可抽 
+
+    /**
+     * 打开扫码界面
+     */
+    private void goScanCode() {
+        PublicUtil.openScan(this, getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+    }
+
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+
+        switch (requestCode) {
+            case Constants.REQUEST_SCAN:
+                // 扫码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    handleScaneCodeBack(resultStr);
+                }
+                //   跳转到手动输入
+                else if (resultCode == RESULT_CODE_MANUAL) {
+                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
+                }
+                break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
+                    handleScaneCodeBack(resultStr);
+                }
+                //  跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
+                break;
+
+            // 拍照
+            case Constants.TAKE_PIC_RESULT:
+                if (takePhotoPop != null) {
+                    Bitmap bm = takePhotoPop.getTakeImageBitmap();
+                    uploadImg(bm);
+                }
+                break;
+
+            // 选择照片
+            case Constants.CHOSE_PIC_RESULT:
+                if (takePhotoPop != null) {
+                    Bitmap bm = takePhotoPop.getPickImageBitmap(data);
+                    uploadImg(bm);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void uploadImg(Bitmap bm) {
+        showProgressDialog();
+        DeliveryApi.uploadClothesImg(ClientStateManager.getLoginToken(CreateClothesInfoActivity
+                        .this),
+                PublicUtil.getBytes(bm), createResponseHandler(new IHttpResponseHandler() {
+                    @Override
+                    public void onResponseSuccess(String responseString) {
+                        // TODO: lk 2016/6/30 待测试
+                        ClothingPic pic = JSON.parseObject(responseString, ClothingPic.class);
+
+                        clothesImg.add(clothesImg.size() - 1, pic);
+                        if (clothesImg.size() > MAX_UPLOAD_IMG) {
+                            clothesImg.remove(clothesImg.size() - 1);
+                        }
+                        clothingAdapter.notifyDataSetChanged();
+                        checkBtnOKEnable();
+                    }
+                }));
+    }
+
+
+    /**
+     * 新增模式下处理扫码、手动输入数字码返回
+     *
+     * @param code
+     */
+    private void handleScaneCodeBack(String code) {
+        scaneCode = code;
+        DeliveryApi.validateClothesCode(scaneCode, ClientStateManager.getLoginToken(this),
+                createResponseHandler(new IHttpResponseHandler() {
+                    @Override
+                    public void onResponseSuccess(String responseString) {
+                        // TODO: lk 2016/6/30 待测试
+                        tvNumber.setText(scaneCode);
+                        checkBtnOKEnable();
+                    }
+                }));
+    }
+
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+        // 衣物照片
+        if (item instanceof ClothingPic) {
+            ClothingPic pic = (ClothingPic) item;
+            // 添加相片按钮
+            if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
+                if (takePhotoPop == null) {
+                    takePhotoPop = new TakePhotoPopView(this, Constants
+                            .TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
+                }
+                takePhotoPop.getPic(view);
+            }
+
+            // 已上传图片
+            else {
+                switch (view.getId()) {
+                    //  删除图片
+                    case R.id.iv_delete:
+                        showProgressDialog();
+                        delImgPos = position;
+                        DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
+                                (CreateClothesInfoActivity.this), createResponseHandler(
+                                new IHttpResponseHandler() {
+                                    @Override
+                                    public void onResponseSuccess(String responseString) {
+                                        clothesImg.remove(delImgPos);
+                                        clothingAdapter.notifyDataSetChanged();
+                                        checkBtnOKEnable();
+                                    }
+                                }));
+                        break;
+                    case R.id.iv_pic:
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     public static void actionStart(Activity context, String activityCode, int requestCode) {

@@ -18,7 +18,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
 
     protected List<T> list;
     protected Context context;
-    protected OnListItemClickListener  listener;
+    protected OnListItemClickListener listener;
 
     public BaseListAdapter(Context context, OnListItemClickListener listener) {
         this.context = context;
@@ -64,7 +64,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
      * 设置点击事件
      */
     protected void setClickEvent(boolean isNew, int position, View... vs) {
-        for (View v :vs) {
+        for (View v : vs) {
             v.setTag(KEY_POSITON, position);
             if (isNew) {
                 v.setOnClickListener(this);
@@ -100,6 +100,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
      * @param parent
      * @param isNew       是否新建的convertView，即非复用控件
      */
-    protected abstract void setView(int position, View convertView, ViewGroup parent, boolean isNew);
+    protected abstract void setView(int position, View convertView, ViewGroup parent, boolean
+            isNew);
 }
 

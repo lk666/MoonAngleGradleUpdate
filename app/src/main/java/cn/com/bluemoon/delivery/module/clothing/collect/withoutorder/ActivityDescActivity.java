@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -129,10 +130,8 @@ public class ActivityDescActivity extends BaseActionBarActivity {
     @OnClick(R.id.btn_start)
     public void onClick() {
         // 创建收衣订单
-        // TODO: lk 2016/6/30 删掉
-        CreateClothesInfoActivity.actionStart(this, activityCode, 12122);
-//        CreateCollectOrderActivity.actionStart(this, REQUEST_CODE_CREATE_COLLECT_ORDER,
-//                activityCode);
+        CreateCollectOrderActivity.actionStart(this, REQUEST_CODE_CREATE_COLLECT_ORDER,
+                activityCode);
     }
 
     @Override

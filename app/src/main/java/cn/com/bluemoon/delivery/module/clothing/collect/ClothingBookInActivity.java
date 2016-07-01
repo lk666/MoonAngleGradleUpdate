@@ -105,6 +105,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     public static final String EXTRA_OUTER_CODE = "EXTRA_OUTER_CODE";
 
     /**
+     * 衣物名称选中的item
+     */
+    private ClothesNameView selectedNameView;
+
+    /**
      * 洗衣服务订单号
      */
     private String outerCode;
@@ -137,11 +142,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private String extraMode;
 
     /**
-     * 衣物名称列表adapter
-     */
-    NameAdapter nameAdapter;
-
-    /**
      * 已上传衣物图片列表adapter
      */
     AddPhotoAdapter clothingAdapter;
@@ -171,15 +171,19 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private String scaneCode;
 
     /**
+     * 初始的衣物名称编码，修改时有用
+     */
+    private String initNameCode;
+
+    /**
      * 已上传的图片列表
      */
     private List<ClothingPic> clothesImg;
 
     @Bind(R.id.tv_title)
     TextView tvTitle;
-    // TODO: lk 2016/6/24 暂时无法做到固定高度
-    @Bind(R.id.gv_clothing_name)
-    ScrollGridView gvClothingName;
+    @Bind(R.id.ll_clothes_name)
+    LinearLayout llClothingName;
     @Bind(R.id.tv_number)
     TextView tvNumber;
     @Bind(R.id.sb_falw)
@@ -217,6 +221,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         if (extraMode.equals(MODE_ADD)) {
             getAddClothingData();
         } else if (extraMode.equals(MODE_MODIFY)) {
+            initNameCode = null;
             getModifyClothingData();
         }
     }
@@ -262,11 +267,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * 初始化衣物界面
      */
     private void initView() {
+        selectedNameView = null;
+
         tvTitle.setText(getString(R.string.clothing_book_in_base_info) + "-" + typeName);
 
-        nameAdapter = new NameAdapter(this, this);
-        gvClothingName.setAdapter(nameAdapter);
-
+        llClothingName.removeAllViews();
         etBackup.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -331,7 +336,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         String token = ClientStateManager.getLoginToken(this);
         showProgressDialog();
         modifyDataInitLatch = 2;
-        nameAdapter.setSelectedPos(-1);
         DeliveryApi.getClothesTypeConfigs(token, typeCode, clothesTypesHandler);
         DeliveryApi.registerClothesCode(token, clothesCode, registerClothesCodeHandler);
     }
@@ -360,7 +364,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 LogUtils.e(getDefaultTag(), e.getMessage());
                 PublicUtil.showToastServerBusy();
             }
-            checkModifyInitFinish(0);
+            checkModifyInitFinish();
         }
 
         @Override
@@ -369,22 +373,26 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             --modifyDataInitLatch;
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             PublicUtil.showToastServerOvertime();
-            checkModifyInitFinish(0);
+            checkModifyInitFinish();
         }
     };
 
     /**
      * 修改时衣物信息、衣物名称都获取完后刷新界面
-     *
-     * @param selectPos 衣物名称选中项
      */
-    private void checkModifyInitFinish(int selectPos) {
+    private void checkModifyInitFinish() {
         if (modifyDataInitLatch == 0) {
             dismissProgressDialog();
             checkBtnOKEnable();
-            if (selectPos > nameAdapter.getSelectedPos()) {
-                nameAdapter.setSelectedPos(selectPos);
-                nameAdapter.notifyDataSetChanged();
+            int i = 0;
+            int count = llClothingName.getChildCount();
+            while (i < count) {
+                ClothesNameView view = (ClothesNameView) llClothingName.getChildAt(i);
+                if (view.getType().getClothesnameCode().equals(initNameCode)) {
+                    setClothesNameSelected(view);
+                    return;
+                }
+                i++;
             }
         }
     }
@@ -414,7 +422,8 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         clothingAdapter.setList(clothesImg);
         clothingAdapter.notifyDataSetChanged();
-        checkModifyInitFinish(nameAdapter.getSelectedIndex(result.getClothesnameCode()));
+        initNameCode = result.getClothesnameCode();
+        checkModifyInitFinish();
     }
 
 
@@ -448,7 +457,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             }
 
             if (extraMode.equals(MODE_MODIFY)) {
-                checkModifyInitFinish(0);
+                checkModifyInitFinish();
             }
         }
 
@@ -459,7 +468,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 dismissProgressDialog();
             } else if (extraMode.equals(MODE_MODIFY)) {
                 --modifyDataInitLatch;
-                checkModifyInitFinish(0);
+                checkModifyInitFinish();
             }
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             PublicUtil.showToastServerOvertime();
@@ -475,10 +484,20 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         List<ClothesType> clothesTypeConfigs = result.getClothesTypeConfigs();
         Collections.sort(clothesTypeConfigs);
 
-        nameAdapter.setList(clothesTypeConfigs);
+        if (clothesTypeConfigs == null || clothesTypeConfigs.isEmpty()) {
+            return;
+        }
+
+        int count = clothesTypeConfigs.size();
+        for (int i = 0; i < count; i++) {
+            ClothesType type = clothesTypeConfigs.get(i);
+            ClothesNameView v = new ClothesNameView(this, type, i);
+            v.setOnClickListener(nameClick);
+            llClothingName.addView(v);
+        }
+
         if (extraMode.equals(MODE_ADD)) {
-            nameAdapter.setSelectedPos(0);
-            nameAdapter.notifyDataSetChanged();
+            setClothesNameSelected((ClothesNameView) llClothingName.getChildAt(0));
         }
 
         if (extraMode.equals(MODE_ADD)) {
@@ -494,10 +513,31 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     }
 
     /**
+     * 点击衣物名称
+     */
+    private View.OnClickListener nameClick = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ClothesNameView nameView = (ClothesNameView) view;
+            setClothesNameSelected(nameView);
+        }
+    };
+
+    private void setClothesNameSelected(ClothesNameView nameView) {
+        if (nameView != selectedNameView) {
+            nameView.setChecked(true);
+            if (selectedNameView != null) {
+                selectedNameView.setChecked(false);
+            }
+            selectedNameView = nameView;
+        }
+    }
+
+    /**
      * 设置确定按钮的可点击性
      */
     private void checkBtnOKEnable() {
-        if (nameAdapter == null || nameAdapter.getSelectedPos() < 0 ||
+        if (selectedNameView == null ||
                 TextUtils.isEmpty(tvNumber.getText().toString()) ||
                 clothingAdapter == null || clothingAdapter.getCount() < 2) {
             btnOk.setEnabled(false);
@@ -512,7 +552,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             // 确定
             case R.id.btn_ok:
                 showProgressDialog();
-                String clothesnameCode = nameAdapter.getSelectedNameCode();
+                String clothesnameCode = selectedNameView.getType().getClothesnameCode();
                 String clothesCode = tvNumber.getText().toString();
                 int hasFlaw = sbFalw.isChecked() ? 1 : 0;
                 String flawDesc = etFlaw.getText().toString();
@@ -766,6 +806,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     tvNumber.setText(scaneCode);
+                    checkBtnOKEnable();
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
@@ -784,94 +825,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         }
     };
 
-    /**
-     * 衣物名称Adapter
-     */
-    class NameAdapter extends BaseListAdapter<ClothesType> {
-
-        /**
-         * 当前选中的位置
-         */
-        private int selectedPos = -1;
-
-        public void setSelectedPos(int pos) {
-            this.selectedPos = pos;
-        }
-
-        public int getSelectedPos() {
-            return selectedPos;
-        }
-
-        public NameAdapter(Context context, OnListItemClickListener listener) {
-            super(context, listener);
-        }
-
-        @Override
-        protected int getLayoutId() {
-            return R.layout.item_clothes_type;
-        }
-
-        @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            final ClothesType type = (ClothesType) getItem(position);
-            if (type == null) {
-                return;
-            }
-
-            ImageView ivType = ViewHolder.get(convertView, R.id.iv_type);
-            ImageView ivChecked = ViewHolder.get(convertView, R.id.iv_checked);
-            TextView tvType = ViewHolder.get(convertView, R.id.tv_type);
-
-            ImageLoaderUtil.displayImage(context, type.getImgPath(), ivType);
-
-            tvType.setText(type.getClothesName());
-            if (position == selectedPos) {
-                ivChecked.setVisibility(View.VISIBLE);
-                tvType.setTextColor(getResources().getColor(R.color.btn_blue));
-            } else {
-                ivChecked.setVisibility(View.GONE);
-                tvType.setTextColor(getResources().getColor(R.color.text_black_light));
-            }
-
-            setClickEvent(isNew, position, convertView);
-        }
-
-        public String getSelectedNameCode() {
-            ClothesType type = (ClothesType) getItem(selectedPos);
-            if (type != null) {
-                return type.getClothesnameCode();
-            }
-            return null;
-        }
-
-        /**
-         * 获取选中的衣物名称序号
-         *
-         * @param clothesnameCode
-         * @return
-         */
-        public int getSelectedIndex(String clothesnameCode) {
-            int num = getCount();
-            for (int i = 0; i < num; i++) {
-                ClothesType type = (ClothesType) getItem(i);
-                if (type.getClothesnameCode().equals(clothesnameCode)) {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
-    }
-
     @Override
     public void onItemClick(Object item, View view, int position) {
-        // 点击衣物名称
-        if (item instanceof ClothesType) {
-            nameAdapter.setSelectedPos(position);
-            nameAdapter.notifyDataSetChanged();
-        }
         // 衣物照片
-        else if (item instanceof ClothingPic) {
+        if (item instanceof ClothingPic) {
             ClothingPic pic = (ClothingPic) item;
             // 添加相片按钮
             if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {

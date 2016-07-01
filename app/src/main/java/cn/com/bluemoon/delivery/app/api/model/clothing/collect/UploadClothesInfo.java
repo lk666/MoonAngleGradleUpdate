@@ -2,10 +2,12 @@ package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.List;
+
 /**
  * {@link cn.com.bluemoon.delivery.app.api.DeliveryApi#registerCreatedCollectInfo(String, String,
- * long, String, UploadClothesInfo, String, String, String, String, int, int, String, String,
- * String, String, AsyncHttpResponseHandler)}的clothesInfo字段值
+ * long, String, List, String, String, String, String, int, int, String, String, String, String,
+ * AsyncHttpResponseHandler)} 字段值
  * <p/>
  * Created by lk on 2016/6/28.
  */

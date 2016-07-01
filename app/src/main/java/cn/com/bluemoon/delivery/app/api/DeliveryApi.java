@@ -990,7 +990,7 @@ public class DeliveryApi {
 
 
     /*删除仓库收货地址 */
-	/* 返回： Result */
+    /* 返回： Result */
     public static void deleteReceiveAddress(String token, int addressId, AsyncHttpResponseHandler
             handler) {
 
@@ -2282,27 +2282,24 @@ public class DeliveryApi {
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
 
-// TODO: lk 2016/6/30 模拟数据没有这接口
-
     /**
      * 5.10查询活动收衣上限
      *
-     * @param token        登录凭证(必填) String
      * @param activityCode 活动编码(必填) String
+     * @param token        登录凭证(必填) String
      */
-    public static void queryActivityLimitNum(String token, String activityCode,
+    public static void queryActivityLimitNum(String activityCode, String token,
                                              AsyncHttpResponseHandler handler) {
-        if (null == token || null == activityCode) {
+        if (null == activityCode || null == token) {
             return;
         }
-
-        Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
         params.put("activityCode", activityCode);
+        params.put("token", token);
         String jsonString = JSONObject.toJSONString(params);
-        String url = String.format
-                ("/washingService-controller/wash/activity/queryActivityLimitNum%s",
-                        ApiClientHelper.getParamUrl());
+        String url = String.format("washingService-controller/wash/activity/queryActivityLimitNum" +
+                "%s",
+                ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
 

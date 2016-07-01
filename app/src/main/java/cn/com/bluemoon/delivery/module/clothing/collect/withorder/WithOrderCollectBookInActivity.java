@@ -545,6 +545,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         switch (requestCode) {
             case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
+                // TODO: lk 2016/7/1 先对比预约时间等的3个的信息是否变更，在发送update预约，再getData()
+                // ......原来的发送update预约事件去除掉，和无订单一致
                 // 保存成功
                 if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
                     getData();

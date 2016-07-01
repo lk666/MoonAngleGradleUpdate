@@ -21,11 +21,12 @@
 
             <TextView
                 android:id="@+id/tv_title"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
+                android:background="@color/page_bg_f2"
                 android:gravity="center_vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
                 android:singleLine="true"
                 android:text="@string/clothing_book_in_base_info"
                 android:textColor="@color/text_black_light"
@@ -60,20 +61,20 @@
             <View
                 style="@style/line_solid_style"/>
 
-            <cn.com.bluemoon.lib.view.ScrollGridView
-                android:id="@+id/gv_clothing_name"
+            <HorizontalScrollView
                 android:layout_width="match_parent"
-                android:layout_height="113dp"
-                android:background="@color/white_bg"
-                android:gravity="center"
-                android:listSelector="@null"
-                android:numColumns="5"
-                android:overScrollMode="never"
-                android:paddingLeft="12dp"
-                android:paddingRight="12dp"
-                android:paddingTop="5dp"
-                android:scrollbars="none"
-                android:stretchMode="columnWidth"/>
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:scrollbarAlwaysDrawHorizontalTrack="false"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/ll_clothes_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"/>
+            </HorizontalScrollView>
 
             <View
                 style="@style/line_solid_style"/>
@@ -242,10 +243,10 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
-                android:paddingLeft="16dp"
                 android:background="@color/page_bg_f2"
                 android:gravity="center_vertical"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:paddingLeft="16dp">
 
                 <TextView
                     android:layout_width="wrap_content"
