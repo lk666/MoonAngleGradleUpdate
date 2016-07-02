@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo;
+package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo;
 
 import android.app.Activity;
 import android.content.Intent;

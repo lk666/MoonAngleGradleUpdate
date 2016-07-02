@@ -655,6 +655,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                     REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
         }
 
+        // TODO: lk 2016/7/1  点击+时，先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。无订单也一样
+
         // 点击洗衣类型项的加号
         else if (item instanceof OrderDetail) {
             OrderDetail type = (OrderDetail) item;
@@ -671,4 +673,3 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         }
     }
 }
-// TODO: lk 2016/6/24 代码过多，拆 

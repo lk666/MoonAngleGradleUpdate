@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.Gravity;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -22,8 +21,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultActivityDesc;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo
-        .CreateClothesInfoActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;

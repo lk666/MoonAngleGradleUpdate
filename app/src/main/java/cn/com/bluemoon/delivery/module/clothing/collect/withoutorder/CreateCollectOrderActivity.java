@@ -38,7 +38,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
         .CreateClothesInfoActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
@@ -474,6 +474,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     @Override
     public void onItemClick(Object item, View view, int position) {
         // TODO: lk 2016/6/28 点击衣物信息，修改衣物
+
+
     }
 
 
