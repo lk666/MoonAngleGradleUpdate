@@ -76,8 +76,10 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
     }
 
     // TODO: lk 2016/7/1 都换成这种形式
+
     /**
      * 创建一个通用的AsyncHttpResponseHandler
+     *
      * @param callback
      * @return
      */

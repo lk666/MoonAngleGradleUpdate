@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -11,11 +10,9 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -41,14 +38,11 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClothesCode;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
-import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ScrollGridView;
@@ -74,7 +68,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     /**
      * 衣物类型编号
      */
-    public static final String EXTRA_TYPE_CODE = "EXTRA_TYPE_CODE";
+    private static final String EXTRA_TYPE_CODE = "EXTRA_TYPE_CODE";
     /**
      * 衣物类型编号(如：洗衣服务A类的编号)，不为空时表示是新增衣物
      */
@@ -83,7 +77,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     /**
      * 衣物类型名称(如：洗衣服务A类)
      */
-    public static final String EXTRA_TYPE_NAME = "EXTRA_TYPE_NAME";
+    private static final String EXTRA_TYPE_NAME = "EXTRA_TYPE_NAME";
     /**
      * 衣物类型名称(如：洗衣服务A类)，不为空时表示是新增衣物
      */
@@ -92,7 +86,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     /**
      * 收衣单号（可空）
      */
-    public static final String EXTRA_COLLECT_CODE = "EXTRA_COLLECT_CODE";
+    private static final String EXTRA_COLLECT_CODE = "EXTRA_COLLECT_CODE";
 
     /**
      * 收衣单号
@@ -102,7 +96,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     /**
      * 洗衣服务订单号
      */
-    public static final String EXTRA_OUTER_CODE = "EXTRA_OUTER_CODE";
+    private static final String EXTRA_OUTER_CODE = "EXTRA_OUTER_CODE";
 
     /**
      * 衣物名称选中的item
@@ -117,7 +111,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     /**
      * 衣物编码（修改时必填）
      */
-    public static final String EXTRA_CLOTHES_CODE = "EXTRA_CLOTHES_CODE";
+    private static final String EXTRA_CLOTHES_CODE = "EXTRA_CLOTHES_CODE";
 
     /**
      * 衣物编码
@@ -127,15 +121,15 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     /**
      * 打开方式
      */
-    public static final String EXTRA_MODE = "EXTRA_MODE";
+    private static final String EXTRA_MODE = "EXTRA_MODE";
     /**
      * 打开方式：有订单收衣添加
      */
-    public static final String MODE_ADD = "MODE_ADD";
+    private static final String MODE_ADD = "MODE_ADD";
     /**
      * 打开方式：有订单收衣修改、删除
      */
-    public static final String MODE_MODIFY = "MODE_MODIFY";
+    private static final String MODE_MODIFY = "MODE_MODIFY";
     /**
      * 打开方式
      */
@@ -892,5 +886,18 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             PublicUtil.showToastServerOvertime();
         }
     };
+
+    public static void actionStart(Activity context, String collectCode, String outerCode,
+                                   String typeName, String typeCode, boolean isModifyMode,
+                                   String clothesCode, int requestCode) {
+        Intent intent = new Intent(context, ClothingBookInActivity.class);
+        intent.putExtra(ClothingBookInActivity.EXTRA_COLLECT_CODE, collectCode);
+        intent.putExtra(ClothingBookInActivity.EXTRA_OUTER_CODE, outerCode);
+        intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_NAME, typeName);
+        intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, typeCode);
+        intent.putExtra(ClothingBookInActivity.EXTRA_MODE, isModifyMode ? MODE_MODIFY : MODE_ADD);
+        intent.putExtra(ClothingBookInActivity.EXTRA_CLOTHES_CODE, clothesCode);
+        context.startActivityForResult(intent, requestCode);
+    }
 }
 // TODO: lk 2016/6/27 将Add和Modify拆开

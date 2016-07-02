@@ -398,8 +398,13 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // 添加衣物
             case R.id.btn_add:
-                CreateClothesInfoActivity.actionStart(this, activityCode,
-                        REQUEST_CODE_ADD_CLOTHES_INFO);
+                // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
+                if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
+                    PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
+                } else {
+                    CreateClothesInfoActivity.actionStart(this, activityCode,
+                            REQUEST_CODE_ADD_CLOTHES_INFO);
+                }
                 break;
             //  完成收衣
             case R.id.btn_finish:
@@ -599,6 +604,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      * @param code
      */
     private void handleScaneCodeBack(String code) {
+        // TODO: lk 2016/7/2 应加个接口验证收衣单条码合法性
         tvCollectBrcode.setText(code);
     }
 }
