@@ -13,21 +13,26 @@
         android:orientation="horizontal"
         android:paddingTop="20dp">
 
-        <View
-            android:layout_width="8dp"
-            android:layout_height="wrap_content"/>
-
         <Button
-            android:id="@+id/btn_ok"
+            android:id="@+id/btn_delete"
             style="@style/btn_red"
             android:layout_width="0dp"
             android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/div_btn_clothes_book_in"
+            android:layout_weight="1"
+            android:background="@drawable/btn_border_red_middle"
+            android:text="@string/btn_delete"
+            android:textColor="@color/text_red"/>
+
+        <Button
+            android:id="@+id/btn_ok"
+            style="@style/btn_red4"
+            android:layout_width="0dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="@dimen/div_btn_clothes_book_in"
+            android:layout_marginRight="@dimen/div_btn_clothes_book_in"
             android:layout_weight="1"
             android:text="@string/btn_ok"/>
-
-        <View
-            android:layout_width="8dp"
-            android:layout_height="wrap_content"/>
     </LinearLayout>
 
 </LinearLayout>

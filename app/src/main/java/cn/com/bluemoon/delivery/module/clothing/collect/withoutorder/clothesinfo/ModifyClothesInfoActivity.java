@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -42,18 +43,29 @@ import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCod
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 import cn.com.bluemoon.lib.view.TakePhotoPopView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
- * 创建收衣订单新增衣物
+ * 修改收衣订单新增衣物
  * Created by luokai on 2016/6/30.
  */
-public class CreateClothesInfoActivity extends BaseActionBarActivity implements
+public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
-
+    /**
+     * 保存或修改过的衣物数据
+     */
     public static final String RESULT_UPLOAD_CLOTHES_INFO = "RESULT_UPLOAD_CLOTHES_INFO";
+    /**
+     * 删除的衣物数据编号
+     */
+    public static final String RESULT_DELETE_CLOTHES_CODE = "RESULT_DELETE_CLOTHES_CODE";
+    /**
+     * 删除衣物信息成功
+     */
+    public final static int RESULT_CODE_DELETE_CLOTHES_SUCCESS = 0x45;
 
     /**
      * 最多上传图片数量
@@ -67,6 +79,16 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
      * 活动编码
      */
     private final static String EXTRA_ACTIVITY_CODE = "EXTRA_ACTIVITY_CODE";
+
+    /**
+     * 本地保存的衣物数据
+     */
+    private final static String EXTRA_UPLOAD_CLOTHES_INFO = "EXTRA_UPLOAD_CLOTHES_INFO";
+
+    /**
+     * 本地保存的衣物数据
+     */
+    private UploadClothesInfo extraUploadClothesInfo;
 
     @Bind(R.id.ll_type)
     LinearLayout llType;
@@ -91,6 +113,9 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     SwitchButton sbFalw;
     @Bind(R.id.sb_stain)
     SwitchButton sbStain;
+
+    @Bind(R.id.btn_delete)
+    Button btnDelete;
 
 
     private TakePhotoPopView takePhotoPop;
@@ -130,13 +155,19 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
      */
     private int delImgPos;
 
+    /**
+     * 是否初始化，只有初始化时才执行导入修改前的界面数据
+     */
+    private boolean isInited;
+
     @Override
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_clothes_info);
+        setContentView(R.layout.activity_modify_clothes_info);
         ButterKnife.bind(this);
 
+        isInited = false;
         setIntentData();
         initView();
         getData();
@@ -147,6 +178,10 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         if (activityCode == null) {
             activityCode = "";
         }
+
+        extraUploadClothesInfo = (UploadClothesInfo) getIntent().getSerializableExtra
+                (EXTRA_UPLOAD_CLOTHES_INFO);
+
     }
 
     @Override
@@ -232,14 +267,29 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         }
         llType.removeAllViews();
         int count = datas.size();
+
+        // 选中的服务类型
+        String typeCode = "";
+        if (!isInited && extraUploadClothesInfo != null) {
+            typeCode = extraUploadClothesInfo.getTypeCode();
+        }
+
+        ClothesTypeInfoView selectedView = null;
         for (int i = 0; i < count; i++) {
             ClothesTypeInfo type = datas.get(i);
             ClothesTypeInfoView v = new ClothesTypeInfoView(this, type, i);
             v.setOnClickListener(typeClick);
             llType.addView(v);
+            if (typeCode.equals(type.getTypeCode())) {
+                selectedView = v;
+            }
         }
 
-        setClothesTypeSelected((ClothesTypeInfoView) llType.getChildAt(0));
+        if (!isInited && selectedView != null) {
+            setClothesTypeSelected(selectedView);
+        } else {
+            setClothesTypeSelected((ClothesTypeInfoView) llType.getChildAt(0));
+        }
     }
 
     private void setClothesTypeSelected(ClothesTypeInfoView typeView) {
@@ -292,6 +342,13 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             return;
         }
 
+        // 选中的衣物名称类型
+        String nameCode = "";
+        if (!isInited && extraUploadClothesInfo != null) {
+            nameCode = extraUploadClothesInfo.getClothesnameCode();
+        }
+        ClothesNameView selectedView = null;
+
         llClothesName.removeAllViews();
         int count = clothesTypeConfigs.size();
         for (int i = 0; i < count; i++) {
@@ -299,9 +356,47 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             ClothesNameView v = new ClothesNameView(this, type, i);
             v.setOnClickListener(nameClick);
             llClothesName.addView(v);
+            if (nameCode.equals(type.getClothesnameCode())) {
+                selectedView = v;
+            }
+        }
+        if (!isInited && selectedView != null) {
+            setClothesNameSelected(selectedView);
+        } else {
+            setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
         }
 
-        setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
+        if (!isInited && extraUploadClothesInfo != null) {
+            setInitClothesInfoData(extraUploadClothesInfo);
+        }
+    }
+
+    /**
+     * 使用原始数据初始化界面
+     *
+     * @param extraUploadClothesInfo
+     */
+    private void setInitClothesInfoData(UploadClothesInfo extraUploadClothesInfo) {
+        tvNumber.setText(extraUploadClothesInfo.getClothesCode());
+
+        sbFalw.setChecked(extraUploadClothesInfo.getHasFlaw() == 1);
+        etFlaw.setText(extraUploadClothesInfo.getFlawDesc());
+
+        sbStain.setChecked(extraUploadClothesInfo.getHasStain() == 1);
+
+        etBackup.setText(extraUploadClothesInfo.getRemark());
+
+        clothesImg = new ArrayList<>();
+        clothesImg.addAll(extraUploadClothesInfo.getClothingPics());
+
+        if (clothesImg.size() < 10) {
+            ClothingPic addPic = new ClothingPic();
+            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
+            clothesImg.add(addPic);
+        }
+
+        clothingAdapter.setList(clothesImg);
+        clothingAdapter.notifyDataSetChanged();
     }
 
     private void setClothesNameSelected(ClothesNameView nameView) {
@@ -353,7 +448,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         }
     }
 
-    @OnClick({R.id.btn_ok, R.id.tv_number})
+    @OnClick({R.id.btn_ok, R.id.btn_delete, R.id.tv_number})
     public void onClick(View view) {
         switch (view.getId()) {
             // 确定按钮
@@ -375,6 +470,38 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
                 setResult(RESULT_OK, i);
                 finish();
+                break;
+
+            // 删除
+            case R.id.btn_delete:
+                CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(
+                        ModifyClothesInfoActivity.this);
+                dialog.setMessage(getString(R.string.clothing_book_delete_hint));
+                dialog.setPositiveButton(R.string.btn_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                showProgressDialog();
+                                String code = tvNumber.getText().toString();
+                                DeliveryApi.delCollectInfo(ClientStateManager.getLoginToken
+                                                (ModifyClothesInfoActivity.this), code,
+                                        createResponseHandler(new IHttpResponseHandler() {
+                                            @Override
+                                            public void onResponseSuccess(String responseString) {
+                                                // TODO: lk 2016/6/30 待测试
+                                                Intent i = new Intent();
+                                                i.putExtra(RESULT_DELETE_CLOTHES_CODE,
+                                                        extraUploadClothesInfo.getClothesCode());
+                                                setResult(RESULT_CODE_DELETE_CLOTHES_SUCCESS, i);
+                                                finish();
+                                            }
+                                        }));
+                            }
+
+                        });
+                dialog.setNegativeButton(R.string.btn_cancel, null);
+                dialog.show();
+
                 break;
 
             //  输入衣物编码
@@ -457,7 +584,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     private void uploadImg(Bitmap bm) {
         showProgressDialog();
-        DeliveryApi.uploadClothesImg(ClientStateManager.getLoginToken(CreateClothesInfoActivity
+        DeliveryApi.uploadClothesImg(ClientStateManager.getLoginToken(ModifyClothesInfoActivity
                         .this),
                 PublicUtil.getBytes(bm), createResponseHandler(new IHttpResponseHandler() {
                     @Override
@@ -516,7 +643,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                         showProgressDialog();
                         delImgPos = position;
                         DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
-                                (CreateClothesInfoActivity.this), createResponseHandler(
+                                (ModifyClothesInfoActivity.this), createResponseHandler(
                                 new IHttpResponseHandler() {
                                     @Override
                                     public void onResponseSuccess(String responseString) {
@@ -534,9 +661,11 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         }
     }
 
-    public static void actionStart(Activity context, String activityCode, int requestCode) {
-        Intent intent = new Intent(context, CreateClothesInfoActivity.class);
+    public static void actionStart(Activity context, String activityCode, UploadClothesInfo
+            uploadClothesInfo, int requestCode) {
+        Intent intent = new Intent(context, ModifyClothesInfoActivity.class);
         intent.putExtra(EXTRA_ACTIVITY_CODE, activityCode);
+        intent.putExtra(EXTRA_UPLOAD_CLOTHES_INFO, uploadClothesInfo);
         context.startActivityForResult(intent, requestCode);
     }
 }

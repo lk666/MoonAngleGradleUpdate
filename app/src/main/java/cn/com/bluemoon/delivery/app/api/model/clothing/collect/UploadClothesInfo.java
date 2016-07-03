@@ -1,8 +1,11 @@
 package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.List;
+
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 
 /**
  * {@link cn.com.bluemoon.delivery.app.api.DeliveryApi#registerCreatedCollectInfo(String, String,
@@ -37,6 +40,20 @@ public class UploadClothesInfo extends ClothesInfo {
      * 备注
      */
     private String remark;
+
+    /**
+     * 衣物图片列表
+     */
+    @JSONField(serialize = false)
+    private List<ClothingPic> clothingPics;
+
+    public List<ClothingPic> getClothingPics() {
+        return clothingPics;
+    }
+
+    public void setClothingPics(List<ClothingPic> clothingPics) {
+        this.clothingPics = clothingPics;
+    }
 
 
     public String getClothesImgIds() {
@@ -79,4 +96,12 @@ public class UploadClothesInfo extends ClothesInfo {
         this.remark = remark;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        UploadClothesInfo obj = (UploadClothesInfo) o;
+        if (obj != null) {
+            return obj.getClothesCode().equals(getClothesCode());
+        }
+        return false;
+    }
 }

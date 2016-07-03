@@ -396,7 +396,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      */
     private void setClothesInfo(ResultRegisterClothesCode result) {
         tvNumber.setText(result.getClothesCode());
-        tvNumber.setEnabled(false);
 
         sbFalw.setChecked(result.getHasFlaw() == 1);
         etFlaw.setText(result.getFlawDesc());
