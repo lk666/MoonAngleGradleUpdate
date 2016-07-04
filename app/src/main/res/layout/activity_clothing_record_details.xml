@@ -11,6 +11,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/layout_logs"
             style="@style/multi_row_no_padding_style"
             android:paddingTop="12dp"
             android:paddingBottom="12dp"
@@ -62,6 +63,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/layout_activities"
             style="@style/row_style_no_padding"
             android:orientation="horizontal">
 

@@ -100,7 +100,10 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     @Bind(R.id.txt_scan_code_lab)
     TextView txtScanLab;
 
-
+    @Bind(R.id.layout_logs)
+    LinearLayout layoutLogs;
+    @Bind(R.id.layout_activities)
+    LinearLayout layoutActivities;
 
 
 
@@ -247,9 +250,10 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
         }
     }
 
-    @OnClick({R.id.txt_log_open, R.id.txt_type_open})
+    @OnClick({R.id.txt_log_open,R.id.layout_logs, R.id.txt_type_open,R.id.layout_activities})
     public void openView(View view) {
         switch (view.getId()) {
+            case R.id.layout_logs:
             case R.id.txt_log_open:
                 if (listViewLog.getVisibility() == View.GONE) {
                     lineLog.setVisibility(View.VISIBLE);
@@ -268,6 +272,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     txtLogOpen.setCompoundDrawables(null, null, drawable, null);
                 }
                 break;
+            case R.id.layout_activities:
             case R.id.txt_type_open:
 
                 if (layoutType.getVisibility() == View.GONE) {
