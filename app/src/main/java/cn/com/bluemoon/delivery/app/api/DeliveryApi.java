@@ -1691,7 +1691,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getOrderInfos%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1709,7 +1709,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/collectInfoRecord%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1727,7 +1727,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/collectInfoRecord%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1748,7 +1748,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getClothesTypeConfigs%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -1792,7 +1792,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -1815,7 +1815,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/startCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1834,7 +1834,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/signOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /*2.6收衣订单详情*/
@@ -1851,7 +1851,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/collectInfoDetails%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1869,7 +1869,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/collectInfoDetails%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1893,7 +1893,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/turnOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1911,7 +1911,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/queryTransmitInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1930,7 +1930,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/refuseOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1948,7 +1948,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/receiveCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1966,7 +1966,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/confirmOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /*5.3获取活动列表*/
@@ -1982,7 +1982,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getActivityInfos%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /*5.4获取活动说明*/
@@ -1999,7 +1999,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getActivityInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -2017,7 +2017,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getMatters%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2044,7 +2044,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/updateCollectInfoParam%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -2062,7 +2062,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getEmp%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2079,7 +2079,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerClothesCode%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2096,7 +2096,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2115,7 +2115,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delImg%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2135,7 +2135,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getCollectInfoDetailsItem%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2154,7 +2154,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/scanOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2174,7 +2174,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/validateClothesCode%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2194,7 +2194,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2227,7 +2227,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/uploadImg%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -2287,7 +2287,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/registerCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2308,7 +2308,7 @@ public class DeliveryApi {
         String url = String.format("washingService-controller/wash/activity/queryActivityLimitNum" +
                         "%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2328,6 +2328,6 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getClothesTypeInfos%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 }

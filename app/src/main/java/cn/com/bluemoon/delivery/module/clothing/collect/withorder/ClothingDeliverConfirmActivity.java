@@ -38,6 +38,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
@@ -67,6 +68,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
     TextView txtUrgent;
     ClothesInfoAdapter adapter;
     private String collectCode;
+    private String scanCode;
     private List<ClothesInfo> clothesInfos;
 
     @Override
@@ -74,9 +76,13 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_clothing_deliver_confirm);
         collectCode = getIntent().getStringExtra("collectCode");
+        scanCode = getIntent().getStringExtra("scanCode");
         ButterKnife.bind(this);
         initCustomActionBar();
         init();
+        if(!StringUtil.isEmpty(scanCode)){
+            handleScaneCodeBack(scanCode);
+        }
     }
 
     @Override
@@ -138,10 +144,15 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
 
     }
 
-    public static void actionStart(Context context, String collectCode) {
+    public static void actionStart(Activity context, String collectCode,int requestCode) {
+       actionStart(context,collectCode,"",requestCode);
+    }
+
+    public static void actionStart(Activity context, String collectCode,String scanCode,int requestCode) {
         Intent intent = new Intent(context, ClothingDeliverConfirmActivity.class);
         intent.putExtra("collectCode", collectCode);
-        context.startActivity(intent);
+        intent.putExtra("scanCode", scanCode);
+        context.startActivityForResult(intent,requestCode);
     }
 
 
@@ -232,6 +243,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
 
     @OnClick(R.id.btn_cancel)
      void cancel(View view){
+        setResult(Activity.RESULT_CANCELED);
         this.finish();
     }
 }

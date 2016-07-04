@@ -57,7 +57,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private final static int REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY = 0x12;
     private static final int RESULT_CODE_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
-
+    private static final int REQUEST_CODE_DELIVE = 0x44;
+    private static final int REQUEST_CODE_DELIVE_CONFIRM = 0x45;
     private ClothingTabActivity main;
     private ResultWithOrderClothingCollectList orderList;
     private OrderAdapter adapter;
@@ -260,6 +261,12 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             case REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY:
                 getData();
                 break;
+            case REQUEST_CODE_DELIVE_CONFIRM:
+            case REQUEST_CODE_DELIVE:
+                if(resultCode == Activity.RESULT_OK){
+                    getData();
+                }
+               break;
             default:
                 break;
         }
@@ -315,8 +322,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private void handleScaneCodeInfo(ResultScanOrderInfo result) {
         // 扫描的是衣物编码
         if (result.getCodeType().equals(ResultScanOrderInfo.CODE_TYPE_CLOTHES_CODE)) {
-// TODO: lk 2016/6/26 跳转到确认接收界面，需要新增一个参数 scaneCode
-            //confirmDeliver(result.getCollectCode(), scaneCode);
+
+            confirmDeliver(result.getCollectCode(), scaneCode);
         }
 
         // 扫描的是订单编码
@@ -654,11 +661,15 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     };
 
     private void deliver(String collectCode) {
-        ClothingDeliverActivity.actionStart(getActivity(), collectCode);
+        ClothingDeliverActivity.actionStart(getActivity(), collectCode,REQUEST_CODE_DELIVE);
     }
 
     private void confirmDeliver(String collectCode) {
-        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode);
+        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode,REQUEST_CODE_DELIVE_CONFIRM);
+    }
+
+    private void confirmDeliver(String collectCode,String scanCode) {
+        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode,scanCode,REQUEST_CODE_DELIVE_CONFIRM);
     }
 
 }

@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -85,10 +86,10 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
         return R.string.clothing_deliver_title;
     }
 
-    public static void actionStart(Context context, String collectCode) {
+    public static void actionStart(Activity context, String collectCode,int requestCode) {
         Intent intent = new Intent(context, ClothingDeliverActivity.class);
         intent.putExtra("collectCode", collectCode);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,requestCode);
     }
 
     private void init() {
@@ -103,8 +104,10 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             // 确定
             case R.id.btn_ok:
                 confrim();
+
                 break;
             case R.id.btn_cancel:
+                setResult(Activity.RESULT_CANCELED);
                 finish();
                 break;
             case R.id.btn_search:

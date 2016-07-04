@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.base;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -70,6 +71,7 @@ public abstract class BaseActionBarActivity extends BaseActivity {
      * ActionBar左键点击
      */
     protected void ontActionBarBtnLeftClick() {
+        BaseActionBarActivity.this.setResult(Activity.RESULT_CANCELED);
         BaseActionBarActivity.this.finish();
     }
 
@@ -87,6 +89,7 @@ public abstract class BaseActionBarActivity extends BaseActivity {
                 ResultBase.class);
         if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
             PublicUtil.showToast(result.getResponseMsg());
+            setResult(Activity.RESULT_OK);
             finish();
         }
     }
