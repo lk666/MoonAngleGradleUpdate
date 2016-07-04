@@ -305,7 +305,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         if (TextUtils.isEmpty(etName.getText().toString()) ||
                 TextUtils.isEmpty(etPhone.getText().toString()) ||
                 TextUtils.isEmpty(tvProvinceCityCountry.getText().toString()) ||
-                TextUtils.isEmpty(tvStreetVillage.getText().toString()) ||
                 TextUtils.isEmpty(etAddress.getText().toString()) ||
                 clothesInfo == null || clothesInfo.size() < 1) {
             btnFinish.setEnabled(false);

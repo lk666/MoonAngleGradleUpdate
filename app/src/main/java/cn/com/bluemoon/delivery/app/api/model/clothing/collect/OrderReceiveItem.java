@@ -8,10 +8,6 @@ import java.util.List;
  */
 public class OrderReceiveItem {
     /**
-     * 收衣单号
-     */
-    private String collectCode;
-    /**
      * 实收数量
      */
     private int collectCount;
@@ -19,15 +15,6 @@ public class OrderReceiveItem {
      * 衣物列表
      */
     List<ClothesInfo> clothesInfo;
-
-    public String getCollectCode() {
-        return collectCode;
-    }
-
-    public void setCollectCode(String collectCode) {
-        this.collectCode = collectCode;
-    }
-
 
     public int getCollectCount() {
         return collectCount;

@@ -83,6 +83,19 @@ public class ResultStartCollectInfos extends ResultBase {
      */
     OrderReceiveItem orderReceive;
 
+    /**
+     * 收衣单号
+     */
+    private String collectCode;
+
+    public String getCollectCode() {
+        return collectCode;
+    }
+
+    public void setCollectCode(String collectCode) {
+        this.collectCode = collectCode;
+    }
+
     public String getOuterCode() {
         return outerCode;
     }
