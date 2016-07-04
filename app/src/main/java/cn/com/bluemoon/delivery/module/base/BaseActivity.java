@@ -64,7 +64,7 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
         if (progressDialog == null) {
             progressDialog = new CommonProgressDialog(this);
         }
-
+        progressDialog.dismiss();
         progressDialog.show();
     }
 

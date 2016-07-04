@@ -55,7 +55,7 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
     /**
-     * 保存或修改过的衣物数据
+     * 修改过的衣物数据
      */
     public static final String RESULT_UPLOAD_CLOTHES_INFO = "RESULT_UPLOAD_CLOTHES_INFO";
     /**
@@ -236,7 +236,6 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
 
         clothingAdapter = new AddPhotoAdapter(this, this);
         sgvPhoto.setAdapter(clothingAdapter);
-        initClothesImgList();
     }
 
     private void getData() {
@@ -389,7 +388,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         clothesImg = new ArrayList<>();
         clothesImg.addAll(extraUploadClothesInfo.getClothingPics());
 
-        if (clothesImg.size() < 10) {
+        if (clothesImg.size() < MAX_UPLOAD_IMG) {
             ClothingPic addPic = new ClothingPic();
             addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
             clothesImg.add(addPic);
@@ -397,6 +396,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
 
         clothingAdapter.setList(clothesImg);
         clothingAdapter.notifyDataSetChanged();
+        isInited = true;
     }
 
     private void setClothesNameSelected(ClothesNameView nameView) {
@@ -419,21 +419,6 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
             setClothesNameSelected(nameView);
         }
     };
-
-
-    /**
-     * 衣物图片初始化
-     */
-    private void initClothesImgList() {
-        clothesImg = new ArrayList<>();
-
-        ClothingPic addPic = new ClothingPic();
-        addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
-        clothesImg.add(addPic);
-
-        clothingAdapter.setList(clothesImg);
-        clothingAdapter.notifyDataSetChanged();
-    }
 
     /**
      * 设置确定按钮的可点击性
@@ -464,7 +449,10 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                 tmpUploadClothesInfo.setHasStain(sbStain.isChecked() ? 1 : 0);
                 tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
                 tmpUploadClothesInfo.setTypeCode(etBackup.getText().toString());
-                tmpUploadClothesInfo.setClothingPics(clothesImg);
+                tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
+                tmpUploadClothesInfo.setTypeName(selectedTypeView.getTypeInfo().getTypeName());
+                tmpUploadClothesInfo.setClothesName(selectedNameView.getType().getClothesName());
+                tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
 
                 Intent i = new Intent();
                 i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
@@ -510,6 +498,23 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 返回去除掉添加图片按钮的图片列表
+     *
+     * @return
+     */
+    private List<ClothingPic> getActualClothesImg(List<ClothingPic> oriList) {
+        if (oriList == null || oriList.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            ClothingPic last = oriList.get(oriList.size() - 1);
+            if (AddPhotoAdapter.ADD_IMG_ID.equals(last.getImgId())) {
+                oriList.remove(last);
+            }
+            return oriList;
         }
     }
 

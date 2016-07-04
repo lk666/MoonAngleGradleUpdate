@@ -368,8 +368,11 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 tmpUploadClothesInfo.setHasFlaw(sbFalw.isChecked() ? 1 : 0);
                 tmpUploadClothesInfo.setHasStain(sbStain.isChecked() ? 1 : 0);
                 tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
-                tmpUploadClothesInfo.setTypeCode(etBackup.getText().toString());
-                tmpUploadClothesInfo.setClothingPics(clothesImg);
+                tmpUploadClothesInfo.setTypeCode(selectedTypeView.getTypeInfo().getTypeCode());
+                tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
+                tmpUploadClothesInfo.setTypeName(selectedTypeView.getTypeInfo().getTypeName());
+                tmpUploadClothesInfo.setClothesName(selectedNameView.getType().getClothesName());
+                tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
 
                 Intent i = new Intent();
                 i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
@@ -383,6 +386,23 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 break;
             default:
                 break;
+        }
+    }
+
+    /**
+     * 返回去除掉添加图片按钮的图片列表
+     *
+     * @return
+     */
+    private List<ClothingPic> getActualClothesImg(List<ClothingPic> oriList) {
+        if (oriList == null || oriList.isEmpty()) {
+            return new ArrayList<>();
+        } else {
+            ClothingPic last = oriList.get(oriList.size() - 1);
+            if (AddPhotoAdapter.ADD_IMG_ID.equals(last.getImgId())) {
+                oriList.remove(last);
+            }
+            return oriList;
         }
     }
 
