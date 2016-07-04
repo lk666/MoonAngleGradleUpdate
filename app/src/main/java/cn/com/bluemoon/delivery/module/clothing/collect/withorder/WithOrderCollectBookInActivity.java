@@ -226,7 +226,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      * @param result
      */
     private void setStartCollectInfo(ResultStartCollectInfos result) {
-        collectCode = result.getOrderReceive().getCollectCode();
+        collectCode = result.getCollectCode();
         outerCode = result.getOuterCode();
 
         tvNumber.setText(result.getOuterCode());
