@@ -76,7 +76,7 @@ public class CommunitySelectActivity extends Activity{
                     setResult(4, data);
                     finish();
                 } else {
-                    PublicUtil.showToast("请选择小区/商业中心");
+                    PublicUtil.showToast(getString(R.string.community_select_txt));
                 }
 
             }
@@ -154,8 +154,8 @@ public class CommunitySelectActivity extends Activity{
             final CheckBox cb = ViewHolder.get(convertView, R.id.cb_community);
             cb.setChecked(item.isSelect());
 
-            txtCommunity.setText(item.getBpCode()+"—"+item.getBpName());
-            txtCommunity2.setText(item.getBpCode1()+"—"+item.getBpName1());
+            txtCommunity.setText(String.format(getString(R.string.promote_append),item.getBpCode(), item.getBpName()));
+            txtCommunity2.setText(String.format(getString(R.string.promote_append),item.getBpCode1(), item.getBpName1()));
 
             final View line1 = (View) convertView.findViewById(R.id.line_1);
             final View line2 = (View) convertView.findViewById(R.id.line_2);

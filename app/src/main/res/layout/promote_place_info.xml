@@ -7,7 +7,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:text="场地基本信息"
+        android:text="@string/add_promote_place_txt"
         android:textColor="@color/text_grep"
         android:textSize="12sp" />
 
@@ -23,7 +23,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:text="小区/商业中心"
+            android:text="@string/community_txt"
             android:textColor="@color/text_black"
             android:textSize="15sp" />
 
@@ -43,7 +43,7 @@
             android:layout_marginRight="5dp"
             android:layout_weight="1"
             android:gravity="center_vertical|right"
-            android:hint="请选择"
+            android:hint="@string/please_select_txt"
             android:textColor="@color/text_black_light"
             android:textColorHint="@color/text_grep"
             android:textSize="15sp" />
@@ -74,7 +74,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:text="推广点位置"
+            android:text="@string/add_promote_place"
             android:textColor="@color/text_black"
             android:textSize="15sp" />
 
@@ -97,7 +97,7 @@
             android:background="@null"
             android:textCursorDrawable="@null"
             android:gravity="center_vertical|right"
-            android:hint="请输入"
+            android:hint="@string/please_input_txt"
             android:maxLines="2"
             android:maxLength="20"
             android:textColor="@color/text_black_light"
@@ -121,7 +121,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:text="场地面积(㎡)"
+            android:text="@string/add_promote_place_area"
             android:textColor="@color/text_black"
             android:textSize="15sp" />
 
@@ -143,7 +143,7 @@
             android:textCursorDrawable="@null"
             android:ellipsize="end"
             android:gravity="center_vertical|right"
-            android:hint="请输入"
+            android:hint="@string/please_input_txt"
             android:inputType="numberDecimal"
             android:singleLine="true"
             android:textColor="@color/text_black_light"
@@ -167,7 +167,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:text="场地类型"
+            android:text="@string/add_promote_place_type"
             android:textColor="@color/text_black"
             android:textSize="15sp" />
 
@@ -186,7 +186,7 @@
             android:layout_height="30dp"
             android:background="@drawable/btn_border_grep_shape4"
             android:gravity="center"
-            android:text="室外"
+            android:text="@string/add_promote_outdoor"
             android:textColor="@color/text_black_light"
             android:textSize="15sp" />
 
@@ -198,7 +198,7 @@
             android:layout_marginRight="10dp"
             android:background="@drawable/btn_border_grep_shape4"
             android:gravity="center"
-            android:text="室内"
+            android:text="@string/add_promote_indoor"
             android:textColor="@color/text_black_light"
             android:textSize="15sp" />
 

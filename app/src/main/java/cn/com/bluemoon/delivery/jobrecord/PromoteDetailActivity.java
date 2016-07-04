@@ -117,10 +117,10 @@ public class PromoteDetailActivity extends Activity {
                     txtHolidayPrice.setText(info.getHolidayPrice());
                     txtDeposit.setText(info.getCashPledge());
                     txtOtherFee.setText(info.getRemark());
-                    txtWifi.setText(info.getWifi()? "有" : "无");
-                    txtNetwork.setText(info.getWiredNetwork()? "有" : "无");
-                    txtBpname.setText(info.getBpCode() +"—"+info.getBpName());
-                    txtBpname1.setText(info.getBpCode1() +"—"+info.getBpName1());
+                    txtWifi.setText(info.getWifi()? getString(R.string.promote_has) : getString(R.string.promote_none));
+                    txtNetwork.setText(info.getWiredNetwork()? getString(R.string.promote_has) : getString(R.string.promote_none));
+                    txtBpname.setText(String.format(getString(R.string.promote_append),info.getBpCode(), info.getBpName()));
+                    txtBpname1.setText(String.format(getString(R.string.promote_append),info.getBpCode1(), info.getBpName1()));
                     images = info.getPicInfo();
                     ImageAdapter adapter = new ImageAdapter();
                     gridView.setAdapter(adapter);

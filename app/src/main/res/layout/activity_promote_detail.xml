@@ -51,7 +51,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="场地基本信息"
+            android:text="@string/add_promote_place_txt"
             android:textColor="@color/text_grep"
             android:textSize="12sp" />
 
@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="推广点位置"
+                android:text="@string/add_promote_place"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
             <LinearLayout
@@ -108,7 +108,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="场地面积(㎡)"
+                android:text="@string/add_promote_place_area"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
@@ -143,7 +143,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="场地类型"
+                android:text="@string/add_promote_place_type"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
@@ -172,7 +172,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="租金信息"
+            android:text="@string/add_promote_rent_info"
             android:textColor="@color/text_grep"
             android:textSize="12sp" />
 
@@ -191,7 +191,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:text="工作日(元)"
+                    android:text="@string/add_promote_work_date"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
 
@@ -226,7 +226,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:text="周末/节假日(元)"
+                    android:text="@string/add_promote_holiday"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
 
@@ -261,7 +261,7 @@
                     android:layout_height="match_parent"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:text="场地押金(元)"
+                    android:text="@string/add_promote_place_fee"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
 
@@ -298,7 +298,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:gravity="center_vertical"
-                    android:text="其他费用"
+                    android:text="@string/add_promote_other_fee"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
                 <LinearLayout
@@ -329,7 +329,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="网络信息"
+            android:text="@string/add_promote_network_info"
             android:textColor="@color/text_grep"
             android:textSize="12sp" />
 
@@ -343,7 +343,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="Wi-Fi设备"
+                android:text="@string/add_promote_wifi"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
@@ -376,7 +376,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="有线网络设备"
+                android:text="@string/add_promote_network_txt"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
             <TextView
@@ -405,14 +405,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="图片上传"
+                android:text="@string/add_promote_uploda_img"
                 android:textColor="@color/text_grep"
                 android:textSize="12sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="(最多上传5张)"
+                android:text="@string/add_promote_uploda_img2"
                 android:textColor="@color/text_grep"
                 android:textSize="10sp" />
         </LinearLayout>
@@ -437,7 +437,7 @@
             android:paddingBottom="5dp"
             android:paddingLeft="10dp"
             android:paddingTop="10dp"
-            android:text="人流量测试"
+            android:text="@string/add_promote_people_flow"
             android:textColor="@color/text_grep"
             android:textSize="12sp" />
         <LinearLayout

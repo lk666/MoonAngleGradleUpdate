@@ -229,14 +229,14 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
 
     @Override
     public void scrollOritention(int oritention) {
-        int isVisible = btnOk2.getVisibility();
+        /*int isVisible = btnOk2.getVisibility();
         if (oritention > 0 && isVisible == View.VISIBLE) {
             btnOk2.setVisibility(View.GONE);
             btnOk.setVisibility(View.VISIBLE);
         } else if (isVisible == View.GONE && oritention < 0){
             btnOk2.setVisibility(View.VISIBLE);
             btnOk.setVisibility(View.GONE);
-        }
+        }*/
     }
 
 

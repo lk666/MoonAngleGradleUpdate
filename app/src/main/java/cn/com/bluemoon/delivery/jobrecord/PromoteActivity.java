@@ -72,10 +72,10 @@ public class PromoteActivity extends Activity{
                         ResultPromoteList.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     items = result.getItemList();
-                    if (items != null && items.size() > 1) {
-                        ResultPromoteList.Item item = items.get(1);
+                    if (items != null && items.size() > 5) {
+                        ResultPromoteList.Item item = items.get(5);
                         item.setHolidayPrice(item.getHolidayPrice()+"905544585480956089560");
-                        items.set(1, item);
+                        items.set(5, item);
                     }
                     if (items != null && items.size() > 0) {
                         PromoteAdapter adapter = new PromoteAdapter(PromoteActivity.this);
@@ -123,36 +123,44 @@ public class PromoteActivity extends Activity{
 
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(context).inflate(R.layout.list_item_promote, null);
-            }
+            //if (convertView == null) {
+            convertView = LayoutInflater.from(context).inflate(R.layout.list_item_promote, null);
+            //}
             final ResultPromoteList.Item item = items.get(position);
             TextView txtCommunity = ViewHolder.get(convertView, R.id.txt_community);
             TextView txtCommunity2 = ViewHolder.get(convertView, R.id.txt_community2);
             TextView txtWorkDate = ViewHolder.get(convertView, R.id.txt_work_date);
-            final TextView txtHolidayDate = ViewHolder.get(convertView, R.id.txt_holiday_date);
-            final TextView txtHolidayDate2 = ViewHolder.get(convertView, R.id.txt_holiday_date2);
+            final TextView txtHolidayDate = (TextView)convertView.findViewById(R.id.txt_holiday_date);
+            final TextView txtHolidayDate2 = (TextView)convertView.findViewById(R.id.txt_holiday_date2);
             TextView txtOutdoorArea = ViewHolder.get(convertView, R.id.txt_outdoor_area);
             TextView txtEdit = ViewHolder.get(convertView, R.id.txt_edit);
+            TextView txtPlaceType = ViewHolder.get(convertView, R.id.txt_place_type);
             LinearLayout layoutCommunity = ViewHolder.get(convertView, R.id.layout_community);
-            txtCommunity.setText(item.getBpCode()+"—"+item.getBpName());
-            txtCommunity2.setText(item.getBpCode1()+"—"+item.getBpName1());
+            txtCommunity.setText(String.format(getString(R.string.promote_append),item.getBpCode(), item.getBpName()));
+            txtCommunity2.setText(String.format(getString(R.string.promote_append),item.getBpCode1(), item.getBpName1()));
             txtWorkDate.setText(String.format(getString(R.string.promote_work_date), item.getWorkPrice()));
+            txtPlaceType.setText(item.getSiteTypeName());
 
             txtHolidayDate.setText(String.format(getString(R.string.promote_holiday_date), item.getHolidayPrice()));
             txtHolidayDate2.setText(String.format(getString(R.string.promote_holiday_date), item.getHolidayPrice()));
 
             ViewTreeObserver vto = txtHolidayDate.getViewTreeObserver();
-            vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            vto.addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
                 private boolean isFirst;
                 @Override
-                public void onGlobalLayout() {
+                public boolean onPreDraw() {
                     int lineCount = txtHolidayDate.getLineCount();
-                    if (!isFirst && lineCount > 1) {
+                    if (!isFirst) {
                         isFirst = true;
-                        txtHolidayDate.setVisibility(View.GONE);
-                        txtHolidayDate2.setVisibility(View.VISIBLE);
+                        if (lineCount > 1) {
+                            txtHolidayDate.setVisibility(View.GONE);
+                            txtHolidayDate2.setVisibility(View.VISIBLE);
+                        } else {
+                            txtHolidayDate2.setVisibility(View.GONE);
+                            txtHolidayDate.setVisibility(View.VISIBLE);
+                        }
                     }
+                    return true;
                 }
             });
 

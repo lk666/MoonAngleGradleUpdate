@@ -8,7 +8,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:text="人流量测试"
+        android:text="@string/add_promote_people_flow"
         android:textColor="@color/text_grep"
         android:textSize="12sp" />
 
@@ -29,7 +29,7 @@
             android:layout_marginLeft="10dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="新增测试"
+            android:text="@string/people_flow_add_title"
             android:textColor="@color/text_black"
             android:textSize="15sp" />
 

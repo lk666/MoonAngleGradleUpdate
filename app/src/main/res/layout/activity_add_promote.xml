@@ -30,7 +30,7 @@
                  android:paddingBottom="5dp"
                  android:paddingLeft="10dp"
                  android:paddingTop="10dp"
-                 android:text="网络信息"
+                 android:text="@string/add_promote_network_info"
                  android:textColor="@color/text_grep"
                  android:textSize="12sp" />
 
@@ -44,7 +44,7 @@
                      android:layout_marginLeft="10dp"
                      android:layout_weight="1"
                      android:gravity="center_vertical"
-                     android:text="Wi-Fi设备"
+                     android:text="@string/add_promote_wifi"
                      android:textColor="@color/text_black"
                      android:textSize="15sp" />
 
@@ -72,7 +72,7 @@
                      android:layout_marginLeft="10dp"
                      android:layout_weight="1"
                      android:gravity="center_vertical"
-                     android:text="有线网络设备"
+                     android:text="@string/add_promote_network_txt"
                      android:textColor="@color/text_black"
                      android:textSize="15sp" />
                  <include
@@ -96,14 +96,14 @@
                  <TextView
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:text="图片上传"
+                     android:text="@string/add_promote_uploda_img"
                      android:textColor="@color/text_grep"
                      android:textSize="12sp" />
 
                  <TextView
                      android:layout_width="wrap_content"
                      android:layout_height="wrap_content"
-                     android:text="(最多上传5张)"
+                     android:text="@string/add_promote_uploda_img2"
                      android:textColor="@color/text_grep"
                      android:textSize="10sp" />
              </LinearLayout>

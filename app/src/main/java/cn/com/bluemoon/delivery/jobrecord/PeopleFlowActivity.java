@@ -146,25 +146,25 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if ("开始时间".equals(txtStartTime.getText().toString())) {
-                        PublicUtil.showToast("请选择开始时间");
+                    if (getString(R.string.people_flow_start_time).equals(txtStartTime.getText().toString())) {
+                        PublicUtil.showToast(getString(R.string.people_flow_start_time_select));
                         return;
                     }
-                    if ("结束时间".equals(txtEndTime.getText().toString())) {
-                        PublicUtil.showToast("请选择结束时间");
+                    if (getString(R.string.people_flow_end_time).equals(txtEndTime.getText().toString())) {
+                        PublicUtil.showToast(getString(R.string.people_flow_end_time_select));
                         return;
                     }
                     if (Integer.valueOf(mHour) > Integer.valueOf(mHour2)
                             || Integer.valueOf(mHour) == Integer.valueOf(mHour2) && Integer.valueOf(mMinute) > Integer.valueOf(mMinute2)) {
-                        PublicUtil.showToast("结束时间早于开始时间");
+                        PublicUtil.showToast(getString(R.string.people_flow_time_earlier));
                         return;
                     }
                     if (!StringUtils.isNotBlank(etPlace.getText().toString())) {
-                        PublicUtil.showToast("请填写测试位置");
+                        PublicUtil.showToast(getString(R.string.people_flow_place_input));
                         return;
                     }
                     if (!StringUtils.isNotBlank(etFlow.getText().toString())) {
-                        PublicUtil.showToast("请填写人流数量");
+                        PublicUtil.showToast(getString(R.string.people_flow_amount_input));
                         return;
                     }
                     PeopleFlow peopleFlow = new PeopleFlow();
@@ -336,7 +336,7 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
 
             @Override
             public void onBtnRight(View v) {
-                new CommonAlertDialog.Builder(PeopleFlowActivity.this).setMessage("确定删除人流量测试吗？").
+                new CommonAlertDialog.Builder(PeopleFlowActivity.this).setMessage(getString(R.string.people_flow_delete)).
                         setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {

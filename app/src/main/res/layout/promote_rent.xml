@@ -8,7 +8,7 @@
         android:paddingBottom="5dp"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:text="租金信息"
+        android:text="@string/add_promote_rent_info"
         android:textColor="@color/text_grep"
         android:textSize="12sp" />
 
@@ -21,7 +21,7 @@
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:gravity="center_vertical"
-            android:text="租金"
+            android:text="@string/add_promote_rent_txt"
             android:textColor="@color/text_black"
             android:textSize="15sp" />
 
@@ -65,7 +65,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="工作日(元)"
+                android:text="@string/add_promote_work_date"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
@@ -87,7 +87,7 @@
                 android:textCursorDrawable="@null"
                 android:ellipsize="end"
                 android:gravity="center_vertical|right"
-                android:hint="请输入"
+                android:hint="@string/please_input_txt"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
                 android:textColor="@color/text_black_light"
@@ -112,7 +112,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="周末/节假日(元)"
+                android:text="@string/add_promote_holiday"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
@@ -134,7 +134,7 @@
                 android:textCursorDrawable="@null"
                 android:ellipsize="end"
                 android:gravity="center_vertical|right"
-                android:hint="请输入"
+                android:hint="@string/please_input_txt"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
                 android:textColor="@color/text_black_light"
@@ -159,7 +159,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="场地押金(元)"
+                android:text="@string/add_promote_place_fee"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
@@ -181,7 +181,7 @@
                 android:background="@null"
                 android:textCursorDrawable="@null"
                 android:gravity="center_vertical|right"
-                android:hint="请输入"
+                android:hint="@string/please_input_txt"
                 android:inputType="numberDecimal"
                 android:singleLine="true"
                 android:textColor="@color/text_black_light"
@@ -210,7 +210,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:gravity="center_vertical"
-                android:text="其他费用"
+                android:text="@string/add_promote_other_fee"
                 android:textColor="@color/text_black"
                 android:textSize="15sp" />
 
@@ -226,7 +226,7 @@
                 android:lineSpacingExtra="6dp"
                 android:gravity="center_vertical|right"
                 android:maxLines="2"
-                android:hint="请输入，最多20字"
+                android:hint="@string/community_input_txt_20"
                 android:maxLength="20"
                 android:textColor="@color/text_black_light"
                 android:textColorHint="@color/text_grep"
