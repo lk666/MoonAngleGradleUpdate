@@ -2,12 +2,15 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -178,6 +181,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
             TextView txtUrgent = ViewHolder.get(convertView, R.id.txt_urgent);
             TextView txtScan = ViewHolder.get(convertView, R.id.txt_scan_code);
             LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
+            LinearLayout layoutFooter =ViewHolder.get(convertView, R.id.layout_footer);
             if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
                 if (StringUtil.isEmpty(order.getCollectBrcode())) {
                     txtScan.setVisibility(View.GONE);
@@ -187,6 +191,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                 txtUserName.setText(order.getReceiveName());
                 txtUserPhone.setText(order.getReceivePhone());
             } else {
+                layoutFooter.setGravity(Gravity.CENTER_VERTICAL|Gravity.RIGHT);
                 txtDispatchId.setVisibility(View.GONE);
                 txtScan.setVisibility(View.GONE);
                 txtScanBarCode.setVisibility(View.GONE);

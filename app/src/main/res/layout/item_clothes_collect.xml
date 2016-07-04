@@ -34,14 +34,14 @@
             android:textSize="@dimen/text_size_13" />
     </LinearLayout>
 
-   <View style="@style/line_solid_padding_left_style" />
+    <View style="@style/line_solid_padding_left_style" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="12dp"
+        android:orientation="horizontal"
         android:paddingBottom="16dp"
-        android:orientation="horizontal">
+        android:paddingTop="12dp">
 
         <LinearLayout
             android:layout_width="0dp"
@@ -72,16 +72,17 @@
                     android:singleLine="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_13" />
+
                 <TextView
                     android:id="@+id/txt_user_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
-                    android:ellipsize="end"
-                    android:inputType="phone"
                     android:autoLink="phone"
+                    android:ellipsize="end"
                     android:gravity="center_vertical"
+                    android:inputType="phone"
                     android:singleLine="true"
                     android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_size_13" />
@@ -90,12 +91,12 @@
                     android:id="@+id/txt_urgent"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/orange_red"
+                    android:layout_centerInParent="true"
                     android:layout_marginLeft="12dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
-                    android:layout_centerInParent="true"
                     android:text="@string/with_order_collect_is_urgent"
+                    android:textColor="@color/orange_red"
                     android:textSize="@dimen/text_size_12" />
             </LinearLayout>
 
@@ -138,18 +139,19 @@
 
     <View style="@style/line_solid_padding_left_style" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:id="@+id/layout_footer"
         android:layout_width="match_parent"
         android:layout_height="30dp"
-        android:paddingRight="12dp"
-        android:paddingLeft="12dp">
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp">
 
         <TextView
             android:id="@+id/txt_cateAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:text="@string/with_order_collect_title_actual_count"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_11" />
@@ -158,27 +160,28 @@
             android:id="@+id/txt_actual"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
             android:textColor="@color/text_black"
-            android:layout_toRightOf="@+id/txt_cateAmount"
-            android:textSize="@dimen/text_size_11" />
-        <TextView
-            android:id="@+id/txt_scan_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/with_order_collect_collect_code2"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_11" />
-        <TextView
-            android:id="@+id/txt_scan_bar_code"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_black"
-            android:layout_centerInParent="true"
-            android:layout_toRightOf="@+id/txt_scan_code"
             android:textSize="@dimen/text_size_11" />
 
-    </RelativeLayout>
+        <TextView
+            android:id="@+id/txt_scan_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/with_order_collect_collect_code2"
+            android:gravity="right"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_11" />
+
+        <TextView
+            android:id="@+id/txt_scan_bar_code"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="left"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_11" />
+
+    </LinearLayout>
 
 </LinearLayout>
