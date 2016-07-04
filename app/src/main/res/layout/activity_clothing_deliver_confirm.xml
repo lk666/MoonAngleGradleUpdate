@@ -45,7 +45,7 @@
                     android:layout_height="wrap_content"
                     android:autoLink="phone"
                     android:inputType="phone"
-                    android:textColor="@color/btn_blue"
+                    android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_size_15" />
             </LinearLayout>
 

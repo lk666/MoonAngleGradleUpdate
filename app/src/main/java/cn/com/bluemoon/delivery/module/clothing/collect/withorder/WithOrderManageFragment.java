@@ -263,10 +263,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 break;
             case REQUEST_CODE_DELIVE_CONFIRM:
             case REQUEST_CODE_DELIVE:
-                if(resultCode == Activity.RESULT_OK){
+                if (resultCode == Activity.RESULT_OK) {
                     getData();
                 }
-               break;
+                break;
             default:
                 break;
         }
@@ -363,7 +363,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     .tv_collect_number_title);
             TextView tvNumber = ViewHolder.get(convertView, R.id.tv_number);
             View tvDetail = ViewHolder.get(convertView, R.id.tv_detail);
-        //    View ivDetail = ViewHolder.get(convertView, R.id.iv_detail);
+            //    View ivDetail = ViewHolder.get(convertView, R.id.iv_detail);
             Button btnRightAction = ViewHolder.get(convertView, R.id.btn_right_action);
             TextView tvRightAction = ViewHolder.get(convertView, R.id.tv_right_action);
             TextView tvCustomerName = ViewHolder.get(convertView, R.id.tv_customer_name);
@@ -409,19 +409,18 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept));
                     break;
 
-                // 收衣中(开始收衣)
+                // 开始收衣
+                case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
+                    btnRightAction.setVisibility(View.VISIBLE);
+                    tvRightAction.setVisibility(View.GONE);
+                    btnRightAction.setText(getString(R.string
+                            .with_order_collect_btn_start_collect));
+                    break;
+
+                // 收衣中
                 case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
-                    // 开始收衣
-                    if (order.getActualCount() <= 0) {
-                        btnRightAction.setVisibility(View.VISIBLE);
-                        tvRightAction.setVisibility(View.GONE);
-
-                        btnRightAction.setText(getString(R.string
-                                .with_order_collect_btn_start_collect));
-                    }
-
                     // 继续收衣
-                    else {
+                    if (order.getReceivableCount() > order.getActualCount()) {
                         btnRightAction.setVisibility(View.VISIBLE);
                         tvRightAction.setVisibility(View.VISIBLE);
 
@@ -429,18 +428,17 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                                 .with_order_collect_btn_continue_collect));
                         tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
                     }
-                    break;
 
-                // 衣物转交
-                case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
-                    btnRightAction.setVisibility(View.INVISIBLE);
-                    tvRightAction.setVisibility(View.VISIBLE);
-
-                    tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
+                    // 衣物转交
+                    else {
+                        btnRightAction.setVisibility(View.INVISIBLE);
+                        tvRightAction.setVisibility(View.VISIBLE);
+                        tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
+                    }
                     break;
 
                 //确认接收
-                case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
+                case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
                     btnRightAction.setVisibility(View.VISIBLE);
                     tvRightAction.setVisibility(View.VISIBLE);
 
@@ -449,9 +447,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     tvRightAction.setText(getString(R.string
                             .with_order_collect_txt_refuse_translate));
                     break;
+
+                case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
                 case WithOrderClothingCollectOrder.WASH_STATUS_CONTINUE_LAUNDRYING:
                 case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
-                case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
                 default:
                     btnRightAction.setVisibility(View.GONE);
                     tvRightAction.setVisibility(View.GONE);
@@ -471,7 +470,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             }
 
             setClickEvent(isNew, position, tvDetail, btnRightAction, tvRightAction
-                    );
+            );
         }
     }
 
@@ -495,10 +494,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             return;
         }
         switch (view.getId()) {
-//            // 打电话
-//            case R.id.tv_customer_phone:
-//                call(order.getCustomerPhone());
-//                break;
             case R.id.tv_detail:
                 if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
                         .OUTERCODE_TYPE_ORDER)) {
@@ -510,33 +505,38 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 } else if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
                         .OUTERCODE_TYPE_WASHORDER)) {
                     // 收衣单号
-                    // TODO: lk 2016/6/19   收衣单单详情
+                    Intent i = new Intent(main, WithOrderOuterDetailActivity.class);
+                    i.putExtra(WithOrderOuterDetailActivity.EXTRA_OUTERCODE, order.getOuterCode());
+                    startActivity(i);
                 }
                 break;
 
             case R.id.btn_right_action:
                 switch (order.getWashStatus()) {
+
+                    // 待接单
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
-//                        PublicUtil.showToast("接单:" + order.getOuterCodeType() + ","
-//                                + order.getOuterCode() + ", " + order.getCollectCode());
                         acceptOrder(ClientStateManager.getLoginToken(getActivity()), order
                                 .getOuterCode());
                         break;
 
-                    // 开始/继续收衣
-                    case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
+                    // 开始收衣
+                    case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
                         gotoCollectBookIn(order.getOuterCode(), order.getCollectCode());
                         break;
 
+                    // 收衣中，继续收衣
+                    case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
+                        if (order.getReceivableCount() > order.getActualCount()) {
+                            gotoCollectBookIn(order.getOuterCode(), order.getCollectCode());
+                        }
+                        break;
+
                     //确认接收
-                    case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
+                    case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
                         confirmDeliver(order.getCollectCode());
                         break;
 
-                    case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
-                    case WithOrderClothingCollectOrder.WASH_STATUS_CONTINUE_LAUNDRYING:
-                    case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
-                    case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
                     default:
                         break;
                 }
@@ -545,32 +545,19 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 switch (order.getWashStatus()) {
                     // 取消订单
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
-//                        PublicUtil.showToast(" 取消订单:" + order.getOuterCodeType() + ","
-//                                + order.getOuterCode() + ", " + order.getCollectCode());
                         cancelOrder(ClientStateManager.getLoginToken(getActivity()), order
                                 .getOuterCode());
                         break;
 
-                    // 衣服转交
+                    // 收衣中，衣服转交
                     case WithOrderClothingCollectOrder.WASH_STATUS_ANGEL_LAUNDRYING:
-                        if (order.getActualCount() > 0 &&
-                                order.getReceivableCount() > order.getActualCount()) {
-                            deliver(order.getCollectCode());
-                        }
-                        break;
-
-                    // 衣物转交
-                    case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
                         deliver(order.getCollectCode());
                         break;
 
-                    // 拒绝接收
-                    case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
+                    //拒绝接收
+                    case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
                         refuseDialogInit(order.getOuterCode());
                         break;
-                    case WithOrderClothingCollectOrder.WASH_STATUS_CONTINUE_LAUNDRYING:
-                    case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
-                    case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
                     default:
                         break;
                 }
@@ -661,15 +648,17 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     };
 
     private void deliver(String collectCode) {
-        ClothingDeliverActivity.actionStart(getActivity(), collectCode,REQUEST_CODE_DELIVE);
+        ClothingDeliverActivity.actionStart(getActivity(), collectCode, REQUEST_CODE_DELIVE);
     }
 
     private void confirmDeliver(String collectCode) {
-        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode,REQUEST_CODE_DELIVE_CONFIRM);
+        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode,
+                REQUEST_CODE_DELIVE_CONFIRM);
     }
 
-    private void confirmDeliver(String collectCode,String scanCode) {
-        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode,scanCode,REQUEST_CODE_DELIVE_CONFIRM);
+    private void confirmDeliver(String collectCode, String scanCode) {
+        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode, scanCode,
+                REQUEST_CODE_DELIVE_CONFIRM);
     }
 
 }
