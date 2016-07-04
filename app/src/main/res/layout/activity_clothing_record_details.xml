@@ -5,6 +5,10 @@
     android:background="@color/page_bg_f2"
     android:orientation="vertical">
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
     <LinearLayout
         style="@style/multi_row_style"
         android:background="@color/white_bg"
@@ -112,7 +116,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:paddingRight="12dp"
-                            android:src="@mipmap/time" />
+                            android:src="@mipmap/user_new" />
 
                         <TextView
                             android:id="@+id/txt_username"
@@ -152,7 +156,7 @@
                             android:layout_height="wrap_content"
                             android:layout_gravity="center"
                             android:paddingRight="12dp"
-                            android:src="@mipmap/address" />
+                            android:src="@mipmap/address_new" />
 
                         <TextView
                             android:id="@+id/txt_address"
@@ -224,5 +228,5 @@
 
 
     <include layout="@layout/layout_clothing_list" />
-
+    </ScrollView>
 </LinearLayout>
