@@ -100,13 +100,6 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     @Bind(R.id.txt_scan_code_lab)
     TextView txtScanLab;
 
-    @Bind(R.id.layout_logs)
-    LinearLayout layoutLogs;
-    @Bind(R.id.layout_activities)
-    LinearLayout layoutActivities;
-
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
