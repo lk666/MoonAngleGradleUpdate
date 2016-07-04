@@ -560,6 +560,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                     clothesInfo.add(info);
                     clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
                     clothesInfoAdapter.notifyDataSetChanged();
+                    setActualReceive();
                 }
                 break;
 
@@ -572,6 +573,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                     clothesInfo.add(info);
                     clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
                     clothesInfoAdapter.notifyDataSetChanged();
+                    setActualReceive();
                 }
                 // 删除成功
                 else if (resultCode == ModifyClothesInfoActivity
@@ -587,10 +589,10 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         }
                         clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
                         clothesInfoAdapter.notifyDataSetChanged();
+                        setActualReceive();
                     }
                 }
                 break;
-
 
             case Constants.REQUEST_SCAN:
                 // 扫码返回
@@ -621,6 +623,20 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 
             default:
                 break;
+        }
+    }
+
+    /**
+     * 修改实收数量
+     */
+    private void setActualReceive() {
+        tvActualCollectCount.setText(getString(R.string.create_collect_dialog_actual_receive) +
+                clothesInfo.size());
+
+        if (limitNum > clothesInfo.size()) {
+            btnAdd.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
         }
     }
 

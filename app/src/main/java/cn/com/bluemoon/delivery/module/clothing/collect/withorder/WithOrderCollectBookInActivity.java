@@ -401,9 +401,9 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
                     checkInfo();
                 }
-                // 删除成功
+                // 删除成功，不需要发送修改信息
                 else if (resultCode == ClothingBookInActivity.RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
-                    checkInfo();
+                    getData();
                 }
                 break;
 
