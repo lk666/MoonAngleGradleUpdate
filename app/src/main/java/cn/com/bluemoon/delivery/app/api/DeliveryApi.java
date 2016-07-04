@@ -1009,7 +1009,7 @@ public class DeliveryApi {
 
 
     /* 正常品/不良品 库存详情查询 */
-	/* 返回： ResultProductDetail */
+    /* 返回： ResultProductDetail */
     public static void queryStockDetail(String token, String storeCode, ProductType productType,
                                         AsyncHttpResponseHandler handler) {
 
@@ -1038,7 +1038,7 @@ public class DeliveryApi {
      ********************************/
 
 	/* 2.0.1 级联查询全国行政区域 */
-	/* 返回： ResultArea */
+    /* 返回： ResultArea */
     public static void getRegionSelect(String pid, String type,
                                        AsyncHttpResponseHandler handler) {
 
@@ -2198,26 +2198,34 @@ public class DeliveryApi {
     }
 
     /**
-     * 6.1图片上传，fileName直接用临时文件名
+     * 6.1图片上传
      *
+     * @param fileData 文件流(必填) byte[]
      * @param token    登录凭证(必填) String
-     * @param fileData 文件名称(必填) String
      */
-    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler
-            handler) {
-        if (null == token || null == fileData) {
+    public static void uploadClothesImg( String token, byte[] fileData,  AsyncHttpResponseHandler handler) {
+        if (null == fileData  || null == token) {
             return;
         }
 
         BASE64Encoder encoder = new BASE64Encoder();
         String fileString = encoder.encode(fileData);
 
-        Map<String, Object> params = new HashMap<>();
+        Map<String, String> params = new HashMap<>();
+       // params.put("fileData", fileString);
+
+        // TODO: lk 2016/7/4
+        params.put("fileData", "R0lGODlhMAAWAPMAAO+tY/+lSv+9c/e1a++cQu+cSvelSv+tUv+1c/elQu+ta" +
+                "//WnO/FjPfFlPfO\\r\\nlAAAACH5BAEAAA8ALAAAAAAwABYAQwS7kMlJq3Ur6817bhIgjuQ4IGiqriw6lCUhy4FR33Z+47wx\\r\\n/8AgbEgaCI7IpHJ5fJUK0GjUcKhar9hs1SDtdgmJgHhMLpvFiaB6TVC43/A43MisMwdw4pBu7zf1\\r\\ngCctgy1OgF4FBjqLPD04iJAFM2eUlWlsmHKamnx+dnhugESdnneigaV9hqcwpKlJq6xFhLQqsTCR\\r\\niVq7u1y5uVS8wla+v5CKjozJNcZfk5XQZJeYbNHWAdPUamHXltrUEQA7");
+
+
+
+
+
+        params.put("fileName",  UUID.randomUUID() + ".png");
         params.put("token", token);
-        params.put("fileName", UUID.randomUUID() + ".png");
-        params.put("fileData", fileString);
         String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("/washingService-controller/wash/uploadImg%s",
+        String url = String.format("washingService-controller/wash/uploadImg%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -2298,7 +2306,7 @@ public class DeliveryApi {
         params.put("token", token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/queryActivityLimitNum" +
-                "%s",
+                        "%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
     }

@@ -407,7 +407,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         clothesImg = new ArrayList<>();
         clothesImg.addAll(result.getClothesImg());
 
-        if (clothesImg.size() < 10) {
+        if (clothesImg.size() < MAX_UPLOAD_IMG) {
             ClothingPic addPic = new ClothingPic();
             addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
             clothesImg.add(addPic);

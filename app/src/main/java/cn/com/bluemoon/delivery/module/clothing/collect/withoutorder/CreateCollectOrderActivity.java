@@ -630,13 +630,20 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      * 修改实收数量
      */
     private void setActualReceive() {
+        int size = clothesInfo.size();
         tvActualCollectCount.setText(getString(R.string.create_collect_dialog_actual_receive) +
-                clothesInfo.size());
+                size);
 
-        if (limitNum > clothesInfo.size()) {
+        if (limitNum > size) {
             btnAdd.setEnabled(true);
         } else {
             btnAdd.setEnabled(false);
+        }
+
+        if (size > 0) {
+            vDivOrderReceive.setVisibility(View.VISIBLE);
+        } else {
+            vDivOrderReceive.setVisibility(View.GONE);
         }
     }
 
