@@ -223,6 +223,11 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        // 收衣登记返回，不管有没操作，统一刷一次数据
+        if (requestCode == REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY) {
+            getData();
+        }
+
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
@@ -254,11 +259,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
                     goScanCode();
                 }
-                break;
-
-            // 收衣登记返回，不管有没操作，统一刷一次数据
-            case REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY:
-                getData();
                 break;
             default:
                 break;
