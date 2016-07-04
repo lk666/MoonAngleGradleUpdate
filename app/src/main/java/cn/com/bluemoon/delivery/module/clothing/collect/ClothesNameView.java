@@ -42,7 +42,7 @@ public class ClothesNameView extends FrameLayout {
     }
 
     private void init() {
-        colorSelected = getContext().getResources().getColor(R.color.btn_blue);
+        colorSelected = getContext().getResources().getColor(R.color.text_blue);
         colorNormal = getContext().getResources().getColor(R.color.text_black_light);
 
         LayoutInflater inflater = LayoutInflater.from(getContext());

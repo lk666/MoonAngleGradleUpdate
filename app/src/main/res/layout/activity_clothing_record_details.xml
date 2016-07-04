@@ -135,7 +135,7 @@
                             android:autoLink="phone"
                             android:gravity="center_vertical"
                             android:singleLine="true"
-                            android:textColor="@color/btn_blue"
+                            android:textColor="@color/text_blue"
                             android:textSize="@dimen/text_size_13" />
 
                     </LinearLayout>
