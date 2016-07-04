@@ -307,11 +307,16 @@
             android:windowSoftInputMode="stateHidden"/>
 
         <activity
-            android:name=".module.clothing.collect.withoutorder.createclothesinfo.CreateClothesInfoActivity"
+            android:name=".module.clothing.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateHidden"/>
 
+        <activity
+            android:name=".module.clothing.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateHidden"/>
 
         <service android:name=".card.LocationSvc"/>
 

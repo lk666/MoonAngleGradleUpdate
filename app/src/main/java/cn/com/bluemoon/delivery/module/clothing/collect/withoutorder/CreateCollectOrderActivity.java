@@ -38,8 +38,10 @@ import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
         .CreateClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
+        .ModifyClothesInfoActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -60,7 +62,10 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     private static final int RESULT_CODE_TO_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
 
-
+    /**
+     * 修改衣物
+     */
+    public static final int REQUEST_CODE_MODIFY_CLOTHES_INFO = 0x92;
     /**
      * 新增衣物
      */
@@ -398,8 +403,13 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // 添加衣物
             case R.id.btn_add:
-                CreateClothesInfoActivity.actionStart(this, activityCode,
-                        REQUEST_CODE_ADD_CLOTHES_INFO);
+                // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
+                if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
+                    PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
+                } else {
+                    CreateClothesInfoActivity.actionStart(this, activityCode,
+                            REQUEST_CODE_ADD_CLOTHES_INFO);
+                }
                 break;
             //  完成收衣
             case R.id.btn_finish:
@@ -473,7 +483,21 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        // TODO: lk 2016/6/28 点击衣物信息，修改衣物
+        // 点击衣物信息，修改衣物
+        UploadClothesInfo info = getUploadClothesInfo((ClothesInfo) item);
+        ModifyClothesInfoActivity.actionStart(this, activityCode, info,
+                REQUEST_CODE_MODIFY_CLOTHES_INFO);
+    }
+
+    private UploadClothesInfo getUploadClothesInfo(ClothesInfo item) {
+        if (item != null) {
+            for (UploadClothesInfo uploadInfo : clothesInfo) {
+                if (item.getClothesCode().equals(uploadInfo.getClothesCode())) {
+                    return uploadInfo;
+                }
+            }
+        }
+        return null;
     }
 
 
@@ -536,21 +560,39 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                     clothesInfo.add(info);
                     clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
                     clothesInfoAdapter.notifyDataSetChanged();
+                    setActualReceive();
                 }
                 break;
 
-//            case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
-//                // 保存成功
-//                if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
-//                    getData();
-//                }
-//                // 删除成功
-//                else if (resultCode == ClothingBookInActivity
-// .RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
-//                    getData();
-//                }
-//                break;
-//
+            case REQUEST_CODE_MODIFY_CLOTHES_INFO:
+                // 保存成功
+                if (resultCode == RESULT_OK) {
+                    UploadClothesInfo info = (UploadClothesInfo) data.getSerializableExtra
+                            (CreateClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
+                    clothesInfo.remove(info);
+                    clothesInfo.add(info);
+                    clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
+                    clothesInfoAdapter.notifyDataSetChanged();
+                    setActualReceive();
+                }
+                // 删除成功
+                else if (resultCode == ModifyClothesInfoActivity
+                        .RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
+                    String deleteClothesCode = data.getStringExtra(ModifyClothesInfoActivity
+                            .RESULT_DELETE_CLOTHES_CODE);
+                    if (deleteClothesCode != null) {
+                        for (UploadClothesInfo info : clothesInfo) {
+                            if (deleteClothesCode.equals(info.getClothesCode())) {
+                                clothesInfo.remove(info);
+                                break;
+                            }
+                        }
+                        clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
+                        clothesInfoAdapter.notifyDataSetChanged();
+                        setActualReceive();
+                    }
+                }
+                break;
 
             case Constants.REQUEST_SCAN:
                 // 扫码返回
@@ -584,6 +626,20 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         }
     }
 
+    /**
+     * 修改实收数量
+     */
+    private void setActualReceive() {
+        tvActualCollectCount.setText(getString(R.string.create_collect_dialog_actual_receive) +
+                clothesInfo.size());
+
+        if (limitNum > clothesInfo.size()) {
+            btnAdd.setEnabled(true);
+        } else {
+            btnAdd.setEnabled(false);
+        }
+    }
+
     // TODO: lk 2016/7/1 为什么不能直接  clothesInfoAdapter.setList(clothesInfo);
     private List<ClothesInfo> getClothesInfoList(List<UploadClothesInfo> list) {
         List<ClothesInfo> clothes = new ArrayList<>();
@@ -597,6 +653,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      * @param code
      */
     private void handleScaneCodeBack(String code) {
+        // TODO: lk 2016/7/2 应加个接口验证收衣单条码合法性
         tvCollectBrcode.setText(code);
     }
 }

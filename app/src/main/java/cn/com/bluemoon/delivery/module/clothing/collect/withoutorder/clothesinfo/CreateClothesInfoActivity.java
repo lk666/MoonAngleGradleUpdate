@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.createclothesinfo;
+package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -369,6 +369,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 tmpUploadClothesInfo.setHasStain(sbStain.isChecked() ? 1 : 0);
                 tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
                 tmpUploadClothesInfo.setTypeCode(etBackup.getText().toString());
+                tmpUploadClothesInfo.setClothingPics(clothesImg);
 
                 Intent i = new Intent();
                 i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
