@@ -57,8 +57,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private final static int REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY = 0x12;
     private static final int RESULT_CODE_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
-    private static final int REQUEST_CODE_DELIVE = 0x44;
-    private static final int REQUEST_CODE_DELIVE_CONFIRM = 0x45;
+    private static final int REQUEST_CODE_DELIVER = 0x44;
+    private static final int REQUEST_CODE_DELIVER_CONFIRM = 0x45;
     private ClothingTabActivity main;
     private ResultWithOrderClothingCollectList orderList;
     private OrderAdapter adapter;
@@ -261,8 +261,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     goScanCode();
                 }
                 break;
-            case REQUEST_CODE_DELIVE_CONFIRM:
-            case REQUEST_CODE_DELIVE:
+            case REQUEST_CODE_DELIVER_CONFIRM:
+            case REQUEST_CODE_DELIVER:
                 if (resultCode == Activity.RESULT_OK) {
                     getData();
                 }
@@ -658,17 +658,17 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     };
 
     private void deliver(String collectCode) {
-        ClothingDeliverActivity.actionStart(getActivity(), collectCode, REQUEST_CODE_DELIVE);
+        ClothingDeliverActivity.actionStart(getActivity(), collectCode, REQUEST_CODE_DELIVER);
     }
 
     private void confirmDeliver(String collectCode) {
         ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode,
-                REQUEST_CODE_DELIVE_CONFIRM);
+                REQUEST_CODE_DELIVER_CONFIRM);
     }
 
     private void confirmDeliver(String collectCode, String scanCode) {
         ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode, scanCode,
-                REQUEST_CODE_DELIVE_CONFIRM);
+                REQUEST_CODE_DELIVER_CONFIRM);
     }
 
 }
