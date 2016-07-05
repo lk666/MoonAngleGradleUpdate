@@ -184,8 +184,6 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
         txtTotalMoney.setText(StringUtil.formatPriceByFen(record.getPayTotal()));
         if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
 
-            txtUserName.setText(record.getReceiveName());
-            txtUserPhone.setText(record.getReceivePhone());
             txtOutCode.setText(record.getOuterCode());
             txtNeed.setText(String.valueOf(record.getReceivableTotal()));
             if (null != record.getOrderDetail() && record.getOrderDetail().size() > 0) {
@@ -198,13 +196,13 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
         } else {
             txtScanLab.setVisibility(View.GONE);
             txtNeedLab.setVisibility(View.GONE);
-            txtUserName.setText(record.getCustomerName());
-            txtUserPhone.setText(record.getCustomerPhone());
+
             txtOutCode.setText(record.getActivityName());
             txtActual.setText(String.valueOf(record.getActualCount()));
             txtScanCode.setText("");
         }
-
+        txtUserName.setText(record.getCustomerName());
+        txtUserPhone.setText(record.getCustomerPhone());
         txtCollectNum.setText(record.getCollectCode());
         txtUrgent.setVisibility(record.getIsUrgent()>0?View.VISIBLE:View.GONE);
 
