@@ -21,7 +21,6 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -71,6 +70,8 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
     TextView tvCollectAppointBackTime;
     @Bind(R.id.tv_clotnes_code)
     TextView tvClotnesCode;
+    @Bind(R.id.tv_clothes_name)
+    TextView tvClothesName;
     @Bind(R.id.tv_type_name)
     TextView tvTypeName;
     @Bind(R.id.tv_flaw_dec)
@@ -200,6 +201,7 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
         tvClotnesCode.setText(getString(R.string.clothing_detail_clothes_code) + result
                 .getCollectCode());
         tvTypeName.setText(result.getTypeName());
+        tvClothesName.setText(result.getClothesName());
 
         if (result.getHasFlaw() == 1) {
             ivFlaw.setVisibility(View.VISIBLE);
@@ -238,7 +240,8 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
             switch (view.getId()) {
                 // 浏览图片
                 case R.id.iv_pic:
-                    // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn.net/lvshaorong/article/details/50392057
+                    // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn
+                    // .net/lvshaorong/article/details/50392057
                     DialogUtil.showPictureDialog(ClothesDetailActivity.this, pic.getImgPath());
                     break;
             }
