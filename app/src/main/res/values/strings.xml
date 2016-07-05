@@ -714,6 +714,7 @@
 
     <string name="link_phone"><u>18620798515</u></string>
     <string name="clothing_title_refuse">拒绝原因</string>
+    <string name="clothing_hint_refuse">请在此处填写拒接原因</string>
 
     <!-- 衣物详情 -->
     <string name="title_clothing_detail">衣物详情</string>
@@ -758,4 +759,6 @@
     <string name="create_collect_dialog_actual_receive">实收：</string>
 
     <string name="notice_add_clothes_no_brcode">还未扫描收衣条码，请扫描后继续操作。</string>
+
+    <string name="pending_order_success">已成功接单</string>
 </resources>

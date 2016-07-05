@@ -21,15 +21,9 @@ public class ResultStartCollectInfos extends ResultBase {
      * 洗衣服务订单号
      */
     private String outerCode;
-    /**
-     * 消费者姓名
-     */
-    private String receiveName;
 
-    /**
-     * 消费者电话
-     */
-    private String receivePhone;
+   private  String customerName;
+    private  String customerPhone;
     /**
      * 省份
      */
@@ -104,22 +98,21 @@ public class ResultStartCollectInfos extends ResultBase {
         this.outerCode = outerCode;
     }
 
-    public String getReceiveName() {
-        return receiveName;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setReceiveName(String receiveName) {
-        this.receiveName = receiveName;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
-    public String getReceivePhone() {
-        return receivePhone;
+    public String getCustomerPhone() {
+        return customerPhone;
     }
 
-    public void setReceivePhone(String receivePhone) {
-        this.receivePhone = receivePhone;
+    public void setCustomerPhone(String customerPhone) {
+        this.customerPhone = customerPhone;
     }
-
 
     public String getProvince() {
         return province;

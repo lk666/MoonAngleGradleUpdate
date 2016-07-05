@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
@@ -26,6 +27,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.account.LoginActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultScanOrderInfo;
@@ -45,6 +47,7 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 // TODO: lk 2016/6/13 可写个基类专门处理这种基本逻辑一样的fragment，将公共逻辑抽取（一步步来），
 // 可参照dobago的BaseRefreshListFragment
@@ -68,6 +71,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     Button btnOk;
     Button btnCancel;
     String currentCollectCode;
+    String currentOuterCode;
     @Bind(R.id.list_view_main)
     PullToRefreshListView listViewMain;
 
@@ -328,7 +332,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
         // 扫描的是订单编码，刷新界面
         else if (result.getCodeType().equals(ResultScanOrderInfo.CODE_TYPE_OUTER_CODE)) {
-           getData();
+            getData();
         }
     }
 
@@ -555,8 +559,9 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 switch (order.getWashStatus()) {
                     // 取消订单
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
-                        cancelOrder(ClientStateManager.getLoginToken(getActivity()), order
-                                .getOuterCode());
+                        currentOuterCode = order
+                                .getOuterCode();
+                        cancelOrder();
                         break;
 
                     // 收衣中，衣服转交
@@ -609,14 +614,35 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     }
 
 
-    private void cancelOrder(String token, String outerCode) {
-        showProgressDialog();
-        DeliveryApi.signOrderInfo(token, outerCode, Constants.STATUS_CANCEL_ORDER, baseHandler);
+    private void cancelOrder() {
+
+        new CommonAlertDialog.Builder(main)
+                .setCancelable(true)
+                .setMessage(main.getString(R.string.pending_order_get_or_not))
+                .setPositiveButton(R.string.btn_cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                            }
+                        })
+                .setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        showProgressDialog();
+                        DeliveryApi.signOrderInfo(ClientStateManager.getLoginToken(main), currentOuterCode, Constants.STATUS_CANCEL_ORDER, baseHandler);
+
+                    }
+                })
+                .show();
+
+
     }
 
     private void acceptOrder(String token, String outerCode) {
         showProgressDialog();
-        DeliveryApi.signOrderInfo(token, outerCode, Constants.STATUS_ACCEPTL_ORDER, baseHandler);
+        DeliveryApi.signOrderInfo(token, outerCode, Constants.STATUS_ACCEPTL_ORDER, acceptHandler);
     }
 
 
@@ -637,7 +663,38 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    PublicUtil.showToast(result.getResponseMsg());
+                    getData();
+                } else {
+                    PublicUtil.showErrorMsg(getActivity(), result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+
+
+    };
+    AsyncHttpResponseHandler acceptHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(getDefaultTag(), "acceptHandler result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    PublicUtil.showToast(getResources().getString(R.string.pending_order_success));
                     getData();
                 } else {
                     PublicUtil.showErrorMsg(getActivity(), result);
@@ -657,6 +714,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         }
     };
 
+
     private void deliver(String collectCode) {
         ClothingDeliverActivity.actionStart(getActivity(), collectCode, REQUEST_CODE_DELIVER);
     }
@@ -670,5 +728,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode, scanCode,
                 REQUEST_CODE_DELIVER_CONFIRM);
     }
+
 
 }
