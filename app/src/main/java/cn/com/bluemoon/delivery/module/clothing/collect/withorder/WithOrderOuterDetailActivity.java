@@ -18,7 +18,6 @@ import org.apache.http.protocol.HTTP;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -148,13 +147,6 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
         tvCustomerPhone.setText(result.getReceivePhone());
         tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvCustomerPhone.getPaint().setAntiAlias(true);
-//        tvCustomerPhone.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                PublicUtil.callPhone(WithOrderOuterDetailActivity.this, tvCustomerPhone.getText()
-//                        .toString());
-//            }
-//        });
 
         tvAddress.setText(result.getAddress());
 
@@ -167,7 +159,12 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
         orderDetailAdapter.setList(result.getOrderDetail());
         orderDetailAdapter.notifyDataSetChanged();
 
-//        main.scrollTo(0, 0);
+        main.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                main.scrollTo(0, 0);
+            }
+        }, 100);
     }
 
     private void setIntentData() {

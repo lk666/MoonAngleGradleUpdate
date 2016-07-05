@@ -36,6 +36,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClothesCode;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -55,6 +56,9 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
  */
 public class ClothingBookInActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
+    // TODO: lk 2016/7/5 code可在baseActivity中建一个自增变量
+    public static final String RESULT_COLLECT_CODE = "RESULT_COLLECT_CODE";
+
     /**
      * 最多上传图片数量
      */
@@ -550,12 +554,22 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 int hasFlaw = sbFalw.isChecked() ? 1 : 0;
                 String flawDesc = etFlaw.getText().toString();
                 int hasStain = sbStain.isChecked() ? 1 : 0;
-                String remark = etBackup.getText().toString();
+                final String remark = etBackup.getText().toString();
                 String clothesImgIds = clothingAdapter.getAllIdsString();
 
                 DeliveryApi.registerCollectInfo(ClientStateManager.getLoginToken(this),
                         collectCode, typeCode, clothesnameCode, clothesCode, hasFlaw, flawDesc,
-                        hasStain, remark, clothesImgIds, outerCode, registerCollectInfoHandler);
+                        hasStain, remark, clothesImgIds, outerCode, createResponseHandler(new IHttpResponseHandler() {
+                            @Override
+                            public void onResponseSuccess(String responseString) {
+                                ResultRegisterCollectInfo result = JSON.parseObject
+                                        (responseString, ResultRegisterCollectInfo.class);
+                                Intent i = new Intent();
+                                i.putExtra(RESULT_COLLECT_CODE, result.getCollectCode());
+                                setResult(RESULT_CODE_SAVE_CLOTHES_SUCCESS, i);
+                                finish();
+                            }
+                        }));
 
                 break;
 
@@ -632,41 +646,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 getString(R.string.with_order_collect_manual_input_code_btn),
                 Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
     }
-
-    /**
-     * 点击确定响应
-     */
-    AsyncHttpResponseHandler registerCollectInfoHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            // TODO: lk 2016/6/20 待测试
-            LogUtils.d(getDefaultTag(), "getClothesTypeConfigs result = " + responseString);
-            dismissProgressDialog();
-            try {
-                ResultBase result = JSON.parseObject(responseString, ResultBase.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    setResult(RESULT_CODE_SAVE_CLOTHES_SUCCESS);
-                    finish();
-                } else {
-                    PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
-                }
-            } catch (Exception e) {
-                LogUtils.e(getDefaultTag(), e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(getDefaultTag(), throwable.getMessage());
-            dismissProgressDialog();
-            PublicUtil.showToastServerOvertime();
-        }
-    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
