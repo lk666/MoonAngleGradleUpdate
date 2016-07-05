@@ -109,18 +109,23 @@
                     style="@style/txt_title_11"/>
             </LinearLayout>
 
-
             <cn.com.bluemoon.delivery.ui.NoScrollListView
                 android:id="@+id/lv_order_detail"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/ll_count"
-                android:layout_margin="12dp"
-                android:layout_marginBottom="12dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
                 android:divider="@color/transparent"
                 android:dividerHeight="8dp"
                 android:footerDividersEnabled="false"
                 android:headerDividersEnabled="false"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_below="@+id/lv_order_detail"
+                android:layout_height="12dp" />
         </RelativeLayout>
 
         <cn.com.bluemoon.delivery.ui.NoScrollListView
