@@ -82,7 +82,7 @@
                     android:autoLink="phone"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
-                    android:inputType="phone"
+                    android:textColorLink="@color/text_blue"
                     android:singleLine="true"
                     android:textColor="@color/text_blue"
                     android:textSize="@dimen/text_size_13" />

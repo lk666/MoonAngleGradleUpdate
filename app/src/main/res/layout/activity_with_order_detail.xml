@@ -52,7 +52,7 @@
                     android:id="@+id/tv_customer_phone"
                     style="@style/txt_content_13"
                     android:autoLink="phone"
-                    android:inputType="phone"
+                    android:textColorLink="@color/text_blue"
                     android:textColor="@color/text_blue"/>
             </cn.com.bluemoon.lib.tagview.FlowLayout>
 

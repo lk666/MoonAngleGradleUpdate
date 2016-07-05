@@ -135,7 +135,7 @@
                             android:layout_gravity="center"
                             android:layout_marginLeft="10dp"
                             android:ellipsize="end"
-                            android:inputType="phone"
+                            android:textColorLink="@color/text_blue"
                             android:autoLink="phone"
                             android:gravity="center_vertical"
                             android:singleLine="true"

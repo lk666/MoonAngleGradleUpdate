@@ -104,7 +104,7 @@
             android:layout_marginRight="108dp"
             android:layout_toRightOf="@+id/tv_customer_name"
             android:autoLink="phone"
-            android:inputType="phone"
+            android:textColorLink="@color/text_blue"
             android:minWidth="100dp"
             android:singleLine="true"
             android:textColor="@color/text_blue"

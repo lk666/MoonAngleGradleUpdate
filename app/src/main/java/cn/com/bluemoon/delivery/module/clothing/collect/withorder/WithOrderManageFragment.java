@@ -342,8 +342,13 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
      * 收衣订单Adapter
      */
     class OrderAdapter extends BaseListAdapter<WithOrderClothingCollectOrder> {
+        private int colorTxtBtnBlue;
+        private int colorTxtBtnGray;
+
         public OrderAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
+            colorTxtBtnBlue = getResources().getColor(R.color.btn_blue);
+            colorTxtBtnGray = getResources().getColor(R.color.text_black_light);
         }
 
         @Override
@@ -397,6 +402,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                             ()).append(order.getAddress());
             tvAddress.setText(address);
 
+            // 右边文本按钮
             switch (order.getWashStatus()) {
                 // 待接单
                 case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
@@ -407,6 +413,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                     btnRightAction.setText(getString(R.string.with_order_collect_btn_accept));
                     tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept));
+                    tvRightAction.setTextColor(colorTxtBtnGray);
                     break;
 
                 // 开始收衣
@@ -427,6 +434,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         btnRightAction.setText(getString(R.string
                                 .with_order_collect_btn_continue_collect));
                         tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
+                        tvRightAction.setTextColor(colorTxtBtnBlue);
                     }
 
                     // 衣物转交
@@ -434,6 +442,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         btnRightAction.setVisibility(View.INVISIBLE);
                         tvRightAction.setVisibility(View.VISIBLE);
                         tvRightAction.setText(getString(R.string.with_order_collect_txt_translate));
+                        tvRightAction.setTextColor(colorTxtBtnBlue);
                     }
                     break;
 
@@ -446,6 +455,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                             .with_order_collect_btn_confirm_translate));
                     tvRightAction.setText(getString(R.string
                             .with_order_collect_txt_refuse_translate));
+                    tvRightAction.setTextColor(colorTxtBtnGray);
                     break;
 
                 case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
