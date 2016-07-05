@@ -5,7 +5,11 @@
               android:background="@color/page_bg_f2"
               android:orientation="vertical">
 
-    <include layout="@layout/include_clothes_info"/>
+    <include
+        layout="@layout/include_clothes_info"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"/>
 
     <LinearLayout
         android:layout_width="match_parent"
