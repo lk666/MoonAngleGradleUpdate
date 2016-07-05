@@ -39,13 +39,8 @@
 
                 <EditText
                     android:id="@+id/et_name"
-                    style="@style/txt_content_15"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:background="@null"
-                    android:gravity="right"
-                    android:hint="@string/create_collect_order_customer_name_hint"
-                    android:singleLine="true"/>
+                    style="@style/txt_input_content_15"
+                    android:hint="@string/create_collect_order_customer_name_hint"/>
             </LinearLayout>
 
             <View style="@style/line_solid_style"/>
@@ -70,14 +65,9 @@
 
                 <EditText
                     android:id="@+id/et_phone"
-                    style="@style/txt_content_15"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:background="@null"
-                    android:gravity="right"
+                    style="@style/txt_input_content_15"
                     android:hint="@string/create_collect_order_customer_phone_hint"
-                    android:inputType="phone"
-                    android:singleLine="true"/>
+                    android:inputType="phone"/>
             </LinearLayout>
 
             <View style="@style/line_solid_style"/>
@@ -100,14 +90,10 @@
 
                 <TextView
                     android:id="@+id/tv_province_city_country"
-                    style="@style/txt_content_15"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:drawablePadding="8dp"
+                    style="@style/txt_input_content_15"
+                    android:drawablePadding="4dp"
                     android:drawableRight="@mipmap/icon_right"
-                    android:gravity="right"
-                    android:hint="@string/create_collect_order_province_county_hint"
-                    android:singleLine="true"/>
+                    android:hint="@string/create_collect_order_province_county_hint"/>
             </LinearLayout>
 
             <View
@@ -133,14 +119,10 @@
 
                 <TextView
                     android:id="@+id/tv_street_village"
-                    style="@style/txt_content_15"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:drawablePadding="8dp"
+                    style="@style/txt_input_content_15"
+                    android:drawablePadding="4dp"
                     android:drawableRight="@mipmap/icon_right"
-                    android:gravity="right"
-                    android:hint="@string/create_collect_order_street_village_hint"
-                    android:singleLine="true"/>
+                    android:hint="@string/create_collect_order_street_village_hint"/>
             </LinearLayout>
 
             <View style="@style/line_solid_style"/>
@@ -165,14 +147,9 @@
 
                 <EditText
                     android:id="@+id/et_address"
-                    style="@style/txt_content_15"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:background="@null"
-                    android:gravity="right"
+                    style="@style/txt_input_content_15"
                     android:hint="@string/create_collect_order_address_hint"
-                    android:inputType="phone"
-                    android:singleLine="true"/>
+                    />
             </LinearLayout>
 
             <View style="@style/line_solid_style"/>
@@ -210,12 +187,9 @@
 
                 <TextView
                     android:id="@+id/tv_collect_brcode"
-                    style="@style/txt_content_15"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="right"
+                    style="@style/txt_input_content_15"
                     android:hint="@string/with_order_collect_collect_code_hint"
-                    android:singleLine="true"/>
+                    />
             </LinearLayout>
 
             <View style="@style/line_solid_style"/>
@@ -256,12 +230,8 @@
 
                 <TextView
                     android:id="@+id/tv_appoint_back_time"
-                    style="@style/txt_content_15"
-                    android:layout_width="match_parent"
-                    android:layout_marginLeft="15dp"
-                    android:gravity="right"
-                    android:hint="@string/with_order_collect_appoint_back_time_hint"
-                    android:singleLine="true"/>
+                    style="@style/txt_input_content_15"
+                    android:hint="@string/with_order_collect_appoint_back_time_hint"/>
             </LinearLayout>
         </LinearLayout>
 

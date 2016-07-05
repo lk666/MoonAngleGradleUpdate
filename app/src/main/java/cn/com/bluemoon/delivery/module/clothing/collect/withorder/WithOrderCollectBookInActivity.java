@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -100,6 +101,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     View vDivIsurgent;
     @Bind(R.id.ll_isurgent)
     LinearLayout llIsurgent;
+    @Bind(R.id.main)
+    ScrollView main;
 
     /**
      * 实际预约时间
@@ -283,6 +286,13 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         initInfoString = getInfoString(result.getCollectBrcode(), appointBackTime, result
                 .getIsUrgent());
         isInitFinished = true;
+
+        main.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                main.scrollTo(0, 0);
+            }
+        }, 100);
     }
 
     private String getInfoString(String collectBrcode, long appointBackTime, int isUrgent) {
@@ -398,10 +408,10 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         switch (requestCode) {
             case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
 
-                // TODO: lk 2016/7/5 利用返回新增的clothescode
+                // 利用返回新增的clothescode
                 // 保存成功
                 if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
-                    checkInfo();
+                    checkInfo(data.getStringExtra(ClothingBookInActivity.RESULT_COLLECT_CODE));
                 }
                 // 删除成功，不需要发送修改信息
                 else if (resultCode == ClothingBookInActivity.RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
@@ -443,14 +453,16 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
     /**
      * 检查{@link #initInfoString}，先对比预约时间等的3个的信息是否变更，在发送update预约，再getData()
+     *
+     * @param collectCode
      */
-    private void checkInfo() {
+    private void checkInfo(String collectCode) {
         String brCode = tvCollectBrcode.getText().toString();
         int isUrgent = sbUrgent.isChecked() ? 1 : 0;
         if (getInfoString(brCode, appointBackTime, isUrgent).equals(initInfoString)) {
             getData();
         } else {
-            updateCollectInfoParam(appointBackTime, brCode, isUrgent);
+            updateCollectInfoParam(collectCode, appointBackTime, brCode, isUrgent);
         }
 
     }
@@ -458,7 +470,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     /**
      * 更改收衣登记预约时间等信息
      */
-    private void updateCollectInfoParam(long appointBackTime, String collectBrcode,
+    private void updateCollectInfoParam(String collectCode, long appointBackTime, String
+            collectBrcode,
                                         int isUrgent) {
         if (collectBrcode == null) {
             collectBrcode = "";

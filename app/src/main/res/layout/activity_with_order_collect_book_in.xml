@@ -62,8 +62,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="phone"
-                    android:textColorLink="@color/text_blue"
                     android:textColor="@color/text_blue"
+                    android:textColorLink="@color/text_blue"
                     android:textSize="@dimen/text_size_13"/>
             </cn.com.bluemoon.lib.tagview.FlowLayout>
 
@@ -81,17 +81,18 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignTop="@+id/iv_address"
-                android:layout_marginLeft="12dp"
-                android:lineSpacingExtra="6dp"
-                android:layout_marginRight="16dp"
                 android:layout_marginBottom="12dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="16dp"
                 android:layout_toRightOf="@+id/iv_address"
+                android:lineSpacingExtra="6dp"
                 android:textColor="@color/text_black_light"
                 android:textSize="@dimen/text_size_13"/>
 
-            <View  android:id="@+id/v_div_count"
-                android:layout_below="@+id/tv_address"
-                style="@style/line_solid_padding_left_style"/>
+            <View
+                android:id="@+id/v_div_count"
+                style="@style/line_solid_padding_left_style"
+                android:layout_below="@+id/tv_address"/>
 
             <!--todo lk 可以写到include中，可重用-->
             <LinearLayout
@@ -165,9 +166,8 @@
                 android:paddingRight="16dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/with_order_collect_collect_code"
                     android:textColor="@color/text_black"
@@ -175,20 +175,14 @@
 
                 <TextView
                     android:id="@+id/tv_collect_brcode"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
+                    style="@style/txt_input_content_15"
                     android:enabled="false"
-                    android:gravity="right"
-                    android:hint="@string/with_order_collect_collect_code_hint"
-                    android:singleLine="true"
-                    android:textColor="@color/text_black"
-                    android:textColorHint="@color/text_grep"
-                    android:textSize="@dimen/text_size_15"/>
+                    android:hint="@string/with_order_collect_collect_code_hint"/>
             </LinearLayout>
 
 
-            <View  android:id="@+id/v_div_isurgent"
+            <View
+                android:id="@+id/v_div_isurgent"
                 style="@style/line_solid_style"/>
 
             <LinearLayout
@@ -213,7 +207,8 @@
                     layout="@layout/widget_switch_button_yes_no"/>
             </LinearLayout>
 
-            <View  android:id="@+id/v_div_appoint_back_time"
+            <View
+                android:id="@+id/v_div_appoint_back_time"
                 style="@style/line_solid_style"/>
 
             <LinearLayout
@@ -225,9 +220,8 @@
                 android:paddingRight="12dp">
 
                 <TextView
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:gravity="center_vertical"
                     android:text="@string/with_order_collect_appoint_back_time"
                     android:textColor="@color/text_black"
@@ -235,28 +229,22 @@
 
                 <TextView
                     android:id="@+id/tv_appoint_back_time"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:drawablePadding="5dp"
+                    style="@style/txt_input_content_15"
+                    android:drawablePadding="4dp"
                     android:drawableRight="@mipmap/icon_right"
-                    android:gravity="right"
                     android:hint="@string/with_order_collect_appoint_back_time_hint"
-                    android:singleLine="true"
-                    android:textColor="@color/text_black"
-                    android:textColorHint="@color/text_grep"
-                    android:textSize="@dimen/text_size_15"/>
+                    />
             </LinearLayout>
         </LinearLayout>
 
         <cn.com.bluemoon.delivery.ui.NoScrollListView
             android:id="@+id/lv_order_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:background="@color/white_bg"
             android:divider="@drawable/line_solid_divider"
             android:dividerHeight="0.5dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
             android:footerDividersEnabled="false"
             android:headerDividersEnabled="false"/>
 
