@@ -54,8 +54,6 @@ public class ResultClothingRecord extends ResultBase {
     private int payTotal;
     private String province;
     private int receivableTotal;
-    private String receiveName;
-    private String receivePhone;
     private String street;
 
     private String customerName;
@@ -180,22 +178,6 @@ public class ResultClothingRecord extends ResultBase {
 
     public void setReceivableTotal(int receivableTotal) {
         this.receivableTotal = receivableTotal;
-    }
-
-    public String getReceiveName() {
-        return receiveName;
-    }
-
-    public void setReceiveName(String receiveName) {
-        this.receiveName = receiveName;
-    }
-
-    public String getReceivePhone() {
-        return receivePhone;
-    }
-
-    public void setReceivePhone(String receivePhone) {
-        this.receivePhone = receivePhone;
     }
 
     public String getStreet() {
