@@ -326,9 +326,9 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             confirmDeliver(result.getCollectCode(), scaneCode);
         }
 
-        // 扫描的是订单编码
+        // 扫描的是订单编码，刷新界面
         else if (result.getCodeType().equals(ResultScanOrderInfo.CODE_TYPE_OUTER_CODE)) {
-            gotoCollectBookIn(scaneCode, null);
+           getData();
         }
     }
 

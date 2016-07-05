@@ -397,6 +397,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         switch (requestCode) {
             case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
+
+                // TODO: lk 2016/7/5 利用返回新增的clothescode
                 // 保存成功
                 if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
                     checkInfo();

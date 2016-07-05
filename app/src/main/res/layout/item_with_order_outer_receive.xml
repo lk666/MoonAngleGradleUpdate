@@ -35,6 +35,7 @@
         android:layout_below="@+id/div_1"
         android:divider="@drawable/div_left_padding_16"
         android:dividerHeight="@dimen/div_height"
+        android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"/>
 
     <View  android:id="@+id/div_2"

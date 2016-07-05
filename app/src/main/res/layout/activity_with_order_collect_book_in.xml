@@ -183,7 +183,7 @@
                     android:hint="@string/with_order_collect_collect_code_hint"
                     android:singleLine="true"
                     android:textColor="@color/text_black"
-                    android:textColorHint="@color/text_black_light"
+                    android:textColorHint="@color/text_grep"
                     android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
@@ -244,7 +244,7 @@
                     android:hint="@string/with_order_collect_appoint_back_time_hint"
                     android:singleLine="true"
                     android:textColor="@color/text_black"
-                    android:textColorHint="@color/text_black_light"
+                    android:textColorHint="@color/text_grep"
                     android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
         </LinearLayout>
