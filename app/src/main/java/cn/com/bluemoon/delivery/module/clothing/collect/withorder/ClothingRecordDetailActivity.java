@@ -36,6 +36,7 @@ import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTypeAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.DeliverLogAdapter;
+import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -60,7 +61,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     @Bind(R.id.txt_log_open)
     TextView txtLogOpen;
     @Bind(R.id.list_view_log)
-    ListView listViewLog;
+    NoScrollListView listViewLog;
 
     @Bind(R.id.txt_outer_code)
     TextView txtOutCode;
@@ -84,7 +85,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     @Bind(R.id.txt_need)
     TextView txtNeed;
     @Bind(R.id.list_view_type)
-    ListView listViewType;
+    NoScrollListView listViewType;
 
     @Bind(R.id.txt_collect_num)
     TextView txtCollectNum;
@@ -95,7 +96,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     @Bind(R.id.txt_urgent)
     TextView txtUrgent;
     @Bind(R.id.listview_info)
-    ListView listViewInfo;
+    NoScrollListView listViewInfo;
 
     @Bind(R.id.txt_scan_code_lab)
     TextView txtScanLab;
