@@ -230,9 +230,9 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         outerCode = result.getOuterCode();
 
         tvNumber.setText(result.getOuterCode());
-        tvCustomerName.setText(result.getReceiveName());
+        tvCustomerName.setText(result.getCustomerName());
 
-        tvCustomerPhone.setText(result.getReceivePhone());
+        tvCustomerPhone.setText(result.getCustomerPhone());
         tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvCustomerPhone.getPaint().setAntiAlias(true);
 
