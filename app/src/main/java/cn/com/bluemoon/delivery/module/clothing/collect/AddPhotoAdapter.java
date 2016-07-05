@@ -5,7 +5,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
@@ -41,26 +40,25 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
 
         ImageView ivPic = ViewHolder.get(convertView, R.id.iv_pic);
         ImageView ivDelete = ViewHolder.get(convertView, R.id.iv_delete);
-        ImageView ivAdd = ViewHolder.get(convertView, R.id.iv_add);
-        TextView tvAdd = ViewHolder.get(convertView, R.id.tv_add);
+        View rlAdd = ViewHolder.get(convertView, R.id.rl_add);
 
         // 添加相片按钮
         if (pic.getImgId().equals(ADD_IMG_ID)) {
-            ivPic.setImageResource(R.drawable.btn_border_grep_shape4);
+            rlAdd.setVisibility(View.VISIBLE);
             ivDelete.setVisibility(View.GONE);
-            ivAdd.setVisibility(View.VISIBLE);
-            tvAdd.setVisibility(View.VISIBLE);
+            ivPic.setVisibility(View.GONE);
         }
 
         // 已上传图片
         else {
             ImageLoaderUtil.displayImage(context, pic.getImgPath(), ivPic);
+
+            rlAdd.setVisibility(View.GONE);
             ivDelete.setVisibility(View.VISIBLE);
-            ivAdd.setVisibility(View.GONE);
-            tvAdd.setVisibility(View.GONE);
+            ivPic.setVisibility(View.VISIBLE);
         }
 
-        setClickEvent(isNew, position, ivPic, ivDelete);
+        setClickEvent(isNew, position, ivPic, ivDelete, rlAdd);
     }
 
     /**

@@ -2212,16 +2212,7 @@ public class DeliveryApi {
         String fileString = encoder.encode(fileData);
 
         Map<String, String> params = new HashMap<>();
-       // params.put("fileData", fileString);
-
-        // TODO: lk 2016/7/4
-        params.put("fileData", "R0lGODlhMAAWAPMAAO+tY/+lSv+9c/e1a++cQu+cSvelSv+tUv+1c/elQu+ta" +
-                "//WnO/FjPfFlPfO\\r\\nlAAAACH5BAEAAA8ALAAAAAAwABYAQwS7kMlJq3Ur6817bhIgjuQ4IGiqriw6lCUhy4FR33Z+47wx\\r\\n/8AgbEgaCI7IpHJ5fJUK0GjUcKhar9hs1SDtdgmJgHhMLpvFiaB6TVC43/A43MisMwdw4pBu7zf1\\r\\ngCctgy1OgF4FBjqLPD04iJAFM2eUlWlsmHKamnx+dnhugESdnneigaV9hqcwpKlJq6xFhLQqsTCR\\r\\niVq7u1y5uVS8wla+v5CKjozJNcZfk5XQZJeYbNHWAdPUamHXltrUEQA7");
-
-
-
-
-
+        params.put("fileData", fileString);
         params.put("fileName",  UUID.randomUUID() + ".png");
         params.put("token", token);
         String jsonString = JSONObject.toJSONString(params);

@@ -304,7 +304,9 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     private void checkBtnFinishEnable() {
         if (TextUtils.isEmpty(etName.getText().toString()) ||
                 TextUtils.isEmpty(etPhone.getText().toString()) ||
-                TextUtils.isEmpty(tvProvinceCityCountry.getText().toString()) ||
+                TextUtils.isEmpty(province) ||
+                TextUtils.isEmpty(city) ||
+                TextUtils.isEmpty(county) ||
                 TextUtils.isEmpty(etAddress.getText().toString()) ||
                 clothesInfo == null || clothesInfo.size() < 1) {
             btnFinish.setEnabled(false);
@@ -336,6 +338,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             btnAdd.setEnabled(true);
         } else {
             btnAdd.setEnabled(false);
+            btnAdd.setEnabled(false);
         }
     }
 
@@ -360,7 +363,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         tvName.setText(etName.getText().toString());
         tvPhone.setText(etPhone.getText().toString());
         tvAddress.setText((new StrBuilder(province)).append(city).append(county).append(street)
-                .append(view).append(address).toString());
+                .append(village).append(address).toString());
         tvActualReceive.setText(getString(R.string.create_collect_dialog_actual_receive) +
                 clothesInfo.size());
 
@@ -546,7 +549,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         village = tmpVillage;
 
                         tvStreetVillage.setText(street + village);
-                        checkBtnFinishEnable();
                     }
                 }
                 break;

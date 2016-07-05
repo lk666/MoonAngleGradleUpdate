@@ -219,8 +219,6 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
             }
         });
 
-        btnOk.setEnabled(false);
-
         sbFalw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
