@@ -2,8 +2,8 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/page_bg_f2"
     android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
     android:overScrollMode="never">
 
     <LinearLayout
@@ -70,9 +70,9 @@
                     android:id="@+id/tv_op_phone"
                     style="@style/txt_title_13"
                     android:autoLink="phone"
-                    android:textColorLink="@color/text_blue"
                     android:text="@string/clothing_detail_receiver_name"
-                    android:textColor="@color/text_blue"/>
+                    android:textColor="@color/text_blue"
+                    android:textColorLink="@color/text_blue"/>
 
             </LinearLayout>
 
@@ -164,11 +164,16 @@
             style="@style/txt_title_13"
             android:layout_width="match_parent"
             android:background="@color/white_bg"
-            android:paddingBottom="10dp"
+            android:gravity="bottom"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
             android:paddingTop="8dp"
             android:text="@string/clothing_detail_backup"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="10dp"
+            android:background="@color/white_bg"/>
 
         <TextView
             style="@style/txt_title_15"
