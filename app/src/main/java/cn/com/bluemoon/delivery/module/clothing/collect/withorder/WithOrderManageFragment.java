@@ -67,7 +67,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     EditText editReason;
     Button btnOk;
     Button btnCancel;
-
+    String currentCollectCode;
     @Bind(R.id.list_view_main)
     PullToRefreshListView listViewMain;
 
@@ -566,7 +566,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                     //拒绝接收
                     case WithOrderClothingCollectOrder.WASH_STATUS_TRANSFER:
-                        refuseDialogInit(order.getOuterCode());
+                        currentCollectCode = order.getCollectCode();
+                        refuseDialogInit();
                         break;
                     default:
                         break;
@@ -578,8 +579,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     }
 
 
-    private void refuseDialogInit(String collectCode) {
-        final String code = collectCode;
+    private void refuseDialogInit() {
         if (null == refuseDialog) {
             refuseDialog = new Dialog(getActivity(), R.style.dialog);
             refuseDialog.setContentView(R.layout.dialog_refuse_reason_view);
@@ -590,7 +590,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 @Override
                 public void onClick(View v) {
                     if (!StringUtil.isEmpty(editReason.getText().toString())) {
-                        refuseDeliver(ClientStateManager.getLoginToken(getActivity()), code,
+                        refuseDeliver(ClientStateManager.getLoginToken(getActivity()), currentCollectCode,
                                 editReason.getText().toString());
                         refuseDialog.dismiss();
                     }
