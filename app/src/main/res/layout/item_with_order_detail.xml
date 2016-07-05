@@ -1,41 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white_bg">
+                android:layout_height="match_parent">
 
     <Button
         android:id="@+id/btn_add"
         android:layout_width="30dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_marginBottom="7dp"
+        android:layout_marginTop="7dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="7dp"
         android:background="@drawable/btn_add"
         android:scaleType="fitCenter"/>
 
     <TextView
         android:id="@+id/tv_type_name"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/btn_add"
-        android:layout_marginTop="-4dp"
+        android:layout_height="22dp"
+        android:gravity="center_vertical"
         android:layout_toLeftOf="@+id/btn_add"
         android:layout_marginLeft="16dp"
         android:ellipsize="end"
         android:singleLine="true"
+        android:text="asdasdsasdsa"
         android:textColor="@color/text_black"
         android:textSize="@dimen/text_size_13"/>
 
     <TextView
         android:id="@+id/tv_receivable_count"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/btn_add"
-        android:layout_marginBottom="-4dp"
+        android:layout_height="22dp"
+        android:text="asdasdsasdsa"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/tv_type_name"
         android:layout_marginLeft="16dp"
         android:textColor="@color/text_black_light"
         android:textSize="@dimen/text_size_11"/>
@@ -43,7 +41,9 @@
     <TextView
         android:id="@+id/tv_actual_count"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:text="asdasdsasdsa"
+        android:gravity="center_vertical"
+        android:layout_height="20dp"
         android:layout_alignTop="@+id/tv_receivable_count"
         android:layout_marginLeft="85dp"
         android:layout_toLeftOf="@+id/btn_add"

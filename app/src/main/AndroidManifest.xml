@@ -255,12 +255,13 @@
         <activity
             android:name=".module.clothing.collect.withorder.WithOrderCollectBookInActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".module.clothing.collect.withorder.ClothingDeliverActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.ClothesDetailActivity"
             android:screenOrientation="portrait"
@@ -269,54 +270,57 @@
             android:name=".module.clothing.collect.withorder.ClothingDeliverConfirmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.withorder.ClothingRecordDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
 
         <activity
             android:name=".module.clothing.collect.withoutorder.ActivityDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"/>
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.ClothingBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.withorder.ManualInputCodeActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".module.clothing.collect.withorder.WithOrderOuterDetailActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/App.Base.Theme"/>
 
         <activity
             android:name=".module.clothing.collect.withoutorder.ActivityDescActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:theme="@style/App.Base.Theme"/>
 
         <activity
             android:name=".module.clothing.collect.withoutorder.CreateCollectOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <activity
             android:name=".module.clothing.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <activity
             android:name=".module.clothing.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden"/>
 
         <service android:name=".card.LocationSvc"/>
 
