@@ -20,6 +20,9 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -33,6 +36,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollec
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
@@ -118,6 +122,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      * 初始化的收衣单条码+加急+预约时间字符串，用于是否在新增或修改衣物信息后发送更新预约等信息的请求
      */
     private String initInfoString;
+
+    private List<ClothesInfo> initClothes;
 
     /**
      * 收衣单号
@@ -259,6 +265,10 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
                 " " + result.getOrderReceive().getActualCount());
 
+        if (initClothes == null) {
+            initClothes = new ArrayList<>();
+            initClothes.addAll(result.getOrderReceive().getClothesInfo());
+        }
         clothesInfoAdapter.setList(result.getOrderReceive().getClothesInfo());
         clothesInfoAdapter.notifyDataSetInvalidated();
 
@@ -554,10 +564,16 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         // 点击收衣明细项
         if (item instanceof ClothesInfo) {
             ClothesInfo info = (ClothesInfo) item;
-            // 修改衣物
-            ClothingBookInActivity.actionStart(this, collectCode, outerCode, info.getTypeName()
-                    , info.getTypeCode(), true, info.getClothesCode(),
-                    REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
+
+            // 查看详情
+            if (initClothes != null && initClothes.contains(info)) {
+                ClothesDetailActivity.actionStart(this, info.getClothesCode());
+            } else {
+                // 修改衣物
+                ClothingBookInActivity.actionStart(this, collectCode, outerCode, info.getTypeName()
+                        , info.getTypeCode(), true, info.getClothesCode(),
+                        REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
+            }
         }
 
         // 点击洗衣类型项的加号, 添加衣物
@@ -566,9 +582,9 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 //            if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
 //                PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
 //            } else {
-                OrderDetail type = (OrderDetail) item;
-                ClothingBookInActivity.actionStart(this, collectCode, outerCode, type.getTypeName()
-                        , type.getTypeCode(), false, null, REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
+            OrderDetail type = (OrderDetail) item;
+            ClothingBookInActivity.actionStart(this, collectCode, outerCode, type.getTypeName()
+                    , type.getTypeCode(), false, null, REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
 //            }
         }
     }

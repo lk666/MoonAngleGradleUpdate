@@ -7,7 +7,7 @@ import java.io.Serializable;
  * {@link OrderReceiveItem#clothesInfo}数据类
  * Created by lk on 2016/6/21.
  */
-public class ClothesInfo implements Serializable  {
+public class ClothesInfo implements Serializable {
     /**
      * 衣物编码
      */
@@ -93,5 +93,14 @@ public class ClothesInfo implements Serializable  {
 
     public void setClothesnameCode(String clothesnameCode) {
         this.clothesnameCode = clothesnameCode;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof ClothesInfo) {
+            ClothesInfo c = (ClothesInfo) o;
+            return c.getClothesCode().equals(getClothesCode());
+        }
+        return false;
     }
 }
