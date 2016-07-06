@@ -43,7 +43,7 @@
         android:layout_width="match_parent"
         android:text="asdasdsasdsa"
         android:gravity="center_vertical"
-        android:layout_height="20dp"
+        android:layout_height="22dp"
         android:layout_alignTop="@+id/tv_receivable_count"
         android:layout_marginLeft="85dp"
         android:layout_toLeftOf="@+id/btn_add"
