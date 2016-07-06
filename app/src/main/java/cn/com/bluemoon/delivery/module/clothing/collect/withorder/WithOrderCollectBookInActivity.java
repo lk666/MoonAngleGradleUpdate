@@ -97,10 +97,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     TextView tvActualCollectCount;
     @Bind(R.id.lv_order_receive)
     NoScrollListView lvOrderReceive;
-    @Bind(R.id.v_div_isurgent)
-    View vDivIsurgent;
-    @Bind(R.id.ll_isurgent)
-    LinearLayout llIsurgent;
     @Bind(R.id.main)
     ScrollView main;
 
@@ -163,9 +159,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 }
             }
         });
-
-        vDivIsurgent.setVisibility(View.GONE);
-        llIsurgent.setVisibility(View.GONE);
 
         clothesInfoAdapter = new ClothesInfoAdapter(this, this);
         lvOrderReceive.setAdapter(clothesInfoAdapter);
@@ -266,14 +259,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
                 " " + result.getOrderReceive().getCollectCount());
-
-        if (TextUtils.isEmpty(collectCode)) {
-            vDivIsurgent.setVisibility(View.GONE);
-            llIsurgent.setVisibility(View.GONE);
-        } else {
-            vDivIsurgent.setVisibility(View.VISIBLE);
-            llIsurgent.setVisibility(View.VISIBLE);
-        }
 
         clothesInfoAdapter.setList(result.getOrderReceive().getClothesInfo());
         clothesInfoAdapter.notifyDataSetInvalidated();

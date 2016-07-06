@@ -27,7 +27,6 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.account.LoginActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultScanOrderInfo;
@@ -151,6 +150,9 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
+            if (listViewMain == null) {
+                return;
+            }
             LogUtils.d(getDefaultTag(), "getOrderInfos result = " + responseString);
             dismissProgressDialog();
             listViewMain.onRefreshComplete();
@@ -171,6 +173,9 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
+            if (listViewMain == null) {
+                return;
+            }
             // TODO: lk 2016/6/19  LogUtils要换，tag没卵用
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             dismissProgressDialog();
@@ -595,7 +600,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 @Override
                 public void onClick(View v) {
                     if (!StringUtil.isEmpty(editReason.getText().toString())) {
-                        refuseDeliver(ClientStateManager.getLoginToken(getActivity()), currentCollectCode,
+                        refuseDeliver(ClientStateManager.getLoginToken(getActivity()),
+                                currentCollectCode,
                                 editReason.getText().toString());
                         refuseDialog.dismiss();
                     }
@@ -631,7 +637,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     public void onClick(DialogInterface dialog,
                                         int which) {
                         showProgressDialog();
-                        DeliveryApi.signOrderInfo(ClientStateManager.getLoginToken(main), currentOuterCode, Constants.STATUS_CANCEL_ORDER, baseHandler);
+                        DeliveryApi.signOrderInfo(ClientStateManager.getLoginToken(main),
+                                currentOuterCode, Constants.STATUS_CANCEL_ORDER, baseHandler);
 
                     }
                 })
