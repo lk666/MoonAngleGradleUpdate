@@ -260,6 +260,8 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
                 DeliveryApi.confirmOrderInfo(ClientStateManager.getLoginToken
                         (ClothingDeliverConfirmActivity.this), collectCode, baseHandler);
             }
+        } else {
+            PublicUtil.showToast(getString(R.string.with_order_collect_confirm_not_all));
         }
     }
 
