@@ -1764,12 +1764,12 @@ public class DeliveryApi {
      * @param hasStain        int	    Y       有无污渍（1:有；0：无）
      * @param remark          String    N		备注
      * @param clothesImgIds   String	Y		图片IDs 多个用豆号隔开 3232,3234223
-     * @param outer_code      String	Y		洗衣服务订单号
+     * @param outerCode      String	Y		洗衣服务订单号
      */
     public static void registerCollectInfo(String token, String collectCode, String typeCode,
                                            String clothesnameCode, String clothesCode, int hasFlaw,
                                            String flawDesc, int hasStain, String remark,
-                                           String clothesImgIds, String outer_code,
+                                           String clothesImgIds, String outerCode,
                                            AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
@@ -1787,7 +1787,7 @@ public class DeliveryApi {
         params.put("hasStain", hasStain);
         params.put("remark", remark);
         params.put("clothesImgIds", clothesImgIds);
-        params.put("outer_code", outer_code);
+        params.put("outerCode", outerCode);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerCollectInfo%s",
