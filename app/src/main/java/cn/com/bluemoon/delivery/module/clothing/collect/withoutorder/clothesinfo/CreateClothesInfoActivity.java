@@ -184,8 +184,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             }
         });
 
-        btnOk.setEnabled(false);
-
         sbFalw.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -341,15 +339,25 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     }
 
     /**
-     * 设置确定按钮的可点击性
+     * 判断输入数据完整性
      */
-    private void checkBtnOKEnable() {
-        if (selectedTypeView == null || selectedNameView == null ||
-                TextUtils.isEmpty(tvNumber.getText().toString()) ||
-                clothingAdapter == null || clothingAdapter.getCount() < 2) {
-            btnOk.setEnabled(false);
+    private boolean checkBtnOK() {
+        String errStr = null;
+        if (TextUtils.isEmpty(tvNumber.getText().toString())) {
+            errStr = getString(R.string.btn_check_err_clothes_code_empty);
+        } else if ( clothingAdapter == null || clothingAdapter.getCount() < 2) {
+            errStr = getString(R.string.btn_check_err_clothes_photo_empty);
+        } else if (selectedNameView == null) {
+            errStr = getString(R.string.btn_check_err_clothes_name_empty);
+        }else if (selectedTypeView == null) {
+            errStr = getString(R.string.btn_check_err_clothes_type_empty);
+        }
+
+        if (TextUtils.isEmpty(errStr)) {
+            return true;
         } else {
-            btnOk.setEnabled(true);
+            PublicUtil.showToast(errStr);
+            return false;
         }
     }
 
@@ -358,26 +366,29 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         switch (view.getId()) {
             // 确定按钮
             case R.id.btn_ok:
-                showProgressDialog();
-                UploadClothesInfo tmpUploadClothesInfo = new UploadClothesInfo();
-                tmpUploadClothesInfo.setClothesCode(tvNumber.getText().toString());
-                tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
-                tmpUploadClothesInfo.setClothesnameCode(selectedNameView.getType()
-                        .getClothesnameCode());
-                tmpUploadClothesInfo.setFlawDesc(etFlaw.getText().toString());
-                tmpUploadClothesInfo.setHasFlaw(sbFalw.isChecked() ? 1 : 0);
-                tmpUploadClothesInfo.setHasStain(sbStain.isChecked() ? 1 : 0);
-                tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
-                tmpUploadClothesInfo.setTypeCode(selectedTypeView.getTypeInfo().getTypeCode());
-                tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
-                tmpUploadClothesInfo.setTypeName(selectedTypeView.getTypeInfo().getTypeName());
-                tmpUploadClothesInfo.setClothesName(selectedNameView.getType().getClothesName());
-                tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
+                if (checkBtnOK()) {
+                    showProgressDialog();
+                    UploadClothesInfo tmpUploadClothesInfo = new UploadClothesInfo();
+                    tmpUploadClothesInfo.setClothesCode(tvNumber.getText().toString());
+                    tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
+                    tmpUploadClothesInfo.setClothesnameCode(selectedNameView.getType()
+                            .getClothesnameCode());
+                    tmpUploadClothesInfo.setFlawDesc(etFlaw.getText().toString());
+                    tmpUploadClothesInfo.setHasFlaw(sbFalw.isChecked() ? 1 : 0);
+                    tmpUploadClothesInfo.setHasStain(sbStain.isChecked() ? 1 : 0);
+                    tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
+                    tmpUploadClothesInfo.setTypeCode(selectedTypeView.getTypeInfo().getTypeCode());
+                    tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
+                    tmpUploadClothesInfo.setTypeName(selectedTypeView.getTypeInfo().getTypeName());
+                    tmpUploadClothesInfo.setClothesName(selectedNameView.getType().getClothesName());
 
-                Intent i = new Intent();
-                i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
-                setResult(RESULT_OK, i);
-                finish();
+                    tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
+
+                    Intent i = new Intent();
+                    i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
+                    setResult(RESULT_OK, i);
+                    finish();
+                }
                 break;
 
             //  输入衣物编码
@@ -490,7 +501,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                             clothesImg.remove(clothesImg.size() - 1);
                         }
                         clothingAdapter.notifyDataSetChanged();
-                        checkBtnOKEnable();
                     }
                 }));
     }
@@ -509,7 +519,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                     public void onResponseSuccess(String responseString) {
                         // TODO: lk 2016/6/30 待测试
                         tvNumber.setText(scaneCode);
-                        checkBtnOKEnable();
                     }
                 }));
     }
@@ -542,7 +551,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                                     public void onResponseSuccess(String responseString) {
                                         clothesImg.remove(delImgPos);
                                         clothingAdapter.notifyDataSetChanged();
-                                        checkBtnOKEnable();
                                     }
                                 }));
                         break;

@@ -291,7 +291,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             }
         });
 
-        btnOk.setEnabled(false);
         clothingAdapter = new AddPhotoAdapter(this, this);
         sgvPhoto.setAdapter(clothingAdapter);
 
@@ -381,7 +380,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private void checkModifyInitFinish() {
         if (modifyDataInitLatch == 0) {
             dismissProgressDialog();
-            checkBtnOKEnable();
             int i = 0;
             int count = llClothingName.getChildCount();
             while (i < count) {
@@ -531,15 +529,23 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     }
 
     /**
-     * 设置确定按钮的可点击性
+     * 判断输入数据完整性
      */
-    private void checkBtnOKEnable() {
-        if (selectedNameView == null ||
-                TextUtils.isEmpty(tvNumber.getText().toString()) ||
-                clothingAdapter == null || clothingAdapter.getCount() < 2) {
-            btnOk.setEnabled(false);
+    private boolean checkBtnOK() {
+        String errStr = null;
+        if (TextUtils.isEmpty(tvNumber.getText().toString())) {
+            errStr = getString(R.string.btn_check_err_clothes_code_empty);
+        } else if ( clothingAdapter == null || clothingAdapter.getCount() < 2) {
+            errStr = getString(R.string.btn_check_err_clothes_photo_empty);
+        } else if (selectedNameView == null) {
+            errStr = getString(R.string.btn_check_err_clothes_name_empty);
+        }
+
+        if (TextUtils.isEmpty(errStr)) {
+            return true;
         } else {
-            btnOk.setEnabled(true);
+            PublicUtil.showToast(errStr);
+            return false;
         }
     }
 
@@ -548,28 +554,30 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         switch (view.getId()) {
             // 确定
             case R.id.btn_ok:
-                showProgressDialog();
-                String clothesnameCode = selectedNameView.getType().getClothesnameCode();
-                String clothesCode = tvNumber.getText().toString();
-                int hasFlaw = sbFalw.isChecked() ? 1 : 0;
-                String flawDesc = etFlaw.getText().toString();
-                int hasStain = sbStain.isChecked() ? 1 : 0;
-                final String remark = etBackup.getText().toString();
-                String clothesImgIds = clothingAdapter.getAllIdsString();
+                if (checkBtnOK()) {
+                    showProgressDialog();
+                    String clothesnameCode = selectedNameView.getType().getClothesnameCode();
+                    String clothesCode = tvNumber.getText().toString();
+                    int hasFlaw = sbFalw.isChecked() ? 1 : 0;
+                    String flawDesc = etFlaw.getText().toString();
+                    int hasStain = sbStain.isChecked() ? 1 : 0;
+                    final String remark = etBackup.getText().toString();
+                    String clothesImgIds = clothingAdapter.getAllIdsString();
 
-                DeliveryApi.registerCollectInfo(ClientStateManager.getLoginToken(this),
-                        collectCode, typeCode, clothesnameCode, clothesCode, hasFlaw, flawDesc,
-                        hasStain, remark, clothesImgIds, outerCode, createResponseHandler(new IHttpResponseHandler() {
-                            @Override
-                            public void onResponseSuccess(String responseString) {
-                                ResultRegisterCollectInfo result = JSON.parseObject
-                                        (responseString, ResultRegisterCollectInfo.class);
-                                Intent i = new Intent();
-                                i.putExtra(RESULT_COLLECT_CODE, result.getCollectCode());
-                                setResult(RESULT_CODE_SAVE_CLOTHES_SUCCESS, i);
-                                finish();
-                            }
-                        }));
+                    DeliveryApi.registerCollectInfo(ClientStateManager.getLoginToken(this),
+                            collectCode, typeCode, clothesnameCode, clothesCode, hasFlaw, flawDesc,
+                            hasStain, remark, clothesImgIds, outerCode, createResponseHandler(new IHttpResponseHandler() {
+                                @Override
+                                public void onResponseSuccess(String responseString) {
+                                    ResultRegisterCollectInfo result = JSON.parseObject
+                                            (responseString, ResultRegisterCollectInfo.class);
+                                    Intent i = new Intent();
+                                    i.putExtra(RESULT_COLLECT_CODE, result.getCollectCode());
+                                    setResult(RESULT_CODE_SAVE_CLOTHES_SUCCESS, i);
+                                    finish();
+                                }
+                            }));
+                }
 
                 break;
 
@@ -731,8 +739,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         clothesImg.remove(clothesImg.size() - 1);
                     }
                     clothingAdapter.notifyDataSetChanged();
-                    checkBtnOKEnable();
-
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
@@ -779,7 +785,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     tvNumber.setText(scaneCode);
-                    checkBtnOKEnable();
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
@@ -847,7 +852,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     clothesImg.remove(delImgPos);
                     clothingAdapter.notifyDataSetChanged();
-                    checkBtnOKEnable();
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }

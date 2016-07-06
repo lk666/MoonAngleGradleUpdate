@@ -578,14 +578,14 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         // 点击洗衣类型项的加号, 添加衣物
         else if (item instanceof OrderDetail) {
-            // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
-            if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
-                PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
-            } else {
+//            // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
+//            if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
+//                PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
+//            } else {
                 OrderDetail type = (OrderDetail) item;
                 ClothingBookInActivity.actionStart(this, collectCode, outerCode, type.getTypeName()
                         , type.getTypeCode(), false, null, REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
-            }
+//            }
         }
     }
 }

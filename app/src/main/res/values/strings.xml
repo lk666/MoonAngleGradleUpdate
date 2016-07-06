@@ -761,4 +761,16 @@
     <string name="notice_add_clothes_no_brcode">还未扫描收衣条码，请扫描后继续操作。</string>
 
     <string name="pending_order_success">已成功接单</string>
+
+    <string name="btn_check_err_name_empty">姓名不能为空</string>
+    <string name="btn_check_err_phone_empty">手机不能为空</string>
+    <string name="btn_check_err_province_etc_empty">所在区域不能为空</string>
+    <string name="btn_check_err_address_empty">详细地址不能为空</string>
+    <string name="btn_check_err_collect_empty">收衣明细不能为空</string>
+
+    <string name="btn_check_err_clothes_code_empty">衣物编码不能为空</string>
+    <string name="btn_check_err_clothes_photo_empty">衣物照片不能为空</string>
+    <string name="btn_check_err_clothes_name_empty">衣物名称不能为空</string>
+    <string name="btn_check_err_clothes_type_empty">服务类型不能为空</string>
+
 </resources>

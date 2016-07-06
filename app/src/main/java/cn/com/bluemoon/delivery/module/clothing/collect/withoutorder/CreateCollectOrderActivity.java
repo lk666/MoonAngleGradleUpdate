@@ -4,9 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -213,15 +211,10 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         vDivStreetVillage.setVisibility(View.GONE);
         llStreetVillage.setVisibility(View.GONE);
 
-        etName.addTextChangedListener(etChangedWatcher);
-        etPhone.addTextChangedListener(etChangedWatcher);
-        etAddress.addTextChangedListener(etChangedWatcher);
-
         vDivAppointBackTime.setVisibility(View.GONE);
         llAppointBackTime.setVisibility(View.GONE);
 
         btnAdd.setEnabled(false);
-        btnFinish.setEnabled(false);
 
         vDivOrderReceive.setVisibility(View.GONE);
         clothesInfo = new ArrayList<>();
@@ -278,40 +271,29 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         dateTimePicKDialog.dateTimePicKDialog();
     }
 
-    private TextWatcher etChangedWatcher = new TextWatcher() {
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if (TextUtils.isEmpty(s.toString())) {
-                checkBtnFinishEnable();
-            }
-        }
-    };
-
-
     /**
-     * 设置完成按钮的可点击性
+     * 设置完成按钮是否校验通过
      */
-    private void checkBtnFinishEnable() {
-        if (TextUtils.isEmpty(etName.getText().toString()) ||
-                TextUtils.isEmpty(etPhone.getText().toString()) ||
-                TextUtils.isEmpty(province) ||
-                TextUtils.isEmpty(city) ||
-                TextUtils.isEmpty(county) ||
-                TextUtils.isEmpty(etAddress.getText().toString()) ||
-                clothesInfo == null || clothesInfo.size() < 1) {
-            btnFinish.setEnabled(false);
+    private boolean checkBtnFinish() {
+        String errStr = null;
+        if (TextUtils.isEmpty(etName.getText().toString())) {
+            errStr = getString(R.string.btn_check_err_name_empty);
+        } else if (TextUtils.isEmpty(etPhone.getText().toString())) {
+            errStr = getString(R.string.btn_check_err_phone_empty);
+        } else if (TextUtils.isEmpty(province) || TextUtils.isEmpty(city) || TextUtils.isEmpty
+                (county)) {
+            errStr = getString(R.string.btn_check_err_province_etc_empty);
+        } else if (TextUtils.isEmpty(etAddress.getText().toString())) {
+            errStr = getString(R.string.btn_check_err_address_empty);
+        } else if (clothesInfo == null || clothesInfo.isEmpty()) {
+            errStr = getString(R.string.btn_check_err_collect_empty);
+        }
+
+        if (TextUtils.isEmpty(errStr)) {
+            return true;
         } else {
-            btnFinish.setEnabled(true);
+            PublicUtil.showToast(errStr);
+            return false;
         }
     }
 
@@ -405,36 +387,41 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // 添加衣物
             case R.id.btn_add:
-                // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
-                if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
-                    PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
-                } else {
-                    CreateClothesInfoActivity.actionStart(this, activityCode,
-                            REQUEST_CODE_ADD_CLOTHES_INFO);
-                }
+//                // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
+//                if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
+//                    PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
+//                } else {
+                CreateClothesInfoActivity.actionStart(this, activityCode,
+                        REQUEST_CODE_ADD_CLOTHES_INFO);
+//                }
                 break;
             //  完成收衣
             case R.id.btn_finish:
-                showProgressDialog();
-                DeliveryApi.registerCreatedCollectInfo(activityCode, etAddress.getText().toString(),
-                        appointBackTime, city, clothesInfo, tvCollectBrcode.getText().toString(),
-                        county,
-                        etName.getText().toString(), etPhone.getText().toString(),
-                        sbIsFee.isChecked() ? 1 : 0, sbIsUrgent.isChecked() ? 1 : 0, province,
-                        street,
-                        ClientStateManager.getLoginToken(this), village,
-                        createResponseHandler(new IHttpResponseHandler() {
-                            @Override
-                            public void onResponseSuccess(String responseString) {
-                                // TODO: lk 2016/6/30 待测试
-                                // 完成收衣返回成功，弹出显示信息窗口，服务器未返回收衣单号
-                                ResultRegisterCreateCollectInfo info = JSON.parseObject
-                                        (responseString,
-                                                ResultRegisterCreateCollectInfo.class);
-                                setResult(RESULT_COLLECT_SCUUESS);
-                                showFinishDialog(info.getCollectCode());
-                            }
-                        }));
+                if (checkBtnFinish()) {
+                    showProgressDialog();
+                    DeliveryApi.registerCreatedCollectInfo(activityCode, etAddress.getText()
+                                    .toString(),
+
+                            appointBackTime, city, clothesInfo, tvCollectBrcode.getText()
+                                    .toString(),
+                            county,
+                            etName.getText().toString(), etPhone.getText().toString(),
+                            sbIsFee.isChecked() ? 1 : 0, sbIsUrgent.isChecked() ? 1 : 0, province,
+                            street,
+                            ClientStateManager.getLoginToken(this), village,
+                            createResponseHandler(new IHttpResponseHandler() {
+                                @Override
+                                public void onResponseSuccess(String responseString) {
+                                    // TODO: lk 2016/6/30 待测试
+                                    // 完成收衣返回成功，弹出显示信息窗口，服务器未返回收衣单号
+                                    ResultRegisterCreateCollectInfo info = JSON.parseObject
+                                            (responseString,
+                                                    ResultRegisterCreateCollectInfo.class);
+                                    setResult(RESULT_COLLECT_SCUUESS);
+                                    showFinishDialog(info.getCollectCode());
+                                }
+                            }));
+                }
                 break;
             default:
                 break;
@@ -532,7 +519,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         tvStreetVillage.setText("");
                         street = "";
                         village = "";
-                        checkBtnFinishEnable();
                     }
                 }
                 break;
