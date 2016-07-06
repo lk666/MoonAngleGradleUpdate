@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -258,7 +257,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         }
 
         tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
-                " " + result.getOrderReceive().getCollectCount());
+                " " + result.getOrderReceive().getActualCount());
 
         clothesInfoAdapter.setList(result.getOrderReceive().getClothesInfo());
         clothesInfoAdapter.notifyDataSetInvalidated();

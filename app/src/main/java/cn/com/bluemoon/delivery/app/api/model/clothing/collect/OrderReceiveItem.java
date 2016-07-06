@@ -10,18 +10,18 @@ public class OrderReceiveItem {
     /**
      * 实收数量
      */
-    private int collectCount;
+    private int actualCount;
     /**
      * 衣物列表
      */
     List<ClothesInfo> clothesInfo;
 
-    public int getCollectCount() {
-        return collectCount;
+    public int getActualCount() {
+        return actualCount;
     }
 
-    public void setCollectCount(int collectCount) {
-        this.collectCount = collectCount;
+    public void setActualCount(int actualCount) {
+        this.actualCount = actualCount;
     }
 
 
