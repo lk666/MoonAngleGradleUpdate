@@ -32,7 +32,8 @@ public abstract class BaseActionBarActivity extends BaseActivity {
         initCustomActionBar();
     }
 
-    private void initCustomActionBar() {
+    // TODO: lk 2016/7/6 事件定义不灵活
+    protected void initCustomActionBar() {
         new CommonActionBar(getActionBar(), new IActionBarListener() {
 
             @Override
@@ -51,13 +52,6 @@ public abstract class BaseActionBarActivity extends BaseActivity {
             }
 
         });
-        setCustomActionBar();
-    }
-
-    /**
-     * ActionBar的其他设置，如右边按钮的初始化
-     */
-    protected void setCustomActionBar() {
     }
 
     /**
