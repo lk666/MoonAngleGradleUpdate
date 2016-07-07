@@ -259,10 +259,10 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
                 showProgressDialog();
                 DeliveryApi.confirmOrderInfo(ClientStateManager.getLoginToken
                         (ClothingDeliverConfirmActivity.this), collectCode, baseHandler);
+                return;
             }
-        } else {
-            PublicUtil.showToast(getString(R.string.with_order_collect_confirm_not_all));
         }
+        PublicUtil.showToast(getString(R.string.alert_message_start_before_end));
     }
 
     @OnClick(R.id.btn_cancel)

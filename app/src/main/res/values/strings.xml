@@ -777,4 +777,8 @@
     <!--洗衣服务补充-->
     <string name="with_order_collect_no_record">暂无收衣记录</string>
     <string name="with_order_collect_confirm_not_all">尚有未扫描衣物</string>
+    <string name="ANGEL_LAUNDRYING">收衣中</string>
+    <string name="WASHINGCENTER_ACCEPTING">洗衣中心接收中</string>
+    <string name="WASHINGCENTER_RECEIVE_END">洗衣中心完成接收</string>
+
 </resources>
