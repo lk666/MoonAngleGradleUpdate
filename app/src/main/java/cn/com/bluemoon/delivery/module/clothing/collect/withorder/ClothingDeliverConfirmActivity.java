@@ -238,10 +238,10 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
             for (ClothesInfo info : clothesInfos) {
                 if (info.getClothesCode().equals(code)) {
                     info.setCheck(true);
-                    break;
+                    adapter.notifyDataSetChanged();
                 }
             }
-            adapter.notifyDataSetChanged();
+
         }
     }
 
