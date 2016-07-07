@@ -5,7 +5,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 
 /**
  * {@link cn.com.bluemoon.delivery.app.api.DeliveryApi#getOuterOrderInfo(String, String, AsyncHttpResponseHandler)}
@@ -69,6 +68,10 @@ public class ResultOuterOrderInfo extends ResultBase {
      * 村/社区
      */
     private String village;
+
+    public String getFullAddress() {
+        return province + city + county + street + village + address;
+    }
 
     public String getAddress() {
         return address;

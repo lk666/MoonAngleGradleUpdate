@@ -148,7 +148,7 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
         tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvCustomerPhone.getPaint().setAntiAlias(true);
 
-        tvAddress.setText(result.getAddress());
+        tvAddress.setText(result.getFullAddress());
 
         tvPayTotal.setText(String.format("%.2f", (result.getPayTotal() / 100.0)));
         tvReceivableCount.setText(result.getReceivableCount() + "");
