@@ -19,7 +19,7 @@ import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.clothing.ResultActivityDesc;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ResultActivityMatters;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -76,23 +76,23 @@ public class ActivityDescActivity extends BaseActionBarActivity {
 
     private void getData() {
         showProgressDialog();
-        DeliveryApi.getActivityInfo(ClientStateManager.getLoginToken(this), activityCode,
-                getActivityInfoHandler);
+        DeliveryApi.getMatters(ClientStateManager.getLoginToken(this), activityCode,
+                getMattersHandler);
 
     }
 
     /**
-     * 获取订单详情数据返回
+     * 获取注意事项
      */
-    AsyncHttpResponseHandler getActivityInfoHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+    AsyncHttpResponseHandler getMattersHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(getDefaultTag(), "获取订单详情数据返回 result = " + responseString);
+            LogUtils.d(getDefaultTag(), "获取注意事项 result = " + responseString);
             dismissProgressDialog();
             try {
-                ResultActivityDesc result = JSON.parseObject(responseString,
-                        ResultActivityDesc.class);
+                ResultActivityMatters result = JSON.parseObject(responseString,
+                        ResultActivityMatters.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     setData(result);
 
@@ -114,9 +114,9 @@ public class ActivityDescActivity extends BaseActionBarActivity {
         }
     };
 
-    private void setData(ResultActivityDesc result) {
+    private void setData(ResultActivityMatters result) {
         tvTitle.setText(result.getActivityName());
-        tvDesc.setText(result.getActivityDesc());
+        tvDesc.setText(result.getMatterDesc());
     }
 
     @Override
