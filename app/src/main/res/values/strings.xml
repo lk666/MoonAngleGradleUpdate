@@ -773,4 +773,5 @@
     <string name="btn_check_err_clothes_name_empty">衣物名称不能为空</string>
     <string name="btn_check_err_clothes_type_empty">服务类型不能为空</string>
 
+    <string name="no_user_error_message">请先查询用户信息</string>
 </resources>

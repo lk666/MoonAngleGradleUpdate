@@ -98,6 +98,11 @@
             android:name="cn.com.bluemoon.lib.qrcode.CaptureActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
+
+        <activity
+            android:name="cn.com.bluemoon.lib.qrcode.NewCaptureActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".order.SignActivity"
             android:screenOrientation="portrait"
