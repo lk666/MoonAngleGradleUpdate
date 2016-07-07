@@ -204,12 +204,10 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
         tvClothesName.setText(result.getClothesName());
 
         if (result.getHasFlaw() == 1) {
-            ivFlaw.setVisibility(View.VISIBLE);
-            tvFlawDec.setVisibility(View.VISIBLE);
             tvFlawDec.setText(getString(R.string.clothing_detail_flaw) + result.getFlawDesc());
         } else {
-            ivFlaw.setVisibility(View.GONE);
-            tvFlawDec.setVisibility(View.GONE);
+            tvFlawDec.setText(getString(R.string.clothing_detail_flaw) +
+                    getString(R.string.text_empty));
         }
 
         if (result.getHasStain() == 1) {
@@ -218,11 +216,11 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
             ivStain.setVisibility(View.GONE);
         }
 
-        String backup = result.getCollectBrcode();
-        if (TextUtils.isEmpty(brcode)) {
-            tvBackup.setVisibility(View.GONE);
+        String backup = result.getRemark();
+        if (TextUtils.isEmpty(backup)) {
+            tvBackup.setText(getString(R.string.clothing_detail_backup) +
+                    getString(R.string.text_empty));
         } else {
-            tvBackup.setVisibility(View.VISIBLE);
             tvBackup.setText(getString(R.string.clothing_detail_backup) + backup);
         }
 
