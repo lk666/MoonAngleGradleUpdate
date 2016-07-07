@@ -2,14 +2,17 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,11 +33,10 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultQueryActivityLimitNum;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCreateCollectInfo;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
         .CreateClothesInfoActivity;
@@ -44,7 +46,9 @@ import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
@@ -148,7 +152,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      */
     private List<UploadClothesInfo> clothesInfo;
 
-    private ClothesInfoAdapter clothesInfoAdapter;
+    private UploadClothesInfoAdapter clothesInfoAdapter;
 
     long appointBackTime;
 
@@ -218,7 +222,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 
         vDivOrderReceive.setVisibility(View.GONE);
         clothesInfo = new ArrayList<>();
-        clothesInfoAdapter = new ClothesInfoAdapter(this, this);
+        clothesInfoAdapter = new UploadClothesInfoAdapter(this, this);
         lvOrderReceive.setAdapter(clothesInfoAdapter);
 
         sbIsUrgent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -473,20 +477,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     @Override
     public void onItemClick(Object item, View view, int position) {
         // 点击衣物信息，修改衣物
-        UploadClothesInfo info = getUploadClothesInfo((ClothesInfo) item);
-        ModifyClothesInfoActivity.actionStart(this, activityCode, info,
+        ModifyClothesInfoActivity.actionStart(this, activityCode, (UploadClothesInfo) item,
                 REQUEST_CODE_MODIFY_CLOTHES_INFO);
-    }
-
-    private UploadClothesInfo getUploadClothesInfo(ClothesInfo item) {
-        if (item != null) {
-            for (UploadClothesInfo uploadInfo : clothesInfo) {
-                if (item.getClothesCode().equals(uploadInfo.getClothesCode())) {
-                    return uploadInfo;
-                }
-            }
-        }
-        return null;
     }
 
 
@@ -545,7 +537,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                     UploadClothesInfo info = (UploadClothesInfo) data.getSerializableExtra
                             (CreateClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
                     clothesInfo.add(info);
-                    clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
+                    clothesInfoAdapter.setList(clothesInfo);
                     clothesInfoAdapter.notifyDataSetChanged();
                     setActualReceive();
                 }
@@ -555,10 +547,10 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 // 保存成功
                 if (resultCode == RESULT_OK) {
                     UploadClothesInfo info = (UploadClothesInfo) data.getSerializableExtra
-                            (CreateClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
+                            (ModifyClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
                     clothesInfo.remove(info);
                     clothesInfo.add(info);
-                    clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
+                    clothesInfoAdapter.setList(clothesInfo);
                     clothesInfoAdapter.notifyDataSetChanged();
                     setActualReceive();
                 }
@@ -574,7 +566,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                                 break;
                             }
                         }
-                        clothesInfoAdapter.setList(getClothesInfoList(clothesInfo));
+                        clothesInfoAdapter.setList(clothesInfo);
                         clothesInfoAdapter.notifyDataSetChanged();
                         setActualReceive();
                     }
@@ -634,13 +626,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         }
     }
 
-    // TODO: lk 2016/7/1 为什么不能直接  clothesInfoAdapter.setList(clothesInfo);
-    private List<ClothesInfo> getClothesInfoList(List<UploadClothesInfo> list) {
-        List<ClothesInfo> clothes = new ArrayList<>();
-        clothes.addAll(list);
-        return clothes;
-    }
-
     /**
      * 处理扫码、手动输入数字码返回
      *
@@ -649,5 +634,41 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     private void handleScaneCodeBack(String code) {
         // TODO: lk 2016/7/2 应加个接口验证收衣单条码合法性
         tvCollectBrcode.setText(code);
+    }
+
+    /**
+     * 收衣明细Adapter
+     * Created by lk on 2016/7/7.
+     */
+    public class UploadClothesInfoAdapter extends BaseListAdapter<UploadClothesInfo> {
+        public UploadClothesInfoAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
+        }
+
+        @Override
+        protected int getLayoutId() {
+            return R.layout.item_with_order_clothes_info;
+        }
+
+        @Override
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            final UploadClothesInfo item = (UploadClothesInfo) getItem(position);
+            if (item == null) {
+                return;
+            }
+
+            ImageView ivClothImg = ViewHolder.get(convertView, R.id.iv_cloth_img);
+            TextView tvClothesCode = ViewHolder.get(convertView, R.id.tv_clothes_code);
+            TextView tvTypeName = ViewHolder.get(convertView, R.id.tv_type_name);
+            TextView tvClothesName = ViewHolder.get(convertView, R.id.tv_clothes_name);
+
+            tvClothesCode.setText(item.getClothesCode());
+            tvTypeName.setText(item.getTypeName());
+            tvClothesName.setText(item.getClothesName());
+
+            ImageLoaderUtil.displayImage(context, item.getImgPath(), ivClothImg);
+
+            setClickEvent(isNew, position, convertView);
+        }
     }
 }
