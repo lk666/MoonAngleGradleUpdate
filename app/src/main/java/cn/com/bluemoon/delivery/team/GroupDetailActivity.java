@@ -1,14 +1,13 @@
 package cn.com.bluemoon.delivery.team;
 
+import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Paint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -35,9 +34,9 @@ import cn.com.bluemoon.delivery.app.api.model.team.GroupDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultEmpList;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultGroupDetailInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.order.TimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
@@ -65,6 +64,7 @@ public class GroupDetailActivity extends KJActivity {
     private CommonProgressDialog progressDialog;
     private boolean pullUp;
     private boolean pullDown;
+    private boolean isRefresh;
     private long timestamp;
     private List<GroupDetail> items;
     private GroupDetailAdapter groupDetailAdapter;
@@ -81,26 +81,22 @@ public class GroupDetailActivity extends KJActivity {
         progressDialog = new CommonProgressDialog(aty);
         if(getIntent().hasExtra("code")){
             bpCode = getIntent().getStringExtra("code");
-            PublicUtil.showToast(bpCode);
         }
-
+//        PublicUtil.setEmptyView(listviewDetail,getString(R.string.team_group_empty_detail),R.mipmap.team_empty_group);
         listviewDetail.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pullDown = true;
-                pullUp = false;
                 getData();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                pullDown = false;
                 pullUp = true;
+                isRefresh = true;
                 getData();
             }
         });
-        pullUp = false;
-        pullDown = false;
         getData();
 
     }
@@ -112,7 +108,7 @@ public class GroupDetailActivity extends KJActivity {
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getGroupDetailInfo(bpCode, AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(aty), "group", getGroupDetailInfoHandler);
+        DeliveryApi.getGroupDetailInfo(bpCode, AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(aty), Constants.RELTYPE_GROUP, getGroupDetailInfoHandler);
     }
 
     private void setData(List<GroupDetail> list) {
@@ -131,11 +127,14 @@ public class GroupDetailActivity extends KJActivity {
             groupDetailAdapter = new GroupDetailAdapter();
         }
         groupDetailAdapter.setList(items);
-        if (pullUp) {
+        if (isRefresh) {
             groupDetailAdapter.notifyDataSetChanged();
         } else {
             listviewDetail.setAdapter(groupDetailAdapter);
         }
+        pullDown = false;
+        pullUp = false;
+        isRefresh = false;
     }
 
     @Override
@@ -194,10 +193,16 @@ public class GroupDetailActivity extends KJActivity {
                     setData(groupDetailInfoResult.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(aty, groupDetailInfoResult);
+                    pullDown = false;
+                    pullUp = false;
+                    isRefresh = false;
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
+                pullDown = false;
+                pullUp = false;
+                isRefresh = false;
             }
 
         }
@@ -210,6 +215,9 @@ public class GroupDetailActivity extends KJActivity {
                 progressDialog.dismiss();
             listviewDetail.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
+            pullDown = false;
+            pullUp = false;
+            isRefresh = false;
         }
     };
 
@@ -223,6 +231,8 @@ public class GroupDetailActivity extends KJActivity {
                 ResultBase baseResult = JSON.parseObject(responseString, ResultBase.class);
                 if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     PublicUtil.showToast(baseResult.getResponseMsg());
+                    isRefresh = true;
+                    getData();
                 } else {
                     PublicUtil.showErrorMsg(aty, baseResult);
                 }
@@ -250,7 +260,7 @@ public class GroupDetailActivity extends KJActivity {
             public void callBack(long endTime) {
                 if(progressDialog!=null) progressDialog.show();
                 DeliveryApi.deleteRelationShip(bpCode,item.getBpCode(),endTime,
-                        ClientStateManager.getLoginToken(aty),"group",deleteRelationShipHandler);
+                        ClientStateManager.getLoginToken(aty),Constants.RELTYPE_GROUP,deleteRelationShipHandler);
             }
 
         });
@@ -276,21 +286,22 @@ public class GroupDetailActivity extends KJActivity {
                     startActivityForResult(intent2, 1);
                     break;
             }
-        }else if(requestCode == 1){
-            if(data==null) return;
-            if(data.hasExtra("emp")){
-                Emp emp = (Emp)data.getSerializableExtra("emp");
-                openRelationInfo(emp,true);
-            }
+        }else if(requestCode == 1&&resultCode == RESULT_OK
+                &&data!=null&&data.hasExtra("emp")){
+            Emp emp = (Emp)data.getSerializableExtra("emp");
+            openRelationInfo(emp,Constants.TYPE_ADD);
+        }else if(requestCode == 2&&resultCode == Activity.RESULT_OK){
+            isRefresh = true;
+            getData();
         }
     }
 
-    private void openRelationInfo(Emp emp,boolean isNew){
+    private void openRelationInfo(Emp emp,String type){
         Intent intent = new Intent(aty,RelationInfoActivity.class);
         intent.putExtra("emp", emp);
-        intent.putExtra("mode",isNew);
-        intent.putExtra("relType","group");
-        startActivity(intent);
+        intent.putExtra("type",type);
+        intent.putExtra("relType",Constants.RELTYPE_GROUP);
+        startActivityForResult(intent,2);
     }
 
     AsyncHttpResponseHandler getEmpListHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -305,7 +316,7 @@ public class GroupDetailActivity extends KJActivity {
                     if(empListResult.getItemList()!=null&&empListResult.getItemList().size()>0){
                         Emp emp = empListResult.getItemList().get(0);
                         if(StringUtils.isEmpty(emp.getBpCode())){
-                            openRelationInfo(emp,true);
+                            openRelationInfo(emp,Constants.TYPE_ADD);
                         }else{
                             PublicUtil.showMessageNoTitle(aty,getString(R.string.team_member_add_existed));
                         }
@@ -385,12 +396,17 @@ public class GroupDetailActivity extends KJActivity {
                 txtJob.setVisibility(View.GONE);
             }
             txtPhone.setText(item.getMobileNo());
-            String workLength = "";
-            if(item.getWorkLength()!=0){
-                workLength = "，"+item.getWorkLength()+"h";
+            String work;
+            if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
+                work = getString(R.string.team_work_part);
+                if(item.getWorkLength()!=0){
+                    work += "，"+item.getWorkLength()+"h";
+                }
+            }else{
+                work = getString(R.string.team_work_full);
             }
             txtMsg.setText(String.format(getString(R.string.team_group_detail_msg),
-                    item.getStartDate(), item.getWorkType() + workLength));
+                    DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"), work));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
@@ -398,14 +414,21 @@ public class GroupDetailActivity extends KJActivity {
                     if(v == txtUnlock){
                         unlock(item);
                     }else if(v == txtMember){
-
+                        Emp emp = new Emp();
+                        emp.setBpCode(bpCode);
+                        emp.setEmpCode(item.getBpCode());
+                        emp.setEmpName(item.getBpName());
+                        emp.setMobileNo(item.getMobileNo());
+                        Intent intent = new Intent(aty,PersonnelAreaActivity.class);
+                        intent.putExtra("emp",emp);
+                        startActivity(intent);
                     }else if(v == txtEdit){
                         Emp emp = new Emp();
                         emp.setBpCode(bpCode);
                         emp.setEmpCode(item.getBpCode());
                         emp.setEmpName(item.getBpName());
                         emp.setMobileNo(item.getMobileNo());
-                        openRelationInfo(emp, false);
+                        openRelationInfo(emp, Constants.TYPE_UPDATE);
                     }else if(v == layoutInfo){
                         Intent intent = new Intent(aty,RelationShipDetailActivity.class);
                         intent.putExtra("bpCode",bpCode);

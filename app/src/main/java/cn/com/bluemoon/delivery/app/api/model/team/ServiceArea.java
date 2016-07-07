@@ -29,6 +29,16 @@ public class ServiceArea {
     /** 苑/园/区名称 */
     private String yuanGarden;
 
+    private boolean isCheck;
+
+    public boolean isCheck() {
+        return isCheck;
+    }
+
+    public void setIsCheck(boolean isCheck) {
+        this.isCheck = isCheck;
+    }
+
     public String getBalcony() {
         return balcony;
     }

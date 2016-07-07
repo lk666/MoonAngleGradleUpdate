@@ -59,8 +59,8 @@ public class RelationShipDetailActivity extends KJActivity {
 
     @Override
     public void setRootView() {
-        setContentView(R.layout.activity_relation_ship_detail);
         initCustomActionBar();
+        setContentView(R.layout.activity_relation_ship_detail);
     }
 
     @Override
@@ -81,9 +81,9 @@ public class RelationShipDetailActivity extends KJActivity {
     private void setData(RelationDetail item) {
         txtName.setText(PublicUtil.getString2(item.getEmpCode(), item.getEmpName()));
         txtPhone.setText(item.getMobileNo());
-        if ("community".equals(item.getRelType())) {
+        if (Constants.RELTYPE_COMMUNITY.equals(item.getRelType())) {
             txtType.setText(getString(R.string.team_community));
-        } else {
+        } else if(Constants.RELTYPE_GROUP.equals(item.getRelType())){
             txtType.setText(getString(R.string.team_group));
             line2.setVisibility(View.VISIBLE);
             txtService.setVisibility(View.VISIBLE);
@@ -96,12 +96,11 @@ public class RelationShipDetailActivity extends KJActivity {
         }
         txtCommunity.setText(PublicUtil.getString2(item.getBpCode1(), item.getBpName1()));
 
-        if("fullTime".equals(item.getWorkType())){
+        if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
             txtWorkType.setText(getString(R.string.team_work_full));
-        }else{
-            txtWorkType.setText(getString(R.string.team_work_full));
-            layoutWorkLengh.setVisibility(View.VISIBLE);
+        }else if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
             txtWorkType.setText(getString(R.string.team_work_part));
+            layoutWorkLengh.setVisibility(View.VISIBLE);
             txtWorkLengh.setText(String.valueOf(item.getWorkLength()));
         }
         txtStartDate.setText(DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"));

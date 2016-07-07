@@ -262,12 +262,22 @@
             android:name=".team.RelationShipDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
         <activity
             android:name=".team.RelationInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".team.PersonnelAreaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
 
+        <activity android:name=".team.SelectAreaActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+
+        <activity android:name=".team.CommonSelectActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
 
         <service android:name=".card.LocationSvc" />
 

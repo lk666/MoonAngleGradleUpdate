@@ -3,27 +3,25 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <View
+        android:id="@+id/view_pop_start"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp" />
 
-    <RelativeLayout
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_member"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
-        <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
-            xmlns:ptr="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/listview_member"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/page_bg_f2"
-            android:cacheColorHint="#00000000"
-            android:dividerHeight="0dp"
-            android:scrollbars="vertical"
-            ptr:ptrMode="both"
-            ptr:ptrAnimationStyle="flip"
-            ptr:ptrHeaderSubTextColor="@color/text_black"
-            ptr:ptrHeaderTextColor="@color/text_black" />
-    </RelativeLayout>
-
-
+        android:background="@color/page_bg_f2"
+        android:layout_marginTop="50dp"
+        android:cacheColorHint="#00000000"
+        android:dividerHeight="10dp"
+        android:scrollbars="none"
+        ptr:ptrMode="both"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black" />
 
     <cn.com.bluemoon.lib.view.CommonSearchView
         xmlns:search="http://schemas.android.com/apk/res-auto"

@@ -53,9 +53,9 @@ public class SelectEmpActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initCustomActionBar();
         setContentView(R.layout.activity_select_emp);
         aty = this;
-        initCustomActionBar();
         listview = (PullToRefreshListView)findViewById(R.id.listview_select_member);
         btnOk = (Button)findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(onClickListener);
@@ -63,10 +63,9 @@ public class SelectEmpActivity extends Activity {
         PublicUtil.setEmptyView(listview, getString(R.string.team_group_member_search_hint), R.mipmap.team_empty_select_member);
         searchView = (CommonSearchView)findViewById(R.id.searchview_select_member);
         searchView.setSearchViewListener(searchViewListener);
-        searchView.setHint(getString(R.string.team_group_member_search_hint));
         searchView.hideHistoryView();
+        searchView.setSearchEmpty(false);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_SELECT_MEMBER));
-        getData();
     }
 
     View.OnClickListener onClickListener = new View.OnClickListener() {
@@ -89,12 +88,12 @@ public class SelectEmpActivity extends Activity {
     };
 
     private void getData(String content){
+        if(StringUtils.isEmpty(content)){
+            PublicUtil.showToast(getString(R.string.search_cannot_empty));
+            return;
+        }
         if(progressDialog!=null) progressDialog.show();
         DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), content, getEmpListHandler);
-    }
-
-    private void getData(){
-        getData("");
     }
 
     private void setData(List<Emp> list){

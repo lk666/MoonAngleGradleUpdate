@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
-    android:orientation="vertical">
+    android:background="@color/page_bg_f2">
 
     <Button
         android:id="@+id/btn_ok"
@@ -28,7 +27,7 @@
         android:cacheColorHint="#00000000"
         android:dividerHeight="0dp"
         android:divider="@null"
-        android:scrollbars="vertical"
+        android:scrollbars="none"
         android:layout_marginTop="60dp"
         android:layout_above="@id/btn_ok"
         ptr:ptrMode="disabled"
@@ -41,7 +40,7 @@
         android:id="@+id/searchview_select_member"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        search:text_hint="@string/team_member_search_hint"
+        search:text_hint="@string/team_group_member_search_hint"
         android:clickable="false"
         />
 

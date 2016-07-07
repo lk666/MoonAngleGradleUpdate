@@ -17,7 +17,7 @@ public class GroupDetail {
     /** 职位名称 */
     private String posiName;
     /** 加入日期 */
-    private String startDate;
+    private long startDate;
     /** 工作时长 */
     private double workLength;
     /** 工作性质 */
@@ -47,11 +47,11 @@ public class GroupDetail {
         this.workLength = workLength;
     }
 
-    public String getStartDate() {
+    public long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(long startDate) {
         this.startDate = startDate;
     }
 

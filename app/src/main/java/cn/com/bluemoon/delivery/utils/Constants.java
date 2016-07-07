@@ -91,4 +91,13 @@ public class Constants {
 	/************************baidu push jump key****************************/
 	public static final String KEY_JUMP = "jumpCode";
 
+	/*****************************team**********************************/
+	public final static String TYPE_ADD = "add";
+	public final static String TYPE_UPDATE = "update";
+	public final static String RELTYPE_GROUP = "group";
+	public final static String RELTYPE_COMMUNITY = "community";
+	public final static String WORKTYPE_FULL = "fullTime";
+	public final static String WORKTYPE_PART = "partTime";
+
+	public final static long LARGETIME = 253402185600000l;
 }

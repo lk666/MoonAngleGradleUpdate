@@ -137,12 +137,12 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if(!BuildConfig.RELEASE){
-                    Intent intent = new Intent(main, MyTeamActivity.class);
-                    startActivity(intent);
-                }else{
+//                if(!BuildConfig.RELEASE){
+//                    Intent intent = new Intent(main, MyTeamActivity.class);
+//                    startActivity(intent);
+//                }else{
                     PublicUtil.openScanCard(main, null, 0);
-                }
+//                }
 
             }
         });
@@ -503,7 +503,7 @@ public class MainActivity extends SlidingActivity {
         item.setMenuCode(MenuCode.ceo_team.toString());
         item.setMenuName(getString(R.string.team_title));
         item.setIconImg(listRight.get(0).getIconImg());
-        item.setGroupNum(5);
+        item.setGroupNum(1);
         listRight.add(item);
         if(item.getGroupNum()>groupCount) {
             groupCount = item.getGroupNum();

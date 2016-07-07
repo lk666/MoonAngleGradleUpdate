@@ -1,9 +1,11 @@
 package cn.com.bluemoon.delivery.app.api.model.team;
 
+import java.io.Serializable;
+
 /**
  * Created by bm on 2016/6/22.
  */
-public class Community {
+public class Community implements Serializable{
     private String bpCode;
     private String bpName;
 

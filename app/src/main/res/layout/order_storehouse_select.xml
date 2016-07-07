@@ -99,7 +99,7 @@
         android:layout_height="0.5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:background="@color/line_soild_bg"
+        android:background="@color/line_solid_bg"
         android:visibility="gone" />
 
 

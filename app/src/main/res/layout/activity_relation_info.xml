@@ -100,6 +100,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:background="@drawable/btn_white"
                     android:padding="10dp">
 
                     <TextView
@@ -299,29 +300,35 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/team_group_start_date"
                         android:textColor="@color/text_black"
+                        android:layout_marginLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:textSize="@dimen/text_size_15" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="*"
+                        android:paddingTop="10dp"
                         android:textColor="@color/text_red"
                         android:textSize="@dimen/text_size_15" />
 
-                    <TextView
+                    <cn.com.bluemoon.delivery.ui.DateTextView
                         android:id="@+id/txt_startdate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:textColorHint="@color/text_grep"
                         android:layout_weight="1"
                         android:layout_marginLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:gravity="right"
                         android:hint="@string/team_group_date_hint"
                         android:textColor="@color/text_black_light"
@@ -331,6 +338,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:layout_gravity="center_vertical"
                         android:scaleType="fitCenter"
                         android:src="@mipmap/icon_right" />
@@ -346,21 +354,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
-                    android:padding="10dp">
+                    >
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="@string/team_group_end_date"
+                        android:padding="10dp"
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_15" />
 
-                    <TextView
+                    <cn.com.bluemoon.delivery.ui.DateTextView
                         android:id="@+id/txt_enddate"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:layout_marginLeft="10dp"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:gravity="right"
                         android:textColorHint="@color/text_grep"
                         android:hint="@string/team_group_date_hint"
@@ -371,6 +381,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
+                        android:layout_marginRight="10dp"
                         android:scaleType="fitCenter"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right" />

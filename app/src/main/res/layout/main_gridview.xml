@@ -22,7 +22,7 @@
         android:horizontalSpacing="0.5dp"
         android:listSelector="@null"
         android:overScrollMode="never"
-        android:background="@color/line_soild_bg"
+        android:background="@color/line_solid_bg"
         android:numColumns="4"
         android:scrollbars="none"
         android:verticalSpacing="0.5dp" />

@@ -34,6 +34,8 @@
     <string name="btn_ok3">确认</string>
     <string name="btn_save_with_space">保  存</string>
     <string name="btn_cancel_with_space">取  消</string>
+    <string name="btn_delete">删除</string>
+    <string name="btn_select_all">全选</string>
 
     <!-- ticket -->
     <string name="ticket_type_ticket">门票</string>
@@ -636,19 +638,25 @@
     <string name="team_work_part_hint">兼职需录入作业时长</string>
     <string name="team_group_title">小组信息</string>
     <string name="team_member_title">团队成员</string>
+    <string name="team_my_member_title">我的团队成员</string>
+    <string name="team_group_detail_title">小组详情</string>
     <string name="team_group_groupnum">总小组数：%s</string>
     <string name="team_group_membernum">总人数：%1$s/%2$s</string>
     <string name="team_group_leader">组长：%s</string>
     <string name="team_group_empty_group">暂无小组信息</string>
+    <string name="team_group_empty_detail">暂无小组详情</string>
     <string name="team_group_empty_member">暂无团队成员</string>
+    <string name="team_group_empty_area">暂无人员辖区</string>
     <string name="team_group_search_hint">请输入编码/小组名称</string>
     <string name="team_member_search_hint">请输入关键字</string>
     <string name="team_group_member_search_hint">请输入人员编码或名称</string>
+    <string name="team_area_search_hint">请输入编码、名称、街道</string>
     <string name="team_member_limit">该功能只对\n社区CEO开放</string>
     <string name="team_group_detail_total_num">总人数/规划数：%1$d / %2$d</string>
     <string name="team_group_detail_full_num">全职人数：%s</string>
     <string name="team_group_detail_part_num">兼职人数：%s</string>
     <string name="team_group_detail_unlock">解除组关系</string>
+    <string name="team_community_detail_unlock">解除社区关系</string>
     <string name="team_group_detail_member">人员辖区</string>
     <string name="team_group_detail_edit">编辑</string>
     <string name="team_group_detail_msg">加入：%1$s，%2$s</string>
@@ -664,8 +672,10 @@
     <string name="team_member_detail_type">关系类型</string>
     <string name="team_member_detail_community">所属社区</string>
     <string name="team_member_detail_community_hint">请选择社区</string>
+    <string name="team_member_detail_community_select">选择社区</string>
     <string name="team_member_detail_group">所属小组</string>
     <string name="team_member_detail_group_hint">请选择小组</string>
+    <string name="team_member_detail_group_select">选择小组</string>
     <string name="team_member_detail_style">作业性质</string>
     <string name="team_member_detail_lengh">作业时长(h)</string>
     <string name="team_member_detail_wait">待定</string>
@@ -673,7 +683,13 @@
     <string name="team_member_detail_content_hint">请填写备注</string>
     <string name="team_member_add_title">填写关系信息</string>
     <string name="team_member_edit_title">编辑关系信息</string>
-    <string name="team_member_add_existed">该人员已建立关系，\n不可重复建关系！</string>
+    <string name="team_member_add_existed">该人员已建立关系，\n不可重复！</string>
+    <string name="team_area_total_num">总户数：%s</string>
+    <string name="team_area_num">户：%s</string>
+    <string name="team_area_add_date">添加日期：%s</string>
+    <string name="team_area_delete_content">确定删除该辖区吗？</string>
+    <string name="team_area_select_title">添加服务区域</string>
+    <string name="team_area_select_empty">请选择服务区域</string>
 
     <!--keyListener-->
     <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>

@@ -41,6 +41,7 @@ public class ClientStateManager {
 	public static final String HISTORY_GROUP = "HISTORY_GROUP";
 	public static final String HISTORY_MEMBER = "HISTORY_MEMBER";
 	public static final String HISTORY_SELECT_MEMBER = "HISTORY_SELECT_MEMBER";
+	public static final String HISTORY_SELECT_AREA = "HISTORY_SELECT_AREA";
 	
 	public static void clearData(Context context)
 	{
