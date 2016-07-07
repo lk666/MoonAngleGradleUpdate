@@ -69,6 +69,11 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
         listView = (PullToRefreshListView) v
                 .findViewById(R.id.listview_main);
         listView.setMode(PullToRefreshBase.Mode.DISABLED);
+
+        View emptyView = LayoutInflater.from(main).inflate(R.layout.layout_no_data, null);
+        ((TextView) emptyView.findViewById(R.id.txt_content)).setText(R.string
+                .with_order_collect_no_record);
+        listView.setEmptyView(emptyView);
         getItem();
         return v;
     }

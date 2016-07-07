@@ -762,6 +762,7 @@
 
     <string name="pending_order_success">已成功接单</string>
 
+    <!--必填字段错误提示-->
     <string name="btn_check_err_name_empty">姓名不能为空</string>
     <string name="btn_check_err_phone_empty">手机不能为空</string>
     <string name="btn_check_err_province_etc_empty">所在区域不能为空</string>
@@ -773,5 +774,8 @@
     <string name="btn_check_err_clothes_name_empty">衣物名称不能为空</string>
     <string name="btn_check_err_clothes_type_empty">服务类型不能为空</string>
 
+    <!--洗衣服务补充-->
+    <string name="with_order_collect_no_record">暂无收衣记录</string>
+    <string name="with_order_collect_confirm_not_all">尚有未扫描衣物</string>
     <string name="no_user_error_message">请先查询用户信息</string>
 </resources>

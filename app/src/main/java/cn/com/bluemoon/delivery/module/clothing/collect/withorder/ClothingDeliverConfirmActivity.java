@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -24,10 +23,7 @@ import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDeliverInfos;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultReceiveCollectInfo;
-import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
@@ -44,8 +40,10 @@ import cn.com.bluemoon.lib.utils.LibConstants;
 /**
  * Created by allenli on 2016/6/23.
  */
-public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implements OnListItemClickListener {
+public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implements
+        OnListItemClickListener {
     private static final int RESULT_CODE_MANUAL = 0x23;
+    private static final int REQUEST_CODE_MANUAL = 0x33;
     @Bind(R.id.txt_deliver_name)
     TextView txtDeliverName;
     @Bind(R.id.txt_deliver_phone)
@@ -78,9 +76,8 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         collectCode = getIntent().getStringExtra("collectCode");
         scanCode = getIntent().getStringExtra("scanCode");
         ButterKnife.bind(this);
-        initCustomActionBar();
         init();
-        if(!StringUtil.isEmpty(scanCode)){
+        if (!StringUtil.isEmpty(scanCode)) {
             handleScaneCodeBack(scanCode);
         }
     }
@@ -90,8 +87,8 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         return R.string.title_clothing_deliver_confirm;
     }
 
-
-    private void initCustomActionBar() {
+    @Override
+    protected void initCustomActionBar() {
 
         CommonActionBar actionBar = new CommonActionBar(getActionBar(),
                 new IActionBarListener() {
@@ -126,11 +123,13 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
 
     private void init() {
         showProgressDialog();
-        DeliveryApi.receiveCollectInfo(ClientStateManager.getLoginToken(ClothingDeliverConfirmActivity.this), collectCode, infoHandler);
+        DeliveryApi.receiveCollectInfo(ClientStateManager.getLoginToken
+                (ClothingDeliverConfirmActivity.this), collectCode, infoHandler);
     }
 
     private void initView(ResultReceiveCollectInfo result) {
-        txtDeliverName.setText(String.format("%s %s", result.getTransmitName(), result.getTransmitCode()));
+        txtDeliverName.setText(String.format("%s %s", result.getTransmitName(), result
+                .getTransmitCode()));
         txtDeliverPhone.setText(result.getTransmitPhone());
         txtActual.setText(String.valueOf(result.getActualCount()));
         txtCollectNum.setText(result.getCollectCode());
@@ -144,15 +143,16 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
 
     }
 
-    public static void actionStart(Activity context, String collectCode,int requestCode) {
-       actionStart(context,collectCode,"",requestCode);
+    public static void actionStart(Activity context, String collectCode, int requestCode) {
+        actionStart(context, collectCode, "", requestCode);
     }
 
-    public static void actionStart(Activity context, String collectCode,String scanCode,int requestCode) {
+    public static void actionStart(Activity context, String collectCode, String scanCode, int
+            requestCode) {
         Intent intent = new Intent(context, ClothingDeliverConfirmActivity.class);
         intent.putExtra("collectCode", collectCode);
         intent.putExtra("scanCode", scanCode);
-        context.startActivityForResult(intent,requestCode);
+        context.startActivityForResult(intent, requestCode);
     }
 
 
@@ -191,7 +191,8 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
     public void onItemClick(Object item, View view, int position) {
         if (item instanceof ClothesInfo) {
             ClothesInfo info = (ClothesInfo) item;
-            ClothesDetailActivity.actionStart(ClothingDeliverConfirmActivity.this, info.getClothesCode());
+            ClothesDetailActivity.actionStart(ClothingDeliverConfirmActivity.this, info
+                    .getClothesCode());
         }
     }
 
@@ -209,14 +210,34 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
                     handleScaneCodeBack(resultStr);
                 }
+                //   跳转到手动输入
+                else if (resultCode == RESULT_CODE_MANUAL) {
+                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
+                }
+                break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
+                    handleScaneCodeBack(resultStr);
+                }
+                //  跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
+                break;
         }
     }
 
     private void handleScaneCodeBack(String code) {
-        if(null!=clothesInfos && clothesInfos.size()>0){
-            for (ClothesInfo info:clothesInfos
-                 ) {
-                if(info.getClothesCode().equals(code)){
+        if (null != clothesInfos && clothesInfos.size() > 0) {
+            for (ClothesInfo info : clothesInfos
+                    ) {
+                if (info.getClothesCode().equals(code)) {
                     info.setCheck(true);
                 }
                 adapter.notifyDataSetChanged();
@@ -225,24 +246,27 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
     }
 
     @OnClick(R.id.btn_ok)
-      void confirm(View view){
-        if(null!=clothesInfos && clothesInfos.size()>0){
-            int checkNum =0 ;
-            for (ClothesInfo info:clothesInfos
+    void confirm(View view) {
+        if (null != clothesInfos && clothesInfos.size() > 0) {
+            int checkNum = 0;
+            for (ClothesInfo info : clothesInfos
                     ) {
-               if(info.isCheck()){
-                   checkNum++;
-               }
+                if (info.isCheck()) {
+                    checkNum++;
+                }
             }
-            if(checkNum==clothesInfos.size()){
+            if (checkNum == clothesInfos.size()) {
                 showProgressDialog();
-                DeliveryApi.confirmOrderInfo(ClientStateManager.getLoginToken(ClothingDeliverConfirmActivity.this),collectCode,baseHandler);
+                DeliveryApi.confirmOrderInfo(ClientStateManager.getLoginToken
+                        (ClothingDeliverConfirmActivity.this), collectCode, baseHandler);
             }
+        } else {
+            PublicUtil.showToast(getString(R.string.with_order_collect_confirm_not_all));
         }
     }
 
     @OnClick(R.id.btn_cancel)
-     void cancel(View view){
+    void cancel(View view) {
         setResult(Activity.RESULT_CANCELED);
         this.finish();
     }
