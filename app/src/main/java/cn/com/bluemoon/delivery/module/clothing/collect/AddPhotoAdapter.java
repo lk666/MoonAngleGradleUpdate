@@ -69,7 +69,8 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
     public String getAllIdsString() {
         StringBuilder builder = new StringBuilder("");
         for (ClothingPic pic : list) {
-            if (!TextUtils.isEmpty(pic.getImgId())) {
+            String id = pic.getImgId();
+            if (!TextUtils.isEmpty(id) && !ADD_IMG_ID.equals(id)) {
                 builder.append(",").append(pic.getImgId());
             }
         }

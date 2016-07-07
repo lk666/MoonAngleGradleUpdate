@@ -367,7 +367,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             // 确定按钮
             case R.id.btn_ok:
                 if (checkBtnOK()) {
-                    showProgressDialog();
                     UploadClothesInfo tmpUploadClothesInfo = new UploadClothesInfo();
                     tmpUploadClothesInfo.setClothesCode(tvNumber.getText().toString());
                     tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());

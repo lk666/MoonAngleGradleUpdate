@@ -1,6 +1,8 @@
 package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -34,7 +36,8 @@ public class ClothesInfo implements Serializable {
      */
     private String clothesnameCode;
 
-    private boolean isCheck;
+    @JSONField(serialize = false)
+    private boolean isCheck = false;
 
     public boolean isCheck() {
         return isCheck;

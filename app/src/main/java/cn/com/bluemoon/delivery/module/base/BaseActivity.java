@@ -43,8 +43,9 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
+        dismissProgressDialog();
         ActivityManager.getInstance().popOneActivity(this);
+        super.onDestroy();
     }
 
     @Override
@@ -64,13 +65,14 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
         if (progressDialog == null) {
             progressDialog = new CommonProgressDialog(this);
         }
-        progressDialog.dismiss();
-        progressDialog.show();
+        if (!progressDialog.isShowing()) {
+            progressDialog.show();
+        }
     }
 
     @Override
     public void dismissProgressDialog() {
-        if (progressDialog != null) {
+        if (progressDialog != null && progressDialog.isShowing()) {
             progressDialog.dismiss();
         }
     }
