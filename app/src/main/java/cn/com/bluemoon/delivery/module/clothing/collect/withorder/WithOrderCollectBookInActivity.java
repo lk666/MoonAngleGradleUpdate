@@ -405,7 +405,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 // 利用返回新增的clothescode
                 // 保存成功
                 if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
-                    checkInfo(data.getStringExtra(ClothingBookInActivity.RESULT_COLLECT_CODE));
+                    collectCode = data.getStringExtra(ClothingBookInActivity.RESULT_COLLECT_CODE);
+                    checkInfo(collectCode);
                 }
                 // 删除成功，不需要发送修改信息
                 else if (resultCode == ClothingBookInActivity.RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
@@ -464,9 +465,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     /**
      * 更改收衣登记预约时间等信息
      */
-    private void updateCollectInfoParam(String collectCode, long appointBackTime, String
-            collectBrcode,
-                                        int isUrgent) {
+    private void updateCollectInfoParam(String collectCode, long appointBackTime,
+                                        String collectBrcode,  int isUrgent) {
         if (collectBrcode == null) {
             collectBrcode = "";
         }
