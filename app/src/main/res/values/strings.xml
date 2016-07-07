@@ -781,4 +781,5 @@
     <string name="WASHINGCENTER_ACCEPTING">洗衣中心接收中</string>
     <string name="WASHINGCENTER_RECEIVE_END">洗衣中心完成接收</string>
 
+    <string name="no_user_error_message">请先查询用户信息</string>
 </resources>

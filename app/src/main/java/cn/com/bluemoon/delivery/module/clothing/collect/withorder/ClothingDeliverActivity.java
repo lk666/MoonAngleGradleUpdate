@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -86,13 +88,33 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
         return R.string.clothing_deliver_title;
     }
 
-    public static void actionStart(Activity context, String collectCode,int requestCode) {
+    public static void actionStart(Activity context, String collectCode, int requestCode) {
         Intent intent = new Intent(context, ClothingDeliverActivity.class);
         intent.putExtra("collectCode", collectCode);
-        context.startActivityForResult(intent,requestCode);
+        context.startActivityForResult(intent, requestCode);
     }
 
     private void init() {
+        btnConforim.setEnabled(false);
+        btnSearch.setEnabled(false);
+        editDeliverId.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (StringUtil.isEmpty(s.toString())) {
+                    btnSearch.setEnabled(false);
+                } else {
+                    btnSearch.setEnabled(true);
+                }
+            }
+        });
         showProgressDialog();
         DeliveryApi.queryTransmitInfo(ClientStateManager.getLoginToken(ClothingDeliverActivity.this), collectCode, logHandler);
     }
@@ -122,11 +144,13 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             showProgressDialog();
             DeliveryApi.turnOrderInfo(ClientStateManager.getLoginToken(this), collectCode, editDeliverId.getText().toString(), txtDeliverName.getText().toString(), txtDeliverPhone.getText().toString()
                     , txtDeliverRemark.getText().toString(), baseHandler);
+        }else {
+            PublicUtil.showToast(getString(R.string.no_user_error_message));
         }
     }
 
     private void search() {
-        if(!StringUtil.isEmpty(editDeliverId.getText().toString())) {
+        if (!StringUtil.isEmpty(editDeliverId.getText().toString())) {
             showProgressDialog();
             DeliveryApi.getEmp(ClientStateManager.getLoginToken(this), editDeliverId.getText().toString(), searchHandler);
         }

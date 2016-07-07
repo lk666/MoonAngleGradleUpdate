@@ -215,10 +215,13 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
      * 打开扫码界面
      */
     private void goScanCode() {
-        PublicUtil.openScanOrder(main, WithOrderManageFragment.this,
+        PublicUtil.openNewScanOrder(main, WithOrderManageFragment.this,
                 getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
                 Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+
+
+
     }
 
     /**
