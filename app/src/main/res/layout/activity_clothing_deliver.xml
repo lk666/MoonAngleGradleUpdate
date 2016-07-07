@@ -47,6 +47,7 @@
                     android:layout_alignParentRight="true"
                     android:background="@drawable/btn_red_shape_large"
                     android:text="@string/clothing_btn_search"
+                    android:enabled="false"
                     android:textColor="@color/view_bg"
                     android:textSize="@dimen/text_size_15" />
 

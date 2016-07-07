@@ -95,8 +95,9 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
     }
 
     private void init() {
-        btnConforim.setEnabled(false);
         btnSearch.setEnabled(false);
+        btnConforim.setEnabled(false);
+
         editDeliverId.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -110,8 +111,10 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             public void afterTextChanged(Editable s) {
                 if (StringUtil.isEmpty(s.toString())) {
                     btnSearch.setEnabled(false);
+                    btnConforim.setEnabled(false);
                 } else {
                     btnSearch.setEnabled(true);
+                    btnConforim.setEnabled(true);
                 }
             }
         });
