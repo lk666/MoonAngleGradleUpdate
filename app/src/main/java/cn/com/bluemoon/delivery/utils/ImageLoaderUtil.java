@@ -68,6 +68,16 @@ public class ImageLoaderUtil {
     }
 
     /**
+     * 从drawable中异步加载本地图片
+     *
+     * @param imageId
+     * @param imageView
+     */
+    public static void displayImageMipmap(int imageId, ImageView imageView) {
+        ImageLoader.getInstance().displayImage("drawable://" + imageId, imageView);
+    }
+
+    /**
      * @param context
      * @param requestUrl
      * @param view
@@ -98,7 +108,7 @@ public class ImageLoaderUtil {
      * @param errImgRec     加载失败的图片
      */
     public static void displayImage(Context context, String requestUrl, ImageView view, int
-            loadingImgRec, int  errImgRec) {
+            loadingImgRec, int errImgRec) {
         if (mImageLoader == null) {
             mImageLoader = ImageLoader.getInstance();
         }

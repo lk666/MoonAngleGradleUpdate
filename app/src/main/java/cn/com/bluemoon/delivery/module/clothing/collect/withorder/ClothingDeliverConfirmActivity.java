@@ -238,10 +238,9 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
             for (ClothesInfo info : clothesInfos) {
                 if (info.getClothesCode().equals(code)) {
                     info.setCheck(true);
-                    adapter.notifyDataSetChanged();
                 }
             }
-
+            adapter.notifyDataSetChanged();
         }
     }
 
@@ -262,7 +261,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
                 return;
             }
         }
-        PublicUtil.showToast(getString(R.string.alert_message_start_before_end));
+        PublicUtil.showToast(getString(R.string.with_order_collect_confirm_not_all));
     }
 
     @OnClick(R.id.btn_cancel)

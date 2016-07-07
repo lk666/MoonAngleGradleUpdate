@@ -45,8 +45,7 @@ public class ClothesInfoAdapter extends BaseListAdapter<ClothesInfo> {
         tvClothesName.setText(item.getClothesName());
         // TODO: lk 2016/7/7 确认收衣的adapter应额外写 
         if (item.isCheck()) {
-            Drawable drawable = context.getResources().getDrawable(R.mipmap.scaned);
-            ivClothImg.setImageDrawable(drawable);
+            ImageLoaderUtil.displayImageMipmap(R.mipmap.scaned, ivClothImg);
         } else {
             ImageLoaderUtil.displayImage(context, item.getImgPath(), ivClothImg);
         }
