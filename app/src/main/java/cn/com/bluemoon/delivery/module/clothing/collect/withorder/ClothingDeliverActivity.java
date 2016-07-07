@@ -36,6 +36,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * Created by allenli on 2016/6/22.
@@ -135,6 +136,7 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
                 finish();
                 break;
             case R.id.btn_search:
+                LibViewUtil.hideIM(editDeliverId);
                 search();
                 break;
         }
