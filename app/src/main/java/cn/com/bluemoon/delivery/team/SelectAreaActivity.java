@@ -92,7 +92,7 @@ public class SelectAreaActivity extends Activity {
         cb = (CheckBox)findViewById(R.id.checkbox);
         btnOk.setOnClickListener(onClickListener);
         txtSelect.setOnClickListener(onClickListener);
-        PublicUtil.setEmptyView(listview, getString(R.string.team_area_search_hint),R.mipmap.team_empty_member);
+        PublicUtil.setEmptyView(listview, getString(R.string.team_area_search_hint),R.mipmap.address_empty);
         searchView = (CommonSearchView) findViewById(R.id.searchview_select_area);
         searchView.setSearchViewListener(searchViewListener);
         searchView.hideHistoryView();

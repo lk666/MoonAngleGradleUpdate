@@ -658,19 +658,6 @@ public class PublicUtil extends LibPublicUtil {
         return JSONObject.toJSONString(params);
     }
 
-    public static View getEmptyView(String content,int imgResid){
-        LayoutInflater inflater = LayoutInflater.from(AppContext.getInstance());
-        View view = inflater.inflate(R.layout.layout_empty, null);
-        ((TextView) view.findViewById(R.id.txt_content)).setText(content);
-        if(imgResid!=0){
-            ((ImageView)view.findViewById(R.id.img_empty)).setImageResource(imgResid);
-        }
-        AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                AbsListView.LayoutParams.MATCH_PARENT, AbsListView.LayoutParams.MATCH_PARENT);
-        view.setLayoutParams(params);
-        return view;
-    }
-
     public static void setEmptyView(View listview,View emptyView) {
         ((ViewGroup) listview.getParent()).addView(emptyView);
         try{
@@ -680,18 +667,13 @@ public class PublicUtil extends LibPublicUtil {
         }
     }
 
-    public static void setEmptyView(View listview,String content) {
-        View emptyView = getEmptyView(content,0);
-        setEmptyView(listview, emptyView);
-    }
-
     public static void setEmptyView(View listview,String content,int imgResid) {
-        View emptyView = getEmptyView(content,imgResid);
+        View emptyView = getEmptyView(AppContext.getInstance(),content,imgResid);
         setEmptyView(listview, emptyView);
     }
 
     public static String getStringParamsByFormat(String split,String... params){
-        String format = "%1$s "+split+" %2$s";
+        String format = "%1$s"+split+"%2$s";
         String str = "";
         if(params==null) return str;
         for (int i=0;i<params.length;i++){
@@ -707,7 +689,7 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     public static String getStringParams(String... params){
-        return getStringParamsByFormat(" - ", params);
+        return getStringParamsByFormat("-", params);
     }
 
     public static TextView getPhoneView(final Activity aty,final TextView txtPhone){
