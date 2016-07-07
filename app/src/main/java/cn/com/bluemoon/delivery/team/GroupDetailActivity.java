@@ -164,7 +164,7 @@ public class GroupDetailActivity extends KJActivity {
 
             @Override
             public void setTitle(TextView v) {
-                v.setText(getText(R.string.team_member_title));
+                v.setText(getText(R.string.team_group_detail_title));
             }
 
         });
@@ -186,7 +186,7 @@ public class GroupDetailActivity extends KJActivity {
                 if (groupDetailInfoResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     bpCode = groupDetailInfoResult.getBpCode();
                     timestamp = groupDetailInfoResult.getTimestamp();
-                    txtTitle.setText(PublicUtil.getString2(groupDetailInfoResult.getBpCode(), groupDetailInfoResult.getBpName()));
+                    txtTitle.setText(PublicUtil.getStringParams(groupDetailInfoResult.getBpCode(), groupDetailInfoResult.getBpName()));
                     txtTotal.setText(String.format(getString(R.string.team_group_detail_total_num),groupDetailInfoResult.getActualTotalPopulation(),groupDetailInfoResult.getPlanTotalPopulation()));
                     txtFull.setText(String.format(getString(R.string.team_group_detail_full_num), groupDetailInfoResult.getFullTimeNumber()));
                     txtPart.setText(String.format(getString(R.string.team_group_detail_part_num), groupDetailInfoResult.getPartTimeNumber()));
@@ -254,7 +254,7 @@ public class GroupDetailActivity extends KJActivity {
     };
 
     private void unlock(final GroupDetail item){
-        ChooseDateWindow popupWindow = new ChooseDateWindow(aty,String.format(getString(R.string.param_two),
+        ChooseDateWindow popupWindow = new ChooseDateWindow(aty,PublicUtil.getStringParams(
                 item.getBpCode(),item.getBpName()), new ChooseDateWindow.ChooseDateListener() {
             @Override
             public void callBack(long endTime) {
@@ -388,7 +388,7 @@ public class GroupDetailActivity extends KJActivity {
             final TextView txtMember = ViewHolder.get(convertView, R.id.txt_member);
             final TextView txtEdit = ViewHolder.get(convertView, R.id.txt_edit);
             final GroupDetail item = list.get(position);
-            txtName.setText(PublicUtil.getString2(item.getBpCode(), item.getBpName()));
+            txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             if(!StringUtils.isEmpty(item.getPosiName())){
                 txtJob.setText(item.getPosiName());
                 txtJob.setVisibility(View.VISIBLE);

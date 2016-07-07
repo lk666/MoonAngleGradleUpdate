@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -19,7 +18,6 @@ import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +40,6 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonClearEditText;
-import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class RelationInfoActivity extends KJActivity {
@@ -131,7 +128,7 @@ public class RelationInfoActivity extends KJActivity {
         item.setEmpName(emp.getEmpName());
         item.setMobileNo(emp.getMobileNo());
         item.setRelType(relType);
-        txtName.setText(PublicUtil.getString2(item.getEmpCode(), item.getEmpName()));
+        txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
         txtPhone.setText(item.getMobileNo());
         if (Constants.TYPE_ADD.equals(type)) {
             if (Constants.RELTYPE_GROUP.equals(relType)) {
@@ -195,7 +192,7 @@ public class RelationInfoActivity extends KJActivity {
         if (lists == null) return;
         ArrayList<String> list = new ArrayList<>();
         for (Community i : lists) {
-            list.add(PublicUtil.getString2(i.getBpCode(), i.getBpName()));
+            list.add(PublicUtil.getStringParams(i.getBpCode(), i.getBpName()));
         }
         Intent intent = new Intent(aty, CommonSelectActivity.class);
         intent.putExtra("title", title);
@@ -205,7 +202,7 @@ public class RelationInfoActivity extends KJActivity {
 
     private void setData() {
         if (item == null) return;
-        txtName.setText(PublicUtil.getString2(item.getEmpCode(), item.getEmpName()));
+        txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
         if (Constants.RELTYPE_GROUP.equals(item.getRelType())) {
             line1.setVisibility(View.VISIBLE);
             layoutGroup.setVisibility(View.VISIBLE);
@@ -213,12 +210,11 @@ public class RelationInfoActivity extends KJActivity {
         } else {
             txtType.setText(getString(R.string.team_community));
         }
-        txtCommunity.setText(PublicUtil.getString2(item.getBpCode1(), item.getBpName1()));
+        txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
         if (StringUtils.isEmpty(item.getChargeName())) {
-            txtService.setText(PublicUtil.getString2(item.getBpCode(), item.getBpName()));
+            txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
         } else {
-            txtService.setText(PublicUtil.getString2(item.getBpCode(),
-                    PublicUtil.getString2(item.getBpName(), item.getChargeName())));
+            txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName(), item.getChargeName()));
         }
         if (Constants.WORKTYPE_PART.equals(item.getWorkType())) {
             setWorkType(false);
@@ -234,6 +230,7 @@ public class RelationInfoActivity extends KJActivity {
         txtRemark.setText(item.getRemark());
         txtRemark.updateCleanable(0, false);
     }
+
 
     private void submit() {
         if (StringUtils.isEmpty(item.getBpCode1())) {
@@ -320,14 +317,14 @@ public class RelationInfoActivity extends KJActivity {
     private void setCommunity(Community community) {
         item.setBpCode1(community.getBpCode());
         item.setBpName1(community.getBpName());
-        txtCommunity.setText(PublicUtil.getString2(item.getBpCode1(), item.getBpName1()));
+        txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
         getGroup();
     }
 
     private void setGroup(Community community) {
         item.setBpCode(community.getBpCode());
         item.setBpName(community.getBpName());
-        txtService.setText(PublicUtil.getString2(item.getBpCode(), item.getBpName()));
+        txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
     }
 
     AsyncHttpResponseHandler getRelationShipDetailHandler = new TextHttpResponseHandler(HTTP.UTF_8) {

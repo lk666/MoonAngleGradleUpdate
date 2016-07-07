@@ -690,8 +690,24 @@ public class PublicUtil extends LibPublicUtil {
         setEmptyView(listview, emptyView);
     }
 
-    public static String getString2(String param1,String param2){
-       return String.format(AppContext.getInstance().getString(R.string.param_two), param1, param2);
+    public static String getStringParamsByFormat(String split,String... params){
+        String format = "%1$s "+split+" %2$s";
+        String str = "";
+        if(params==null) return str;
+        for (int i=0;i<params.length;i++){
+            if(!StringUtils.isEmpty(params[i])){
+                if(StringUtils.isEmpty(str)){
+                    str = params[i];
+                }else{
+                    str = String.format(format, str, params[i]);
+                }
+            }
+        }
+        return str;
+    }
+
+    public static String getStringParams(String... params){
+        return getStringParamsByFormat(" - ", params);
     }
 
     public static TextView getPhoneView(final Activity aty,final TextView txtPhone){

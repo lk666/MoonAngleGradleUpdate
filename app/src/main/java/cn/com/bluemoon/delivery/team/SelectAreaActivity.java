@@ -405,11 +405,11 @@ public class SelectAreaActivity extends Activity {
             TextView txtAreaName = ViewHolder.get(convertView, R.id.txt_area_name);
             TextView txtAddress = ViewHolder.get(convertView, R.id.txt_address);
             final ServiceArea item = list.get(position);
-            String name = PublicUtil.getString2(item.getBpCode(), item.getBpName());
+            String name = PublicUtil.getStringParams(item.getBpCode(), item.getBpName());
             if (!StringUtils.isEmpty(item.getBpCode1())) {
                 layoutArea.setVisibility(View.VISIBLE);
-                txtAreaName.setText(PublicUtil.getString2(item.getBpCode1(), item.getBpName()));
-                name = PublicUtil.getString2(name, PublicUtil.getString2(item.getYuanGarden(), item.getBalcony()));
+                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName()));
+                name = PublicUtil.getStringParams(name,item.getYuanGarden(), item.getBalcony());
             } else {
                 layoutArea.setVisibility(View.GONE);
             }

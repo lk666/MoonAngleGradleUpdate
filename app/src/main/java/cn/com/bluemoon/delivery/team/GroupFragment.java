@@ -307,7 +307,7 @@ public class GroupFragment extends BackHandledFragment {
             TextView txtName = ViewHolder.get(convertView, R.id.txt_name);
             TextView txtNum = ViewHolder.get(convertView, R.id.txt_num);
             final TeamGroup item = list.get(position);
-            txtName.setText(CardUtils.getTeamGroupListName(item));
+            txtName.setText(PublicUtil.getStringParams(item.getBpCode(),item.getBpName(),item.getChargeName()));
             txtNum.setText(String.format(getString(R.string.team_group_membernum),
                     item.getActualPopulation(), item.getPlanPopulation()));
             int index = position % 2;

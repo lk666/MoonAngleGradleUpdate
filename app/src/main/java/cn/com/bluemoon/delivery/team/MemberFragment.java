@@ -406,9 +406,9 @@ public class MemberFragment extends BackHandledFragment {
             final TextView txtUnlock = ViewHolder.get(convertView, R.id.txt_unlock);
             final TextView txtEdit = ViewHolder.get(convertView, R.id.txt_edit);
             final GroupDetail item = list.get(position);
-            txtName.setText(PublicUtil.getString2(item.getBpCode(), item.getBpName()));
+            txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             txtPhone.setText(item.getMobileNo());
-            String work = "";
+            String work;
             if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
                 work = getString(R.string.team_work_part);
                 if(item.getWorkLength()!=0){
@@ -419,13 +419,13 @@ public class MemberFragment extends BackHandledFragment {
             }
             txtMsg.setText(String.format(getString(R.string.team_group_detail_msg),
                     DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"), work));
-            txtCommunity.setText(PublicUtil.getString2(item.getCommunityCode(), item.getCommunityName()));
+            txtCommunity.setText(PublicUtil.getStringParams(item.getCommunityCode(), item.getCommunityName()));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(v == txtUnlock){
-                        ChooseDateWindow popupWindow = new ChooseDateWindow(mContext,String.format(getString(R.string.param_two),
+                        ChooseDateWindow popupWindow = new ChooseDateWindow(mContext,PublicUtil.getStringParams(
                                 item.getBpCode(),item.getBpName()), new ChooseDateWindow.ChooseDateListener() {
                             @Override
                             public void callBack(long endTime) {

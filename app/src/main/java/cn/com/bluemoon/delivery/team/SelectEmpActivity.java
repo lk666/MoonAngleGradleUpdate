@@ -233,7 +233,7 @@ public class SelectEmpActivity extends Activity {
             final TextView txtName = ViewHolder.get(convertView,R.id.txt_name);
             final TextView txtContent = ViewHolder.get(convertView,R.id.txt_content);
             final Emp item = list.get(position);
-            txtName.setText(String.format(getString(R.string.param_two), item.getEmpCode(),item.getEmpName()));
+            txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
             if (StringUtils.isEmpty(item.getBpCode())){
                 txtName.setTextColor(getResources().getColor(R.color.text_black));
                 txtContent.setVisibility(View.GONE);
@@ -245,7 +245,7 @@ public class SelectEmpActivity extends Activity {
                 txtContent.setVisibility(View.VISIBLE);
                 checkBox.setButtonDrawable(R.mipmap.checkbox_disable);
                 convertView.setBackgroundColor(getResources().getColor(R.color.view_bg));
-                txtContent.setText(String.format(getString(R.string.param_two), item.getBpCode(), item.getBpName()));
+                txtContent.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             }
             if(item.isCheck()){
                 checkBox.setChecked(true);

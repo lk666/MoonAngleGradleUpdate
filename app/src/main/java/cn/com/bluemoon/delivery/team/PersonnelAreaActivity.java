@@ -30,10 +30,7 @@ import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.team.Emp;
-import cn.com.bluemoon.delivery.app.api.model.team.GroupDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.PersonnelArea;
-import cn.com.bluemoon.delivery.app.api.model.team.ResultEmpList;
-import cn.com.bluemoon.delivery.app.api.model.team.ResultGroupDetailInfo;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultPersonnelAreaList;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -44,7 +41,6 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
@@ -52,8 +48,6 @@ public class PersonnelAreaActivity extends KJActivity {
 
     private String TAG = "PersonnelAreaActivity";
     private Emp emp;
-    @BindView(id = R.id.layout_title)
-    private LinearLayout layoutTitle;
     @BindView(id = R.id.txt_name)
     private TextView txtName;
     @BindView(id = R.id.txt_num)
@@ -66,7 +60,6 @@ public class PersonnelAreaActivity extends KJActivity {
     private long timestamp;
     private List<PersonnelArea> items;
     private PersonAreaAdapter personAreaAdapter;
-    private PersonnelArea deleteItem;
 
     @Override
     public void setRootView() {
@@ -183,7 +176,7 @@ public class PersonnelAreaActivity extends KJActivity {
 
             @Override
             public void setTitle(TextView v) {
-                v.setText(getText(R.string.team_member_title));
+                v.setText(getText(R.string.team_group_detail_member));
             }
 
         });
@@ -201,15 +194,15 @@ public class PersonnelAreaActivity extends KJActivity {
                 progressDialog.dismiss();
             listviewArea.onRefreshComplete();
             try {
-                ResultPersonnelAreaList personnelAreaListResult = JSON.parseObject(responseString, ResultPersonnelAreaList.class);
+                ResultPersonnelAreaList result = JSON.parseObject(responseString, ResultPersonnelAreaList.class);
 
-                if (personnelAreaListResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    timestamp = personnelAreaListResult.getTimestamp();
-                    txtName.setText(PublicUtil.getString2(personnelAreaListResult.getEmpCode(), personnelAreaListResult.getEmpName()));
-                    txtNum.setText(String.format(getString(R.string.team_area_total_num), personnelAreaListResult.getTotalFamily()));
-                    setData(personnelAreaListResult.getItemList());
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    timestamp = result.getTimestamp();
+                    txtName.setText(PublicUtil.getStringParams(result.getEmpCode(), result.getEmpName()));
+                    txtNum.setText(String.format(getString(R.string.team_area_total_num), result.getTotalFamily()));
+                    setData(result.getItemList());
                 } else {
-                    PublicUtil.showErrorMsg(aty, personnelAreaListResult);
+                    PublicUtil.showErrorMsg(aty, result);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
@@ -241,8 +234,7 @@ public class PersonnelAreaActivity extends KJActivity {
                     PublicUtil.showToast(baseResult.getResponseMsg());
                     pullUp = false;
                     pullDown = false;
-                    items.remove(deleteItem);
-                    setData(items);
+                    getData();
                 } else {
                     PublicUtil.showErrorMsg(aty, baseResult);
                 }
@@ -321,11 +313,11 @@ public class PersonnelAreaActivity extends KJActivity {
             TextView txtDate = ViewHolder.get(convertView, R.id.txt_date);
             final TextView txtDelete = ViewHolder.get(convertView, R.id.txt_delete);
             final PersonnelArea item = list.get(position);
-            String name = PublicUtil.getString2(item.getBpCode(), item.getBpName());
+            String name = PublicUtil.getStringParams(item.getBpCode(), item.getBpName());
             if (!StringUtils.isEmpty(item.getBpCode1())) {
                 layoutArea.setVisibility(View.VISIBLE);
-                txtAreaName.setText(PublicUtil.getString2(item.getBpCode1(), item.getBpName()));
-                name = PublicUtil.getString2(name, PublicUtil.getString2(item.getYuanGarden(), item.getBalcony()));
+                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName()));
+                name = PublicUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
             } else {
                 layoutArea.setVisibility(View.GONE);
             }
@@ -338,7 +330,6 @@ public class PersonnelAreaActivity extends KJActivity {
             txtDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    deleteItem = item;
                     delete(item.getBpCode());
                 }
             });

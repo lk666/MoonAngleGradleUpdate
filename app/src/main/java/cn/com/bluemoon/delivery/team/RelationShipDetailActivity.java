@@ -79,7 +79,7 @@ public class RelationShipDetailActivity extends KJActivity {
     }
 
     private void setData(RelationDetail item) {
-        txtName.setText(PublicUtil.getString2(item.getEmpCode(), item.getEmpName()));
+        txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
         txtPhone.setText(item.getMobileNo());
         if (Constants.RELTYPE_COMMUNITY.equals(item.getRelType())) {
             txtType.setText(getString(R.string.team_community));
@@ -88,13 +88,12 @@ public class RelationShipDetailActivity extends KJActivity {
             line2.setVisibility(View.VISIBLE);
             txtService.setVisibility(View.VISIBLE);
             if (StringUtils.isEmpty(item.getChargeName())) {
-                txtService.setText(PublicUtil.getString2(item.getBpCode(), item.getBpName()));
+                txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             } else {
-                txtService.setText(PublicUtil.getString2(item.getBpCode(),
-                        PublicUtil.getString2(item.getBpName(), item.getChargeName())));
+                txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName(), item.getChargeName()));
             }
         }
-        txtCommunity.setText(PublicUtil.getString2(item.getBpCode1(), item.getBpName1()));
+        txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
 
         if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
             txtWorkType.setText(getString(R.string.team_work_full));

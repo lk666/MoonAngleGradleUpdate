@@ -660,7 +660,6 @@
     <string name="team_group_detail_member">人员辖区</string>
     <string name="team_group_detail_edit">编辑</string>
     <string name="team_group_detail_msg">加入：%1$s，%2$s</string>
-    <string name="param_two">%1$s — %2$s</string>
     <string name="team_group_start_date">开始日期</string>
     <string name="team_group_end_date">结束日期</string>
     <string name="team_group_date_hint">请选择</string>
