@@ -198,8 +198,7 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
         tvCollectTime.setText(getString(R.string.clothing_detail_time) + DateUtil.getTime(result
                 .getOpTime(), "yyyy-MM-dd " + "HH:mm"));
 
-        tvClotnesCode.setText(getString(R.string.clothing_detail_clothes_code) + result
-                .getCollectCode());
+        tvClotnesCode.setText(getString(R.string.clothing_detail_clothes_code) + clothesCode);
         tvTypeName.setText(result.getTypeName());
         tvClothesName.setText(result.getClothesName());
 
