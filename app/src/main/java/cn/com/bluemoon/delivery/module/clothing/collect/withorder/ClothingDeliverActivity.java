@@ -1,13 +1,11 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -33,15 +31,11 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDeliverInfos
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesDeliverInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
-import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
-import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.DeliverAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.ViewHolder;
 
 /**
  * Created by allenli on 2016/6/22.
@@ -118,12 +112,13 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
                     btnConforim.setEnabled(false);
                 } else {
                     btnSearch.setEnabled(true);
-                    btnConforim.setEnabled(true);
+                    // btnConforim.setEnabled(true);
                 }
             }
         });
         showProgressDialog();
-        DeliveryApi.queryTransmitInfo(ClientStateManager.getLoginToken(ClothingDeliverActivity.this), collectCode, logHandler);
+        DeliveryApi.queryTransmitInfo(ClientStateManager.getLoginToken(ClothingDeliverActivity
+                .this), collectCode, logHandler);
     }
 
 
@@ -146,12 +141,15 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
     }
 
     private void confrim() {
-        if (!StringUtil.isEmpty(editDeliverId.getText().toString()) && !StringUtil.isEmpty(txtDeliverName.getText().toString())
+        if (!StringUtil.isEmpty(editDeliverId.getText().toString()) && !StringUtil.isEmpty
+                (txtDeliverName.getText().toString())
                 && !StringUtil.isEmpty(txtDeliverPhone.getText().toString())) {
             showProgressDialog();
-            DeliveryApi.turnOrderInfo(ClientStateManager.getLoginToken(this), collectCode, editDeliverId.getText().toString(), txtDeliverName.getText().toString(), txtDeliverPhone.getText().toString()
+            DeliveryApi.turnOrderInfo(ClientStateManager.getLoginToken(this), collectCode,
+                    editDeliverId.getText().toString(), txtDeliverName.getText().toString(),
+                    txtDeliverPhone.getText().toString()
                     , txtDeliverRemark.getText().toString(), baseHandler);
-        }else {
+        } else {
             PublicUtil.showToast(getString(R.string.no_user_error_message));
         }
     }
@@ -159,7 +157,8 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
     private void search() {
         if (!StringUtil.isEmpty(editDeliverId.getText().toString())) {
             showProgressDialog();
-            DeliveryApi.getEmp(ClientStateManager.getLoginToken(this), editDeliverId.getText().toString(), searchHandler);
+            DeliveryApi.getEmp(ClientStateManager.getLoginToken(this), editDeliverId.getText()
+                    .toString(), searchHandler);
         }
     }
 
@@ -190,6 +189,8 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
                     txtDeliverPhone.setText(result.getPhone());
                     txtDeliverName.setText(result.getEmpName());
                     //txtDeliverRemark.setText("");
+                    btnConforim.setEnabled(true);
+                    return;
                 } else {
                     PublicUtil.showErrorMsg(ClothingDeliverActivity.this, result);
                 }
@@ -197,6 +198,7 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
                 LogUtils.e(getDefaultTag(), e.getMessage());
                 PublicUtil.showToastServerBusy();
             }
+            btnConforim.setEnabled(false);
         }
 
         @Override
@@ -205,6 +207,7 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             dismissProgressDialog();
             PublicUtil.showToastServerOvertime();
+            btnConforim.setEnabled(false);
         }
     };
 
