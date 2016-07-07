@@ -110,6 +110,10 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (StringUtil.isEmpty(s.toString())) {
+                    layoutName.setVisibility(View.GONE);
+                    layoutPhone.setVisibility(View.GONE);
+                    txtDeliverName.setText("");
+                    txtDeliverPhone.setText("");
                     btnSearch.setEnabled(false);
                     btnConforim.setEnabled(false);
                 } else {
@@ -185,7 +189,7 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
                     linePhone.setVisibility(View.VISIBLE);
                     txtDeliverPhone.setText(result.getPhone());
                     txtDeliverName.setText(result.getEmpName());
-                    txtDeliverRemark.setText("");
+                    //txtDeliverRemark.setText("");
                 } else {
                     PublicUtil.showErrorMsg(ClothingDeliverActivity.this, result);
                 }
