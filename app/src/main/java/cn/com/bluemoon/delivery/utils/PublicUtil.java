@@ -81,12 +81,7 @@ public class PublicUtil extends LibPublicUtil{
 		return fileName;
 	}
 
-	/**
-	 * 生成缓存文件夹路径下的文件路径
-	 *
-	 * @param 文件名
-	 * @return 返回图片名
-	 */
+
 	public static String getTempPath() {
 		String filepath = "";
 		String path = Constants.PATH_TEMP;
@@ -132,19 +127,13 @@ public class PublicUtil extends LibPublicUtil{
 			e.printStackTrace();
 		}
 	}
-	/**
-	 * 没网络提示
-	 *
-	 * @param context
-	 */
+
 	public static void showToastNoInternet() {
 		showToast(AppContext.getInstance(), AppContext.getInstance().getString(R.string.request_no_internet));
 	}
 
 	/**
 	 * 服务器繁忙提示
-	 *
-	 * @param context
 	 */
 	public static void showToastServerBusy() {
 		showToast(AppContext.getInstance(), AppContext.getInstance().getString(R.string.request_server_busy));
@@ -153,7 +142,6 @@ public class PublicUtil extends LibPublicUtil{
 	/**
 	 * 服务器超时提示
 	 *
-	 * @param context
 	 */
 	public static void showToastServerOvertime() {
 		showToast(AppContext.getInstance(), AppContext.getInstance().getString(R.string.request_server_overtime));
@@ -161,8 +149,6 @@ public class PublicUtil extends LibPublicUtil{
 
 	/**
 	 * 获取数据错误提示
-	 *
-	 * @param context
 	 */
 	public static void showToastErrorData() {
 		showToast(AppContext.getInstance(), AppContext.getInstance().getString(R.string.get_data_busy));
@@ -224,6 +210,21 @@ public class PublicUtil extends LibPublicUtil{
 		Configure.BTN_CLICK_TXT = btnString;
 		Configure.BUTTON_VISIBILITY = View.VISIBLE;
 		BarcodeUtil.openScan(aty, requestCode, resultCode);
+	}
+
+	/**
+	 * 打开扫描界面
+	 * @param aty
+	 * @param requestCode
+	 * @param resultCode  大于1的正整数
+	 */
+	public static void openNewScan(Activity aty, String title,
+								String btnString, int requestCode, int resultCode){
+		initScanConfigure(aty);
+		Configure.TITLE_TXT = title;
+		Configure.BTN_CLICK_TXT = btnString;
+		Configure.BUTTON_VISIBILITY = View.VISIBLE;
+		BarcodeUtil.openNewScan(aty, requestCode, resultCode);
 	}
 
 	public static void openScanTicket(Activity aty,String ticketName,
@@ -457,7 +458,6 @@ public class PublicUtil extends LibPublicUtil{
 	 * 跳转详情页
 	 * @param context
 	 * @param orderId
-	 * @param orderType
 	 */
 	public static void showOrderDetailView(Context context,String orderId){
 		Intent intent = new Intent();
