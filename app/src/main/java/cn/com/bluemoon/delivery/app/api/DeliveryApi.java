@@ -2038,7 +2038,7 @@ public class DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("token", token);
         params.put("appointBackTime", appointBackTime);
-        params.put("collectBrcode", collectBrcode);
+        params.put("collectCode", collectCode);
         params.put("collectBrcode", collectBrcode);
         params.put("isUrgent", isUrgent);
         String jsonString = JSONObject.toJSONString(params);

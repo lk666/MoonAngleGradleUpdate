@@ -148,7 +148,13 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             DeliveryApi.turnOrderInfo(ClientStateManager.getLoginToken(this), collectCode,
                     editDeliverId.getText().toString(), txtDeliverName.getText().toString(),
                     txtDeliverPhone.getText().toString()
-                    , txtDeliverRemark.getText().toString(), baseHandler);
+                    , txtDeliverRemark.getText().toString(), createResponseHandler(new IHttpResponseHandler() {
+                        @Override
+                        public void onResponseSuccess(String responseString) {
+                            setResult(Activity.RESULT_OK);
+                            finish();
+                        }
+                    }));
         } else {
             PublicUtil.showToast(getString(R.string.no_user_error_message));
         }
