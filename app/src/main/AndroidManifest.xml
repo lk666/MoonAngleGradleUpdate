@@ -266,7 +266,7 @@
             android:name=".module.clothing.collect.withorder.ClothingDeliverActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.ClothesDetailActivity"
             android:screenOrientation="portrait"
