@@ -77,9 +77,6 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         scanCode = getIntent().getStringExtra("scanCode");
         ButterKnife.bind(this);
         init();
-        if (!StringUtil.isEmpty(scanCode)) {
-            handleScaneCodeBack(scanCode);
-        }
     }
 
     @Override
@@ -141,6 +138,9 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         adapter.setList(clothesInfos);
         listViewInfo.setAdapter(adapter);
 
+        if (!StringUtil.isEmpty(scanCode)) {
+            handleScaneCodeBack(scanCode);
+        }
     }
 
     public static void actionStart(Activity context, String collectCode, int requestCode) {
@@ -235,13 +235,13 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
 
     private void handleScaneCodeBack(String code) {
         if (null != clothesInfos && clothesInfos.size() > 0) {
-            for (ClothesInfo info : clothesInfos
-                    ) {
+            for (ClothesInfo info : clothesInfos) {
                 if (info.getClothesCode().equals(code)) {
                     info.setCheck(true);
+                    break;
                 }
-                adapter.notifyDataSetChanged();
             }
+            adapter.notifyDataSetChanged();
         }
     }
 
