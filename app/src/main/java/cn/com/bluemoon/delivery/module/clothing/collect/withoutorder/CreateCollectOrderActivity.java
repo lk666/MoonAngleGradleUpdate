@@ -351,7 +351,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         tvAddress.setText((new StrBuilder(province)).append(city).append(county).append(street)
                 .append(village).append(address).toString());
         tvActualReceive.setText(getString(R.string.create_collect_dialog_actual_receive) +
-                clothesInfo.size());
+                clothesInfo.size() + getString(R.string.unit_clothes));
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -403,16 +403,12 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             case R.id.btn_finish:
                 if (checkBtnFinish()) {
                     showProgressDialog();
-                    DeliveryApi.registerCreatedCollectInfo(activityCode, etAddress.getText()
-                                    .toString(),
-
-                            appointBackTime, city, clothesInfo, tvCollectBrcode.getText()
-                                    .toString(),
-                            county,
+                    address = etAddress.getText().toString();
+                    DeliveryApi.registerCreatedCollectInfo(activityCode, address, appointBackTime,
+                            city, clothesInfo, tvCollectBrcode.getText().toString(), county,
                             etName.getText().toString(), etPhone.getText().toString(),
                             sbIsFee.isChecked() ? 1 : 0, sbIsUrgent.isChecked() ? 1 : 0, province,
-                            street,
-                            ClientStateManager.getLoginToken(this), village,
+                            street, ClientStateManager.getLoginToken(this), village,
                             createResponseHandler(new IHttpResponseHandler() {
                                 @Override
                                 public void onResponseSuccess(String responseString) {
