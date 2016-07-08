@@ -409,11 +409,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         clothesImg = new ArrayList<>();
         clothesImg.addAll(result.getClothesImg());
 
-        if (clothesImg.size() < MAX_UPLOAD_IMG) {
-            ClothingPic addPic = new ClothingPic();
-            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
-            clothesImg.add(addPic);
-        }
+        addAddImage();
 
         clothingAdapter.setList(clothesImg);
         clothingAdapter.notifyDataSetChanged();
@@ -421,6 +417,13 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         checkModifyInitFinish();
     }
 
+    private void addAddImage() {
+        if (clothesImg.size() < MAX_UPLOAD_IMG) {
+            ClothingPic addPic = new ClothingPic();
+            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
+            clothesImg.add(addPic);
+        }
+    }
 
     /**
      * 获取衣物配置项（衣物名称）返回
@@ -828,6 +831,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 switch (view.getId()) {
                     //  删除图片
                     case R.id.iv_delete:
+                        if (clothesImg.size() < 3) {
+                            PublicUtil.showToast(getString(R.string.create_collect_can_not_delete));
+                            return;
+                        }
                         showProgressDialog();
                         delImgPos = position;
                         DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
@@ -857,6 +864,12 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 ResultBase result = JSON.parseObject(responseString, ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     clothesImg.remove(delImgPos);
+
+                    if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get(clothesImg.size() - 1)
+                            .getImgId())) {
+                        addAddImage();
+                    }
+
                     clothingAdapter.notifyDataSetChanged();
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
@@ -884,7 +897,8 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         intent.putExtra(ClothingBookInActivity.EXTRA_OUTER_CODE, outerCode);
         intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_NAME, typeName);
         intent.putExtra(ClothingBookInActivity.EXTRA_TYPE_CODE, typeCode);
-        intent.putExtra(ClothingBookInActivity.EXTRA_MODE, isModifyMode ? MODE_MODIFY : MODE_ADD);
+        intent.putExtra(ClothingBookInActivity.EXTRA_MODE, isModifyMode ? MODE_MODIFY :
+                MODE_ADD);
         intent.putExtra(ClothingBookInActivity.EXTRA_CLOTHES_CODE, clothesCode);
         context.startActivityForResult(intent, requestCode);
     }

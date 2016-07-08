@@ -221,6 +221,14 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         setClothesTypeInfo(type.getClothesTypeInfos());
     }
 
+    private void addAddImage() {
+        if (clothesImg.size() < MAX_UPLOAD_IMG) {
+            ClothingPic addPic = new ClothingPic();
+            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
+            clothesImg.add(addPic);
+        }
+    }
+
     /**
      * 设置服务类型数据
      */
@@ -330,9 +338,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     private void initClothesImgList() {
         clothesImg = new ArrayList<>();
 
-        ClothingPic addPic = new ClothingPic();
-        addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
-        clothesImg.add(addPic);
+        addAddImage();
 
         clothingAdapter.setList(clothesImg);
         clothingAdapter.notifyDataSetChanged();
@@ -547,6 +553,10 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 switch (view.getId()) {
                     //  删除图片
                     case R.id.iv_delete:
+                        if (clothesImg.size() < 3) {
+                            PublicUtil.showToast(getString(R.string.create_collect_can_not_delete));
+                            return;
+                        }
                         showProgressDialog();
                         delImgPos = position;
                         DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
@@ -555,6 +565,10 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                                     @Override
                                     public void onResponseSuccess(String responseString) {
                                         clothesImg.remove(delImgPos);
+                                        if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get(clothesImg.size() - 1)
+                                                .getImgId())) {
+                                            addAddImage();
+                                        }
                                         clothingAdapter.notifyDataSetChanged();
                                     }
                                 }));
