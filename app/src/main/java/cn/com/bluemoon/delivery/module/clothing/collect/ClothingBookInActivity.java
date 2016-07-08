@@ -535,10 +535,16 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         String errStr = null;
         if (TextUtils.isEmpty(tvNumber.getText().toString())) {
             errStr = getString(R.string.btn_check_err_clothes_code_empty);
-        } else if ( clothingAdapter == null || clothingAdapter.getCount() < 2) {
+        } else if (clothingAdapter == null || clothingAdapter.getCount() < 2) {
             errStr = getString(R.string.btn_check_err_clothes_photo_empty);
         } else if (selectedNameView == null) {
             errStr = getString(R.string.btn_check_err_clothes_name_empty);
+        }
+
+        if (sbFalw.isChecked()) {
+            if (TextUtils.isEmpty(etFlaw.getText().toString())) {
+                errStr = getString(R.string.clothing_book_in_falw_empty);
+            }
         }
 
         if (TextUtils.isEmpty(errStr)) {

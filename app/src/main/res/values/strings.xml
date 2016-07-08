@@ -686,6 +686,7 @@
     <string name="clothing_book_in_name_hint">请选择衣物名称</string>
     <string name="clothing_book_in_falw">有无瑕疵</string>
     <string name="clothing_book_in_falw_hint">请输入衣物瑕疵信息，如：色差、破损、缺件等</string>
+    <string name="clothing_book_in_falw_empty">衣物瑕疵信息不能为空</string>
     <string name="clothing_book_in_stain">有无污渍</string>
     <string name="clothing_book_in_backup">备注</string>
     <string name="clothing_book_in_backup_hint">请输入备注信息，上限100字</string>
