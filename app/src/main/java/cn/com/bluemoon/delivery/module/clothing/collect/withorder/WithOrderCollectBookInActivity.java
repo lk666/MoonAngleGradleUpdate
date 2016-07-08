@@ -216,7 +216,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                     public void onResponseSuccess(String responseString) {
                         ResultStartCollectInfos result = JSON.parseObject(responseString,
                                 ResultStartCollectInfos.class);
-                        // TODO: lk 2016/7/2 待测试
                         setStartCollectInfo(result);
                     }
                 }));
@@ -570,7 +569,9 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
             ClothesInfo info = (ClothesInfo) item;
 
             // 查看详情
-            if (initClothes != null && initClothes.contains(info)) {
+            if (initClothes != null && initClothes.contains(info) &&
+                    !ClientStateManager.getUserName(this).equals(((ClothesInfo) item)
+                            .getReceiveCode())) {
                 ClothesDetailActivity.actionStart(this, info.getClothesCode());
             } else {
                 // 修改衣物

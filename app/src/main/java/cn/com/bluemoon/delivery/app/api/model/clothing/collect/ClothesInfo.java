@@ -36,8 +36,21 @@ public class ClothesInfo implements Serializable {
      */
     private String clothesnameCode;
 
+    /**
+     * 收衣人编码
+     */
+    private String receiveCode;
+
     @JSONField(serialize = false)
     private boolean isCheck = false;
+
+    public String getReceiveCode() {
+        return receiveCode;
+    }
+
+    public void setReceiveCode(String receiveCode) {
+        this.receiveCode = receiveCode;
+    }
 
     public boolean isCheck() {
         return isCheck;
