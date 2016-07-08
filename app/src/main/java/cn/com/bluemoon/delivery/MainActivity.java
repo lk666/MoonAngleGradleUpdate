@@ -47,6 +47,7 @@ import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
+import cn.com.bluemoon.delivery.jobrecord.PromoteActivity;
 import cn.com.bluemoon.delivery.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.notice.MessageListActivity;
@@ -492,16 +493,16 @@ public class MainActivity extends SlidingActivity {
 
 
     private void mockData() {
-        /*UserRight item = new UserRight();
+        UserRight item = new UserRight();
         item.setMenuCode("sfa");
-        item.setMenuName("sfa");
-        item.setUrl("http://www.runoob.com/try/try.php?filename=tryjsref_oninput");
+        item.setMenuName("作业点档案");
+        //item.setUrl("http://www.runoob.com/try/try.php?filename=tryjsref_oninput");
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
         if(item.getGroupNum()>groupCount) {
             groupCount = item.getGroupNum();
-        }*/
+        }
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -765,7 +766,10 @@ public class MainActivity extends SlidingActivity {
 
            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
-           } else{
+           }else if ("sfa".equals(userRight.getMenuCode())) {
+               intent = new Intent(main, PromoteActivity.class);
+               startActivity(intent);
+           }else{
                PublicUtil.showToast(getString(R.string.main_tab_no_data));
            }
        } catch (Exception ex) {

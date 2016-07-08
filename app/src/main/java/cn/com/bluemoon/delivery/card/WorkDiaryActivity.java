@@ -166,8 +166,8 @@ public class WorkDiaryActivity extends Activity {
             }
 
         });
-        bar.getImgRightView2().setBackgroundResource(R.mipmap.add_work_diary);
-        bar.getImgRightView2().setVisibility(View.VISIBLE);
+        bar.getImgRightView().setBackgroundResource(R.mipmap.add_work_diary);
+        bar.getImgRightView().setVisibility(View.VISIBLE);
     }
     AsyncHttpResponseHandler confirmWorkDailyHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 

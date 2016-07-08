@@ -14,6 +14,15 @@ public class PeopleFlow implements Serializable{
     private long startTime;
     private String weekday;
     private String recordStatus;
+    private String flowId;
+
+    public String getFlowId() {
+        return flowId;
+    }
+
+    public void setFlowId(String flowId) {
+        this.flowId = flowId;
+    }
 
     public String getRecordStatus() {
         return recordStatus;

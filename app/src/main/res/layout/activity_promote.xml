@@ -1,25 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    xmlns:CommonSearchView="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-
-    <cn.com.bluemoon.lib.view.CommonSearchView1
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        CommonSearchView:text_hint = "@string/search_key"/>
+    android:background="#fefefe"
+    xmlns:CommonSearchView="http://schemas.android.com/apk/res-auto">
 
     <ListView
         android:id="@+id/listview_promote"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:background="@color/page_bg_f2"
-        android:cacheColorHint="@color/view_bg"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
         android:divider="@color/page_bg_f2"
         android:dividerHeight="10dp"
         android:fadingEdge="none"
-        android:listSelector="@color/view_bg"
         android:overScrollMode="never" />
 
-</LinearLayout>
+    <cn.com.bluemoon.lib.view.CommonSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        CommonSearchView:text_hint = "@string/search_key"/>
+
+</RelativeLayout>

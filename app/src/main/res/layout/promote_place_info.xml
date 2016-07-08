@@ -134,6 +134,7 @@
             android:textSize="15sp" />
 
         <EditText
+            android:id="@+id/et_area"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="20dp"

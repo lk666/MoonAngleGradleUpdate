@@ -33,11 +33,11 @@ public class ResultPromoteList extends ResultBase{
         private String bpCode1;
         private String bpName;
         private String bpName1;
-        private String holidayPrice;
+        private double holidayPrice;
         private String siteType;
         private String siteTypeName;
-        private int useArea;
-        private int workPrice;
+        private double useArea;
+        private double workPrice;
 
         public String getBpCode() {
             return bpCode;
@@ -71,11 +71,11 @@ public class ResultPromoteList extends ResultBase{
             this.bpName1 = bpName1;
         }
 
-        public String getHolidayPrice() {
+        public double getHolidayPrice() {
             return holidayPrice;
         }
 
-        public void setHolidayPrice(String holidayPrice) {
+        public void setHolidayPrice(double holidayPrice) {
             this.holidayPrice = holidayPrice;
         }
 
@@ -95,19 +95,19 @@ public class ResultPromoteList extends ResultBase{
             this.siteTypeName = siteTypeName;
         }
 
-        public int getUseArea() {
+        public double getUseArea() {
             return useArea;
         }
 
-        public void setUseArea(int useArea) {
+        public void setUseArea(double useArea) {
             this.useArea = useArea;
         }
 
-        public int getWorkPrice() {
+        public double getWorkPrice() {
             return workPrice;
         }
 
-        public void setWorkPrice(int workPrice) {
+        public void setWorkPrice(double workPrice) {
             this.workPrice = workPrice;
         }
     }

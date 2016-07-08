@@ -1,38 +1,21 @@
 package cn.com.bluemoon.delivery.jobrecord;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
-import android.view.animation.AnimationSet;
-import android.view.animation.LayoutAnimationController;
-import android.view.animation.ScaleAnimation;
-import android.view.animation.Transformation;
-import android.view.animation.TranslateAnimation;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -40,31 +23,38 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.logging.Log;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
+import org.kymjs.kjframe.KJBitmap;
+import org.kymjs.kjframe.bitmap.BitmapCallBack;
 
-import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.ImageInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultBpList;
-import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultImageUpload;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.ObservableScrollView;
 import cn.com.bluemoon.delivery.utils.AnimationUtils;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.ViewHolder;
-import cn.com.bluemoon.lib.tagview.FlowLayout;
+import cn.com.bluemoon.delivery.utils.TextWatcherUtils;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.lib.view.TakePhotoPopView;
+
 
 /**
  * Created by LIANGJIANGLI on 2016/6/24.
@@ -74,10 +64,16 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private String TAG = "AddPromoteActivity";
     private CommonProgressDialog progressDialog;
     private EditText etPromotePlace;
+    private EditText etArea;
+    private EditText etWorkMoney;
+    private EditText etHolidayMoney;
+    private EditText etDepositMoney;
     private EditText etPromoteOtherFee;
     private TextView txtOutdoor;
     private TextView txtIndoor;
     private CompoundButton cbRent;
+    private CompoundButton cbWifi;
+    private CompoundButton cbNetWork;
     private LinearLayout layoutRent;
     private ObservableScrollView root;
     int layoutRentHeight =  0;
@@ -87,28 +83,58 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private LinearLayout layoutOtherFee;
     private LinearLayout layoutCommunitySelect;
     private TextView txtBpname;
+    private GridView gridView;
     private ListView listview;
     private PeopleFlowAdapter peopleFlowAdapter;
     private List<PeopleFlow> flows = new ArrayList<PeopleFlow>();
+    private List<PeopleFlow> deleteFlows = new ArrayList<PeopleFlow>();
     private int index;
     private ResultBpList.Item bp;
+    private List<ImageInfo> images = new ArrayList<ImageInfo>();
+    private TakePhotoPopView takePhotoPop;
+    private ImageAdapter imageAdapter;
+    private String bpCode;
+    private String bpName;
+    private String inOrOut;
+    private List<ImageInfo> imgIds = new ArrayList<>();
+    private PromoteInfo info;
+    private boolean isEdit;
+    private KJBitmap kjBitmap = new KJBitmap();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_promote);
+        isEdit = getIntent().getBooleanExtra("isEdit", false);
+        initCustomActionBar();
+
+        takePhotoPop = new TakePhotoPopView(this,
+                Constants.TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
+
         etPromotePlace = (EditText) findViewById(R.id.et_promote_place);
+        etArea = (EditText) findViewById(R.id.et_area);
+        etWorkMoney = (EditText) findViewById(R.id.et_work_money);
+        etHolidayMoney = (EditText) findViewById(R.id.et_holiday_money);
+        etDepositMoney = (EditText) findViewById(R.id.et_deposit_money);
         etPromoteOtherFee = (EditText) findViewById(R.id.et_promote_other_fee);
         txtOutdoor = (TextView) findViewById(R.id.txt_outdoor);
         txtIndoor = (TextView) findViewById(R.id.txt_indoor);
         cbRent = (CompoundButton) findViewById(R.id.cb_rent);
+        cbWifi = (CompoundButton) findViewById(R.id.cb_wifi);
+        cbNetWork = (CompoundButton) findViewById(R.id.cb_network);
         layoutRent = (LinearLayout) findViewById(R.id.layout_rent);
         btnOk2 = (Button) findViewById(R.id.btn_ok2);
         btnOk = (Button) findViewById(R.id.btn_ok);
         listview = (ListView) findViewById(R.id.listview_people_flow);
         layoutOtherFee = (LinearLayout) findViewById(R.id.layout_other_fee);
         layoutCommunitySelect = (LinearLayout) findViewById(R.id.layout_community_select);
+        gridView = (GridView) findViewById(R.id.gridview_img);
         txtBpname = (TextView) findViewById(R.id.txt_bpname);
         layoutRentHeight = AnimationUtils.getTargetHeight(layoutRent);
+
+        TextWatcherUtils.setMaxNumberWatcher(etArea, 6, 1, null);
+        TextWatcherUtils.setMaxNumberWatcher(etWorkMoney, 6, 2, null);
+        TextWatcherUtils.setMaxNumberWatcher(etHolidayMoney, 6, 2, null);
+        TextWatcherUtils.setMaxNumberWatcher(etDepositMoney, 6, 2, null);
 
         imgAddFlow = (ImageView) findViewById(R.id.img_add_flow);
         root = (ObservableScrollView) findViewById(R.id.root);
@@ -137,6 +163,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 txtOutdoor.setTextColor(getResources().getColor(R.color.text_red));
                 txtIndoor.setBackgroundResource(R.drawable.btn_border_grep_shape4);
                 txtIndoor.setTextColor(getResources().getColor(R.color.text_black_light));
+                inOrOut = "outDoor";
             }
         });
         txtIndoor.setOnClickListener(new View.OnClickListener() {
@@ -146,9 +173,9 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 txtIndoor.setTextColor(getResources().getColor(R.color.text_red));
                 txtOutdoor.setBackgroundResource(R.drawable.btn_border_grep_shape4);
                 txtOutdoor.setTextColor(getResources().getColor(R.color.text_black_light));
+                inOrOut = "inDoor";
             }
         });
-
 
 
         cbRent.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -166,16 +193,249 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(AddPromoteActivity.this, CommunitySelectActivity.class);
+                intent.putExtra("bpCode", bpCode);
                 startActivityForResult(intent, 2);
             }
         });
 
-        initCustomActionBar();
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_add_picture);
+        ImageInfo image = new ImageInfo();
+        image.setBitmap(bitmap);
+        images.add(image);
+        imageAdapter = new ImageAdapter();
+        gridView.setAdapter(imageAdapter);
+
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(info == null) {
+                    return;
+                }
+                String bpname = txtBpname.getText().toString();
+                if (StringUtils.isNotBlank(bpname)) {
+                    info.setBpCode1(bpCode);
+                    info.setBpName1(bpName);
+                } else {
+                    PublicUtil.showToast(getString(R.string.community_select_txt));
+                    return;
+                }
+                String place = etPromotePlace.getText().toString();
+                String area = etArea.getText().toString();
+                if (StringUtils.isNotBlank(place) && StringUtils.isNotBlank(area) && StringUtils.isNotBlank(inOrOut)) {
+                    info.setAddress(place);
+                    info.setUseArea(Double.valueOf(area));
+                    info.setSiteType(inOrOut);
+                } else {
+                    PublicUtil.showToast(getString(R.string.place_info_input));
+                    return;
+                }
+                info.setRentInfo(cbRent.isChecked());
+                if (cbRent.isChecked()) {
+                    String workMoney = etWorkMoney.getText().toString();
+                    String holidayMoney = etHolidayMoney.getText().toString();
+                    String depositMoney = etDepositMoney.getText().toString();
+                    if (StringUtils.isNotBlank(workMoney) && StringUtils.isNotBlank(holidayMoney)
+                            && StringUtils.isNotBlank(depositMoney)) {
+                        info.setWorkPrice(Double.valueOf(workMoney));
+                        info.setHolidayPrice(Double.valueOf(holidayMoney));
+                        info.setCashPledge(Double.valueOf(depositMoney));
+                    } else {
+                        PublicUtil.showToast(getString(R.string.rent_info_input));
+                        return;
+                    }
+
+                    String otherFee = etPromoteOtherFee.getText().toString();
+                    if (StringUtils.isNotBlank(otherFee)) {
+                        info.setRemark(otherFee);
+                    }
+                }
+                info.setWifi(cbWifi.isChecked());
+                info.setWiredNetwork(cbNetWork.isChecked());
+                List<PeopleFlow> list = new ArrayList<PeopleFlow>();
+                list.addAll(flows);
+                list.addAll(deleteFlows);
+                if (list != null && list.size() > 0) {
+                    info.setPeopleFlow(list);
+                }
+                progressDialog.show();
+                btnOk.setEnabled(false);
+                if (images.size() > 1) {
+                    for (int i = imgIds.size(); i < images.size() - 1; i++) {
+                        if (images.get(i).getFileid() > -1) {
+                            imgIds.add(images.get(i));
+                            if (imgIds.size() >= images.size() -1) {
+                                setImageInfo();
+                                DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken(AddPromoteActivity.this), info, saveHandler);
+                                break;
+                            }
+                        } else {
+                            DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), PublicUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
+                            break;
+                        }
+                    }
+                } else {
+                    DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken(AddPromoteActivity.this), info, saveHandler);
+                }
+            }
+        });
+
+        if (isEdit) {
+            progressDialog.show();
+            DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), getIntent().getStringExtra("bpCode"), getPromoteInfoHandler );
+        } else {
+            info = new PromoteInfo();
+        }
     }
+
+    AsyncHttpResponseHandler getPromoteInfoHandler = new TextHttpResponseHandler() {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            LogUtils.d("test", "getPromoteInfoHandler result = " + responseString);
+            progressDialog.dismiss();
+            try {
+                ResultPromoteInfo result = JSON.parseObject(responseString,
+                        ResultPromoteInfo.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    info = result.getPromoteInfo();
+                    bpCode = info.getBpCode2();
+                    bpName = info.getBpName2();
+                    info.setBpCode1(bpCode);
+                    info.setBpName1(bpName);
+                    txtBpname.setText(info.getBpCode2()+"—"+info.getBpName2());
+                    etPromotePlace.setText(info.getAddress());
+                    etArea.setText(String.valueOf(info.getUseArea()));
+                    inOrOut = info.getSiteType();
+                    if ("inDoor".equals(inOrOut)) {
+                        txtIndoor.setBackgroundResource(R.drawable.btn_border_pink_shape4);
+                        txtIndoor.setTextColor(getResources().getColor(R.color.text_red));
+                    } else {
+                        txtOutdoor.setBackgroundResource(R.drawable.btn_border_pink_shape4);
+                        txtOutdoor.setTextColor(getResources().getColor(R.color.text_red));
+                    }
+                    if (info.getRentInfo()) {
+                        layoutRent.setVisibility(View.VISIBLE);
+                        cbRent.setChecked(true);
+                        etWorkMoney.setText(String.valueOf(info.getWorkPrice()));
+                        etHolidayMoney.setText(String.valueOf(info.getHolidayPrice()));
+                        etDepositMoney.setText(String.valueOf(info.getCashPledge()));
+                        etPromoteOtherFee.setText(info.getRemark());
+                    }
+                    cbNetWork.setChecked(info.getWiredNetwork());
+                    cbWifi.setChecked(info.getWifi());
+
+                    if (info.getPicInfo()!= null && info.getPicInfo().size() > 0) {
+                        for (ImageInfo picInfo : info.getPicInfo()) {
+                            images.add(picInfo);
+                            setSortList(images);
+                        }
+                        imageAdapter.notifyDataSetChanged();
+                    }
+
+                    flows.addAll(info.getPeopleFlow());
+                    peopleFlowAdapter.notifyDataSetChanged();
+                    LibViewUtil.setListViewHeight(listview);
+                } else {
+                    PublicUtil.showErrorMsg(AddPromoteActivity.this, result);
+                }
+            } catch (Exception e) {
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.d("test", "getPromoteInfoHandler result failed. statusCode="
+                    + statusCode);
+            progressDialog.dismiss();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    AsyncHttpResponseHandler uploadHandler = new TextHttpResponseHandler() {
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            progressDialog.dismiss();
+            btnOk.setEnabled(true);
+            PublicUtil.showToastServerOvertime();
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            try {
+                ResultImageUpload result = JSON.parseObject(responseString, ResultImageUpload.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    ImageInfo imageInfo = new ImageInfo();
+                    imageInfo.setFileid(Long.valueOf(result.getId()));
+                    imgIds.add(imageInfo);
+                    if (imgIds.size() < images.size() - 1) {
+                        DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), PublicUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
+                    } else {
+                        setImageInfo();
+                        DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken(AddPromoteActivity.this), info, saveHandler);
+                    }
+
+                } else {
+                    progressDialog.dismiss();
+                    btnOk.setEnabled(true);
+                    PublicUtil.showErrorMsg(AddPromoteActivity.this, result);
+                }
+            } catch (Exception e) {
+                progressDialog.dismiss();
+                btnOk.setEnabled(true);
+                PublicUtil.showToastServerBusy();
+            }
+        }
+    };
+
+    private void setImageInfo() {
+        List<ImageInfo> saveImgList = new ArrayList<>();
+        if (imgIds != null && imgIds.size() > 0) {
+            for (ImageInfo image : imgIds) {
+                ImageInfo saveImage = new ImageInfo();
+                saveImage.setFileid(image.getFileid());
+                saveImgList.add(saveImage);
+            }
+            info.setPicInfo(saveImgList);
+        }
+    }
+
+    AsyncHttpResponseHandler saveHandler = new TextHttpResponseHandler() {
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+            btnOk.setEnabled(true);
+            progressDialog.dismiss();
+            PublicUtil.showToastServerOvertime();
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            try {
+                ResultBase result = JSON.parseObject(responseString, ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    progressDialog.dismiss();
+                    PublicUtil.showToast(result.getResponseMsg());
+                    finish();
+                } else {
+                    btnOk.setEnabled(true);
+                    progressDialog.dismiss();
+                    PublicUtil.showErrorMsg(AddPromoteActivity.this, result);
+                }
+            } catch (Exception e) {
+                progressDialog.dismiss();
+                PublicUtil.showToastServerBusy();
+                btnOk.setEnabled(true);
+            }
+        }
+    };
 
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(TAG);
+        btnOk.setEnabled(true);
     }
 
     public void onPause() {
@@ -190,11 +450,18 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         if (requestCode == 1) {
             if (data != null && resultCode == 1) {
                 PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
+                peopleFlow.setRecordStatus("add");
                 flows.add(peopleFlow);
             } else if (data != null && resultCode == 2) {
                 PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
+                if (StringUtils.isNotBlank(peopleFlow.getFlowId())) {
+                    peopleFlow.setRecordStatus("edit");
+                }
                 flows.set(index, peopleFlow);
             } else if (resultCode == 3) {
+                PeopleFlow flow = flows.get(index);
+                flow.setRecordStatus("delete");
+                deleteFlows.add(flow);
                 flows.remove(index);
             }
             peopleFlowAdapter.notifyDataSetChanged();
@@ -202,16 +469,55 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         } else if (requestCode == 2 && resultCode == 4 && data != null) {
             bp = (ResultBpList.Item)data.getSerializableExtra("community");
             txtBpname.setText(bp.getBpCode()+"—"+bp.getBpName());
+            bpCode = bp.getBpCode();
+            bpName = bp.getBpName();
+        }
+
+        if (resultCode == Activity.RESULT_OK) {
+            Bitmap bm = null;
+            switch (requestCode) {
+                case Constants.TAKE_PIC_RESULT:
+                    if(takePhotoPop!=null){
+                        bm = takePhotoPop.getTakeImageBitmap();
+                    }
+                    break;
+                case Constants.CHOSE_PIC_RESULT:
+                    if(takePhotoPop!=null){
+                        bm = takePhotoPop.getPickImageBitmap(data);
+                    }
+                    break;
+            }
+            if (bm != null) {
+                ImageInfo image = new ImageInfo();
+                image.setBitmap(bm);
+                images.add(image);
+                setSortList(images);
+                imageAdapter.notifyDataSetChanged();
+            }
         }
     }
+    public void setSortList(List<ImageInfo> images) {
+        if (images != null) {
+            ImageInfo second =  images.get(images.size()-2);
+            ImageInfo last =  images.get(images.size()-1);
+            images.set(images.size()-2, last);
+            images.set(images.size()-1, second);
+        }
+    }
+
 
     private void initCustomActionBar() {
         new CommonActionBar(getActionBar(), new IActionBarListener() {
 
             @Override
             public void setTitle(TextView v) {
-                // TODO Auto-generated method stub
-                v.setText(getResources().getString(R.string.promote_add_title));
+                String title = null;
+                if (isEdit) {
+                    title = getResources().getString(R.string.promote_edit_title);
+                } else {
+                    title = getResources().getString(R.string.promote_add_title);
+                }
+                v.setText(title);
             }
 
             @Override
@@ -237,6 +543,85 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             btnOk2.setVisibility(View.VISIBLE);
             btnOk.setVisibility(View.GONE);
         }*/
+    }
+
+    class ImageAdapter extends BaseAdapter {
+
+        @Override
+        public int getCount() {
+            return images.size();
+        }
+
+        @Override
+        public Object getItem(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public long getItemId(int position) {
+            // TODO Auto-generated method stub
+            return position;
+        }
+
+        @Override
+        public View getView(final int position, View convertView, ViewGroup parent) {
+
+            convertView = LayoutInflater.from(AddPromoteActivity.this).inflate( R.layout.layout_image_for_gridview, null);
+
+            final ImageView imgPromote = (ImageView) convertView.findViewById(R.id.img_promote);
+            final ImageView imgDelete = (ImageView) convertView.findViewById(R.id.img_delete);
+            final ImageInfo img = images.get(position);
+            imgPromote.setImageBitmap(img.getBitmap());
+
+            if (position != images.size()-1) {
+                imgDelete.setVisibility(View.VISIBLE);
+            } else {
+                imgDelete.setVisibility(View.GONE);
+            }
+
+            if (img.getBitmap() == null && StringUtils.isNotBlank(img.getFilePath())) {
+                kjBitmap.display(imgPromote, img.getFilePath(), new BitmapCallBack() {
+                    @Override
+                    public void onSuccess(Bitmap bitmap) {
+                        img.setBitmap(bitmap);
+                    }
+                });
+            }
+
+
+            imgPromote.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(img.getBitmap()==null && position != images.size()-1){
+                        PublicUtil.showToast(getString(R.string.down_image_not_complete));
+                    } else {
+                        if (position == images.size()-1 && images.size() < 6) {
+                            takePhotoPop.getPic(v);
+                            return;
+                        }
+                        DialogUtil.showPictureDialog(AddPromoteActivity.this, images.get(position).getBitmap());
+
+                    }
+                }
+            });
+
+            imgDelete.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    images.remove(position);
+                    imageAdapter.notifyDataSetChanged();
+                }
+            });
+
+            if (position == 5 && position == images.size()-1) {
+                imgPromote.setVisibility(View.GONE);
+            } else {
+                imgPromote.setVisibility(View.VISIBLE);
+            }
+            return convertView;
+        }
+
     }
 
 
@@ -278,6 +663,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    index = position;
                     Intent intent = new Intent(AddPromoteActivity.this, PeopleFlowActivity.class);
                     intent.putExtra("type", 2);
                     Bundle bundle = new Bundle();

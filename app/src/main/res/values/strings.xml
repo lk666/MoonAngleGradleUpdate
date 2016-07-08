@@ -633,6 +633,7 @@
     <string name="promote_holiday_date">节假日：￥%s/天</string>
     <string name="promote_outdoor_area">%s㎡</string>
     <string name="promote_add_title">新增推广点</string>
+    <string name="promote_edit_title">编辑推广点</string>
     <string name="promote_detail_title">推广点详情</string>
     <string name="promote_date_txt">%1$s，%2$s</string>
     <string name="promote_time_txt">%1$s-%2$s，%3$s (人)</string>
@@ -648,6 +649,8 @@
     <string name="people_flow_delete">确定删除人流量测试吗？</string>
     <string name="community_title">选择小区/商业中心</string>
     <string name="community_select_txt">请选择小区/商业中心</string>
+    <string name="place_info_input">请完善场地基本信息</string>
+    <string name="rent_info_input">请完善租金信息</string>
     <string name="community_txt">小区/商业中心</string>
     <string name="please_select_txt">请选择</string>
     <string name="please_input_txt">请输入</string>
@@ -681,28 +684,6 @@
     <string name="promote_has">有</string>
     <string name="promote_none">无</string>
     <string name="promote_append">%1$s—%2$s</string>
-
-
-    <string name="paper_detail_collectdff2">场地面积(㎡)</string>
-    <string name="paper_detail_colldfect2">场地类型</string>
-    <string name="paper_detail_collgect2">租金信息</string>
-    <string name="paper_detail_collefgct2">工作日租金</string>
-    <string name="paper_detail_collecvvct2">周末/节假日租金</string>
-    <string name="paper_detail_colledfct2">场地押金</string>
-    <string name="paper_detail_collt2">其他费用</string>
-    <string name="paper_detail_collec34t2">Wi-Fi设备</string>
-    <string name="paper_detail_coll5ect2">有线网络设备</string>
-    <!--推广点详情-->
-    <string name="paper_detail_collect28">推广点详情</string>
-
-    <string name="paper_detail_colle7ct2">有</string>
-    <string name="paper_detail_coll6ect2">无</string>
-    <string name="paper_detail_collec7t2">照片</string>
-    <string name="paper_detail_collecmut3">测试时间：%1$s-%2$s</string>
-    <string name="paper_detail_collecjt3">人流量：%s人</string>
-    <string name="paper_detail_collecnt3">测试位置：%s</string>
-    <string name="paper_detail_collectyt3">人流量(人)：%s</string>
-    <string name="paper_detail_collectrt3">人群转态：%s</string>
 
 
 

@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -35,6 +36,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ImageInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ImageBean;
@@ -45,6 +47,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.TakePhotoPopView;
@@ -70,6 +73,8 @@ public class PromoteDetailActivity extends Activity {
     private TextView txtBpname1;
     private GridView gridView;
     private ListView listview;
+    private LinearLayout layoutImage;
+    private LinearLayout layoutFlow;
     private List<ImageInfo> images;
     private List<PeopleFlow> people;
     private KJBitmap kjBitmap = new KJBitmap();
@@ -94,6 +99,8 @@ public class PromoteDetailActivity extends Activity {
         txtBpname1 = (TextView) findViewById(R.id.txt_bpname1);
         gridView = (GridView) findViewById(R.id.gridview_img);
         listview = (ListView) findViewById(R.id.listview_people_flow);
+        layoutImage = (LinearLayout) findViewById(R.id.layout_image);
+        layoutFlow = (LinearLayout) findViewById(R.id.layout_flow);
         bpCode = getIntent().getStringExtra("bpCode");
         progressDialog.show();
         DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), bpCode, getPromoteInfoHandler );
@@ -109,26 +116,37 @@ public class PromoteDetailActivity extends Activity {
                 ResultPromoteInfo result = JSON.parseObject(responseString,
                         ResultPromoteInfo.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    ResultPromoteInfo.PromoteInfo info = result.getPromoteInfo();
-                    txtArea.setText(String.valueOf(info.getUseArea()));
+                    PromoteInfo info = result.getPromoteInfo();
+                    txtArea.setText(StringUtil.formatArea(info.getUseArea()));
                     txtPlace.setText(info.getAddress());
-                    txtPlaceType.setText(info.getSiteTypeName());
-                    txtWorkPrice.setText(info.getWorkPrice());
-                    txtHolidayPrice.setText(info.getHolidayPrice());
-                    txtDeposit.setText(info.getCashPledge());
+                    txtPlaceType.setText(String.valueOf(info.getSiteTypeName()));
+                    txtWorkPrice.setText(StringUtil.formatPrice(info.getWorkPrice()));
+                    txtHolidayPrice.setText(StringUtil.formatPrice(info.getHolidayPrice()));
+                    txtDeposit.setText(StringUtil.formatPrice(info.getCashPledge()));
                     txtOtherFee.setText(info.getRemark());
                     txtWifi.setText(info.getWifi()? getString(R.string.promote_has) : getString(R.string.promote_none));
                     txtNetwork.setText(info.getWiredNetwork()? getString(R.string.promote_has) : getString(R.string.promote_none));
-                    txtBpname.setText(String.format(getString(R.string.promote_append),info.getBpCode(), info.getBpName()));
-                    txtBpname1.setText(String.format(getString(R.string.promote_append),info.getBpCode1(), info.getBpName1()));
+                    txtBpname.setText(String.format(getString(R.string.promote_append),info.getBpCode1(), info.getBpName1()));
+                    txtBpname1.setText(String.format(getString(R.string.promote_append),info.getBpCode(), info.getBpName()));
                     images = info.getPicInfo();
-                    ImageAdapter adapter = new ImageAdapter();
-                    gridView.setAdapter(adapter);
+                    if (images == null || images.size() == 0) {
+                        layoutImage.setVisibility(View.GONE);
+                    } else {
+                        ImageAdapter adapter = new ImageAdapter();
+                        gridView.setAdapter(adapter);
+                    }
+
+
                     people = info.getPeopleFlow();
-                    listview.setFocusable(false);
-                    PeopleFlowAdapter peopleFlowAdapter = new PeopleFlowAdapter();
-                    listview.setAdapter(peopleFlowAdapter);
-                    LibViewUtil.setListViewHeight(listview);
+                    if (people == null || people.size() == 0) {
+                        layoutFlow.setVisibility(View.GONE);
+                    } else {
+                        listview.setFocusable(false);
+                        PeopleFlowAdapter peopleFlowAdapter = new PeopleFlowAdapter();
+                        listview.setAdapter(peopleFlowAdapter);
+                        LibViewUtil.setListViewHeight(listview);
+                    }
+
                 } else {
                     PublicUtil.showErrorMsg(PromoteDetailActivity.this, result);
                 }
@@ -204,10 +222,10 @@ public class PromoteDetailActivity extends Activity {
 
             convertView = LayoutInflater.from(mContext).inflate( R.layout.layout_image_for_gridview, null);
 
-            final ImageView imgWork = (ImageView) convertView.findViewById(R.id.img_work);
+            final ImageView imgWork = (ImageView) convertView.findViewById(R.id.img_promote);
             final ImageInfo img = images.get(position);
             Bitmap imgBitmap = null;
-            if (StringUtils.isNotBlank(img.getFilePath()) && images.size() > 1) {
+            if (StringUtils.isNotBlank(img.getFilePath())) {
                 kjBitmap.display(imgWork, img.getFilePath(), new BitmapCallBack() {
                     @Override
                     public void onSuccess(Bitmap bitmap) {

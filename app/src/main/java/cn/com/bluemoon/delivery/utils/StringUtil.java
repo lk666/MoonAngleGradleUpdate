@@ -19,21 +19,11 @@ import cn.com.bluemoon.delivery.entity.ItemListBean;
  * ClassName:StringUtils <br/>  
  * Function: TODO ADD FUNCTION. <br/>  
  * Reason:   TODO ADD REASON. <br/>  
- * Date:     2015��8��18�� ����11:00:45 <br/>  
+ * Date:     2015/8/18 11:00:45 <br/>
  * @author   allenli  
  * @version    
  * @since    JDK 1.6  
  * @see        
- */
-/**  
- * ClassName: StringUtils <br/>  
- * Function: TODO ADD FUNCTION. <br/>  
- * Reason: TODO ADD REASON(��ѡ). <br/>  
- * date: 2015��8��18�� ����11:00:45 <br/>  
- *  
- * @author allenli  
- * @version   
- * @since JDK 1.6  
  */
 public class StringUtil {
 	
@@ -54,6 +44,16 @@ public class StringUtil {
 	public static String formatPrice(String price) {
 		DecimalFormat df = new DecimalFormat("0.00");
 		return df.format(Double.valueOf(price));
+	}
+
+	public static String formatPrice(double price) {
+		DecimalFormat df = new DecimalFormat("0.00");
+		return df.format(price);
+	}
+
+	public static String formatArea(double area) {
+		DecimalFormat df = new DecimalFormat("0.0");
+		return df.format(area);
 	}
 
 	public static String formatPriceByFen(long price) {

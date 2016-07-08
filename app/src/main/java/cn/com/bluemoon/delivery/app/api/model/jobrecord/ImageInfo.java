@@ -6,17 +6,19 @@ import android.graphics.Bitmap;
  * Created by LIANGJIANGLI on 2016/7/1.
  */
 public class ImageInfo {
-    private String fileId;
+    private long fileid = -1;
+
+    public long getFileid() {
+        return fileid;
+    }
+
+    public void setFileid(long fileid) {
+        this.fileid = fileid;
+    }
+
     private String filePath;
     private Bitmap bitmap;
 
-    public String getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(String fileId) {
-        this.fileId = fileId;
-    }
 
     public String getFilePath() {
         return filePath;

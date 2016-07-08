@@ -21,6 +21,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 
 import java.util.List;
@@ -48,6 +49,7 @@ public class CommunitySelectActivity extends Activity{
     private List<ResultBpList.Item> items;
     private ListView listview;
     private CommunityAdapter adapter;
+    private String bpCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +58,7 @@ public class CommunitySelectActivity extends Activity{
         listview = (ListView) findViewById(R.id.listview_community);
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         progressDialog = new CommonProgressDialog(this);
+        bpCode = getIntent().getStringExtra("bpCode");
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -84,7 +87,7 @@ public class CommunitySelectActivity extends Activity{
 
         initCustomActionBar();
         progressDialog.show();
-        DeliveryApi.getBpList(ClientStateManager.getLoginToken(this), "", getBpListHandler);
+        DeliveryApi.getBpList(ClientStateManager.getLoginToken(this), "", 0, getBpListHandler);
     }
 
     AsyncHttpResponseHandler getBpListHandler = new TextHttpResponseHandler() {
@@ -99,6 +102,17 @@ public class CommunitySelectActivity extends Activity{
                         ResultBpList.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     items = result.getItemList();
+                    if (StringUtils.isNotBlank(bpCode) && items.size() > 0) {
+                        for (int i = 0; i < items.size(); i++) {
+                            ResultBpList.Item item = items.get(i);
+                            if (bpCode.equals(item.getBpCode())) {
+                                item.setSelect(true);
+                                items.set(i, item);
+                                bpCode = null;
+                                break;
+                            }
+                        }
+                    }
                     if (items != null && items.size() > 0) {
                         adapter = new CommunityAdapter(CommunitySelectActivity.this);
                         listview.setAdapter(adapter);

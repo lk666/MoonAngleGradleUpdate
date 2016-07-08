@@ -5,11 +5,8 @@ import android.graphics.Bitmap;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.junit.Test;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,8 +20,7 @@ import cn.com.bluemoon.delivery.app.api.model.Storehouse;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreDeliverVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreReceiveVo;
-import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
-import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.Product;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.entity.OrderType;
@@ -32,7 +28,6 @@ import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.inventory.ImageUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DES;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
@@ -1638,8 +1633,8 @@ public class DeliveryApi {
 	}
 
 	/*2.14.1 新增推广点信息时上传图片*/
-	/* 返回： ResultBase */
-	public static void uploadPromoteImg(String token,byte[] file, AsyncHttpResponseHandler handler) {
+	/* 返回： ResultImageUpload */
+	public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler handler) {
 		if (null == token ||  null == file) {
 			return;
 		}
@@ -1651,7 +1646,7 @@ public class DeliveryApi {
 		String jsonString = JSONObject.toJSONString(params);
 		String url  = String.format("bluemoon-control/promote/uploadImg%s",
 				ApiClientHelper.getParamUrl());
-		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
 	/*2.14.2 推广点详情信息*/
@@ -1666,12 +1661,12 @@ public class DeliveryApi {
 		String jsonString = JSONObject.toJSONString(params);
 		String url  = String.format("bluemoon-control/promote/getPromoteInfo%s",
 				ApiClientHelper.getParamUrl());
-		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
 	/* 2.14.3 新增/编辑推广点信息 */
 	/* 返回： ResultBase */
-	public static void editPromoteInfo(String token, ResultPromoteInfo.PromoteInfo info, AsyncHttpResponseHandler handler) {
+	public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler handler) {
 		if (null == token || info == null) {
 			return;
 		}
@@ -1685,35 +1680,37 @@ public class DeliveryApi {
 		params.put("cashPledge", info.getCashPledge());
 		params.put("holidayPrice", info.getHolidayPrice());
 		if (info.getPeopleFlow() != null) {
-			params.put("peopleFlow", info.getPeopleFlow().get(0));
+			params.put("peopleFlow", info.getPeopleFlow());
 		}
 		params.put("picInfo", info.getPicInfo());
 		params.put("remark", info.getRemark());
 		params.put("rentInfo", info.getRentInfo());
 		params.put("siteType", info.getSiteType());
-		params.put("useArea", info.getUseArea());
 		params.put("wifi", info.getWifi());
 		params.put("wiredNetwork", info.getWiredNetwork());
 		params.put("workPrice", info.getWorkPrice());
+		params.put("useArea", info.getUseArea());
 		String jsonString = JSONObject.toJSONString(params);
 		String url  = String.format("bluemoon-control/promote/editPromoteInfo%s",
 				ApiClientHelper.getParamUrl());
-		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
 	/*2.14.4 获取小区/商业中心列表*/
 	/* 返回： ResultBpList */
-	public static void getBpList(String token, String content, AsyncHttpResponseHandler handler) {
+	public static void getBpList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
 		if (null == token ||  null == content) {
 			return;
 		}
 		Map<String, Object> params = new HashMap<String, Object>();
 		params.put("token", token);
 		params.put("content", content);
+		params.put("pageSize", AppContext.PAGE_SIZE);
+		params.put("timestamp", timestamp);
 		String jsonString = JSONObject.toJSONString(params);
 		String url  = String.format("bluemoon-control/promote/getBpList%s",
 				ApiClientHelper.getParamUrl());
-		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
 	/*2.14.4 获取推广点档案列表*/
@@ -1730,7 +1727,7 @@ public class DeliveryApi {
 		String jsonString = JSONObject.toJSONString(params);
 		String url  = String.format("bluemoon-control/promote/getPromoteList%s",
 				ApiClientHelper.getParamUrl());
-		ApiHttpClient.postMock(AppContext.getInstance(), url, jsonString, handler);
+		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
 	}
 
 }
