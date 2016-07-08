@@ -203,8 +203,10 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
         tvClothesName.setText(result.getClothesName());
 
         if (result.getHasFlaw() == 1) {
+            ivFlaw.setVisibility(View.VISIBLE);
             tvFlawDec.setText(getString(R.string.clothing_detail_flaw) + result.getFlawDesc());
         } else {
+            ivFlaw.setVisibility(View.GONE);
             tvFlawDec.setText(getString(R.string.clothing_detail_flaw) +
                     getString(R.string.text_empty));
         }
