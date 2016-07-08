@@ -277,7 +277,7 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withorder.ClothingRecordDetailActivity"
+            android:name=".module.clothing.collect.ClothingRecordDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>

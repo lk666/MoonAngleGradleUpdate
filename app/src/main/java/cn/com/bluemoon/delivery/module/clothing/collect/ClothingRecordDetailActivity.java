@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
+package cn.com.bluemoon.delivery.module.clothing.collect;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,7 +6,6 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -31,11 +30,6 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.CollectOrderDetai
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.LaundryLog;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTypeAdapter;
-import cn.com.bluemoon.delivery.module.clothing.collect.DeliverLogAdapter;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;

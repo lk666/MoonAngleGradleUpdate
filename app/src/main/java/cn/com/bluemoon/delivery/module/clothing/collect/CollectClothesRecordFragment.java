@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
+package cn.com.bluemoon.delivery.module.clothing.collect;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -30,7 +30,6 @@ import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.order.TimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -106,27 +105,35 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                     public void onBtnRight(View v) {
                         // TODO Auto-generated method stub
 
-                        TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new TimerFilterWindow.TimerFilterListener() {
-                            @Override
-                            public void callBack(long startDate, long endDate) {
-                                if (startDate >= 0 && endDate >= startDate) {
-                                    startTime = LibDateUtil.getTimeByCustTime(startDate);
-                                    endTime = LibDateUtil.getTimeByCustTime(endDate);
+                        TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new
+                                TimerFilterWindow.TimerFilterListener() {
+                                    @Override
+                                    public void callBack(long startDate, long endDate) {
+                                        if (startDate >= 0 && endDate >= startDate) {
+                                            startTime = LibDateUtil.getTimeByCustTime(startDate);
+                                            endTime = LibDateUtil.getTimeByCustTime(endDate);
 
-                                    Date start = new Date(startTime);
-                                    Date end = new Date(endTime);
+                                            Date start = new Date(startTime);
+                                            Date end = new Date(endTime);
 
-                                    if (endDate >= startDate
-                                            && (((end.getDate() >= start.getDate()) && ((end.getYear() * 12 + end.getMonth()) - (start.getYear() * 12 + start.getMonth()) <= 5))
-                                            || ((end.getDate() < start.getDate()) && ((end.getYear() * 12 + end.getMonth()) - (start.getYear() * 12 + start.getMonth()) <= 6)))) {
-                                        getItem();
-                                    } else {
-                                        PublicUtil.showMessage(main, getString(R.string.txt_order_fillter_date_error));
+                                            if (endDate >= startDate
+                                                    && (((end.getDate() >= start.getDate()) && ((end
+                                                    .getYear() * 12 + end.getMonth()) - (start
+                                                    .getYear()
+                                                    * 12 + start.getMonth()) <= 5))
+                                                    || ((end.getDate() < start.getDate()) && ((end
+                                                    .getYear() * 12 + end.getMonth()) - (start
+                                                    .getYear()
+                                                    * 12 + start.getMonth()) <= 6)))) {
+                                                getItem();
+                                            } else {
+                                                PublicUtil.showMessage(main, getString(R.string
+                                                        .txt_order_fillter_date_error));
+                                            }
+
+                                        }
                                     }
-
-                                }
-                            }
-                        });
+                                });
                         popupWindow.showPopwindow(popStart);
 
                     }
@@ -149,7 +156,8 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
         actionBar.getTvRightView().setCompoundDrawablePadding(10);
 
         Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
-        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter.getMinimumHeight());
+        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
+                .getMinimumHeight());
         actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
         actionBar.getTvRightView().setVisibility(View.VISIBLE);
 
@@ -184,18 +192,22 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
             TextView txtUrgent = ViewHolder.get(convertView, R.id.txt_urgent);
             TextView txtScan = ViewHolder.get(convertView, R.id.txt_scan_code);
             LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
-            LinearLayout layoutFooter =ViewHolder.get(convertView, R.id.layout_footer);
+            LinearLayout layoutFooter = ViewHolder.get(convertView, R.id.layout_footer);
+            TextView txtActivityName = ViewHolder.get(convertView, R.id.txt_activity_name);
+
             if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
                 if (StringUtil.isEmpty(order.getCollectBrcode())) {
                     txtScan.setVisibility(View.GONE);
                 }
+                txtActivityName.setVisibility(View.GONE);
                 txtCollectNum.setText(order.getCollectCode());
                 txtScanBarCode.setText(order.getCollectBrcode());
                 txtUserName.setText(order.getReceiveName());
                 txtUserPhone.setText(order.getReceivePhone());
             } else {
-                layoutFooter.setGravity(Gravity.CENTER_VERTICAL|Gravity.RIGHT);
+                layoutFooter.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
                 txtDispatchId.setVisibility(View.GONE);
+                txtActivityName.setText(order.getActivityName());
                 txtScan.setVisibility(View.GONE);
                 txtScanBarCode.setVisibility(View.GONE);
                 txtCollectNum.setText(DateUtil.getTime(order.getOpTime(), "yyyy/MM/dd HH:mm"));
@@ -259,7 +271,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
     @Override
     public void onItemClick(Object item, View view, int position) {
         CollectInfo order = (CollectInfo) item;
-        if (null!=order) {
+        if (null != order) {
             ClothingRecordDetailActivity.actionStart(main, order.getCollectCode(), manager);
         }
 
