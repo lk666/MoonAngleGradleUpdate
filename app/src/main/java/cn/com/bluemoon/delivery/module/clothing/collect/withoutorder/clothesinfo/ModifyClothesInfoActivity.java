@@ -433,6 +433,12 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
             errStr = getString(R.string.btn_check_err_clothes_type_empty);
         }
 
+        if (sbFalw.isChecked()) {
+            if (TextUtils.isEmpty(etFlaw.getText().toString())) {
+                errStr = getString(R.string.clothing_book_in_falw_empty);
+            }
+        }
+
         if (TextUtils.isEmpty(errStr)) {
             return true;
         } else {
