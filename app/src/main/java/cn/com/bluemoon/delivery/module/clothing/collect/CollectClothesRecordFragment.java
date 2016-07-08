@@ -133,10 +133,10 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
 
                                                 // 将查询条件显示在上面
                                                 tvTime.setVisibility(View.VISIBLE);
-                                                tvTime.setText(DateUtil.getTime(startDate,
+                                                tvTime.setText(DateUtil.getTime(startTime,
                                                         "yyyy/MM/dd") + getString(R.string
                                                         .text_to) + DateUtil.getTime
-                                                        (endDate, "yyyy/MM/dd"));
+                                                        (endTime, "yyyy/MM/dd"));
                                                 getItem();
                                             } else {
                                                 PublicUtil.showMessage(main, getString(R.string
