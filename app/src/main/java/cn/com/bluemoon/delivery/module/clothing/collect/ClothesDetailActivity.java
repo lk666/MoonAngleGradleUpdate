@@ -181,9 +181,9 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
 
         String brcode = result.getCollectBrcode();
         if (TextUtils.isEmpty(brcode)) {
-            tvCollectBrcode.setVisibility(View.GONE);
+            tvCollectBrcode.setText(getString(R.string.clothing_detail_brcode) +
+                    getString(R.string.text_empty));
         } else {
-            tvCollectBrcode.setVisibility(View.VISIBLE);
             tvCollectBrcode.setText(getString(R.string.clothing_detail_brcode) + result
                     .getCollectBrcode());
         }
