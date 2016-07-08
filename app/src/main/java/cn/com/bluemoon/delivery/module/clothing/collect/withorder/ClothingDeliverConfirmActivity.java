@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -143,16 +144,16 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         }
     }
 
-    public static void actionStart(Activity context, String collectCode, int requestCode) {
-        actionStart(context, collectCode, "", requestCode);
+    public static void actionStart(Fragment fragment, String collectCode, int requestCode) {
+        actionStart(fragment, collectCode, "", requestCode);
     }
 
-    public static void actionStart(Activity context, String collectCode, String scanCode, int
+    public static void actionStart(Fragment fragment, String collectCode, String scanCode, int
             requestCode) {
-        Intent intent = new Intent(context, ClothingDeliverConfirmActivity.class);
+        Intent intent = new Intent(fragment.getActivity(), ClothingDeliverConfirmActivity.class);
         intent.putExtra("collectCode", collectCode);
         intent.putExtra("scanCode", scanCode);
-        context.startActivityForResult(intent, requestCode);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
 
@@ -257,7 +258,14 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
             if (checkNum == clothesInfos.size()) {
                 showProgressDialog();
                 DeliveryApi.confirmOrderInfo(ClientStateManager.getLoginToken
-                        (ClothingDeliverConfirmActivity.this), collectCode, baseHandler);
+                                (ClothingDeliverConfirmActivity.this), collectCode,
+                        createResponseHandler(new IHttpResponseHandler() {
+                            @Override
+                            public void onResponseSuccess(String responseString) {
+                                setResult(Activity.RESULT_OK);
+                                finish();
+                            }
+                        }));
                 return;
             }
         }

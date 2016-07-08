@@ -726,16 +726,16 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
 
     private void deliver(String collectCode) {
-        ClothingDeliverActivity.actionStart(getActivity(), collectCode, REQUEST_CODE_DELIVER);
+        ClothingDeliverActivity.actionStart(WithOrderManageFragment.this, collectCode, REQUEST_CODE_DELIVER);
     }
 
     private void confirmDeliver(String collectCode) {
-        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode,
+        ClothingDeliverConfirmActivity.actionStart(WithOrderManageFragment.this, collectCode,
                 REQUEST_CODE_DELIVER_CONFIRM);
     }
 
     private void confirmDeliver(String collectCode, String scanCode) {
-        ClothingDeliverConfirmActivity.actionStart(getActivity(), collectCode, scanCode,
+        ClothingDeliverConfirmActivity.actionStart(WithOrderManageFragment.this, collectCode, scanCode,
                 REQUEST_CODE_DELIVER_CONFIRM);
     }
 

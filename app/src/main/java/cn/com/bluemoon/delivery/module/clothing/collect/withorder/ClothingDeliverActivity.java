@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -83,10 +84,10 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
         return R.string.clothing_deliver_title;
     }
 
-    public static void actionStart(Activity context, String collectCode, int requestCode) {
-        Intent intent = new Intent(context, ClothingDeliverActivity.class);
+    public static void actionStart(Fragment fragment, String collectCode, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), ClothingDeliverActivity.class);
         intent.putExtra("collectCode", collectCode);
-        context.startActivityForResult(intent, requestCode);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     private void init() {
