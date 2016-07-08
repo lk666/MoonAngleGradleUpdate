@@ -53,6 +53,8 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
     private long endTime = 0;
     private String manager;
 
+    private TextView tvTime;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -64,6 +66,9 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
         View v = inflater.inflate(R.layout.fragment_tab_clothes, container,
                 false);
         popStart = (View) v.findViewById(R.id.view_pop_start);
+
+        tvTime = (TextView) v.findViewById(R.id.tv_time);
+        tvTime.setVisibility(View.GONE);
 
         listView = (PullToRefreshListView) v
                 .findViewById(R.id.listview_main);
@@ -125,6 +130,13 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                                                     .getYear() * 12 + end.getMonth()) - (start
                                                     .getYear()
                                                     * 12 + start.getMonth()) <= 6)))) {
+
+                                                // 将查询条件显示在上面
+                                                tvTime.setVisibility(View.VISIBLE);
+                                                tvTime.setText(DateUtil.getTime(startDate,
+                                                        "yyyy/MM/dd") + getString(R.string
+                                                        .text_to) + DateUtil.getTime
+                                                        (endDate, "yyyy/MM/dd"));
                                                 getItem();
                                             } else {
                                                 PublicUtil.showMessage(main, getString(R.string
@@ -194,6 +206,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
             LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
             LinearLayout layoutFooter = ViewHolder.get(convertView, R.id.layout_footer);
             TextView txtActivityName = ViewHolder.get(convertView, R.id.txt_activity_name);
+            View div = ViewHolder.get(convertView, R.id.div);
 
             if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
                 if (StringUtil.isEmpty(order.getCollectBrcode())) {
@@ -226,6 +239,12 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                     order.getVillage(),
                     order.getStreet(),
                     order.getAddress()));
+
+            if (position < getCount() - 1) {
+                div.setVisibility(View.VISIBLE);
+            } else {
+                div.setVisibility(View.GONE);
+            }
             setClickEvent(isNew, position, layoutDetail);
         }
     }

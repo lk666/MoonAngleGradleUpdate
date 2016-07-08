@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/page_bg_f2"
-    android:orientation="vertical" >
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@color/page_bg_f2"
+              android:orientation="vertical">
 
     <View
         android:id="@+id/view_pop_start"
         android:layout_width="fill_parent"
-        android:layout_height="0dp" />
+        android:layout_height="0dp"/>
 
+    <TextView
+        android:id="@+id/tv_time"
+        android:textSize="@dimen/text_size_13"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/bar_blue"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:textColor="@color/white_bg"/>
 
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listview_main"
-        android:layout_marginTop="-10dp"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/page_bg_f2"
         android:cacheColorHint="#00000000"
-        android:dividerHeight="10dp"
-        android:divider="@color/page_bg_f2"
+        android:divider="@null"
+        android:dividerHeight="0dp"
         android:scrollbars="none"
         ptr:ptrAnimationStyle="flip"
         ptr:ptrHeaderSubTextColor="@color/text_black"
-        ptr:ptrHeaderTextColor="@color/text_black" />
+        ptr:ptrHeaderTextColor="@color/text_black"/>
 
-    <View style="@style/line_solid_deep_style" />
+    <View style="@style/line_solid_deep_style"/>
 
 </LinearLayout>
