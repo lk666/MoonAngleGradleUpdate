@@ -216,7 +216,6 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
             return;
         }
         switch (view.getId()) {
-            //// TODO: 2016/6/24
             case R.id.layout_detail:
                 ActivityDetailActivity.actionStart(main, order.getActivityCode());
                 break;

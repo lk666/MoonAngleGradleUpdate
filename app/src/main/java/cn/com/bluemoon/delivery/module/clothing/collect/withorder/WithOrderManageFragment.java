@@ -221,7 +221,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
 
 
-
     }
 
     /**
@@ -591,7 +590,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         }
     }
 
-
     private void refuseDialogInit() {
         if (null == refuseDialog) {
             refuseDialog = new Dialog(getActivity(), R.style.dialog);
@@ -607,6 +605,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                                 currentCollectCode,
                                 editReason.getText().toString());
                         refuseDialog.dismiss();
+                    } else {
+                        PublicUtil.showToast(getString(R.string.no_refuse_reason));
                     }
                 }
             });

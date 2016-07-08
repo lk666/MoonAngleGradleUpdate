@@ -715,6 +715,7 @@
     <string name="link_phone"><u>18620798515</u></string>
     <string name="clothing_title_refuse">拒绝原因</string>
     <string name="clothing_hint_refuse">请在此处填写拒接原因</string>
+    <string name="no_refuse_reason">未填写拒绝原因</string>
 
     <!-- 衣物详情 -->
     <string name="title_clothing_detail">衣物详情</string>
