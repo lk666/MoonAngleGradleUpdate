@@ -197,11 +197,12 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
 
             if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
                 if (StringUtil.isEmpty(order.getCollectBrcode())) {
-                    txtScan.setVisibility(View.GONE);
+                    txtScanBarCode.setText(getString(R.string.text_empty));
+                } else {
+                    txtScanBarCode.setText(order.getCollectBrcode());
                 }
                 txtActivityName.setVisibility(View.GONE);
                 txtCollectNum.setText(order.getCollectCode());
-                txtScanBarCode.setText(order.getCollectBrcode());
                 txtUserName.setText(order.getReceiveName());
                 txtUserPhone.setText(order.getReceivePhone());
             } else {
