@@ -192,4 +192,8 @@
             android:textSize="@dimen/text_size_11"/>
     </LinearLayout>
 
+    <View
+        android:id="@+id/div"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"/>
 </LinearLayout>

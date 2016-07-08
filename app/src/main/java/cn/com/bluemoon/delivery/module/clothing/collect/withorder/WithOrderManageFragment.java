@@ -388,6 +388,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             TextView tvPayTotal = ViewHolder.get(convertView, R.id.tv_pay_total);
             TextView tvReceivableCount = ViewHolder.get(convertView, R.id.tv_receivable_count);
             TextView tvActualCount = ViewHolder.get(convertView, R.id.tv_actual_count);
+            View div = ViewHolder.get(convertView, R.id.div);
 
             // 订单编号开头
             tvCollectNumberTitle.setVisibility(View.GONE);
@@ -488,6 +489,12 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
                 tvRightAction.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
                 tvRightAction.getPaint().setAntiAlias(true);
+            }
+
+            if (position < getCount() - 1) {
+                div.setVisibility(View.VISIBLE);
+            } else {
+                div.setVisibility(View.GONE);
             }
 
             setClickEvent(isNew, position, tvDetail, btnRightAction, tvRightAction
@@ -726,7 +733,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
 
     private void deliver(String collectCode) {
-        ClothingDeliverActivity.actionStart(WithOrderManageFragment.this, collectCode, REQUEST_CODE_DELIVER);
+        ClothingDeliverActivity.actionStart(WithOrderManageFragment.this, collectCode,
+                REQUEST_CODE_DELIVER);
     }
 
     private void confirmDeliver(String collectCode) {
@@ -735,7 +743,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     }
 
     private void confirmDeliver(String collectCode, String scanCode) {
-        ClothingDeliverConfirmActivity.actionStart(WithOrderManageFragment.this, collectCode, scanCode,
+        ClothingDeliverConfirmActivity.actionStart(WithOrderManageFragment.this, collectCode,
+                scanCode,
                 REQUEST_CODE_DELIVER_CONFIRM);
     }
 
