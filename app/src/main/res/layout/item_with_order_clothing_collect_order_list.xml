@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white_bg"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white_bg"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,10 +17,10 @@
             android:id="@+id/tv_collect_number_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:visibility="gone"
             android:text="@string/with_order_collect_collect_number_text"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_13"
+            android:visibility="gone"/>
 
         <TextView
             android:id="@+id/tv_number"
@@ -30,17 +30,17 @@
             android:layout_weight="1"
             android:singleLine="true"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_13"/>
 
         <TextView
             android:id="@+id/tv_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/pending_order_detail"
-            android:textColor="@color/text_black"
             android:drawablePadding="8dp"
             android:drawableRight="@mipmap/icon_right"
-            android:textSize="@dimen/text_size_13" />
+            android:text="@string/pending_order_detail"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_13"/>
     </LinearLayout>
 
 
@@ -60,7 +60,7 @@
             android:background="@drawable/btn_red_shape_large"
             android:gravity="center"
             android:textColor="@color/white_bg"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_13"/>
 
         <TextView
             android:id="@+id/tv_right_action"
@@ -72,15 +72,16 @@
             android:layout_marginTop="13dp"
             android:gravity="center"
             android:textColor="@color/text_black_light"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_13"/>
 
         <ImageView
             android:id="@+id/iv_customer"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_marginLeft="16dp"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/user_new" />
+            android:scaleType="centerInside"
+            android:src="@mipmap/user_new"/>
 
         <TextView
             android:id="@+id/tv_customer_name"
@@ -93,7 +94,7 @@
             android:maxWidth="120dp"
             android:singleLine="true"
             android:textColor="@color/text_black_light"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_13"/>
 
         <TextView
             android:id="@+id/tv_customer_phone"
@@ -104,20 +105,21 @@
             android:layout_marginRight="108dp"
             android:layout_toRightOf="@+id/tv_customer_name"
             android:autoLink="phone"
-            android:textColorLink="@color/text_blue"
             android:minWidth="100dp"
             android:singleLine="true"
             android:textColor="@color/text_blue"
-            android:textSize="@dimen/text_size_13" />
+            android:textColorLink="@color/text_blue"
+            android:textSize="@dimen/text_size_13"/>
 
         <ImageView
             android:id="@+id/iv_address"
-            android:layout_width="14dp"
-            android:layout_height="14dp"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_alignLeft="@+id/iv_customer"
             android:layout_below="@+id/iv_customer"
             android:layout_marginTop="16dp"
-            android:src="@mipmap/address_new" />
+            android:scaleType="centerInside"
+            android:src="@mipmap/address_new"/>
 
         <TextView
             android:id="@+id/tv_address"
@@ -130,12 +132,12 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:textColor="@color/text_black_light"
-            android:textSize="@dimen/text_size_13" />
+            android:textSize="@dimen/text_size_13"/>
 
     </RelativeLayout>
 
     <View style="@style/line_solid_padding_left_style"
-      />
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -150,44 +152,44 @@
             android:layout_height="wrap_content"
             android:text="@string/with_order_collect_title_pay_total"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_11" />
+            android:textSize="@dimen/text_size_11"/>
 
         <TextView
             android:id="@+id/tv_pay_total"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_11" />
+            android:textSize="@dimen/text_size_11"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/with_order_collect_title_receivable_count"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_11" />
+            android:textSize="@dimen/text_size_11"/>
 
         <TextView
             android:id="@+id/tv_receivable_count"
             android:layout_width="0dp"
-            android:layout_weight="1"
             android:layout_height="wrap_content"
+            android:layout_weight="1"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_11" />
+            android:textSize="@dimen/text_size_11"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/with_order_collect_title_actual_count"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_11" />
+            android:textSize="@dimen/text_size_11"/>
 
         <TextView
             android:id="@+id/tv_actual_count"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_11" />
+            android:textSize="@dimen/text_size_11"/>
     </LinearLayout>
 
 </LinearLayout>

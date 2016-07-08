@@ -133,7 +133,8 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         txtCollectNum.setText(result.getCollectCode());
         txtScanCode.setText(result.getCollectBrcode());
         txtUrgent.setVisibility(result.getIsUrgent() > 0 ? View.VISIBLE : View.GONE);
-        txtDeliverRemark.setText(result.getRemark());
+        txtDeliverRemark.setText(result.getRemark().isEmpty() ? getString(R.string.text_empty) :
+                result.getRemark());
         adapter = new ClothesInfoAdapter(this, this);
         clothesInfos = result.getClothesInfo();
         adapter.setList(clothesInfos);

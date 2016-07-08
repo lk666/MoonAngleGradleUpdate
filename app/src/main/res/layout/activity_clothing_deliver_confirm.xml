@@ -95,7 +95,7 @@
             android:layout_height="40dp"
             android:layout_weight="3"
             android:background="@drawable/btn_border_red_middle"
-            android:text="@string/btn_cancel"
+            android:text="@string/btn_cancle_receive"
             android:textColor="@color/text_red" />
 
         <View
@@ -109,7 +109,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="3"
-            android:text="@string/btn_ok" />
+            android:text="@string/btn_receive" />
 
     </LinearLayout>
 

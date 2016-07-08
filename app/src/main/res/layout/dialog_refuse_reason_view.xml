@@ -9,7 +9,7 @@
         android:layout_width="270dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/dialog_diff_reason_bg"
+        android:background="@drawable/dialog_refuse_reason_bg"
         android:orientation="vertical">
 
         <LinearLayout
@@ -61,8 +61,8 @@
                     android:hint="@string/clothing_hint_refuse"
                     android:inputType="textMultiLine"
                     android:minLines="3"
-                    android:background="@drawable/btn_border_grey"
-                    android:textColorHint="@color/text_black_light"
+                    android:background="@drawable/btn_border_clothes_refuse"
+                    android:textColorHint="@color/text_grep"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_13" />
             </LinearLayout>
@@ -86,7 +86,7 @@
                 android:layout_width="0dp"
                 android:layout_height="46dp"
                 android:layout_weight="1"
-                android:background="@drawable/dialog_btn_white_left"
+                android:background="@drawable/dialog_btn_refuse_left"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
@@ -105,11 +105,11 @@
                 android:layout_width="0dp"
                 android:layout_height="46dp"
                 android:layout_weight="1"
-                android:background="@drawable/dialog_btn_white_right"
+                android:background="@drawable/dialog_btn_refuse_right"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="@string/ok"
+                android:text="@string/btn_ok"
                 android:textColor="#009cff"
                 android:textSize="15sp" />
         </LinearLayout>

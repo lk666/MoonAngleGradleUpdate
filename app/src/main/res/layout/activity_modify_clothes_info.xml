@@ -277,7 +277,7 @@
                 android:layout_marginLeft="@dimen/div_btn_clothes_book_in"
                 android:layout_weight="1"
                 android:background="@drawable/btn_border_red_middle"
-                android:text="@string/btn_delete"
+                android:text="@string/delete"
                 android:textColor="@color/text_red"/>
 
             <Button
@@ -288,7 +288,7 @@
                 android:layout_marginLeft="@dimen/div_btn_clothes_book_in"
                 android:layout_marginRight="@dimen/div_btn_clothes_book_in"
                 android:layout_weight="1"
-                android:text="@string/btn_ok"/>
+                android:text="@string/ok"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

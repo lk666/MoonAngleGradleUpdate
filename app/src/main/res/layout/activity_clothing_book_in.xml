@@ -294,7 +294,7 @@
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_weight="1"
-                android:text="@string/btn_ok"/>
+                android:text="@string/ok"/>
 
             <View
                 android:id="@+id/v_div_btn_right"

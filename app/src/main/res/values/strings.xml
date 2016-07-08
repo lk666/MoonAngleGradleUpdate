@@ -648,7 +648,7 @@
     <string name="tab_bottom_with_order_collect_record">收衣记录</string>
     <string name="with_order_collect_no_order">当前无订单数据</string>
     <string name="with_order_collect_manual_input_code_btn">手动输入</string>
-    <string name="with_order_collect_collect_number_text">收衣单号:</string>
+    <string name="with_order_collect_collect_number_text">收衣单号：</string>
     <string name="with_order_collect_btn_accept">接单</string>
     <string name="with_order_collect_btn_start_collect">开始收衣</string>
     <string name="with_order_collect_btn_continue_collect">继续收衣</string>
@@ -656,9 +656,9 @@
     <string name="with_order_collect_txt_cancle_accept">取消接收</string>
     <string name="with_order_collect_txt_translate">衣物转交</string>
     <string name="with_order_collect_txt_refuse_translate">拒绝接收</string>
-    <string name="with_order_collect_title_pay_total">总金额:</string>
-    <string name="with_order_collect_title_receivable_count">应收数量:</string>
-    <string name="with_order_collect_title_actual_count">实收数量:</string>
+    <string name="with_order_collect_title_pay_total">总金额：</string>
+    <string name="with_order_collect_title_receivable_count">应收数量：</string>
+    <string name="with_order_collect_title_actual_count">实收数量：</string>
     <string name="manual_input_code_hint">请输入数字码</string>
 
     <!-- 收衣登记 -->
@@ -669,10 +669,10 @@
     <string name="with_order_collect_is_urgent">加急</string>
     <string name="with_order_collect_appoint_back_time">预约还衣时间</string>
     <string name="with_order_collect_appoint_back_time_hint">请输入预约还衣时间</string>
-    <string name="with_order_collect_appoint_actual_count">实收:</string>
-    <string name="with_order_collect_appoint_receivable_count">应收:</string>
+    <string name="with_order_collect_appoint_actual_count">实收：</string>
+    <string name="with_order_collect_appoint_receivable_count">应收：</string>
     <string name="with_order_collect_order_receive">收衣明细</string>
-    <string name="with_order_collect_order_receive_count">实收数量:</string>
+    <string name="with_order_collect_order_receive_count">实收数量：</string>
     <string name="with_order_collect_appoint_back_time_later_hint">预约时间必需在48小时之后！</string>
 
     <!-- 衣物登记 -->
@@ -786,4 +786,7 @@
     <string name="text_empty">无</string>
     <string name="unit_clothes">件</string>
     <string name="text_to">至</string>
+    <string name="btn_cancle_receive">取消接收</string>
+    <string name="btn_receive">确认接收</string>
+    <string name="delete">删 除</string>
 </resources>
