@@ -260,9 +260,13 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
         switch (view.getId()) {
             case R.id.layout_logs:
             case R.id.txt_log_open:
-                if (listViewLog.getVisibility() == View.GONE) {
+                if (lineLog.getVisibility() == View.GONE) {
                     lineLog.setVisibility(View.VISIBLE);
-                    listViewLog.setVisibility(View.VISIBLE);
+                    if (deliveryAdapter.getCount() < 1) {
+                        listViewLog.setVisibility(View.GONE);
+                    } else {
+                        listViewLog.setVisibility(View.VISIBLE);
+                    }
                     txtLogOpen.setText(getString(R.string.txt_close));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
