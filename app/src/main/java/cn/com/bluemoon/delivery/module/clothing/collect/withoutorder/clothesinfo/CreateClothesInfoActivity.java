@@ -40,6 +40,7 @@ import cn.com.bluemoon.delivery.module.clothing.collect.ClothesTypeInfoView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.ScrollGridView;
@@ -351,11 +352,11 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         String errStr = null;
         if (TextUtils.isEmpty(tvNumber.getText().toString())) {
             errStr = getString(R.string.btn_check_err_clothes_code_empty);
-        } else if ( clothingAdapter == null || clothingAdapter.getCount() < 2) {
+        } else if (clothingAdapter == null || clothingAdapter.getCount() < 2) {
             errStr = getString(R.string.btn_check_err_clothes_photo_empty);
         } else if (selectedNameView == null) {
             errStr = getString(R.string.btn_check_err_clothes_name_empty);
-        }else if (selectedTypeView == null) {
+        } else if (selectedTypeView == null) {
             errStr = getString(R.string.btn_check_err_clothes_type_empty);
         }
 
@@ -391,7 +392,8 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                     tmpUploadClothesInfo.setTypeCode(selectedTypeView.getTypeInfo().getTypeCode());
                     tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
                     tmpUploadClothesInfo.setTypeName(selectedTypeView.getTypeInfo().getTypeName());
-                    tmpUploadClothesInfo.setClothesName(selectedNameView.getType().getClothesName());
+                    tmpUploadClothesInfo.setClothesName(selectedNameView.getType().getClothesName
+                            ());
 
                     tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
 
@@ -566,7 +568,8 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                                     @Override
                                     public void onResponseSuccess(String responseString) {
                                         clothesImg.remove(delImgPos);
-                                        if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get(clothesImg.size() - 1)
+                                        if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get
+                                                (clothesImg.size() - 1)
                                                 .getImgId())) {
                                             addAddImage();
                                         }
@@ -575,6 +578,10 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                                 }));
                         break;
                     case R.id.iv_pic:
+                        // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn
+                        // .net/lvshaorong/article/details/50392057
+                        DialogUtil.showPictureDialog(CreateClothesInfoActivity.this, pic
+                                .getImgPath());
                     default:
                         break;
                 }

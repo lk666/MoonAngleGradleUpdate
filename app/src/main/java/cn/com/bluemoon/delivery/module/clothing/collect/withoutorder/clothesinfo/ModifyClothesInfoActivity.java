@@ -41,6 +41,7 @@ import cn.com.bluemoon.delivery.module.clothing.collect.ClothesTypeInfoView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -669,6 +670,10 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                                 }));
                         break;
                     case R.id.iv_pic:
+                        // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn
+                        // .net/lvshaorong/article/details/50392057
+                        DialogUtil.showPictureDialog(ModifyClothesInfoActivity.this, pic
+                                .getImgPath());
                     default:
                         break;
                 }

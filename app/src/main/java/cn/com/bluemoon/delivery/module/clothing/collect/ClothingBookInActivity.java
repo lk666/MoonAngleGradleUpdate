@@ -42,6 +42,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -841,8 +842,10 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
                                 (ClothingBookInActivity.this), delImgHandler);
                         break;
-                    // TODO: lk 2016/6/20 暂时不浏览图片
                     case R.id.iv_pic:
+                        // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn
+                        // .net/lvshaorong/article/details/50392057
+                        DialogUtil.showPictureDialog(ClothingBookInActivity.this, pic.getImgPath());
                         break;
                 }
             }
