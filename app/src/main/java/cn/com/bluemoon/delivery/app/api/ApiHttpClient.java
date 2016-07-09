@@ -24,15 +24,18 @@ public class ApiHttpClient {
 	public static String MOCK_URL = "http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s";
 	public static String ADDRESS_URL="http://mallapi.bluemoon.com.cn/%s";
 	public static String PUNCH_DETAILDS_DOMAIN;
+    public static String CLOTHING_URL;
 
 	static {
 		if (BuildConfig.RELEASE) {
 			HOST = "angel.bluemoon.com.cn";
 			API_URL = "http://angel.bluemoon.com.cn/%s";
+			CLOTHING_URL="http://angelapi.bluemoon.com.cn/%s";
 			PUNCH_DETAILDS_DOMAIN = "http://mallapi.bluemoon.com.cn/%s";
 		} else {
-			HOST = "angelapi.bluemoon.com.cn"; // tmallapi.bluemoon.com.cn
+			HOST = "angelapi.bluemoon.com.cn"; // angelapi.bluemoon.com.cn
 			API_URL = "http://angelapi.bluemoon.com.cn:8882/%s"; // 172.16.49.23
+			CLOTHING_URL = "http://angelapi.bluemoon.com.cn/%s";
 			PUNCH_DETAILDS_DOMAIN = "http://tmallapi.bluemoon.com.cn/%s";
 		}
 	}
@@ -70,7 +73,13 @@ public class ApiHttpClient {
 		// LogUtils.d("BASE_CLIENT", "request:" + url);
 		return url;
 	}
-	
+
+	public static String getClothingApiUrl(String partUrl) {
+		String url = String.format(CLOTHING_URL, partUrl);
+		// LogUtils.d("BASE_CLIENT", "request:" + url);
+		return url;
+	}
+
 	public static String getMockUrl(String partUrl) {
 		return String.format(MOCK_URL, partUrl);
 	}
@@ -120,7 +129,30 @@ public class ApiHttpClient {
 		log(new StringBuilder("POST ").append(partUrl).append("----->")
 				.append(jsonString).toString());
 	}
-	
+
+
+	public static void postClothing(Context context, String partUrl, String jsonString,
+							AsyncHttpResponseHandler handler) {
+
+		ByteArrayEntity entity = null;
+		try {
+			entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+
+			// TODO Auto-generated catch block
+			log(new StringBuilder("POST UnsupportedEncodingException ")
+					.append(partUrl).append("----->").append(jsonString)
+					.toString());
+		}
+		client.post(context, getClothingApiUrl(partUrl), entity,
+				"application/json", handler);
+
+		log(new StringBuilder("POST ").append(partUrl).append("----->")
+				.append(jsonString).toString());
+	}
+
+
+
 	public static void postMock(Context context, String partUrl, String jsonString,
 			AsyncHttpResponseHandler handler) {
 
