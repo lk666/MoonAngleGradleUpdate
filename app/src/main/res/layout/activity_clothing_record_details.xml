@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2">
+            android:id="@+id/sc_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2">
 
 
     <LinearLayout
@@ -32,7 +33,7 @@
                     android:lineSpacingExtra="6dp"
                     android:paddingRight="10dp"
                     android:textColor="@color/text_black_light"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:id="@+id/txt_log_open"
@@ -40,7 +41,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
                     android:drawableRight="@mipmap/ic_down"
-                    android:text="@string/txt_open" />
+                    android:text="@string/txt_open"/>
 
             </LinearLayout>
 
@@ -58,7 +59,7 @@
                 android:dividerHeight="8dp"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
         </LinearLayout>
 
@@ -82,7 +83,7 @@
                     android:layout_weight="1"
                     android:paddingRight="10dp"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_13" />
+                    android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:id="@+id/txt_type_open"
@@ -90,7 +91,7 @@
                     android:layout_height="wrap_content"
                     android:drawablePadding="8dp"
                     android:drawableRight="@mipmap/ic_down"
-                    android:text="@string/txt_open" />
+                    android:text="@string/txt_open"/>
 
             </LinearLayout>
 
@@ -121,7 +122,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:paddingRight="12dp"
-                                android:src="@mipmap/user_new" />
+                                android:src="@mipmap/user_new"/>
 
                             <TextView
                                 android:id="@+id/txt_username"
@@ -132,7 +133,7 @@
                                 android:gravity="center_vertical"
                                 android:singleLine="true"
                                 android:textColor="@color/text_black_light"
-                                android:textSize="@dimen/text_size_13" />
+                                android:textSize="@dimen/text_size_13"/>
 
                             <TextView
                                 android:id="@+id/txt_user_phone"
@@ -145,7 +146,7 @@
                                 android:gravity="center_vertical"
                                 android:singleLine="true"
                                 android:textColorLink="@color/text_blue"
-                                android:textSize="@dimen/text_size_13" />
+                                android:textSize="@dimen/text_size_13"/>
 
                         </LinearLayout>
 
@@ -161,7 +162,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center"
                                 android:paddingRight="12dp"
-                                android:src="@mipmap/address_new" />
+                                android:src="@mipmap/address_new"/>
 
                             <TextView
                                 android:id="@+id/txt_address"
@@ -171,7 +172,7 @@
                                 android:gravity="center_vertical"
                                 android:lineSpacingExtra="6dp"
                                 android:textColor="@color/text_black_light"
-                                android:textSize="@dimen/text_size_13" />
+                                android:textSize="@dimen/text_size_13"/>
                         </LinearLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -192,7 +193,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/with_order_collect_title_pay_total"
                             android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13" />
+                            android:textSize="@dimen/text_size_13"/>
 
                         <TextView
                             android:id="@+id/txt_total_money"
@@ -201,7 +202,7 @@
                             android:layout_weight="1"
                             android:gravity="left"
                             android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13" />
+                            android:textSize="@dimen/text_size_13"/>
 
 
                         <TextView
@@ -210,7 +211,7 @@
                             android:layout_height="wrap_content"
                             android:text="@string/with_order_collect_title_receivable_count"
                             android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13" />
+                            android:textSize="@dimen/text_size_13"/>
 
 
                         <TextView
@@ -218,7 +219,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13" />
+                            android:textSize="@dimen/text_size_13"/>
                     </LinearLayout>
 
                     <cn.com.bluemoon.delivery.ui.NoScrollListView
@@ -226,7 +227,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:dividerHeight="5dp"
-                        android:paddingBottom="12dp" />
+                        android:paddingBottom="12dp"/>
                 </LinearLayout>
 
             </LinearLayout>
@@ -235,7 +236,7 @@
         </LinearLayout>
 
 
-        <include layout="@layout/layout_clothing_list_no_scroll" />
+        <include layout="@layout/layout_clothing_list_no_scroll"/>
     </LinearLayout>
 
 

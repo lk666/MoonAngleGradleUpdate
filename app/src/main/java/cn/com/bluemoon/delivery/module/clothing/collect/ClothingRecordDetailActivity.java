@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -95,6 +96,8 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     @Bind(R.id.txt_scan_code_lab)
     TextView txtScanLab;
 
+    @Bind(R.id.sc_main)
+    ScrollView scMain;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,15 +106,21 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
         ButterKnife.bind(this);
         collectCode = getIntent().getStringExtra("collectCode");
         manager = getIntent().getStringExtra("manager");
+
+        clothingInfoAdapter = new ClothesInfoAdapter(ClothingRecordDetailActivity.this, this);
+        listViewInfo.setAdapter(clothingInfoAdapter);
         init();
     }
 
     private void init() {
+
         showProgressDialog();
         if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
-            DeliveryApi.collectInfoDetails(ClientStateManager.getLoginToken(this), collectCode, infoHandler);
+            DeliveryApi.collectInfoDetails(ClientStateManager.getLoginToken(this), collectCode,
+                    infoHandler);
         } else if (manager.equals(ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE)) {
-            DeliveryApi.collectInfoDetails2(ClientStateManager.getLoginToken(this), collectCode, infoHandler);
+            DeliveryApi.collectInfoDetails2(ClientStateManager.getLoginToken(this), collectCode,
+                    infoHandler);
         }
     }
 
@@ -155,8 +164,10 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                 ) {
             if (record.getLaundryLog().size() > 0) {
 
-                txtLog.setText(String.format("%s,%s,%s\n%s", record.getLaundryLog().get(0).getNodeName(), record.getLaundryLog().get(0).getPhone()
-                        , record.getLaundryLog().get(0).getAction(), DateUtil.getTime(record.getLaundryLog().get(0).getOpTime(), "yyyy-MM-dd HH:mm:ss"))
+                txtLog.setText(String.format("%s,%s,%s\n%s", record.getLaundryLog().get(0)
+                                .getNodeName(), record.getLaundryLog().get(0).getPhone()
+                        , record.getLaundryLog().get(0).getAction(), DateUtil.getTime(record
+                                .getLaundryLog().get(0).getOpTime(), "yyyy-MM-dd HH:mm:ss"))
                 );
 
             }
@@ -181,7 +192,8 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
             txtOutCode.setText(record.getOuterCode());
             txtNeed.setText(String.valueOf(record.getReceivableTotal()));
             if (null != record.getOrderDetail() && record.getOrderDetail().size() > 0) {
-                clothingTypeAdapter = new ClothingTypeAdapter(ClothingRecordDetailActivity.this, this);
+                clothingTypeAdapter = new ClothingTypeAdapter(ClothingRecordDetailActivity.this,
+                        this);
                 clothingTypeAdapter.setList(record.getOrderDetail());
                 listViewType.setAdapter(clothingTypeAdapter);
             }
@@ -198,13 +210,13 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
         txtUserName.setText(record.getCustomerName());
         txtUserPhone.setText(record.getCustomerPhone());
         txtCollectNum.setText(record.getCollectCode());
-        txtUrgent.setVisibility(record.getIsUrgent()>0?View.VISIBLE:View.GONE);
+        txtUrgent.setVisibility(record.getIsUrgent() > 0 ? View.VISIBLE : View.GONE);
 
-        if(null!=record.getCollectOrderDetail() && record.getCollectOrderDetail().size()>0) {
+        if (null != record.getCollectOrderDetail() && record.getCollectOrderDetail().size() > 0) {
 
             List<ClothesInfo> list = new ArrayList<>();
-            for (CollectOrderDetail detail:record.getCollectOrderDetail()
-                 ) {
+            for (CollectOrderDetail detail : record.getCollectOrderDetail()
+                    ) {
                 ClothesInfo info = new ClothesInfo();
                 info.setClothesCode(detail.getClothesCode());
                 info.setClothesName(detail.getClothesName());
@@ -215,10 +227,16 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                 list.add(info);
             }
 
-            clothingInfoAdapter = new ClothesInfoAdapter(ClothingRecordDetailActivity.this, this);
             clothingInfoAdapter.setList(list);
-            listViewInfo.setAdapter(clothingInfoAdapter);
+            clothingInfoAdapter.notifyDataSetChanged();
         }
+
+        scMain.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                scMain.scrollTo(0, 0);
+            }
+        }, 100);
 
     }
 
@@ -232,11 +250,12 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     public void onItemClick(Object item, View view, int position) {
         if (item instanceof ClothesInfo) {
             ClothesInfo info = (ClothesInfo) item;
-            ClothesDetailActivity.actionStart(ClothingRecordDetailActivity.this,info.getClothesCode());
+            ClothesDetailActivity.actionStart(ClothingRecordDetailActivity.this, info
+                    .getClothesCode());
         }
     }
 
-    @OnClick({R.id.txt_log_open,R.id.layout_logs, R.id.txt_type_open,R.id.layout_activities})
+    @OnClick({R.id.txt_log_open, R.id.layout_logs, R.id.txt_type_open, R.id.layout_activities})
     public void openView(View view) {
         switch (view.getId()) {
             case R.id.layout_logs:
@@ -246,7 +265,8 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     listViewLog.setVisibility(View.VISIBLE);
                     txtLogOpen.setText(getString(R.string.txt_close));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
+                            .getMinimumHeight());
                     txtLogOpen.setCompoundDrawables(null, null, drawable, null);
 
                 } else {
@@ -254,7 +274,8 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     listViewLog.setVisibility(View.GONE);
                     txtLogOpen.setText(getString(R.string.txt_open));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_down);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
+                            .getMinimumHeight());
                     txtLogOpen.setCompoundDrawables(null, null, drawable, null);
                 }
                 break;
@@ -265,14 +286,16 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     layoutType.setVisibility(View.VISIBLE);
                     txtTypeOpen.setText(getString(R.string.txt_close));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
+                            .getMinimumHeight());
                     txtTypeOpen.setCompoundDrawables(null, null, drawable, null);
 
                 } else {
                     layoutType.setVisibility(View.GONE);
                     txtTypeOpen.setText(getString(R.string.txt_open));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_down);
-                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                    drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
+                            .getMinimumHeight());
                     txtTypeOpen.setCompoundDrawables(null, null, drawable, null);
                 }
                 break;
