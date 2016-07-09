@@ -791,4 +791,5 @@
     <string name="btn_cancle_receive">取消接收</string>
     <string name="btn_receive">确认接收</string>
     <string name="delete">删 除</string>
+    <string name="upload_success">上传成功</string>
 </resources>

@@ -512,6 +512,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                             clothesImg.remove(clothesImg.size() - 1);
                         }
                         clothingAdapter.notifyDataSetChanged();
+                        PublicUtil.showToast(getString(R.string.upload_success));
                     }
                 }));
     }

@@ -48,7 +48,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
-// TODO: lk 2016/6/13 可写个基类专门处理这种基本逻辑一样的fragment，将公共逻辑抽取（一步步来），
 // 可参照dobago的BaseRefreshListFragment
 
 /**
@@ -64,7 +63,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private ClothingTabActivity main;
     private ResultWithOrderClothingCollectList orderList;
     private OrderAdapter adapter;
-
     Dialog refuseDialog;
     EditText editReason;
     Button btnOk;

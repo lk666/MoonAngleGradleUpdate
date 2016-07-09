@@ -194,6 +194,7 @@
 
     <View
         android:id="@+id/div"
+        android:background="@color/page_bg_f2"
         android:layout_width="match_parent"
         android:layout_height="10dp"/>
 </LinearLayout>

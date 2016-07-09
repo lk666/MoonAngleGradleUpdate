@@ -748,6 +748,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         clothesImg.remove(clothesImg.size() - 1);
                     }
                     clothingAdapter.notifyDataSetChanged();
+                    PublicUtil.showToast(getString(R.string.upload_success));
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
