@@ -1,11 +1,16 @@
 package cn.com.bluemoon.delivery.module.clothing.collect;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.kymjs.kjframe.utils.SystemTool;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
@@ -29,6 +34,7 @@ public class ClothesInfoAdapter extends BaseListAdapter<ClothesInfo> {
         return R.layout.item_with_order_clothes_info;
     }
 
+    @SuppressLint({"NewApi"})
     @Override
     protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
         final ClothesInfo item = (ClothesInfo) getItem(position);
@@ -52,6 +58,16 @@ public class ClothesInfoAdapter extends BaseListAdapter<ClothesInfo> {
         if (item.isCheck()) {
             Drawable drawable = context.getResources().getDrawable(R.mipmap.scaned);
             ivClothImg.setImageDrawable(drawable);
+            Bitmap backDrawable = KJFUtil.getUtil().getKJB().getMemoryCache(item.getImgPath());
+
+            if(null!=backDrawable) {
+                if (SystemTool.getSDKVersion() >= 16) {
+                    ivClothImg.setBackground(new BitmapDrawable(ivClothImg.getResources(), backDrawable));
+                } else {
+                    ivClothImg.setBackgroundDrawable(new BitmapDrawable(ivClothImg.getResources(), backDrawable));
+                }
+            }
+
         }else{
             KJFUtil.getUtil().getKJB().display(ivClothImg,item.getImgPath());
         }
