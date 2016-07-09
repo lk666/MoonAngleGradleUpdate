@@ -285,6 +285,7 @@
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:textCursorDrawable">@null</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:textColorHint">@color/text_grep</item>
         <item name="android:background">@null</item>
@@ -295,6 +296,7 @@
     <style name="txt_input_content_13" parent="txt_content_13">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
+        <item name="android:textCursorDrawable">@null</item>
         <item name="android:layout_marginLeft">15dp</item>
         <item name="android:gravity">right|center_vertical</item>
         <item name="android:textColorHint">@color/text_grep</item>
