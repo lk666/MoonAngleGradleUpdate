@@ -129,7 +129,8 @@
                 style="@style/line_solid_padding_left_style"
                 android:visibility="gone" />
 
-            <RelativeLayout style="@style/row_style">
+            <RelativeLayout style="@style/multi_row_style"
+                android:padding="12dp">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -147,7 +148,6 @@
                     android:maxLength="50"
                     android:background="@null"
                     android:hint="@string/clothing_deliver_mark_hint"
-                    android:singleLine="true"
                     android:textColorHint="@color/text_grep"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_15" />

@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -51,7 +52,7 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
     @Bind(R.id.txt_deliver_phone)
     TextView txtDeliverPhone;
     @Bind(R.id.txt_deliver_remark)
-    TextView txtDeliverRemark;
+    EditText txtDeliverRemark;
     @Bind(R.id.btn_search)
     Button btnSearch;
     @Bind(R.id.btn_ok)
@@ -118,6 +119,29 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
                 }
             }
         });
+
+
+        txtDeliverRemark.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (txtDeliverRemark.getLineCount() > 1) {
+                    txtDeliverRemark.setGravity(Gravity.LEFT);
+                } else {
+                    txtDeliverRemark.setGravity(Gravity.RIGHT);
+                }
+            }
+        });
+
         showProgressDialog();
         DeliveryApi.queryTransmitInfo(ClientStateManager.getLoginToken(ClothingDeliverActivity
                 .this), collectCode, logHandler);
