@@ -70,6 +70,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
     private String scanCode;
     private List<ClothesInfo> clothesInfos;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -237,12 +238,16 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
 
     private void handleScaneCodeBack(String code) {
         if (null != clothesInfos && clothesInfos.size() > 0) {
+            boolean isRefresh = false;
             for (ClothesInfo info : clothesInfos) {
                 if (info.getClothesCode().equals(code)) {
                     info.setCheck(true);
+                    isRefresh = true;
                 }
             }
-            adapter.notifyDataSetChanged();
+            if (isRefresh) {
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 
