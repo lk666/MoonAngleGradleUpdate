@@ -792,4 +792,6 @@
     <string name="btn_receive">确认接收</string>
     <string name="delete">删 除</string>
     <string name="upload_success">上传成功</string>
+
+    <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
 </resources>

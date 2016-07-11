@@ -3,9 +3,11 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,7 @@ import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -666,5 +669,43 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 
             setClickEvent(isNew, position, convertView);
         }
+    }
+
+
+    @Override
+    protected void ontActionBarBtnLeftClick() {
+
+
+        new CommonAlertDialog.Builder(this)
+                .setCancelable(true)
+                .setMessage(getString(R.string.cancel_alarm_message))
+                .setPositiveButton(R.string.btn_cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                            }
+                        })
+                .setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
+                    }
+                })
+                .show();
+
+
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+             ontActionBarBtnLeftClick();
+            return true;
+        }
+        return false;
     }
 }
