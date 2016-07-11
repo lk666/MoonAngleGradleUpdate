@@ -359,7 +359,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 
     @Override
     protected int getActionBarTitleRes() {
-        return R.string.title_activity_dec;
+        return R.string.title_create_collect_order;
     }
 
     private void showFinishDialog(String collectCode) {
