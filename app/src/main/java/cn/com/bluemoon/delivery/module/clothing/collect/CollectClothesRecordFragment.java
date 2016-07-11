@@ -131,6 +131,10 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                                                     .getYear()
                                                     * 12 + start.getMonth()) <= 6)))) {
 
+                                                if(startTime == 0 && endTime == 0) {
+                                                    return;
+                                                }
+
                                                 // 将查询条件显示在上面
                                                 tvTime.setVisibility(View.VISIBLE);
                                                 tvTime.setText(DateUtil.getTime(startTime,
