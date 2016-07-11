@@ -43,9 +43,10 @@
             <cn.com.bluemoon.lib.tagview.FlowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/iv_customer"
+                android:layout_below="@+id/tv_number"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="8dp"
                 android:layout_toRightOf="@+id/iv_customer"
                 app_auto:orientation="horizontal">
 
@@ -54,6 +55,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingRight="10dp"
+                    android:paddingTop="8dp"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_13"/>
 
@@ -62,6 +64,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="phone"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:textColor="@color/text_blue"
                     android:textColorLink="@color/text_blue"
                     android:textSize="@dimen/text_size_13"/>

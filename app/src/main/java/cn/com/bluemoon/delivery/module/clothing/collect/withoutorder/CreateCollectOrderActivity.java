@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -124,7 +125,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     @Bind(R.id.tv_actual_collect_count)
     TextView tvActualCollectCount;
     @Bind(R.id.btn_add)
-    Button btnAdd;
+    ImageButton btnAdd;
 
     @Bind(R.id.v_div_order_receive)
     View vDivOrderReceive;
