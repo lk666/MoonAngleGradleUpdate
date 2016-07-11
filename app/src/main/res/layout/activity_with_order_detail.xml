@@ -37,7 +37,7 @@
             <cn.com.bluemoon.lib.tagview.FlowLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/iv_customer"
+                android:layout_below="@+id/tv_number"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="16dp"
                 android:layout_toRightOf="@+id/iv_customer"
@@ -46,11 +46,14 @@
                 <TextView
                     android:id="@+id/tv_customer_name"
                     style="@style/txt_content_13"
+                    android:paddingTop="8dp"
                     android:paddingRight="10dp"/>
 
                 <TextView
                     android:id="@+id/tv_customer_phone"
                     style="@style/txt_content_13"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:autoLink="phone"
                     android:textColorLink="@color/text_blue"
                     android:textColor="@color/text_blue"/>
@@ -59,10 +62,10 @@
             <ImageView
                 android:id="@+id/iv_address"
                 android:layout_width="14dp"
+                android:layout_marginTop="8dp"
                 android:layout_height="14dp"
                 android:layout_alignLeft="@+id/iv_customer"
                 android:layout_below="@+id/iv_customer"
-                android:layout_marginTop="8dp"
                 android:src="@mipmap/address_new"/>
 
             <TextView

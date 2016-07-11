@@ -152,7 +152,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     @Override
     protected int getActionBarTitleRes() {
-        return R.string.title_clothing_book_in;
+        return R.string.title_create_collect_order;
     }
 
     /**
@@ -308,7 +308,8 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             llClothesName.addView(v);
         }
 
-        setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
+        selectedNameView = null;
+//        setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
     }
 
     private void setClothesNameSelected(ClothesNameView nameView) {

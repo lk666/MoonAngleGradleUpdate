@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -132,7 +133,14 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         txtDeliverPhone.setText(result.getTransmitPhone());
         txtActual.setText(String.valueOf(result.getActualCount()));
         txtCollectNum.setText(result.getCollectCode());
-        txtScanCode.setText(result.getCollectBrcode());
+
+        String brcode = result.getCollectBrcode();
+        if (TextUtils.isEmpty(brcode)) {
+            txtScanCode.setText(getString(R.string.text_empty));
+        } else {
+            txtScanCode.setText(brcode);
+        }
+
         txtUrgent.setVisibility(result.getIsUrgent() > 0 ? View.VISIBLE : View.GONE);
         txtDeliverRemark.setText(result.getRemark().isEmpty() ? getString(R.string.text_empty) :
                 result.getRemark());

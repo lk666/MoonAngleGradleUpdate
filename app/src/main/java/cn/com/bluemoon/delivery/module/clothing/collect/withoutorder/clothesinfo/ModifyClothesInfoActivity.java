@@ -187,7 +187,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
 
     @Override
     protected int getActionBarTitleRes() {
-        return R.string.title_clothing_book_in;
+        return R.string.title_create_collect_order;
     }
 
     /**
@@ -243,7 +243,6 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                 createResponseHandler(new IHttpResponseHandler() {
                     @Override
                     public void onResponseSuccess(String responseString) {
-                        // TODO: lk 2016/6/30 待测试
                         // 获取服务类型
                         ResultClothesTypeInfos type = JSON.parseObject(responseString,
                                 ResultClothesTypeInfos.class);
@@ -320,7 +319,6 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         DeliveryApi.getClothesTypeConfigs(token, typeCode, createResponseHandler(new IHttpResponseHandler() {
             @Override
             public void onResponseSuccess(String responseString) {
-                // TODO: lk 2016/6/30 待测试
                 // 获取衣物配置项
                 ResultClothesTypeList clothesType = JSON.parseObject(responseString,
                         ResultClothesTypeList.class);
@@ -361,7 +359,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         if (!isInited && selectedView != null) {
             setClothesNameSelected(selectedView);
         } else {
-            setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
+            selectedNameView = null;
         }
 
         if (!isInited && extraUploadClothesInfo != null) {

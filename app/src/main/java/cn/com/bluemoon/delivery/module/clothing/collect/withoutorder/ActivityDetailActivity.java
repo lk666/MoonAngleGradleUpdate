@@ -46,7 +46,7 @@ public class ActivityDetailActivity extends BaseActionBarActivity {
 
     @Override
     protected int getActionBarTitleRes() {
-        return R.string.tab_title_without_order_collect_manage;
+        return R.string.clothing_without_order_activity_desc;
     }
 
     private void init() {

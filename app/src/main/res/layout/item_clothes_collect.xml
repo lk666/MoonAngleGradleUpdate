@@ -57,7 +57,6 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="12dp"
                 android:textColor="@color/text_black"
-                android:layout_marginBottom="8dp"
                 android:textSize="@dimen/text_size_15" />
 
             <LinearLayout
@@ -68,17 +67,17 @@
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:paddingLeft="12dp"
                     android:paddingRight="12dp"
+                    android:paddingTop="8dp"
                     android:src="@mipmap/user_new" />
 
                 <TextView
                     android:id="@+id/txt_username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:ellipsize="end"
+                    android:paddingTop="8dp"
                     android:gravity="center_vertical"
                     android:singleLine="true"
                     android:textColor="@color/text_black_light"
@@ -88,9 +87,10 @@
                     android:id="@+id/txt_user_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
                     android:layout_marginLeft="10dp"
                     android:autoLink="phone"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp"
                     android:ellipsize="end"
                     android:gravity="center_vertical"
                     android:textColorLink="@color/text_blue"
@@ -106,6 +106,7 @@
                     android:layout_marginLeft="12dp"
                     android:paddingLeft="5dp"
                     android:paddingRight="5dp"
+                    android:paddingTop="8dp"
                     android:text="@string/with_order_collect_is_urgent"
                     android:textColor="@color/orange_red"
                     android:textSize="@dimen/text_size_12" />
@@ -114,7 +115,6 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -127,7 +127,6 @@
 
                 <TextView
                     android:id="@+id/txt_address"
-
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -187,6 +188,14 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                 record.getStreet(),
                 record.getAddress()));
         txtTotalMoney.setText(StringUtil.formatPriceByFen(record.getPayTotal()));
+
+        String brcode = record.getCollectBrcode();
+        if (TextUtils.isEmpty(brcode)) {
+            txtScanCode.setText(getString(R.string.text_empty));
+        } else {
+            txtScanCode.setText(brcode);
+        }
+
         if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
 
             txtOutCode.setText(record.getOuterCode());
@@ -198,14 +207,10 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                 listViewType.setAdapter(clothingTypeAdapter);
             }
             txtActual.setText(String.valueOf(record.getCollectOrderDetail().size()));
-            txtScanCode.setText(record.getCollectBrcode());
         } else {
-            txtScanLab.setVisibility(View.GONE);
             txtNeedLab.setVisibility(View.GONE);
-
             txtOutCode.setText(record.getActivityName());
             txtActual.setText(String.valueOf(record.getActualCount()));
-            txtScanCode.setText("");
         }
         txtUserName.setText(record.getCustomerName());
         txtUserPhone.setText(record.getCustomerPhone());

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
-    android:orientation="vertical">
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/page_bg_f2"
+              android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -15,8 +15,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_bg"
             android:layout_marginBottom="10dp"
+            android:background="@color/white_bg"
             android:orientation="vertical">
 
             <LinearLayout
@@ -24,61 +24,68 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
+                    android:layout_width="68dp"
                     android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
                     android:text="@string/clothing_deliver_user"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:id="@+id/txt_deliver_name"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
                     android:layout_weight="1"
-                    android:gravity="center"
+                    android:gravity="center_vertical"
+                    android:singleLine="true"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:id="@+id/txt_deliver_phone"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:autoLink="phone"
-                    android:textColorLink="@color/text_blue"
+                    android:layout_gravity="center_vertical"
+                    android:paddingBottom="8dp"
+                    android:paddingTop="8dp"
                     android:textColor="@color/text_blue"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textColorLink="@color/text_blue"
+                    android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
 
             <View
-                style="@style/line_solid_padding_left_style" />
+                style="@style/line_solid_padding_left_style"/>
 
 
             <RelativeLayout
-                android:paddingTop="12dp"
+                style="@style/multi_row_style"
                 android:paddingBottom="12dp"
-                style="@style/multi_row_style">
+                android:paddingTop="12dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/clothing_book_in_backup"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
 
                 <TextView
                     android:id="@+id/txt_deliver_remark"
-                    android:layout_width="230dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
+                    android:layout_marginLeft="68dp"
                     android:layout_marginRight="16dp"
                     android:background="@null"
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_15"/>
             </RelativeLayout>
 
         </LinearLayout>
 
-        <include layout="@layout/layout_clothing_list" />
+        <include layout="@layout/layout_clothing_list"/>
     </LinearLayout>
 
     <LinearLayout
@@ -98,12 +105,12 @@
             android:layout_weight="3"
             android:background="@drawable/btn_border_red_middle"
             android:text="@string/btn_cancle_receive"
-            android:textColor="@color/text_red" />
+            android:textColor="@color/text_red"/>
 
         <View
             android:id="@+id/v_div_btn"
             android:layout_width="30dp"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"/>
 
         <Button
             android:id="@+id/btn_ok"
@@ -111,7 +118,7 @@
             android:layout_width="0dp"
             android:layout_height="40dp"
             android:layout_weight="3"
-            android:text="@string/btn_receive" />
+            android:text="@string/btn_receive"/>
 
     </LinearLayout>
 

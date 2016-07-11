@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -533,7 +534,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                 return;
             }
 
-            Button vAdd = ViewHolder.get(convertView, R.id.btn_add);
+            ImageButton vAdd = ViewHolder.get(convertView, R.id.btn_add);
             TextView tvTypeName = ViewHolder.get(convertView, R.id.tv_type_name);
             TextView tvReceivableCount = ViewHolder.get(convertView, R.id.tv_receivable_count);
             TextView tvActualCount = ViewHolder.get(convertView, R.id.tv_actual_count);

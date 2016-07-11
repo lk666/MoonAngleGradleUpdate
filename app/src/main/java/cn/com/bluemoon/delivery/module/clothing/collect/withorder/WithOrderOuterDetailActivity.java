@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
@@ -241,7 +242,13 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
                 tvUrgent.setVisibility(View.GONE);
             }
 
-            tvBrcode.setText(getString(R.string.clothing_detail_brcode) + item.getCollectBrcode());
+            String brcode = item.getCollectBrcode();
+            if (TextUtils.isEmpty(brcode)) {
+                tvBrcode.setText(getString(R.string.clothing_detail_brcode) +
+                        getString(R.string.text_empty));
+            } else {
+                tvBrcode.setText(getString(R.string.clothing_detail_brcode) + brcode);
+            }
 
             if (isNew) {
                 ClothesInfoAdapter newAdapter = new ClothesInfoAdapter(context,

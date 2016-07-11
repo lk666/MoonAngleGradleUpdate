@@ -14,13 +14,18 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.commons.lang3.text.StrBuilder;
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -49,6 +54,7 @@ import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -127,7 +133,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     @Bind(R.id.tv_actual_collect_count)
     TextView tvActualCollectCount;
     @Bind(R.id.btn_add)
-    Button btnAdd;
+    ImageButton btnAdd;
 
     @Bind(R.id.v_div_order_receive)
     View vDivOrderReceive;
@@ -307,18 +313,38 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     private void getData() {
         showProgressDialog();
         DeliveryApi.queryActivityLimitNum(activityCode, ClientStateManager.getLoginToken(this),
-                createResponseHandler(new IHttpResponseHandler() {
-                    @Override
-                    public void onResponseSuccess(String responseString) {
-                        // TODO: lk 2016/6/30 待测试
-                        // 初始化时查询活动收衣上限返回
-                        ResultQueryActivityLimitNum result = JSON.parseObject(responseString,
-                                ResultQueryActivityLimitNum.class);
-                        setData(result);
-                    }
-                }));
-
+                getDataHandletr);
     }
+
+    private AsyncHttpResponseHandler getDataHandletr = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(getDefaultTag(), "queryActivityLimitNum result = " + responseString);
+            dismissProgressDialog();
+            try {
+                ResultQueryActivityLimitNum result = JSON.parseObject(responseString,
+                        ResultQueryActivityLimitNum.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    // 初始化时查询活动收衣上限返回
+                    setData(result);
+                } else {
+                    PublicUtil.showErrorMsg(CreateCollectOrderActivity.this, result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToast(R.string.err_net);
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            dismissProgressDialog();
+            PublicUtil.showToast(R.string.err_net);
+        }
+    };
 
     private void setData(ResultQueryActivityLimitNum result) {
         limitNum = result.getLimitNum();
