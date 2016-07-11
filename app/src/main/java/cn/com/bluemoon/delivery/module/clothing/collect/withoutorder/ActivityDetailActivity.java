@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.clothing.collect.withoutorder;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -20,6 +21,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultActivityDesc;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDeliverInfos;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.base.RefreshableActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -57,6 +59,14 @@ public class ActivityDetailActivity extends BaseActionBarActivity {
     private void initView(ResultActivityDesc desc){
          txtActivityName.setText(desc.getActivityName());
         txtActivityDesc.setText(desc.getActivityDesc());
+
+        txtActivityName.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(ActivityDetailActivity.this, RefreshableActivity.class);
+                startActivity(i);
+            }
+        });
     }
     public static void actionStart(Context context, String activityCode) {
         Intent intent = new Intent(context, ActivityDetailActivity.class);

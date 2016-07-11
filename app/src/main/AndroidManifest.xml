@@ -98,7 +98,6 @@
             android:name="cn.com.bluemoon.lib.qrcode.CaptureActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
-
         <activity
             android:name="cn.com.bluemoon.lib.qrcode.NewCaptureActivity"
             android:screenOrientation="portrait"
@@ -260,8 +259,8 @@
         <activity
             android:name=".module.clothing.collect.withorder.WithOrderCollectBookInActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.withorder.ClothingDeliverActivity"
             android:screenOrientation="portrait"
@@ -281,7 +280,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
-
         <activity
             android:name=".module.clothing.collect.withoutorder.ActivityDetailActivity"
             android:screenOrientation="portrait"
@@ -295,32 +293,28 @@
         <activity
             android:name=".module.clothing.collect.withorder.ManualInputCodeActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.withorder.WithOrderOuterDetailActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/App.Base.Theme"/>
-
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.withoutorder.ActivityDescActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateAlwaysHidden"
-            android:theme="@style/App.Base.Theme"/>
-
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".module.clothing.collect.withoutorder.CreateCollectOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <activity
             android:name=".module.clothing.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <activity
             android:name=".module.clothing.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
             android:screenOrientation="portrait"
@@ -410,6 +404,9 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="bluemoon"/>
+
+        <activity android:name=".module.base.RefreshableActivity">
+        </activity>
     </application>
 
 </manifest>
