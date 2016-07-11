@@ -152,7 +152,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     @Override
     protected int getActionBarTitleRes() {
-        return R.string.title_clothing_book_in;
+        return R.string.title_create_collect_order;
     }
 
     /**

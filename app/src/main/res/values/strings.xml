@@ -698,7 +698,7 @@
 
 
     <!--无订单收衣-->
-    <string name="tab_title_without_order_collect_manage">无订单收衣</string>
+    <string name="tab_title_without_order_collect_manage">活动收衣</string>
 
 
     <!--衣物转交-->
@@ -730,7 +730,6 @@
     <string name="clothing_detail_backup">备注：</string>
     <string name="clothing_detail_photo">衣物照片</string>
     <string name="clothing_record_detail">收衣订单</string>
-    <string name="title_clothing_without_order">无订单收衣</string>
     <string name="clothing_without_order_activity_desc">活动说明</string>
 
     <!-- 洗衣服务订单 -->
