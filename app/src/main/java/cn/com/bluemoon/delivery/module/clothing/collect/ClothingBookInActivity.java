@@ -496,7 +496,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         }
 
         if (extraMode.equals(MODE_ADD)) {
-            setClothesNameSelected((ClothesNameView) llClothingName.getChildAt(0));
+            selectedNameView = null;
         }
 
         if (extraMode.equals(MODE_ADD)) {

@@ -308,7 +308,8 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             llClothesName.addView(v);
         }
 
-        setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
+        selectedNameView = null;
+//        setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
     }
 
     private void setClothesNameSelected(ClothesNameView nameView) {
