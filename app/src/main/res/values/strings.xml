@@ -689,6 +689,7 @@
     <string name="team_area_delete_content">确定删除该辖区吗？</string>
     <string name="team_area_select_title">添加服务区域</string>
     <string name="team_area_select_empty">请选择服务区域</string>
+    <string name="team_member_edit_enddate">请先设置开始时间</string>
 
     <!--keyListener-->
     <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>

@@ -53,6 +53,8 @@ public class RelationShipDetailActivity extends KJActivity {
     private TextView txtRemark;
     @BindView(id = R.id.line2)
     private View line2;
+    @BindView(id=R.id.layout_remark)
+    private RelativeLayout layoutRemark;
     @BindView(id = R.id.layout_work_lengh)
     private RelativeLayout layoutWorkLengh;
     private CommonProgressDialog progressDialog;
@@ -74,7 +76,7 @@ public class RelationShipDetailActivity extends KJActivity {
         if (progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getRelationShipDetail(bpCode,empCode, ClientStateManager.getLoginToken(aty),getRelationShipDetailHandler);
+        DeliveryApi.getRelationShipDetail(bpCode, empCode, ClientStateManager.getLoginToken(aty), getRelationShipDetailHandler);
 
     }
 
@@ -103,8 +105,12 @@ public class RelationShipDetailActivity extends KJActivity {
             txtWorkLengh.setText(String.valueOf(item.getWorkLength()));
         }
         txtStartDate.setText(DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"));
-        txtEndDate.setText(DateUtil.getTime(item.getEndDate(),"yyyy-MM-dd"));
-        txtRemark.setText(item.getRemark());
+        txtEndDate.setText(DateUtil.getTime(item.getEndDate(), "yyyy-MM-dd"));
+        if(!StringUtils.isEmpty(item.getRemark())){
+            layoutRemark.setVisibility(View.VISIBLE);
+            txtRemark.setText(item.getRemark());
+        }
+
     }
 
     AsyncHttpResponseHandler getRelationShipDetailHandler = new TextHttpResponseHandler(HTTP.UTF_8) {

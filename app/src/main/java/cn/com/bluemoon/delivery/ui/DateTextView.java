@@ -34,7 +34,9 @@ public class DateTextView extends TextView{
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                showDatePickerDialog();
+                if(callBack==null||!callBack.cancelClick(v)){
+                    showDatePickerDialog();
+                }
             }
         });
     }
@@ -86,13 +88,14 @@ public class DateTextView extends TextView{
             }
             setText(mYear+"-"+mMonth+"-"+mDay);
             if(callBack!=null){
-                callBack.onDate(DateTextView.this,DateUtil.getTimeByCustTime(Long.parseLong(mYear+mMonth+mDay+"000000")));
+                callBack.onDate(DateTextView.this,DateUtil.strToDate("yyyy-MM-dd",getText().toString()).getTime());
             }
         }
     };
 
     public interface DateTextViewCallBack{
         void onDate(View view,long date);
+        boolean cancelClick(View view);
     }
 
 }

@@ -65,7 +65,6 @@ public class SelectAreaActivity extends Activity {
     private int pageNext;
     private boolean pullUp;
     private boolean pullDown;
-    private String content = "";
     private String bpCode;
     private String empCode;
     private boolean unRefresh;
@@ -187,7 +186,7 @@ public class SelectAreaActivity extends Activity {
             progressDialog.show();
         }
         DeliveryApi.getServiceAreaList(ClientStateManager.getLoginToken(aty),
-                bpCode,empCode,content,pageNext, AppContext.PAGE_SIZE,getServiceAreaListHandler);
+                bpCode,empCode,searchView.getText(),pageNext, AppContext.PAGE_SIZE,getServiceAreaListHandler);
     }
 
 
@@ -219,7 +218,6 @@ public class SelectAreaActivity extends Activity {
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
         public void onSearch(String str) {
-            content = str;
             getData();
             searchView.hideHistoryView();
         }

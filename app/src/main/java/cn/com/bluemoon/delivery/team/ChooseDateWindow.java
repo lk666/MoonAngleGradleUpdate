@@ -20,33 +20,33 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import org.kymjs.kjframe.utils.StringUtils;
+
 import java.util.Calendar;
 import java.util.Locale;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 
 public class ChooseDateWindow extends PopupWindow {
 
 	private Context mContext;
-	private String mYear;
-	private String mMonth;
-	private String mMon;
-	private String mDay;
 	private CommonDatePickerDialog endDatePicker;
 	private TextView txtEndDate;
 	private Button okBtn;
 	private View view;
 	private ChooseDateListener listener;
+	private Calendar calendar;
 
 
 	public ChooseDateWindow(Context context,String content,ChooseDateListener listener) {
 		this.mContext = context;
 		this.listener = listener;
-		Init(content);
+		init(content);
 	}
 
-	private void Init(String content) {
+	private void init(String content) {
 		LayoutInflater inflater = LayoutInflater.from(mContext);
 		view = inflater.inflate(R.layout.dialog_team_unlock_date, null);
 
@@ -81,7 +81,7 @@ public class ChooseDateWindow extends PopupWindow {
 				showDatePickerDialog();
 			}else if(v == okBtn){
 				if(listener!=null)
-				listener.callBack(Long.valueOf(getEndDateTime()));
+				listener.callBack(calendar.getTimeInMillis());
 				dismiss();
 			}else if(v == view){
 				dismiss();
@@ -94,75 +94,48 @@ public class ChooseDateWindow extends PopupWindow {
 	}
 
 	public void showDatePickerDialog() {
-
+		String dateTxt = txtEndDate.getText().toString();
+		if (dateTxt!=null||dateTxt.split("-").length==3) {
+			String[] value = txtEndDate.getText().toString().split("-");
+			setDate(Integer.valueOf(value[0]),Integer.valueOf(value[1]) - 1, Integer.valueOf(value[2]));
+		}
 		if (endDatePicker == null) {
 			endDatePicker = new CommonDatePickerDialog(mContext, mDateSetListener,
-					Integer.valueOf(mYear), Integer.valueOf(mMon),
-					Integer.valueOf(mDay));
+					calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+					calendar.get(Calendar.DAY_OF_MONTH));
 			endDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
 			endDatePicker.show();
-		} else {
-			if (!endDatePicker.isShowing()) {
-				if (!"".equals(txtEndDate.getText().toString())) {
-					String[] value = txtEndDate.getText().toString().split("-");
-					endDatePicker.updateDate(Integer.valueOf(value[0]),
-							Integer.valueOf(value[1]) - 1, Integer.valueOf(value[2]));
-				} else {
-					endDatePicker.updateDate(Integer.valueOf(mYear), Integer.valueOf(mMon), Integer.valueOf(mDay));
-				}
-
-
-				endDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-				endDatePicker.show();
-			}
-		} 
+		} else if(!endDatePicker.isShowing()){
+			endDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
+			endDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+			endDatePicker.show();
+		}
 	}
 	
-	public void setCurDate() {
-		Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
-		mYear = String.valueOf(dateAndTime.get(Calendar.YEAR));
-		mMon = String.valueOf(dateAndTime.get(Calendar.MONTH));
-		mMonth = String.valueOf(dateAndTime.get(Calendar.MONTH) + 1);
-		mDay = String.valueOf(dateAndTime.get(Calendar.DAY_OF_MONTH));
-		String month = mMonth;
-		String day = mDay;
-		if(mMonth.length()==1){
-			month = "0"+mMonth;
+	public void setDate(int year,int month,int day) {
+		if(calendar==null){
+			calendar = Calendar.getInstance(Locale.CHINA);
 		}
-		if(mDay.length()==1){
-			day = "0"+mDay;
-		}
-		txtEndDate.setText(mYear + "-" + month + "-" + day);
-	}
-
-	public String getEndDateTime() {
-		if ("".equals(txtEndDate.getText().toString())) {
-			return "0";
-		} else {
-			return txtEndDate.getText().toString().replaceAll("-", "") + "235959";
+		if(year>0&&month>-1&&day>0){
+			calendar.set(year,month,day);
 		}
 	}
 
-	public String getDate() {
-		return mYear + "-" + mMonth + "-" + mDay;
+	public void setCurDate(){
+		setDate(0, -1, 0);
+		txtEndDate.setText(DateUtil.getTime(calendar.getTimeInMillis(), "yyyy-MM-dd"));
+	}
+
+	public long getDate() {
+		return calendar.getTimeInMillis();
 	}
 
 	private CommonDatePickerDialog.OnDateSetListener mDateSetListener = new CommonDatePickerDialog.OnDateSetListener() {
 		public void onDateSet(DatePicker view, int year, int monthOfYear,
 				int dayOfMonth) {
-			mYear = String.valueOf(year);
-			mMon = String.valueOf(monthOfYear);
-			if (monthOfYear <= 8) {
-				mMonth = "0" + (monthOfYear + 1);
-			} else {
-				mMonth = String.valueOf(monthOfYear + 1);
-			}
-			if (dayOfMonth <= 9) {
-				mDay = String.valueOf("0" + dayOfMonth);
-			} else {
-				mDay = String.valueOf(dayOfMonth);
-			}
-			txtEndDate.setText(getDate());
+			setDate(year, monthOfYear, dayOfMonth);
+			txtEndDate.setText(DateUtil.getTime(calendar.getTimeInMillis(), "yyyy-MM-dd"));
+
 		}
 	};
 	

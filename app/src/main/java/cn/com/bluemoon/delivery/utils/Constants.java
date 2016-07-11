@@ -26,6 +26,7 @@ public class Constants {
 	
 	public static final long FORCE_CHECK_VERSION_TIME = 1000 * 60 * 60 * 2; 	// equivalent to 2 hours
 	public static final long SPLASH_SCREEN_MIN_SHOW_TIME = 1000;	// equivalent to 1 sec
+	public static final long ONE_MONTH_TIME = 30 * 24 * 1000 * 60 * 60;
 	
     public static final String PRIVATE_KEY="Er78s1hcT4Tyoaj2";
 	

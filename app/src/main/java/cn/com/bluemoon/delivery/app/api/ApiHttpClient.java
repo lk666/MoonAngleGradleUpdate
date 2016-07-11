@@ -32,7 +32,7 @@ public class ApiHttpClient {
 			PUNCH_DETAILDS_DOMAIN = "http://mallapi.bluemoon.com.cn/%s";
 		} else {
 			HOST = "angelapi.bluemoon.com.cn"; // tmallapi.bluemoon.com.cn
-			API_URL = "http://angelapi.bluemoon.com.cn:8882/%s"; // 172.16.49.23
+			API_URL = "http://angelapi.bluemoon.com.cn/%s"; // 172.16.49.23
 			PUNCH_DETAILDS_DOMAIN = "http://tmallapi.bluemoon.com.cn/%s";
 		}
 	}

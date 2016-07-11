@@ -300,6 +300,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:paddingRight="10dp"
                     >
 
                     <TextView
@@ -335,10 +336,10 @@
                         android:textSize="@dimen/text_size_15" />
 
                     <ImageView
+                        android:id="@+id/img_right3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
                         android:layout_gravity="center_vertical"
                         android:scaleType="fitCenter"
                         android:src="@mipmap/icon_right" />
@@ -354,6 +355,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
+                    android:paddingRight="10dp"
                     >
 
                     <TextView
@@ -381,7 +383,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
-                        android:layout_marginRight="10dp"
                         android:scaleType="fitCenter"
                         android:layout_gravity="center_vertical"
                         android:src="@mipmap/icon_right" />
@@ -415,6 +416,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:maxLength="20"
                     android:gravity="right"
                     android:background="@null"
                     android:drawablePadding="10dp"

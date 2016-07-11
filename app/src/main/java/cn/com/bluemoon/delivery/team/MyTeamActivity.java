@@ -75,14 +75,6 @@ public class MyTeamActivity extends FragmentActivity implements BackHandledInter
     }
 
     @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if(keyCode == KeyEvent.KEYCODE_BACK){
-
-        }
-        return super.onKeyDown(keyCode, event);
-    }
-
-    @Override
     public void setSelectedFragment(BackHandledFragment selectedFragment) {
         this.mBackHandedFragment = selectedFragment;
     }

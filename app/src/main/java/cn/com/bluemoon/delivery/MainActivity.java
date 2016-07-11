@@ -69,6 +69,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.RedpointTextView;
@@ -246,9 +247,9 @@ public class MainActivity extends SlidingActivity {
         @Override
         public void onFailure(int statusCode, Header[] headers, String responseString,
                               Throwable throwable) {
-            if (listRight!=null) {
+            /*if (listRight!=null) {
                 setMenu();
-            }
+            }*/
         }
     };
 
@@ -268,8 +269,8 @@ public class MainActivity extends SlidingActivity {
                     right.setAmount(0);
                 }
             }
+            setMenu();
         }
-        setMenu();
     }
 
 
@@ -370,8 +371,9 @@ public class MainActivity extends SlidingActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         isDestory = false;
-
-        DeliveryApi.getModelNum(token, getAmountHandler);
+        if(listRight!=null){
+            DeliveryApi.getModelNum(token, getAmountHandler);
+        }
     }
 
     @Override
@@ -443,7 +445,7 @@ public class MainActivity extends SlidingActivity {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
                     if(!BuildConfig.RELEASE){
-                        mockData();
+//                        mockData();
                     }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),getAmountHandler);
@@ -467,40 +469,10 @@ public class MainActivity extends SlidingActivity {
         }
     };
 
-    /*private Map<Integer,List<UserRight>> getListGroup(){
-        Map<Integer,List<UserRight>> map = new TreeMap<>(
-                new Comparator() {
-                    @Override
-                    public int compare(Object lhs, Object rhs) {
-                        if ((Integer)lhs > (Integer)rhs){
-                            return 1;
-                        }else if ((Integer)lhs < (Integer)rhs){
-                            return -1;
-                        }else{
-                            return 0;
-                        }
-                    }
-                }
-        );
-        if(listRight!=null){
-            for (UserRight right : listRight){
-                if(!map.containsKey(right.getGroupNum())) {
-                    List<UserRight> item = new ArrayList<>();
-                    item.add(right);
-                    map.put(right.getGroupNum(), item);
-                }else{
-                    map.get(right.getGroupNum()).add(right);
-                }
-            }
-        }
 
-        return map;
-    }*/
-
-
-    private void mockData() {
+    /*private void mockData() {
         UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.ceo_team.toString());
+        item.setMenuCode(MenuCode.my_team.toString());
         item.setMenuName(getString(R.string.team_title));
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
@@ -509,7 +481,7 @@ public class MainActivity extends SlidingActivity {
             groupCount = item.getGroupNum();
         }
 
-    }
+    }*/
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
@@ -559,8 +531,8 @@ public class MainActivity extends SlidingActivity {
                         PublicUtil.showToastErrorData(main);
                     } else {
                         String title = getString(R.string.main_tab_qrcode);
-                        String str = angelQrResult.getOrgName() + "\n"
-                                + angelQrResult.getInventoryName();
+                        String str = LibStringUtil.getStringParamsByFormat("\n",
+                                angelQrResult.getOrgName(), angelQrResult.getInventoryName());
                         DialogUtil.showCodeDialog(main, title, angelQrResult.getQrcode(), str);
                     }
                 } else {
@@ -764,7 +736,7 @@ public class MainActivity extends SlidingActivity {
                startActivity(intent);
            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
                PublicUtil.showMessageService(main);
-           } else if (MenuCode.ceo_team.toString().equals(userRight.getMenuCode())) {
+           } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
                intent = new Intent(main, MyTeamActivity.class);
                startActivity(intent);
            } else if (!StringUtils.isEmpty(userRight.getUrl())) {

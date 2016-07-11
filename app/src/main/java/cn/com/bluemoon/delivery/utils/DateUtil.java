@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.utils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import android.annotation.SuppressLint;
@@ -28,4 +29,9 @@ public class DateUtil extends LibDateUtil{
 	public static String getCurDate(){
 		return getTime(System.currentTimeMillis(), "yyyy-MM-dd");
 	}
+
+	public static long getTimeOffsetMonth(){
+		return getTimeOffsetMonth(-1);
+	}
+
 }

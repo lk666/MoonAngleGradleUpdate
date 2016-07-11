@@ -59,7 +59,6 @@ public class MemberFragment extends BackHandledFragment {
     private List<GroupDetail> items;
     private adapter adapter;
     private CommonProgressDialog progressDialog;
-    private String content = "";
     private View popStart;
 
     public void onAttach(Activity activity) {
@@ -91,16 +90,22 @@ public class MemberFragment extends BackHandledFragment {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pullDown = true;
+                pullUp = false;
+                isRefresh = false;
                 getData();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pullUp = true;
+                pullDown = false;
                 isRefresh = true;
                 getData();
             }
         });
+        pullDown = false;
+        pullUp = false;
+        isRefresh = false;
         getData();
         return rootView;
     }
@@ -112,7 +117,7 @@ public class MemberFragment extends BackHandledFragment {
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getGroupDetailInfo(content, AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY, getGroupDetailInfoHandler);
+        DeliveryApi.getGroupDetailInfo(searchView.getText(), AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY, getGroupDetailInfoHandler);
     }
 
     private void setData(List<GroupDetail> list) {
@@ -136,16 +141,15 @@ public class MemberFragment extends BackHandledFragment {
         } else {
             listview.setAdapter(adapter);
         }
-        pullUp = false;
-        pullDown = false;
-        isRefresh = false;
     }
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
         public void onSearch(String str) {
             searchView.hideHistoryView();
-            content = str;
+            pullDown = false;
+            pullUp = false;
+            isRefresh = false;
             getData();
         }
 
@@ -204,6 +208,8 @@ public class MemberFragment extends BackHandledFragment {
             openRelationInfo(emp,Constants.TYPE_ADD);
         }else if(requestCode == 2&&resultCode == Activity.RESULT_OK){
             isRefresh = true;
+            pullDown = false;
+            pullUp = false;
             getData();
         }
     }
@@ -290,16 +296,10 @@ public class MemberFragment extends BackHandledFragment {
                     setData(groupDetailInfoResult.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(mContext, groupDetailInfoResult);
-                    pullDown = false;
-                    pullUp = false;
-                    isRefresh = false;
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
-                pullDown = false;
-                pullUp = false;
-                isRefresh = false;
             }
 
         }
@@ -312,9 +312,6 @@ public class MemberFragment extends BackHandledFragment {
                 progressDialog.dismiss();
             listview.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
-            pullDown = false;
-            pullUp = false;
-            isRefresh = false;
         }
     };
 
@@ -329,6 +326,8 @@ public class MemberFragment extends BackHandledFragment {
                 if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     PublicUtil.showToast(baseResult.getResponseMsg());
                     isRefresh = true;
+                    pullDown = false;
+                    pullUp = false;
                     getData();
                 } else {
                     PublicUtil.showErrorMsg(mContext, baseResult);

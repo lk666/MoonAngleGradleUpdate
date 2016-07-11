@@ -87,13 +87,13 @@ public class SelectEmpActivity extends Activity {
         }
     };
 
-    private void getData(String content){
-        if(StringUtils.isEmpty(content)){
+    private void getData(){
+        if(StringUtils.isEmpty(searchView.getText())){
             PublicUtil.showToast(getString(R.string.search_cannot_empty));
             return;
         }
         if(progressDialog!=null) progressDialog.show();
-        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), content, getEmpListHandler);
+        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), searchView.getText(), getEmpListHandler);
     }
 
     private void setData(List<Emp> list){
@@ -106,7 +106,7 @@ public class SelectEmpActivity extends Activity {
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
         public void onSearch(String str) {
-            getData(str);
+            getData();
             searchView.hideHistoryView();
         }
 

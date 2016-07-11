@@ -49,12 +49,4 @@
         ptr:ptrHeaderSubTextColor="@color/text_black"
         ptr:ptrHeaderTextColor="@color/text_black" />
 
-    <cn.com.bluemoon.lib.view.CommonSearchView
-        xmlns:search="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/searchview_group"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"
-        search:text_hint="@string/team_group_search_hint" />
-
 </RelativeLayout>

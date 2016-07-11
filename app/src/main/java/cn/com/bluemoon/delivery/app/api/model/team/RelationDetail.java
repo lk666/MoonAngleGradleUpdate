@@ -32,6 +32,7 @@ public class RelationDetail {
     private String workType;
     /** 手机号码 */
     private String mobileNo;
+    public boolean isEdit;
 
     public String getBpCode() {
         return bpCode;

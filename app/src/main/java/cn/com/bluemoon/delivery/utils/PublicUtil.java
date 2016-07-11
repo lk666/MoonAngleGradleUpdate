@@ -50,6 +50,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.card.CardTabActivity;
 import cn.com.bluemoon.delivery.order.OrderDetailActivity;
+import cn.com.bluemoon.delivery.team.SearchActivity;
 import cn.com.bluemoon.delivery.web.WebViewActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -57,6 +58,7 @@ import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
 import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class PublicUtil extends LibPublicUtil {
@@ -624,13 +626,6 @@ public class PublicUtil extends LibPublicUtil {
     }
 
 
-    public static String getStringByLengh(String str, int count) {
-        if (str != null && str.length() > count) {
-            return str.substring(0, count) + "...";
-        }
-        return str;
-    }
-
     public static boolean jsConnect(WebView view, String url, JsConnectCallBack callBack) {
         return JsConnectManager.jsConnect(JsConnectManager.URL_ANGEL, view, url, callBack);
     }
@@ -672,24 +667,8 @@ public class PublicUtil extends LibPublicUtil {
         setEmptyView(listview, emptyView);
     }
 
-    public static String getStringParamsByFormat(String split,String... params){
-        String format = "%1$s"+split+"%2$s";
-        String str = "";
-        if(params==null) return str;
-        for (int i=0;i<params.length;i++){
-            if(!StringUtils.isEmpty(params[i])){
-                if(StringUtils.isEmpty(str)){
-                    str = params[i];
-                }else{
-                    str = String.format(format, str, params[i]);
-                }
-            }
-        }
-        return str;
-    }
-
     public static String getStringParams(String... params){
-        return getStringParamsByFormat("-", params);
+        return LibStringUtil.getStringParamsByFormat("-", params);
     }
 
     public static TextView getPhoneView(final Activity aty,final TextView txtPhone){
@@ -704,6 +683,25 @@ public class PublicUtil extends LibPublicUtil {
             }
         });
         return txtPhone;
+    }
+
+    /**
+     * 跳转搜索页
+     * @param aty
+     * @param fragment 为null时是activity接收返回
+     * @param title
+     * @param key key不能为null
+     * @param requestCode
+     */
+    public static void openSearchView(Activity aty,Fragment fragment,String title,String key,int requestCode){
+        Intent intent = new Intent(aty,SearchActivity.class);
+        intent.putExtra("title",title);
+        intent.putExtra("key", key);
+        if(fragment!=null){
+            fragment.startActivityForResult(intent, requestCode);
+        }else{
+            aty.startActivityForResult(intent, requestCode);
+        }
     }
 
 

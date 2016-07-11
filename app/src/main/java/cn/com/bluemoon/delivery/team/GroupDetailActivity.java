@@ -87,6 +87,8 @@ public class GroupDetailActivity extends KJActivity {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pullDown = true;
+                pullUp = false;
+                isRefresh = false;
                 getData();
             }
 
@@ -94,9 +96,13 @@ public class GroupDetailActivity extends KJActivity {
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pullUp = true;
                 isRefresh = true;
+                pullDown = false;
                 getData();
             }
         });
+        pullDown = false;
+        pullUp = false;
+        isRefresh = false;
         getData();
 
     }
@@ -232,6 +238,8 @@ public class GroupDetailActivity extends KJActivity {
                 if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     PublicUtil.showToast(baseResult.getResponseMsg());
                     isRefresh = true;
+                    pullDown = false;
+                    pullUp = false;
                     getData();
                 } else {
                     PublicUtil.showErrorMsg(aty, baseResult);
@@ -292,6 +300,8 @@ public class GroupDetailActivity extends KJActivity {
             openRelationInfo(emp,Constants.TYPE_ADD);
         }else if(requestCode == 2&&resultCode == Activity.RESULT_OK){
             isRefresh = true;
+            pullDown = false;
+            pullUp = false;
             getData();
         }
     }
@@ -411,6 +421,7 @@ public class GroupDetailActivity extends KJActivity {
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(PublicUtil.isFastDoubleClick(1000)) return;
                     if(v == txtUnlock){
                         unlock(item);
                     }else if(v == txtMember){

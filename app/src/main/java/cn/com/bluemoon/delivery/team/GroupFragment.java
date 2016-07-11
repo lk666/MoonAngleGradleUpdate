@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -41,7 +42,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class GroupFragment extends BackHandledFragment {
+public class GroupFragment extends Fragment {
 
     private MyTeamActivity mContext;
     private String TAG = "GroupFragment";
@@ -50,13 +51,13 @@ public class GroupFragment extends BackHandledFragment {
     private PullToRefreshListView listviewGroup;
     private LinearLayout layoutTitle;
     private GroupAdapter groupAdapter;
-    private CommonSearchView searchView;
     private CommonProgressDialog progressDialog;
     private View rootView;
     private long timestamp = 0;
     private boolean pullUp;
     private boolean pullDown;
     private List<TeamGroup> items;
+    private String content = "";
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -79,9 +80,6 @@ public class GroupFragment extends BackHandledFragment {
         layoutTitle = (LinearLayout) rootView.findViewById(R.id.layout_title);
         PublicUtil.setEmptyView(listviewGroup, getString(R.string.team_group_empty_group), R.mipmap.team_empty_group);
 
-        searchView = (CommonSearchView) rootView.findViewById(R.id.searchview_group);
-        searchView.setSearchViewListener(searchViewListener);
-        searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_GROUP));
 
         progressDialog = new CommonProgressDialog(mContext);
 
@@ -90,24 +88,24 @@ public class GroupFragment extends BackHandledFragment {
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pullDown = true;
                 pullUp = false;
-                getData("");
+                getData();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
                 pullDown = false;
                 pullUp = true;
-                getData("");
+                getData();
             }
         });
         pullUp = false;
         pullDown = false;
-        getData("");
+        getData();
 
         return rootView;
     }
 
-    private void getData(String content) {
+    private void getData() {
         if (!pullUp) {
             timestamp = 0;
         }
@@ -139,7 +137,7 @@ public class GroupFragment extends BackHandledFragment {
             }
         }
         if (groupAdapter == null) {
-            groupAdapter = new GroupAdapter(mContext, R.layout.item_team_group);
+            groupAdapter = new GroupAdapter(R.layout.item_team_group);
         }
         groupAdapter.setList(items);
         if (pullUp) {
@@ -148,22 +146,6 @@ public class GroupFragment extends BackHandledFragment {
             listviewGroup.setAdapter(groupAdapter);
         }
     }
-
-    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
-        @Override
-        public void onSearch(String str) {
-            pullUp = false;
-            pullDown = false;
-            getData(str);
-            searchView.setVisibility(View.GONE);
-        }
-
-        @Override
-        public void onCancel() {
-            searchView.setVisibility(View.GONE);
-        }
-
-    };
 
     AsyncHttpResponseHandler groupListHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
         @Override
@@ -210,11 +192,8 @@ public class GroupFragment extends BackHandledFragment {
 
             @Override
             public void onBtnRight(View v) {
-                if (searchView.getVisibility() == View.GONE) {
-                    searchView.setVisibility(View.VISIBLE);
-                    searchView.setText("");
-                    searchView.showHistoryView();
-                }
+                PublicUtil.openSearchView(mContext,GroupFragment.this,getString(R.string.team_group_title),
+                        ClientStateManager.HISTORY_GROUP,1);
             }
 
             @Override
@@ -233,6 +212,18 @@ public class GroupFragment extends BackHandledFragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1&&Activity.RESULT_OK == resultCode&&data!=null){
+            content = data.getStringExtra(SearchActivity.KEY_RESULT);
+            pullUp = false;
+            pullDown = false;
+            getData();
+        }
+
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(TAG);
@@ -241,12 +232,6 @@ public class GroupFragment extends BackHandledFragment {
     @Override
     public void onStop() {
         super.onStop();
-        if (searchView != null){
-            ClientStateManager.setHistory(searchView.getListHistory(), ClientStateManager.HISTORY_GROUP);
-            if(searchView.getVisibility()==View.VISIBLE){
-                searchView.setVisibility(View.GONE);
-            }
-        }
     }
 
     public void onResume() {
@@ -254,26 +239,15 @@ public class GroupFragment extends BackHandledFragment {
         MobclickAgent.onPageStart(TAG);
     }
 
-    @Override
-    protected boolean onBackPressed() {
-        if(searchView!=null&&searchView.getVisibility()==View.VISIBLE){
-            searchView.setVisibility(View.GONE);
-            return true;
-        }
-        return false;
-    }
-
     class GroupAdapter extends BaseAdapter {
 
         private LayoutInflater mInflater;
-        private Context context;
         private int layoutID;
         private List<TeamGroup> list;
 
-        public GroupAdapter(Context context, int layoutID) {
-            this.mInflater = LayoutInflater.from(context);
+        public GroupAdapter(int layoutID) {
+            this.mInflater = LayoutInflater.from(mContext);
             this.layoutID = layoutID;
-            this.context = context;
         }
 
         public void setList(List<TeamGroup> list) {

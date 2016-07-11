@@ -270,14 +270,20 @@
             android:name=".team.PersonnelAreaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
-        <activity android:name=".team.SelectAreaActivity"
+        <activity
+            android:name=".team.SelectAreaActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-
-        <activity android:name=".team.CommonSelectActivity"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".team.CommonSelectActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name=".team.SearchActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan"/>
 
         <service android:name=".card.LocationSvc" />
 

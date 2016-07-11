@@ -77,6 +77,8 @@ public class RelationInfoActivity extends KJActivity {
     private View imgRight1;
     @BindView(id = R.id.img_right2)
     private View imgRight2;
+    @BindView(id = R.id.img_right3)
+    private View imgRight3;
     @BindView(id = R.id.layout_group)
     private LinearLayout layoutGroup;
     @BindView(id = R.id.layout_work_lengh)
@@ -161,6 +163,13 @@ public class RelationInfoActivity extends KJActivity {
                 item.setEndDate(date);
             }
         }
+
+        @Override
+        public boolean cancelClick(View view) {
+            return false;
+        }
+
+
     };
 
     @Override
@@ -210,6 +219,10 @@ public class RelationInfoActivity extends KJActivity {
         } else {
             txtType.setText(getString(R.string.team_community));
         }
+        if(!item.isEdit){
+            txtStartDate.setClickable(false);
+            imgRight3.setVisibility(View.INVISIBLE);
+        }
         txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
         if (StringUtils.isEmpty(item.getChargeName())) {
             txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
@@ -243,6 +256,14 @@ public class RelationInfoActivity extends KJActivity {
         }
         if (item.getStartDate() == 0) {
             PublicUtil.showToast("开始时间不能为空");
+            return;
+        }
+        if(item.getStartDate()<DateUtil.getTimeOffsetMonth()){
+            PublicUtil.showToast("开始时间不能早于一个月前");
+            return;
+        }
+        if (item.getEndDate()>0&&item.getStartDate()>item.getEndDate()) {
+            PublicUtil.showToast("结束时间不能早于开始时间");
             return;
         }
         if (StringUtils.isEmpty(item.getWorkType())) {
