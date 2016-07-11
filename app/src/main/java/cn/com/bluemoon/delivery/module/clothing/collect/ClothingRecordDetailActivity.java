@@ -188,16 +188,14 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                 record.getStreet(),
                 record.getAddress()));
         txtTotalMoney.setText(StringUtil.formatPriceByFen(record.getPayTotal()));
-
-        String brcode = record.getCollectBrcode();
-        if (TextUtils.isEmpty(brcode)) {
-            txtScanCode.setText(getString(R.string.text_empty));
-        } else {
-            txtScanCode.setText(brcode);
-        }
-
         if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
 
+            String brcode = record.getCollectBrcode();
+            if (TextUtils.isEmpty(brcode)) {
+                txtScanCode.setText(getString(R.string.text_empty));
+            } else {
+                txtScanCode.setText(brcode);
+            }
             txtOutCode.setText(record.getOuterCode());
             txtNeed.setText(String.valueOf(record.getReceivableTotal()));
             if (null != record.getOrderDetail() && record.getOrderDetail().size() > 0) {
@@ -208,7 +206,9 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
             }
             txtActual.setText(String.valueOf(record.getCollectOrderDetail().size()));
         } else {
+            txtScanLab.setVisibility(View.GONE);
             txtNeedLab.setVisibility(View.GONE);
+
             txtOutCode.setText(record.getActivityName());
             txtActual.setText(String.valueOf(record.getActualCount()));
         }

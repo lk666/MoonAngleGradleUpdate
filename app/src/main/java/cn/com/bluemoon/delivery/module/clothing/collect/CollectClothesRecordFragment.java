@@ -208,13 +208,14 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
             TextView txtActivityName = ViewHolder.get(convertView, R.id.txt_activity_name);
             View div = ViewHolder.get(convertView, R.id.div);
 
-            if (StringUtil.isEmpty(order.getCollectBrcode())) {
-                txtScanBarCode.setText(getString(R.string.text_empty));
-            } else {
-                txtScanBarCode.setText(order.getCollectBrcode());
-            }
-
             if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
+                txtScan.setVisibility(View.VISIBLE);
+                txtScanBarCode.setVisibility(View.VISIBLE);
+                if (StringUtil.isEmpty(order.getCollectBrcode())) {
+                    txtScanBarCode.setText(getString(R.string.text_empty));
+                } else {
+                    txtScanBarCode.setText(order.getCollectBrcode());
+                }
                 txtActivityName.setVisibility(View.GONE);
                 txtCollectNum.setText(order.getCollectCode());
                 txtUserName.setText(order.getReceiveName());
@@ -223,6 +224,8 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                 layoutFooter.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
                 txtDispatchId.setVisibility(View.GONE);
                 txtActivityName.setText(order.getActivityName());
+                txtScan.setVisibility(View.GONE);
+                txtScanBarCode.setVisibility(View.GONE);
                 txtCollectNum.setText(DateUtil.getTime(order.getOpTime(), "yyyy/MM/dd HH:mm"));
                 txtUserName.setText(order.getCustomerName());
                 txtUserPhone.setText(order.getCustomerPhone());
