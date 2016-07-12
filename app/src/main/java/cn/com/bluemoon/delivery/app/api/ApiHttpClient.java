@@ -30,7 +30,7 @@ public class ApiHttpClient {
 		if (BuildConfig.RELEASE) {
 			HOST = "angel.bluemoon.com.cn";
 			API_URL = "http://angel.bluemoon.com.cn/%s";
-			CLOTHING_URL="http://angelapi.bluemoon.com.cn/%s";
+			CLOTHING_URL="http://angel.bluemoon.com.cn/%s";
 			PUNCH_DETAILDS_DOMAIN = "http://mallapi.bluemoon.com.cn/%s";
 		} else {
 			HOST = "angelapi.bluemoon.com.cn"; // angelapi.bluemoon.com.cn
