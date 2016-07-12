@@ -110,6 +110,7 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
                     showDatePickerDialog();
                 }
             });
+            etStatus.setVisibility(View.VISIBLE);
             btnSave.setVisibility(View.VISIBLE);
             txtStar.setVisibility(View.VISIBLE);
             txtStar2.setVisibility(View.VISIBLE);

@@ -10,6 +10,15 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
  */
 public class ResultBpList extends ResultBase implements Serializable{
     private List<Item> itemList;
+    private long timestamp;
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
 
     public List<Item> getItemList() {
         return itemList;

@@ -24,12 +24,16 @@ import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
+import cn.com.bluemoon.delivery.app.api.model.card.Workplace;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -38,6 +42,8 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -48,17 +54,24 @@ public class PromoteActivity extends Activity{
 
     private String TAG = "PromoteActivity";
     private CommonProgressDialog progressDialog;
-    private List<ResultPromoteList.Item> items;
-    private ListView listview;
+    private List<ResultPromoteList.Item> items = new ArrayList<>();
+    private PullToRefreshListView listview;
+    private PromoteAdapter adapter;
     private CommonSearchView searchView;
     private long timestamp;
+    private boolean isPullUp;
+    private boolean isPullDown;
+    private String searchKey = "";
+    private int index;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_promote);
         initCustomActionBar();
-        listview = (ListView) findViewById(R.id.listview_promote);
+        listview = (PullToRefreshListView) findViewById(R.id.listview_promote);
+        adapter = new PromoteAdapter(this);
+        listview.setAdapter(adapter);
         searchView = (CommonSearchView) findViewById(R.id.search_view);
         progressDialog = new CommonProgressDialog(this);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.PROMOTE_KEY));
@@ -66,18 +79,68 @@ public class PromoteActivity extends Activity{
         searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
             @Override
             public void onSearch(String str) {
-                PublicUtil.showToast("search key=" + str);
+                searchKey = str;
                 searchView.hideHistoryView();
+                DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
             }
 
             @Override
             public void onCancel() {
                 searchView.hideHistoryView();
+                searchKey = "";
             }
         });
-        progressDialog.show();
-        DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(this), "", 0, getPromoteListHandler);
+
+        listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                isPullDown = true;
+                isPullUp = false;
+                getList();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                isPullDown = false;
+                isPullUp = true;
+                getList();
+            }
+        });
+        getList();
     }
+
+    private void getList(){
+        if(!isPullUp){
+            timestamp = 0;
+        }
+        if(!isPullUp&&!isPullDown&&progressDialog!=null){
+            progressDialog.show();
+        }
+        DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(this), searchKey, timestamp, getPromoteListHandler);
+    }
+
+    private void setData(List<ResultPromoteList.Item> itemList){
+
+        if(itemList == null||itemList.size()==0){
+            if(isPullUp){
+                PublicUtil.showToast(R.string.card_no_list_data);
+                return;
+            } else {
+                items.clear();
+            }
+        }else{
+            if(isPullUp){
+                items.addAll(itemList);
+            }else{
+                items.clear();
+                items.addAll(itemList);
+            }
+        }
+        isPullUp = false;
+        isPullDown = false;
+        adapter.notifyDataSetChanged();
+    }
+
 
     @Override
     protected void onDestroy() {
@@ -96,16 +159,15 @@ public class PromoteActivity extends Activity{
                 ResultPromoteList result = JSON.parseObject(responseString,
                         ResultPromoteList.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    items = result.getItemList();
-                    if (items != null) {
-                        PromoteAdapter adapter = new PromoteAdapter(PromoteActivity.this);
-                        listview.setAdapter(adapter);
-                    }
+                    timestamp = result.getTimestamp();
+                    setData(result.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(PromoteActivity.this, result);
                 }
             } catch (Exception e) {
                 PublicUtil.showToastServerBusy();
+            } finally {
+                listview.onRefreshComplete();
             }
         }
 
@@ -115,6 +177,7 @@ public class PromoteActivity extends Activity{
             LogUtils.d("test", "getPromoteListHandler result failed. statusCode="
                     + statusCode);
             progressDialog.dismiss();
+            listview.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
         }
     };
@@ -186,10 +249,11 @@ public class PromoteActivity extends Activity{
             txtEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    index = position;
                     Intent intent = new Intent(PromoteActivity.this, AddPromoteActivity.class);
                     intent.putExtra("bpCode", item.getBpCode());
                     intent.putExtra("isEdit", true);
-                    startActivityForResult(intent, 1);
+                    startActivityForResult(intent, 2);
                 }
             });
             layoutCommunity.setOnClickListener(new View.OnClickListener() {
@@ -213,6 +277,38 @@ public class PromoteActivity extends Activity{
         super.onPause();
 
         MobclickAgent.onPageEnd(TAG);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1) {
+            if (requestCode == 1) {
+                progressDialog.show();
+                searchView.setText("");
+                searchView.setFocus(false);
+                searchView.hideHistoryView();
+                searchKey = "";
+                timestamp = 0;
+                DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(this), searchKey, timestamp, getPromoteListHandler);
+            } else if (requestCode == 2) {
+                if (data != null) {
+                    PromoteInfo info = (PromoteInfo)data.getSerializableExtra("promote");
+                    ResultPromoteList.Item item = items.get(index);
+                    item.setWorkPrice(info.getWorkPrice());
+                    item.setHolidayPrice(info.getHolidayPrice());
+                    if ("inDoor".equals(info.getSiteType())) {
+                        item.setSiteTypeName(getString(R.string.add_promote_indoor));
+                    } else {
+                        item.setSiteTypeName(getString(R.string.add_promote_outdoor));
+                    }
+                    item.setUseArea(info.getUseArea());
+                    items.set(index, item);
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+        }
     }
 
     private void initCustomActionBar() {

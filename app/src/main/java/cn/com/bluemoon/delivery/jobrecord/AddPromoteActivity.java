@@ -1,10 +1,12 @@
 package cn.com.bluemoon.delivery.jobrecord;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +54,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.TextWatcherUtils;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
@@ -82,6 +85,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private ImageView imgAddFlow;
     private LinearLayout layoutOtherFee;
     private LinearLayout layoutCommunitySelect;
+    private ImageView imgRight;
     private TextView txtBpname;
     private GridView gridView;
     private ListView listview;
@@ -98,8 +102,10 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private String inOrOut;
     private List<ImageInfo> imgIds = new ArrayList<>();
     private PromoteInfo info;
+    private PromoteInfo oldInfo;
     private boolean isEdit;
     private KJBitmap kjBitmap = new KJBitmap();
+    private boolean isModify;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -127,6 +133,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         listview = (ListView) findViewById(R.id.listview_people_flow);
         layoutOtherFee = (LinearLayout) findViewById(R.id.layout_other_fee);
         layoutCommunitySelect = (LinearLayout) findViewById(R.id.layout_community_select);
+        imgRight = (ImageView) findViewById(R.id.img_community_right);
         gridView = (GridView) findViewById(R.id.gridview_img);
         txtBpname = (TextView) findViewById(R.id.txt_bpname);
         layoutRentHeight = AnimationUtils.getTargetHeight(layoutRent);
@@ -188,15 +195,17 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 }
             }
         });
+        if (!isEdit) {
+            layoutCommunitySelect.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(AddPromoteActivity.this, CommunitySelectActivity.class);
+                    intent.putExtra("bpCode", bpCode);
+                    startActivityForResult(intent, 2);
+                }
+            });
+        }
 
-        layoutCommunitySelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(AddPromoteActivity.this, CommunitySelectActivity.class);
-                intent.putExtra("bpCode", bpCode);
-                startActivityForResult(intent, 2);
-            }
-        });
 
         Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.mipmap.icon_add_picture);
         ImageInfo image = new ImageInfo();
@@ -248,6 +257,11 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     if (StringUtils.isNotBlank(otherFee)) {
                         info.setRemark(otherFee);
                     }
+                } else {
+                    info.setWorkPrice(0);
+                    info.setHolidayPrice(0);
+                    info.setCashPledge(0);
+                    info.setRemark("");
                 }
                 info.setWifi(cbWifi.isChecked());
                 info.setWiredNetwork(cbNetWork.isChecked());
@@ -280,9 +294,11 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         });
 
         if (isEdit) {
+            imgRight.setVisibility(View.GONE);
             progressDialog.show();
             DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), getIntent().getStringExtra("bpCode"), getPromoteInfoHandler );
         } else {
+            layoutCommunitySelect.setBackgroundResource(R.drawable.btn_white);
             info = new PromoteInfo();
         }
     }
@@ -299,6 +315,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                         ResultPromoteInfo.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     info = result.getPromoteInfo();
+                    oldInfo = result.getPromoteInfo();
                     bpCode = info.getBpCode2();
                     bpName = info.getBpName2();
                     info.setBpCode1(bpCode);
@@ -414,10 +431,18 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             try {
+                LogUtils.d(responseString);
                 ResultBase result = JSON.parseObject(responseString, ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     progressDialog.dismiss();
                     PublicUtil.showToast(result.getResponseMsg());
+                    Intent data = new Intent();
+                    if (isEdit) {
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("promote", info);
+                        data.putExtras(bundle);
+                    }
+                    setResult(1, data);
                     finish();
                 } else {
                     btnOk.setEnabled(true);
@@ -449,16 +474,19 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1) {
             if (data != null && resultCode == 1) {
+                isModify = true;
                 PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
                 peopleFlow.setRecordStatus("add");
                 flows.add(peopleFlow);
             } else if (data != null && resultCode == 2) {
                 PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
                 if (StringUtils.isNotBlank(peopleFlow.getFlowId())) {
+                    isModify = true;
                     peopleFlow.setRecordStatus("edit");
                 }
                 flows.set(index, peopleFlow);
             } else if (resultCode == 3) {
+                isModify = true;
                 PeopleFlow flow = flows.get(index);
                 flow.setRecordStatus("delete");
                 deleteFlows.add(flow);
@@ -488,6 +516,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     break;
             }
             if (bm != null) {
+                isModify = true;
                 ImageInfo image = new ImageInfo();
                 image.setBitmap(bm);
                 images.add(image);
@@ -527,7 +556,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
 
             @Override
             public void onBtnLeft(View v) {
-                finish();
+                showNotSaveDialog();
             }
         });
 
@@ -609,6 +638,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             imgDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    isModify = true;
                     images.remove(position);
                     imageAdapter.notifyDataSetChanged();
                 }
@@ -676,5 +706,54 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             return convertView;
         }
 
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            showNotSaveDialog();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    private void showNotSaveDialog() {
+        if (isChangeParams()) {
+            new CommonAlertDialog.Builder(AddPromoteActivity.this).setMessage(getString(R.string.promote_not_save)).
+                    setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    }).setPositiveButton(R.string.btn_cancel, null).show();
+        } else {
+            finish();
+        }
+
+
+    }
+    private boolean isChangeParams() {
+        String bpName = txtBpname.getText().toString();
+        String place = etPromotePlace.getText().toString();
+        String userArea = etArea.getText().toString();
+        //inorout
+        boolean isCheck = cbRent.isChecked();
+        boolean isCheck1 = cbNetWork.isChecked();
+        boolean isCheck2 = cbWifi.isChecked();
+        if (!isEdit) {
+            if (StringUtils.isNotBlank(bpName) || StringUtils.isNotBlank(place) || StringUtils.isNotBlank(userArea) || StringUtils.isNotBlank(inOrOut)
+                    || isCheck || isCheck1 || isCheck2 || images.size() > 1 || flows.size() > 0) {
+                return true;
+            }
+        } else {
+            if (oldInfo != null) {
+                if ((bpCode != null && !bpCode.equals(oldInfo.getBpCode2())) || !place.equals(oldInfo.getAddress()) || Double.valueOf(userArea) != oldInfo.getUseArea()
+                        || !inOrOut.equals(oldInfo.getSiteType()) || isCheck != oldInfo.getRentInfo() || isCheck1 != oldInfo.getWiredNetwork()
+                        || isCheck2 != oldInfo.getWifi() || isModify) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

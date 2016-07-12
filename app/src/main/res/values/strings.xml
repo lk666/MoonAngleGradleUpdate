@@ -635,6 +635,7 @@
     <string name="promote_add_title">新增推广点</string>
     <string name="promote_edit_title">编辑推广点</string>
     <string name="promote_detail_title">推广点详情</string>
+    <string name="promote_not_save">您的信息还没保存，确定不保存吗？</string>
     <string name="promote_date_txt">%1$s，%2$s</string>
     <string name="promote_time_txt">%1$s-%2$s，%3$s (人)</string>
     <string name="people_flow_add_title">新增测试</string>

@@ -436,9 +436,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    if(!BuildConfig.RELEASE){
+                    /*if(!BuildConfig.RELEASE){
                         mockData();
-                    }
+                    }*/
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),getAmountHandler);
                 } else {
@@ -758,6 +758,9 @@ public class MainActivity extends SlidingActivity {
                startActivity(intent);
            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
                PublicUtil.showMessageService(main);
+           } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
+               intent = new Intent(main, PromoteActivity.class);
+               startActivity(intent);
            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
                PublicUtil.openWebView(main, userRight.getUrl()
                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
@@ -766,10 +769,7 @@ public class MainActivity extends SlidingActivity {
 
            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
-           }else if ("sfa".equals(userRight.getMenuCode())) {
-               intent = new Intent(main, PromoteActivity.class);
-               startActivity(intent);
-           }else{
+           } else{
                PublicUtil.showToast(getString(R.string.main_tab_no_data));
            }
        } catch (Exception ex) {

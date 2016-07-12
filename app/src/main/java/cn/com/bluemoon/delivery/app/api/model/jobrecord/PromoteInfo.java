@@ -1,11 +1,12 @@
 package cn.com.bluemoon.delivery.app.api.model.jobrecord;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by Administrator on 2016/7/6.
  */
-public class PromoteInfo {
+public class PromoteInfo implements Serializable{
 
     private String address;
     private String bpCode;

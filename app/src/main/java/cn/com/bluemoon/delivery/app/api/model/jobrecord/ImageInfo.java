@@ -2,10 +2,12 @@ package cn.com.bluemoon.delivery.app.api.model.jobrecord;
 
 import android.graphics.Bitmap;
 
+import java.io.Serializable;
+
 /**
  * Created by LIANGJIANGLI on 2016/7/1.
  */
-public class ImageInfo {
+public class ImageInfo implements Serializable {
     private long fileid = -1;
 
     public long getFileid() {

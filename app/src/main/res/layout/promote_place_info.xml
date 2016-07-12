@@ -15,7 +15,6 @@
         android:id="@+id/layout_community_select"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        android:background="@drawable/btn_white"
         android:orientation="horizontal">
 
         <TextView
@@ -49,6 +48,7 @@
             android:textSize="15sp" />
 
         <ImageView
+            android:id="@+id/img_community_right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginRight="10dp"

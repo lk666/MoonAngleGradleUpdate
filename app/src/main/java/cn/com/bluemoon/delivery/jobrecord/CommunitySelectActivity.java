@@ -24,6 +24,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
@@ -37,7 +38,10 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.lib.view.CommonSearchView;
 
 /**
  * Created by LIANGJIANGLI on 2016/7/1.
@@ -46,16 +50,25 @@ public class CommunitySelectActivity extends Activity{
 
     private String TAG = "CommunitySelectActivity";
     private CommonProgressDialog progressDialog;
-    private List<ResultBpList.Item> items;
-    private ListView listview;
+    private List<ResultBpList.Item> items = new ArrayList<>();
+    private PullToRefreshListView listview;
     private CommunityAdapter adapter;
+    private CommonSearchView searchView;
+    private long timestamp;
+    private boolean isPullUp;
+    private boolean isPullDown;
+    private String searchKey = "";
     private String bpCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_community);
-        listview = (ListView) findViewById(R.id.listview_community);
+        initCustomActionBar();
+        listview = (PullToRefreshListView) findViewById(R.id.listview_community);
+        adapter = new CommunityAdapter(this);
+        listview.setAdapter(adapter);
+        searchView = (CommonSearchView) findViewById(R.id.search_view);
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         progressDialog = new CommonProgressDialog(this);
         bpCode = getIntent().getStringExtra("bpCode");
@@ -85,9 +98,77 @@ public class CommunitySelectActivity extends Activity{
             }
         });
 
-        initCustomActionBar();
-        progressDialog.show();
-        DeliveryApi.getBpList(ClientStateManager.getLoginToken(this), "", 0, getBpListHandler);
+        searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.COMMUNITY_KEY));
+        searchView.hideHistoryView();
+        searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
+            @Override
+            public void onSearch(String str) {
+                searchKey = str;
+                searchView.hideHistoryView();
+                DeliveryApi.getBpList(ClientStateManager.getLoginToken(CommunitySelectActivity.this), searchKey, 0, getBpListHandler);
+            }
+
+            @Override
+            public void onCancel() {
+                searchView.hideHistoryView();
+                searchKey = "";
+            }
+        });
+
+        listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
+                isPullDown = true;
+                isPullUp = false;
+                getList();
+            }
+
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
+                isPullDown = false;
+                isPullUp = true;
+                getList();
+            }
+        });
+        getList();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ClientStateManager.setHistory(searchView.getListHistory(),ClientStateManager.COMMUNITY_KEY);
+    }
+
+    private void getList(){
+        if(!isPullUp){
+            timestamp = 0;
+        }
+        if(!isPullUp&&!isPullDown&&progressDialog!=null){
+            progressDialog.show();
+        }
+        DeliveryApi.getBpList(ClientStateManager.getLoginToken(this), searchKey, timestamp, getBpListHandler);
+    }
+
+    private void setData(List<ResultBpList.Item> itemList){
+
+        if(itemList == null||itemList.size()==0){
+            if(isPullUp){
+                PublicUtil.showToast(R.string.card_no_list_data);
+                return;
+            } else {
+                items.clear();
+            }
+        }else{
+            if(isPullUp){
+                items.addAll(itemList);
+            }else{
+                items.clear();
+                items.addAll(itemList);
+            }
+        }
+        isPullUp = false;
+        isPullDown = false;
+        adapter.notifyDataSetChanged();
     }
 
     AsyncHttpResponseHandler getBpListHandler = new TextHttpResponseHandler() {
@@ -101,27 +182,26 @@ public class CommunitySelectActivity extends Activity{
                 ResultBpList result = JSON.parseObject(responseString,
                         ResultBpList.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    items = result.getItemList();
-                    if (StringUtils.isNotBlank(bpCode) && items.size() > 0) {
-                        for (int i = 0; i < items.size(); i++) {
-                            ResultBpList.Item item = items.get(i);
+                    if (StringUtils.isNotBlank(bpCode) && result.getItemList().size() > 0) {
+                        for (int i = 0; i < result.getItemList().size(); i++) {
+                            ResultBpList.Item item = result.getItemList().get(i);
                             if (bpCode.equals(item.getBpCode())) {
                                 item.setSelect(true);
-                                items.set(i, item);
+                                result.getItemList().set(i, item);
                                 bpCode = null;
                                 break;
                             }
                         }
                     }
-                    if (items != null && items.size() > 0) {
-                        adapter = new CommunityAdapter(CommunitySelectActivity.this);
-                        listview.setAdapter(adapter);
-                    }
+                    timestamp = result.getTimestamp();
+                    setData(result.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(CommunitySelectActivity.this, result);
                 }
             } catch (Exception e) {
                 PublicUtil.showToastServerBusy();
+            } finally {
+                listview.onRefreshComplete();
             }
         }
 
@@ -131,6 +211,7 @@ public class CommunitySelectActivity extends Activity{
             LogUtils.d("test", "getBpListHandler result failed. statusCode="
                     + statusCode);
             progressDialog.dismiss();
+            listview.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
         }
     };

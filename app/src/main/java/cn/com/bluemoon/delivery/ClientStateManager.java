@@ -39,6 +39,7 @@ public class ClientStateManager {
 	private static final String LONGITUDE="LONGITUDE";
 	private static final String ALTITUDE="ALTITUDE";
 	public static final String PROMOTE_KEY="PROMOTE_KEY";
+	public static final String COMMUNITY_KEY="COMMUNITY_KEY";
 
 	public static void clearData(Context context)
 	{
