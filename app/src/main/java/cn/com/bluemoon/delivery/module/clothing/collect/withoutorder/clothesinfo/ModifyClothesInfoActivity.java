@@ -392,6 +392,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         isInited = true;
     }
 
+
     private void setClothesNameSelected(ClothesNameView nameView) {
         if (nameView == null) {
             selectedNameView = null;
