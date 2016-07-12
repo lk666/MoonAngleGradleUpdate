@@ -48,6 +48,7 @@ import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
+import cn.com.bluemoon.delivery.jobrecord.PromoteActivity;
 import cn.com.bluemoon.delivery.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.notice.MessageListActivity;
@@ -430,9 +431,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    if(!BuildConfig.RELEASE){
+                    /*if(!BuildConfig.RELEASE){
                         mockData();
-                    }
+                    }*/
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),getAmountHandler);
                 } else {
@@ -487,16 +488,16 @@ public class MainActivity extends SlidingActivity {
 
 
     private void mockData() {
-        /*UserRight item = new UserRight();
+        UserRight item = new UserRight();
         item.setMenuCode("sfa");
-        item.setMenuName("sfa");
-        item.setUrl("http://www.runoob.com/try/try.php?filename=tryjsref_oninput");
+        item.setMenuName("作业点档案");
+        //item.setUrl("http://www.runoob.com/try/try.php?filename=tryjsref_oninput");
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
         if(item.getGroupNum()>groupCount) {
             groupCount = item.getGroupNum();
-        }*/
+        }
 
 //        UserRight item = new UserRight();
 //        item.setMenuCode(MenuCode.mall_erp_clothing_collect_normal.toString());
@@ -766,6 +767,9 @@ public class MainActivity extends SlidingActivity {
                startActivity(intent);
            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
                PublicUtil.showMessageService(main);
+           } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
+               intent = new Intent(main, PromoteActivity.class);
+               startActivity(intent);
            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
                PublicUtil.openWebView(main, userRight.getUrl()
                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")

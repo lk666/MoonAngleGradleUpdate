@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultWorkPlaceList;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
@@ -37,7 +38,9 @@ public class ClientStateManager {
 	private static final String LATITUDE="LATITUDE";
 	private static final String LONGITUDE="LONGITUDE";
 	private static final String ALTITUDE="ALTITUDE";
-	
+	public static final String PROMOTE_KEY="PROMOTE_KEY";
+	public static final String COMMUNITY_KEY="COMMUNITY_KEY";
+
 	public static void clearData(Context context)
 	{
 		ClientStateManager.setLoginToken(context, "");
@@ -319,4 +322,41 @@ public class ClientStateManager {
 		}
 		return true;
 	}
+
+	public static List<String> getHistory(String key) {
+
+		List<String> list = new ArrayList<>();
+		try {
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
+			String str = pref.getString(key, "");
+			if(!StringUtils.isEmpty(str)){
+				String[] strs = str.split(",");
+				for (String s :strs){
+					list.add(s);
+				}
+			}
+		}catch (Exception e){
+			LogUtils.e("ClientStateManager", e.getMessage());
+		}
+		return list;
+	}
+
+	public static boolean setHistory(List<String> list,String key) {
+		if(list==null) return false;
+		try {
+			String result = "";
+			for (String str : list){
+				result += str + ",";
+			}
+			if(result.length()>0){
+				result.substring(0,result.length()-1);
+			}
+			SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
+			pref.edit().putString(key, result).commit();
+		} catch (Exception e) {
+			return false;
+		}
+		return true;
+	}
+
 }

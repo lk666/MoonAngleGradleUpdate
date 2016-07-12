@@ -39,6 +39,8 @@
 
     <dimen name="linepaddingtxt">0dp</dimen>
     <dimen name="linepaddingtxt2">0dp</dimen>
+    <dimen name="linepaddingtxt3">5dp</dimen>
+    <dimen name="linepaddingtxt4">5dp</dimen>
     <dimen name="text_margin">16dp</dimen>
 
     <dimen name="slidingmenu_offset">100dp</dimen>
