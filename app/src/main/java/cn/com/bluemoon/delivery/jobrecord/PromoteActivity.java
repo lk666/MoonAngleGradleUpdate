@@ -44,6 +44,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -72,6 +73,15 @@ public class PromoteActivity extends Activity{
         listview = (PullToRefreshListView) findViewById(R.id.listview_promote);
         adapter = new PromoteAdapter(this);
         listview.setAdapter(adapter);
+        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
+                getString(R.string.promote_record_title)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                isPullDown = false;
+                isPullUp = false;
+                getList();
+            }
+        });
         searchView = (CommonSearchView) findViewById(R.id.search_view);
         progressDialog = new CommonProgressDialog(this);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.PROMOTE_KEY));

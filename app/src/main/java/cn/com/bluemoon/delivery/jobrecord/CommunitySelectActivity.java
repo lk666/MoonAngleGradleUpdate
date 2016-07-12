@@ -40,6 +40,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -68,6 +69,15 @@ public class CommunitySelectActivity extends Activity{
         listview = (PullToRefreshListView) findViewById(R.id.listview_community);
         adapter = new CommunityAdapter(this);
         listview.setAdapter(adapter);
+        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
+                getString(R.string.community_title)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                isPullDown = false;
+                isPullUp = false;
+                getList();
+            }
+        });
         searchView = (CommonSearchView) findViewById(R.id.search_view);
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         progressDialog = new CommonProgressDialog(this);

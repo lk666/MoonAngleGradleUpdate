@@ -682,11 +682,11 @@ public class PublicUtil extends LibPublicUtil{
             emptyView.setEmptyListener(listener);
         }
         ((ViewGroup) listview.getParent()).addView(emptyView);
-        try{
-            ((PullToRefreshListView)listview).setEmptyView(emptyView);
-        }catch (Exception e){
-            ((ListView)listview).setEmptyView(emptyView);
-        }
+		if (listview instanceof PullToRefreshListView) {
+			((PullToRefreshListView)listview).setEmptyView(emptyView);
+		} else if (listview instanceof ListView) {
+			((ListView)listview).setEmptyView(emptyView);
+		}
     }
 
     public static void setEmptyView(View listview,String content) {
