@@ -1,21 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/ptrsv"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="cn.com.bluemoon.delivery.module.base.RefreshableActivity">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              xmlns:ptr="http://schemas.android.com/apk/res-auto"
+              android:background="@color/white_bg"
+              android:orientation="vertical"
+              tools:context="cn.com.bluemoon.delivery.module.base.RefreshableActivity">
 
-    <LinearLayout
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView
+        android:id="@+id/ptrsv"
+        ptr:ptrAnimationStyle="flip"
+        android:scrollbars="none"
+        ptr:ptrMode="pullFromStart"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <ImageView
-            android:id="@+id/iv_content"
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:src="@mipmap/icon_emp"/>
-    </LinearLayout>
-</cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView>
+            android:layout_height="match_parent">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="asdasdsadasd"/>
+        </RelativeLayout>
+    </cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView>
+
+</LinearLayout>

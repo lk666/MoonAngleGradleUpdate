@@ -59,14 +59,6 @@ public class ActivityDetailActivity extends BaseActionBarActivity {
     private void initView(ResultActivityDesc desc){
          txtActivityName.setText(desc.getActivityName());
         txtActivityDesc.setText(desc.getActivityDesc());
-
-        txtActivityName.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i = new Intent(ActivityDetailActivity.this, RefreshableActivity.class);
-                startActivity(i);
-            }
-        });
     }
     public static void actionStart(Context context, String activityCode) {
         Intent intent = new Intent(context, ActivityDetailActivity.class);

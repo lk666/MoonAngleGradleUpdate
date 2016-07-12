@@ -43,9 +43,9 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
 
     @Override
     protected void onDestroy() {
+        super.onDestroy();
         dismissProgressDialog();
         ActivityManager.getInstance().popOneActivity(this);
-        super.onDestroy();
     }
 
     @Override
