@@ -22,7 +22,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE&&msg!=null)
         {
-            Log.e(TAG, msg);
+            Log.e(tag, msg);
         }
     }
     
@@ -30,7 +30,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE&&msg!=null)
         {
-            Log.e(TAG, msg, throwable);
+            Log.e(tag, msg, throwable);
         }
     }
     
@@ -46,7 +46,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE&&msg!=null)
         {
-            Log.i(TAG, msg);
+            Log.i(tag, msg);
         }
     }
     
@@ -54,7 +54,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE&&msg!=null)
         {
-            Log.i(TAG, msg, throwable);
+            Log.i(tag, msg, throwable);
         }
     }
     
@@ -62,7 +62,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE&&msg!=null)
         {
-            Log.d(TAG, msg );
+            Log.d(tag, msg );
         }
     }
     
@@ -84,7 +84,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE&&msg!=null)
         {
-            Log.v(TAG, msg);
+            Log.v(tag, msg);
         }
     }
     
@@ -92,7 +92,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE&&msg!=null)
         {
-            Log.e(TAG, msg);
+            Log.e(tag, msg);
         }
     }
     
@@ -108,7 +108,7 @@ public class LogUtils {
     {
         if (!BuildConfig.RELEASE)
         {
-            Log.w(TAG, throwable);
+            Log.w(tag, throwable);
         }
     }
 }
