@@ -286,7 +286,7 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.ClothingBookInActivity"
+            android:name=".module.clothing.collect.withorder.ClothingBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>

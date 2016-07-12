@@ -36,6 +36,7 @@ public class RefreshableActivity extends BaseActionBarActivity {
 
             }
         });
+
     }
 
     private void getData() {

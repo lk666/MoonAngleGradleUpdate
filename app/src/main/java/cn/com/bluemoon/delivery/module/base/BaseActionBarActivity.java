@@ -23,7 +23,7 @@ public abstract class BaseActionBarActivity extends BaseActivity {
 
     // TODO: lk 2016/7/6 事件定义不灵活
     protected void initCustomActionBar() {
-        new CommonActionBar(getActionBar(), new IActionBarListener() {
+        CommonActionBar titleBar = new CommonActionBar(getActionBar(), new IActionBarListener() {
 
             @Override
             public void onBtnRight(View v) {
@@ -41,6 +41,15 @@ public abstract class BaseActionBarActivity extends BaseActivity {
             }
 
         });
+
+        setActionBar(titleBar);
+    }
+
+    /**
+     * 设置标题栏其他属性，如右边按钮的图片等
+     */
+    protected void setActionBar(CommonActionBar titleBar) {
+
     }
 
     /**

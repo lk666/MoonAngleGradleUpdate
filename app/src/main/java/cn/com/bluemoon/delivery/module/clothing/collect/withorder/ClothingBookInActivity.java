@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.clothing.collect;
+package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
 import android.app.Activity;
 import android.content.DialogInterface;
@@ -40,7 +40,9 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCollectInfo
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClothesCode;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.AddPhotoAdapter;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;

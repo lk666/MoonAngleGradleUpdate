@@ -47,6 +47,7 @@ import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
+import cn.com.bluemoon.delivery.module.base.RefreshableActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
@@ -127,7 +128,9 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-                mMenu.showMenu(!mMenu.isMenuShowing());
+                // mMenu.showMenu(!mMenu.isMenuShowing());
+                Intent i = new Intent(MainActivity.this, RefreshableActivity.class);
+                startActivity(i);
             }
         });
         imgScan.setOnClickListener(new View.OnClickListener() {
