@@ -321,12 +321,6 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <activity
-            android:name=".module.base.RefreshableActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <service android:name=".card.LocationSvc"/>
 
         <!-- push应用定义消息receiver声明 -->
@@ -410,6 +404,9 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="bluemoon"/>
+
+        <activity android:name=".module.base.TestRefreshActivity">
+        </activity>
     </application>
 
 </manifest>

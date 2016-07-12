@@ -1,29 +1,24 @@
 package cn.com.bluemoon.delivery.module.base;
 
 import android.os.Bundle;
-import android.support.v4.widget.SwipeRefreshLayout;
-import android.widget.ImageView;
 import android.widget.ScrollView;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import butterknife.OnClick;
-import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView;
 
-public class RefreshableActivity extends BaseActionBarActivity {
+/**
+ * 下拉刷新普通页面，自动显示空数据页面和网络错误页面
+ */
+public abstract class RefreshableActivity extends BaseActionBarActivity {
 
-    @Bind(R.id.ptrsv)
-    PullToRefreshScrollView ptrsv;
+    private PullToRefreshScrollView ptrsv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_refreshable);
-        ButterKnife.bind(this);
+        setContentView(getLayoutId());
 
+        ptrsv = (PullToRefreshScrollView) findViewById(getPullToRefreshScrollerId());
         ptrsv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
         ptrsv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
@@ -33,25 +28,24 @@ public class RefreshableActivity extends BaseActionBarActivity {
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-
             }
         });
-
     }
 
-    private void getData() {
-        ptrsv.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                ptrsv.onRefreshComplete();
-                PublicUtil.showToast("加载数据完成");
-            }
-        }, 5000);
-    }
+    /**
+     * setContentView(id);使用
+     *
+     * @return id
+     */
+    protected abstract int getLayoutId();
 
-    @Override
-    protected int getActionBarTitleRes() {
-        return R.string.title_clothing_book_in;
-    }
+    /**
+     * @return PullToRefreshScrollView的id
+     */
+    protected abstract int getPullToRefreshScrollerId();
 
+    /**
+     * 获取界面数据（刷新界面）
+     */
+    protected abstract void getData();
 }
