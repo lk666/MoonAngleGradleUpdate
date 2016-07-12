@@ -42,6 +42,7 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class PersonnelAreaActivity extends KJActivity {
@@ -74,7 +75,15 @@ public class PersonnelAreaActivity extends KJActivity {
         if (getIntent().hasExtra("emp")) {
             emp = (Emp) getIntent().getSerializableExtra("emp");
         }
-//        PublicUtil.setEmptyView(listviewArea, getString(R.string.team_group_empty_area), R.mipmap.team_empty_group);
+        PublicUtil.setEmptyView(listviewArea, String.format(getString(R.string.empty_hint),
+                getString(R.string.team_group_detail_member)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                pullUp = false;
+                pullDown = false;
+                getData();
+            }
+        });
         listviewArea.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {

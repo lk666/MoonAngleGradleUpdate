@@ -44,6 +44,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -68,6 +69,7 @@ public class SelectAreaActivity extends Activity {
     private String bpCode;
     private String empCode;
     private boolean unRefresh;
+    private String content = "";
 
 
     @Override
@@ -91,7 +93,15 @@ public class SelectAreaActivity extends Activity {
         cb = (CheckBox)findViewById(R.id.checkbox);
         btnOk.setOnClickListener(onClickListener);
         txtSelect.setOnClickListener(onClickListener);
-        PublicUtil.setEmptyView(listview, getString(R.string.team_area_search_hint),R.mipmap.address_empty);
+        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
+                getString(R.string.team_area_select_title)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                pullDown = false;
+                pullUp = false;
+                getData();
+            }
+        });
         searchView = (CommonSearchView) findViewById(R.id.searchview_select_area);
         searchView.setSearchViewListener(searchViewListener);
         searchView.hideHistoryView();
@@ -182,11 +192,14 @@ public class SelectAreaActivity extends Activity {
         if(!pullUp){
             pageNext = 1;
         }
+        if(pullDown){
+            content = searchView.getText();
+        }
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
         DeliveryApi.getServiceAreaList(ClientStateManager.getLoginToken(aty),
-                bpCode,empCode,searchView.getText(),pageNext, AppContext.PAGE_SIZE,getServiceAreaListHandler);
+                bpCode,empCode,content,pageNext, AppContext.PAGE_SIZE,getServiceAreaListHandler);
     }
 
 
@@ -218,6 +231,9 @@ public class SelectAreaActivity extends Activity {
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
         public void onSearch(String str) {
+            content = str;
+            pullDown = false;
+            pullUp = false;
             getData();
             searchView.hideHistoryView();
         }

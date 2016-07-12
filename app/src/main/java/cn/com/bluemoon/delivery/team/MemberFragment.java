@@ -42,6 +42,7 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -60,6 +61,7 @@ public class MemberFragment extends BackHandledFragment {
     private adapter adapter;
     private CommonProgressDialog progressDialog;
     private View popStart;
+    private String content="";
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -81,7 +83,16 @@ public class MemberFragment extends BackHandledFragment {
         progressDialog = new CommonProgressDialog(mContext);
         listview = (PullToRefreshListView) rootView.findViewById(R.id.listview_member);
         popStart = rootView.findViewById(R.id.view_pop_start);
-        PublicUtil.setEmptyView(listview, getString(R.string.team_group_empty_member), R.mipmap.team_empty_member);
+        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
+                getString(R.string.team_my_member_title)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                pullDown = false;
+                pullUp = false;
+                isRefresh = false;
+                getData();
+            }
+        });
         searchView = (CommonSearchView) rootView.findViewById(R.id.searchview_member);
         searchView.setSearchViewListener(searchViewListener);
         searchView.hideHistoryView();
@@ -114,10 +125,13 @@ public class MemberFragment extends BackHandledFragment {
         if (!pullUp) {
             timestamp = 0;
         }
+        if(pullDown){
+            content = searchView.getText();
+        }
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getGroupDetailInfo(searchView.getText(), AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY, getGroupDetailInfoHandler);
+        DeliveryApi.getGroupDetailInfo(content, AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY, getGroupDetailInfoHandler);
     }
 
     private void setData(List<GroupDetail> list) {
@@ -146,6 +160,7 @@ public class MemberFragment extends BackHandledFragment {
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
         public void onSearch(String str) {
+            content = str;
             searchView.hideHistoryView();
             pullDown = false;
             pullUp = false;
@@ -176,7 +191,7 @@ public class MemberFragment extends BackHandledFragment {
 
             @Override
             public void setTitle(TextView v) {
-                v.setText(getText(R.string.team_my_member_title));
+                v.setText(getString(R.string.team_my_member_title));
             }
 
         });

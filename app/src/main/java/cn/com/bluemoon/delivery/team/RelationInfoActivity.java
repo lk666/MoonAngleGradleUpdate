@@ -108,6 +108,8 @@ public class RelationInfoActivity extends KJActivity {
         initCustomActionBar();
         if (emp == null) return;
         progressDialog = new CommonProgressDialog(aty);
+        txtStartDate.setMinDate(DateUtil.getTimeOffsetMonth());
+        txtStartDate.setMaxDate(System.currentTimeMillis());
         txtStartDate.setCallBack(callback);
         txtEndDate.setCallBack(callback);
         txtPhone = PublicUtil.getPhoneView(aty, txtPhone);

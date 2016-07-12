@@ -36,6 +36,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -60,7 +61,13 @@ public class SelectEmpActivity extends Activity {
         btnOk = (Button)findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(onClickListener);
         progressDialog = new CommonProgressDialog(aty);
-        PublicUtil.setEmptyView(listview, getString(R.string.team_group_member_search_hint), R.mipmap.team_empty_select_member);
+        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
+                getString(R.string.team_group_select_member)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                getData();
+            }
+        });
         searchView = (CommonSearchView)findViewById(R.id.searchview_select_member);
         searchView.setSearchViewListener(searchViewListener);
         searchView.hideHistoryView();

@@ -16,6 +16,8 @@ public class DateTextView extends TextView{
 
     private CommonDatePickerDialog datePicker;
     private DateTextViewCallBack callBack;
+    private long minDate;
+    private long maxDate;
 
     public DateTextView(Context context) {
         super(context);
@@ -34,11 +36,19 @@ public class DateTextView extends TextView{
         setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(callBack==null||!callBack.cancelClick(v)){
+                if (callBack == null || !callBack.cancelClick(v)) {
                     showDatePickerDialog();
                 }
             }
         });
+    }
+
+    public void setMinDate(long minDate){
+        this.minDate = minDate;
+    }
+
+    public void setMaxDate(long maxDate){
+        this.maxDate = maxDate;
     }
 
     public void setCallBack(DateTextViewCallBack callBack){
@@ -58,6 +68,12 @@ public class DateTextView extends TextView{
             datePicker = new CommonDatePickerDialog(getContext(), mDateSetListener,
                     Integer.valueOf(strs[0]), Integer.valueOf(strs[1])-1,
                     Integer.valueOf(strs[2]));
+            if(minDate>0){
+                datePicker.getDatePicker().setMinDate(minDate);
+            }
+            if(maxDate>0){
+                datePicker.getDatePicker().setMaxDate(maxDate);
+            }
             datePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
             datePicker.show();
         } else {
@@ -70,6 +86,9 @@ public class DateTextView extends TextView{
     }
 
     CommonDatePickerDialog.OnDateSetListener mDateSetListener = new CommonDatePickerDialog.OnDateSetListener() {
+
+
+
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
             String mYear;

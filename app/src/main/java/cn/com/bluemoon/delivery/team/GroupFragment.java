@@ -39,6 +39,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -78,8 +79,15 @@ public class GroupFragment extends Fragment {
         txtMembernum = (TextView) rootView.findViewById(R.id.txt_membernum);
         listviewGroup = (PullToRefreshListView) rootView.findViewById(R.id.listview_group);
         layoutTitle = (LinearLayout) rootView.findViewById(R.id.layout_title);
-        PublicUtil.setEmptyView(listviewGroup, getString(R.string.team_group_empty_group), R.mipmap.team_empty_group);
-
+        PublicUtil.setEmptyView(listviewGroup, String.format(getString(R.string.empty_hint),
+                getString(R.string.team_group_title)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                pullDown = false;
+                pullUp = false;
+                getData();
+            }
+        });
 
         progressDialog = new CommonProgressDialog(mContext);
 
@@ -203,7 +211,7 @@ public class GroupFragment extends Fragment {
 
             @Override
             public void setTitle(TextView v) {
-                v.setText(getText(R.string.team_group_title));
+                v.setText(getString(R.string.team_group_title));
             }
 
         });

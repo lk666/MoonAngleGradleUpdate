@@ -60,6 +60,7 @@ import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class PublicUtil extends LibPublicUtil {
 
@@ -653,7 +654,12 @@ public class PublicUtil extends LibPublicUtil {
         return JSONObject.toJSONString(params);
     }
 
-    public static void setEmptyView(View listview,View emptyView) {
+    public static void setEmptyView(View listview,String content,CommonEmptyView.EmptyListener listener) {
+        CommonEmptyView emptyView = new CommonEmptyView(AppContext.getInstance());
+        emptyView.setContentText(content);
+        if(listener!=null){
+            emptyView.setEmptyListener(listener);
+        }
         ((ViewGroup) listview.getParent()).addView(emptyView);
         try{
             ((PullToRefreshListView)listview).setEmptyView(emptyView);
@@ -662,9 +668,8 @@ public class PublicUtil extends LibPublicUtil {
         }
     }
 
-    public static void setEmptyView(View listview,String content,int imgResid) {
-        View emptyView = getEmptyView(AppContext.getInstance(),content,imgResid);
-        setEmptyView(listview, emptyView);
+    public static void setEmptyView(View listview,String content) {
+        setEmptyView(listview,content,null);
     }
 
     public static String getStringParams(String... params){
