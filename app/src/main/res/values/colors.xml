@@ -30,7 +30,7 @@
     <color name="text_black">#333333</color><!-- 主体标题文字颜色-黑色-->
     <color name="text_black_light">#666666</color><!-- 正文颜色-浅灰色 -->
     <color name="text_grep">#999999</color><!-- 次要文字-灰色 -->
-    <color name="text_hint">#cfcfcf</color><!-- 提示文字-浅灰色 -->
+    <color name="text_hint">#cccccc</color><!-- 提示文字-浅灰色 -->
     <color name="text_red">#ff6c47</color><!-- 价格等文字-红色 -->
     <color name="text_blue">#0a85cc</color><!-- 蓝色文字 -->
     <color name="text_blue_light">#0a58f1</color><!-- 蓝色文字 -->

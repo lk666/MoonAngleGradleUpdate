@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        xmlns:CommonSearchView="http://schemas.android.com/apk/res-auto">
+
+        <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/listview_community"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="60dp"
+            android:divider="@null"
+            android:dividerHeight="0dp"
+            android:fadingEdge="none"
+            android:overScrollMode="never"
+            ptr:ptrMode="both"
+            ptr:ptrAnimationStyle="flip"
+            ptr:ptrHeaderBackground="@color/page_bg_f2"
+            ptr:ptrHeaderSubTextColor="@color/text_black"
+            ptr:ptrHeaderTextColor="@color/text_black"/>
+
+        <cn.com.bluemoon.lib.view.CommonSearchView
+            android:id="@+id/search_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            CommonSearchView:text_hint = "@string/search_key"/>
+
+    </RelativeLayout>
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/btn_red_shape_large"
+        android:text="@string/btn_ok_with_space"
+        android:textColor="@color/white" />
+
+</LinearLayout>

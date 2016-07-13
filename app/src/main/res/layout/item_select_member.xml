@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <CheckBox
+        android:id="@+id/checkbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginLeft="10dp"
+        android:focusable="false"
+        android:button="@drawable/checkbox1"
+        />
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_size_15"
+        android:singleLine="true"
+        android:ellipsize="end"
+        android:clickable="false"
+        android:layout_marginTop="13dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_toRightOf="@id/checkbox"
+        />
+    <TextView
+        android:id="@+id/txt_content"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/text_grep"
+        android:textSize="@dimen/text_size_15"
+        android:clickable="false"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_below="@id/txt_name"
+        android:layout_alignLeft="@id/txt_name"
+        android:visibility="gone"
+        />
+
+    <View style="@style/line_solid_style"
+        android:layout_alignParentBottom="true"
+        android:layout_marginLeft="10dp"/>
+
+
+</RelativeLayout>
