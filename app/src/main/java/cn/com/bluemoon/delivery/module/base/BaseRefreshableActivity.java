@@ -9,7 +9,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView;
 /**
  * 下拉刷新普通页面，自动显示空数据页面和网络错误页面
  */
-public abstract class RefreshableActivity extends BaseActionBarActivity {
+public abstract class BaseRefreshableActivity extends BaseActionBarActivity {
 
     private PullToRefreshScrollView ptrsv;
 
