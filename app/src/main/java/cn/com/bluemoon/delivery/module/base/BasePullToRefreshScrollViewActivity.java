@@ -2,10 +2,8 @@ package cn.com.bluemoon.delivery.module.base;
 
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ScrollView;
-import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -14,11 +12,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
-import butterknife.ButterKnife;
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -26,40 +20,35 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
-public class TestRefreshActivity extends BaseActionBarActivity {
+/**
+ * 下拉刷新普通页面，自动显示空数据页面和网络错误页面
+ */
+public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarActivity {
 
-    @Bind(R.id.tv_code)
-    TextView tvCode;
-    @Bind(R.id.tv_name)
-    TextView tvName;
-    @Bind(R.id.tv_phone)
-    TextView tvPhone;
-
-    @Bind(R.id.ptrsv)
-    PullToRefreshScrollView ptrsv;
-
-    View viewstubError;
-    View viewstubEmpty;
+    private View errorView;
+    private View emptyView;
+    private View contentView;
+    private PullToRefreshScrollView ptrsv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pull_to_refresh_scroll_view);
-        ButterKnife.bind(this);
 
         setIntentData();
         initView();
         getData();
     }
 
-    @Override
-    protected int getActionBarTitleRes() {
-        return R.string.title_clothing_book_in;
+    /**
+     * 设置intent数据
+     */
+    protected void setIntentData() {
     }
 
     private void initView() {
-        setViewVisibility(ptrsv, View.GONE);
         ptrsv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
@@ -70,122 +59,114 @@ public class TestRefreshActivity extends BaseActionBarActivity {
             public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
             }
         });
+
+        LibViewUtil.setViewVisibility(ptrsv, View.GONE);
     }
-
-    private void setIntentData() {
-    }
-
-    public void getData() {
-        setChildEnableRecursion(ptrsv, false);
-        DeliveryApi.getEmp(ClientStateManager.getLoginToken(this), "80474765",
-                createScrollViewRefreshResponseHandler(new IRefreshHttpResponseHandler() {
-
-                    @Override
-                    public void onResponseException(String responseString, Exception e) {
-                        showNetErrorView();
-                    }
-
-                    @Override
-                    public void onResponseFailure(int statusCode, Header[] headers, String
-                            responseString, Throwable throwable) {
-                        showNetErrorView();
-                    }
-
-                    @Override
-                    public void onResponseSuccess(String responseString) {
-                        ResultUserInfo result = JSON.parseObject(responseString,
-                                ResultUserInfo.class);
-                        // 判断数据是否为空
-                        if (is) {
-                            showEmptyView();
-                        } else {
-                            setData(result);
-                        }
-                        is = !is;
-                    }
-                }));
-    }
-
-    private void setData(ResultUserInfo result) {
-        PublicUtil.showToast("asdsadsada");
-        setViewVisibility(ptrsv, View.VISIBLE);
-        tvCode.setText(result.getEmpCode());
-        tvName.setText(result.getEmpName());
-        tvPhone.setText(result.getPhone());
-        setViewVisibility(viewstubEmpty, View.GONE);
-        setViewVisibility(viewstubError, View.GONE);
-    }
-
-    void setViewVisibility(View view, int visibility) {
-        if (view != null && view.getVisibility() != visibility) {
-            view.setVisibility(visibility);
-        }
-    }
-
-    // TODO: lk 2016/7/13 enable测试 
 
     /**
-     * 显示空数据页
+     * 设置内容页
      */
-    private void showEmptyView() {
-        try {
-            if (viewstubEmpty == null) {
-                int layoutId = R.layout.view_empty;
-                if (layoutId != 0) {
-                    final View viewStub = findViewById(R.id.viewstub_empty);
-                    if (viewStub != null) {
-                        final ViewStub stub = (ViewStub) viewStub;
-                        stub.setLayoutResource(layoutId);
-                        viewstubEmpty = stub.inflate();
-                        setEmptyViewEvent(viewstubEmpty);
-                    }
-                }
+    private void showContentView() {
+        if (contentView == null) {
+            int layoutId = getContentViewLayoutId();
+            final View viewStub = findViewById(R.id.viewstub_content);
+            if (viewStub != null) {
+                final ViewStub stub = (ViewStub) viewStub;
+                stub.setLayoutResource(layoutId);
+                contentView = stub.inflate();
+                initContentView(contentView);
             }
-
-            setViewVisibility(viewstubEmpty, View.VISIBLE);
-            setViewVisibility(viewstubError, View.GONE);
-            setViewVisibility(ptrsv, View.GONE);
-        } catch (Exception e) {
-            LogUtils.e(getDefaultTag(), e.getMessage());
         }
+
+        LibViewUtil.setViewVisibility(errorView, View.GONE);
+        LibViewUtil.setViewVisibility(emptyView, View.GONE);
+        LibViewUtil.setViewVisibility(contentView, View.VISIBLE);
     }
 
-    private void setEmptyViewEvent(View viewstubEmpty) {
-        viewstubEmpty.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+    /**
+     * 设置inflate后的具体内容view/viewgroup
+     *
+     * @param contentView
+     */
+    protected abstract void initContentView(View contentView);
+
+    /**
+     * 获取具体内容的layout的id
+     */
+    protected abstract int getContentViewLayoutId();
+
+    /**
+     * 获取界面数据（刷新界面）
+     */
+    final protected void getData() {
+        LibViewUtil.setChildEnableRecursion(ptrsv, false);
+        invokeDeliveryApi(createScrollViewRefreshResponseHandler(new IRefreshHttpResponseHandler() {
+
             @Override
-            public void onClick(View v) {
-                getData();
+            public void onResponseException(String responseString, Exception e) {
+                showNetErrorView();
             }
-        });
+
+            @Override
+            public void onResponseFailure(int statusCode, Header[] headers, String
+                    responseString, Throwable throwable) {
+                showNetErrorView();
+            }
+
+            @Override
+            public void onResponseSuccess(String responseString) {
+                ResultUserInfo result = JSON.parseObject(responseString,
+                        ResultUserInfo.class);
+                // 判断数据是否为空
+                if (is) {
+                    showEmptyView();
+                } else {
+                    setData(result);
+                }
+                is = !is;
+            }
+        })));
     }
+
+    /**
+     * 具体调用 DeliveryApi的方法，格式应如： DeliveryApi.getEmp(ClientStateManager.getLoginToken(this),
+     * "80474765", handler);
+     *
+     * @param handler DeliveryApi的方法中的AsyncHttpResponseHandler参数
+     */
+    protected abstract void invokeDeliveryApi(AsyncHttpResponseHandler handler);
 
     /**
      * 显示错误页
      */
     private void showNetErrorView() {
         try {
-            if (viewstubError == null) {
+            if (errorView == null) {
                 int layoutId = R.layout.view_error;
                 if (layoutId != 0) {
                     final View viewStub = findViewById(R.id.viewstub_error);
                     if (viewStub != null) {
                         final ViewStub stub = (ViewStub) viewStub;
                         stub.setLayoutResource(layoutId);
-                        viewstubError = stub.inflate();
-                        setErrorViewEvent(viewstubError);
+                        errorView = stub.inflate();
+                        setErrorViewEvent(errorView);
                     }
                 }
             }
 
-            setViewVisibility(viewstubEmpty, View.GONE);
-            setViewVisibility(viewstubError, View.VISIBLE);
-            setViewVisibility(ptrsv, View.GONE);
+            LibViewUtil.setViewVisibility(emptyView, View.GONE);
+            LibViewUtil.setViewVisibility(errorView, View.VISIBLE);
+            LibViewUtil.setViewVisibility(ptrsv, View.GONE);
         } catch (Exception e) {
             LogUtils.e(getDefaultTag(), e.getMessage());
         }
     }
 
-    private void setErrorViewEvent(View viewstubError) {
+    /**
+     * 设置错误页面
+     * @param viewstubError
+     */
+    private void initErrorViewEvent(View errorView) {
         viewstubError.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -195,31 +176,7 @@ public class TestRefreshActivity extends BaseActionBarActivity {
     }
 
     /**
-     * 递归设置子控件的enable
-     *
-     * @param layout
-     * @param isEnable
-     */
-    private static void setChildEnableRecursion(ViewGroup layout, boolean isEnable) {
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View child = layout.getChildAt(i);
-            if (child instanceof ViewGroup) {
-                setChildEnableRecursion((ViewGroup) child, isEnable);
-            } else {
-                if (isEnable) {
-                    child.setEnabled((Boolean) child.getTag(R.id.tag_ori_enable));
-                } else {
-                    child.setTag(R.id.tag_ori_enable, child.isEnabled());
-                    child.setEnabled(false);
-                }
-            }
-        }
-    }
-
-    boolean is = true;
-
-    /**
-     * 创建一个通用的拓展AsyncHttpResponseHandler
+     * 创建一个用于下拉刷新详情的拓展AsyncHttpResponseHandler
      *
      * @param callback
      * @return
@@ -274,6 +231,7 @@ public class TestRefreshActivity extends BaseActionBarActivity {
             }
         };
     }
+
 
     /**
      * 封装AsyncHttpResponseHandler的回调(刷新用)
