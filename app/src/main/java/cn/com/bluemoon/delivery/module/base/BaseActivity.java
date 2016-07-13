@@ -91,9 +91,9 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                LogUtils.d(getDefaultTag(), "baseHandler result = " + responseString);
-                dismissProgressDialog();
                 try {
+                    LogUtils.d(getDefaultTag(), "baseHandler result = " + responseString);
+                    dismissProgressDialog();
                     ResultBase result = JSON.parseObject(responseString,
                             ResultBase.class);
                     if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
@@ -112,8 +112,13 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
             @Override
             public void onFailure(int statusCode, Header[] headers,
                                   String responseString, Throwable throwable) {
-                LogUtils.e(getDefaultTag(), throwable.getMessage());
-                dismissProgressDialog();
+                try {
+                    LogUtils.e(getDefaultTag(), throwable.getMessage());
+                    dismissProgressDialog();
+                } catch (Exception e) {
+                    LogUtils.e(getDefaultTag(), e.getMessage());
+                }
+
                 PublicUtil.showToastServerOvertime();
             }
         };
@@ -130,4 +135,6 @@ public abstract class BaseActivity extends Activity implements IShowDialog {
          */
         void onResponseSuccess(String responseString);
     }
+
+    // TODO: lk 2016/7/13 应令activity继承AsyncHttpResponseHandler的实现，或统一处理，以防止回调时activity已被销毁
 }

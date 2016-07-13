@@ -8,13 +8,13 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
+import cn.com.bluemoon.delivery.R;
+
 /**
  * 基础列表adapter
  * Created by lk on 2016/6/14.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnClickListener {
-
-    protected static final int KEY_POSITON = 0xFFF11222;
 
     protected List<T> list;
     protected Context context;
@@ -65,7 +65,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
      */
     protected void setClickEvent(boolean isNew, int position, View... vs) {
         for (View v : vs) {
-            v.setTag(KEY_POSITON, position);
+            v.setTag(R.id.tag_position, position);
             if (isNew) {
                 v.setOnClickListener(this);
             }
@@ -74,7 +74,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
 
     @Override
     public void onClick(View view) {
-        final Object object = view.getTag(KEY_POSITON);
+        final Object object = view.getTag(R.id.tag_position);
         if (object != null && object instanceof Integer) {
             final int position = (Integer) object;
             if (position < getCount()) {

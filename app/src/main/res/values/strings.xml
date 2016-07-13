@@ -793,4 +793,7 @@
     <string name="err_net">请检查您的网络</string>
 
     <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
+
+    <item type="id" name="tag_ori_enable">0x5678</item>
+    <item type="id" name="tag_position">0xFFF11222</item>
 </resources>
