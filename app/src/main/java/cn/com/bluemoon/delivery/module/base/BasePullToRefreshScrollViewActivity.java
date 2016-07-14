@@ -7,14 +7,12 @@ import android.widget.ScrollView;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -27,9 +25,21 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  */
 public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarActivity {
 
+    /**
+     * 错误页面View
+     */
     private View errorView;
+    /**
+     * 空数据页面View
+     */
     private View emptyView;
+    /**
+     * 实际的内容页面View
+     */
     private View contentView;
+    /**
+     * 下拉刷新view
+     */
     private PullToRefreshScrollView ptrsv;
 
     @Override
@@ -60,6 +70,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
             }
         });
 
+        showContentView();
         LibViewUtil.setViewVisibility(ptrsv, View.GONE);
     }
 
@@ -69,7 +80,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
     private void showContentView() {
         if (contentView == null) {
             int layoutId = getContentViewLayoutId();
-            final View viewStub = findViewById(R.id.viewstub_content);
+            View viewStub = findViewById(R.id.viewstub_content);
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
                 stub.setLayoutResource(layoutId);
@@ -84,7 +95,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
     }
 
     /**
-     * 设置inflate后的具体内容view/viewgroup
+     * 设置inflate后的具体内容的view/viewgroup
      *
      * @param contentView
      */
@@ -114,19 +125,66 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
             }
 
             @Override
-            public void onResponseSuccess(String responseString) {
-                ResultUserInfo result = JSON.parseObject(responseString,
-                        ResultUserInfo.class);
+            public void onResponseSuccess(Object result) {
                 // 判断数据是否为空
-                if (is) {
+                if (isDataEmpty(result)) {
                     showEmptyView();
                 } else {
                     setData(result);
                 }
-                is = !is;
             }
-        })));
+        }));
     }
+
+    /**
+     * 设置请求成功的数据（数据不为空）
+     *
+     * @param result 继承ResultBase的classType数据，不为null，也非空数据
+     * @return
+     */
+    protected abstract void setData(Object result);
+
+    /**
+     * 判断数据是否为empty
+     *
+     * @param result 继承ResultBase的classType数据，不为null
+     * @return
+     */
+    protected abstract boolean isDataEmpty(Object result);
+
+    // TODO: lk 2016/7/13 enable测试
+
+    /**
+     * 显示空数据页
+     */
+    private void showEmptyView() {
+        if (emptyView == null) {
+            int layoutId = getEmptyViewLayoutId();
+            final View viewStub = findViewById(R.id.viewstub_empty);
+            if (viewStub != null) {
+                final ViewStub stub = (ViewStub) viewStub;
+                stub.setLayoutResource(layoutId);
+                emptyView = stub.inflate();
+                initEmptyViewEvent(emptyView);
+            }
+        }
+
+        LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
+        LibViewUtil.setViewVisibility(errorView, View.GONE);
+        LibViewUtil.setViewVisibility(ptrsv, View.GONE);
+    }
+
+    /**
+     * 获取空数据页面的layout的id
+     */
+    protected abstract int getEmptyViewLayoutId();
+
+    /**
+     * 设置空数据页面
+     *
+     * @param errorView
+     */
+    protected abstract void initEmptyViewEvent(View errorView);
 
     /**
      * 具体调用 DeliveryApi的方法，格式应如： DeliveryApi.getEmp(ClientStateManager.getLoginToken(this),
@@ -140,40 +198,35 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
      * 显示错误页
      */
     private void showNetErrorView() {
-        try {
-            if (errorView == null) {
-                int layoutId = R.layout.view_error;
-                if (layoutId != 0) {
-                    final View viewStub = findViewById(R.id.viewstub_error);
-                    if (viewStub != null) {
-                        final ViewStub stub = (ViewStub) viewStub;
-                        stub.setLayoutResource(layoutId);
-                        errorView = stub.inflate();
-                        setErrorViewEvent(errorView);
-                    }
-                }
+        if (errorView == null) {
+            int layoutId = getErrorViewLayoutId();
+            View viewStub = findViewById(R.id.viewstub_error);
+            if (viewStub != null) {
+                final ViewStub stub = (ViewStub) viewStub;
+                stub.setLayoutResource(layoutId);
+                errorView = stub.inflate();
+                initErrorViewEvent(errorView);
             }
 
-            LibViewUtil.setViewVisibility(emptyView, View.GONE);
-            LibViewUtil.setViewVisibility(errorView, View.VISIBLE);
-            LibViewUtil.setViewVisibility(ptrsv, View.GONE);
-        } catch (Exception e) {
-            LogUtils.e(getDefaultTag(), e.getMessage());
         }
+
+        LibViewUtil.setViewVisibility(emptyView, View.GONE);
+        LibViewUtil.setViewVisibility(errorView, View.VISIBLE);
+        LibViewUtil.setViewVisibility(ptrsv, View.GONE);
     }
+
+
+    /**
+     * 获取错误页面的layout的id
+     */
+    protected abstract int getErrorViewLayoutId();
 
     /**
      * 设置错误页面
-     * @param viewstubError
+     *
+     * @param errorView
      */
-    private void initErrorViewEvent(View errorView) {
-        viewstubError.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData();
-            }
-        });
-    }
+    protected abstract void initErrorViewEvent(View errorView);
 
     /**
      * 创建一个用于下拉刷新详情的拓展AsyncHttpResponseHandler
@@ -183,27 +236,42 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
      */
     protected AsyncHttpResponseHandler createScrollViewRefreshResponseHandler(
             final IRefreshHttpResponseHandler callback) {
-        return new TextHttpResponseHandler(
-                HTTP.UTF_8) {
+        return new WithClassTextHttpResponseHandler(HTTP.UTF_8, getResultClass()) {
 
             @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            public void onSuccess(int statusCode, Header[] headers, String responseString, Class
+                    classType) {
                 if (ptrsv == null) {
                     return;
                 }
                 LogUtils.d(getDefaultTag(), "baseExtendHandler result = " + responseString);
                 ptrsv.onRefreshComplete();
-                setChildEnableRecursion(ptrsv, true);
+                LibViewUtil.setChildEnableRecursion(ptrsv, true);
                 try {
-                    ResultBase result = JSON.parseObject(responseString,
-                            ResultBase.class);
-                    if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                        if (callback != null) {
-                            callback.onResponseSuccess(responseString);
+                    Object obj = classType.newInstance();
+                    obj = JSON.parseObject(responseString, classType);
+                    if (obj instanceof ResultBase) {
+                        ResultBase result = (ResultBase) obj;
+                        if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                            if (callback != null) {
+                                callback.onResponseSuccess(obj);
+                            }
+                        } else {
+                            PublicUtil.showErrorMsg(BasePullToRefreshScrollViewActivity.this,
+                                    result);
                         }
                     } else {
-                        PublicUtil.showErrorMsg(TestRefreshActivity.this, result);
+                        LogUtils.e(getDefaultTag(), "baseExtendHandler result type error:" +
+                                responseString + "," + classType);
+                        PublicUtil.showToastServerBusy();
+                        if (callback != null) {
+                            callback.onResponseException(responseString, new Exception
+                                    ("baseExtendHandler result type error:" +
+                                            responseString + "," + classType));
+                        }
                     }
+
+
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
                     PublicUtil.showToastServerBusy();
@@ -221,7 +289,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
                 }
                 LogUtils.e(getDefaultTag(), throwable.getMessage());
                 ptrsv.onRefreshComplete();
-                setChildEnableRecursion(ptrsv, true);
+                LibViewUtil.setChildEnableRecursion(ptrsv, true);
 
                 if (callback != null) {
                     callback.onResponseFailure(statusCode, headers, responseString, throwable);
@@ -232,11 +300,21 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
         };
     }
 
+    /**
+     * 获取刷新页面获取内容数据时的服务器返回类型
+     */
+    protected abstract Class getResultClass();
 
     /**
      * 封装AsyncHttpResponseHandler的回调(刷新用)
      */
-    public interface IRefreshHttpResponseHandler extends IHttpResponseHandler {
+    public interface IRefreshHttpResponseHandler {
+        /**
+         * 响应成功的后续步骤回调
+         *
+         * @param result 继承ResultBase的classType数据，不为null
+         */
+        void onResponseSuccess(Object result);
 
         /**
          * 响应成功，onSuccess,但抛错的情况

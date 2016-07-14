@@ -1,294 +1,258 @@
 package cn.com.bluemoon.delivery.module.base;
 
+import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.ViewStub;
-import android.widget.ScrollView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDetail;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothesPhotoAdapter;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
+import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.lib.view.ScrollGridView;
 
-public class TestRefreshActivity extends BaseActionBarActivity {
+public class TestRefreshActivity extends BasePullToRefreshScrollViewActivity implements
+        OnListItemClickListener {
+    /**
+     * 已上传的图片列表
+     */
+    private List<ClothingPic> clothesImg;
 
-    @Bind(R.id.tv_code)
-    TextView tvCode;
-    @Bind(R.id.tv_name)
-    TextView tvName;
-    @Bind(R.id.tv_phone)
-    TextView tvPhone;
+    /**
+     * 衣物编码
+     */
+    public static final String EXTRA_CLOTHES_CODE = "EXTRA_CLOTHES_CODE";
+    @Bind(R.id.tv_collect_code)
+    TextView tvCollectCode;
+    @Bind(R.id.tv_urgent)
+    TextView tvUrgent;
+    @Bind(R.id.tv_collect_brcode)
+    TextView tvCollectBrcode;
+    @Bind(R.id.tv_op_name)
+    TextView tvOpName;
+    @Bind(R.id.tv_op_number)
+    TextView tvOpNumber;
+    @Bind(R.id.tv_op_phone)
+    TextView tvOpPhone;
+    @Bind(R.id.tv_collect_time)
+    TextView tvCollectTime;
+    @Bind(R.id.tv_collect_appoint_back_time)
+    TextView tvCollectAppointBackTime;
+    @Bind(R.id.tv_clotnes_code)
+    TextView tvClotnesCode;
+    @Bind(R.id.tv_clothes_name)
+    TextView tvClothesName;
+    @Bind(R.id.tv_type_name)
+    TextView tvTypeName;
+    @Bind(R.id.tv_flaw_dec)
+    TextView tvFlawDec;
+    @Bind(R.id.tv_backup)
+    TextView tvBackup;
+    @Bind(R.id.iv_stain)
+    ImageView ivStain;
+    @Bind(R.id.iv_flaw)
+    ImageView ivFlaw;
+    @Bind(R.id.sgv_photo)
+    ScrollGridView sgvPhoto;
 
-    @Bind(R.id.ptrsv)
-    PullToRefreshScrollView ptrsv;
+    /**
+     * 衣物编码
+     */
+    private String clothesCode;
 
-    View viewstubError;
-    View viewstubEmpty;
+    private ClothesPhotoAdapter clothesAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_pull_to_refresh_scroll_view);
         ButterKnife.bind(this);
-
-        setIntentData();
-        initView();
-        getData();
     }
+
 
     @Override
     protected int getActionBarTitleRes() {
-        return R.string.title_clothing_book_in;
+        return R.string.title_clothing_detail;
     }
 
-    private void initView() {
-        setViewVisibility(ptrsv, View.GONE);
-        ptrsv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-                getData();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ScrollView> refreshView) {
-            }
-        });
-    }
-
-    private void setIntentData() {
-    }
-
-    public void getData() {
-        setChildEnableRecursion(ptrsv, false);
-        DeliveryApi.getEmp(ClientStateManager.getLoginToken(this), "80474765",
-                createScrollViewRefreshResponseHandler(new IRefreshHttpResponseHandler() {
-
-                    @Override
-                    public void onResponseException(String responseString, Exception e) {
-                        showNetErrorView();
-                    }
-
-                    @Override
-                    public void onResponseFailure(int statusCode, Header[] headers, String
-                            responseString, Throwable throwable) {
-                        showNetErrorView();
-                    }
-
-                    @Override
-                    public void onResponseSuccess(String responseString) {
-                        ResultUserInfo result = JSON.parseObject(responseString,
-                                ResultUserInfo.class);
-                        // 判断数据是否为空
-                        if (is) {
-                            showEmptyView();
-                        } else {
-                            setData(result);
-                        }
-                        is = !is;
-                    }
-                }));
-    }
-
-    private void setData(ResultUserInfo result) {
-        PublicUtil.showToast("asdsadsada");
-        setViewVisibility(ptrsv, View.VISIBLE);
-        tvCode.setText(result.getEmpCode());
-        tvName.setText(result.getEmpName());
-        tvPhone.setText(result.getPhone());
-        setViewVisibility(viewstubEmpty, View.GONE);
-        setViewVisibility(viewstubError, View.GONE);
-    }
-
-    void setViewVisibility(View view, int visibility) {
-        if (view != null && view.getVisibility() != visibility) {
-            view.setVisibility(visibility);
+    @Override
+    protected void setIntentData() {
+        clothesCode = getIntent().getStringExtra(EXTRA_CLOTHES_CODE);
+        if (clothesCode == null) {
+            clothesCode = "";
         }
     }
 
-    // TODO: lk 2016/7/13 enable测试 
+    @Override
+    protected void initContentView(View contentView) {
+        clothesAdapter = new ClothesPhotoAdapter(this, this);
+        sgvPhoto.setAdapter(clothesAdapter);
+    }
+
+    @Override
+    protected void invokeDeliveryApi(AsyncHttpResponseHandler handler) {
+        DeliveryApi.getCollectInfoDetailsItem(clothesCode, ClientStateManager.getLoginToken(this)
+                , handler);
+    }
+
+    @Override
+    protected boolean isDataEmpty(Object result) {
+        ResultClothesDetail resultClothesDetail = (ResultClothesDetail) result;
+        if (TextUtils.isEmpty(resultClothesDetail.getCollectCode())) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
+    protected void setData(Object result) {
+        setClothesInfo((ResultClothesDetail) result);
+    }
 
     /**
-     * 显示空数据页
+     * 设置衣物信息
      */
-    private void showEmptyView() {
-        try {
-            if (viewstubEmpty == null) {
-                int layoutId = R.layout.view_empty;
-                if (layoutId != 0) {
-                    final View viewStub = findViewById(R.id.viewstub_empty);
-                    if (viewStub != null) {
-                        final ViewStub stub = (ViewStub) viewStub;
-                        stub.setLayoutResource(layoutId);
-                        viewstubEmpty = stub.inflate();
-                        setEmptyViewEvent(viewstubEmpty);
-                    }
-                }
-            }
+    private void setClothesInfo(ResultClothesDetail result) {
+        tvCollectCode.setText(getString(R.string.clothing_detail_collect_code) + result
+                .getCollectCode());
 
-            setViewVisibility(viewstubEmpty, View.VISIBLE);
-            setViewVisibility(viewstubError, View.GONE);
-            setViewVisibility(ptrsv, View.GONE);
-        } catch (Exception e) {
-            LogUtils.e(getDefaultTag(), e.getMessage());
+        // 加急的逻辑
+        if (result.getIsUrgent() == 1) {
+            tvUrgent.setVisibility(View.VISIBLE);
+            tvCollectAppointBackTime.setVisibility(View.VISIBLE);
+            tvCollectAppointBackTime.setText(getString(R.string
+                    .clothing_detail_appoint_back_time) + DateUtil.getTime(result
+                    .getAppointBackTime(), "yyyy-MM-dd " + "HH:mm"));
+        } else {
+            tvUrgent.setVisibility(View.GONE);
+            tvCollectAppointBackTime.setVisibility(View.GONE);
         }
+
+        String brcode = result.getCollectBrcode();
+        if (TextUtils.isEmpty(brcode)) {
+            tvCollectBrcode.setText(getString(R.string.clothing_detail_brcode) +
+                    getString(R.string.text_empty));
+        } else {
+            tvCollectBrcode.setText(getString(R.string.clothing_detail_brcode) + result
+                    .getCollectBrcode());
+        }
+
+        // 收件人信息
+        tvOpName.setText(getString(R.string.clothing_detail_receiver_name) + result.getOpName());
+        tvOpNumber.setText(result.getOpCode());
+        tvOpPhone.setText(result.getOpPhone());
+        tvOpPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        tvOpPhone.getPaint().setAntiAlias(true);
+
+        tvCollectTime.setText(getString(R.string.clothing_detail_time) + DateUtil.getTime(result
+                .getOpTime(), "yyyy-MM-dd " + "HH:mm"));
+
+        tvClotnesCode.setText(getString(R.string.clothing_detail_clothes_code) + clothesCode);
+        tvTypeName.setText(result.getTypeName());
+        tvClothesName.setText(result.getClothesName());
+
+        if (result.getHasFlaw() == 1) {
+            ivFlaw.setVisibility(View.VISIBLE);
+            tvFlawDec.setText(getString(R.string.clothing_detail_flaw) + result.getFlawDesc());
+        } else {
+            ivFlaw.setVisibility(View.GONE);
+            tvFlawDec.setText(getString(R.string.clothing_detail_flaw) +
+                    getString(R.string.text_empty));
+        }
+
+        if (result.getHasStain() == 1) {
+            ivStain.setVisibility(View.VISIBLE);
+        } else {
+            ivStain.setVisibility(View.GONE);
+        }
+
+        String backup = result.getRemark();
+        if (TextUtils.isEmpty(backup)) {
+            tvBackup.setText(getString(R.string.clothing_detail_backup) +
+                    getString(R.string.text_empty));
+        } else {
+            tvBackup.setText(getString(R.string.clothing_detail_backup) + backup);
+        }
+
+        clothesImg = new ArrayList<>();
+        clothesImg.addAll(result.getClothesImg());
+        clothesAdapter.setList(clothesImg);
+        clothesAdapter.notifyDataSetChanged();
     }
 
-    private void setEmptyViewEvent(View viewstubEmpty) {
-        viewstubEmpty.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+    @Override
+    protected int getContentViewLayoutId() {
+        return R.layout.view_test_activity_pull_to_refresh_scrollview;
+    }
+
+    @Override
+    protected int getErrorViewLayoutId() {
+        return R.layout.view_test_activity_pull_to_refresh_scrollview_error;
+    }
+
+    @Override
+    protected void initErrorViewEvent(View errorView) {
+        errorView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getData();
+                getData(); 显示加载中
             }
         });
     }
 
-    /**
-     * 显示错误页
-     */
-    private void showNetErrorView() {
-        try {
-            if (viewstubError == null) {
-                int layoutId = R.layout.view_error;
-                if (layoutId != 0) {
-                    final View viewStub = findViewById(R.id.viewstub_error);
-                    if (viewStub != null) {
-                        final ViewStub stub = (ViewStub) viewStub;
-                        stub.setLayoutResource(layoutId);
-                        viewstubError = stub.inflate();
-                        setErrorViewEvent(viewstubError);
-                    }
-                }
-            }
 
-            setViewVisibility(viewstubEmpty, View.GONE);
-            setViewVisibility(viewstubError, View.VISIBLE);
-            setViewVisibility(ptrsv, View.GONE);
-        } catch (Exception e) {
-            LogUtils.e(getDefaultTag(), e.getMessage());
-        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    @Override
+    protected int getEmptyViewLayoutId() {
+        return 0;
     }
 
-    private void setErrorViewEvent(View viewstubError) {
-        viewstubError.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getData();
-            }
-        });
+    @Override
+    protected void initEmptyViewEvent(View errorView) {
+
     }
 
-    /**
-     * 递归设置子控件的enable
-     *
-     * @param layout
-     * @param isEnable
-     */
-    private static void setChildEnableRecursion(ViewGroup layout, boolean isEnable) {
-        for (int i = 0; i < layout.getChildCount(); i++) {
-            View child = layout.getChildAt(i);
-            if (child instanceof ViewGroup) {
-                setChildEnableRecursion((ViewGroup) child, isEnable);
-            } else {
-                if (isEnable) {
-                    child.setEnabled((Boolean) child.getTag(R.id.tag_ori_enable));
-                } else {
-                    child.setTag(R.id.tag_ori_enable, child.isEnabled());
-                    child.setEnabled(false);
-                }
-            }
-        }
+
+    @Override
+    protected Class getResultClass() {
+        return null;
     }
 
-    boolean is = true;
+    @Override
+    public void onItemClick(Object item, View view, int position) {
 
-    /**
-     * 创建一个通用的拓展AsyncHttpResponseHandler
-     *
-     * @param callback
-     * @return
-     */
-    protected AsyncHttpResponseHandler createScrollViewRefreshResponseHandler(
-            final IRefreshHttpResponseHandler callback) {
-        return new TextHttpResponseHandler(
-                HTTP.UTF_8) {
-
-            @Override
-            public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                if (ptrsv == null) {
-                    return;
-                }
-                LogUtils.d(getDefaultTag(), "baseExtendHandler result = " + responseString);
-                ptrsv.onRefreshComplete();
-                setChildEnableRecursion(ptrsv, true);
-                try {
-                    ResultBase result = JSON.parseObject(responseString,
-                            ResultBase.class);
-                    if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                        if (callback != null) {
-                            callback.onResponseSuccess(responseString);
-                        }
-                    } else {
-                        PublicUtil.showErrorMsg(TestRefreshActivity.this, result);
-                    }
-                } catch (Exception e) {
-                    LogUtils.e(getDefaultTag(), e.getMessage());
-                    PublicUtil.showToastServerBusy();
-                    if (callback != null) {
-                        callback.onResponseException(responseString, e);
-                    }
-                }
-            }
-
-            @Override
-            public void onFailure(int statusCode, Header[] headers,
-                                  String responseString, Throwable throwable) {
-                if (ptrsv == null) {
-                    return;
-                }
-                LogUtils.e(getDefaultTag(), throwable.getMessage());
-                ptrsv.onRefreshComplete();
-                setChildEnableRecursion(ptrsv, true);
-
-                if (callback != null) {
-                    callback.onResponseFailure(statusCode, headers, responseString, throwable);
-                }
-                PublicUtil.showToastServerOvertime();
-
-            }
-        };
-    }
-
-    /**
-     * 封装AsyncHttpResponseHandler的回调(刷新用)
-     */
-    public interface IRefreshHttpResponseHandler extends IHttpResponseHandler {
-
-        /**
-         * 响应成功，onSuccess,但抛错的情况
-         */
-        void onResponseException(String responseString, Exception e);
-
-        /**
-         * onFailure的情况
-         */
-        void onResponseFailure(int statusCode, Header[] headers, String responseString, Throwable
-                throwable);
     }
 }
