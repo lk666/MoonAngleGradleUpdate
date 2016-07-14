@@ -55,6 +55,7 @@ import cn.com.bluemoon.delivery.utils.OrdersUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
@@ -162,7 +163,7 @@ public class CouponsPushFragment extends Fragment implements OnClickListener{
 				if(result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
 					txtRegisterTime.setText(String.format(getString(R.string.coupons_record_register_time),
 							DateUtil.getTime(result.getUserBase().getRegistTime(), "yyyy-MM-dd")));
-					String nickName = PublicUtil.getStringByLengh(result.getUserBase().getNickName(), 9);
+					String nickName = LibStringUtil.getStringByLengh(result.getUserBase().getNickName(), 9);
 					txtConsumerName.setText(nickName);
 					txtPhone.setText(result.getUserBase().getMobile());
 					layoutNamePhone.setVisibility(View.VISIBLE);
