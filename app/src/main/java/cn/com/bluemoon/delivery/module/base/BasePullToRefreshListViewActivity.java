@@ -25,7 +25,8 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 /**
  * 基于PullToRefreshListView的基础刷新activity，自动显示空数据页面和网络错误页面
  */
-public abstract class BasePullToRefreshListViewActivity<T extends BaseListAdapter> extends
+public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseListAdapter, ITEM
+        extends Object> extends
         BaseActionBarActivity {
 
     /**
@@ -45,12 +46,12 @@ public abstract class BasePullToRefreshListViewActivity<T extends BaseListAdapte
     /**
      * 列表adapter
      */
-    private T adapter;
+    private ADAPTER adapter;
 
     /**
      * 列表数据
      */
-    private List list;
+    private List<ITEM> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,12 +77,12 @@ public abstract class BasePullToRefreshListViewActivity<T extends BaseListAdapte
         ptrlv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                getMore();
+                getData();
             }
 
             @Override
             public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                getData();
+                getMore();
             }
         });
 
@@ -95,7 +96,7 @@ public abstract class BasePullToRefreshListViewActivity<T extends BaseListAdapte
      *
      * @return 列表的数据adapter
      */
-    protected abstract T getNewAdapter();
+    protected abstract ADAPTER getNewAdapter();
 
     /**
      * 加载更多
@@ -117,21 +118,41 @@ public abstract class BasePullToRefreshListViewActivity<T extends BaseListAdapte
 
             @Override
             public void onResponseSuccess(Object result) {
-                List dataList = getList(result);
+                List dataList = getGetMoreList(result);
                 // 判断数据是否为空
                 if (dataList == null || dataList.isEmpty()) {
 //                    showEmptyView();
                 } else {
-                    if (list != null) {
-                        BasePullToRefreshListViewActivity.this.list.addAll(dataList);
-                    } else {
-                        list = dataList;
-                    }
-                    setData(list);
+                    setGetMore(dataList);
                 }
             }
         }));
     }
+
+    /**
+     * 设置加载更多数据请求成功的列表数据
+     */
+    private void setGetMore(List list) {
+        if (this.list != null) {
+            this.list.addAll(list);
+        } else {
+            setAdapterList(list);
+        }
+        adapter.notifyDataSetChanged();
+    }
+
+    private void setAdapterList(List list) {
+        this.list = list;
+        adapter.setList(this.list);
+    }
+
+    /**
+     * 获取加载更多数据返回，处理请求成功的数据（数据不为空），进而得到列表数据
+     *
+     * @param result 继承ResultBase的classType数据，不为null，也非空数据
+     * @return 列表数据
+     */
+    protected abstract List<ITEM> getGetMoreList(Object result);
 
     /**
      * 具体调用加载更多数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(ClientStateManager.getLoginToken(this),
@@ -196,12 +217,12 @@ public abstract class BasePullToRefreshListViewActivity<T extends BaseListAdapte
 
             @Override
             public void onResponseSuccess(Object result) {
-                List dataList = getList(result);
+                List dataList = getGetDataList(result);
                 // 判断数据是否为空
                 if (dataList == null || dataList.isEmpty()) {
                     showEmptyView();
                 } else {
-                    setData(dataList);
+                    setGetData(dataList);
                     showRefreshView();
                 }
             }
@@ -209,21 +230,23 @@ public abstract class BasePullToRefreshListViewActivity<T extends BaseListAdapte
     }
 
     /**
-     * 获取处理请求成功的数据（数据不为空）得到的，列表的数据
+     * 获取刷新数据返回，处理请求成功的数据（数据不为空），进而得到列表数据
      *
      * @param result 继承ResultBase的classType数据，不为null，也非空数据
      * @return 列表数据
      */
-    protected abstract List getList(Object result);
+    protected abstract List<ITEM> getGetDataList(Object result);
 
     /**
-     * 设置请求成功的列表数据
+     * 设置刷新请求成功的列表数据
      */
-    private void setData(List list) {
+    private void setGetData(List list) {
         if (this.list == null) {
-            this.list = list;
+            setAdapterList(list);
+        } else {
+            this.list.clear();
+            this.list.addAll(list);
         }
-        adapter.setList(list);
         adapter.notifyDataSetChanged();
     }
 

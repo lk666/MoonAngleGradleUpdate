@@ -326,6 +326,11 @@
                   android:theme="@style/App.Base.Theme"
                   android:windowSoftInputMode="stateAlwaysHidden"/>
 
+        <activity android:name=".module.base.TestBasePullToRefreshListViewActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/App.Base.Theme"
+                  android:windowSoftInputMode="stateAlwaysHidden"/>
+
         <service android:name=".card.LocationSvc"/>
 
         <!-- push应用定义消息receiver声明 -->
