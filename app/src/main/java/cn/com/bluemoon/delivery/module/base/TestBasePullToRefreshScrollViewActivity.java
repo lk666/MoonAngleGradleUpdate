@@ -1,7 +1,8 @@
 package cn.com.bluemoon.delivery.module.base;
 
+import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -21,9 +21,11 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesDetail;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesPhotoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 
-public class TestRefreshActivity extends BasePullToRefreshScrollViewActivity implements
+public class TestBasePullToRefreshScrollViewActivity extends BasePullToRefreshScrollViewActivity
+        implements
         OnListItemClickListener {
     /**
      * 已上传的图片列表
@@ -74,12 +76,6 @@ public class TestRefreshActivity extends BasePullToRefreshScrollViewActivity imp
 
     private ClothesPhotoAdapter clothesAdapter;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        ButterKnife.bind(this);
-    }
-
 
     @Override
     protected int getActionBarTitleRes() {
@@ -106,13 +102,17 @@ public class TestRefreshActivity extends BasePullToRefreshScrollViewActivity imp
                 , handler);
     }
 
+
+    boolean is = false;
+
     @Override
     protected boolean isDataEmpty(Object result) {
-        ResultClothesDetail resultClothesDetail = (ResultClothesDetail) result;
-        if (TextUtils.isEmpty(resultClothesDetail.getCollectCode())) {
-            return true;
-        }
-        return false;
+//        ResultClothesDetail resultClothesDetail = (ResultClothesDetail) result;
+//        if (TextUtils.isEmpty(resultClothesDetail.getCollectCode())) {
+//            return true;
+//        }
+        is = !is;
+        return is;
     }
 
     @Override
@@ -206,53 +206,51 @@ public class TestRefreshActivity extends BasePullToRefreshScrollViewActivity imp
         errorView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getData(); 显示加载中
+                refresh();
             }
         });
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     @Override
     protected int getEmptyViewLayoutId() {
-        return 0;
+        return R.layout.view_test_activity_pull_to_refresh_scrollview_empty;
     }
 
     @Override
-    protected void initEmptyViewEvent(View errorView) {
-
+    protected void initEmptyViewEvent(View emptyView) {
+        emptyView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refresh();
+            }
+        });
     }
-
 
     @Override
     protected Class getResultClass() {
-        return null;
+        return ResultClothesDetail.class;
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
+        // 衣物照片
+        if (item instanceof ClothingPic) {
+            ClothingPic pic = (ClothingPic) item;
+            switch (view.getId()) {
+                // 浏览图片
+                case R.id.iv_pic:
+                    // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn
+                    // .net/lvshaorong/article/details/50392057
+                    DialogUtil.showPictureDialog(TestBasePullToRefreshScrollViewActivity.this,
+                            pic.getImgPath());
+                    break;
+            }
+        }
+    }
 
+    public static void actionStart(Context context, String clothesCode) {
+        Intent intent = new Intent(context, TestBasePullToRefreshScrollViewActivity.class);
+        intent.putExtra(EXTRA_CLOTHES_CODE, clothesCode);
+        context.startActivity(intent);
     }
 }

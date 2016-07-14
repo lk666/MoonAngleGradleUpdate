@@ -11,6 +11,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -21,7 +22,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
- * 下拉刷新普通页面，自动显示空数据页面和网络错误页面
+ * 下拉刷新普通页面，自动显示空数据页面和网络错误页面，不需在onCreate中调用 ButterKnife.bind(this)
  */
 public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarActivity {
 
@@ -59,6 +60,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
     }
 
     private void initView() {
+        ptrsv = (PullToRefreshScrollView) findViewById(R.id.ptrsv);
         ptrsv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ScrollView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ScrollView> refreshView) {
@@ -70,14 +72,14 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
             }
         });
 
-        showContentView();
+        initContentView();
         LibViewUtil.setViewVisibility(ptrsv, View.GONE);
     }
 
     /**
      * 设置内容页
      */
-    private void showContentView() {
+    private void initContentView() {
         if (contentView == null) {
             int layoutId = getContentViewLayoutId();
             View viewStub = findViewById(R.id.viewstub_content);
@@ -85,6 +87,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
                 final ViewStub stub = (ViewStub) viewStub;
                 stub.setLayoutResource(layoutId);
                 contentView = stub.inflate();
+                ButterKnife.bind(this);
                 initContentView(contentView);
             }
         }
@@ -92,6 +95,15 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
         LibViewUtil.setViewVisibility(errorView, View.GONE);
         LibViewUtil.setViewVisibility(emptyView, View.GONE);
         LibViewUtil.setViewVisibility(contentView, View.VISIBLE);
+    }
+
+    /**
+     * 显示内容页
+     */
+    private void showRefreshView() {
+        LibViewUtil.setViewVisibility(errorView, View.GONE);
+        LibViewUtil.setViewVisibility(emptyView, View.GONE);
+        LibViewUtil.setViewVisibility(ptrsv, View.VISIBLE);
     }
 
     /**
@@ -107,9 +119,17 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
     protected abstract int getContentViewLayoutId();
 
     /**
+     * 获取界面数据（刷新界面），显示dialog
+     */
+    final protected void refresh() {
+       showProgressDialog();
+        getData();
+    }
+
+    /**
      * 获取界面数据（刷新界面）
      */
-    final protected void getData() {
+     private void getData() {
         LibViewUtil.setChildEnableRecursion(ptrsv, false);
         invokeDeliveryApi(createScrollViewRefreshResponseHandler(new IRefreshHttpResponseHandler() {
 
@@ -131,6 +151,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
                     showEmptyView();
                 } else {
                     setData(result);
+                    showRefreshView();
                 }
             }
         }));
@@ -182,9 +203,9 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
     /**
      * 设置空数据页面
      *
-     * @param errorView
+     * @param emptyView
      */
-    protected abstract void initEmptyViewEvent(View errorView);
+    protected abstract void initEmptyViewEvent(View emptyView);
 
     /**
      * 具体调用 DeliveryApi的方法，格式应如： DeliveryApi.getEmp(ClientStateManager.getLoginToken(this),
@@ -234,7 +255,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
      * @param callback
      * @return
      */
-    protected AsyncHttpResponseHandler createScrollViewRefreshResponseHandler(
+    private AsyncHttpResponseHandler createScrollViewRefreshResponseHandler(
             final IRefreshHttpResponseHandler callback) {
         return new WithClassTextHttpResponseHandler(HTTP.UTF_8, getResultClass()) {
 
@@ -246,6 +267,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
                 }
                 LogUtils.d(getDefaultTag(), "baseExtendHandler result = " + responseString);
                 ptrsv.onRefreshComplete();
+                dismissProgressDialog();
                 LibViewUtil.setChildEnableRecursion(ptrsv, true);
                 try {
                     Object obj = classType.newInstance();
@@ -289,6 +311,7 @@ public abstract class BasePullToRefreshScrollViewActivity extends BaseActionBarA
                 }
                 LogUtils.e(getDefaultTag(), throwable.getMessage());
                 ptrsv.onRefreshComplete();
+                dismissProgressDialog();
                 LibViewUtil.setChildEnableRecursion(ptrsv, true);
 
                 if (callback != null) {
