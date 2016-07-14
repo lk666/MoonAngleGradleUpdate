@@ -1,7 +1,5 @@
 package cn.com.bluemoon.delivery.app.api.model.team;
 
-import java.util.List;
-
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**

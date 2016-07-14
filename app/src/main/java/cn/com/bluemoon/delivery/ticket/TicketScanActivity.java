@@ -1,15 +1,21 @@
 package cn.com.bluemoon.delivery.ticket;
 
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.utils.StringUtils;
-
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.google.zxing.Result;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.utils.StringUtils;
+
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -24,11 +30,6 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.qrcode.CaptureActivity;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.google.zxing.Result;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 public class TicketScanActivity extends CaptureActivity{
 	

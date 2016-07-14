@@ -35,7 +35,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.address.SelectAddressByDepthActivity;
+import cn.com.bluemoon.delivery.common.SelectAddressByDepthActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultQueryActivityLimitNum;
@@ -45,10 +45,8 @@ import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
-        .CreateClothesInfoActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
-        .ModifyClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo.CreateClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;

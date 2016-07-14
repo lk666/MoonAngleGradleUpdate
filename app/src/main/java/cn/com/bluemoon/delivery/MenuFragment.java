@@ -10,10 +10,8 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,20 +20,16 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.ui.BindView;
 import org.kymjs.kjframe.utils.StringUtils;
 
 import cn.com.bluemoon.delivery.account.ChangePswActivity;
 import cn.com.bluemoon.delivery.account.LoginActivity;
 import cn.com.bluemoon.delivery.account.SettingActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultAngelQr;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultUser;
 import cn.com.bluemoon.delivery.app.api.model.User;
-import cn.com.bluemoon.delivery.card.CardTabActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -91,7 +85,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         setUserInfo();
         return view;
     }
-    private void setUserInfo() {
+    public void setUserInfo() {
         txtUserid.setText(ClientStateManager.getUserName(mContext));
         if (user != null) {
             txtUserid.setText(user.getAccount());

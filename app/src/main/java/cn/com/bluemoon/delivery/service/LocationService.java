@@ -1,16 +1,12 @@
 package cn.com.bluemoon.delivery.service;
 
-import java.util.List;
-
+import android.content.Context;
 
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
-import com.baidu.location.Poi;
 import com.baidu.location.LocationClientOption.LocationMode;
-
-import android.content.Context;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.LogUtils;

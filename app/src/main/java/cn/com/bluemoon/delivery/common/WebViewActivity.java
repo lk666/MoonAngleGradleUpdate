@@ -1,7 +1,6 @@
-package cn.com.bluemoon.delivery.web;
+package cn.com.bluemoon.delivery.common;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -20,22 +19,17 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
-
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class WebViewActivity extends Activity {
@@ -230,7 +224,7 @@ public class WebViewActivity extends Activity {
 
 		@Override
 		public void scan(WebView view,String title, String callbackName) {
-			PublicUtil.openScanCard(aty, title, Constants.REQUEST_SCAN);
+			PublicUtil.openScanCard(aty, null,title, Constants.REQUEST_SCAN);
 			scanCallbackName = callbackName;
 		}
 

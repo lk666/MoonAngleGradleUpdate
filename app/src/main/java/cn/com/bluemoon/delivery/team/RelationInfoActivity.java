@@ -27,6 +27,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.team.Community;
 import cn.com.bluemoon.delivery.app.api.model.team.Emp;
+import cn.com.bluemoon.delivery.app.api.model.team.EmpEdit;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultCommunityList;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultRelationDetail;
@@ -55,7 +56,7 @@ public class RelationInfoActivity extends KJActivity {
     private TextView txtType;
     @BindView(id = R.id.txt_community, click = true)
     private TextView txtCommunity;
-    @BindView(id = R.id.txt_service, click = true)
+    @BindView(id = R.id.txt_service)
     private TextView txtService;
     @BindView(id = R.id.txt_full, click = true)
     private TextView txtFull;
@@ -85,11 +86,8 @@ public class RelationInfoActivity extends KJActivity {
     private LinearLayout layoutWorkLengh;
     private CommonProgressDialog progressDialog;
     private RelationDetail item;
-    private Emp emp;
-    private String type;
+    private EmpEdit empEdit;
     private List<Community> listCommunity;
-    private List<Community> listGroup;
-    private boolean isCommunity;
 
     @Override
     public void setRootView() {
@@ -99,19 +97,19 @@ public class RelationInfoActivity extends KJActivity {
     @Override
     public void initWidget() {
         super.initWidget();
-        String relType = Constants.RELTYPE_COMMUNITY;
         if (getIntent() != null) {
-            type = getIntent().getStringExtra("type");
-            emp = (Emp) getIntent().getSerializableExtra("emp");
-            relType = getIntent().getStringExtra("relType");
+            empEdit = (EmpEdit) getIntent().getSerializableExtra("empEdit");
+        }
+        if (empEdit == null) {
+            PublicUtil.showToastErrorData();
+            finish();
+            return;
         }
         initCustomActionBar();
-        if (emp == null) return;
         progressDialog = new CommonProgressDialog(aty);
-        txtStartDate.setMinDate(DateUtil.getTimeOffsetMonth());
-        txtStartDate.setMaxDate(System.currentTimeMillis());
         txtStartDate.setCallBack(callback);
         txtEndDate.setCallBack(callback);
+        txtStartDate.updateMinDate(DateUtil.getTimeOffsetMonth());
         txtPhone = PublicUtil.getPhoneView(aty, txtPhone);
         txtWorkLengh.setCallBack(new CommonEditTextCallBack() {
             @Override
@@ -127,32 +125,46 @@ public class RelationInfoActivity extends KJActivity {
         if (item == null) {
             item = new RelationDetail();
         }
-        item.setBpCode(emp.getBpCode());
-        item.setEmpCode(emp.getEmpCode());
-        item.setEmpName(emp.getEmpName());
-        item.setMobileNo(emp.getMobileNo());
-        item.setRelType(relType);
+        item.setBpCode(empEdit.getGroupCode());
+        item.setBpName(empEdit.getGroupName());
+        item.setBpCode1(empEdit.getCommunityCode());
+        item.setBpName1(empEdit.getCommunityName());
+        item.setEmpCode(empEdit.getEmpCode());
+        item.setEmpName(empEdit.getEmpName());
+        item.setMobileNo(empEdit.getMobileNo());
+        item.setRelType(empEdit.getRelType());
         txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
         txtPhone.setText(item.getMobileNo());
-        if (Constants.TYPE_ADD.equals(type)) {
-            if (Constants.RELTYPE_GROUP.equals(relType)) {
+        if (Constants.TYPE_ADD.equals(empEdit.getType())) {
+            if (Constants.RELTYPE_GROUP.equals(item.getRelType())) {
                 line1.setVisibility(View.VISIBLE);
                 layoutGroup.setVisibility(View.VISIBLE);
+                imgRight1.setVisibility(View.GONE);
+                imgRight2.setVisibility(View.GONE);
+                txtCommunity.setClickable(false);
+                txtService.setClickable(false);
                 txtType.setText(getString(R.string.team_group));
-            } else {
+                txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
+                txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
+            } else if (Constants.RELTYPE_COMMUNITY.equals(item.getRelType())) {
                 txtType.setText(getString(R.string.team_community));
+                getCommunity();
             }
-            getCommunity();
             item.setWorkType(Constants.WORKTYPE_FULL);
-        } else if (Constants.TYPE_UPDATE.equals(type)) {
+        } else if (Constants.TYPE_UPDATE.equals(empEdit.getType())) {
             imgRight1.setVisibility(View.GONE);
             imgRight2.setVisibility(View.GONE);
             txtCommunity.setClickable(false);
             txtService.setClickable(false);
+            String bpCode = item.getBpCode();
+            if (Constants.RELTYPE_COMMUNITY.equals(item.getRelType())) {
+                bpCode = item.getBpCode1();
+            }
             if (progressDialog != null) {
                 progressDialog.show();
             }
-            DeliveryApi.getRelationShipDetail(item.getBpCode(), item.getEmpCode(), ClientStateManager.getLoginToken(aty), getRelationShipDetailHandler);
+            DeliveryApi.getRelationShipDetail(bpCode, item.getEmpCode(),
+                    ClientStateManager.getLoginToken(aty), getRelationShipDetailHandler);
         }
     }
 
@@ -161,17 +173,12 @@ public class RelationInfoActivity extends KJActivity {
         public void onDate(View view, long date) {
             if (view == txtStartDate) {
                 item.setStartDate(date);
+                txtEndDate.updateMinDate(date);
             } else if (view == txtEndDate) {
                 item.setEndDate(date);
             }
+
         }
-
-        @Override
-        public boolean cancelClick(View view) {
-            return false;
-        }
-
-
     };
 
     @Override
@@ -182,13 +189,7 @@ public class RelationInfoActivity extends KJActivity {
             if (listCommunity == null) {
                 getCommunity();
             } else {
-                openSelectView(listCommunity, getString(R.string.team_member_detail_community_select), 1);
-            }
-        } else if (v == txtService) {
-            if (listGroup == null) {
-                getGroup();
-            } else {
-                openSelectView(listGroup, getString(R.string.team_member_detail_group_select), 2);
+                openSelectView(listCommunity);
             }
         } else if (v == txtFull) {
             setWorkType(true);
@@ -199,16 +200,16 @@ public class RelationInfoActivity extends KJActivity {
         }
     }
 
-    private void openSelectView(List<Community> lists, String title, int requestCode) {
+    private void openSelectView(List<Community> lists) {
         if (lists == null) return;
         ArrayList<String> list = new ArrayList<>();
         for (Community i : lists) {
             list.add(PublicUtil.getStringParams(i.getBpCode(), i.getBpName()));
         }
         Intent intent = new Intent(aty, CommonSelectActivity.class);
-        intent.putExtra("title", title);
+        intent.putExtra("title", getString(R.string.team_member_detail_community_select));
         intent.putStringArrayListExtra("list", list);
-        startActivityForResult(intent, requestCode);
+        startActivityForResult(intent, 1);
     }
 
     private void setData() {
@@ -221,7 +222,7 @@ public class RelationInfoActivity extends KJActivity {
         } else {
             txtType.setText(getString(R.string.team_community));
         }
-        if(!item.isEdit){
+        if (!item.isEdit) {
             txtStartDate.setClickable(false);
             imgRight3.setVisibility(View.INVISIBLE);
         }
@@ -242,6 +243,7 @@ public class RelationInfoActivity extends KJActivity {
         }
         txtStartDate.setText(DateUtil.getTime(item.getStartDate(), "yyyy-MM-dd"));
         txtEndDate.setText(DateUtil.getTime(item.getEndDate(), "yyyy-MM-dd"));
+        txtEndDate.updateMinDate(item.getStartDate());
         txtRemark.setText(item.getRemark());
         txtRemark.updateCleanable(0, false);
     }
@@ -260,11 +262,11 @@ public class RelationInfoActivity extends KJActivity {
             PublicUtil.showToast("开始时间不能为空");
             return;
         }
-        if(item.getStartDate()<DateUtil.getTimeOffsetMonth()){
+        if (item.isEdit && item.getStartDate() < DateUtil.getTimeOffsetMonth()) {
             PublicUtil.showToast("开始时间不能早于一个月前");
             return;
         }
-        if (item.getEndDate()>0&&item.getStartDate()>item.getEndDate()) {
+        if (item.getEndDate() > 0 && item.getStartDate() > item.getEndDate()) {
             PublicUtil.showToast("结束时间不能早于开始时间");
             return;
         }
@@ -285,10 +287,8 @@ public class RelationInfoActivity extends KJActivity {
         item.setRemark(txtRemark.getText().toString());
 
         if (progressDialog != null) progressDialog.show();
-        DeliveryApi.addRelationShip(item.getBpCode1(), item.getBpName1(), item.getEmpCode(),
-                item.getEmpName(), item.getEndDate(), item.getBpCode(), item.getBpName(), item.getRelType(),
-                item.getRemark(), item.getStartDate(), ClientStateManager.getLoginToken(aty), type,
-                item.getWorkLength(), item.getWorkType(), addRelationShipHandler);
+        DeliveryApi.addRelationShip(item, ClientStateManager.getLoginToken(aty),
+                empEdit.getType(), addRelationShipHandler);
     }
 
     private void setWorkType(boolean isFull) {
@@ -322,32 +322,13 @@ public class RelationInfoActivity extends KJActivity {
         if (progressDialog != null) {
             progressDialog.show();
         }
-        isCommunity = true;
         DeliveryApi.getCommunityList(ClientStateManager.getLoginToken(aty), getCommunityListHandler);
-    }
-
-    private void getGroup() {
-        if (StringUtils.isEmpty(item.getBpCode1())) {
-            PublicUtil.showToast(getString(R.string.team_member_detail_community_hint));
-            return;
-        }
-        if (progressDialog != null) progressDialog.show();
-        isCommunity = false;
-        DeliveryApi.getGroupListByCommunity(item.getBpCode1(),
-                ClientStateManager.getLoginToken(aty), getCommunityListHandler);
     }
 
     private void setCommunity(Community community) {
         item.setBpCode1(community.getBpCode());
         item.setBpName1(community.getBpName());
         txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
-        getGroup();
-    }
-
-    private void setGroup(Community community) {
-        item.setBpCode(community.getBpCode());
-        item.setBpName(community.getBpName());
-        txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
     }
 
     AsyncHttpResponseHandler getRelationShipDetailHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -357,12 +338,12 @@ public class RelationInfoActivity extends KJActivity {
             if (progressDialog != null)
                 progressDialog.dismiss();
             try {
-                ResultRelationDetail relationDetailResult = JSON.parseObject(responseString, ResultRelationDetail.class);
-                if (relationDetailResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    item = relationDetailResult.getRelationDetail();
+                ResultRelationDetail result = JSON.parseObject(responseString, ResultRelationDetail.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    item = result.getRelationDetail();
                     setData();
                 } else {
-                    PublicUtil.showErrorMsg(aty, relationDetailResult);
+                    PublicUtil.showErrorMsg(aty, result);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
@@ -422,13 +403,9 @@ public class RelationInfoActivity extends KJActivity {
             try {
                 ResultCommunityList result = JSON.parseObject(responseString, ResultCommunityList.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    if (isCommunity) {
-                        listCommunity = result.getItemList();
-                        if (listCommunity.size() == 1) {
-                            setCommunity(listCommunity.get(0));
-                        }
-                    } else {
-                        listGroup = result.getItemList();
+                    listCommunity = result.getItemList();
+                    if (listCommunity.size() == 1) {
+                        setCommunity(listCommunity.get(0));
                     }
                 } else {
                     PublicUtil.showErrorMsg(aty, result);
@@ -475,7 +452,7 @@ public class RelationInfoActivity extends KJActivity {
 
             @Override
             public void setTitle(TextView v) {
-                if (Constants.TYPE_ADD.equals(type)) {
+                if (Constants.TYPE_ADD.equals(empEdit.getType())) {
                     v.setText(getText(R.string.team_member_add_title));
                 } else {
                     v.setText(getText(R.string.team_member_edit_title));
@@ -495,9 +472,6 @@ public class RelationInfoActivity extends KJActivity {
             switch (requestCode) {
                 case 1:
                     setCommunity(listCommunity.get(index));
-                    break;
-                case 2:
-                    setGroup(listGroup.get(index));
                     break;
             }
         }

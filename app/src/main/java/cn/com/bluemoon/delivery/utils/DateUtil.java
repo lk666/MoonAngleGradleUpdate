@@ -1,11 +1,11 @@
 package cn.com.bluemoon.delivery.utils;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 
-import android.annotation.SuppressLint;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
 
 @SuppressLint("SimpleDateFormat")
@@ -17,7 +17,7 @@ public class DateUtil extends LibDateUtil{
 	        return formatter.parse(date);  
 	    } catch (ParseException e) {  
 	        e.printStackTrace();  
-	        return new Date();  
+	        return new Date(System.currentTimeMillis());
 	    }  
 	}  
 	  

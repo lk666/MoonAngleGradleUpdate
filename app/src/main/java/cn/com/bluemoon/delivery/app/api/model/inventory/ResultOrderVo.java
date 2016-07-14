@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.app.api.model.inventory;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.entity.BaseAPIResult;
 
 /**
  * Created by allenli on 2016/3/23.

@@ -1,8 +1,9 @@
 package cn.com.bluemoon.delivery.utils;
 
+import android.content.Context;
+
 import java.io.File;
 
-import android.content.Context;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 
 public class CacheManager extends LibCacheUtil {

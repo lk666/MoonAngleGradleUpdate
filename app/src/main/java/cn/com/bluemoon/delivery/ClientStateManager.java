@@ -28,7 +28,6 @@ public class ClientStateManager {
 
 	private static final String TOTAL_PRICE_KEY = "TOTAL_PRICE_KEY";
 	private static final String LOGIN_TOKEN_KEY= "LOGIN_TOKEN_KEY";
-	private static final String IS_BUY_GOODS= "IS_BUY_GOODS";
 	private static final String USER_NAME_KEY = "USER_NAME_KEY";
 	private static final String CHANNEL_ID="CHANNEL_ID";
 	private static final String CARD_SEARCH_HISTORY = "CARD_SEARCH_HISTORY";
@@ -51,27 +50,6 @@ public class ClientStateManager {
 		MenuFragment.user = null;
 	}
 	
-	
-	
-	
-	// total price of goods
-	public static String getTotalPrice(Context ctx) {
-
-		SharedPreferences pref = PreferenceManager
-				.getDefaultSharedPreferences(ctx);
-		return pref.getString(TOTAL_PRICE_KEY, "0.00");
-	}
-
-	public static boolean setTotalPrice(Context ctx, String price) {
-		try {
-			SharedPreferences pref = PreferenceManager
-					.getDefaultSharedPreferences(ctx);
-			pref.edit().putString(TOTAL_PRICE_KEY, price).commit();
-		} catch (Exception e) {
-			return false;
-		}
-		return true;
-	}
 
 	// token store
 
@@ -174,6 +152,7 @@ public class ClientStateManager {
 					.getDefaultSharedPreferences(ctx);
 			pref.edit().putString(CARD_TIPS_LOCATION, tips).commit();
 		} catch (Exception e) {
+			LogUtils.e("setTipsByDay","error",e);
 			return false;
 		}
 		return true;

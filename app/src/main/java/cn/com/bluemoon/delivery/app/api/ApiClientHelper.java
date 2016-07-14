@@ -1,10 +1,10 @@
-package cn.com.bluemoon.delivery.app.api;  
-
-import java.util.ArrayList;
-import java.util.List;
+package cn.com.bluemoon.delivery.app.api;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.app.AppContext;

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.TextView;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.GetStorehousesJsonResult.Storehouse;
 

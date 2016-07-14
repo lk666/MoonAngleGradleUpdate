@@ -31,6 +31,7 @@
     <string name="main_tab_sale">现场签收</string>
     <string name="main_tab_ticket">科技馆检票</string>
     <string name="main_tab_card">打卡</string>
+    <string name="main_empty_menu">暂无菜单数据</string>
 
     <!-- BTN-->
     <string name="btn_ok_with_space">确  定</string>
@@ -871,10 +872,6 @@
     <string name="team_group_groupnum">总小组数：%s</string>
     <string name="team_group_membernum">总人数：%1$s/%2$s</string>
     <string name="team_group_leader">组长：%s</string>
-    <string name="team_group_empty_group">暂无小组信息</string>
-    <string name="team_group_empty_detail">暂无小组详情</string>
-    <string name="team_group_empty_member">暂无团队成员</string>
-    <string name="team_group_empty_area">暂无人员辖区</string>
     <string name="team_group_search_hint">请输入编码/小组名称</string>
     <string name="team_member_search_hint">请输入关键字</string>
     <string name="team_group_member_search_hint">请输入人员编码或名称</string>
@@ -909,7 +906,7 @@
     <string name="team_member_detail_content">备注</string>
     <string name="team_member_detail_content_hint">请填写备注</string>
     <string name="team_member_add_title">填写关系信息</string>
-    <string name="team_member_edit_title">编辑关系信息</string>
+    <string name="team_member_edit_title">编辑人员关系</string>
     <string name="team_member_add_existed">该人员已建立关系，\n不可重复！</string>
     <string name="team_area_total_num">总户数：%s</string>
     <string name="team_area_num">户：%s</string>

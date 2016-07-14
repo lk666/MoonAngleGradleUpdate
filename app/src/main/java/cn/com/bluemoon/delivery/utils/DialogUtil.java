@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.utils;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.lib.callback.CodeDialogCallback;
 import cn.com.bluemoon.lib.callback.ImageDialogCallback;

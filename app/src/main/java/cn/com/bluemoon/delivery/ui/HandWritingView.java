@@ -13,6 +13,7 @@ import android.graphics.Path;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.view.View;
+
 import cn.com.bluemoon.delivery.R;
 
 public class HandWritingView extends View {

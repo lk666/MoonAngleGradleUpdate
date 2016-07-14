@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.team;
+package cn.com.bluemoon.delivery.common;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -15,7 +15,6 @@ import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 

@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.address;
+package cn.com.bluemoon.delivery.common;
 
 import android.app.Activity;
 import android.app.ListActivity;

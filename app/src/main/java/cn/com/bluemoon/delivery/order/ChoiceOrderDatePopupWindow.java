@@ -1,12 +1,5 @@
 package cn.com.bluemoon.delivery.order;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Locale;
-
-import org.apache.commons.lang3.StringUtils;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -22,6 +15,14 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.TimePicker;
+
+import org.apache.commons.lang3.StringUtils;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.OrderVo;
 import cn.com.bluemoon.delivery.async.listener.IOrderChoiceDateListener;

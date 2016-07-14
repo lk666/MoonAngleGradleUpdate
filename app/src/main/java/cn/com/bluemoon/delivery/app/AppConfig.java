@@ -1,16 +1,14 @@
-package cn.com.bluemoon.delivery.app;  
-
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.util.List;
-import java.util.Properties;
+package cn.com.bluemoon.delivery.app;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Environment;
 import android.preference.PreferenceManager;
-import cn.com.bluemoon.delivery.app.api.model.Dict;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.util.Properties;
 
 public class AppConfig {
 	private final static String APP_CONFIG = "config";

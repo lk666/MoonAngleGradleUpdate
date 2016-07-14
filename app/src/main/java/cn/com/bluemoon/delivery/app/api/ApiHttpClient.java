@@ -1,21 +1,20 @@
-package cn.com.bluemoon.delivery.app.api;  
-
-import java.io.UnsupportedEncodingException;
-import java.util.Locale;
-
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.entity.ByteArrayEntity;
+package cn.com.bluemoon.delivery.app.api;
 
 import android.content.Context;
-
-import cn.com.bluemoon.delivery.BuildConfig;
-import cn.com.bluemoon.delivery.app.AppContext;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
+
+import org.apache.http.client.params.ClientPNames;
+import org.apache.http.entity.ByteArrayEntity;
+
+import java.io.UnsupportedEncodingException;
+import java.util.Locale;
+
+import cn.com.bluemoon.delivery.BuildConfig;
+import cn.com.bluemoon.delivery.app.AppContext;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 
 public class ApiHttpClient {
 
