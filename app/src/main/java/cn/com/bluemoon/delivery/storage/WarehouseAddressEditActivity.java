@@ -20,7 +20,7 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.address.SelectAddressActivity;
+import cn.com.bluemoon.delivery.common.SelectAddressActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.app.api.model.storage.ResultMallStoreRecieverAddress;

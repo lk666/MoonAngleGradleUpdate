@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.team;
+package cn.com.bluemoon.delivery.common;
 
 import android.content.Intent;
 import android.os.Handler;

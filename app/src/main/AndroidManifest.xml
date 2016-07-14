@@ -181,11 +181,11 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".address.SelectAddressActivity"
+            android:name=".common.SelectAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".address.SelectAddressByDepthActivity"
+            android:name=".common.SelectAddressByDepthActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
@@ -214,7 +214,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".web.WebViewActivity"
+            android:name=".common.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
@@ -384,7 +384,7 @@
             android:theme="@style/App.Base.Theme" />
 
         <activity
-            android:name=".team.SearchActivity"
+            android:name=".common.SearchActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
