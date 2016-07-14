@@ -21,12 +21,10 @@ import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 
 public class TestBasePullToRefreshListViewActivity extends
         BasePullToRefreshListViewActivity<TestBasePullToRefreshListViewActivity.CollectAdapter,
-                OuterOrderReceive>
-        implements OnListItemClickListener {
+                OuterOrderReceive> implements OnListItemClickListener {
     /**
      * 洗衣服务订单号
      */
@@ -133,11 +131,6 @@ public class TestBasePullToRefreshListViewActivity extends
     @Override
     protected void invokeGetMoreDeliveryApi(AsyncHttpResponseHandler handler) {
         DeliveryApi.getOuterOrderInfo(outerCode, ClientStateManager.getLoginToken(this), handler);
-    }
-
-    @Override
-    protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.BOTH;
     }
 
     @Override

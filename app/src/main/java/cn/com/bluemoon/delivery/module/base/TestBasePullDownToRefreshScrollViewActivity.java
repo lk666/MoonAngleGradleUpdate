@@ -24,9 +24,8 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 
-public class TestBasePullToRefreshScrollViewActivity extends BasePullToRefreshScrollViewActivity
-        implements
-        OnListItemClickListener {
+public class TestBasePullDownToRefreshScrollViewActivity extends BasePullDownToRefreshScrollViewActivity
+        implements OnListItemClickListener {
     /**
      * 已上传的图片列表
      */
@@ -97,7 +96,7 @@ public class TestBasePullToRefreshScrollViewActivity extends BasePullToRefreshSc
     }
 
     @Override
-    protected void invokeDeliveryApi(AsyncHttpResponseHandler handler) {
+    protected void invokeGetDataDeliveryApi(AsyncHttpResponseHandler handler) {
         DeliveryApi.getCollectInfoDetailsItem(clothesCode, ClientStateManager.getLoginToken(this)
                 , handler);
     }
@@ -116,7 +115,7 @@ public class TestBasePullToRefreshScrollViewActivity extends BasePullToRefreshSc
     }
 
     @Override
-    protected void setData(Object result) {
+    protected void setGetDataObj(Object result) {
         setClothesInfo((ResultClothesDetail) result);
     }
 
@@ -241,7 +240,7 @@ public class TestBasePullToRefreshScrollViewActivity extends BasePullToRefreshSc
                 case R.id.iv_pic:
                     // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn
                     // .net/lvshaorong/article/details/50392057
-                    DialogUtil.showPictureDialog(TestBasePullToRefreshScrollViewActivity.this,
+                    DialogUtil.showPictureDialog(TestBasePullDownToRefreshScrollViewActivity.this,
                             pic.getImgPath());
                     break;
             }
@@ -249,7 +248,7 @@ public class TestBasePullToRefreshScrollViewActivity extends BasePullToRefreshSc
     }
 
     public static void actionStart(Context context, String clothesCode) {
-        Intent intent = new Intent(context, TestBasePullToRefreshScrollViewActivity.class);
+        Intent intent = new Intent(context, TestBasePullDownToRefreshScrollViewActivity.class);
         intent.putExtra(EXTRA_CLOTHES_CODE, clothesCode);
         context.startActivity(intent);
     }
