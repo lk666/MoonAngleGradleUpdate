@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.base;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ListView;
 
@@ -18,6 +19,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 // TODO: lk 2016/7/14 实现类似的fragment的刷新基类
 // TODO: lk 2016/7/14 缺少一种Mode.PULL_FROM_START的刷新基类
@@ -151,7 +153,7 @@ public abstract class BasePullToRefreshActivity extends BaseActionBarActivity {
     /**
      * 获取界面数据（刷新界面），显示dialog
      */
-    final protected void refresh() {
+    private void refresh() {
         showProgressDialog();
         getData();
     }
@@ -191,7 +193,7 @@ public abstract class BasePullToRefreshActivity extends BaseActionBarActivity {
      */
     protected void showEmptyView() {
         if (emptyView == null) {
-            int layoutId = getEmptyViewLayoutId();
+            int layoutId = R.layout.viewstub_wrapper;
             final View viewStub = findViewById(R.id.viewstub_empty);
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
@@ -207,16 +209,21 @@ public abstract class BasePullToRefreshActivity extends BaseActionBarActivity {
     }
 
     /**
-     * 获取空数据页面的layout的id
-     */
-    protected abstract int getEmptyViewLayoutId();
-
-    /**
      * 设置空数据页面
      *
      * @param emptyView
      */
-    protected abstract void initEmptyViewEvent(View emptyView);
+    private void initEmptyViewEvent(View emptyView) {
+        // TODO: lk 2016/7/14 空白页
+        CommonEmptyView empty = new CommonEmptyView(this);
+        empty.setEmptyListener(new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+        ((ViewGroup) emptyView).addView(empty);
+    }
 
     /**
      * 具体调用刷新数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(ClientStateManager.getLoginToken(this),
@@ -231,7 +238,7 @@ public abstract class BasePullToRefreshActivity extends BaseActionBarActivity {
      */
     private void showNetErrorView() {
         if (errorView == null) {
-            int layoutId = getErrorViewLayoutId();
+            int layoutId = R.layout.viewstub_wrapper;
             View viewStub = findViewById(R.id.viewstub_error);
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
@@ -239,7 +246,6 @@ public abstract class BasePullToRefreshActivity extends BaseActionBarActivity {
                 errorView = stub.inflate();
                 initErrorViewEvent(errorView);
             }
-
         }
 
         LibViewUtil.setViewVisibility(emptyView, View.GONE);
@@ -248,16 +254,21 @@ public abstract class BasePullToRefreshActivity extends BaseActionBarActivity {
     }
 
     /**
-     * 获取错误页面的layout的id
-     */
-    protected abstract int getErrorViewLayoutId();
-
-    /**
      * 设置错误页面
      *
      * @param errorView
      */
-    protected abstract void initErrorViewEvent(View errorView);
+    private void initErrorViewEvent(View errorView) {
+        // TODO: lk 2016/7/14 错误页
+        CommonEmptyView error = new CommonEmptyView(this);
+        error.setEmptyListener(new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                refresh();
+            }
+        });
+        ((ViewGroup) errorView).addView(error);
+    }
 
     /**
      * 创建一个用于刷新详情的拓展AsyncHttpResponseHandler

@@ -196,36 +196,6 @@ public class TestBasePullDownToRefreshScrollViewActivity extends BasePullDownToR
     }
 
     @Override
-    protected int getErrorViewLayoutId() {
-        return R.layout.view_test_activity_pull_to_refresh_scrollview_error;
-    }
-
-    @Override
-    protected void initErrorViewEvent(View errorView) {
-        errorView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refresh();
-            }
-        });
-    }
-
-    @Override
-    protected int getEmptyViewLayoutId() {
-        return R.layout.view_test_activity_pull_to_refresh_scrollview_empty;
-    }
-
-    @Override
-    protected void initEmptyViewEvent(View emptyView) {
-        emptyView.findViewById(R.id.btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                refresh();
-            }
-        });
-    }
-
-    @Override
     protected Class getResultClass() {
         return ResultClothesDetail.class;
     }

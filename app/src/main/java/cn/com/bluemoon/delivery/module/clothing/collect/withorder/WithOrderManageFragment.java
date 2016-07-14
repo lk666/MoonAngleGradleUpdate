@@ -36,6 +36,7 @@ import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.base.TestBasePullToRefreshListViewActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -531,8 +532,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 } else if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
                         .OUTERCODE_TYPE_WASHORDER)) {
                     // 收衣单号
-                    Intent i = new Intent(main, WithOrderOuterDetailActivity.class);
-                    i.putExtra(WithOrderOuterDetailActivity.EXTRA_OUTERCODE, order.getOuterCode());
+                    Intent i = new Intent(main, TestBasePullToRefreshListViewActivity.class);
+                    i.putExtra(TestBasePullToRefreshListViewActivity.EXTRA_OUTERCODE, order.getOuterCode());
                     startActivity(i);
                 }
                 break;
