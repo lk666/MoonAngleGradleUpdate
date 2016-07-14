@@ -24,11 +24,9 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,10 +36,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.card.WorkTask;
-import cn.com.bluemoon.delivery.app.api.model.punchcard.ImageBean;
-import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultGetPunchCardById;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultShowPunchCardDetail;
-import cn.com.bluemoon.delivery.app.api.model.punchcard.WorkDaily;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -51,8 +46,6 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.tagview.Tag;
 import cn.com.bluemoon.lib.tagview.TagListView;
-import cn.com.bluemoon.lib.tagview.TagView;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 

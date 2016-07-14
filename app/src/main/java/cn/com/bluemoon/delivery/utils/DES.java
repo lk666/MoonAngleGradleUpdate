@@ -1,5 +1,5 @@
 package cn.com.bluemoon.delivery.utils;
-import java.io.IOException;
+
 import java.security.SecureRandom;
 
 import javax.crypto.Cipher;

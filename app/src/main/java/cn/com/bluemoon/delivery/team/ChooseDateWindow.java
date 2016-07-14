@@ -20,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import org.kymjs.kjframe.utils.StringUtils;
-
 import java.util.Calendar;
 import java.util.Locale;
 

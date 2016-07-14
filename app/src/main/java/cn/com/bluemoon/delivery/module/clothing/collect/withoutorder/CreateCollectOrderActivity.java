@@ -45,10 +45,8 @@ import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
-        .CreateClothesInfoActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
-        .ModifyClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo.CreateClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;

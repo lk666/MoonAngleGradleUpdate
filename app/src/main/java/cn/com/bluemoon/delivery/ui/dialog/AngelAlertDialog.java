@@ -9,6 +9,7 @@ import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 import cn.com.bluemoon.delivery.R;
 
 public class AngelAlertDialog extends Dialog {

@@ -14,14 +14,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +25,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
-import org.w3c.dom.Text;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayOutputStream;

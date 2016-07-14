@@ -16,7 +16,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 

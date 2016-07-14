@@ -13,7 +13,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.BaseAdapter;
-import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,23 +22,19 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.ui.BindView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.card.ResultWorkPlaceList;
-import cn.com.bluemoon.delivery.app.api.model.card.Workplace;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultGetProduct;
+import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultGetProduct.Product;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -50,7 +45,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonClearEditText;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultGetProduct.Product;
 
 /**
  * Created by liangjiangli on 2016/4/1.

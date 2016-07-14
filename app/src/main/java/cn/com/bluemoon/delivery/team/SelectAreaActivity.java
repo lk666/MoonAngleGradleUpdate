@@ -22,8 +22,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
 import org.kymjs.kjframe.utils.StringUtils;
 
 import java.util.ArrayList;

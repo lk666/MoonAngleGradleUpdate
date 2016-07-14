@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,19 +19,14 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
-import cn.com.bluemoon.delivery.app.api.model.card.Workplace;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;

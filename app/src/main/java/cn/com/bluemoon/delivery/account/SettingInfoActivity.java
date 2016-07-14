@@ -1,10 +1,5 @@
 package cn.com.bluemoon.delivery.account;
 
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Handler;
@@ -12,6 +7,16 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.umeng.analytics.MobclickAgent;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.ui.BindView;
 
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
@@ -29,11 +34,6 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
 
 public class SettingInfoActivity extends KJActivity {
 

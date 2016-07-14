@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery.ui;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.view.MotionEvent;
 import android.widget.GridView;
 
 /**
