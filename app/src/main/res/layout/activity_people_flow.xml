@@ -118,7 +118,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/people_flow_start_time"
-                    android:textColor="@color/title_background"
+                    android:textColor="@color/text_blue"
                     android:textSize="14sp" />
                 <TextView
                     android:layout_width="wrap_content"
@@ -133,7 +133,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:text="@string/people_flow_end_time"
-                    android:textColor="@color/title_background"
+                    android:textColor="@color/text_blue"
                     android:textSize="14sp" />
             </LinearLayout>
 

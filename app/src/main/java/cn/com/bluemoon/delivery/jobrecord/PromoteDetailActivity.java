@@ -9,6 +9,7 @@ import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -42,6 +43,7 @@ import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ImageBean;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.ShowMultipleImageView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
@@ -104,6 +106,22 @@ public class PromoteDetailActivity extends Activity {
         bpCode = getIntent().getStringExtra("bpCode");
         progressDialog.show();
         DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), bpCode, getPromoteInfoHandler );
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images != null && images.size() > 0) {
+                    String[] urls = new String[images.size()];
+                    for (int i = 0; i < images.size(); i++) {
+                        urls[i] = images.get(i).getFilePath();
+                    }
+                    Intent intent = new Intent(PromoteDetailActivity.this, ShowMultipleImageView.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("bitmaps", urls);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
     }
     AsyncHttpResponseHandler getPromoteInfoHandler = new TextHttpResponseHandler() {
 
@@ -233,17 +251,6 @@ public class PromoteDetailActivity extends Activity {
                     }
                 });
             }
-
-            imgWork.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(img.getBitmap()==null){
-                        PublicUtil.showToast(getString(R.string.down_image_not_complete));
-                    } else {
-                        DialogUtil.showPictureDialog(PromoteDetailActivity.this, images.get(position).getBitmap());
-                    }
-                }
-            });
             return convertView;
         }
 

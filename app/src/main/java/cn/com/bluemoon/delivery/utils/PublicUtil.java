@@ -447,7 +447,7 @@ public class PublicUtil extends LibPublicUtil{
 		byte[] buffer = null;
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			bit.compress(CompressFormat.PNG, 95, out);
+			bit.compress(CompressFormat.JPEG, 100, out);
 			buffer = out.toByteArray();
 			out.close();
 		} catch (IOException e) {
