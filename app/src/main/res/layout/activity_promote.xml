@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/page_bg_f2"
+    xmlns:CommonSearchView="http://schemas.android.com/apk/res-auto">
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_promote"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="50dp"
+        android:divider="@color/page_bg_f2"
+        android:dividerHeight="10dp"
+        android:fadingEdge="none"
+        android:overScrollMode="never"
+        ptr:ptrMode="both"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderBackground="@color/page_bg_f2"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black"/>
+
+    <cn.com.bluemoon.lib.view.CommonSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        CommonSearchView:text_hint = "@string/search_key"/>
+
+</RelativeLayout>

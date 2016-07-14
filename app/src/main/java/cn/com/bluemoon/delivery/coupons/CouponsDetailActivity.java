@@ -23,6 +23,7 @@ import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 
 /**
  * Created by bm on 2016/4/21.
@@ -64,7 +65,7 @@ public class CouponsDetailActivity extends KJActivity{
         txtActivityName.setText(item.getActivity().getActivitySName());
         txtRegisterTime.setText(String.format(getString(R.string.coupons_record_register_time),
                 DateUtil.getTime(item.getUserBase().getRegistTime(), "yyyy-MM-dd")));
-        txtCustomerName.setText(PublicUtil.getStringByLengh(item.getUserBase().getNickName(),9));
+        txtCustomerName.setText(LibStringUtil.getStringByLengh(item.getUserBase().getNickName(), 9));
         txtPhone.setText(item.getUserBase().getMobile());
         CouponsDetailAdapter adapter = new CouponsDetailAdapter(aty,item.getActivity().getCoupons());
         listViewDetail.setAdapter(adapter);

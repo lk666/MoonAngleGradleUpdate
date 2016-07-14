@@ -8,6 +8,7 @@
     <string name="app_name">月亮天使</string>
     <string name="test_name">(%s)测试</string>
     <string name="none">无</string>
+    <string name="no_history">没有历史记录</string>
     <string name="start_error">启动异常</string>
     <string name="order_refresh">重新加载</string>
     <string name="order_null_content">加载失败，请检查您当前的网络环境</string>
@@ -35,8 +36,9 @@
     <string name="btn_ok_with_space">确  定</string>
     <string name="btn_ok2_with_space">确  认</string>
     <string name="btn_ok3">确认</string>
-    <string name="btn_save_with_space">保  存</string>
     <string name="btn_cancel_with_space">取  消</string>
+    <string name="btn_save_with_space">保  存</string>
+    <string name="btn_select_all">全选</string>
 
     <!-- ticket -->
     <string name="ticket_type_ticket">门票</string>
@@ -101,6 +103,7 @@
     <string name="btn_later">稍后</string>
     <string name="btn_setting">设置</string>
     <string name="btn_search">搜索</string>
+    <string name="point_end">&#8230;</string>
 
     <!-- promt messsage -->
     <string name="request_server_busy">服务器繁忙，请稍后再试</string>
@@ -597,7 +600,7 @@
     <string name="input_code_and_name">请输入编码/名称</string>
     <string name="card_search_history">历史记录</string>
     <string name="card_btn_cancle">取 消</string>
-    <string name="card_btn_search">搜 索</string>
+    <string name="card_btn_search">确 定</string>
 
     <!-- coupons -->
     <string name="coupons_tab_push">卡券推送</string>
@@ -629,6 +632,66 @@
     <string name="paper_detail_date">发布日期：%s</string>
     <string name="paper_detail_collect">收藏</string>
 
+    <!-- 作业点档案相关 -->
+    <string name="promote_record_title">推广点档案</string>
+    <string name="promote_edit_txt">编辑</string>
+    <string name="paper_detail_collect23">请输入推广点名称</string>
+    <string name="promote_work_date">工作日：￥%s/天</string>
+    <string name="promote_holiday_date">节假日：￥%s/天</string>
+    <string name="promote_outdoor_area">%s㎡</string>
+    <string name="promote_add_title">新增推广点</string>
+    <string name="promote_edit_title">编辑推广点</string>
+    <string name="promote_detail_title">推广点详情</string>
+    <string name="promote_not_save">您的信息还没保存，确定不保存吗？</string>
+    <string name="promote_date_txt">%1$s，%2$s</string>
+    <string name="promote_time_txt">%1$s-%2$s，%3$s (人)</string>
+    <string name="people_flow_add_title">新增测试</string>
+    <string name="people_flow_title">人流量测试</string>
+    <string name="people_flow_start_time">开始时间</string>
+    <string name="people_flow_start_time_select">请选择开始时间</string>
+    <string name="people_flow_end_time">结束时间</string>
+    <string name="people_flow_end_time_select">请选择结束时间</string>
+    <string name="people_flow_time_earlier">结束时间早于开始时间</string>
+    <string name="people_flow_place_input">请填写测试位置</string>
+    <string name="people_flow_amount_input">请填写人流数量</string>
+    <string name="people_flow_delete">确定删除人流量测试吗？</string>
+    <string name="community_title">选择小区/商业中心</string>
+    <string name="community_select_txt">请选择小区/商业中心</string>
+    <string name="place_info_input">请完善场地基本信息</string>
+    <string name="rent_info_input">请完善租金信息</string>
+    <string name="community_txt">小区/商业中心</string>
+    <string name="please_select_txt">请选择</string>
+    <string name="please_input_txt">请输入</string>
+    <string name="community_input_txt_20">请输入，最多20字</string>
+    <string name="search_key">请输入关键字</string>
+    <string name="add_promote_place_txt">场地基本信息</string>
+    <string name="add_promote_place">推广点位置</string>
+    <string name="add_promote_rent_info">租金信息</string>
+    <string name="add_promote_rent_txt">租金</string>
+    <string name="add_promote_place_area">场地面积(㎡)</string>
+    <string name="add_promote_place_type">场地类型</string>
+    <string name="add_promote_outdoor">室外</string>
+    <string name="add_promote_indoor">室内</string>
+    <string name="add_promote_work_date">工作日(元)</string>
+    <string name="add_promote_holiday">周末/节假日(元)</string>
+    <string name="add_promote_place_fee">场地押金(元)</string>
+    <string name="add_promote_other_fee">其他费用</string>
+    <string name="add_promote_network_txt">有线网络设备</string>
+    <string name="add_promote_network_info">网络信息</string>
+    <string name="add_promote_wifi">Wi-Fi设备</string>
+    <string name="add_promote_uploda_img">图片上传</string>
+    <string name="add_promote_uploda_img2">(最多上传5张)</string>
+    <string name="add_promote_people_flow">人流量测试</string>
+    <string name="people_flow_date">测试日期</string>
+    <string name="people_flow_time">测试时间</string>
+    <string name="people_flow_place">测试位置</string>
+    <string name="people_flow_input">请填写</string>
+    <string name="people_flow_amount">人流数量 (人)</string>
+    <string name="people_flow_stauts">人群状态</string>
+    <string name="people_flow_info">请描述</string>
+    <string name="promote_has">有</string>
+    <string name="promote_none">无</string>
+    <string name="promote_append">%1$s—%2$s</string>
 
     <!--keyListener-->
     <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
@@ -795,4 +858,66 @@
     <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
 
     <item type="id" name="tag_position">0xFFF11222</item>
+
+    <!-- 我的团队 -->
+    <string name="team_title">我的团队</string>
+    <string name="team_group">小组</string>
+    <string name="team_community">社区</string>
+    <string name="team_work_full">全职</string>
+    <string name="team_work_part">兼职</string>
+    <string name="team_work_part_hint">兼职需录入作业时长</string>
+    <string name="team_group_title">小组信息</string>
+    <string name="team_member_title">团队成员</string>
+    <string name="team_my_member_title">我的团队成员</string>
+    <string name="team_group_detail_title">小组详情</string>
+    <string name="team_group_groupnum">总小组数：%s</string>
+    <string name="team_group_membernum">总人数：%1$s/%2$s</string>
+    <string name="team_group_leader">组长：%s</string>
+    <string name="team_group_empty_group">暂无小组信息</string>
+    <string name="team_group_empty_detail">暂无小组详情</string>
+    <string name="team_group_empty_member">暂无团队成员</string>
+    <string name="team_group_empty_area">暂无人员辖区</string>
+    <string name="team_group_search_hint">请输入编码/小组名称</string>
+    <string name="team_member_search_hint">请输入关键字</string>
+    <string name="team_group_member_search_hint">请输入人员编码或名称</string>
+    <string name="team_area_search_hint">请输入编码、名称、街道</string>
+    <string name="team_member_limit">该功能只对\n社区CEO开放</string>
+    <string name="team_group_detail_total_num">总人数/规划数：%1$d / %2$d</string>
+    <string name="team_group_detail_full_num">全职人数：%s</string>
+    <string name="team_group_detail_part_num">兼职人数：%s</string>
+    <string name="team_group_detail_unlock">解除组关系</string>
+    <string name="team_community_detail_unlock">解除社区关系</string>
+    <string name="team_group_detail_member">人员辖区</string>
+    <string name="team_group_detail_edit">编辑</string>
+    <string name="team_group_detail_msg">加入：%1$s，%2$s</string>
+    <string name="team_group_start_date">开始日期</string>
+    <string name="team_group_end_date">结束日期</string>
+    <string name="team_group_date_hint">请选择</string>
+    <string name="team_group_add_member">添加人员</string>
+    <string name="team_group_add_member_code">编码添加</string>
+    <string name="team_group_select_member">选择人员</string>
+    <string name="team_group_select_member_tips">请选择人员</string>
+    <string name="team_member_detail_title">人员关系详情</string>
+    <string name="team_member_detail_type">关系类型</string>
+    <string name="team_member_detail_community">所属社区</string>
+    <string name="team_member_detail_community_hint">请选择社区</string>
+    <string name="team_member_detail_community_select">选择社区</string>
+    <string name="team_member_detail_group">所属小组</string>
+    <string name="team_member_detail_group_hint">请选择小组</string>
+    <string name="team_member_detail_group_select">选择小组</string>
+    <string name="team_member_detail_style">作业性质</string>
+    <string name="team_member_detail_lengh">作业时长(h)</string>
+    <string name="team_member_detail_wait">待定</string>
+    <string name="team_member_detail_content">备注</string>
+    <string name="team_member_detail_content_hint">请填写备注</string>
+    <string name="team_member_add_title">填写关系信息</string>
+    <string name="team_member_edit_title">编辑关系信息</string>
+    <string name="team_member_add_existed">该人员已建立关系，\n不可重复！</string>
+    <string name="team_area_total_num">总户数：%s</string>
+    <string name="team_area_num">户：%s</string>
+    <string name="team_area_add_date">添加日期：%s</string>
+    <string name="team_area_delete_content">确定删除该辖区吗？</string>
+    <string name="team_area_select_title">添加服务区域</string>
+    <string name="team_area_select_empty">请选择服务区域</string>
+    <string name="team_member_edit_enddate">请先设置开始时间</string>
 </resources>
