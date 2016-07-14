@@ -4,22 +4,19 @@
                 android:layout_height="match_parent"
                 android:background="@color/page_bg_f2">
 
-    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/ptrsv"
+        android:id="@+id/ptrlv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@drawable/div_left_padding_16"
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none"
         ptr:ptrAnimationStyle="flip"
         ptr:ptrHeaderSubTextColor="@color/text_black"
         ptr:ptrHeaderTextColor="@color/text_black"
-        ptr:ptrMode="pullFromStart">
-
-        <ViewStub
-            android:id="@+id/viewstub_content"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-    </cn.com.bluemoon.lib.pulltorefresh.PullToRefreshScrollView>
+        ptr:ptrMode="pullFromStart"/>
 
     <ViewStub
         android:id="@+id/viewstub_error"
