@@ -67,8 +67,7 @@ public class PromoteActivity extends Activity{
         listview = (PullToRefreshListView) findViewById(R.id.listview_promote);
         adapter = new PromoteAdapter(this);
         listview.setAdapter(adapter);
-        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
-                getString(R.string.promote_record_title)), new CommonEmptyView.EmptyListener() {
+        PublicUtil.setEmptyView(listview, null, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 isPullDown = false;

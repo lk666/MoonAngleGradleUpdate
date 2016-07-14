@@ -65,8 +65,7 @@ public class CommunitySelectActivity extends Activity{
         listview = (PullToRefreshListView) findViewById(R.id.listview_community);
         adapter = new CommunityAdapter(this);
         listview.setAdapter(adapter);
-        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
-                getString(R.string.community_title)), new CommonEmptyView.EmptyListener() {
+        PublicUtil.setEmptyView(listview, null, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 isPullDown = false;
