@@ -26,6 +26,7 @@ import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreReceiveVo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.Product;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
+import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.inventory.ImageUtil;
@@ -1062,7 +1063,7 @@ public class DeliveryApi {
 
 
     /*2.9.1是否打卡查询接口 */
-	/* 返回： ResultIsPunchCard */
+    /* 返回： ResultIsPunchCard */
     public static void isPunchCard(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -1766,7 +1767,7 @@ public class DeliveryApi {
      * @param hasStain        int	    Y       有无污渍（1:有；0：无）
      * @param remark          String    N		备注
      * @param clothesImgIds   String	Y		图片IDs 多个用豆号隔开 3232,3234223
-     * @param outerCode      String	Y		洗衣服务订单号
+     * @param outerCode       String	Y		洗衣服务订单号
      */
     public static void registerCollectInfo(String token, String collectCode, String typeCode,
                                            String clothesnameCode, String clothesCode, int hasFlaw,
@@ -2205,8 +2206,8 @@ public class DeliveryApi {
      * @param fileData 文件流(必填) byte[]
      * @param token    登录凭证(必填) String
      */
-    public static void uploadClothesImg( String token, byte[] fileData,  AsyncHttpResponseHandler handler) {
-        if (null == fileData  || null == token) {
+    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler handler) {
+        if (null == fileData || null == token) {
             return;
         }
 
@@ -2215,7 +2216,7 @@ public class DeliveryApi {
 
         Map<String, String> params = new HashMap<>();
         params.put("fileData", fileString);
-        params.put("fileName",  UUID.randomUUID() + ".png");
+        params.put("fileName", UUID.randomUUID() + ".png");
         params.put("token", token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/uploadImg%s",
@@ -2324,315 +2325,313 @@ public class DeliveryApi {
         ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
     }
 
-	/*2.14.1 新增推广点信息时上传图片*/
+    /*2.14.1 新增推广点信息时上传图片*/
 	/* 返回： ResultImageUpload */
-	public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler handler) {
-		if (null == token ||  null == file) {
-			return;
-		}
-		BASE64Encoder encoder = new BASE64Encoder();
-		String fileString = encoder.encode(file);
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("imgInfo", fileString);
-		String jsonString = JSONObject.toJSONString(params);
-		String url  = String.format("bluemoon-control/promote/uploadImg%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler handler) {
+        if (null == token || null == file) {
+            return;
+        }
+        BASE64Encoder encoder = new BASE64Encoder();
+        String fileString = encoder.encode(file);
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("imgInfo", fileString);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/uploadImg%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*2.14.2 推广点详情信息*/
+    /*2.14.2 推广点详情信息*/
 	/* 返回： ResultPromoteInfo */
-	public static void getPromoteInfo(String token,String bpCode, AsyncHttpResponseHandler handler) {
-		if (null == token ||  null == bpCode) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("bpCode", bpCode);
-		String jsonString = JSONObject.toJSONString(params);
-		String url  = String.format("bluemoon-control/promote/getPromoteInfo%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void getPromoteInfo(String token, String bpCode, AsyncHttpResponseHandler handler) {
+        if (null == token || null == bpCode) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("bpCode", bpCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/getPromoteInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/* 2.14.3 新增/编辑推广点信息 */
+    /* 2.14.3 新增/编辑推广点信息 */
 	/* 返回： ResultBase */
-	public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler handler) {
-		if (null == token || info == null) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("address", info.getAddress());
-		params.put("bpCode", info.getBpCode());
-		params.put("bpCode1", info.getBpCode1());
-		params.put("bpName", info.getBpName());
-		params.put("bpName1", info.getBpName1());
-		params.put("cashPledge", info.getCashPledge());
-		params.put("holidayPrice", info.getHolidayPrice());
-		if (info.getPeopleFlow() != null) {
-			params.put("peopleFlow", info.getPeopleFlow());
-		}
-		params.put("picInfo", info.getPicInfo());
-		params.put("remark", info.getRemark());
-		params.put("rentInfo", info.getRentInfo());
-		params.put("siteType", info.getSiteType());
-		params.put("wifi", info.getWifi());
-		params.put("wiredNetwork", info.getWiredNetwork());
-		params.put("workPrice", info.getWorkPrice());
-		params.put("useArea", info.getUseArea());
-		String jsonString = JSONObject.toJSONString(params);
-		String url  = String.format("bluemoon-control/promote/editPromoteInfo%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler handler) {
+        if (null == token || info == null) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("address", info.getAddress());
+        params.put("bpCode", info.getBpCode());
+        params.put("bpCode1", info.getBpCode1());
+        params.put("bpName", info.getBpName());
+        params.put("bpName1", info.getBpName1());
+        params.put("cashPledge", info.getCashPledge());
+        params.put("holidayPrice", info.getHolidayPrice());
+        if (info.getPeopleFlow() != null) {
+            params.put("peopleFlow", info.getPeopleFlow());
+        }
+        params.put("picInfo", info.getPicInfo());
+        params.put("remark", info.getRemark());
+        params.put("rentInfo", info.getRentInfo());
+        params.put("siteType", info.getSiteType());
+        params.put("wifi", info.getWifi());
+        params.put("wiredNetwork", info.getWiredNetwork());
+        params.put("workPrice", info.getWorkPrice());
+        params.put("useArea", info.getUseArea());
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/editPromoteInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*2.14.4 获取小区/商业中心列表*/
+    /*2.14.4 获取小区/商业中心列表*/
 	/* 返回： ResultBpList */
-	public static void getBpList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
-		if (null == token ||  null == content) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("content", content);
-		params.put("pageSize", AppContext.PAGE_SIZE);
-		params.put("timestamp", timestamp);
-		String jsonString = JSONObject.toJSONString(params);
-		String url  = String.format("bluemoon-control/promote/getBpList%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void getBpList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+        if (null == token || null == content) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("content", content);
+        params.put("pageSize", AppContext.PAGE_SIZE);
+        params.put("timestamp", timestamp);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/getBpList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*2.14.4 获取推广点档案列表*/
+    /*2.14.4 获取推广点档案列表*/
 	/* 返回： ResultPromoteList */
-	public static void getPromoteList(String token,String content, long timestamp, AsyncHttpResponseHandler handler) {
-		if (null == token || content == null) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("content", content);
-		params.put("pageSize", AppContext.PAGE_SIZE);
-		params.put("timestamp", timestamp);
-		String jsonString = JSONObject.toJSONString(params);
-		String url  = String.format("bluemoon-control/promote/getPromoteList%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void getPromoteList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+        if (null == token || content == null) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("content", content);
+        params.put("pageSize", AppContext.PAGE_SIZE);
+        params.put("timestamp", timestamp);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/getPromoteList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*获取小组信息列表*/
+    /*获取小组信息列表*/
 	/*返回：ResultGroupList*/
-	public static void getGroupList(String token,String content,int pageSize,long timestamp,AsyncHttpResponseHandler handler){
-		if(null == token){
-			return;
-		}
-		if(content==null){
-			content = "";
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("content", content);
-		params.put("pageSize", pageSize);
-		params.put("timestamp", timestamp);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getGroupList%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void getGroupList(String token, String content, int pageSize, long timestamp, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        if (content == null) {
+            content = "";
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("content", content);
+        params.put("pageSize", pageSize);
+        params.put("timestamp", timestamp);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getGroupList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*CEO获取社区列表*/
+    /*CEO获取社区列表*/
 	/*返回：ResultCommunityList*/
-	public static void getCommunityList(String token,AsyncHttpResponseHandler handler){
-		if(null == token){
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getCommunityList%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void getCommunityList(String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getCommunityList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*CEO获取人员关系列表*/
+    /*CEO获取人员关系列表*/
 	/*返回：ResultEmpList*/
-	public static void getEmpList(String token,String content,AsyncHttpResponseHandler handler){
-		if(null == token){
-			return;
-		}
-		if(content==null){
-			content = "";
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("content", content);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getEmpList%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void getEmpList(String token, String content, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        if (content == null) {
+            content = "";
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("content", content);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getEmpList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*CEO删除人员辖区*/
+    /*CEO删除人员辖区*/
 	/*返回：ResultBase*/
-	public static void deletePersonnelArea(String token,String bpCode,String empCode,AsyncHttpResponseHandler handler){
-		if(null == token||empCode==null||bpCode==null){
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("bpCode", bpCode);
-		params.put("empCode", empCode);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/deletePersonnelArea%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void deletePersonnelArea(String token, String bpCode, String empCode, AsyncHttpResponseHandler handler) {
+        if (null == token || empCode == null || bpCode == null) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/deletePersonnelArea%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/*CEO搜索服务区域列表*/
+    /*CEO搜索服务区域列表*/
 	/*返回：ResultServiceAreaList*/
-	public static void getServiceAreaList(String token,String bpCode,String empCode,String content,int pageindex,int pageSize,AsyncHttpResponseHandler handler){
-		if(null == token||empCode==null||bpCode==null){
-			return;
-		}
-		if(null==content) content = "";
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("token", token);
-		params.put("bpCode", bpCode);
-		params.put("empCode", empCode);
-		params.put("content", content);
-		params.put("pageindex", pageindex);
-		params.put("pageSize", pageSize);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getServiceAreaList%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageindex, int pageSize, AsyncHttpResponseHandler handler) {
+        if (null == token || empCode == null || bpCode == null) {
+            return;
+        }
+        if (null == content) content = "";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("token", token);
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        params.put("content", content);
+        params.put("pageindex", pageindex);
+        params.put("pageSize", pageSize);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getServiceAreaList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/* 机构新增人员关系 */
-	public static void addRelationShip(String communityCode,String communityName,
-									   String empCode,String empName,long endDate,
-									   String groupCode,String groupName,String relationType,
-									   String remark,long startDate,String token,String type,
-									   double workLength,String workType,AsyncHttpResponseHandler handler){
-		if(null == communityCode||null == empCode||null == relationType||null == token||null == type||null == workType) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("communityCode",communityCode);
-		params.put("communityName",communityName);
-		params.put("empCode",empCode);
-		params.put("empName",empName);
-		params.put("endDate",endDate);
-		params.put("groupCode",groupCode);
-		params.put("groupName",groupName);
-		params.put("relationType",relationType);
-		params.put("remark",remark);
-		params.put("startDate",startDate);
-		params.put("token",token);
-		params.put("type",type);
-		params.put("workLength",workLength);
-		params.put("workType",workType);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/addRelationShip%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    /* 机构新增人员关系 */
+    public static void addRelationShip(RelationDetail item, String token, String type,
+                                       AsyncHttpResponseHandler handler) {
 
-	/* 添加服务区域 */
-	public static void addServiceArea(String bpCode,List<String> bpCodeList,String empCode,String token,AsyncHttpResponseHandler handler){
-		if(null == bpCode||null == bpCodeList||null == empCode||null == token) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("bpCode",bpCode);
-		params.put("bpCodeList",bpCodeList);
-		params.put("empCode",empCode);
-		params.put("token",token);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/addServiceArea%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+        if (null == item || null == token || null == type) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("communityCode", item.getBpCode1());
+        params.put("communityName", item.getBpName1());
+        params.put("empCode", item.getEmpCode());
+        params.put("empName", item.getEmpName());
+        params.put("endDate", item.getEndDate());
+        params.put("groupCode", item.getBpCode());
+        params.put("groupName", item.getBpName());
+        params.put("relationType", item.getRelType());
+        params.put("remark", item.getRemark());
+        params.put("startDate", item.getStartDate());
+        params.put("token", token);
+        params.put("type", type);
+        params.put("workLength", item.getWorkLength());
+        params.put("workType", item.getWorkType());
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/addRelationShip%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/* 获取人员关系详情 */
-	public static void getRelationShipDetail(String bpCode,String empCode,String token,AsyncHttpResponseHandler handler){
-		if(null == bpCode||null == empCode||null == token) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("bpCode",bpCode);
-		params.put("empCode",empCode);
-		params.put("token",token);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    /* 添加服务区域 */
+    public static void addServiceArea(String bpCode, List<String> bpCodeList, String empCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == bpCode || null == bpCodeList || null == empCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("bpCode", bpCode);
+        params.put("bpCodeList", bpCodeList);
+        params.put("empCode", empCode);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/addServiceArea%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/* 获取人员辖区列表 */
-	public static void getPersonnelAreaList(String empCode,int pageSize,long timestamp,String token,AsyncHttpResponseHandler handler){
-		if(null == empCode||null == token) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("empCode",empCode);
-		params.put("pageSize",pageSize);
-		params.put("timestamp",timestamp);
-		params.put("token",token);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getPersonnelAreaList%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    /* 获取人员关系详情 */
+    public static void getRelationShipDetail(String bpCode, String empCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == bpCode || null == empCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/* 获取小组/社区详情 */
-	public static void getGroupDetailInfo(String content,int pageSize,long timestamp,String token,String type,AsyncHttpResponseHandler handler){
-		if(null == content||null == token||null == type) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("content",content);
-		params.put("pageSize",pageSize);
-		params.put("timestamp",timestamp);
-		params.put("token",token);
-		params.put("type",type);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getGroupDetailInfo%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    /* 获取人员辖区列表 */
+    public static void getPersonnelAreaList(String empCode, int pageSize, long timestamp, String token, AsyncHttpResponseHandler handler) {
+        if (null == empCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("empCode", empCode);
+        params.put("pageSize", pageSize);
+        params.put("timestamp", timestamp);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getPersonnelAreaList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/* 获取社区的小组列表 */
-	public static void getGroupListByCommunity(String bpCode,String token,AsyncHttpResponseHandler handler){
-		if(null == bpCode||null == token) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("bpCode",bpCode);
-		params.put("token",token);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/getGroupListByCommunity%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    /* 获取小组/社区详情 */
+    public static void getGroupDetailInfo(String content, int pageSize, long timestamp, String token, String type, AsyncHttpResponseHandler handler) {
+        if (null == content || null == token || null == type) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("content", content);
+        params.put("pageSize", pageSize);
+        params.put("timestamp", timestamp);
+        params.put("token", token);
+        params.put("type", type);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getGroupDetailInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
-	/* 解除人员关系 */
-	public static void deleteRelationShip(String bpCode,String empCode,long endDate,String token,String type,AsyncHttpResponseHandler handler){
-		if(null == bpCode||null == empCode||null == token||null == type) {
-			return;
-		}
-		Map<String, Object> params = new HashMap<String, Object>();
-		params.put("bpCode",bpCode);
-		params.put("empCode",empCode);
-		params.put("endDate",endDate);
-		params.put("token",token);
-		params.put("type",type);
-		String jsonString = JSONObject.toJSONString(params);
-		String url = String.format("bluemoon-control/team/deleteRelationShip%s",
-				ApiClientHelper.getParamUrl());
-		ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-	}
+    /* 获取社区的小组列表 */
+    public static void getGroupListByCommunity(String bpCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == bpCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("bpCode", bpCode);
+        params.put("token", token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getGroupListByCommunity%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* 解除人员关系 */
+    public static void deleteRelationShip(String bpCode, String empCode, long endDate, String token, String type, AsyncHttpResponseHandler handler) {
+        if (null == bpCode || null == empCode || null == token || null == type) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        params.put("endDate", endDate);
+        params.put("token", token);
+        params.put("type", type);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/deleteRelationShip%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
 }

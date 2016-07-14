@@ -17,7 +17,7 @@ public class DateUtil extends LibDateUtil{
 	        return formatter.parse(date);  
 	    } catch (ParseException e) {  
 	        e.printStackTrace();  
-	        return new Date();  
+	        return new Date(System.currentTimeMillis());
 	    }  
 	}  
 	  

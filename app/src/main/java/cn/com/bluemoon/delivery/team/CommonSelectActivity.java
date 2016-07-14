@@ -40,7 +40,7 @@ public class CommonSelectActivity extends Activity {
         initCustomActionBar();
         setContentView(R.layout.activity_ticket_count);
         listView = (ListView) findViewById(R.id.listView_ticket);
-        PublicUtil.setEmptyView(listView,String.format(getString(R.string.empty_hint),title));
+        PublicUtil.setEmptyView(listView,String.format(getString(R.string.empty_hint),title),null);
         if (list == null) {
             return;
         }

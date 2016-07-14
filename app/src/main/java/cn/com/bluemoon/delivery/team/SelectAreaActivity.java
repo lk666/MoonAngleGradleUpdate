@@ -42,13 +42,14 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
 public class SelectAreaActivity extends Activity {
 
-    private String TAG="SelectAreaActivity";
+    private String TAG = "SelectAreaActivity";
     private SelectAreaActivity aty;
     private CommonSearchView searchView;
     private PullToRefreshListView listview;
@@ -67,6 +68,7 @@ public class SelectAreaActivity extends Activity {
     private String bpCode;
     private String empCode;
     private boolean unRefresh;
+    private CommonEmptyView emptyView;
     private String content = "";
 
 
@@ -76,27 +78,27 @@ public class SelectAreaActivity extends Activity {
         initCustomActionBar();
         setContentView(R.layout.activity_select_area);
         aty = this;
-        if(getIntent()==null){
+        if (getIntent() == null) {
             return;
         }
         bpCode = getIntent().getStringExtra("bpCode");
         empCode = getIntent().getStringExtra("empCode");
         listSelected = new ArrayList<>();
         progressDialog = new CommonProgressDialog(aty);
+        progressDialog.setCancelable(false);
         listview = (PullToRefreshListView) findViewById(R.id.listview_select_area);
-        btnOk = (Button)findViewById(R.id.btn_ok);
-        txtTotalNum = (TextView)findViewById(R.id.txt_total_num);
-        layoutBottom = (LinearLayout)findViewById(R.id.layout_bottom);
-        txtSelect = (TextView)findViewById(R.id.txt_select);
-        cb = (CheckBox)findViewById(R.id.checkbox);
+        btnOk = (Button) findViewById(R.id.btn_ok);
+        txtTotalNum = (TextView) findViewById(R.id.txt_total_num);
+        layoutBottom = (LinearLayout) findViewById(R.id.layout_bottom);
+        txtSelect = (TextView) findViewById(R.id.txt_select);
+        cb = (CheckBox) findViewById(R.id.checkbox);
         btnOk.setOnClickListener(onClickListener);
         txtSelect.setOnClickListener(onClickListener);
-        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
-                getString(R.string.team_area_select_title)), new CommonEmptyView.EmptyListener() {
+        emptyView = PublicUtil.setEmptyView(listview, null, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
-                pullDown = false;
                 pullUp = false;
+                pullDown = false;
                 getData();
             }
         });
@@ -144,7 +146,7 @@ public class SelectAreaActivity extends Activity {
         cb.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if (unRefresh){
+                if (unRefresh) {
                     unRefresh = false;
                     return;
                 }
@@ -167,41 +169,39 @@ public class SelectAreaActivity extends Activity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(PublicUtil.isFastDoubleClick(1000)){
+            if (PublicUtil.isFastDoubleClick(1000)) {
                 return;
             }
-            if(v==txtSelect){
+            if (v == txtSelect) {
                 cb.setChecked(!cb.isChecked());
-            }else if(v==btnOk){
-                if(listSelected.size()==0){
+            } else if (v == btnOk) {
+                if (listSelected.size() == 0) {
                     PublicUtil.showToast(getString(R.string.team_area_select_empty));
                     return;
                 }
-                if(progressDialog!=null){
+                if (progressDialog != null) {
                     progressDialog.show();
                 }
-                DeliveryApi.addServiceArea(bpCode,listSelected,empCode,ClientStateManager.getLoginToken(aty),addServiceAreaHandler);
+                DeliveryApi.addServiceArea(bpCode, listSelected, empCode, ClientStateManager.getLoginToken(aty), addServiceAreaHandler);
             }
         }
     };
 
-    private void getData(){
+    private void getData() {
 
-        if(!pullUp){
+        if (!pullUp) {
             pageNext = 1;
-        }
-        if(pullDown){
             content = searchView.getText();
         }
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
         DeliveryApi.getServiceAreaList(ClientStateManager.getLoginToken(aty),
-                bpCode,empCode,content,pageNext, AppContext.PAGE_SIZE,getServiceAreaListHandler);
+                bpCode, empCode, content, pageNext, AppContext.PAGE_SIZE, getServiceAreaListHandler);
     }
 
 
-    private void setData(List<ServiceArea> list){
+    private void setData(List<ServiceArea> list) {
         if (items == null) {
             items = new ArrayList<>();
         }
@@ -218,9 +218,9 @@ public class SelectAreaActivity extends Activity {
             adapter = new SelectAreaAdapter(aty);
         }
         adapter.setList(items);
-        if(pullUp){
+        if (pullUp) {
             adapter.notifyDataSetChanged();
-        }else{
+        } else {
             listview.setAdapter(adapter);
         }
         setTotalNum(items);
@@ -229,11 +229,10 @@ public class SelectAreaActivity extends Activity {
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
         public void onSearch(String str) {
-            content = str;
+            searchView.hideHistoryView();
             pullDown = false;
             pullUp = false;
             getData();
-            searchView.hideHistoryView();
         }
 
         @Override
@@ -279,7 +278,7 @@ public class SelectAreaActivity extends Activity {
     @Override
     public void onStop() {
         super.onStop();
-        if(searchView!=null)
+        if (searchView != null)
             ClientStateManager.setHistory(searchView.getListHistory(), ClientStateManager.HISTORY_SELECT_AREA);
     }
 
@@ -296,10 +295,12 @@ public class SelectAreaActivity extends Activity {
                     setData(result.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(aty, result);
+                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
+                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
 
         }
@@ -312,6 +313,7 @@ public class SelectAreaActivity extends Activity {
                 progressDialog.dismiss();
             listview.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
 
@@ -347,26 +349,26 @@ public class SelectAreaActivity extends Activity {
         }
     };
 
-    private void setTotalNum(List<ServiceArea> list){
+    private void setTotalNum(List<ServiceArea> list) {
         int total = 0;
         boolean isAll = true;
         listSelected.clear();
         for (ServiceArea area : list) {
-            if(area.isCheck()){
+            if (area.isCheck()) {
                 total += area.getTotalFamily();
                 listSelected.add(area.getBpCode());
-            }else{
+            } else {
                 isAll = false;
             }
         }
-        txtTotalNum.setText(String.format(getString(R.string.team_area_total_num),total));
-        if (isAll&&list.size()>0) {
+        txtTotalNum.setText(String.format(getString(R.string.team_area_total_num), total));
+        if (isAll && list.size() > 0) {
             if (!cb.isChecked()) {
                 unRefresh = true;
                 cb.setChecked(true);
             }
-        }else{
-            if(cb.isChecked()){
+        } else {
+            if (cb.isChecked()) {
                 unRefresh = true;
                 cb.setChecked(false);
             }
@@ -378,17 +380,17 @@ public class SelectAreaActivity extends Activity {
         private LayoutInflater mInflater;
         private List<ServiceArea> list;
 
-        public SelectAreaAdapter(Context context){
+        public SelectAreaAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);
         }
 
-        public void setList(List<ServiceArea> list){
+        public void setList(List<ServiceArea> list) {
             this.list = list;
         }
 
         @Override
         public int getCount() {
-            if(list==null){
+            if (list == null) {
                 list = new ArrayList<>();
             }
             return list.size();
@@ -411,7 +413,7 @@ public class SelectAreaActivity extends Activity {
                 convertView = mInflater.inflate(R.layout.item_select_area, null);
             }
             final CheckBox checkBox = ViewHolder.get(convertView, R.id.checkbox);
-            LinearLayout layoutArea = ViewHolder.get(convertView,R.id.layout_area);
+            LinearLayout layoutArea = ViewHolder.get(convertView, R.id.layout_area);
             TextView txtName = ViewHolder.get(convertView, R.id.txt_name);
             TextView txtNum = ViewHolder.get(convertView, R.id.txt_num);
             TextView txtAreaName = ViewHolder.get(convertView, R.id.txt_area_name);
@@ -421,7 +423,7 @@ public class SelectAreaActivity extends Activity {
             if (!StringUtils.isEmpty(item.getBpCode1())) {
                 layoutArea.setVisibility(View.VISIBLE);
                 txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName()));
-                name = PublicUtil.getStringParams(name,item.getYuanGarden(), item.getBalcony());
+                name = PublicUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
             } else {
                 layoutArea.setVisibility(View.GONE);
             }
@@ -429,9 +431,9 @@ public class SelectAreaActivity extends Activity {
             txtName.setText(name);
             txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
                     + item.getVillageName() + item.getStreetName());
-            if(item.isCheck()&&!checkBox.isChecked()){
+            if (item.isCheck() && !checkBox.isChecked()) {
                 checkBox.setChecked(true);
-            }else if(!item.isCheck()&&checkBox.isChecked()){
+            } else if (!item.isCheck() && checkBox.isChecked()) {
                 checkBox.setChecked(false);
             }
 

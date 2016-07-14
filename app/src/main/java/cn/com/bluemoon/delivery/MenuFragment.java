@@ -85,7 +85,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         setUserInfo();
         return view;
     }
-    private void setUserInfo() {
+    public void setUserInfo() {
         txtUserid.setText(ClientStateManager.getUserName(mContext));
         if (user != null) {
             txtUserid.setText(user.getAccount());

@@ -389,6 +389,12 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
 
+        <activity
+            android:name=".team.SearchGroupActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan"/>
+
         <service android:name=".card.LocationSvc" />
 
         <!-- push应用定义消息receiver声明 -->

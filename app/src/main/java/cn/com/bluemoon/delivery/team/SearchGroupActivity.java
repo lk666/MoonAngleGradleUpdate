@@ -3,12 +3,13 @@ package cn.com.bluemoon.delivery.team;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.os.Handler;
+import android.os.Looper;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -19,6 +20,8 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -40,45 +43,38 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class GroupFragment extends Fragment {
+public class SearchGroupActivity extends Activity {
 
-    private MyTeamActivity mContext;
-    private String TAG = "GroupFragment";
-    private TextView txtGroupNum;
-    private TextView txtMembernum;
-    private PullToRefreshListView listviewGroup;
-    private LinearLayout layoutTitle;
+    private String TAG = "SearchGroupActivity";
+    private SearchGroupActivity mContext;
+    private CommonSearchView searchView;
     private GroupAdapter groupAdapter;
     private CommonProgressDialog progressDialog;
-    private View rootView;
+    private PullToRefreshListView listviewGroup;
     private long timestamp = 0;
     private boolean pullUp;
     private boolean pullDown;
     private List<TeamGroup> items;
     private CommonEmptyView emptyView;
+    private String content="";
 
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.mContext = (MyTeamActivity) activity;
-    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         initCustomActionBar();
-
-        if (rootView != null) {
-            return rootView;
-        }
-        rootView = inflater.inflate(R.layout.fragment_group,
-                container, false);
-        txtGroupNum = (TextView) rootView.findViewById(R.id.txt_groupnum);
-        txtMembernum = (TextView) rootView.findViewById(R.id.txt_membernum);
-        listviewGroup = (PullToRefreshListView) rootView.findViewById(R.id.listview_group);
-        layoutTitle = (LinearLayout) rootView.findViewById(R.id.layout_title);
-        emptyView = PublicUtil.setEmptyView(listviewGroup, String.format(getString(R.string.empty_hint),
-                getString(R.string.team_group_title)), new CommonEmptyView.EmptyListener() {
+        setContentView(R.layout.activity_search_group);
+        mContext = this;
+        searchView = (CommonSearchView) findViewById(R.id.searchview_group);
+        searchView.setSearchViewListener(searchViewListener);
+        searchView.setHint(getString(R.string.team_group_search_hint));
+        searchView.showHistoryView();
+        searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_GROUP));
+        listviewGroup = (PullToRefreshListView) findViewById(R.id.listview_group);
+        emptyView = PublicUtil.setEmptyView(listviewGroup, null,
+                new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 pullDown = false;
@@ -86,10 +82,8 @@ public class GroupFragment extends Fragment {
                 getData();
             }
         });
-
+        LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         progressDialog = new CommonProgressDialog(mContext);
-        progressDialog.setCancelable(false);
-
         listviewGroup.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -105,21 +99,24 @@ public class GroupFragment extends Fragment {
                 getData();
             }
         });
-        pullUp = false;
-        pullDown = false;
-        getData();
-
-        return rootView;
+        new Handler(Looper.getMainLooper()).postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchView.setFocus(true);
+                LibViewUtil.showKeyboard(searchView.getSearchEdittext());
+            }
+        }, 100);
     }
 
     private void getData() {
         if (!pullUp) {
             timestamp = 0;
+            content = searchView.getText();
         }
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getGroupList(ClientStateManager.getLoginToken(mContext), "", AppContext.PAGE_SIZE, timestamp, groupListHandler);
+        DeliveryApi.getGroupList(ClientStateManager.getLoginToken(mContext), content, AppContext.PAGE_SIZE, timestamp, groupListHandler);
     }
 
     private void setData(List<TeamGroup> list) {
@@ -134,15 +131,6 @@ public class GroupFragment extends Fragment {
         } else {
             items = list;
         }
-        if (items == null || items.size() == 0) {
-            if (layoutTitle.getVisibility() == View.VISIBLE) {
-                layoutTitle.setVisibility(View.GONE);
-            }
-        } else {
-            if (layoutTitle.getVisibility() == View.GONE) {
-                layoutTitle.setVisibility(View.VISIBLE);
-            }
-        }
         if (groupAdapter == null) {
             groupAdapter = new GroupAdapter(R.layout.item_team_group);
         }
@@ -153,6 +141,22 @@ public class GroupFragment extends Fragment {
             listviewGroup.setAdapter(groupAdapter);
         }
     }
+
+    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
+        @Override
+        public void onSearch(String str) {
+            searchView.hideHistoryView();
+            pullDown = false;
+            pullUp = false;
+            getData();
+        }
+
+        @Override
+        public void onCancel() {
+            searchView.hideHistoryView();
+        }
+
+    };
 
     AsyncHttpResponseHandler groupListHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
         @Override
@@ -167,18 +171,13 @@ public class GroupFragment extends Fragment {
                 if (groupListResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     MyTeamActivity.roleCode = groupListResult.getRoleCode();
                     timestamp = groupListResult.getTimestamp();
-                    txtGroupNum.setText(String.format(getString(R.string.team_group_groupnum), groupListResult.getTotalGroup()));
-                    txtMembernum.setText(String.format(getString(R.string.team_group_membernum),
-                            groupListResult.getActualTotalPopulation(), groupListResult.getPlanTotalPopulation()));
                     setData(groupListResult.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(mContext, groupListResult);
-                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
-                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
 
         }
@@ -191,35 +190,31 @@ public class GroupFragment extends Fragment {
                 progressDialog.dismiss();
             listviewGroup.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
-            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
-
         }
     };
 
 
-
     private void initCustomActionBar() {
-        CommonActionBar actionBar = new CommonActionBar(mContext.getActionBar(), new IActionBarListener() {
+        new CommonActionBar(getActionBar(), new IActionBarListener() {
 
             @Override
             public void onBtnRight(View v) {
-                Intent intent = new Intent(mContext,SearchGroupActivity.class);
-                startActivity(intent);
+
             }
 
             @Override
             public void onBtnLeft(View v) {
-                mContext.finish();
+                LibViewUtil.hideIM(v);
+                finish();
             }
 
             @Override
             public void setTitle(TextView v) {
-                v.setText(getString(R.string.team_group_title));
+                v.setText(R.string.team_group_title);
             }
 
         });
-        actionBar.getImgRightView().setImageResource(R.mipmap.team_search);
-        actionBar.getImgRightView().setVisibility(View.VISIBLE);
+
     }
 
     @Override
@@ -228,14 +223,22 @@ public class GroupFragment extends Fragment {
         MobclickAgent.onPageEnd(TAG);
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
-
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        if (searchView != null)
+            ClientStateManager.setHistory(searchView.getListHistory(), ClientStateManager.HISTORY_GROUP);
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+
+        return super.onKeyDown(keyCode, event);
     }
 
     class GroupAdapter extends BaseAdapter {
@@ -280,7 +283,7 @@ public class GroupFragment extends Fragment {
             TextView txtName = ViewHolder.get(convertView, R.id.txt_name);
             TextView txtNum = ViewHolder.get(convertView, R.id.txt_num);
             final TeamGroup item = list.get(position);
-            txtName.setText(PublicUtil.getStringParams(item.getBpCode(),item.getBpName(),item.getChargeName()));
+            txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName(), item.getChargeName()));
             txtNum.setText(String.format(getString(R.string.team_group_membernum),
                     item.getActualPopulation(), item.getPlanPopulation()));
             int index = position % 2;
@@ -301,5 +304,4 @@ public class GroupFragment extends Fragment {
             return convertView;
         }
     }
-
 }

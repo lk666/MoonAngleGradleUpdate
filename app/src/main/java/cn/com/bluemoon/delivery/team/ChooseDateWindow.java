@@ -21,27 +21,41 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Locale;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.ui.DateTextView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 
 public class ChooseDateWindow extends PopupWindow {
 
 	private Context mContext;
-	private CommonDatePickerDialog endDatePicker;
-	private TextView txtEndDate;
+	private DateTextView txtEndDate;
+	private TextView txtContent;
 	private Button okBtn;
 	private View view;
 	private ChooseDateListener listener;
-	private Calendar calendar;
+	private String communityCode;
+	private String bpCode;
+	private long minDate;
+	private long maxDate;
+	private long curDate;
 
-
-	public ChooseDateWindow(Context context,String content,ChooseDateListener listener) {
+	public ChooseDateWindow(Context context,String bpCode,String bpName,String communityCode,ChooseDateListener listener) {
 		this.mContext = context;
 		this.listener = listener;
-		init(content);
+		this.bpCode = bpCode;
+		this.communityCode = communityCode;
+		init(PublicUtil.getStringParams(bpCode,bpName));
+	}
+
+	public ChooseDateWindow(Context context,ChooseDateListener listener) {
+		this.mContext = context;
+		this.listener = listener;
+		init(null);
 	}
 
 	private void init(String content) {
@@ -63,23 +77,21 @@ public class ChooseDateWindow extends PopupWindow {
 		ll_popup.startAnimation(AnimationUtils.loadAnimation(mContext,
 				R.anim.push_top_in));
 
-		((TextView) view.findViewById(R.id.txt_name)).setText(content);
-		txtEndDate = (TextView) view.findViewById(R.id.txt_end_date);
+		txtContent = ((TextView) view.findViewById(R.id.txt_name));
+		txtEndDate = (DateTextView) view.findViewById(R.id.txt_end_date);
+		txtContent.setText(content);
 		okBtn = (Button) view.findViewById(R.id.btn_confirm);
-		txtEndDate.setOnClickListener(onclicker);
 		okBtn.setOnClickListener(onclicker);
 		view.setOnClickListener(onclicker);
-		setCurDate();
+		txtEndDate.setCallBack(callBack);
 	}
 
 	OnClickListener onclicker = new OnClickListener() {
 		@Override
 		public void onClick(View v) {
-			if(v == txtEndDate){
-				showDatePickerDialog();
-			}else if(v == okBtn){
+			if(v == okBtn){
 				if(listener!=null)
-				listener.callBack(calendar.getTimeInMillis());
+				listener.callBack(bpCode,communityCode,curDate);
 				dismiss();
 			}else if(v == view){
 				dismiss();
@@ -87,57 +99,48 @@ public class ChooseDateWindow extends PopupWindow {
 		}
 	};
 
+	DateTextView.DateTextViewCallBack callBack = new DateTextView.DateTextViewCallBack() {
+		@Override
+		public void onDate(View view, long returnDate) {
+			curDate = returnDate;
+		}
+	};
+
 	public void showPopwindow(View popStart) {
+		if(minDate>0&&minDate>System.currentTimeMillis()){
+			txtEndDate.setText(DateUtil.getTime(minDate, "yyyy-MM-dd"));
+			curDate = minDate;
+		}else if(maxDate>0&&maxDate<System.currentTimeMillis()) {
+			txtEndDate.setText(DateUtil.getTime(maxDate, "yyyy-MM-dd"));
+			curDate = maxDate;
+		}else{
+			txtEndDate.setText(DateUtil.getCurDate());
+			curDate = System.currentTimeMillis();
+		}
 		showAsDropDown(popStart);
 	}
 
-	public void showDatePickerDialog() {
-		String dateTxt = txtEndDate.getText().toString();
-		if (dateTxt!=null||dateTxt.split("-").length==3) {
-			String[] value = txtEndDate.getText().toString().split("-");
-			setDate(Integer.valueOf(value[0]),Integer.valueOf(value[1]) - 1, Integer.valueOf(value[2]));
-		}
-		if (endDatePicker == null) {
-			endDatePicker = new CommonDatePickerDialog(mContext, mDateSetListener,
-					calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
-					calendar.get(Calendar.DAY_OF_MONTH));
-			endDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-			endDatePicker.show();
-		} else if(!endDatePicker.isShowing()){
-			endDatePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH));
-			endDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-			endDatePicker.show();
-		}
-	}
-	
-	public void setDate(int year,int month,int day) {
-		if(calendar==null){
-			calendar = Calendar.getInstance(Locale.CHINA);
-		}
-		if(year>0&&month>-1&&day>0){
-			calendar.set(year,month,day);
-		}
+	public void setData(String bpCode,String bpName,String communityCode){
+		this.bpCode = bpCode;
+		this.communityCode = communityCode;
+		txtContent.setText(PublicUtil.getStringParams(bpCode,bpName));
 	}
 
-	public void setCurDate(){
-		setDate(0, -1, 0);
-		txtEndDate.setText(DateUtil.getTime(calendar.getTimeInMillis(), "yyyy-MM-dd"));
+	public void setMinDate(long minDate) {
+		this.minDate = minDate;
+		txtEndDate.updateMinDate(minDate);
+	}
+
+	public void setMaxDate(long maxDate) {
+		this.maxDate = maxDate;
+		txtEndDate.updateMaxDate(maxDate);
 	}
 
 	public long getDate() {
-		return calendar.getTimeInMillis();
+		return curDate;
 	}
 
-	private CommonDatePickerDialog.OnDateSetListener mDateSetListener = new CommonDatePickerDialog.OnDateSetListener() {
-		public void onDateSet(DatePicker view, int year, int monthOfYear,
-				int dayOfMonth) {
-			setDate(year, monthOfYear, dayOfMonth);
-			txtEndDate.setText(DateUtil.getTime(calendar.getTimeInMillis(), "yyyy-MM-dd"));
-
-		}
-	};
-	
 	public interface ChooseDateListener {
-		public void callBack(long endTime);
+		public void callBack(String bpCode,String commonityCode,long endTime);
 	}
 }

@@ -224,7 +224,7 @@ public class WebViewActivity extends Activity {
 
 		@Override
 		public void scan(WebView view,String title, String callbackName) {
-			PublicUtil.openScanCard(aty, title, Constants.REQUEST_SCAN);
+			PublicUtil.openScanCard(aty, null,title, Constants.REQUEST_SCAN);
 			scanCallbackName = callbackName;
 		}
 
