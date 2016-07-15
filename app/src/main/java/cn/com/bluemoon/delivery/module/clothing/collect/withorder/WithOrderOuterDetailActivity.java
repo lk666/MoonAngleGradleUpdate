@@ -246,8 +246,8 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
 
             String brcode = item.getCollectBrcode();
             if (TextUtils.isEmpty(brcode)) {
-                tvBrcode.setText(getString(R.string.clothing_detail_brcode) +
-                        getString(R.string.text_empty));
+                tvBrcode.setText(String.format("%s%s", getString(R.string.clothing_detail_brcode),
+                        getString(R.string.text_empty)));
             } else {
                 tvBrcode.setText(String.format(getString(R.string.clothing_detail_brcode_num),
                         brcode));
