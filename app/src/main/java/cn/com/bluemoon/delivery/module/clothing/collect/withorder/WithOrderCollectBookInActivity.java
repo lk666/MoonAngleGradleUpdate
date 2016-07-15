@@ -39,7 +39,6 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
