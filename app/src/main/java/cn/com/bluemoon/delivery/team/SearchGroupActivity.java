@@ -45,7 +45,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class SearchGroupActivity extends Activity {
+public class SearchGroupActivity extends Activity implements CommonSearchView.SearchViewListener {
 
     private String TAG = "SearchGroupActivity";
     private SearchGroupActivity mContext;
@@ -68,8 +68,7 @@ public class SearchGroupActivity extends Activity {
         setContentView(R.layout.activity_search_group);
         mContext = this;
         searchView = (CommonSearchView) findViewById(R.id.searchview_group);
-        searchView.setSearchViewListener(searchViewListener);
-        searchView.setHint(getString(R.string.team_group_search_hint));
+        searchView.setSearchViewListener(this);
         searchView.showHistoryView();
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_GROUP));
         listviewGroup = (PullToRefreshListView) findViewById(R.id.listview_group);
@@ -141,22 +140,6 @@ public class SearchGroupActivity extends Activity {
             listviewGroup.setAdapter(groupAdapter);
         }
     }
-
-    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
-        @Override
-        public void onSearch(String str) {
-            searchView.hideHistoryView();
-            pullDown = false;
-            pullUp = false;
-            getData();
-        }
-
-        @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
-        }
-
-    };
 
     AsyncHttpResponseHandler groupListHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
         @Override
@@ -239,6 +222,19 @@ public class SearchGroupActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onSearch(String str) {
+        searchView.hideHistoryView();
+        pullDown = false;
+        pullUp = false;
+        getData();
+    }
+
+    @Override
+    public void onCancel() {
+        searchView.hideHistoryView();
     }
 
     class GroupAdapter extends BaseAdapter {
