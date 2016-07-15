@@ -713,6 +713,7 @@
     <string name="with_order_collect_no_order">当前无订单数据</string>
     <string name="with_order_collect_manual_input_code_btn">手动输入</string>
     <string name="with_order_collect_collect_number_text">收衣单号：</string>
+    <string name="with_order_collect_collect_number_text_num">收衣单号：%s</string>
     <string name="with_order_collect_btn_accept">接单</string>
     <string name="with_order_collect_btn_start_collect">开始收衣</string>
     <string name="with_order_collect_btn_continue_collect">继续收衣</string>
@@ -735,7 +736,6 @@
     <string name="with_order_collect_appoint_back_time_hint">请输入预约还衣时间</string>
     <string name="with_order_collect_appoint_receivable_count_num">应收：%s</string>
     <string name="with_order_collect_order_receive">收衣明细</string>
-    <string name="with_order_collect_order_receive_count">实收数量：</string>
     <string name="with_order_collect_order_receive_count_num">实收数量：%s</string>
     <string name="with_order_collect_appoint_back_time_later_hint">预约时间必需在48小时之后！</string>
 
@@ -785,6 +785,7 @@
     <string name="title_clothing_detail">衣物详情</string>
     <string name="clothing_detail_collect_code">收衣单号：</string>
     <string name="clothing_detail_brcode">收衣单条码：</string>
+    <string name="clothing_detail_brcode_num">收衣单条码：%s</string>
     <string name="clothing_detail_receiver_name">收衣人：</string>
     <string name="clothing_detail_time">收衣时间：</string>
     <string name="clothing_detail_appoint_back_time">预约还衣：</string>
