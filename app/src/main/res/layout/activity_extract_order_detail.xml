@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#fefefe"
     android:orientation="vertical" >
     <View android:id="@+id/view_pop_start" 
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
           android:layout_height="0dp"/>
 
     <ScrollView
@@ -66,7 +66,7 @@
                         android:src="@mipmap/icon_right"/>
                 </LinearLayout>
                 <View
-                	android:layout_width="fill_parent"
+                	android:layout_width="match_parent"
                 	android:layout_height="0.5dp"
                 	android:background="#d7d7d7" />
 				<!-- 订单编号 -->
@@ -101,7 +101,7 @@
                     </LinearLayout>
 					<!-- 
                     <ImageView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
@@ -111,7 +111,7 @@
                 </LinearLayout>
                 
                 <View
-                	android:layout_width="fill_parent"
+                	android:layout_width="match_parent"
                 	android:layout_height="0.5dp"
                 	android:background="#d7d7d7" />
                 <!-- 下单人 -->
@@ -158,7 +158,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -200,7 +200,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -249,7 +249,7 @@
 
             <cn.com.bluemoon.delivery.ui.LinearLayoutForListView
                 android:id="@+id/listview_product"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fefefe"
                 android:layout_marginLeft="10dp"

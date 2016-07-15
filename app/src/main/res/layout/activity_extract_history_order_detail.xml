@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#fefefe"
     android:orientation="vertical" >
 
@@ -27,7 +27,7 @@
                 <!-- 出货仓 -->
                 <LinearLayout
                     android:id="@+id/layout_storehouse"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:clickable="true"
@@ -60,7 +60,7 @@
                     </LinearLayout>
                 </LinearLayout>
                 <ImageView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -105,7 +105,7 @@
                 		android:textSize="@dimen/text_size_14" />
                 </LinearLayout>
                 <View
-                	android:layout_width="fill_parent"
+                	android:layout_width="match_parent"
                 	android:layout_height="0.5dp"
                 	android:background="#d7d7d7" />
 				<!-- 订单编号 -->
@@ -141,7 +141,7 @@
                 </LinearLayout>
                 
                 <View
-                	android:layout_width="fill_parent"
+                	android:layout_width="match_parent"
                 	android:layout_height="0.5dp"
                 	android:background="#d7d7d7" />
                 <!-- 下单人 -->
@@ -190,7 +190,7 @@
                     </LinearLayout>
 
                     <ImageView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -231,7 +231,7 @@
                     android:orientation="vertical" >
 
                     <ImageView
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
@@ -263,7 +263,7 @@
                 </LinearLayout>
                 
                 <View
-                	android:layout_width="fill_parent"
+                	android:layout_width="match_parent"
                 	android:layout_height="0.5dp"
                 	android:background="#d7d7d7" />
                 
@@ -283,7 +283,7 @@
 
             <ListView
                 android:id="@+id/listview_product"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fefefe"
                 android:dividerHeight="0dp"

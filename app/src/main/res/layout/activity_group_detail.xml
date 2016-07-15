@@ -7,7 +7,7 @@
 
     <View
         android:id="@+id/view_pop_start"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp" />
 
     <RelativeLayout

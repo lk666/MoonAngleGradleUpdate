@@ -4,13 +4,13 @@
     android:layout_height="match_parent">
 
     <FrameLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
        android:layout_margin="10dp"
         android:layout_height="36dp">
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center"
             android:background="@drawable/btn_border_grep_shape"
@@ -19,7 +19,7 @@
             <TextView
                 android:id="@+id/btn_left"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:clickable="true"
                 android:layout_marginRight="-18dp"
@@ -31,7 +31,7 @@
             <TextView
                 android:id="@+id/btn_right"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:clickable="true"
                 android:layout_marginLeft="-18dp"
@@ -42,8 +42,8 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:orientation="horizontal"
             android:gravity="center"
             >
@@ -51,7 +51,7 @@
             <TextView
                 android:id="@+id/btn_left2"
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:clickable="true"
                 android:layout_marginRight="-18dp"
@@ -63,7 +63,7 @@
 
             <TextView
                 android:layout_width="0dp"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:gravity="center"
                 android:visibility="invisible"
                 android:clickable="true"
