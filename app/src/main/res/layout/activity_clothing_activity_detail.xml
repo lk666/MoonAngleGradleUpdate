@@ -19,9 +19,7 @@
              android:textColor="@color/text_black"
              android:textSize="@dimen/text_size_13"
              android:layout_height="wrap_content" />
-         <View style="@style/line_solid_style"
-
-></View>
+         <View style="@style/line_solid_style"/>
          <TextView
              android:layout_marginTop="12dp"
              android:id="@+id/txt_activity_desc"

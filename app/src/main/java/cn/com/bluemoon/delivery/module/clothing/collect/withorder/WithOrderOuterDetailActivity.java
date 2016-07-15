@@ -202,7 +202,7 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
 
             tvTypeName.setText(item.getTypeName());
 
-            tvCount.setText(String.valueOf(item.getCount()));
+            tvCount.setText(String.format("x%s", item.getCount()));
         }
     }
 
