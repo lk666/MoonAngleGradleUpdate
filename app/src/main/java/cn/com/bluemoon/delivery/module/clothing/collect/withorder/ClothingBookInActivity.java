@@ -59,7 +59,6 @@ import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
  */
 public class ClothingBookInActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
-    // TODO: lk 2016/7/5 code可在baseActivity中建一个自增变量
     public static final String RESULT_COLLECT_CODE = "RESULT_COLLECT_CODE";
 
     /**
@@ -270,7 +269,8 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private void initView() {
         selectedNameView = null;
 
-        tvTitle.setText(getString(R.string.clothing_book_in_base_info) + "-" + typeName);
+        tvTitle.setText(String.format("%s%s%s", getString(R.string.clothing_book_in_base_info),
+                "-", typeName));
 
         llClothingName.removeAllViews();
         etBackup.addTextChangedListener(new TextWatcher() {
@@ -287,9 +287,9 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             @Override
             public void afterTextChanged(Editable s) {
                 if (etBackup.getLineCount() > 1) {
-                    etBackup.setGravity(Gravity.LEFT);
+                    etBackup.setGravity(Gravity.START);
                 } else {
-                    etBackup.setGravity(Gravity.RIGHT);
+                    etBackup.setGravity(Gravity.END);
                 }
             }
         });
@@ -348,7 +348,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "registerClothesCode result = " + responseString);
             --modifyDataInitLatch;
             try {
@@ -437,7 +436,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "getClothesTypeConfigs result = " + responseString);
             if (extraMode.equals(MODE_ADD)) {
                 dismissProgressDialog();
@@ -478,14 +476,12 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
     /**
      * 设置衣物名称列表
-     *
-     * @param result
      */
     private void setClothesTypeData(ResultClothesTypeList result) {
         List<ClothesType> clothesTypeConfigs = result.getClothesTypeConfigs();
         Collections.sort(clothesTypeConfigs);
 
-        if (clothesTypeConfigs == null || clothesTypeConfigs.isEmpty()) {
+        if (clothesTypeConfigs.isEmpty()) {
             return;
         }
 
@@ -632,7 +628,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "delCollectInfo result = " + responseString);
             dismissProgressDialog();
             try {
@@ -662,7 +657,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      * 打开扫码界面
      */
     private void goScanCode() {
-        // TODO: lk 2016/7/5 新扫码界面 
         PublicUtil.openNewScan(this, getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
                 Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
@@ -772,8 +766,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
     /**
      * 新增模式下处理扫码、手动输入数字码返回
-     *
-     * @param code
      */
     private void handleScaneCodeBack(String code) {
         scaneCode = code;
@@ -863,7 +855,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "点击删除图片响应 result = " + responseString);
             dismissProgressDialog();
             try {

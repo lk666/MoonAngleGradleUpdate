@@ -12,6 +12,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 
 /**
+ * 衣物类型（服务类型）adapter
  * Created by allenli on 2016/6/28.
  */
 public class ClothingTypeAdapter extends BaseListAdapter<OrderDetail> {
@@ -35,7 +36,8 @@ public class ClothingTypeAdapter extends BaseListAdapter<OrderDetail> {
         TextView txtType = ViewHolder.get(convertView, R.id.txt_type);
         TextView txtCount = ViewHolder.get(convertView, R.id.txt_count);
         txtType.setText(deliver.getTypeName());
-        txtCount.setText(String.format(context.getString(R.string.text_count_format),deliver.getReceivableCount()));
+        txtCount.setText(String.format(context.getString(R.string.text_count_format), deliver
+                .getReceivableCount()));
 
     }
 }

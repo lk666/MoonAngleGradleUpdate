@@ -13,6 +13,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 
 /**
+ * 衣物转交历史记录adapter
  * Created by allenli on 2016/6/28.
  */
 public class DeliverLogAdapter extends BaseListAdapter<LaundryLog> {

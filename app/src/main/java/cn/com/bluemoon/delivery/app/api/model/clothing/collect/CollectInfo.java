@@ -11,7 +11,7 @@ public class CollectInfo {
     private String  collectCode;
     private String   collectStatus;
     private String   county;
-    private String   isUrgent;
+    private int   isUrgent;
     private String   outerCode;
     private String   payTotal;
     private String   province;
@@ -122,11 +122,11 @@ public class CollectInfo {
         this.county = county;
     }
 
-    public String getIsUrgent() {
+    public int getIsUrgent() {
         return isUrgent;
     }
 
-    public void setIsUrgent(String isUrgent) {
+    public void setIsUrgent(int isUrgent) {
         this.isUrgent = isUrgent;
     }
 

@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Paint;
@@ -140,6 +141,7 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
         }
     };
 
+    @SuppressLint("DefaultLocale")
     private void setData(ResultOuterOrderInfo result) {
 
         tvNumber.setText(result.getOuterCode());
@@ -152,7 +154,7 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
         tvAddress.setText(result.getFullAddress());
 
         tvPayTotal.setText(String.format("%.2f", (result.getPayTotal() / 100.0)));
-        tvReceivableCount.setText(result.getReceivableCount() + "");
+        tvReceivableCount.setText(String.valueOf(result.getReceivableCount()));
 
         collectAdapter.setList(result.getOrderReceive());
         collectAdapter.notifyDataSetChanged();
@@ -200,7 +202,7 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
 
             tvTypeName.setText(item.getTypeName());
 
-            tvCount.setText("" + item.getCount());
+            tvCount.setText(String.valueOf(item.getCount()));
         }
     }
 
@@ -231,10 +233,10 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
             TextView tvUrgent = ViewHolder.get(convertView, R.id.tv_urgent);
             TextView tvBrcode = ViewHolder.get(convertView, R.id.tv_brcode);
 
-            tvCount.setText(getString(R.string.with_order_collect_title_actual_count) + item
-                    .getActualCount());
-            tvCollectCode.setText(getString(R.string.with_order_collect_collect_number_text) +
-                    item.getCollectCode());
+            tvCount.setText(String.format(getString(R.string
+                    .with_order_collect_order_receive_count_num), item.getActualCount()));
+            tvCollectCode.setText(String.format(getString(R.string
+                    .with_order_collect_collect_number_text_num), item.getCollectCode()));
 
             if (item.getIsUrgent() == 1) {
                 tvUrgent.setVisibility(View.VISIBLE);
@@ -244,10 +246,11 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
 
             String brcode = item.getCollectBrcode();
             if (TextUtils.isEmpty(brcode)) {
-                tvBrcode.setText(getString(R.string.clothing_detail_brcode) +
-                        getString(R.string.text_empty));
+                tvBrcode.setText(String.format("%s%s", getString(R.string.clothing_detail_brcode),
+                        getString(R.string.text_empty)));
             } else {
-                tvBrcode.setText(getString(R.string.clothing_detail_brcode) + brcode);
+                tvBrcode.setText(String.format(getString(R.string.clothing_detail_brcode_num),
+                        brcode));
             }
 
             if (isNew) {

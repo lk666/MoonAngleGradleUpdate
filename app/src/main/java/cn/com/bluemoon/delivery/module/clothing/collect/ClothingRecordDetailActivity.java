@@ -40,6 +40,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
+ * 收衣订单页面
  * Created by allenli on 2016/6/28.
  */
 public class ClothingRecordDetailActivity extends BaseActionBarActivity implements
@@ -48,7 +49,6 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     private String manager;
     private String collectCode;
     private DeliverLogAdapter deliveryAdapter;
-    private ClothingTypeAdapter clothingTypeAdapter;
     private ClothesInfoAdapter clothingInfoAdapter;
     @Bind(R.id.txt_log)
     TextView txtLog;
@@ -199,7 +199,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
             txtOutCode.setText(record.getOuterCode());
             txtNeed.setText(String.valueOf(record.getReceivableTotal()));
             if (null != record.getOrderDetail() && record.getOrderDetail().size() > 0) {
-                clothingTypeAdapter = new ClothingTypeAdapter(ClothingRecordDetailActivity.this,
+                ClothingTypeAdapter clothingTypeAdapter = new ClothingTypeAdapter(ClothingRecordDetailActivity.this,
                         this);
                 clothingTypeAdapter.setList(record.getOrderDetail());
                 listViewType.setAdapter(clothingTypeAdapter);
@@ -274,6 +274,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     }
                     txtLogOpen.setText(getString(R.string.txt_close));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
+                    assert drawable != null;
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
                             .getMinimumHeight());
                     txtLogOpen.setCompoundDrawables(null, null, drawable, null);
@@ -283,6 +284,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     listViewLog.setVisibility(View.GONE);
                     txtLogOpen.setText(getString(R.string.txt_open));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_down);
+                    assert drawable != null;
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
                             .getMinimumHeight());
                     txtLogOpen.setCompoundDrawables(null, null, drawable, null);
@@ -295,6 +297,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     layoutType.setVisibility(View.VISIBLE);
                     txtTypeOpen.setText(getString(R.string.txt_close));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
+                    assert drawable != null;
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
                             .getMinimumHeight());
                     txtTypeOpen.setCompoundDrawables(null, null, drawable, null);
@@ -303,6 +306,7 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
                     layoutType.setVisibility(View.GONE);
                     txtTypeOpen.setText(getString(R.string.txt_open));
                     Drawable drawable = getResources().getDrawable(R.mipmap.ic_down);
+                    assert drawable != null;
                     drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
                             .getMinimumHeight());
                     txtTypeOpen.setCompoundDrawables(null, null, drawable, null);
