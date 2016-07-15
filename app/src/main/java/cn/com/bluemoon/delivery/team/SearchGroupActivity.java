@@ -69,7 +69,6 @@ public class SearchGroupActivity extends Activity implements CommonSearchView.Se
         mContext = this;
         searchView = (CommonSearchView) findViewById(R.id.searchview_group);
         searchView.setSearchViewListener(this);
-        searchView.showHistoryView();
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_GROUP));
         listviewGroup = (PullToRefreshListView) findViewById(R.id.listview_group);
         emptyView = PublicUtil.setEmptyView(listviewGroup, null,
@@ -81,7 +80,6 @@ public class SearchGroupActivity extends Activity implements CommonSearchView.Se
                 getData();
             }
         });
-        LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         progressDialog = new CommonProgressDialog(mContext);
         listviewGroup.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -103,6 +101,7 @@ public class SearchGroupActivity extends Activity implements CommonSearchView.Se
             public void run() {
                 searchView.setFocus(true);
                 LibViewUtil.showKeyboard(searchView.getSearchEdittext());
+                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
         }, 100);
     }
@@ -225,16 +224,15 @@ public class SearchGroupActivity extends Activity implements CommonSearchView.Se
     }
 
     @Override
-    public void onSearch(String str) {
-        searchView.hideHistoryView();
+    public void onSearch(CommonSearchView view, String str) {
         pullDown = false;
         pullUp = false;
         getData();
     }
 
     @Override
-    public void onCancel() {
-        searchView.hideHistoryView();
+    public void onCancel(CommonSearchView view) {
+
     }
 
     class GroupAdapter extends BaseAdapter {

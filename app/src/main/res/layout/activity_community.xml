@@ -4,36 +4,30 @@
     android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
     android:orientation="vertical">
-    <RelativeLayout
+
+    <cn.com.bluemoon.lib.view.CommonSearchView
+        xmlns:search="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        search:text_hint="@string/search_key" />
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_community"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        >
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:overScrollMode="never"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderBackground="@color/page_bg_f2"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black"
+        ptr:ptrMode="both" />
 
-        <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
-            xmlns:ptr="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/listview_community"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="60dp"
-            android:divider="@null"
-            android:dividerHeight="0dp"
-            android:fadingEdge="none"
-            android:overScrollMode="never"
-            ptr:ptrMode="both"
-            ptr:ptrAnimationStyle="flip"
-            ptr:ptrHeaderBackground="@color/page_bg_f2"
-            ptr:ptrHeaderSubTextColor="@color/text_black"
-            ptr:ptrHeaderTextColor="@color/text_black"/>
-
-        <cn.com.bluemoon.lib.view.CommonSearchView
-            xmlns:search="http://schemas.android.com/apk/res-auto"
-            android:id="@+id/search_view"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            search:text_hint = "@string/search_key"/>
-
-    </RelativeLayout>
 
     <Button
         android:id="@+id/btn_ok"

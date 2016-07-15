@@ -27,7 +27,7 @@
         xmlns:search="http://schemas.android.com/apk/res-auto"
         android:id="@+id/searchview_member"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         search:text_hint="@string/team_member_search_hint"
         />
 

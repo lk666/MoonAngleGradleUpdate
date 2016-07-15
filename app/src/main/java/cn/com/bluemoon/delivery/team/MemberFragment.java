@@ -100,7 +100,6 @@ public class MemberFragment extends BackHandledFragment {
         });
         searchView = (CommonSearchView) rootView.findViewById(R.id.searchview_member);
         searchView.setSearchViewListener(searchViewListener);
-        searchView.hideHistoryView();
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_MEMBER));
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -163,9 +162,8 @@ public class MemberFragment extends BackHandledFragment {
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
-        public void onSearch(String str) {
+        public void onSearch(CommonSearchView view,String str) {
             content = str;
-            searchView.hideHistoryView();
             pullDown = false;
             pullUp = false;
             isRefresh = false;
@@ -173,8 +171,8 @@ public class MemberFragment extends BackHandledFragment {
         }
 
         @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
+        public void onCancel(CommonSearchView view) {
+
         }
 
     };
@@ -378,7 +376,7 @@ public class MemberFragment extends BackHandledFragment {
 
     @Override
     protected boolean onBackPressed() {
-        if(searchView!=null&&searchView.getHistoryView().getVisibility()==View.VISIBLE){
+        if(searchView!=null&&LibViewUtil.getViewVisibility(searchView.getHistoryView())==View.VISIBLE){
             searchView.setFocus(false);
             searchView.hideHistoryView();
             return true;
