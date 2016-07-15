@@ -35,7 +35,7 @@
                 android:layout_height="wrap_content" />
 
         </LinearLayout>
-        <View style="@style/line_solid_padding_left_style"></View>
+        <View style="@style/line_solid_padding_left_style"/>
         <LinearLayout
             style="@style/multi_row_no_padding_style"
             android:paddingTop="12dp"
