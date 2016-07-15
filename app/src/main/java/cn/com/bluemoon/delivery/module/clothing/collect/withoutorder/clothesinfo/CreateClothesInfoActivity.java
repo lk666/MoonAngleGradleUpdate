@@ -412,8 +412,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     /**
      * 返回去除掉添加图片按钮的图片列表
-     *
-     * @return
      */
     private List<ClothingPic> getActualClothesImg(List<ClothingPic> oriList) {
         if (oriList == null || oriList.isEmpty()) {
@@ -518,8 +516,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     /**
      * 新增模式下处理扫码、手动输入数字码返回
-     *
-     * @param code
      */
     private void handleScaneCodeBack(String code) {
         scaneCode = code;
