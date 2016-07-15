@@ -18,13 +18,13 @@
 
             <LinearLayout
                 android:id="@+id/layout_card_other"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fefefe"
                 android:orientation="vertical" >
                 <LinearLayout
                     android:id="@+id/layout_choose_address_other"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="40dp"
                     android:paddingLeft="10dp"
                     android:paddingRight="10dp"
@@ -59,7 +59,7 @@
 
                     <ImageView
                         android:layout_width="wrap_content"
-                        android:layout_height="fill_parent"
+                        android:layout_height="match_parent"
                         android:src="@mipmap/icon_right" />
                 </LinearLayout>
 
@@ -67,7 +67,7 @@
 
                 <LinearLayout
                     android:id="@+id/layout_address_other"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:layout_marginBottom="10dp"

@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
         android:background="#fefefe"
@@ -16,7 +16,7 @@
 
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -33,7 +33,7 @@
 
             <TextView
                 android:id="@+id/text_store_id"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@id/txt_store"
                 android:ellipsize="end"
@@ -46,7 +46,7 @@
         <View style="@style/line_solid_style"></View>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:focusable="true"
@@ -63,8 +63,8 @@
 
             <cn.com.bluemoon.lib.view.ClearEditText
                 android:id="@+id/edit_receiver"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:hint="@string/text_store_receiver_hint"
@@ -81,7 +81,7 @@
 
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -95,8 +95,8 @@
 
             <cn.com.bluemoon.lib.view.ClearEditText
                 android:id="@+id/edit_user_phone"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:hint="@string/user_phone_hint_hint"
@@ -113,14 +113,14 @@
         <View style="@style/line_solid_style"></View>
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="@dimen/profile_head__width"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/text_store_address_is_lift"
                 android:textColor="@color/text_black"
@@ -129,7 +129,7 @@
             <CheckBox
                 android:id="@+id/cb_is_lift"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:paddingRight="10dp"
                 android:button="@drawable/checkbox_swich_button" />
@@ -139,7 +139,7 @@
         <View style="@style/line_solid_style"></View>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -154,8 +154,8 @@
 
             <cn.com.bluemoon.lib.view.ClearEditText
                 android:id="@+id/edit_floor"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:hint="@string/text_store_address_floor_hint"
@@ -173,7 +173,7 @@
 
         <RelativeLayout
             android:id="@+id/region_layout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/btn_white">
 
@@ -210,7 +210,7 @@
 
         <RelativeLayout
             android:id="@+id/town_layout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/btn_white"
             android:clickable="true">
@@ -256,7 +256,7 @@
 
         <RelativeLayout
             android:id="@+id/village_layout"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/btn_white"
             android:clickable="true">
@@ -300,7 +300,7 @@
         <View style="@style/line_solid_style"></View>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -315,8 +315,8 @@
 
             <cn.com.bluemoon.lib.view.ClearEditText
                 android:id="@+id/edit_address"
-                android:layout_width="fill_parent"
-                android:layout_height="fill_parent"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@null"
                 android:hint="@string/text_store_address_detail_hint"
@@ -333,14 +333,14 @@
         <View style="@style/line_solid_style"></View>
 
         <RelativeLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="40dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="@dimen/profile_head__width"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:gravity="center_vertical"
                 android:text="@string/text_store_address_default"
                 android:textColor="@color/text_black"
@@ -349,7 +349,7 @@
             <CheckBox
                 android:id="@+id/cb_default"
                 android:layout_width="wrap_content"
-                android:layout_height="fill_parent"
+                android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:paddingRight="10dp"
                 android:button="@drawable/checkbox_swich_button" />
@@ -360,7 +360,7 @@
     </LinearLayout>
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1">
 

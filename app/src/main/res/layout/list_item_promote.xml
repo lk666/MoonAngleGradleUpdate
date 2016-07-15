@@ -31,7 +31,7 @@
             android:src="@mipmap/icon_right"/>
     </LinearLayout>
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="10dp"
         android:background="@color/line_soild_bg"/>
@@ -102,7 +102,7 @@
     </RelativeLayout>
 
     <View
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="10dp"
         android:background="@color/line_soild_bg"/>

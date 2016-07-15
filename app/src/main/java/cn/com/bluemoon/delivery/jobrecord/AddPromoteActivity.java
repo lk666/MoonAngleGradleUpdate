@@ -528,15 +528,6 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         }
     }
 
-    public int getBitmapSize(Bitmap bitmap){
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){    //API 19
-            return bitmap.getAllocationByteCount();
-        }
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB_MR1){//API 12
-            return bitmap.getByteCount();
-        }
-        return bitmap.getRowBytes() * bitmap.getHeight();                //earlier version
-    }
     public void setSortList(List<ImageInfo> images) {
         if (images != null) {
             ImageInfo second =  images.get(images.size()-2);

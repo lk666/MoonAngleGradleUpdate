@@ -51,7 +51,7 @@
         <ProgressBar
             android:id="@+id/pro_web"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="2dip"
             android:visibility="gone"
             android:progressDrawable="@drawable/pro_web_bg_blue"
