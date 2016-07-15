@@ -150,7 +150,6 @@ public class RelationInfoActivity extends KJActivity {
                 txtType.setText(getString(R.string.team_community));
                 getCommunity();
             }
-            item.setWorkType(Constants.WORKTYPE_FULL);
         } else if (Constants.TYPE_UPDATE.equals(empEdit.getType())) {
             imgRight1.setVisibility(View.GONE);
             imgRight2.setVisibility(View.GONE);
