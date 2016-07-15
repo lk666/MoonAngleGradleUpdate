@@ -821,6 +821,8 @@
     <string name="create_collect_dialog_name_phone">姓名电话</string>
     <string name="create_collect_dialog_address">地址</string>
     <string name="create_collect_dialog_actual_receive">实收：</string>
+    <string name="create_collect_dialog_actual_receive_num_unit">实收：%s件</string>
+    <string name="create_collect_dialog_actual_receive_num">实收：%s</string>
     <string name="create_collect_can_not_delete">请至少保留一张图片</string>
 
     <string name="notice_add_clothes_no_brcode">还未扫描收衣条码，请扫描后继续操作。</string>
