@@ -133,7 +133,7 @@ public class PromoteDetailActivity extends Activity {
                     txtWorkPrice.setText(StringUtil.formatPrice(info.getWorkPrice()));
                     txtHolidayPrice.setText(StringUtil.formatPrice(info.getHolidayPrice()));
                     txtDeposit.setText(StringUtil.formatPrice(info.getCashPledge()));
-                    txtOtherFee.setText(info.getRemark());
+                    txtOtherFee.setText(StringUtils.isNotBlank(info.getRemark()) ? info.getRemark() : getString(R.string.promote_none));
                     txtWifi.setText(info.getWifi()? getString(R.string.promote_has) : getString(R.string.promote_none));
                     txtNetwork.setText(info.getWiredNetwork()? getString(R.string.promote_has) : getString(R.string.promote_none));
                     txtBpname.setText(String.format(getString(R.string.promote_append),info.getBpCode1(), info.getBpName1()));
@@ -234,7 +234,6 @@ public class PromoteDetailActivity extends Activity {
 
             final ImageView imgWork = (ImageView) convertView.findViewById(R.id.img_promote);
             final ImageInfo img = images.get(position);
-            Bitmap imgBitmap = null;
             if (StringUtils.isNotBlank(img.getFilePath())) {
                 kjBitmap.display(imgWork, img.getFilePath(), new BitmapCallBack() {
                     @Override

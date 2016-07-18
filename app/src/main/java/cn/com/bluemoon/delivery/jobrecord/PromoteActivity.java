@@ -82,6 +82,8 @@ public class PromoteActivity extends Activity{
         searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
             @Override
             public void onSearch(String str) {
+                isPullDown = false;
+                isPullUp = false;
                 searchKey = str;
                 searchView.hideHistoryView();
                 DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);

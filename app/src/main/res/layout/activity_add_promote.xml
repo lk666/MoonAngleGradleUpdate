@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
     android:orientation="vertical">
-   <cn.com.bluemoon.delivery.ui.ObservableScrollView xmlns:app="http://schemas.android.com/apk/res-auto"
+   <cn.com.bluemoon.delivery.ui.ObservableScrollView
         android:id="@+id/root"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"

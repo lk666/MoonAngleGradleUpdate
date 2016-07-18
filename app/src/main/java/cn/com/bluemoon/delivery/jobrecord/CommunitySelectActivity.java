@@ -108,6 +108,8 @@ public class CommunitySelectActivity extends Activity{
         searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
             @Override
             public void onSearch(String str) {
+                isPullDown = false;
+                isPullUp = false;
                 searchKey = str;
                 searchView.hideHistoryView();
                 DeliveryApi.getBpList(ClientStateManager.getLoginToken(CommunitySelectActivity.this), searchKey, 0, getBpListHandler);
