@@ -603,6 +603,7 @@
     <string name="promote_has">有</string>
     <string name="promote_none">无</string>
     <string name="promote_append">%1$s—%2$s</string>
+    <string name="promote_append2">%1$s—%2$s，%3$s</string>
 
     <!--keyListener-->
     <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>

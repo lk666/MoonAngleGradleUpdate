@@ -26,7 +26,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.team.Community;
-import cn.com.bluemoon.delivery.app.api.model.team.Emp;
 import cn.com.bluemoon.delivery.app.api.model.team.EmpEdit;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultCommunityList;

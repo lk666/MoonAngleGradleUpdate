@@ -39,7 +39,6 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.ShowMultipleImageView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -109,6 +108,7 @@ public class PromoteDetailActivity extends Activity {
                     Intent intent = new Intent(PromoteDetailActivity.this, ShowMultipleImageView.class);
                     Bundle bundle = new Bundle();
                     bundle.putSerializable("bitmaps", urls);
+                    intent.putExtra("position", position);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 }
@@ -136,8 +136,8 @@ public class PromoteDetailActivity extends Activity {
                     txtOtherFee.setText(StringUtils.isNotBlank(info.getRemark()) ? info.getRemark() : getString(R.string.promote_none));
                     txtWifi.setText(info.getWifi()? getString(R.string.promote_has) : getString(R.string.promote_none));
                     txtNetwork.setText(info.getWiredNetwork()? getString(R.string.promote_has) : getString(R.string.promote_none));
-                    txtBpname.setText(String.format(getString(R.string.promote_append),info.getBpCode1(), info.getBpName1()));
                     txtBpname1.setText(String.format(getString(R.string.promote_append),info.getBpCode(), info.getBpName()));
+                    txtBpname.setText(String.format(getString(R.string.promote_append2),info.getBpCode1(), info.getBpName1(), info.getBpName2()));
                     images = info.getPicInfo();
                     if (images == null || images.size() == 0) {
                         layoutImage.setVisibility(View.GONE);
