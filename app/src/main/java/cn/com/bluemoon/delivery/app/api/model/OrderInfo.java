@@ -120,9 +120,6 @@ public class OrderInfo {
 	}
 	/**  
 	 * orderSource.  
-	 *  
-	 * @param   orderSource    the orderSource to set  
-	 * @since   JDK 1.6  
 	 */
 	public void setSource(String source) {
 		this.source = source;

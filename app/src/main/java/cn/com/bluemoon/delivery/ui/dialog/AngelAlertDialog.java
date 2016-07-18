@@ -82,9 +82,6 @@ public class AngelAlertDialog extends Dialog {
 
 		/**
 		 * Set the Dialog message from resource
-		 * 
-		 * @param title
-		 * @return
 		 */
 		public Builder setMessageSmall(int messageSmall) {
 			this.messageSmall = (String) context.getText(messageSmall);

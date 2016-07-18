@@ -70,12 +70,6 @@ public class LocationService {
 		}
 	}
 	
-	/***
-	 * 
-	 * @param listener
-	 * @return
-	 */
-	
 	public boolean registerListener(){
 		boolean isSuccess = false;
 		if(myListener != null){
