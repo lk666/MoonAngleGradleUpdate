@@ -15,20 +15,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.ui.DateTextView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 
 public class ChooseDateWindow extends PopupWindow {
 
@@ -108,10 +102,10 @@ public class ChooseDateWindow extends PopupWindow {
 
 	public void showPopwindow(View popStart) {
 		if(minDate>0&&minDate>System.currentTimeMillis()){
-			txtEndDate.setText(DateUtil.getTime(minDate, "yyyy-MM-dd"));
+			txtEndDate.setText(DateUtil.getTime(minDate));
 			curDate = minDate;
 		}else if(maxDate>0&&maxDate<System.currentTimeMillis()) {
-			txtEndDate.setText(DateUtil.getTime(maxDate, "yyyy-MM-dd"));
+			txtEndDate.setText(DateUtil.getTime(maxDate));
 			curDate = maxDate;
 		}else{
 			txtEndDate.setText(DateUtil.getCurDate());

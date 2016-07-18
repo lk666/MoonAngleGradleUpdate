@@ -26,7 +26,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.team.Community;
-import cn.com.bluemoon.delivery.app.api.model.team.Emp;
 import cn.com.bluemoon.delivery.app.api.model.team.EmpEdit;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultCommunityList;
@@ -118,6 +117,10 @@ public class RelationInfoActivity extends KJActivity {
                 int index = s.toString().lastIndexOf(".");
                 if (index != -1 && s.toString().length() > index + 2) {
                     txtWorkLengh.setText(s.toString().substring(0, index + 2));
+                    txtWorkLengh.setSelection(txtWorkLengh.length());
+                }
+                if(Double.parseDouble(s.toString())>24){
+                    txtWorkLengh.setText("24.0");
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
             }
@@ -240,8 +243,8 @@ public class RelationInfoActivity extends KJActivity {
         } else {
             setWorkType(true);
         }
-        txtStartDate.setText(DateUtil.getTime(item.getStartDate(), "yyyy-MM-dd"));
-        txtEndDate.setText(DateUtil.getTime(item.getEndDate(), "yyyy-MM-dd"));
+        txtStartDate.setText(DateUtil.getTime(item.getStartDate()));
+        txtEndDate.setText(DateUtil.getTime(item.getEndDate()));
         txtEndDate.updateMinDate(item.getStartDate());
         txtRemark.setText(item.getRemark());
         txtRemark.updateCleanable(0, false);

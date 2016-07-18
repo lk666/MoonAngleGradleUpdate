@@ -112,8 +112,8 @@ public class RelationShipDetailActivity extends KJActivity {
             layoutWorkLengh.setVisibility(View.VISIBLE);
             txtWorkLengh.setText(String.valueOf(item.getWorkLength()));
         }
-        txtStartDate.setText(DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"));
-        txtEndDate.setText(DateUtil.getTime(item.getEndDate(), "yyyy-MM-dd"));
+        txtStartDate.setText(DateUtil.getTime(item.getStartDate()));
+        txtEndDate.setText(DateUtil.getTime(item.getEndDate()));
         if(!StringUtils.isEmpty(item.getRemark())){
             layoutRemark.setVisibility(View.VISIBLE);
             txtRemark.setText(item.getRemark());

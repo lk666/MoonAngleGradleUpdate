@@ -63,6 +63,7 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
     private List<String> listSelected;
     private List<ServiceArea> items;
     private int pageNext;
+    private int pageMax;
     private boolean pullUp;
     private boolean pullDown;
     private String bpCode;
@@ -204,10 +205,11 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
         if (items == null) {
             items = new ArrayList<>();
         }
-        if (pullUp && (list == null || list.size() == 0)) {
+        if (pullUp && (pageNext>=pageMax||list == null || list.size() == 0)) {
             PublicUtil.showToast(R.string.card_no_list_data);
             return;
-        } else if (pullUp) {
+        }
+        if (pullUp) {
             items.addAll(list);
             pageNext++;
         } else {
@@ -276,6 +278,10 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
                 ResultServiceAreaList result = JSON.parseObject(responseString, ResultServiceAreaList.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     setData(result.getItemList());
+                    pageMax = result.getTotal()/AppContext.PAGE_SIZE;
+                    if(result.getTotal()%AppContext.PAGE_SIZE>0){
+                        pageMax++;
+                    }
                 } else {
                     PublicUtil.showErrorMsg(aty, result);
                     LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);

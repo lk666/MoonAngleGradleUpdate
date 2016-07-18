@@ -45,7 +45,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
-import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class GroupDetailActivity extends KJActivity {
@@ -410,7 +409,7 @@ public class GroupDetailActivity extends KJActivity {
             }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
-            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"), work));
+            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate()), work));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
