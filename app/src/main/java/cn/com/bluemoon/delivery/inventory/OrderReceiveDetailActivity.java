@@ -836,9 +836,9 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
 
             final ProductPreReceiveVo info = list.get(position);
             holder.txtOrderNumber.setText(list.get(position).getProductNo());
-            holder.txtBoxRuleNum.setText(list.get(position).getCarton() + "");
+            holder.txtBoxRuleNum.setText(String.valueOf(list.get(position).getCarton()));
             holder.txtOrderProductName.setText(list.get(position).getProductName());
-            holder.txtDeliveryNum.setText(list.get(position).getOutNum() + "");
+            holder.txtDeliveryNum.setText(String.valueOf(list.get(position).getOutNum()));
             //应发箱数
             if("90000714".equals(list.get(position).getProductNo())){
                 holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
@@ -850,8 +850,8 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
 
             holder.txtRealBoxNum.setText(String.format(getString(R.string.order_boxes),
                     StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
-            holder.editBookCount.setText(list.get(position).getDifferNum() + "");
-            String diffNums = (list.get(position).getOutNum() - list.get(position).getDifferNum()) + "";
+            holder.editBookCount.setText(String.valueOf(list.get(position).getDifferNum()));
+            String diffNums = String.valueOf(list.get(position).getOutNum() - list.get(position).getDifferNum());
             holder.txtDiffNumProductReceive.setText(diffNums);
 
             holder.imgBookAdd.setOnClickListener(new OnClickListener() {
@@ -861,7 +861,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                         return;
                     }
                     list.get(position).setDifferNum(list.get(position).getDifferNum() + 1);
-                  //  double num = (double) (list.get(position).getDifferNum()) / list.get(position).getCarton();
                     double num ;
                     if("90000714".equals(list.get(position).getProductNo())){
                         num = (double) (list.get(position).getDifferNum()) / (list.get(position).getCarton()*500);
@@ -881,7 +880,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                         return;
                     }
                     list.get(position).setDifferNum(list.get(position).getDifferNum() - 1);
-               //     double num = (double) (list.get(position).getDifferNum()) / list.get(position).getCarton();
                     double num ;
                     if("90000714".equals(list.get(position).getProductNo())){
                         num = (double) (list.get(position).getDifferNum()) / (list.get(position).getCarton()*500);

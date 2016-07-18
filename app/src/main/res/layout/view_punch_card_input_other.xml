@@ -7,7 +7,6 @@
     >
     
     <ScrollView
-        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         >
@@ -17,7 +16,6 @@
             android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/layout_card_other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="#fefefe"
@@ -66,7 +64,6 @@
                 <View style="@style/line_dotted_style"/>
 
                 <LinearLayout
-                    android:id="@+id/layout_address_other"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"

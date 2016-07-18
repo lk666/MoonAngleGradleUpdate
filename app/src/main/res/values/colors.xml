@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
 
     <color name="white_bg">#fffefefe</color><!--白色背景，暂时解决纯白色在Holo下变半透明黑的问题 -->
     <color name="view_bg">#ffffff</color>
@@ -14,7 +11,7 @@
     <color name="line_dotted_bg">#ebebeb</color><!-- 分割线 虚线  颜色 -->
     <color name="line_soild_bg">#e5e5e5</color> <!-- 实线 -->
     <color name="line_solid_deep_bg">#d7d7d7</color> <!-- 深色实线 -->
-    <color name="line_solid_divider_bg">#dbdbdb</color> <!-- 深色实线 -->
+    <!-- 深色实线 -->
     <color name="bar_blue">#66cfff</color> <!--历史单顶部横条蓝色  -->
     <color name="pink_background">#ffad99</color> <!-- 粉色背景 -->
     <color name="ticket_msg_bg">#99011930</color><!-- 门票顶部半透明背景 -->
@@ -49,11 +46,10 @@
     <color name="red_bg_light">#ffe4e1</color><!-- 点击背景 -->
 
     <color name="btn_grep">#d7d7d7</color><!-- 灰色 -->
-    <color name="btn_grep_pressed">#b3b3b3</color><!-- 点击灰色 -->
+    <!-- 点击灰色 -->
 
     <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
     <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
 
-    <color name="div_999">#999999</color> <!-- 洗衣服务分割线颜色 -->
-    <color name = "deliver_background">#f8f8f8</color>
+    <!-- 洗衣服务分割线颜色 -->
 </resources>

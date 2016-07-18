@@ -788,7 +788,7 @@ public class MainActivity extends SlidingActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            HolderView holderView = null;
+            HolderView holderView;
             if (convertView == null) {
                 holderView = new HolderView();
                 convertView = LayoutInflater.from(context).inflate(
@@ -816,6 +816,7 @@ public class MainActivity extends SlidingActivity {
                 if (!StringUtils.isEmpty(listUserRight.get(position).getIconImg())) {
                     KJFUtil.getUtil().getKJB().display(holderView.imgItem, listUserRight.get(position).getIconImg());
                 }
+
                 holderView.txtItem.setText(listUserRight.get(position).getMenuName());
             }else{
                 convertView.setBackgroundColor(getResources().getColor(R.color.white));

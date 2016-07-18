@@ -9,7 +9,6 @@
           android:layout_height="0dp"/>
 
     <ScrollView
-        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
@@ -192,7 +191,6 @@
                 </LinearLayout>
                 <!-- 签收时间 gone-->
                 <LinearLayout
-                    android:id="@+id/layout_extract_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"

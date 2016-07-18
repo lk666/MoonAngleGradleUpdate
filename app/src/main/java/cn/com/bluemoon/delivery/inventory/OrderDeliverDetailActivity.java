@@ -796,7 +796,7 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            ViewHolder holder ;
+            ViewHolder holder;
             if (convertView == null) {
                 holder = new ViewHolder();
                 if (isDeliver()) {
@@ -826,9 +826,9 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
             }
 
             holder.txtOrderNumber.setText(list.get(position).getProductNo());
-            holder.txtBoxRuleNum.setText(list.get(position).getCarton() + "");
+            holder.txtBoxRuleNum.setText(String.valueOf(list.get(position).getCarton()));
             holder.txtOrderProductName.setText(list.get(position).getProductName());
-            holder.txtDeliveryNum.setText(list.get(position).getOutNum() + "");
+            holder.txtDeliveryNum.setText(String.valueOf(list.get(position).getOutNum()));
             //应发箱数
             if ("90000714".equals(list.get(position).getProductNo())) {
                 holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
@@ -840,9 +840,9 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
 
             holder.txtRealBoxNum.setText(String.format(getString(R.string.order_boxes),
                     StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
-            holder.editBookCount.setText(list.get(position).getDifferNum() + "");
+            holder.editBookCount.setText(String.valueOf(list.get(position).getDifferNum()));
 
-            String diffNum = (list.get(position).getOutNum() - list.get(position).getDifferNum()) + "";
+            String diffNum = String.valueOf((list.get(position).getOutNum() - list.get(position).getDifferNum()));
             holder.txtDiffNumProductReceive.setText(diffNum);
 
             holder.imgBookAdd.setOnClickListener(new OnClickListener() {
@@ -872,8 +872,6 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
                         return;
                     }
                     list.get(position).setDifferNum(list.get(position).getDifferNum() - 1);
-                    //  double num = (double) (list.get(position).getDifferNum()) / list.get(position).getCarton();
-
                     double num;
                     if ("90000714".equals(list.get(position).getProductNo())) {
                         num = (double) (list.get(position).getDifferNum()) / (list.get(position).getCarton() * 500);
@@ -959,7 +957,7 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
             progressDialog.show();
         }
         cancelReadCacheTask();
-        uploadTask = (UploadTask) new UploadTask(main).execute("");
+        uploadTask = (UploadTask) new UploadTask().execute("");
     }
 
     private void cancelReadCacheTask() {
@@ -971,8 +969,6 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
 
 
     private class UploadTask extends AsyncTask<String, Void, String> {
-        private UploadTask(Context context) {
-        }
 
         @Override
         protected String doInBackground(String... params) {
