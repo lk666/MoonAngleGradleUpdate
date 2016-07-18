@@ -208,6 +208,8 @@ public class CommunitySelectActivity extends Activity implements CommonSearchVie
 
     @Override
     public void onSearch(CommonSearchView view, String str) {
+		isPullDown = false;
+        isPullUp = false;
         searchKey = str;
         DeliveryApi.getBpList(ClientStateManager.getLoginToken(CommunitySelectActivity.this), searchKey, 0, getBpListHandler);
     }

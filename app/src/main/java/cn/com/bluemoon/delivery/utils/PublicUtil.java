@@ -637,6 +637,7 @@ public class PublicUtil extends LibPublicUtil{
         Map<String, String> params = new HashMap<String, String>();
         params.put("version", AppContext.getInstance().getPackageInfo().versionName);
         params.put("client", ApiClientHelper.CLIENT);
+		params.put("token", ClientStateManager.getLoginToken(AppContext.getInstance()));
         return JSONObject.toJSONString(params);
     }
 

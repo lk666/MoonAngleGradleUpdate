@@ -41,7 +41,7 @@ public class ShowMultipleImageView extends Activity {
         @Override
         public Object instantiateItem(ViewGroup container,int position){
             ImageView im=new ImageView(ShowMultipleImageView.this);
-            kjBitmap.display(im, images[position]);
+            kjBitmap.displayWithLoadBitmap(im, images[position], R.mipmap.place_holder);
             container.addView(im);
             im.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -59,6 +59,7 @@ public class ShowMultipleImageView extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_show_pic);
+        getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         images = (String[]) getIntent().getSerializableExtra("bitmaps");
         viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager.setAdapter(adapter);
