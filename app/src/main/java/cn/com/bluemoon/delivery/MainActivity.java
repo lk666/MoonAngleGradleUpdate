@@ -722,6 +722,9 @@ public class MainActivity extends SlidingActivity {
                PublicUtil.openWebView(main, userRight.getUrl() +
                                "?token=" + ClientStateManager.getLoginToken(main),
                        userRight.getMenuName(), false, false, true, false);
+           } else if (MenuCode.leave_web.toString().equals(userRight.getMenuCode())) {
+               PublicUtil.openWebView(main, userRight.getUrl(),
+                       userRight.getMenuName(), false, false, true, false);
            } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
                intent = new Intent(main, MessageListActivity.class);
                startActivity(intent);
