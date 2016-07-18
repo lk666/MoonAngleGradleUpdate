@@ -16,9 +16,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.ClientStateManager;
@@ -34,19 +31,12 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 
-// TODO: lk 2016/6/24  字体统一样式
-
 /**
  * 衣物详情
  * Created by luokai on 2016/6/24.
  */
 public class ClothesDetailActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
-
-    /**
-     * 已上传的图片列表
-     */
-    private List<ClothingPic> clothesImg;
 
     /**
      * 衣物编码
@@ -133,7 +123,6 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            // TODO: lk 2016/6/20 待测试
             LogUtils.d(getDefaultTag(), "获取衣物详情 result = " + responseString);
             dismissProgressDialog();
             try {
@@ -141,7 +130,6 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
                         ResultClothesDetail.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     setClothesInfo(result);
-                    return;
                 } else {
                     PublicUtil.showErrorMsg(ClothesDetailActivity.this, result);
                 }
@@ -164,16 +152,16 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
      * 设置衣物信息
      */
     private void setClothesInfo(ResultClothesDetail result) {
-        tvCollectCode.setText(getString(R.string.clothing_detail_collect_code) + result
-                .getCollectCode());
+        tvCollectCode.setText(String.format(getString(R.string
+                .with_order_collect_collect_number_text_num), result.getCollectCode()));
 
         // 加急的逻辑
         if (result.getIsUrgent() == 1) {
             tvUrgent.setVisibility(View.VISIBLE);
             tvCollectAppointBackTime.setVisibility(View.VISIBLE);
-            tvCollectAppointBackTime.setText(getString(R.string
-                    .clothing_detail_appoint_back_time) + DateUtil.getTime(result
-                    .getAppointBackTime(), "yyyy-MM-dd " + "HH:mm"));
+            tvCollectAppointBackTime.setText(String.format("%s%s",
+                    getString(R.string.clothing_detail_appoint_back_time),
+                    DateUtil.getTime(result.getAppointBackTime(), "yyyy-MM-dd HH:mm")));
         } else {
             tvUrgent.setVisibility(View.GONE);
             tvCollectAppointBackTime.setVisibility(View.GONE);
@@ -181,34 +169,40 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
 
         String brcode = result.getCollectBrcode();
         if (TextUtils.isEmpty(brcode)) {
-            tvCollectBrcode.setText(getString(R.string.clothing_detail_brcode) +
-                    getString(R.string.text_empty));
+            tvCollectBrcode.setText(String.format("%s%s",
+                    getString(R.string.clothing_detail_brcode),
+                    getString(R.string.text_empty)));
         } else {
-            tvCollectBrcode.setText(getString(R.string.clothing_detail_brcode) + result
-                    .getCollectBrcode());
+            tvCollectBrcode.setText(String.format("%s%s",
+                    getString(R.string.clothing_detail_brcode), result
+                            .getCollectBrcode()));
         }
 
         // 收件人信息
-        tvOpName.setText(getString(R.string.clothing_detail_receiver_name) + result.getOpName());
+        tvOpName.setText(String.format("%s%s", getString(R.string.clothing_detail_receiver_name),
+                result.getOpName()));
         tvOpNumber.setText(result.getOpCode());
         tvOpPhone.setText(result.getOpPhone());
         tvOpPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         tvOpPhone.getPaint().setAntiAlias(true);
 
-        tvCollectTime.setText(getString(R.string.clothing_detail_time) + DateUtil.getTime(result
-                .getOpTime(), "yyyy-MM-dd " + "HH:mm"));
+        tvCollectTime.setText(String.format("%s%s", getString(R.string.clothing_detail_time),
+                DateUtil.getTime(result
+                        .getOpTime(), "yyyy-MM-dd " + "HH:mm")));
 
-        tvClotnesCode.setText(getString(R.string.clothing_detail_clothes_code) + clothesCode);
+        tvClotnesCode.setText(String.format("%s%s", getString(R.string
+                .clothing_detail_clothes_code), clothesCode));
         tvTypeName.setText(result.getTypeName());
         tvClothesName.setText(result.getClothesName());
 
         if (result.getHasFlaw() == 1) {
             ivFlaw.setVisibility(View.VISIBLE);
-            tvFlawDec.setText(getString(R.string.clothing_detail_flaw) + result.getFlawDesc());
+            tvFlawDec.setText(String.format("%s%s", getString(R.string.clothing_detail_flaw),
+                    result.getFlawDesc()));
         } else {
             ivFlaw.setVisibility(View.GONE);
-            tvFlawDec.setText(getString(R.string.clothing_detail_flaw) +
-                    getString(R.string.text_empty));
+            tvFlawDec.setText(String.format("%s%s", getString(R.string.clothing_detail_flaw),
+                    getString(R.string.text_empty)));
         }
 
         if (result.getHasStain() == 1) {
@@ -219,15 +213,14 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
 
         String backup = result.getRemark();
         if (TextUtils.isEmpty(backup)) {
-            tvBackup.setText(getString(R.string.clothing_detail_backup) +
-                    getString(R.string.text_empty));
+            tvBackup.setText(String.format("%s%s", getString(R.string.clothing_detail_backup),
+                    getString(R.string.text_empty)));
         } else {
-            tvBackup.setText(getString(R.string.clothing_detail_backup) + backup);
+            tvBackup.setText(String.format("%s%s", getString(R.string.clothing_detail_backup),
+                    backup));
         }
 
-        clothesImg = new ArrayList<>();
-        clothesImg.addAll(result.getClothesImg());
-        clothesAdapter.setList(clothesImg);
+        clothesAdapter.setList(result.getClothesImg());
         clothesAdapter.notifyDataSetChanged();
     }
 

@@ -6,7 +6,6 @@
  * @author: wangshanhai
  * @version 3.1.0
  * @date: 2016/3/23
- * @todo: prepare receive goods detail
  */
 package cn.com.bluemoon.delivery.inventory;
 
@@ -258,18 +257,15 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         new CommonActionBar(getActionBar(), new IActionBarListener() {
             @Override
             public void setTitle(TextView v) {
-                // TODO Auto-generated method stub
                 v.setText(getResources().getString(R.string.text_recvive_detail));
             }
 
             @Override
             public void onBtnRight(View v) {
-                // TODO Auto-generated method stub
             }
 
             @Override
             public void onBtnLeft(View v) {
-                // TODO Auto-generated method stub
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -412,9 +408,9 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         }
     }
 
-    DialogForSubmitOrder.Dialogcallback callback = new DialogForSubmitOrder.Dialogcallback() {
+    DialogForSubmitOrder.DialogCallback callback = new DialogForSubmitOrder.DialogCallback() {
         @Override
-        public void dialogdo(String string) {
+        public void dialogDo(String string) {
             uploadData();
         }
     };
@@ -455,7 +451,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            // TODO Auto-generated method stub
             LogUtils.d(TAG, "uploadHeader result = " + responseString);
             if (progressDialog != null)
                 progressDialog.dismiss();
@@ -479,7 +474,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
-            // TODO Auto-generated method stub
             if (progressDialog != null)
                 progressDialog.dismiss();
             LogUtils.e(TAG, throwable.getMessage());
@@ -509,7 +503,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            // TODO Auto-generated method stub
             LogUtils.d(TAG, "uploadHeader result = " + responseString);
             try {
                 ResultBase result = JSON.parseObject(responseString,
@@ -531,7 +524,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
-            // TODO Auto-generated method stub
             LogUtils.e(TAG, throwable.getMessage());
             PublicUtil.showToastServerOvertime();
             if (uploadTaskNums >= 1) {
@@ -602,7 +594,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
 
         @Override
         public void handleMessage(Message msg) {
-            // TODO Auto-generated method stub
             switch (msg.what) {
                 case 1005:
                     if (failUpload.size() > 0) {
@@ -803,19 +794,16 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
 
         @Override
         public int getCount() {
-            // TODO Auto-generated method stub、
             return list.size();
         }
 
         @Override
         public Object getItem(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
         @Override
         public long getItemId(int position) {
-            // TODO Auto-generated method stub
             return position;
         }
 
@@ -825,59 +813,48 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
             if (convertView == null) {
                 holder = new ViewHolder();
                 convertView = mInflater.inflate(R.layout.order_details_receive_item, null);
-                holder.txt_order_number = (TextView) convertView.findViewById(R.id.txt_order_number);
-                holder.txt_box_rule_num = (TextView) convertView.findViewById(R.id.txt_box_rule_num);
-                holder.txt_order_product_name = (TextView) convertView.findViewById(R.id.txt_order_product_name);
-                holder.txt_delivery_nums = (TextView) convertView.findViewById(R.id.txt_delivery_nums);
-                holder.txt_delivery_box_nums = (TextView) convertView.findViewById(R.id.txt_delivery_box_nums);
-                holder.book_count = (EditText) convertView.findViewById(R.id.book_count);
-                holder.txt_real_box_nums = (TextView) convertView.findViewById(R.id.txt_real_box_nums);
-                holder.book_reduce = (ImageView) convertView.findViewById(R.id.book_reduce);
-                holder.book_add = (ImageView) convertView.findViewById(R.id.book_add);
-                holder.line_dotted_bottom = convertView.findViewById(R.id.line_dotted_bottom);
-                holder.txt_diff_nums_product_receive = (TextView) convertView.findViewById(R.id.txt_diff_nums_product_receive);
-                holder.rel_diff_layout = (RelativeLayout) convertView.findViewById(R.id.rel_diff_layout);
-                holder.txt_diff_reason = (TextView) convertView.findViewById(R.id.txt_diff_reason);
-                holder.line_solid_deep_bottom = convertView.findViewById(R.id.line_solid_deep_bottom);
-                holder.rel_diff_layout.setVisibility(View.VISIBLE);
-                holder.line_dotted_bottom.setVisibility(View.GONE);
+                holder.txtOrderNumber = (TextView) convertView.findViewById(R.id.txt_order_number);
+                holder.txtBoxRuleNum = (TextView) convertView.findViewById(R.id.txt_box_rule_num);
+                holder.txtOrderProductName = (TextView) convertView.findViewById(R.id.txt_order_product_name);
+                holder.txtDeliveryNum = (TextView) convertView.findViewById(R.id.txt_delivery_nums);
+                holder.txtDeliveryBoxNum = (TextView) convertView.findViewById(R.id.txt_delivery_box_nums);
+                holder.editBookCount = (EditText) convertView.findViewById(R.id.book_count);
+                holder.txtRealBoxNum = (TextView) convertView.findViewById(R.id.txt_real_box_nums);
+                holder.imgBookReduce = (ImageView) convertView.findViewById(R.id.book_reduce);
+                holder.imgBookAdd = (ImageView) convertView.findViewById(R.id.book_add);
+                holder.lineDottedBottom = convertView.findViewById(R.id.line_dotted_bottom);
+                holder.txtDiffNumProductReceive = (TextView) convertView.findViewById(R.id.txt_diff_nums_product_receive);
+                holder.relDiffLayout = (RelativeLayout) convertView.findViewById(R.id.rel_diff_layout);
+                holder.txtDiffReason = (TextView) convertView.findViewById(R.id.txt_diff_reason);
+                holder.lineSolidDeepBottom = convertView.findViewById(R.id.line_solid_deep_bottom);
+                holder.relDiffLayout.setVisibility(View.VISIBLE);
+                holder.lineDottedBottom.setVisibility(View.GONE);
                 convertView.setTag(holder);
             } else {
                 holder = (ViewHolder) convertView.getTag();
             }
 
             final ProductPreReceiveVo info = list.get(position);
-            holder.txt_order_number.setText(list.get(position).getProductNo());
-            holder.txt_box_rule_num.setText(list.get(position).getCarton() + "");
-            holder.txt_order_product_name.setText(list.get(position).getProductName());
-            holder.txt_delivery_nums.setText(list.get(position).getOutNum() + "");
+            holder.txtOrderNumber.setText(list.get(position).getProductNo());
+            holder.txtBoxRuleNum.setText(list.get(position).getCarton() + "");
+            holder.txtOrderProductName.setText(list.get(position).getProductName());
+            holder.txtDeliveryNum.setText(list.get(position).getOutNum() + "");
             //应发箱数
             if("90000714".equals(list.get(position).getProductNo())){
-                holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
                         StringUtil.formatBoxesNum(list.get(position).getOutCase() / 500))));
             }else{
-                holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
+                holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
                         StringUtil.formatBoxesNum(list.get(position).getOutCase()))));
             }
-          /*  holder.txt_delivery_box_nums.setText((String.format(getString(R.string.order_boxes),
-                    StringUtil.formatBoxesNum(list.get(position).getOutCase()))));*/
 
-            //实发箱数
-       /*     if("90000714".equals(list.get(position).getProductNo())){
-                holder.txt_real_box_nums.setText(String.format(getString(R.string.order_boxes),
-                        StringUtil.formatBoxesNum(list.get(position).getDiffCase() / 500)));
-            }else{
-                holder.txt_real_box_nums.setText(String.format(getString(R.string.order_boxes),
-                        StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
-            }*/
-
-            holder.txt_real_box_nums.setText(String.format(getString(R.string.order_boxes),
+            holder.txtRealBoxNum.setText(String.format(getString(R.string.order_boxes),
                     StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
-            holder.book_count.setText(list.get(position).getDifferNum() + "");
+            holder.editBookCount.setText(list.get(position).getDifferNum() + "");
             String diffNums = (list.get(position).getOutNum() - list.get(position).getDifferNum()) + "";
-            holder.txt_diff_nums_product_receive.setText(diffNums);
+            holder.txtDiffNumProductReceive.setText(diffNums);
 
-            holder.book_add.setOnClickListener(new OnClickListener() {
+            holder.imgBookAdd.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (list.get(position).getOutNum() == list.get(position).getDifferNum()) {
@@ -897,7 +874,7 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                 }
             });
 
-            holder.book_reduce.setOnClickListener(new OnClickListener() {
+            holder.imgBookReduce.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (list.get(position).getDifferNum() <= 0) {
@@ -918,38 +895,38 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                 }
             });
 
-            holder.book_count.setOnClickListener(new OnClickListener() {
+            holder.editBookCount.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, list.get(position).getOutNum(), list.get(position).getDifferNum(), isDeliver());
-                    myDialog.setDialogCallback(dialogcallback);
+                    myDialog.setDialogCallback(dialogCallback);
                     myDialog.show();
                 }
             });
 
             if (info.getDifferNum() != info.getOutNum() && !isDeliver()) {
-                holder.rel_diff_layout.setVisibility(View.VISIBLE);
-                holder.line_dotted_bottom.setVisibility(View.GONE);
+                holder.relDiffLayout.setVisibility(View.VISIBLE);
+                holder.lineDottedBottom.setVisibility(View.GONE);
                 if (!"".equals(info.getReDifferReason()) && info.getReDifferReason() != null) {
-                    holder.txt_diff_reason.setText(info.getReDifferReasonName());
-                    holder.txt_diff_reason.setTextColor(getResources().getColor(R.color.text_grep));
+                    holder.txtDiffReason.setText(info.getReDifferReasonName());
+                    holder.txtDiffReason.setTextColor(getResources().getColor(R.color.text_grep));
                 } else {
-                    holder.txt_diff_reason.setText(getResources().getString(R.string.text_diff_reason));
-                    holder.txt_diff_reason.setTextColor(getResources().getColor(R.color.text_red));
+                    holder.txtDiffReason.setText(getResources().getString(R.string.text_diff_reason));
+                    holder.txtDiffReason.setTextColor(getResources().getColor(R.color.text_red));
                 }
             } else {
-                holder.rel_diff_layout.setVisibility(View.GONE);
-                holder.line_dotted_bottom.setVisibility(View.VISIBLE);
+                holder.relDiffLayout.setVisibility(View.GONE);
+                holder.lineDottedBottom.setVisibility(View.VISIBLE);
             }
 
             if (position == list.size() - 1) {
-                holder.line_dotted_bottom.setVisibility(View.GONE);
-                holder.line_solid_deep_bottom.setVisibility(View.GONE);
+                holder.lineDottedBottom.setVisibility(View.GONE);
+                holder.lineSolidDeepBottom.setVisibility(View.GONE);
             } else {
-                holder.line_solid_deep_bottom.setVisibility(View.GONE);
+                holder.lineSolidDeepBottom.setVisibility(View.GONE);
             }
 
-            holder.rel_diff_layout.setOnClickListener(new OnClickListener() {
+            holder.relDiffLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(main, OrderDiffReasonActivity.class);
@@ -968,26 +945,26 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         }
 
         final class ViewHolder {
-            TextView txt_order_number;
-            TextView txt_box_rule_num;
-            TextView txt_order_product_name;
-            TextView txt_delivery_nums;
-            TextView txt_delivery_box_nums;
-            EditText book_count;
-            TextView txt_real_box_nums;
-            ImageView book_reduce;
-            ImageView book_add;
-            RelativeLayout rel_diff_layout;
-            TextView txt_diff_nums_product_receive;
-            View line_dotted_bottom;
-            View line_solid_deep_bottom;
-            TextView txt_diff_reason;
+            TextView txtOrderNumber;
+            TextView txtBoxRuleNum;
+            TextView txtOrderProductName;
+            TextView txtDeliveryNum;
+            TextView txtDeliveryBoxNum;
+            EditText editBookCount;
+            TextView txtRealBoxNum;
+            ImageView imgBookReduce;
+            ImageView imgBookAdd;
+            RelativeLayout relDiffLayout;
+            TextView txtDiffNumProductReceive;
+            View lineDottedBottom;
+            View lineSolidDeepBottom;
+            TextView txtDiffReason;
         }
     }
 
-    DialogForEditOrderCount.Dialogcallback dialogcallback = new DialogForEditOrderCount.Dialogcallback() {
+    DialogForEditOrderCount.DialogCallback dialogCallback = new DialogForEditOrderCount.DialogCallback() {
         @Override
-        public void dialogdo(int postion, String nums, int numCount) {
+        public void dialogDo(int postion, String nums, int numCount) {
             try {
                 if (Integer.valueOf(nums) > numCount) {
                     PublicUtil.showToast(main, getString(R.string.txt_order_product_count_toast_tip));
@@ -1000,7 +977,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                 }else{
                     num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
                 }
-              //  double num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
                 lists.get(postion).setDiffCase(num);
 
                 adapter.notifyDataSetChanged();
@@ -1018,7 +994,7 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
             progressDialog.show();
         }
         cancelReadCacheTask();
-        uploadTask = (UploadTask) new UploadTask(main).execute("");
+        uploadTask = (UploadTask) new UploadTask().execute("");
     }
 
     private void cancelReadCacheTask() {
@@ -1029,8 +1005,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
     }
 
     private class UploadTask extends AsyncTask<String, Void, String> {
-        private UploadTask(Context context) {
-        }
 
         @Override
         protected String doInBackground(String... params) {

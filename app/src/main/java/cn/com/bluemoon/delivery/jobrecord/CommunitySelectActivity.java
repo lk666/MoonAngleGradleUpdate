@@ -43,7 +43,7 @@ import cn.com.bluemoon.lib.view.CommonSearchView;
 /**
  * Created by LIANGJIANGLI on 2016/7/1.
  */
-public class CommunitySelectActivity extends Activity{
+public class CommunitySelectActivity extends Activity implements CommonSearchView.SearchViewListener{
 
     private String TAG = "CommunitySelectActivity";
     private CommonProgressDialog progressDialog;
@@ -104,24 +104,7 @@ public class CommunitySelectActivity extends Activity{
         });
 
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.COMMUNITY_KEY));
-        searchView.hideHistoryView();
-        searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
-            @Override
-            public void onSearch(String str) {
-                isPullDown = false;
-                isPullUp = false;
-                searchKey = str;
-                searchView.hideHistoryView();
-                DeliveryApi.getBpList(ClientStateManager.getLoginToken(CommunitySelectActivity.this), searchKey, 0, getBpListHandler);
-            }
-
-            @Override
-            public void onCancel() {
-                searchView.hideHistoryView();
-                searchKey = "";
-            }
-        });
-
+        searchView.setSearchViewListener(this);
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -222,6 +205,19 @@ public class CommunitySelectActivity extends Activity{
             PublicUtil.showToastServerOvertime();
         }
     };
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+		isPullDown = false;
+        isPullUp = false;
+        searchKey = str;
+        DeliveryApi.getBpList(ClientStateManager.getLoginToken(CommunitySelectActivity.this), searchKey, 0, getBpListHandler);
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+        searchKey = "";
+    }
 
     class CommunityAdapter extends BaseAdapter {
 

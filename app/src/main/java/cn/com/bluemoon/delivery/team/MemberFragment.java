@@ -100,7 +100,6 @@ public class MemberFragment extends BackHandledFragment {
         });
         searchView = (CommonSearchView) rootView.findViewById(R.id.searchview_member);
         searchView.setSearchViewListener(searchViewListener);
-        searchView.hideHistoryView();
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_MEMBER));
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -163,9 +162,8 @@ public class MemberFragment extends BackHandledFragment {
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
-        public void onSearch(String str) {
+        public void onSearch(CommonSearchView view,String str) {
             content = str;
-            searchView.hideHistoryView();
             pullDown = false;
             pullUp = false;
             isRefresh = false;
@@ -173,8 +171,8 @@ public class MemberFragment extends BackHandledFragment {
         }
 
         @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
+        public void onCancel(CommonSearchView view) {
+
         }
 
     };
@@ -378,7 +376,7 @@ public class MemberFragment extends BackHandledFragment {
 
     @Override
     protected boolean onBackPressed() {
-        if(searchView!=null&&searchView.getHistoryView().getVisibility()==View.VISIBLE){
+        if(searchView!=null&&LibViewUtil.getViewVisibility(searchView.getHistoryView())==View.VISIBLE){
             searchView.setFocus(false);
             searchView.hideHistoryView();
             return true;
@@ -444,13 +442,13 @@ public class MemberFragment extends BackHandledFragment {
             final GroupDetail item = list.get(position);
             txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             txtPhone.setText(item.getMobileNo());
-            String work;
+            String work = getString(R.string.none);
             if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
                 work = getString(R.string.team_work_part);
                 if(item.getWorkLength()!=0){
                     work += "，"+item.getWorkLength()+"h";
                 }
-            }else{
+            }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
             txtMsg.setText(String.format(getString(R.string.team_group_detail_msg),

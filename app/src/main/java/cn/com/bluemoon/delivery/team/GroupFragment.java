@@ -52,7 +52,7 @@ public class GroupFragment extends Fragment {
     private GroupAdapter groupAdapter;
     private CommonProgressDialog progressDialog;
     private View rootView;
-    private long timestamp = 0;
+    private long timestamp;
     private boolean pullUp;
     private boolean pullDown;
     private List<TeamGroup> items;
@@ -162,17 +162,17 @@ public class GroupFragment extends Fragment {
                 progressDialog.dismiss();
             listviewGroup.onRefreshComplete();
             try {
-                ResultGroupList groupListResult = JSON.parseObject(responseString, ResultGroupList.class);
+                ResultGroupList result = JSON.parseObject(responseString, ResultGroupList.class);
 
-                if (groupListResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    MyTeamActivity.roleCode = groupListResult.getRoleCode();
-                    timestamp = groupListResult.getTimestamp();
-                    txtGroupNum.setText(String.format(getString(R.string.team_group_groupnum), groupListResult.getTotalGroup()));
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    MyTeamActivity.roleCode = result.getRoleCode();
+                    timestamp = result.getTimestamp();
+                    txtGroupNum.setText(String.format(getString(R.string.team_group_groupnum), result.getTotalGroup()));
                     txtMembernum.setText(String.format(getString(R.string.team_group_membernum),
-                            groupListResult.getActualTotalPopulation(), groupListResult.getPlanTotalPopulation()));
-                    setData(groupListResult.getItemList());
+                            result.getActualTotalPopulation(), result.getPlanTotalPopulation()));
+                    setData(result.getItemList());
                 } else {
-                    PublicUtil.showErrorMsg(mContext, groupListResult);
+                    PublicUtil.showErrorMsg(mContext, result);
                     LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {

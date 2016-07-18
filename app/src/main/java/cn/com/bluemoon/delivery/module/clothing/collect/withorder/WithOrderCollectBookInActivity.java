@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -39,7 +40,6 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingBookInActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -223,9 +223,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
     /**
      * 设置数据
-     *
-     * @param result
      */
+    @SuppressLint("DefaultLocale")
     private void setStartCollectInfo(ResultStartCollectInfos result) {
         collectCode = result.getCollectCode();
         outerCode = result.getOuterCode();
@@ -243,8 +242,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         tvAddress.setText(address);
 
         tvPayTotal.setText(String.format("%.2f", (result.getPayTotal() / 100.0)));
-        tvReceivableCount.setText(result.getReceivableCount() + "");
-        tvActualCount.setText(result.getActualCount() + "");
+        tvReceivableCount.setText(String.valueOf(result.getReceivableCount()));
+        tvActualCount.setText(String.valueOf(result.getActualCount()));
 
         // 包装袋码（收衣单条码）
         tvCollectBrcode.setEnabled(true);
@@ -262,8 +261,9 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
             sbUrgent.setChecked(false);
         }
 
-        tvActualCollectCount.setText(getString(R.string.with_order_collect_order_receive_count) +
-                " " + result.getOrderReceive().getActualCount());
+        tvActualCollectCount.setText(
+                String.format(getString(R.string.with_order_collect_order_receive_count_num),
+                        result.getOrderReceive().getActualCount()));
 
         if (initClothes == null) {
             initClothes = new ArrayList<>();
@@ -351,11 +351,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
     /**
      * 处理扫码、手动输入数字码返回
-     *
-     * @param code
      */
     private void handleScaneCodeBack(String code) {
-        // TODO: lk 2016/7/2 应加个接口验证收衣单条码合法性
         tvCollectBrcode.setText(code);
     }
 
@@ -451,8 +448,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
     /**
      * 检查{@link #initInfoString}，先对比预约时间等的3个的信息是否变更，在发送update预约，再getData()
-     *
-     * @param collectCode
      */
     private void checkInfo(String collectCode) {
         String brCode = tvCollectBrcode.getText().toString();
@@ -541,12 +536,13 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
             tvTypeName.setText(item.getTypeName());
 
             int receivableCount = item.getDetailReceivableCount();
-            tvReceivableCount.setText(getString(R.string
-                    .with_order_collect_appoint_receivable_count) + receivableCount);
+            tvReceivableCount.setText(String.format(getString(R.string
+                    .with_order_collect_appoint_receivable_count_num), receivableCount));
 
             int actualCount = item.getDetailActualCount();
-            tvActualCount.setText(getString(R.string
-                    .with_order_collect_appoint_actual_count) + actualCount);
+            tvActualCount.setText(
+                    String.format(getString(R.string.create_collect_dialog_actual_receive_num),
+                            actualCount));
 
             // 可点击
             if (receivableCount > actualCount) {

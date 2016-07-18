@@ -46,7 +46,6 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
     @Bind(R.id.listview_main)
     PullToRefreshListView listviewMain;
     ActivityAdapter adapter;
-    private ResultActivityInfo activityInfo;
     private String manager;
 
     @Override
@@ -87,7 +86,6 @@ public class WithoutOrderManageFragment extends BaseFragment implements OnListIt
     }
 
     private void setData(ResultActivityInfo result) {
-        activityInfo = result;
         adapter.setList(result.getActivityInfos());
         main.setAmountShow(manager, result.getActivityInfos().size());
         adapter.notifyDataSetChanged();

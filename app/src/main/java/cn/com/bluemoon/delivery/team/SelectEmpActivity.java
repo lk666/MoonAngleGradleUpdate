@@ -41,7 +41,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class SelectEmpActivity extends Activity {
+public class SelectEmpActivity extends Activity implements CommonSearchView.SearchViewListener{
 
     private String TAG = "SelectEmpActivity";
     private SelectEmpActivity aty;
@@ -71,8 +71,7 @@ public class SelectEmpActivity extends Activity {
         });
         LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
         searchView = (CommonSearchView) findViewById(R.id.searchview_select_member);
-        searchView.setSearchViewListener(searchViewListener);
-        searchView.hideHistoryView();
+        searchView.setSearchViewListener(this);
         searchView.setSearchEmpty(false);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_SELECT_MEMBER));
     }
@@ -111,20 +110,6 @@ public class SelectEmpActivity extends Activity {
         adapter.setList(list);
         listview.setAdapter(adapter);
     }
-
-    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
-        @Override
-        public void onSearch(String str) {
-            getData();
-            searchView.hideHistoryView();
-        }
-
-        @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
-        }
-
-    };
 
     private void initCustomActionBar() {
         new CommonActionBar(getActionBar(), new IActionBarListener() {
@@ -198,6 +183,16 @@ public class SelectEmpActivity extends Activity {
             LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+        getData();
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+
+    }
 
     class SelectMemberAdapter extends BaseAdapter {
 

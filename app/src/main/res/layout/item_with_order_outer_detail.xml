@@ -13,10 +13,6 @@
         android:singleLine="true"/>
 
     <TextView
-        style="@style/txt_title_13"
-        android:text="x"/>
-
-    <TextView
         android:id="@+id/tv_count"
         style="@style/txt_title_13"/>
 </LinearLayout>

@@ -136,6 +136,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:textColor="@color/text_black_light"
+                    android:text="@string/none"
                     android:textSize="@dimen/text_size_15" />
 
                 <RelativeLayout

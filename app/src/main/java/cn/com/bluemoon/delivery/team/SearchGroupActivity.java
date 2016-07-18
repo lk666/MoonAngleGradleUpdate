@@ -45,7 +45,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class SearchGroupActivity extends Activity {
+public class SearchGroupActivity extends Activity implements CommonSearchView.SearchViewListener {
 
     private String TAG = "SearchGroupActivity";
     private SearchGroupActivity mContext;
@@ -68,9 +68,7 @@ public class SearchGroupActivity extends Activity {
         setContentView(R.layout.activity_search_group);
         mContext = this;
         searchView = (CommonSearchView) findViewById(R.id.searchview_group);
-        searchView.setSearchViewListener(searchViewListener);
-        searchView.setHint(getString(R.string.team_group_search_hint));
-        searchView.showHistoryView();
+        searchView.setSearchViewListener(this);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_GROUP));
         listviewGroup = (PullToRefreshListView) findViewById(R.id.listview_group);
         emptyView = PublicUtil.setEmptyView(listviewGroup, null,
@@ -82,7 +80,6 @@ public class SearchGroupActivity extends Activity {
                 getData();
             }
         });
-        LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         progressDialog = new CommonProgressDialog(mContext);
         listviewGroup.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -104,6 +101,7 @@ public class SearchGroupActivity extends Activity {
             public void run() {
                 searchView.setFocus(true);
                 LibViewUtil.showKeyboard(searchView.getSearchEdittext());
+                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
         }, 100);
     }
@@ -141,22 +139,6 @@ public class SearchGroupActivity extends Activity {
             listviewGroup.setAdapter(groupAdapter);
         }
     }
-
-    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
-        @Override
-        public void onSearch(String str) {
-            searchView.hideHistoryView();
-            pullDown = false;
-            pullUp = false;
-            getData();
-        }
-
-        @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
-        }
-
-    };
 
     AsyncHttpResponseHandler groupListHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
         @Override
@@ -239,6 +221,18 @@ public class SearchGroupActivity extends Activity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+        pullDown = false;
+        pullUp = false;
+        getData();
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+
     }
 
     class GroupAdapter extends BaseAdapter {

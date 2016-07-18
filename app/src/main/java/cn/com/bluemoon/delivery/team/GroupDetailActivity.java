@@ -401,13 +401,13 @@ public class GroupDetailActivity extends KJActivity {
                 LibViewUtil.setViewVisibility(txtEdit,View.VISIBLE);
             }
             txtPhone.setText(item.getMobileNo());
-            String work;
+            String work = getString(R.string.none);
             if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
                 work = getString(R.string.team_work_part);
                 if(item.getWorkLength()!=0){
                     work += "，"+item.getWorkLength()+"h";
                 }
-            }else{
+            }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
             txtMsg.setText(String.format(getString(R.string.team_group_detail_msg),

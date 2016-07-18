@@ -63,7 +63,7 @@ public class SearchActivity extends KJActivity {
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
-        public void onSearch(String str) {
+        public void onSearch(CommonSearchView view,String str) {
             if (intent == null) {
                 intent = new Intent();
             }
@@ -73,7 +73,7 @@ public class SearchActivity extends KJActivity {
         }
 
         @Override
-        public void onCancel() {
+        public void onCancel(CommonSearchView view) {
             setResult(RESULT_CANCELED);
             finish();
         }

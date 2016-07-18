@@ -23,27 +23,16 @@ public class SettingActivity extends KJActivity {
 	private RelativeLayout reGeneral;
 	@BindView(id = R.id.re_about, click = true)
 	private RelativeLayout reAbout;
-//	@BindView(id = R.id.re_call, click = true)
-//	private RelativeLayout reCall;
 	private String TAG = "SettingActivity";
 
 	@Override
 	public void setRootView() {
-		// TODO Auto-generated method stub
 		initCustomActionBar();
 		setContentView(R.layout.account_set_main);
-		ActivityManager.getInstance().pushOneActivity(this);
-	}
-
-	@Override
-	public void initWidget() {
-		// TODO Auto-generated method stub
-		super.initWidget();
 	}
 
 	@Override
 	public void widgetClick(View v) {
-		// TODO Auto-generated method stub
 		super.widgetClick(v);
 		switch (v.getId()) {
 		case R.id.re_general:
@@ -52,9 +41,6 @@ public class SettingActivity extends KJActivity {
 		case R.id.re_about:
 			toPersoninfo(Constants.MODE_CHECK);
 			break;
-//		case R.id.re_call:
-//			PublicUtil.showMessageService(aty);
-//			break;
 		}
 	}
 
@@ -63,18 +49,15 @@ public class SettingActivity extends KJActivity {
 
 			@Override
 			public void onBtnRight(View v) {
-				// TODO Auto-generated method stub
 			}
 
 			@Override
 			public void onBtnLeft(View v) {
-				// TODO Auto-generated method stub
 				finish();
 			}
 
 			@Override
 			public void setTitle(TextView v) {
-				// TODO Auto-generated method stub
 				v.setText(getText(R.string.user_settings));
 			}
 		});

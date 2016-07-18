@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
     android:orientation="vertical" >
     <ScrollView
@@ -58,7 +58,7 @@
                 </LinearLayout>
 
                 <View
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="0.5dp"
                     android:background="#d7d7d7" />
 
@@ -113,7 +113,7 @@
             </LinearLayout>
 
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#d7d7d7" />
             <LinearLayout
@@ -148,7 +148,7 @@
 
             </LinearLayout>
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#d7d7d7" />
 
@@ -165,7 +165,7 @@
                 f:verticalSpacing="10dp" />
             <View
                 android:id="@+id/line_view"
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:visibility="gone"
                 android:layout_height="0.5dp"
                 android:background="#d7d7d7" />
@@ -216,7 +216,7 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -259,7 +259,7 @@
             </LinearLayout>
 
             <ImageView
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
@@ -301,7 +301,7 @@
                     android:src="@mipmap/icon_right"/>
             </LinearLayout>
             <View
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#d7d7d7" />
 

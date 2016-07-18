@@ -42,6 +42,8 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
  * Created by luokai on 2016/6/29.
  */
 public class SelectAddressByDepthActivity extends ListActivity implements OnListItemClickListener {
+    public static final String EXTRA_AREA = "subRegionList";
+
     private CommonProgressDialog progressDialog;
     List<Area> listContent;
     /**
@@ -185,7 +187,7 @@ public class SelectAddressByDepthActivity extends ListActivity implements OnList
             if (curDepth >= depth) {
                 Intent mIntent = new Intent();
                 Bundle bundle = new Bundle();
-                bundle.putSerializable("subRegionList", (Serializable) subRegionList);
+                bundle.putSerializable(EXTRA_AREA, (Serializable) subRegionList);
                 if (dcode != null && type != null) {
                     bundle.putString("type", type);
                 }

@@ -45,7 +45,7 @@ import cn.com.bluemoon.lib.view.CommonSearchView;
 /**
  * Created by LIANGJIANGLI on 2016/6/22.
  */
-public class PromoteActivity extends Activity{
+public class PromoteActivity extends Activity implements CommonSearchView.SearchViewListener{
 
     private String TAG = "PromoteActivity";
     private CommonProgressDialog progressDialog;
@@ -77,24 +77,8 @@ public class PromoteActivity extends Activity{
         });
         searchView = (CommonSearchView) findViewById(R.id.search_view);
         progressDialog = new CommonProgressDialog(this);
+        searchView.setSearchViewListener(this);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.PROMOTE_KEY));
-        searchView.hideHistoryView();
-        searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
-            @Override
-            public void onSearch(String str) {
-                isPullDown = false;
-                isPullUp = false;
-                searchKey = str;
-                searchView.hideHistoryView();
-                DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
-            }
-
-            @Override
-            public void onCancel() {
-                searchView.hideHistoryView();
-                searchKey = "";
-            }
-        });
 
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -186,6 +170,19 @@ public class PromoteActivity extends Activity{
             PublicUtil.showToastServerOvertime();
         }
     };
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+		isPullDown = false;
+        isPullUp = false;
+        searchKey = str;
+        DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+        searchKey = "";
+    }
 
     class PromoteAdapter extends BaseAdapter {
 

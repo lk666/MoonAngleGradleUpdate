@@ -47,7 +47,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class SelectAreaActivity extends Activity {
+public class SelectAreaActivity extends Activity implements CommonSearchView.SearchViewListener{
 
     private String TAG = "SelectAreaActivity";
     private SelectAreaActivity aty;
@@ -103,8 +103,7 @@ public class SelectAreaActivity extends Activity {
             }
         });
         searchView = (CommonSearchView) findViewById(R.id.searchview_select_area);
-        searchView.setSearchViewListener(searchViewListener);
-        searchView.hideHistoryView();
+        searchView.setSearchViewListener(this);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_SELECT_AREA));
 
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
@@ -225,22 +224,6 @@ public class SelectAreaActivity extends Activity {
         }
         setTotalNum(items);
     }
-
-    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
-        @Override
-        public void onSearch(String str) {
-            searchView.hideHistoryView();
-            pullDown = false;
-            pullUp = false;
-            getData();
-        }
-
-        @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
-        }
-
-    };
 
     @Override
     public void onPause() {
@@ -373,6 +356,18 @@ public class SelectAreaActivity extends Activity {
                 cb.setChecked(false);
             }
         }
+    }
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+        pullDown = false;
+        pullUp = false;
+        getData();
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+
     }
 
     class SelectAreaAdapter extends BaseAdapter {
