@@ -1,8 +1,6 @@
 package cn.com.bluemoon.delivery;
 
-import android.content.Context;
 import android.test.InstrumentationTestCase;
-import android.test.ServiceTestCase;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -13,14 +11,12 @@ import junit.framework.Assert;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import java.lang.reflect.Method;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.ResultUser;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 
 /**

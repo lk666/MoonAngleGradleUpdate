@@ -10,10 +10,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import cn.com.bluemoon.delivery.R;
-
-
 import org.kymjs.kjframe.KJBitmap;
+
+import cn.com.bluemoon.delivery.R;
 
 /**
  * Created by LIANGJIANGLI on 2016/7/14.

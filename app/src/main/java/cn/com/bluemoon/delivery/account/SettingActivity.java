@@ -13,7 +13,6 @@ import org.kymjs.kjframe.ui.BindView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 

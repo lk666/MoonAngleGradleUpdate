@@ -15,20 +15,14 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Locale;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.ui.DateTextView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 
 public class ChooseDateWindow extends PopupWindow {
 

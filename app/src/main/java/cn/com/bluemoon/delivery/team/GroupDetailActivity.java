@@ -45,7 +45,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
-import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class GroupDetailActivity extends KJActivity {

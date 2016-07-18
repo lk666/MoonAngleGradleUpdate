@@ -18,7 +18,6 @@ import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultOrderVo;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * Created by wangshanhai on 2016/4/22.

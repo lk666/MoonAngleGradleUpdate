@@ -39,7 +39,6 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.ShowMultipleImageView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;

@@ -29,7 +29,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.team.Emp;
 import cn.com.bluemoon.delivery.app.api.model.team.PersonnelArea;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultPersonnelAreaList;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
@@ -42,9 +41,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class PersonnelAreaActivity extends KJActivity {
