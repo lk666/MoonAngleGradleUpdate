@@ -2388,7 +2388,7 @@ public class DeliveryApi {
 
     /*CEO搜索服务区域列表*/
 	/*返回：ResultServiceAreaList*/
-    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageindex, int pageSize, AsyncHttpResponseHandler handler) {
+    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageIndex, int pageSize, AsyncHttpResponseHandler handler) {
         if (null == token || empCode == null || bpCode == null) {
             return;
         }
@@ -2398,7 +2398,7 @@ public class DeliveryApi {
         params.put("bpCode", bpCode);
         params.put("empCode", empCode);
         params.put("content", content);
-        params.put("pageindex", pageindex);
+        params.put("pageIndex", pageIndex);
         params.put("pageSize", pageSize);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getServiceAreaList%s",

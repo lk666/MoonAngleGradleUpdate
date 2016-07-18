@@ -120,7 +120,7 @@ public class RelationInfoActivity extends KJActivity {
                     txtWorkLengh.setText(s.toString().substring(0, index + 2));
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
-                if(Double.parseDouble(s.toString())>24){
+                if(!StringUtils.isEmpty(s.toString())&&Double.parseDouble(s.toString())>24){
                     txtWorkLengh.setText("24.0");
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
