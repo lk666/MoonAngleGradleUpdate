@@ -129,7 +129,8 @@ public class GroupFragment extends Fragment {
         if (pullUp && (list == null || list.size() == 0)) {
             PublicUtil.showToast(R.string.card_no_list_data);
             return;
-        } else if (pullUp) {
+        }
+        if (pullUp) {
             items.addAll(list);
         } else {
             items = list;

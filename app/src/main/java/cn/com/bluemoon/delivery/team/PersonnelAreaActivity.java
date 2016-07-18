@@ -337,7 +337,7 @@ public class PersonnelAreaActivity extends KJActivity {
             txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
                     + item.getVillageName() + item.getStreetName());
             txtDate.setText(String.format(getString(R.string.team_area_add_date),
-                    DateUtil.getTime(item.getStartDate(), "yyyy-MM-dd")));
+                    DateUtil.getTime(item.getStartDate())));
             txtDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

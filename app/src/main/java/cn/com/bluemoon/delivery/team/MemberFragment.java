@@ -451,7 +451,7 @@ public class MemberFragment extends BackHandledFragment {
             }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
-            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate(), "yyyy-MM-dd"), work));
+            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate()), work));
             txtCommunity.setText(PublicUtil.getStringParams(item.getCommunityCode(), item.getCommunityName()));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {

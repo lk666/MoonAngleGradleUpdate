@@ -70,6 +70,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
+import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -615,7 +616,7 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if(resultCode==RESULT_CANCELED){
+        if(resultCode==RESULT_CANCELED){
             return;
         }
         if(resultCode==RESULT_OK){
@@ -623,10 +624,11 @@ public class MainActivity extends SlidingActivity {
                 case 0:
                     if(data==null) return;
                     String result = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    PublicUtil.showToast(result);
+//                    PublicUtil.showToast(result);
+                    PublicUtil.showMessage(main,result);
                     break;
             }
-        }*/
+        }
     }
 
 

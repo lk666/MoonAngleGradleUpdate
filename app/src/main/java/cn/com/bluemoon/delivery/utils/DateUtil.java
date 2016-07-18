@@ -35,4 +35,8 @@ public class DateUtil extends LibDateUtil{
 	public static long getTimeOffsetMonth(){
 		return getTimeOffsetMonth(-1);
 	}
+
+	public static String getTime(long t) {
+		return getTime(t, "yyyy-MM-dd");
+	}
 }

@@ -120,6 +120,10 @@ public class RelationInfoActivity extends KJActivity {
                     txtWorkLengh.setText(s.toString().substring(0, index + 2));
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
+                if(Double.parseDouble(s.toString())>24){
+                    txtWorkLengh.setText("24.0");
+                    txtWorkLengh.setSelection(txtWorkLengh.length());
+                }
             }
         });
         if (item == null) {
@@ -240,8 +244,8 @@ public class RelationInfoActivity extends KJActivity {
         } else {
             setWorkType(true);
         }
-        txtStartDate.setText(DateUtil.getTime(item.getStartDate(), "yyyy-MM-dd"));
-        txtEndDate.setText(DateUtil.getTime(item.getEndDate(), "yyyy-MM-dd"));
+        txtStartDate.setText(DateUtil.getTime(item.getStartDate()));
+        txtEndDate.setText(DateUtil.getTime(item.getEndDate()));
         txtEndDate.updateMinDate(item.getStartDate());
         txtRemark.setText(item.getRemark());
         txtRemark.updateCleanable(0, false);
