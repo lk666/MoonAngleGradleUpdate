@@ -217,7 +217,7 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
                     + "-" + DateUtil.getTime(peopleFlow.getEndTime(), "HH:mm"));
             txtPlace.setText(peopleFlow.getAddress());
             txtFlow.setText(String.valueOf(peopleFlow.getPeopleFlow()));
-            txtStatus.setText(String.valueOf(peopleFlow.getPeopleStatus()));
+            txtStatus.setText(StringUtils.isNotBlank(peopleFlow.getPeopleStatus()) ? peopleFlow.getPeopleStatus() : getString(R.string.promote_none));
         }
     }
 
