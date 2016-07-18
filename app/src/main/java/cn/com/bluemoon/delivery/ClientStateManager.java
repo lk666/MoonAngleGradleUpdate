@@ -59,8 +59,7 @@ public class ClientStateManager {
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(LOGIN_TOKEN_KEY, token);
-            pref.edit().commit();
+            pref.edit().putString(LOGIN_TOKEN_KEY, token).commit();
         } catch (Exception e) {
             return false;
         }
@@ -78,8 +77,7 @@ public class ClientStateManager {
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(USER_NAME_KEY, username);
-            pref.edit().commit();
+            pref.edit().putString(USER_NAME_KEY, username).commit();
         } catch (Exception e) {
             return false;
         }
@@ -98,8 +96,7 @@ public class ClientStateManager {
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(CHANNEL_ID, channelId);
-            pref.edit().commit();
+            pref.edit().putString(CHANNEL_ID, channelId).commit();
         } catch (Exception e) {
             return false;
         }
@@ -133,8 +130,7 @@ public class ClientStateManager {
             params.put("workplaceList", list);
             String jsonString = JSONObject.toJSONString(params);
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
-            pref.edit().putString(CARD_SEARCH_HISTORY, jsonString);
-            pref.edit().commit();
+            pref.edit().putString(CARD_SEARCH_HISTORY, jsonString).commit();
         } catch (Exception e) {
             return false;
         }
@@ -149,8 +145,7 @@ public class ClientStateManager {
             }
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(CARD_TIPS_LOCATION, tips);
-            pref.edit().commit();
+            pref.edit().putString(CARD_TIPS_LOCATION, tips).commit();
         } catch (Exception e) {
             LogUtils.e("setTipsByDay", "error", e);
             return false;
@@ -181,8 +176,7 @@ public class ClientStateManager {
             String str = System.currentTimeMillis() + "-" + code + "-" + getUserName(ctx);
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(COUPON_DEFUAT, str);
-            pref.edit().commit();
+            pref.edit().putString(COUPON_DEFUAT, str).commit();
         } catch (Exception e) {
             return false;
         }
@@ -223,8 +217,7 @@ public class ClientStateManager {
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(LATITUDE, latitude);
-            pref.edit().commit();
+            pref.edit().putString(LATITUDE, latitude).commit();
         } catch (Exception e) {
             return false;
         }
@@ -242,8 +235,7 @@ public class ClientStateManager {
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(LONGITUDE, longitude);
-            pref.edit().commit();
+            pref.edit().putString(LONGITUDE, longitude).commit();
         } catch (Exception e) {
             return false;
         }
@@ -261,8 +253,7 @@ public class ClientStateManager {
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(ALTITUDE, altitude);
-            pref.edit().commit();
+            pref.edit().putString(ALTITUDE, altitude).commit();
         } catch (Exception e) {
             return false;
         }
@@ -298,8 +289,7 @@ public class ClientStateManager {
                 result.substring(0, result.length() - 1);
             }
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
-            pref.edit().putString(key, result);
-            pref.edit().commit();
+            pref.edit().putString(key, result).commit();
         } catch (Exception e) {
             return false;
         }
