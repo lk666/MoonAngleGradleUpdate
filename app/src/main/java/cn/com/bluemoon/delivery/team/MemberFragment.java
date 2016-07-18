@@ -442,7 +442,7 @@ public class MemberFragment extends BackHandledFragment {
             final GroupDetail item = list.get(position);
             txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             txtPhone.setText(item.getMobileNo());
-            String work = getString(R.string.none);
+            String work = "s";
             if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
                 work = getString(R.string.team_work_part);
                 if(item.getWorkLength()!=0){
@@ -451,8 +451,7 @@ public class MemberFragment extends BackHandledFragment {
             }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
-            txtMsg.setText(String.format(getString(R.string.team_group_detail_msg),
-                    DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"), work));
+            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate(), "yyyy-MM-dd"), work));
             txtCommunity.setText(PublicUtil.getStringParams(item.getCommunityCode(), item.getCommunityName()));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
