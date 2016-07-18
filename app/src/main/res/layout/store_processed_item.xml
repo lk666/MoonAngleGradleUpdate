@@ -21,7 +21,6 @@
 
 
             <ImageView
-                android:id="@+id/img_store"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_alignLeft="@id/txt_storehouse_id"

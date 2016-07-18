@@ -144,7 +144,6 @@
             android:visibility="invisible">
 
             <Button
-                android:id="@+id/settle_accounts"
                 android:layout_width="90dp"
                 android:layout_height="match_parent"
                 android:background="@drawable/btn_red"

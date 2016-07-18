@@ -245,7 +245,6 @@
                     android:textSize="@dimen/text_size_14" />
 
                 <TextView
-                    android:id="@+id/txt_commonName_deliver_date_stars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/txt_commonName_deliver_date"
@@ -304,7 +303,6 @@
                     android:textSize="@dimen/text_size_14" />
 
                 <TextView
-                    android:id="@+id/txt_commonName_deliverTicket_stars"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/txt_customerName_fh_bill"
