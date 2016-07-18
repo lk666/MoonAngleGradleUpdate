@@ -91,7 +91,6 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/line_end"
         style="@style/line_solid_style"
         android:visibility="gone" />
 

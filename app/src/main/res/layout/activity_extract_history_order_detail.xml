@@ -69,7 +69,6 @@
                         android:src="@mipmap/dotted_line_bg" />
                 <!-- 负责人 -->
                 <LinearLayout
-                    android:id="@+id/layout_storecharge"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#fefefe"
@@ -224,7 +223,6 @@
                 </LinearLayout>
                 <!-- 签收时间-->
                 <LinearLayout
-                    android:id="@+id/layout_extract_time"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#fefefe"

@@ -5,7 +5,6 @@
     android:background="@color/page_bg_f2"
     android:orientation="vertical" >
     <ScrollView
-        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
