@@ -158,7 +158,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
      */
     private void initView() {
         selectedTypeView = null;
-        selectedNameView = null;
+        setClothesNameSelected(null);
         llType.removeAllViews();
         llClothesName.removeAllViews();
 
@@ -255,6 +255,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             selectedTypeView = typeView;
 
             // 改变服务类型时自动去获取对应的衣物名称
+            llClothesName.removeAllViews();
             getClothingData(selectedTypeView.getTypeInfo().getTypeCode());
         }
     }
@@ -295,7 +296,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             return;
         }
 
-        llClothesName.removeAllViews();
         int count = clothesTypeConfigs.size();
         for (int i = 0; i < count; i++) {
             ClothesType type = clothesTypeConfigs.get(i);
@@ -304,12 +304,14 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             llClothesName.addView(v);
         }
 
-        selectedNameView = null;
+        setClothesNameSelected(null);
 //        setClothesNameSelected((ClothesNameView) llClothesName.getChildAt(0));
     }
 
     private void setClothesNameSelected(ClothesNameView nameView) {
-        if (nameView != selectedNameView) {
+        if (nameView == null) {
+            selectedNameView = null;
+        } else if (nameView != selectedNameView) {
             nameView.setChecked(true);
             if (selectedNameView != null) {
                 selectedNameView.setChecked(false);
