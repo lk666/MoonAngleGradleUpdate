@@ -816,6 +816,13 @@
     <string name="team_area_delete_content">确定删除该辖区吗？</string>
     <string name="team_area_select_title">添加服务区域</string>
     <string name="team_area_select_empty">请选择服务区域</string>
+    <string name="team_edit_limit_startdate">开始日期不能为空哦！</string>
+    <string name="team_edit_limit_startdate_month">不可以选择一个月之前的日期哦！</string>
+    <string name="team_edit_limit_enddate">结束日期不能早于开始日期</string>
+    <string name="team_edit_limit_worktype">作业性质不能为空</string>
+    <string name="team_edit_limit_parttime">兼职时长不可以等于0小时！</string>
+
+
 
 
 </resources>
