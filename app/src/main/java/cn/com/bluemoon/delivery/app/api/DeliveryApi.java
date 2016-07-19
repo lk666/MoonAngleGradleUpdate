@@ -2354,8 +2354,8 @@ public class DeliveryApi {
 
     /*CEO获取人员关系列表*/
 	/*返回：ResultEmpList*/
-    public static void getEmpList(String token, String content, AsyncHttpResponseHandler handler) {
-        if (null == token) {
+    public static void getEmpList(String token, String content,String type, AsyncHttpResponseHandler handler) {
+        if (null == token||null == type) {
             return;
         }
         if (content == null) {
@@ -2364,6 +2364,7 @@ public class DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("content", content);
+        params.put("type", type);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getEmpList%s",
                 ApiClientHelper.getParamUrl());

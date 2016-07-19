@@ -130,6 +130,8 @@ public class Constants {
 	/*****************************team**********************************/
 	public final static String TYPE_ADD = "add";
 	public final static String TYPE_UPDATE = "update";
+    public final static String TYPE_SCAN = "scan";
+    public final static String TYPE_INPUT = "input";
 	public final static String RELTYPE_GROUP = "group";
 	public final static String RELTYPE_COMMUNITY = "community";
 	public final static String WORKTYPE_FULL = "fullTime";

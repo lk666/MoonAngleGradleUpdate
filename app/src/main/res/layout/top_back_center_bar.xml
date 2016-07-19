@@ -58,11 +58,13 @@
     <cn.com.bluemoon.lib.view.ImageViewForClick
         android:id="@+id/img_right"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:visibility="gone" />
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scaleType="center"
+        android:visibility="gone"
+         />
 
 </RelativeLayout>
