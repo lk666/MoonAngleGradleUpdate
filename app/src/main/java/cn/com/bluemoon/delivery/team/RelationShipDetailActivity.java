@@ -102,12 +102,13 @@ public class RelationShipDetailActivity extends KJActivity {
         }
         txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
 
-        if(StringUtils.isEmpty(item.getWorkType())){
-            LibViewUtil.setViewVisibility(layoutWorkType,View.GONE);
-            LibViewUtil.setViewVisibility(lineWorkType,View.GONE);
-        }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
+        if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
+            LibViewUtil.setViewVisibility(layoutWorkType, View.VISIBLE);
+            LibViewUtil.setViewVisibility(lineWorkType, View.VISIBLE);
             txtWorkType.setText(getString(R.string.team_work_full));
         }else if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
+            LibViewUtil.setViewVisibility(layoutWorkType,View.VISIBLE);
+            LibViewUtil.setViewVisibility(lineWorkType,View.VISIBLE);
             txtWorkType.setText(getString(R.string.team_work_part));
             layoutWorkLengh.setVisibility(View.VISIBLE);
             txtWorkLengh.setText(String.valueOf(item.getWorkLength()));

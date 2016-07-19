@@ -101,7 +101,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
             return;
         }
         if (progressDialog != null) progressDialog.show();
-        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), searchView.getText(), getEmpListHandler);
+        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), searchView.getText(),Constants.TYPE_INPUT, getEmpListHandler);
     }
 
     private void setData(List<Emp> list) {

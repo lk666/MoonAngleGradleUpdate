@@ -265,7 +265,7 @@ public class GroupDetailActivity extends KJActivity {
                     if(data==null) return;
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
                     if(progressDialog!=null) progressDialog.show();
-                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), resultStr, getEmpListHandler);
+                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), resultStr,Constants.TYPE_SCAN, getEmpListHandler);
                     break;
                 case 4:
                     Intent intent2 = new Intent(aty,SelectEmpActivity.class);

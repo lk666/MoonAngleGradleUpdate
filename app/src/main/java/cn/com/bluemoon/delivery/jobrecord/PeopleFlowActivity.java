@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -105,6 +107,24 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
             txtEndTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtEndTime.getPaint().setAntiAlias(true);
             txtEndTime.setOnClickListener(this);
+            etFlow.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (StringUtils.isNotBlank(s.toString()) && Integer.valueOf(s.toString()) == 0) {
+                        etFlow.setText("");
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
             if (type == 2) {
                 PeopleFlow peopleFlow = (PeopleFlow)getIntent().getSerializableExtra("peopleFlow");
                 flowId = peopleFlow.getFlowId();

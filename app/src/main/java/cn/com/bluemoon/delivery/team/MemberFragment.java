@@ -212,7 +212,7 @@ public class MemberFragment extends BackHandledFragment {
                     if(data==null) return;
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
                     if(progressDialog!=null) progressDialog.show();
-                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(mContext), resultStr, getEmpListHandler);
+                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(mContext), resultStr,Constants.TYPE_SCAN, getEmpListHandler);
                     break;
                 case 4:
                     Intent intent2 = new Intent(mContext,SelectEmpActivity.class);

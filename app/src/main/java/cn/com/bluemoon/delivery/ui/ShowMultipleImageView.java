@@ -60,10 +60,12 @@ public class ShowMultipleImageView extends Activity {
         setContentView(R.layout.dialog_show_pic);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         images = (String[]) getIntent().getSerializableExtra("bitmaps");
+        int position = getIntent().getIntExtra("position", 0);
         viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager.setAdapter(adapter);
         final TextView txtView = (TextView) findViewById(R.id.txt_page);
-        txtView.setText("1/"+images.length);
+        viewPager.setCurrentItem(position);
+        txtView.setText((position+1) + "/"+images.length);
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrollStateChanged(int arg0) {

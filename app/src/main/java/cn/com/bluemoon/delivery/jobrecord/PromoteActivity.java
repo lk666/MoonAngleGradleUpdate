@@ -305,6 +305,7 @@ public class PromoteActivity extends Activity implements CommonSearchView.Search
                         item.setSiteTypeName(getString(R.string.add_promote_outdoor));
                     }
                     item.setUseArea(info.getUseArea());
+                    item.setBpName(info.getBpName());
                     items.set(index, item);
                     adapter.notifyDataSetChanged();
                 }

@@ -63,7 +63,7 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
     private List<String> listSelected;
     private List<ServiceArea> items;
     private int pageNext;
-    private int pageMax;
+    private int pageMax=1;
     private boolean pullUp;
     private boolean pullDown;
     private String bpCode;
@@ -190,9 +190,10 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
     private void getData() {
 
         if (!pullUp) {
-            pageNext = 1;
+            pageNext = 0;
             content = searchView.getText();
         }
+
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
@@ -211,10 +212,10 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
         }
         if (pullUp) {
             items.addAll(list);
-            pageNext++;
         } else {
             items = list;
         }
+        pageNext++;
         if (adapter == null) {
             adapter = new SelectAreaAdapter(aty);
         }

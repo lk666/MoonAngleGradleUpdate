@@ -2354,8 +2354,8 @@ public class DeliveryApi {
 
     /*CEO获取人员关系列表*/
 	/*返回：ResultEmpList*/
-    public static void getEmpList(String token, String content, AsyncHttpResponseHandler handler) {
-        if (null == token) {
+    public static void getEmpList(String token, String content,String type, AsyncHttpResponseHandler handler) {
+        if (null == token||null == type) {
             return;
         }
         if (content == null) {
@@ -2364,6 +2364,7 @@ public class DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("content", content);
+        params.put("type", type);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getEmpList%s",
                 ApiClientHelper.getParamUrl());
@@ -2388,7 +2389,7 @@ public class DeliveryApi {
 
     /*CEO搜索服务区域列表*/
 	/*返回：ResultServiceAreaList*/
-    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageindex, int pageSize, AsyncHttpResponseHandler handler) {
+    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageIndex, int pageSize, AsyncHttpResponseHandler handler) {
         if (null == token || empCode == null || bpCode == null) {
             return;
         }
@@ -2398,7 +2399,7 @@ public class DeliveryApi {
         params.put("bpCode", bpCode);
         params.put("empCode", empCode);
         params.put("content", content);
-        params.put("pageindex", pageindex);
+        params.put("pageIndex", pageIndex);
         params.put("pageSize", pageSize);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getServiceAreaList%s",
