@@ -252,34 +252,29 @@ public class RelationInfoActivity extends KJActivity {
 
 
     private void submit() {
-        if (StringUtils.isEmpty(item.getBpCode1())) {
-            PublicUtil.showToast("社区不能为空");
-            return;
-        }
-        if (Constants.RELTYPE_GROUP.equals(item.getRelType()) && StringUtils.isEmpty(item.getBpCode())) {
-            PublicUtil.showToast("小组不能为空");
-            return;
-        }
         if (item.getStartDate() == 0) {
-            PublicUtil.showToast("开始时间不能为空");
+            PublicUtil.showToast(getString(R.string.team_edit_limit_startdate));
             return;
         }
         if (item.isEdit && item.getStartDate() < DateUtil.getTimeOffsetMonth()) {
-            PublicUtil.showToast("开始时间不能早于一个月前");
+            PublicUtil.showToast(getString(R.string.team_edit_limit_startdate_month));
             return;
         }
         if (item.getEndDate() > 0 && item.getStartDate() > item.getEndDate()) {
-            PublicUtil.showToast("结束时间不能早于开始时间");
+            PublicUtil.showToast(getString(R.string.team_edit_limit_enddate));
             return;
         }
         if (StringUtils.isEmpty(item.getWorkType())) {
-            PublicUtil.showToast("作业性质不能为空");
+            PublicUtil.showToast(getString(R.string.team_edit_limit_worktype));
             return;
         }
-        if (Constants.WORKTYPE_PART.equals(item.getWorkType()) && (txtWorkLengh.getText().toString().length() == 0)) {
-            PublicUtil.showToast("兼职时长不能为空");
+        if (Constants.WORKTYPE_PART.equals(item.getWorkType())
+                && (StringUtils.isEmpty(txtWorkLengh.getText().toString())
+                ||"0".equals(txtWorkLengh.getText().toString()))) {
+            PublicUtil.showToast(getString(R.string.team_edit_limit_parttime));
             return;
-        } else if (Constants.WORKTYPE_FULL.equals(item.getWorkType())) {
+        }
+        if (Constants.WORKTYPE_FULL.equals(item.getWorkType())) {
             txtWorkLengh.setText("0");
         }
         if (item.getEndDate() == 0) {
