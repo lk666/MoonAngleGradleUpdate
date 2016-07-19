@@ -692,7 +692,7 @@
     <string name="clothing_detail_collect_code">收衣单号：</string>
     <string name="clothing_detail_brcode">收衣单条码：</string>
     <string name="clothing_detail_brcode_num">收衣单条码：%s</string>
-    <string name="clothing_detail_receiver_name">收衣人：</string>
+    <string name="clothing_detail_receiver_name">接收人：</string>
     <string name="clothing_detail_time">收衣时间：</string>
     <string name="clothing_detail_appoint_back_time">预约还衣：</string>
     <string name="clothing_detail_clothes_code">衣物条码：</string>
