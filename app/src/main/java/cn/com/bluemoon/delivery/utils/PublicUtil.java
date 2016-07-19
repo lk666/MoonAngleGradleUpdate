@@ -25,6 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayOutputStream;
@@ -637,6 +638,7 @@ public class PublicUtil extends LibPublicUtil{
         Map<String, String> params = new HashMap<String, String>();
         params.put("version", AppContext.getInstance().getPackageInfo().versionName);
         params.put("client", ApiClientHelper.CLIENT);
+        params.put("cuid", AppContext.getInstance().getAppId());
 		params.put("token", ClientStateManager.getLoginToken(AppContext.getInstance()));
         return JSONObject.toJSONString(params);
     }
