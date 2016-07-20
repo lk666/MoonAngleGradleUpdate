@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 public interface IActionBarListener {
 
-	public void setTitle(TextView v);
-	public void onBtnLeft(View v);
-	public void onBtnRight(View v);
+	 void setTitle(TextView v);
+	 void onBtnLeft(View v);
+	 void onBtnRight(View v);
 }
