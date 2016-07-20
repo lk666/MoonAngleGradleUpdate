@@ -25,7 +25,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayOutputStream;
@@ -49,7 +48,6 @@ import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.card.CardTabActivity;
-import cn.com.bluemoon.delivery.common.SearchActivity;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.order.OrderDetailActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
@@ -618,20 +616,22 @@ public class PublicUtil extends LibPublicUtil{
         return JsConnectManager.jsConnect(JsConnectManager.URL_ANGEL, view, url, callBack);
     }
 
-    public static void openWebView(Context context, String url, String title, boolean isActionBar,
-                                   boolean isHorizontalProgress, boolean isBackByJs, boolean isBackFinish) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("title", title);
-        intent.putExtra("actionbar", isActionBar);
-        intent.putExtra("progress", isHorizontalProgress);
-        intent.putExtra("back", isBackByJs);
-        intent.putExtra("isBackFinish", isBackFinish);
-        context.startActivity(intent);
-    }
+    public static void openWebView(Context context, String url, String title,boolean isActionBar,
+									boolean isBackByJs) {
+		Intent intent = new Intent(context, WebViewActivity.class);
+		intent.putExtra("url", url);
+		intent.putExtra("title", title);
+		intent.putExtra("actionbar", isActionBar);
+		intent.putExtra("back", isBackByJs);
+		context.startActivity(intent);
+	}
+
+	public static void openWebView(Context context, String url, String title,boolean isBackByJs) {
+		openWebView(context,url,title,!JsConnectManager.isHideTitleByUrl(url),isBackByJs);
+	}
 
     public static void openWebView(Context context, String url, String title) {
-        openWebView(context, url, title, false, false, false, false);
+        openWebView(context, url, title, false, false);
     }
 
     public static String getAppInfo() {
@@ -655,10 +655,10 @@ public class PublicUtil extends LibPublicUtil{
 	}
 
 	public static void setEmptyView(View listview,View emptyView){
-		((ViewGroup) listview.getParent()).addView(emptyView);
 		if (listview instanceof PullToRefreshListView) {
 			((PullToRefreshListView)listview).setEmptyView(emptyView);
 		} else if (listview instanceof ListView) {
+			((ViewGroup) listview.getParent()).addView(emptyView);
 			((ListView)listview).setEmptyView(emptyView);
 		}
 		emptyView.setVisibility(View.GONE);
@@ -679,34 +679,14 @@ public class PublicUtil extends LibPublicUtil{
         txtPhone.getPaint().setAntiAlias(true);
         txtPhone.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                PublicUtil.showCallPhoneDialog(aty, txtPhone.getText().toString());
-            }
-        });
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PublicUtil.showCallPhoneDialog(aty, txtPhone.getText().toString());
+			}
+		});
         return txtPhone;
     }
-
-    /**
-     * 跳转搜索页
-     * @param aty
-     * @param fragment 为null时是activity接收返回
-     * @param title
-     * @param key key不能为null
-     * @param requestCode
-     */
-    public static void openSearchView(Activity aty,Fragment fragment,String title,String key,int requestCode){
-        Intent intent = new Intent(aty,SearchActivity.class);
-        intent.putExtra("title",title);
-        intent.putExtra("key", key);
-        if(fragment!=null){
-            fragment.startActivityForResult(intent, requestCode);
-        }else{
-            aty.startActivityForResult(intent, requestCode);
-        }
-    }
-
 
 	public static void setGravity(final EditText tv) {
 		tv.addTextChangedListener(new TextWatcher() {

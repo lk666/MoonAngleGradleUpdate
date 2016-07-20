@@ -122,7 +122,7 @@ public class PersonnelAreaActivity extends KJActivity {
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getPersonnelAreaList(empCode, AppContext.PAGE_SIZE, timestamp,
+        DeliveryApi.getPersonnelAreaList(groupCode,empCode, AppContext.PAGE_SIZE, timestamp,
                 ClientStateManager.getLoginToken(aty), getPersonnelAreaListHandler);
     }
 
@@ -160,7 +160,7 @@ public class PersonnelAreaActivity extends KJActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (progressDialog != null) progressDialog.show();
-                DeliveryApi.deletePersonnelArea(ClientStateManager.getLoginToken(aty), bpCode, empCode, deletePersonAreaHandler);
+                DeliveryApi.deletePersonnelArea(ClientStateManager.getLoginToken(aty), bpCode, empCode,groupCode, deletePersonAreaHandler);
             }
         });
         dialog.setPositiveButton(R.string.btn_cancel, null);

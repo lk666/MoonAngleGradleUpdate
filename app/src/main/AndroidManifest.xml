@@ -385,12 +385,6 @@
             android:theme="@style/App.Base.Theme" />
 
         <activity
-            android:name=".common.SearchActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
-
-        <activity
             android:name=".team.SearchGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"

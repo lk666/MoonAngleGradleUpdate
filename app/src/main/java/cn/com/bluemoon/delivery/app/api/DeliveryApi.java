@@ -2373,14 +2373,15 @@ public class DeliveryApi {
 
     /*CEO删除人员辖区*/
 	/*返回：ResultBase*/
-    public static void deletePersonnelArea(String token, String bpCode, String empCode, AsyncHttpResponseHandler handler) {
-        if (null == token || empCode == null || bpCode == null) {
+    public static void deletePersonnelArea(String token, String bpCode, String empCode,String groupCode, AsyncHttpResponseHandler handler) {
+        if (null == token || empCode == null || bpCode == null || groupCode == null) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("bpCode", bpCode);
         params.put("empCode", empCode);
+        params.put("groupCode", groupCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/deletePersonnelArea%s",
                 ApiClientHelper.getParamUrl());
@@ -2467,11 +2468,12 @@ public class DeliveryApi {
     }
 
     /* 获取人员辖区列表 */
-    public static void getPersonnelAreaList(String empCode, int pageSize, long timestamp, String token, AsyncHttpResponseHandler handler) {
-        if (null == empCode || null == token) {
+    public static void getPersonnelAreaList(String groupCode,String empCode, int pageSize, long timestamp, String token, AsyncHttpResponseHandler handler) {
+        if (null == empCode || null == token || null == groupCode) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
+        params.put("groupCode", groupCode);
         params.put("empCode", empCode);
         params.put("pageSize", pageSize);
         params.put("timestamp", timestamp);
