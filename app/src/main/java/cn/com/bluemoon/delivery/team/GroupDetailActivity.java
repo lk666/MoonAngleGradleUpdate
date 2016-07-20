@@ -45,6 +45,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class GroupDetailActivity extends KJActivity {
@@ -70,6 +71,7 @@ public class GroupDetailActivity extends KJActivity {
     private List<GroupDetail> items;
     private GroupDetailAdapter groupDetailAdapter;
     private ChooseDateWindow popupWindow;
+    private CommonEmptyView emptyView;
 
     @Override
     public void setRootView() {
@@ -87,6 +89,15 @@ public class GroupDetailActivity extends KJActivity {
         if(getIntent().hasExtra("code")){
             empEdit.setGroupCode(getIntent().getStringExtra("code"));
         }
+        emptyView = PublicUtil.setEmptyView(listviewDetail, String.format(getString(R.string.empty_hint),
+                getString(R.string.team_group_detail_title)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                pullDown = false;
+                pullUp = false;
+                getData();
+            }
+        });
         listviewDetail.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -217,6 +228,7 @@ public class GroupDetailActivity extends KJActivity {
                 progressDialog.dismiss();
             listviewDetail.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
 

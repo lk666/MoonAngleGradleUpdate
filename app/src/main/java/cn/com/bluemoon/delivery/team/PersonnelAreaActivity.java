@@ -41,7 +41,9 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class PersonnelAreaActivity extends KJActivity {
@@ -61,6 +63,7 @@ public class PersonnelAreaActivity extends KJActivity {
     private long timestamp;
     private List<PersonnelArea> items;
     private PersonAreaAdapter personAreaAdapter;
+    private CommonEmptyView emptyView;
 
     @Override
     public void setRootView() {
@@ -82,6 +85,15 @@ public class PersonnelAreaActivity extends KJActivity {
             finish();
             return;
         }
+        emptyView = PublicUtil.setEmptyView(listviewArea, String.format(getString(R.string.empty_hint),
+                getString(R.string.team_group_detail_member)), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                pullDown = false;
+                pullUp = false;
+                getData();
+            }
+        });
         listviewArea.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -227,6 +239,7 @@ public class PersonnelAreaActivity extends KJActivity {
                 progressDialog.dismiss();
             listviewArea.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
 
