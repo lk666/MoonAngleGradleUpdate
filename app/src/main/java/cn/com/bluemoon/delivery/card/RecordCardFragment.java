@@ -30,6 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
@@ -306,7 +307,7 @@ public class RecordCardFragment extends Fragment {
 				public void onClick(View v) {
 					// TODO Auto-generated method stub
 					//跳转网页
-					String url = String.format(ApiHttpClient.PUNCH_DETAILDS_DOMAIN, "angel/#/punchDetails?token="
+					String url = String.format(BuildConfig.PUNCH_DETAILDS_DOMAIN, "angel/#/punchDetails?token="
 							+ClientStateManager.getLoginToken(mContext)+"&punchCardId="+punchCard.getPunchCardId());
 					PublicUtil.openWebView(context,url,null,true,false,false,false);
 				}

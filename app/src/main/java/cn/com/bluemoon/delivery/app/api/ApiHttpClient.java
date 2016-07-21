@@ -19,30 +19,24 @@ import com.loopj.android.http.RequestParams;
 
 public class ApiHttpClient {
 
-	public static String HOST;
-	public static String API_URL;
-	public static String MOCK_URL = "http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s";
-	public static String ADDRESS_URL="http://mallapi.bluemoon.com.cn/%s";
-	public static String PUNCH_DETAILDS_DOMAIN;
-    public static String CLOTHING_URL;
+//	public static String BuildConfig.HOST;
+//	public static String BuildConfig.API_URL;
+//	public static String BuildConfig.MOCK_URL = "http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s";
+//	public static String BuildConfig.ADDRESS_URL="http://mallapi.bluemoon.com.cn/%s";
+//	public static String BuildConfig.PUNCH_DETAILDS_DOMAIN;
+//
+//	static {
+//		if (BuildConfig.RELEASE) {
+//			BuildConfig.HOST = "angel.bluemoon.com.cn";
+//			BuildConfig.API_URL = "http://angel.bluemoon.com.cn/%s";
+//			BuildConfig.PUNCH_DETAILDS_DOMAIN = "http://mallapi.bluemoon.com.cn/%s";
+//		} else {
+//			BuildConfig.HOST = "angelapi.bluemoon.com.cn"; // angelapi.bluemoon.com.cn
+//			BuildConfig.API_URL = "http://angelapi.bluemoon.com.cn:8882/%s"; // 172.16.49.23
+//			BuildConfig.PUNCH_DETAILDS_DOMAIN = "http://tmallapi.bluemoon.com.cn/%s";
+//		}
+//	}
 
-	static {
-		if (BuildConfig.RELEASE) {
-			HOST = "angel.bluemoon.com.cn";
-			API_URL = "http://angel.bluemoon.com.cn/%s";
-			CLOTHING_URL="http://angel.bluemoon.com.cn/%s";
-			PUNCH_DETAILDS_DOMAIN = "http://mallapi.bluemoon.com.cn/%s";
-		} else {
-			HOST = "angelapi.bluemoon.com.cn"; // angelapi.bluemoon.com.cn
-			API_URL = "http://angelapi.bluemoon.com.cn:8882/%s"; // 172.16.49.23
-			CLOTHING_URL = "http://angelapi.bluemoon.com.cn/%s";
-			PUNCH_DETAILDS_DOMAIN = "http://tmallapi.bluemoon.com.cn/%s";
-		}
-	}
-	
-	public static final String GET = "GET";
-	public static final String POST = "POST";
-	public static final String PUT = "PUT";
 	public static AsyncHttpClient client;
 
 	public ApiHttpClient() {
@@ -69,23 +63,17 @@ public class ApiHttpClient {
 	}
 
 	public static String getAbsoluteApiUrl(String partUrl) {
-		String url = String.format(API_URL, partUrl);
-		// LogUtils.d("BASE_CLIENT", "request:" + url);
-		return url;
-	}
-
-	public static String getClothingApiUrl(String partUrl) {
-		String url = String.format(CLOTHING_URL, partUrl);
+		String url = String.format(BuildConfig.API_URL, partUrl);
 		// LogUtils.d("BASE_CLIENT", "request:" + url);
 		return url;
 	}
 
 	public static String getMockUrl(String partUrl) {
-		return String.format(MOCK_URL, partUrl);
+		return String.format(BuildConfig.MOCK_URL, partUrl);
 	}
 
 	public static String getApiUrl() {
-		return API_URL;
+		return BuildConfig.API_URL;
 	}
 
 	public static void getDirect(String url, AsyncHttpResponseHandler handler) {
@@ -129,28 +117,6 @@ public class ApiHttpClient {
 		log(new StringBuilder("POST ").append(partUrl).append("----->")
 				.append(jsonString).toString());
 	}
-
-
-	public static void postClothing(Context context, String partUrl, String jsonString,
-							AsyncHttpResponseHandler handler) {
-
-		ByteArrayEntity entity = null;
-		try {
-			entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-		} catch (UnsupportedEncodingException e) {
-
-			// TODO Auto-generated catch block
-			log(new StringBuilder("POST UnsupportedEncodingException ")
-					.append(partUrl).append("----->").append(jsonString)
-					.toString());
-		}
-		client.post(context, getClothingApiUrl(partUrl), entity,
-				"application/json", handler);
-
-		log(new StringBuilder("POST ").append(partUrl).append("----->")
-				.append(jsonString).toString());
-	}
-
 
 
 	public static void postMock(Context context, String partUrl, String jsonString,
@@ -211,14 +177,11 @@ public class ApiHttpClient {
 				.append(params).toString());
 	}
 
-	public static void setApiUrl(String apiUrl) {
-		API_URL = apiUrl;
-	}
 
 	public static void setHttpClient(AsyncHttpClient c) {
 		client = c;
 		client.addHeader("Accept-Language", Locale.getDefault().toString());
-		client.addHeader("Host", HOST);
+		client.addHeader("Host", BuildConfig.HOST);
 		client.addHeader("Connection", "Keep-Alive");
 
 		client.getHttpClient().getParams()
