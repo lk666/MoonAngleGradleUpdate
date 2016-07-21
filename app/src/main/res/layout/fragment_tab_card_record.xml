@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:clipToPadding="true"
     android:background="@color/page_bg_f2"
@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:id="@+id/layout_title"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="30dp"
         android:orientation="horizontal"
         android:gravity="center_vertical"
@@ -39,8 +39,8 @@
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listView_record"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@color/page_bg_f2"
         android:cacheColorHint="#00000000"
         android:dividerHeight="0dp"

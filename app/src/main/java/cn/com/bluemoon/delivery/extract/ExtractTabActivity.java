@@ -11,12 +11,13 @@ import android.widget.ImageView;
 import android.widget.TabHost.OnTabChangeListener;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
+
+import com.umeng.analytics.MobclickAgent;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.HistoryOrderType;
 import cn.com.bluemoon.delivery.entity.ExtractTabState;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
-
-import com.umeng.analytics.MobclickAgent;
 
 public class ExtractTabActivity extends FragmentActivity {
 	private String TAG = "ExtractTabActivity";

@@ -20,6 +20,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.lang.reflect.Constructor;
+
 import cn.com.bluemoon.delivery.R;
 
 public class RefleshListView extends ListView implements OnScrollListener {

@@ -36,11 +36,12 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class SelectEmpActivity extends Activity {
+public class SelectEmpActivity extends Activity implements CommonSearchView.SearchViewListener{
 
     private String TAG = "SelectEmpActivity";
     private SelectEmpActivity aty;
@@ -50,6 +51,7 @@ public class SelectEmpActivity extends Activity {
     private SelectMemberAdapter adapter;
     private CommonProgressDialog progressDialog;
     private Emp emp;
+    private CommonEmptyView emptyView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,20 +59,19 @@ public class SelectEmpActivity extends Activity {
         initCustomActionBar();
         setContentView(R.layout.activity_select_emp);
         aty = this;
-        listview = (PullToRefreshListView)findViewById(R.id.listview_select_member);
-        btnOk = (Button)findViewById(R.id.btn_ok);
+        listview = (PullToRefreshListView) findViewById(R.id.listview_select_member);
+        btnOk = (Button) findViewById(R.id.btn_ok);
         btnOk.setOnClickListener(onClickListener);
         progressDialog = new CommonProgressDialog(aty);
-        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
-                getString(R.string.team_group_select_member)), new CommonEmptyView.EmptyListener() {
+        emptyView = PublicUtil.setEmptyView(listview, null, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 getData();
             }
         });
-        searchView = (CommonSearchView)findViewById(R.id.searchview_select_member);
-        searchView.setSearchViewListener(searchViewListener);
-        searchView.hideHistoryView();
+        LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
+        searchView = (CommonSearchView) findViewById(R.id.searchview_select_member);
+        searchView.setSearchViewListener(this);
         searchView.setSearchEmpty(false);
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_SELECT_MEMBER));
     }
@@ -78,51 +79,37 @@ public class SelectEmpActivity extends Activity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(PublicUtil.isFastDoubleClick(1000)){
+            if (PublicUtil.isFastDoubleClick(1000)) {
                 return;
             }
-            if(v==btnOk){
-                if(emp!=null){
+            if (v == btnOk) {
+                if (emp != null) {
                     Intent intent = new Intent();
-                    intent.putExtra("emp",emp);
+                    intent.putExtra("emp", emp);
                     setResult(RESULT_OK, intent);
                     finish();
-                }else{
+                } else {
                     PublicUtil.showToast(getString(R.string.team_group_select_member_tips));
                 }
             }
         }
     };
 
-    private void getData(){
-        if(StringUtils.isEmpty(searchView.getText())){
+    private void getData() {
+        if (StringUtils.isEmpty(searchView.getText())) {
             PublicUtil.showToast(getString(R.string.search_cannot_empty));
             return;
         }
-        if(progressDialog!=null) progressDialog.show();
-        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), searchView.getText(), getEmpListHandler);
+        if (progressDialog != null) progressDialog.show();
+        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), searchView.getText(),Constants.TYPE_INPUT, getEmpListHandler);
     }
 
-    private void setData(List<Emp> list){
+    private void setData(List<Emp> list) {
         this.emp = null;
         adapter = new SelectMemberAdapter(aty);
         adapter.setList(list);
         listview.setAdapter(adapter);
     }
-
-    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
-        @Override
-        public void onSearch(String str) {
-            getData();
-            searchView.hideHistoryView();
-        }
-
-        @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
-        }
-
-    };
 
     private void initCustomActionBar() {
         new CommonActionBar(getActionBar(), new IActionBarListener() {
@@ -160,8 +147,8 @@ public class SelectEmpActivity extends Activity {
     @Override
     public void onStop() {
         super.onStop();
-        if(searchView!=null)
-            ClientStateManager.setHistory(searchView.getListHistory(),ClientStateManager.HISTORY_SELECT_MEMBER);
+        if (searchView != null)
+            ClientStateManager.setHistory(searchView.getListHistory(), ClientStateManager.HISTORY_SELECT_MEMBER);
     }
 
     AsyncHttpResponseHandler getEmpListHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -176,10 +163,12 @@ public class SelectEmpActivity extends Activity {
                     setData(empListResult.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(aty, empListResult);
+                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
+                LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
             }
 
         }
@@ -191,30 +180,41 @@ public class SelectEmpActivity extends Activity {
             if (progressDialog != null)
                 progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+        getData();
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+
+    }
 
     class SelectMemberAdapter extends BaseAdapter {
 
         private LayoutInflater mInflater;
         private List<Emp> list;
 
-        public SelectMemberAdapter(Context context){
+        public SelectMemberAdapter(Context context) {
             this.mInflater = LayoutInflater.from(context);
         }
 
-        public void setList(List<Emp> list){
+        public void setList(List<Emp> list) {
             this.list = list;
         }
 
         @Override
         public int getCount() {
-            if(list==null){
+            if (list == null) {
                 list = new ArrayList<>();
             }
-            if(list.size()>0){
+            if (list.size() > 0) {
                 btnOk.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 btnOk.setVisibility(View.GONE);
             }
             return list.size();
@@ -236,12 +236,12 @@ public class SelectEmpActivity extends Activity {
             if (convertView == null) {
                 convertView = mInflater.inflate(R.layout.item_select_member, null);
             }
-            final CheckBox checkBox = ViewHolder.get(convertView,R.id.checkbox);
-            final TextView txtName = ViewHolder.get(convertView,R.id.txt_name);
-            final TextView txtContent = ViewHolder.get(convertView,R.id.txt_content);
+            final CheckBox checkBox = ViewHolder.get(convertView, R.id.checkbox);
+            final TextView txtName = ViewHolder.get(convertView, R.id.txt_name);
+            final TextView txtContent = ViewHolder.get(convertView, R.id.txt_content);
             final Emp item = list.get(position);
             txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
-            if (StringUtils.isEmpty(item.getBpCode())){
+            if (StringUtils.isEmpty(item.getBpCode())) {
                 txtName.setTextColor(getResources().getColor(R.color.text_black));
                 txtContent.setVisibility(View.GONE);
                 checkBox.setButtonDrawable(R.drawable.checkbox1);
@@ -254,22 +254,22 @@ public class SelectEmpActivity extends Activity {
                 convertView.setBackgroundColor(getResources().getColor(R.color.view_bg));
                 txtContent.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             }
-            if(item.isCheck()){
+            if (item.isCheck()) {
                 checkBox.setChecked(true);
-            }else{
+            } else {
                 checkBox.setChecked(false);
             }
 
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!StringUtils.isEmpty(item.getBpCode())){
+                    if (!StringUtils.isEmpty(item.getBpCode())) {
                         return;
                     }
                     if (v == checkBox && !checkBox.isChecked()) {
                         checkBox.setChecked(true);
                     }
-                    for (int i = 0; i< list.size(); i++) {
+                    for (int i = 0; i < list.size(); i++) {
                         Emp emp = list.get(i);
                         emp.setIsCheck(i == position);
                         list.set(i, emp);

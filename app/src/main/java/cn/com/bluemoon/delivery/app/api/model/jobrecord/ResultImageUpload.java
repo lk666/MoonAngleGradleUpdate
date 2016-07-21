@@ -1,7 +1,5 @@
 package cn.com.bluemoon.delivery.app.api.model.jobrecord;
 
-import android.graphics.Bitmap;
-
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**

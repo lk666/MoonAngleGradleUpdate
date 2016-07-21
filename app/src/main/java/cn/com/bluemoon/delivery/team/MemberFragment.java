@@ -29,6 +29,7 @@ import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.team.Emp;
+import cn.com.bluemoon.delivery.app.api.model.team.EmpEdit;
 import cn.com.bluemoon.delivery.app.api.model.team.GroupDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultEmpList;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultGroupDetailInfo;
@@ -42,6 +43,7 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
@@ -62,6 +64,8 @@ public class MemberFragment extends BackHandledFragment {
     private CommonProgressDialog progressDialog;
     private View popStart;
     private String content="";
+    private CommonEmptyView emptyView;
+    private ChooseDateWindow popupWindow;
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -81,9 +85,10 @@ public class MemberFragment extends BackHandledFragment {
         rootView = inflater.inflate(R.layout.fragment_member,
                 container, false);
         progressDialog = new CommonProgressDialog(mContext);
+        progressDialog.setCancelable(false);
         listview = (PullToRefreshListView) rootView.findViewById(R.id.listview_member);
         popStart = rootView.findViewById(R.id.view_pop_start);
-        PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
+        emptyView = PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
                 getString(R.string.team_my_member_title)), new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -95,7 +100,6 @@ public class MemberFragment extends BackHandledFragment {
         });
         searchView = (CommonSearchView) rootView.findViewById(R.id.searchview_member);
         searchView.setSearchViewListener(searchViewListener);
-        searchView.hideHistoryView();
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.HISTORY_MEMBER));
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -124,14 +128,13 @@ public class MemberFragment extends BackHandledFragment {
     private void getData() {
         if (!pullUp) {
             timestamp = 0;
-        }
-        if(pullDown){
             content = searchView.getText();
         }
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getGroupDetailInfo(content, AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY, getGroupDetailInfoHandler);
+        DeliveryApi.getGroupDetailInfo(content, AppContext.PAGE_SIZE, timestamp,
+                ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY, getGroupDetailInfoHandler);
     }
 
     private void setData(List<GroupDetail> list) {
@@ -159,9 +162,8 @@ public class MemberFragment extends BackHandledFragment {
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
-        public void onSearch(String str) {
+        public void onSearch(CommonSearchView view,String str) {
             content = str;
-            searchView.hideHistoryView();
             pullDown = false;
             pullUp = false;
             isRefresh = false;
@@ -169,8 +171,8 @@ public class MemberFragment extends BackHandledFragment {
         }
 
         @Override
-        public void onCancel() {
-            searchView.hideHistoryView();
+        public void onCancel(CommonSearchView view) {
+
         }
 
     };
@@ -210,7 +212,7 @@ public class MemberFragment extends BackHandledFragment {
                     if(data==null) return;
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
                     if(progressDialog!=null) progressDialog.show();
-                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(mContext), resultStr, getEmpListHandler);
+                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(mContext), resultStr,Constants.TYPE_SCAN, getEmpListHandler);
                     break;
                 case 4:
                     Intent intent2 = new Intent(mContext,SelectEmpActivity.class);
@@ -230,10 +232,15 @@ public class MemberFragment extends BackHandledFragment {
     }
 
     private void openRelationInfo(Emp emp,String type){
+        EmpEdit empEdit = new EmpEdit();
+        empEdit.setCommunityCode(emp.getBpCode());
+        empEdit.setEmpCode(emp.getEmpCode());
+        empEdit.setEmpName(emp.getEmpName());
+        empEdit.setMobileNo(emp.getMobileNo());
+        empEdit.setType(type);
+        empEdit.setRelType(Constants.RELTYPE_COMMUNITY);
         Intent intent = new Intent(mContext,RelationInfoActivity.class);
-        intent.putExtra("emp", emp);
-        intent.putExtra("type",type);
-        intent.putExtra("relType", Constants.RELTYPE_COMMUNITY);
+        intent.putExtra("empEdit", empEdit);
         startActivityForResult(intent, 2);
     }
 
@@ -311,10 +318,12 @@ public class MemberFragment extends BackHandledFragment {
                     setData(groupDetailInfoResult.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(mContext, groupDetailInfoResult);
+                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
+                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
 
         }
@@ -327,6 +336,7 @@ public class MemberFragment extends BackHandledFragment {
                 progressDialog.dismiss();
             listview.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
 
@@ -366,13 +376,23 @@ public class MemberFragment extends BackHandledFragment {
 
     @Override
     protected boolean onBackPressed() {
-        if(searchView!=null&&searchView.getHistoryView().getVisibility()==View.VISIBLE){
+        if(searchView!=null&&LibViewUtil.getViewVisibility(searchView.getHistoryView())==View.VISIBLE){
             searchView.setFocus(false);
             searchView.hideHistoryView();
             return true;
         }
         return false;
     }
+
+    ChooseDateWindow.ChooseDateListener listener = new ChooseDateWindow.ChooseDateListener() {
+        @Override
+        public void callBack(String bpCode, String commonityCode, long endTime) {
+            if(progressDialog!=null) progressDialog.show();
+            DeliveryApi.deleteRelationShip(commonityCode,bpCode,endTime,
+                    ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY,deleteRelationShipHandler);
+        }
+
+    };
 
     class adapter extends BaseAdapter {
 
@@ -422,33 +442,27 @@ public class MemberFragment extends BackHandledFragment {
             final GroupDetail item = list.get(position);
             txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             txtPhone.setText(item.getMobileNo());
-            String work;
+            String work = "s";
             if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
                 work = getString(R.string.team_work_part);
                 if(item.getWorkLength()!=0){
                     work += "，"+item.getWorkLength()+"h";
                 }
-            }else{
+            }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
-            txtMsg.setText(String.format(getString(R.string.team_group_detail_msg),
-                    DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"), work));
+            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate()), work));
             txtCommunity.setText(PublicUtil.getStringParams(item.getCommunityCode(), item.getCommunityName()));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(v == txtUnlock){
-                        ChooseDateWindow popupWindow = new ChooseDateWindow(mContext,PublicUtil.getStringParams(
-                                item.getBpCode(),item.getBpName()), new ChooseDateWindow.ChooseDateListener() {
-                            @Override
-                            public void callBack(long endTime) {
-                                if(progressDialog!=null) progressDialog.show();
-                                DeliveryApi.deleteRelationShip(item.getCommunityCode(),item.getBpCode(),endTime,
-                                        ClientStateManager.getLoginToken(mContext), Constants.RELTYPE_COMMUNITY,deleteRelationShipHandler);
-                            }
-
-                        });
+                        if(popupWindow == null){
+                            popupWindow = new ChooseDateWindow(mContext,listener);
+                        }
+                        popupWindow.setMinDate(item.getStartDate());
+                        popupWindow.setData(item.getBpCode(),item.getBpName(),item.getCommunityCode());
                         popupWindow.showPopwindow(popStart);
                     }else if(v == txtEdit){
                         Emp emp = new Emp();

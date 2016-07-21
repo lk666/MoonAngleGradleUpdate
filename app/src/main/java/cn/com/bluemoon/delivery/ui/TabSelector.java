@@ -1,6 +1,4 @@
 package cn.com.bluemoon.delivery.ui;
-import java.util.ArrayList;
-import java.util.List;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -17,10 +15,12 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.AppContext;
-import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * Created by liangjiangli on 2016/4/19.

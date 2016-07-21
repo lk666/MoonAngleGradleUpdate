@@ -14,6 +14,10 @@ public class ResultGroupDetailInfo extends ResultBase {
     private String bpCode;
     /** 小组名称 */
     private String bpName;
+    /**小组所属社区编码*/
+    private String communityCode;
+    /**小组所属社区名称*/
+    private String communityName;
     /** 全职总人数 */
     private int fullTimeNumber;
     /** 小组/社区数组对象 */
@@ -24,6 +28,22 @@ public class ResultGroupDetailInfo extends ResultBase {
     private int planTotalPopulation;
     /** 最后一条记录时间戳 */
     private long timestamp;
+
+    public String getCommunityCode() {
+        return communityCode;
+    }
+
+    public void setCommunityCode(String communityCode) {
+        this.communityCode = communityCode;
+    }
+
+    public String getCommunityName() {
+        return communityName;
+    }
+
+    public void setCommunityName(String communityName) {
+        this.communityName = communityName;
+    }
 
     public int getActualTotalPopulation() {
         return actualTotalPopulation;

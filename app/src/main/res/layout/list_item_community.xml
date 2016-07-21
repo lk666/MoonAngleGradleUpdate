@@ -55,14 +55,14 @@
     </LinearLayout>
     <View
         android:id="@+id/line_1"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="10dp"
         android:visibility="gone"
         android:background="@color/line_soild_bg" />
     <View
         android:id="@+id/line_2"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:visibility="gone"
         android:background="@color/line_solid_deep_bg" />

@@ -18,7 +18,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
@@ -44,8 +43,6 @@ import cn.com.bluemoon.lib.utils.LibDateUtil;
 
 public class CollectClothesRecordFragment extends BaseFragment implements OnListItemClickListener {
 
-
-    private CollectClothesAdapter adapter;
     private FragmentActivity main;
     private PullToRefreshListView listView;
     View popStart;
@@ -65,7 +62,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
         manager = bundle.getString("manager");
         View v = inflater.inflate(R.layout.fragment_tab_clothes, container,
                 false);
-        popStart = (View) v.findViewById(R.id.view_pop_start);
+        popStart = v.findViewById(R.id.view_pop_start);
 
         tvTime = (TextView) v.findViewById(R.id.tv_time);
         tvTime.setVisibility(View.GONE);
@@ -95,7 +92,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
     }
 
     private void setData(List<CollectInfo> resultOrder) {
-        adapter = new CollectClothesAdapter(main, this);
+        CollectClothesAdapter adapter = new CollectClothesAdapter(main, this);
         adapter.setList(resultOrder);
         listView.setAdapter(adapter);
     }
@@ -108,8 +105,6 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
 
                     @Override
                     public void onBtnRight(View v) {
-                        // TODO Auto-generated method stub
-
                         TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new
                                 TimerFilterWindow.TimerFilterListener() {
                                     @Override
@@ -118,29 +113,18 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                                             startTime = LibDateUtil.getTimeByCustTime(startDate);
                                             endTime = LibDateUtil.getTimeByCustTime(endDate);
 
-                                            Date start = new Date(startTime);
-                                            Date end = new Date(endTime);
-
-                                            if (endDate >= startDate
-                                                    && (((end.getDate() >= start.getDate()) && ((end
-                                                    .getYear() * 12 + end.getMonth()) - (start
-                                                    .getYear()
-                                                    * 12 + start.getMonth()) <= 5))
-                                                    || ((end.getDate() < start.getDate()) && ((end
-                                                    .getYear() * 12 + end.getMonth()) - (start
-                                                    .getYear()
-                                                    * 12 + start.getMonth()) <= 6)))) {
-
-                                                if(startTime == 0 && endTime == 0) {
+                                            if (DateUtil.getTimeOffsetMonth(startTime, 6) >
+                                                    endTime) {
+                                                if (startTime == 0 && endTime == 0) {
                                                     return;
                                                 }
 
                                                 // 将查询条件显示在上面
                                                 tvTime.setVisibility(View.VISIBLE);
-                                                tvTime.setText(DateUtil.getTime(startTime,
-                                                        "yyyy/MM/dd") + getString(R.string
-                                                        .text_to) + DateUtil.getTime
-                                                        (endTime, "yyyy/MM/dd"));
+                                                tvTime.setText(String.format("%s%s%s",
+                                                        DateUtil.getTime(startTime, "yyyy/MM/dd"),
+                                                        getString(R.string.text_to),
+                                                        DateUtil.getTime(endTime, "yyyy/MM/dd")));
                                                 getItem();
                                             } else {
                                                 PublicUtil.showMessage(main, getString(R.string
@@ -156,13 +140,11 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
 
                     @Override
                     public void onBtnLeft(View v) {
-                        // TODO Auto-generated method stub
                         getActivity().finish();
                     }
 
                     @Override
                     public void setTitle(TextView v) {
-                        // TODO Auto-generated method stub
                         v.setText("收衣记录");
 
                     }
@@ -172,6 +154,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
         actionBar.getTvRightView().setCompoundDrawablePadding(10);
 
         Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
+        assert drawableFillter != null;
         drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
                 .getMinimumHeight());
         actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
@@ -225,7 +208,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
                 txtUserName.setText(order.getReceiveName());
                 txtUserPhone.setText(order.getReceivePhone());
             } else {
-                layoutFooter.setGravity(Gravity.CENTER_VERTICAL | Gravity.RIGHT);
+                layoutFooter.setGravity(Gravity.CENTER_VERTICAL | Gravity.END);
                 txtDispatchId.setVisibility(View.GONE);
                 txtActivityName.setText(order.getActivityName());
                 txtScan.setVisibility(View.GONE);
@@ -237,7 +220,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
             }
             txtStatus.setText(Constants.WASH_STATUS_MAP.get(order.getCollectStatus()));
             txtActual.setText(String.valueOf(order.getActualCount()));
-            txtUrgent.setVisibility(order.getIsUrgent() == "0" ? View.GONE : View.VISIBLE);
+            txtUrgent.setVisibility(order.getIsUrgent() == 1 ? View.VISIBLE : View.GONE);
 
             txtAddress.setText(String.format("%s%s%s%s%s%s", order.getProvince(),
                     order.getCity(),

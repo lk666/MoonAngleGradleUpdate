@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
+
 import cn.com.bluemoon.delivery.R;
 
 public class DeliveryDialog extends DialogFragment {

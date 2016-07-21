@@ -14,14 +14,10 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
 import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.webkit.WebView;
 import android.widget.EditText;
-import android.widget.AbsListView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -29,7 +25,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
-import org.w3c.dom.Text;
+import org.apache.http.message.BasicNameValuePair;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayOutputStream;
@@ -53,9 +49,9 @@ import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.card.CardTabActivity;
+import cn.com.bluemoon.delivery.common.SearchActivity;
+import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.order.OrderDetailActivity;
-import cn.com.bluemoon.delivery.team.SearchActivity;
-import cn.com.bluemoon.delivery.web.WebViewActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
@@ -182,9 +178,6 @@ public class PublicUtil extends LibPublicUtil{
 
 	/**
 	 * 打开签收扫描界面
-	 * @param aty
-	 * @param fragment
-	 * @param requestCode
 	 * @param resultCode  大于1的正整数
 	 */
 	public static void openScanOrder(Activity aty, Fragment fragment, String title,
@@ -199,9 +192,6 @@ public class PublicUtil extends LibPublicUtil{
 
 	/**
 	 * 打开新扫描界面
-	 * @param aty
-	 * @param fragment
-	 * @param requestCode
 	 * @param resultCode  大于1的正整数
 	 */
 	public static void openNewScanOrder(Activity aty, Fragment fragment, String title,
@@ -216,23 +206,6 @@ public class PublicUtil extends LibPublicUtil{
 
 	/**
 	 * 打开扫描界面
-	 * @param aty
-	 * @param requestCode
-	 * @param resultCode  大于1的正整数
-	 */
-	public static void openScan(Activity aty, String title,
-									 String btnString, int requestCode, int resultCode){
-		initScanConfigure(aty);
-		Configure.TITLE_TXT = title;
-		Configure.BTN_CLICK_TXT = btnString;
-		Configure.BUTTON_VISIBILITY = View.VISIBLE;
-		BarcodeUtil.openScan(aty, requestCode, resultCode);
-	}
-
-	/**
-	 * 打开扫描界面
-	 * @param aty
-	 * @param requestCode
 	 * @param resultCode  大于1的正整数
 	 */
 	public static void openNewScan(Activity aty, String title,
@@ -267,14 +240,7 @@ public class PublicUtil extends LibPublicUtil{
 		initScanConfigure(aty);
 		Configure.BUTTON_VISIBILITY = View.GONE;
 		Configure.TITLE_TXT = title;
-		if(fragment!=null){
-			BarcodeUtil.openScan(aty, fragment, requestCode);
-		}else{
-			BarcodeUtil.openScan(aty, requestCode);
-		}
-	}
-	public static void openScanCard(Activity aty,String title,int requestCode){
-		openScanCard(aty, null, title, requestCode);
+		BarcodeUtil.openScan(aty, fragment, requestCode);
 	}
 
 	public static String sha1(String str) {
@@ -447,7 +413,7 @@ public class PublicUtil extends LibPublicUtil{
 		byte[] buffer = null;
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			bit.compress(CompressFormat.PNG, 95, out);
+			bit.compress(CompressFormat.JPEG, 100, out);
 			buffer = out.toByteArray();
 			out.close();
 		} catch (IOException e) {
@@ -493,7 +459,7 @@ public class PublicUtil extends LibPublicUtil{
 	}
 
 	public static void showCallPhoneDialog(final Activity aty,View view,final String phoneNo){
-		showCallPhoneDialog(aty,null,view,phoneNo,phoneNo);
+		showCallPhoneDialog(aty, null, view, phoneNo, phoneNo);
 	}
 
 	/**
@@ -672,25 +638,36 @@ public class PublicUtil extends LibPublicUtil{
         Map<String, String> params = new HashMap<String, String>();
         params.put("version", AppContext.getInstance().getPackageInfo().versionName);
         params.put("client", ApiClientHelper.CLIENT);
+        params.put("cuid", AppContext.getInstance().getAppId());
+		params.put("token", ClientStateManager.getLoginToken(AppContext.getInstance()));
         return JSONObject.toJSONString(params);
     }
 
-    public static void setEmptyView(View listview,String content,CommonEmptyView.EmptyListener listener) {
-        CommonEmptyView emptyView = new CommonEmptyView(AppContext.getInstance());
-        emptyView.setContentText(content);
-        if(listener!=null){
-            emptyView.setEmptyListener(listener);
-        }
-        ((ViewGroup) listview.getParent()).addView(emptyView);
-        try{
-            ((PullToRefreshListView)listview).setEmptyView(emptyView);
-        }catch (Exception e){
-            ((ListView)listview).setEmptyView(emptyView);
-        }
-    }
+	public static CommonEmptyView getEmptyView(String content,CommonEmptyView.EmptyListener listener) {
+		CommonEmptyView emptyView = new CommonEmptyView(AppContext.getInstance());
+		if(content!=null){
+			emptyView.setContentText(content);
+		}
+		if(listener!=null){
+			emptyView.setEmptyListener(listener);
+		}
+		return emptyView;
+	}
 
-    public static void setEmptyView(View listview,String content) {
-        setEmptyView(listview,content,null);
+	public static void setEmptyView(View listview,View emptyView){
+		((ViewGroup) listview.getParent()).addView(emptyView);
+		if (listview instanceof PullToRefreshListView) {
+			((PullToRefreshListView)listview).setEmptyView(emptyView);
+		} else if (listview instanceof ListView) {
+			((ListView)listview).setEmptyView(emptyView);
+		}
+		emptyView.setVisibility(View.GONE);
+	}
+
+    public static CommonEmptyView setEmptyView(View listview,String content,CommonEmptyView.EmptyListener listener) {
+        CommonEmptyView emptyView = getEmptyView(content, listener);
+		setEmptyView(listview, emptyView);
+		return emptyView;
     }
 
     public static String getStringParams(String... params){

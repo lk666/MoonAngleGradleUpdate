@@ -2,10 +2,8 @@ package cn.com.bluemoon.delivery.utils;
 
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
-import android.widget.LinearLayout;
 
 import java.lang.reflect.Method;
 

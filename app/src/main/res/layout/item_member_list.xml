@@ -15,15 +15,13 @@
         <RelativeLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:padding="10dp">
 
             <TextView
                 android:id="@+id/txt_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="7dp"
-                android:layout_marginTop="13dp"
                 android:drawableLeft="@mipmap/user"
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
@@ -36,7 +34,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txt_name"
-                android:paddingLeft="10dp"
                 android:paddingTop="10dp"
                 android:paddingBottom="10dp"
                 android:drawableLeft="@mipmap/ic_phone"
@@ -52,7 +49,6 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@id/txt_phone"
                 android:layout_marginBottom="10dp"
-                android:layout_marginLeft="10dp"
                 android:drawableLeft="@mipmap/time"
                 android:drawablePadding="8dp"
                 android:ellipsize="end"
@@ -64,21 +60,18 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
                 android:layout_below="@id/txt_msg"
-                android:layout_marginBottom="10dp"
                 >
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:scaleType="fitCenter"
                     android:src="@mipmap/icon_community"
-                    android:layout_marginLeft="10dp"
                     android:layout_marginRight="8dp"
                     android:layout_marginTop="3dp"/>
                 <TextView
                     android:id="@+id/txt_community"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginRight="10dp"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_15" />
             </LinearLayout>

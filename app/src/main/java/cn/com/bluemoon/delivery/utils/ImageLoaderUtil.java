@@ -16,6 +16,7 @@ import java.io.File;
 
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.lib.utils.threadhelper.ThreadPool;
 
 /**
  * DIsplay image in imageView async.
@@ -34,7 +35,6 @@ public class ImageLoaderUtil {
                     .cacheInMemory(true)
                     .imageScaleType(ImageScaleType.EXACTLY)
                     .bitmapConfig(Bitmap.Config.RGB_565)
-                    // TODO: lk 2016/6/6 default image
                     .showImageOnLoading(R.mipmap.loading_img_logo)
 //                    .showImageForEmptyUri()
 //                    .showImageOnFail()
@@ -46,6 +46,10 @@ public class ImageLoaderUtil {
                     .threadPoolSize(5)
 //                    .memoryCacheSize()
                     .denyCacheImageMultipleSizesInMemory()
+                    .taskExecutor(ThreadPool.PICTURE_THREAD_POOL)
+                    // 设置加载和显示内存缓存或者本地缓存图片的线程池，设置此项后threadPoolSize、threadPriority、tasksProcessingOrder会失效
+                    // 由于加载和显示内存缓存或者本地缓存图片很快，因此与taskExecutor最好分开
+                    .taskExecutorForCachedImages(ThreadPool.GENERAL_THREAD_POOL)
                     .memoryCache(new WeakMemoryCache())
                     .diskCache(new LimitedAgeDiskCache(cacheDir, maxAgeTimeInSeconds))
                     .defaultDisplayImageOptions(options)
@@ -59,6 +63,7 @@ public class ImageLoaderUtil {
         }
     }
 
+    // TODO: lk 2016/7/19 去除 context参数
     public static void displayImage(Context context, String requestUrl, ImageView view) {
         if (mImageLoader == null) {
             mImageLoader = ImageLoader.getInstance();
@@ -78,12 +83,11 @@ public class ImageLoaderUtil {
     }
 
     /**
-     * @param context
      * @param requestUrl
      * @param view
      * @param loadingImgRec 加载中的图片
      */
-    public static void displayImage(Context context, String requestUrl, ImageView view, int
+    public static void displayImage(String requestUrl, ImageView view, int
             loadingImgRec) {
         if (mImageLoader == null) {
             mImageLoader = ImageLoader.getInstance();
@@ -101,13 +105,12 @@ public class ImageLoaderUtil {
     }
 
     /**
-     * @param context
      * @param requestUrl
      * @param view
      * @param loadingImgRec 加载中的图片
      * @param errImgRec     加载失败的图片
      */
-    public static void displayImage(Context context, String requestUrl, ImageView view, int
+    public static void displayImage(String requestUrl, ImageView view, int
             loadingImgRec, int errImgRec) {
         if (mImageLoader == null) {
             mImageLoader = ImageLoader.getInstance();

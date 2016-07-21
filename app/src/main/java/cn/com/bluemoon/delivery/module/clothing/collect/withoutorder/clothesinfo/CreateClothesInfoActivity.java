@@ -79,8 +79,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
     EditText etFlaw;
     @Bind(R.id.v_div_flaw)
     View vDivFlaw;
-    @Bind(R.id.tv_backup)
-    TextView tvBackup;
     @Bind(R.id.et_backup)
     EditText etBackup;
     @Bind(R.id.sgv_photo)
@@ -178,9 +176,9 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
             @Override
             public void afterTextChanged(Editable s) {
                 if (etBackup.getLineCount() > 1) {
-                    etBackup.setGravity(Gravity.LEFT);
+                    etBackup.setGravity(Gravity.START);
                 } else {
-                    etBackup.setGravity(Gravity.RIGHT);
+                    etBackup.setGravity(Gravity.END);
                 }
             }
         });
@@ -209,7 +207,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 createResponseHandler(new IHttpResponseHandler() {
                     @Override
                     public void onResponseSuccess(String responseString) {
-                        // TODO: lk 2016/6/30 待测试
                         // 获取服务类型
                         ResultClothesTypeInfos type = JSON.parseObject(responseString,
                                 ResultClothesTypeInfos.class);
@@ -295,7 +292,7 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
         List<ClothesType> clothesTypeConfigs = result.getClothesTypeConfigs();
         Collections.sort(clothesTypeConfigs);
 
-        if (clothesTypeConfigs == null || clothesTypeConfigs.isEmpty()) {
+        if (clothesTypeConfigs.isEmpty()) {
             return;
         }
 
@@ -417,8 +414,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     /**
      * 返回去除掉添加图片按钮的图片列表
-     *
-     * @return
      */
     private List<ClothingPic> getActualClothesImg(List<ClothingPic> oriList) {
         if (oriList == null || oriList.isEmpty()) {
@@ -508,7 +503,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 PublicUtil.getBytes(bm), createResponseHandler(new IHttpResponseHandler() {
                     @Override
                     public void onResponseSuccess(String responseString) {
-                        // TODO: lk 2016/6/30 待测试
                         ClothingPic pic = JSON.parseObject(responseString, ClothingPic.class);
 
                         clothesImg.add(clothesImg.size() - 1, pic);
@@ -524,8 +518,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
 
     /**
      * 新增模式下处理扫码、手动输入数字码返回
-     *
-     * @param code
      */
     private void handleScaneCodeBack(String code) {
         scaneCode = code;
@@ -533,7 +525,6 @@ public class CreateClothesInfoActivity extends BaseActionBarActivity implements
                 createResponseHandler(new IHttpResponseHandler() {
                     @Override
                     public void onResponseSuccess(String responseString) {
-                        // TODO: lk 2016/6/30 待测试
                         tvNumber.setText(scaneCode);
                     }
                 }));

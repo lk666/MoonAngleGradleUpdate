@@ -13,6 +13,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 
 /**
+ * 衣物转交adapter
  * Created by allenli on 2016/6/28.
  */
 public class DeliverAdapter extends BaseListAdapter<ClothesDeliverInfo> {

@@ -24,6 +24,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
+ * 活动说明页面
  * Created by allenli on 2016/6/24.
  */
 public class ActivityDetailActivity extends BaseActionBarActivity {

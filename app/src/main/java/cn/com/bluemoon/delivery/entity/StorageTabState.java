@@ -1,8 +1,6 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.inventory.ProcessedFragment;
-import cn.com.bluemoon.delivery.inventory.SuspenseFragment;
 import cn.com.bluemoon.delivery.storage.StockFragment;
 import cn.com.bluemoon.delivery.storage.WarehouseFragment;
 

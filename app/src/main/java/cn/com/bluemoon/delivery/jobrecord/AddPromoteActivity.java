@@ -37,9 +37,9 @@ import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ImageInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultBpList;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultImageUpload;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
@@ -103,6 +103,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private List<ImageInfo> imgIds = new ArrayList<>();
     private PromoteInfo info;
     private PromoteInfo oldInfo;
+    private String oldAddress;
     private boolean isEdit;
     private KJBitmap kjBitmap = new KJBitmap();
     private boolean isModify;
@@ -316,6 +317,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     info = result.getPromoteInfo();
                     oldInfo = result.getPromoteInfo();
+                    oldAddress = result.getPromoteInfo().getAddress();
                     bpCode = info.getBpCode2();
                     bpName = info.getBpName2();
                     info.setBpCode1(bpCode);
@@ -439,6 +441,9 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     Intent data = new Intent();
                     if (isEdit) {
                         Bundle bundle = new Bundle();
+                        String bpName = info.getBpName();
+                        bpName = bpName.replace(oldAddress, "");
+                        info.setBpName(bpName+info.getAddress());
                         bundle.putSerializable("promote", info);
                         data.putExtras(bundle);
                     }
@@ -525,6 +530,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             }
         }
     }
+
     public void setSortList(List<ImageInfo> images) {
         if (images != null) {
             ImageInfo second =  images.get(images.size()-2);

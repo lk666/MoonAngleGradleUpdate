@@ -26,6 +26,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class RelationShipDetailActivity extends KJActivity {
@@ -51,12 +52,16 @@ public class RelationShipDetailActivity extends KJActivity {
     private TextView txtEndDate;
     @BindView(id = R.id.txt_remark)
     private TextView txtRemark;
+    @BindView(id = R.id.line)
+    private View lineWorkType;
     @BindView(id = R.id.line2)
     private View line2;
     @BindView(id=R.id.layout_remark)
     private RelativeLayout layoutRemark;
     @BindView(id = R.id.layout_work_lengh)
     private RelativeLayout layoutWorkLengh;
+    @BindView(id = R.id.layout_worktype)
+    private RelativeLayout layoutWorkType;
     private CommonProgressDialog progressDialog;
 
     @Override
@@ -98,14 +103,18 @@ public class RelationShipDetailActivity extends KJActivity {
         txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
 
         if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
+            LibViewUtil.setViewVisibility(layoutWorkType, View.VISIBLE);
+            LibViewUtil.setViewVisibility(lineWorkType, View.VISIBLE);
             txtWorkType.setText(getString(R.string.team_work_full));
         }else if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
+            LibViewUtil.setViewVisibility(layoutWorkType,View.VISIBLE);
+            LibViewUtil.setViewVisibility(lineWorkType,View.VISIBLE);
             txtWorkType.setText(getString(R.string.team_work_part));
             layoutWorkLengh.setVisibility(View.VISIBLE);
             txtWorkLengh.setText(String.valueOf(item.getWorkLength()));
         }
-        txtStartDate.setText(DateUtil.getTime(item.getStartDate(),"yyyy-MM-dd"));
-        txtEndDate.setText(DateUtil.getTime(item.getEndDate(), "yyyy-MM-dd"));
+        txtStartDate.setText(DateUtil.getTime(item.getStartDate()));
+        txtEndDate.setText(DateUtil.getTime(item.getEndDate()));
         if(!StringUtils.isEmpty(item.getRemark())){
             layoutRemark.setVisibility(View.VISIBLE);
             txtRemark.setText(item.getRemark());

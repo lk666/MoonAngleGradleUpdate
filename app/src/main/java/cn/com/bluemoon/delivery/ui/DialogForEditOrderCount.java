@@ -17,7 +17,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 public class DialogForEditOrderCount {
     Context context;
-    Dialogcallback dialogcallback;
+    DialogCallback dialogcallback;
     Dialog dialog;
     Button negativeButton, positiveButton;
     TextView title;
@@ -25,8 +25,8 @@ public class DialogForEditOrderCount {
     ImageView imgReduce;
     ImageView imgAdd;
 
-    int staticNums = 0;
-    int NUMS = 0;
+    int staticNum = 0;
+    int num = 0;
     int position = 0;
     boolean isDeliver = false;
     int diffNum = 0;
@@ -36,10 +36,10 @@ public class DialogForEditOrderCount {
      *
      * @return
      */
-    public DialogForEditOrderCount(Context con, int pos, int nums, int diffNum, boolean isDeliver) {
+    public DialogForEditOrderCount(Context con, int pos, int num, int diffNum, boolean isDeliver) {
         this.context = con;
-        this.NUMS = diffNum;
-        this.staticNums = nums;
+        this.num = diffNum;
+        this.staticNum = num;
         this.position = pos;
         this.isDeliver = isDeliver;
         this.diffNum = diffNum;
@@ -53,10 +53,10 @@ public class DialogForEditOrderCount {
         positiveButton = (Button) dialog.findViewById(R.id.positiveButton);
         negativeButton = (Button) dialog.findViewById(R.id.negativeButton);
         etAmount = (EditText) dialog.findViewById(R.id.et_amount);
-        etAmount.setText(NUMS + "");
-        if (NUMS == staticNums) {
+        etAmount.setText(this.num + "");
+        if (this.num == staticNum) {
             imgAdd.setImageResource(R.mipmap.add_disable3);
-        } else if (NUMS == 0) {
+        } else if (this.num == 0) {
             imgReduce.setImageResource(R.mipmap.minus_disable3);
         }
         initListener();
@@ -75,22 +75,22 @@ public class DialogForEditOrderCount {
             @Override
             public void onClick(View v) {
                 try {
-                    NUMS = Integer.valueOf(etAmount.getText().toString()) + 1;
-                    if (NUMS >= staticNums) {
+                    num = Integer.valueOf(etAmount.getText().toString()) + 1;
+                    if (num >= staticNum) {
                         imgAdd.setImageResource(R.mipmap.add_disable3);
                         imgAdd.setEnabled(false);
 
-                        etAmount.setText(staticNums + "");
+                        etAmount.setText(staticNum + "");
                     } else {
                         imgAdd.setImageResource(R.mipmap.add_normal3);
-                        etAmount.setText(NUMS + "");
+                        etAmount.setText(num + "");
                         imgAdd.setEnabled(true);
                     }
                     imgReduce.setImageResource(R.mipmap.minus_normal3);
                     imgReduce.setEnabled(true);
 
                 } catch (Exception e) {
-                    etAmount.setText(String.valueOf(staticNums));
+                    etAmount.setText(String.valueOf(staticNum));
                     imgAdd.setEnabled(false);
                     imgAdd.setImageResource(R.mipmap.add_disable3);
 
@@ -105,20 +105,20 @@ public class DialogForEditOrderCount {
             @Override
             public void onClick(View v) {
                 try {
-                    NUMS = Integer.valueOf(etAmount.getText().toString()) - 1;
-                    if (NUMS <= 0) {
+                    num = Integer.valueOf(etAmount.getText().toString()) - 1;
+                    if (num <= 0) {
                         etAmount.setText(0 + "");
                         imgReduce.setImageResource(R.mipmap.minus_disable3);
                         imgReduce.setEnabled(false);
                         imgAdd.setImageResource(R.mipmap.add_normal3);
                         imgAdd.setEnabled(true);
-                    } else if (NUMS >= staticNums) {
+                    } else if (num >= staticNum) {
                         imgAdd.setImageResource(R.mipmap.add_disable3);
                         imgAdd.setEnabled(false);
-                        etAmount.setText(staticNums + "");
+                        etAmount.setText(staticNum + "");
                     } else {
                         imgReduce.setImageResource(R.mipmap.minus_normal3);
-                        etAmount.setText(NUMS + "");
+                        etAmount.setText(num + "");
                         imgReduce.setEnabled(true);
                         imgAdd.setImageResource(R.mipmap.add_normal3);
                         imgAdd.setEnabled(true);
@@ -147,7 +147,7 @@ public class DialogForEditOrderCount {
 
                 try {
 
-                    if (staticNums < Integer.parseInt(etAmount.getText().toString())
+                    if (staticNum < Integer.parseInt(etAmount.getText().toString())
                             || Integer.parseInt(etAmount.getText().toString()) < 0) {
 
                         PublicUtil.showToast(context, context.getResources().getString(R.string.text_invalid_data_tip));
@@ -160,7 +160,7 @@ public class DialogForEditOrderCount {
 
                 }
 
-                dialogcallback.dialogdo(position, etAmount.getText().toString(), staticNums);
+                dialogcallback.dialogDo(position, etAmount.getText().toString(), staticNum);
                 dismiss();
             }
         });
@@ -172,11 +172,11 @@ public class DialogForEditOrderCount {
         });
     }
 
-    public interface Dialogcallback {
-        public void dialogdo(int pos, String string, int nums);
+    public interface DialogCallback {
+         void dialogDo(int pos, String string, int num);
     }
 
-    public void setDialogCallback(Dialogcallback dialogcallback) {
+    public void setDialogCallback(DialogCallback dialogcallback) {
         this.dialogcallback = dialogcallback;
     }
 
@@ -194,10 +194,6 @@ public class DialogForEditOrderCount {
 
     public void show() {
         dialog.show();
-    }
-
-    public void hide() {
-        dialog.hide();
     }
 
     public void dismiss() {

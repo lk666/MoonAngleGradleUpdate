@@ -6,8 +6,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
-import cn.com.bluemoon.lib.view.ScrollGridView;
-
 /**
  * Created by LIANGJIANGLI on 2016/6/25.
  */

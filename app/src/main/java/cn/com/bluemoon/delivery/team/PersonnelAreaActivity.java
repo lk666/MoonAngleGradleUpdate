@@ -29,7 +29,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.team.Emp;
 import cn.com.bluemoon.delivery.app.api.model.team.PersonnelArea;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultPersonnelAreaList;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
@@ -38,9 +37,11 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
@@ -48,7 +49,8 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 public class PersonnelAreaActivity extends KJActivity {
 
     private String TAG = "PersonnelAreaActivity";
-    private Emp emp;
+    private String groupCode;
+    private String empCode;
     @BindView(id = R.id.txt_name)
     private TextView txtName;
     @BindView(id = R.id.txt_num)
@@ -61,6 +63,7 @@ public class PersonnelAreaActivity extends KJActivity {
     private long timestamp;
     private List<PersonnelArea> items;
     private PersonAreaAdapter personAreaAdapter;
+    private CommonEmptyView emptyView;
 
     @Override
     public void setRootView() {
@@ -72,15 +75,22 @@ public class PersonnelAreaActivity extends KJActivity {
     public void initWidget() {
         super.initWidget();
         progressDialog = new CommonProgressDialog(aty);
-        if (getIntent().hasExtra("emp")) {
-            emp = (Emp) getIntent().getSerializableExtra("emp");
+        progressDialog.setCancelable(false);
+        if (getIntent()!=null) {
+            groupCode = getIntent().getStringExtra("bpCode");
+            empCode = getIntent().getStringExtra("empCode");
         }
-        PublicUtil.setEmptyView(listviewArea, String.format(getString(R.string.empty_hint),
+        if(StringUtil.isEmpty(groupCode)||StringUtil.isEmpty(empCode)){
+            PublicUtil.showToastErrorData();
+            finish();
+            return;
+        }
+        emptyView = PublicUtil.setEmptyView(listviewArea, String.format(getString(R.string.empty_hint),
                 getString(R.string.team_group_detail_member)), new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
-                pullUp = false;
                 pullDown = false;
+                pullUp = false;
                 getData();
             }
         });
@@ -112,7 +122,8 @@ public class PersonnelAreaActivity extends KJActivity {
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getPersonnelAreaList(emp.getEmpCode(), AppContext.PAGE_SIZE, timestamp, ClientStateManager.getLoginToken(aty), getPersonnelAreaListHandler);
+        DeliveryApi.getPersonnelAreaList(empCode, AppContext.PAGE_SIZE, timestamp,
+                ClientStateManager.getLoginToken(aty), getPersonnelAreaListHandler);
     }
 
     private void setData(List<PersonnelArea> list) {
@@ -149,7 +160,7 @@ public class PersonnelAreaActivity extends KJActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (progressDialog != null) progressDialog.show();
-                DeliveryApi.deletePersonnelArea(ClientStateManager.getLoginToken(aty), bpCode, emp.getEmpCode(), deletePersonAreaHandler);
+                DeliveryApi.deletePersonnelArea(ClientStateManager.getLoginToken(aty), bpCode, empCode, deletePersonAreaHandler);
             }
         });
         dialog.setPositiveButton(R.string.btn_cancel, null);
@@ -173,8 +184,8 @@ public class PersonnelAreaActivity extends KJActivity {
             @Override
             public void onBtnRight(View v) {
                 Intent intent = new Intent(aty, SelectAreaActivity.class);
-                intent.putExtra("bpCode", emp.getBpCode());
-                intent.putExtra("empCode", emp.getEmpCode());
+                intent.putExtra("bpCode", groupCode);
+                intent.putExtra("empCode", empCode);
                 startActivityForResult(intent, 1);
             }
 
@@ -228,6 +239,7 @@ public class PersonnelAreaActivity extends KJActivity {
                 progressDialog.dismiss();
             listviewArea.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
 
@@ -335,7 +347,7 @@ public class PersonnelAreaActivity extends KJActivity {
             txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
                     + item.getVillageName() + item.getStreetName());
             txtDate.setText(String.format(getString(R.string.team_area_add_date),
-                    DateUtil.getTime(item.getStartDate(), "yyyy-MM-dd")));
+                    DateUtil.getTime(item.getStartDate())));
             txtDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

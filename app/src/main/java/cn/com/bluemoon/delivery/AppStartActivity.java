@@ -1,11 +1,5 @@
 package cn.com.bluemoon.delivery;
 
-import java.io.File;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,7 +8,17 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.widget.Toast;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+
+import java.io.File;
+
 import cn.com.bluemoon.delivery.account.LoginActivity;
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -29,10 +33,6 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 
 public class AppStartActivity extends Activity {
 

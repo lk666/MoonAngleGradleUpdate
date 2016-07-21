@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+
 import android.text.Html;
 
 import org.apache.http.util.TextUtils;
@@ -22,7 +23,7 @@ public class DialogUtil {
 	public static QRCodeDialog showCodeDialog(Activity context,String title,
 			String codeUrl,String code,String str,String tips,CodeDialogCallback cb)
 	{
-			QRCodeDialog codeDialog = new QRCodeDialog(context);
+			QRCodeDialog codeDialog = new QRCodeDialog();
 		if(!codeDialog.isVisible())
 		{
 			codeDialog.setLoadString(context.getString(R.string.data_loading));
@@ -45,7 +46,8 @@ public class DialogUtil {
 
 	public static ImageDialog showPictureDialog(Activity context,Bitmap bm,String imgUrl,ImageDialogCallback cb)
 	{
-		ImageDialog picDialog = new ImageDialog(context,cb);
+		ImageDialog picDialog = new ImageDialog();
+		picDialog.setCallback(cb);
 		if (!picDialog.isVisible()) {
 			picDialog.setLoadString(context.getString(R.string.data_loading));
 			if (bm != null) {
@@ -109,7 +111,7 @@ public class DialogUtil {
 		builder.setPositiveButton(context.getResources().getString(R.string.btn_ok_with_space), onClickListener);
 		return builder;
 	}
-    
+
 	public static AlertDialog.Builder getMessageDialog(Context context, String message) {
 		return getMessageDialog(context, message, null);
 	}
