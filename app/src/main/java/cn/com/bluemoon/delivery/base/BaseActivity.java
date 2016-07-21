@@ -6,16 +6,28 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
 
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.interf.DialogControl;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
+import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.ActivityDetailActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 
 /**
@@ -28,11 +40,12 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
 
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        ApiHttpClient.cancelAll(this);
         ActivityManager.getInstance().popOneActivity(this);
-
     }
 
     @Override
@@ -100,6 +113,9 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(getDefaultTag());
+        if(isFinishing()){
+
+        }
     }
 
 
@@ -131,7 +147,6 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
         return null;
     }
 
-
     @Override
     public void hideWaitDialog() {
         if (isVisible && waitDialog != null) {
@@ -145,5 +160,39 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     }
 
 
+    AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(getDefaultTag(), "mainHandler requestCode:"+ getRequestCode() +" --> result = " + responseString);
+            hideWaitDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    onSuccessResponse(getRequestCode(),responseString);
+                } else {
+                    onErrorResponse(getRequestCode(),responseString);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            hideWaitDialog();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+
+     abstract void onSuccessResponse(int requestCode,String jsonString);
+
+     abstract  void onErrorResponse(int requestCode,String jsonString);
 
 }
