@@ -329,8 +329,6 @@
                   android:screenOrientation="portrait"
                   android:theme="@style/App.Base.Theme"
                   android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <service android:name=".card.LocationSvc"/>
         <activity android:name=".jobrecord.PromoteDetailActivity"
            android:screenOrientation="portrait"
            android:theme="@style/App.Base.Theme"/>
