@@ -3,10 +3,14 @@ package cn.com.bluemoon.delivery.common;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -25,7 +29,9 @@ import com.baidu.location.LocationClientOption;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
+import org.kymjs.kjframe.utils.FileUtils;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -38,9 +44,11 @@ import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibFileUtils;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
 public class WebViewActivity extends Activity implements OnClickListener{
 	private String TAG="WebViewActivity";
@@ -62,6 +70,10 @@ public class WebViewActivity extends Activity implements OnClickListener{
 	private Map<String,String> map;
 	private String locationCallbackName;
 	public LocationClient mLocationClient = null;
+	private boolean isFiveAbove = false;
+	private ValueCallback<Uri> mUploadMessage;
+	private ValueCallback<Uri[]> mFilePathCallback;
+	private TakePhotoPopView takePhotoPop;
 	/**
 	 * TODO 
 	 * @see Activity#onCreate(Bundle)
@@ -96,6 +108,24 @@ public class WebViewActivity extends Activity implements OnClickListener{
 			LibViewUtil.setViewVisibility(layout_title,View.VISIBLE);
 		}
 		imgBack.setOnClickListener(this);
+		takePhotoPop = new TakePhotoPopView(this,
+				Constants.TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT, new TakePhotoPopView.DismissListener() {
+			@Override
+			public void cancelReceiveValue() {
+				if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+					if (mFilePathCallback != null) {
+						mFilePathCallback.onReceiveValue(null);
+						mFilePathCallback = null;
+					}
+				} else {
+					if (mUploadMessage != null) {
+						mUploadMessage.onReceiveValue(null);
+						mUploadMessage = null;
+					}
+				}
+			}
+		});
+
 		WebSettings webSetting = moonWebView.getSettings();
 		webSetting.setDomStorageEnabled(true);
 		webSetting.setDatabaseEnabled(true);
@@ -125,6 +155,43 @@ public class WebViewActivity extends Activity implements OnClickListener{
 							pro.setVisibility(View.GONE);
 					}
 				}
+			}
+
+			// android 5.0
+			public boolean onShowFileChooser(
+					WebView webView, ValueCallback<Uri[]> filePathCallback,
+					WebChromeClient.FileChooserParams fileChooserParams) {
+				isFiveAbove = true;
+				if (mFilePathCallback != null) {
+					mFilePathCallback.onReceiveValue(null);
+				}
+				mFilePathCallback = filePathCallback;
+				takePhotoPop.getPic(moonWebView);
+				return true;
+			}
+
+			//The undocumented magic method override
+			//Eclipse will swear at you if you try to put @Override here
+			// For Android 3.0+
+			public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+				isFiveAbove = false;
+				mUploadMessage = uploadMsg;
+				takePhotoPop.getPic(moonWebView);
+
+			}
+
+			// For Android 3.0+
+			public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
+				isFiveAbove = false;
+				mUploadMessage = uploadMsg;
+				takePhotoPop.getPic(moonWebView);
+			}
+
+			//For Android 4.1
+			public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
+				isFiveAbove = false;
+				mUploadMessage = uploadMsg;
+				takePhotoPop.getPic(moonWebView);
 			}
 		});
 		moonWebView.setWebViewClient(new WebViewClient() {
@@ -389,6 +456,53 @@ public class WebViewActivity extends Activity implements OnClickListener{
 					if(data==null) return;
 					callback(data.getStringExtra(LibConstants.SCAN_RESULT));
 					break;
+				case Constants.CHOSE_PIC_RESULT:
+					if (!isFiveAbove && mUploadMessage == null) return;
+					if (isFiveAbove && mFilePathCallback == null) return;
+					Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
+					if (result == null) {
+						cancelReceiveValue();
+						return;
+					}
+					String path =  LibFileUtils.getPath(this, result);
+					if (TextUtils.isEmpty(path)) {
+						cancelReceiveValue();
+						return;
+					}
+					Uri uri = Uri.fromFile(new File(path));
+					setReceiveValue(uri);
+					break;
+				case Constants.TAKE_PIC_RESULT:
+					if (!isFiveAbove && mUploadMessage == null) return;
+					if (isFiveAbove && mFilePathCallback == null) return;
+					Uri uri2 = takePhotoPop.getTakeImageUri();
+					setReceiveValue(uri2);
+					break;
+			}
+		}
+	}
+
+	private void setReceiveValue(Uri uri) {
+		LogUtils.i("UPFILE", "onActivityResult after parser uri:" + uri.toString());
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			mFilePathCallback.onReceiveValue(new Uri[]{uri});
+			mFilePathCallback = null;
+		} else {
+			mUploadMessage.onReceiveValue(uri);
+			mUploadMessage = null;
+		}
+	}
+
+	private void cancelReceiveValue() {
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+			if (mFilePathCallback != null) {
+				mFilePathCallback.onReceiveValue(null);
+				mFilePathCallback = null;
+			}
+		} else {
+			if (mUploadMessage != null) {
+				mUploadMessage.onReceiveValue(null);
+				mUploadMessage = null;
 			}
 		}
 	}
