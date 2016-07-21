@@ -445,6 +445,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 			if(requestCode==Constants.REQUEST_SCAN){
 				callback("CANCELED");
 			}
+			cancelReceiveValue();
 			return;
 		}
 		if(resultCode == RESULT_OK){
