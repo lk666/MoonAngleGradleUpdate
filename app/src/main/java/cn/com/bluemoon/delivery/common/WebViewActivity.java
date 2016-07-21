@@ -314,7 +314,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 
 		@Override
 		public void logout(WebView view) {
-//			PublicUtil.showMessageTokenExpire(aty);
+			PublicUtil.showMessageTokenExpire(aty);
 		}
 	};
 
