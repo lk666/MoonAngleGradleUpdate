@@ -29,14 +29,12 @@ import com.baidu.location.LocationClientOption;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
-import org.kymjs.kjframe.utils.FileUtils;
 
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -44,8 +42,7 @@ import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.utils.LibFileUtils;
-import cn.com.bluemoon.lib.utils.LibPublicUtil;
+import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.TakePhotoPopView;
@@ -464,7 +461,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 						cancelReceiveValue();
 						return;
 					}
-					String path =  LibFileUtils.getPath(this, result);
+					String path =  LibFileUtil.getPath(this, result);
 					if (TextUtils.isEmpty(path)) {
 						cancelReceiveValue();
 						return;
