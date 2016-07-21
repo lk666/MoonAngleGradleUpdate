@@ -117,6 +117,38 @@ public class ApiHttpClient {
 				.append(jsonString).toString());
 	}
 
+	public static void post(String partUrl,int requestCode, AsyncHttpResponseHandler handler) {
+		client.post(getAbsoluteApiUrl(partUrl),requestCode, handler);
+		log(new StringBuilder("POST ").append(partUrl).toString());
+	}
+
+	public static void post(String partUrl, RequestParams params,int requestCode,
+							AsyncHttpResponseHandler handler) {
+
+		client.post(getAbsoluteApiUrl(partUrl), params,requestCode, handler);
+		log(new StringBuilder("POST ").append(partUrl).append("&")
+				.append(params).toString());
+	}
+
+	public static void post(Context context, String partUrl, String jsonString,int requestCode,
+							AsyncHttpResponseHandler handler) {
+
+		ByteArrayEntity entity = null;
+		try {
+			entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+
+			// TODO Auto-generated catch block
+			log(new StringBuilder("POST UnsupportedEncodingException ")
+					.append(partUrl).append("----->").append(jsonString)
+					.toString());
+		}
+		client.post(context, getAbsoluteApiUrl(partUrl), entity,
+				"application/json", requestCode,handler);
+
+		log(new StringBuilder("POST ").append(partUrl).append("----->")
+				.append(jsonString).toString());
+	}
 
 	public static void postMock(Context context, String partUrl, String jsonString,
 			AsyncHttpResponseHandler handler) {
