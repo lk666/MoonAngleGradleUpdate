@@ -130,77 +130,11 @@ public class ActivityDescActivity extends BaseActionBarActivity {
         return R.string.title_activity_dec;
     }
 
-    SelectOptionDialog s;
-
-    class TextArea extends Area implements SelectOptionDialog.ISecectedItem {
-
-        @Override
-        public String getShowText() {
-            return getDcode() + "-" + getDname();
-        }
-    }
-
-
     @OnClick(R.id.btn_start)
     public void onClick() {
-
-        if (s == null) {
-            SelectTreeNode<TextArea> root = new SelectTreeNode<>();
-            root.setSelectedChildIndex(2);
-
-            List<SelectTreeNode<TextArea>> iList = new ArrayList<>();
-            for (int i = 0; i < 5; i ++) {
-                TextArea ia = new TextArea();
-                ia.setDcode(i + "");
-                SelectTreeNode<TextArea> is = new  SelectTreeNode<>();
-                is.setObj(ia);
-                List<SelectTreeNode<TextArea>> jList = new ArrayList<>();
-                for (int j = 0; j < 7; j ++) {
-                    TextArea ja = new TextArea();
-                    ja.setDcode(i + "" + j);
-
-                    SelectTreeNode<TextArea> js = new  SelectTreeNode<>();
-                    js.setObj(ja);
-                    List<SelectTreeNode<TextArea>> kList = new ArrayList<>();
-                    for (int k = 0; k < 8; k ++) {
-                        TextArea ka = new TextArea();
-                        ka.setDcode(i+"" + j + "" + k);
-                        SelectTreeNode<TextArea> ks = new  SelectTreeNode<>();
-                        ks.setObj(ka);
-                        kList.add(ks);
-                    }
-                    js.setChildList(kList);
-                    jList.add(js);
-                }
-                is.setChildList(jList);
-                iList.add(is);
-            }
-
-            root.setChildList(iList);
-
-
-                    s = new SelectOptionDialog(this, root, 3, 5, new SelectOptionDialog
-                            .OnOKButtonClickListener() {
-
-                        @Override
-                        public void onOKButtonClick(List<SelectOptionDialog.ISecectedItem>
-                                                            selectedObj) {
-
-                        }
-
-                        @Override
-                        public void onClearButtonClick() {
-                            PublicUtil.showToast("点击取消");
-                        }
-                    });
-        }
-
-        s.show();
-
-
         // 创建收衣订单
-//        CreateCollectOrderActivity.actionStart(this, REQUEST_CODE_CREATE_COLLECT_ORDER,
-//                activityCode);
+        CreateCollectOrderActivity.actionStart(this, REQUEST_CODE_CREATE_COLLECT_ORDER,
+                activityCode);
     }
 
     @Override
