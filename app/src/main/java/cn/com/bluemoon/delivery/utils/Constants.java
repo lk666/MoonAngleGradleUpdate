@@ -49,6 +49,11 @@ public class Constants {
     public static final String LATITUDE = "Latitude";
     public static final String ALTITUDE = "Altitude";
 
+    public static final Double UNKNOW_VALUE = 4.9E-324;
+    public static final String WIFI_GPS = "WIFI_GPS";
+    public static final String GPS_GPS = "GPS_GPS";
+    public static final String GPRS_GPS = "GPRS_GPS";
+
 
     /********************
      * code scan
