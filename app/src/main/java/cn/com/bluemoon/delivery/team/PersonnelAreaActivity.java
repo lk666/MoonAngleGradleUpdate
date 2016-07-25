@@ -337,7 +337,7 @@ public class PersonnelAreaActivity extends KJActivity {
             String name = PublicUtil.getStringParams(item.getBpCode(), item.getBpName());
             if (!StringUtils.isEmpty(item.getBpCode1())) {
                 layoutArea.setVisibility(View.VISIBLE);
-                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName()));
+                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
                 name = PublicUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
             } else {
                 layoutArea.setVisibility(View.GONE);
@@ -345,7 +345,7 @@ public class PersonnelAreaActivity extends KJActivity {
             txtNum.setText(String.format(getString(R.string.team_area_num), item.getTotalRooms()));
             txtName.setText(name);
             txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
-                    + item.getVillageName() + item.getStreetName());
+                    + item.getStreetName() + item.getVillageName());
             txtDate.setText(String.format(getString(R.string.team_area_add_date),
                     DateUtil.getTime(item.getStartDate())));
             txtDelete.setOnClickListener(new View.OnClickListener() {
