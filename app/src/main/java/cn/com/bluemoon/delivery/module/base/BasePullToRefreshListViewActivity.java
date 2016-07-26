@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.base;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.base.BaseListAdapter;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -11,6 +12,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 /**
  * 基于PullToRefreshListView的基础刷新activity，自动显示空数据页面和网络错误页面
  */
+@Deprecated
 public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseListAdapter, ITEM
         extends Object> extends BasePullToRefreshActivity {
     /**

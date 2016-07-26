@@ -36,7 +36,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OrderDetail;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollectInfos;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
-import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;

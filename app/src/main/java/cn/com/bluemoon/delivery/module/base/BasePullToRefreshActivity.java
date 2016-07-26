@@ -28,6 +28,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
  * 刷新类Activity/Fragment公共逻辑
  * Created by lk on 2016/7/14.
  */
+@Deprecated
 public abstract class BasePullToRefreshActivity extends BaseActionBarActivity {
     /**
      * 错误页面View

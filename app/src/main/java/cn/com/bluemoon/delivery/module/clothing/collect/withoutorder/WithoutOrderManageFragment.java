@@ -28,7 +28,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ResultActivityInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ActivityInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
-import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;

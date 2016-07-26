@@ -42,7 +42,6 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
 
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -69,9 +68,10 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
         initData();
     }
 
-    protected void initCustomActionBar() {
+    private void initCustomActionBar() {
         if (!TextUtils.isEmpty(getTitleString())) {
-            CommonActionBar titleBar = new CommonActionBar(getActionBar(), new IActionBarListener() {
+            CommonActionBar titleBar = new CommonActionBar(getActionBar(), new IActionBarListener
+                    () {
 
                 @Override
                 public void onBtnRight(View v) {
@@ -93,67 +93,6 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
         }
     }
 
-    /**
-     * 设置自定义ActionBar，如右图标
-     */
-    protected void setActionBar(CommonActionBar titleBar) {
-
-    }
-
-    /**
-     * 返回为null或者空字符串，则不设置ActionBar
-     * @return
-     */
-    protected String getTitleString() {
-        return null;
-    }
-
-    protected void onActionBarBtnLeftClick() {
-        this.setResult(Activity.RESULT_CANCELED);
-        this.finish();
-    }
-
-    protected void onActionBarBtnRightClick() {
-
-    }
-
-    /**
-     * 设置布局文件layout
-     * @return
-     */
-    protected int getLayoutId() {
-        return 0;
-    }
-
-    protected View inflateView(int resId) {
-        return mInflater.inflate(resId, null);
-    }
-
-    protected void onBeforeSetContentLayout() {
-    }
-
-
-    protected void init(Bundle savedInstanceState) {
-    }
-
-    protected void longToast(String msg) {
-        LibViewUtil.longToast(this, msg);
-    }
-
-    protected void toast(String msg) {
-        LibViewUtil.toast(this, msg);
-    }
-
-    /**
-     * 默认TAG
-     *
-     * @return getClass().getSimpleName()
-     */
-    protected String getDefaultTag() {
-        return this.getClass().getSimpleName();
-    }
-
-
     @Override
     public void onResume() {
         super.onResume();
@@ -166,37 +105,99 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
         MobclickAgent.onPageEnd(getDefaultTag());
     }
 
+    final AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getRequestCode() + " --> " +
+                    "result = " + responseString);
+            hideWaitDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    onSuccessResponse(getRequestCode(), responseString);
+                } else {
+                    onErrorResponse(getRequestCode(), result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+                onFailureResponse(getRequestCode());
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            hideWaitDialog();
+            PublicUtil.showToastServerOvertime();
+            onFailureResponse(getRequestCode());
+        }
+    };
+
+    ///////////// 工具方法 ////////////////
+
+    /**
+     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(ClientStateManager.getLoginToken(this),
+     * "80474765", getMainHandler());
+     */
+    final protected AsyncHttpResponseHandler getMainHandler() {
+        return mainHandler;
+    }
+
+    /**
+     * 默认TAG
+     *
+     * @return getClass().getSimpleName()
+     */
+    final protected String getDefaultTag() {
+        return this.getClass().getSimpleName();
+    }
+
+
+    final protected void longToast(String msg) {
+        LibViewUtil.longToast(this, msg);
+    }
+
+    final protected void toast(String msg) {
+        LibViewUtil.toast(this, msg);
+    }
+
+    final protected View inflateView(int resId) {
+        return mInflater.inflate(resId, null);
+    }
+
     /**
      * 展示默认等待dialog
-     * @return
      */
     @Override
-    public ProgressDialog showWaitDialog() {
+    final public ProgressDialog showWaitDialog() {
         return showWaitDialog(true);
     }
-    /**
-     * 展示默认等待dialog
-     * @return
-     */
-    public ProgressDialog showWaitDialog(boolean isCancelable) {
-        return showWaitDialog(R.string.data_loading, R.layout.dialog_progress,isCancelable);
+
+    final protected ProgressDialog showWaitDialog(boolean isCancelable) {
+        return showWaitDialog(R.string.data_loading, R.layout.dialog_progress, isCancelable);
     }
 
     @Override
-    public ProgressDialog showWaitDialog(int resId, int viewId) {
-        return showWaitDialog(resId, viewId,true);
+    final public ProgressDialog showWaitDialog(int resId, int viewId) {
+        return showWaitDialog(resId, viewId, true);
     }
 
-    protected ProgressDialog showWaitDialog(int resId, int viewId,boolean isCancelable) {
-        return showWaitDialog(getString(resId), viewId,isCancelable);
+    final protected ProgressDialog showWaitDialog(int resId, int viewId, boolean isCancelable) {
+        return showWaitDialog(getString(resId), viewId, isCancelable);
     }
 
     @Override
-    public ProgressDialog showWaitDialog(String message, int viewId) {
-        return showWaitDialog(message, viewId,true);
+    final public ProgressDialog showWaitDialog(String message, int viewId) {
+        return showWaitDialog(message, viewId, true);
     }
 
-    protected ProgressDialog showWaitDialog(String message, int viewId,boolean isCancelable) {
+    final protected ProgressDialog showWaitDialog(String message, int viewId, boolean
+            isCancelable) {
         if (waitDialog == null) {
             waitDialog = DialogUtil.getWaitDialog(this, message, viewId);
         }
@@ -213,10 +214,9 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
 
     /**
      * 关闭等待dialog
-     * @return
      */
     @Override
-    public void hideWaitDialog() {
+    final public void hideWaitDialog() {
         if (waitDialog != null) {
             try {
                 waitDialog.dismiss();
@@ -226,53 +226,73 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
             }
         }
     }
+    ///////////// 可选重写 ////////////////
 
-    protected AsyncHttpResponseHandler getMainHandler(){
-        return mainHandler;
+    /**
+     * 在oncreate后执行，一般为获取intentata
+     */
+    protected void onBeforeSetContentLayout() {
     }
 
-    final AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
+    /**
+     * 可用于保存和还原界面缓存数据
+     */
+    protected void init(Bundle savedInstanceState) {
+    }
 
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getRequestCode() + " --> result = " + responseString);
-            hideWaitDialog();
-            try {
-                ResultBase result = JSON.parseObject(responseString,
-                        ResultBase.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString);
-                } else {
-                    onErrorResponse(getRequestCode(), result);
-                }
-            } catch (Exception e) {
-                LogUtils.e(getDefaultTag(), e.getMessage());
-                PublicUtil.showToastServerBusy();
-                onErrorResponse(getRequestCode());
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(getDefaultTag(), throwable.getMessage());
-            hideWaitDialog();
-            PublicUtil.showToastServerOvertime();
-            onErrorResponse(getRequestCode());
-        }
-    };
-
-
-    abstract void onSuccessResponse(int requestCode, String jsonString);
-
-    protected void onErrorResponse(int requestCode,ResultBase result){
+    /**
+     * 请求返回非OK
+     */
+    protected void onErrorResponse(int requestCode, ResultBase result) {
         DialogUtil.showErrorMsg(aty, result);
     }
 
-    protected void onErrorResponse(int requestCode){
-
+    /**
+     * 请求失败
+     */
+    protected void onFailureResponse(int requestCode) {
     }
+
+    /**
+     * 返回为null或者空字符串，则不设置ActionBar(若要不显示actionbar，须在主题中声明)
+     */
+    protected String getTitleString() {
+        return null;
+    }
+
+    /**
+     * 设置自定义ActionBar，如右图标
+     */
+    protected void setActionBar(CommonActionBar titleBar) {
+    }
+
+    /**
+     * 左键点击事件，一般不需重写
+     */
+    protected void onActionBarBtnLeftClick() {
+        this.setResult(Activity.RESULT_CANCELED);
+        this.finish();
+    }
+
+    /**
+     * 右键点击事件
+     */
+    protected void onActionBarBtnRightClick() {
+    }
+
+    ///////////// 必须重写 ////////////////
+
+    /**
+     * 设置布局文件layout，一般都要重写
+     */
+    protected int getLayoutId() {
+        return 0;
+    }
+
+    /**
+     * 请求成功
+     */
+    abstract void onSuccessResponse(int requestCode, String jsonString);
 
 
 }

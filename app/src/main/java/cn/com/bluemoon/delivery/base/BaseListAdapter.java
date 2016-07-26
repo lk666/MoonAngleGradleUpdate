@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.base;
+package cn.com.bluemoon.delivery.base;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 
 /**
  * 基础列表adapter
@@ -95,9 +96,6 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
     /**
      * getView的剩余操作
      *
-     * @param position
-     * @param convertView
-     * @param parent
      * @param isNew       是否新建的convertView，即非复用控件
      */
     protected abstract void setView(int position, View convertView, ViewGroup parent, boolean

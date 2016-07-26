@@ -13,6 +13,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 /**
  * 普通下拉刷新页面，自动显示空数据页面和网络错误页面，不需在onCreate中调用 ButterKnife.bind(this)
  */
+@Deprecated
 public abstract class BasePullDownToRefreshScrollViewActivity extends BasePullToRefreshActivity {
 
     /**
