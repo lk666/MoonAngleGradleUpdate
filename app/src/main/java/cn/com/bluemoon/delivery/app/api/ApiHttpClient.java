@@ -150,6 +150,26 @@ public class ApiHttpClient {
 				.append(jsonString).toString());
 	}
 
+	public static void postMock(Context context, String partUrl, String jsonString,int requestCode,
+								AsyncHttpResponseHandler handler) {
+
+		ByteArrayEntity entity = null;
+		try {
+			entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+		} catch (UnsupportedEncodingException e) {
+
+			// TODO Auto-generated catch block
+			log(new StringBuilder("POST UnsupportedEncodingException ")
+					.append(partUrl).append("----->").append(jsonString)
+					.toString());
+		}
+		client.post(context, getMockUrl(partUrl), entity,
+				"application/json", requestCode,handler);
+
+		log(new StringBuilder("POST ").append(partUrl).append("----->")
+				.append(jsonString).toString());
+	}
+
 	public static void postMock(Context context, String partUrl, String jsonString,
 			AsyncHttpResponseHandler handler) {
 

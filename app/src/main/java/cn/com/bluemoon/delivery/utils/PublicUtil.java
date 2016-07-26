@@ -59,6 +59,7 @@ import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.utils.LibStringUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 
@@ -70,63 +71,12 @@ public class PublicUtil extends LibPublicUtil{
 	 * @return 返回图片名（取当前时间）
 	 */
 	public static String getPhotoPath() {
-		String fileName = "";
-		String pathUrl = Constants.PATH_PHOTO;
-		String imageName = System.currentTimeMillis() + ".jpg";
-		File file = new File(pathUrl);
-		file.mkdirs();
-		fileName = pathUrl + "/" + imageName;
-		return fileName;
-	}
-
-	/**
-	 * 生成月亮天使图片文件夹路径下的图片名（用户名+时间）
-	 * @param id 用户名
-	 * @return 返回图片名（取当前时间）
-	 */
-	public static String getPhotoPath(String id) {
-		String fileName = "";
-		String pathUrl = Constants.PATH_PHOTO;
-		String imageName = id+"_"+System.currentTimeMillis() + ".jpg";
-		File file = new File(pathUrl);
-		file.mkdirs();
-		fileName = pathUrl + "/" + imageName;
-		return fileName;
+		return getPhotoPath(Constants.PATH_PHOTO,null);
 	}
 
 
 	public static String getTempPath() {
-		String filepath = "";
-		String path = Constants.PATH_TEMP;
-		File file = new File(path);
-		if(!file.exists()){
-			file.mkdirs();
-		}
-		filepath = path + File.separator + getPhotoName(".png");
-		return filepath;
-	}
-
-	/**
-	 * 显示账户过期对话框
-	 *
-	 * @param context
-	 */
-	public static void showMessageTokenExpire(final Activity context) {
-		new CommonAlertDialog.Builder(context)
-				.setCancelable(false)
-				.setMessage(context.getString(R.string.token_out))
-				.setPositiveButton(R.string.btn_ok,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog,
-												int which) {
-								// TODO Auto-generated method stub
-								Intent intent = new Intent(context, LoginActivity.class);
-								context.startActivity(intent);
-								context.finish();
-							}
-						}).show();
+		return getPhotoPath(Constants.PATH_PHOTO,null);
 	}
 
 	public static void showToast(String msg){
@@ -423,20 +373,6 @@ public class PublicUtil extends LibPublicUtil{
 		return buffer;
 	}
 
-	public static void showErrorMsg(Activity context, ResultBase resultBase) {
-		if (Constants.RESPONSE_RESULT_TOKEN_EXPIRED == resultBase
-				.getResponseCode()) {
-			showMessageTokenExpire(context);
-		} else {
-			String msg = Constants.ERROR_MAP.get(resultBase.getResponseCode());
-			if (StringUtils.isEmpty(msg)) {
-				showToast(context, resultBase.getResponseMsg());
-			} else {
-				showToast(context, msg);
-			}
-		}
-	}
-
 	/**
 	 * 跳转详情页
 	 * @param context
@@ -543,6 +479,43 @@ public class PublicUtil extends LibPublicUtil{
 					}
 				});
 		dialog.show();
+	}
+
+	/**
+	 * 显示账户过期对话框
+	 *
+	 * @param context
+	 */
+	public static void showMessageTokenExpire(final Activity context) {
+		new CommonAlertDialog.Builder(context)
+				.setCancelable(false)
+				.setMessage(context.getString(R.string.token_out))
+				.setPositiveButton(R.string.btn_ok,
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+												int which) {
+								// TODO Auto-generated method stub
+								Intent intent = new Intent(context, LoginActivity.class);
+								context.startActivity(intent);
+								context.finish();
+							}
+						}).show();
+	}
+
+	public static void showErrorMsg(Activity context, ResultBase resultBase) {
+		if (Constants.RESPONSE_RESULT_TOKEN_EXPIRED == resultBase
+				.getResponseCode()) {
+			showMessageTokenExpire(context);
+		} else {
+			String msg = Constants.ERROR_MAP.get(resultBase.getResponseCode());
+			if (StringUtils.isEmpty(msg)) {
+				LibViewUtil.toast(context, resultBase.getResponseMsg());
+			} else {
+				LibViewUtil.toast(context, msg);
+			}
+		}
 	}
 
 

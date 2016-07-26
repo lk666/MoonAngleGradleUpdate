@@ -3,8 +3,10 @@ package cn.com.bluemoon.delivery.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -22,21 +24,21 @@ import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.interf.DialogControl;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
-import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.ActivityDetailActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 
 /**
  * 基础Activity，实现了一些公共方法
  * Created by lk on 2016/6/14.
  */
-public abstract class BaseActivity extends Activity implements DialogControl, BaseViewInterface,IActionBarListener {
+public abstract class BaseActivity extends Activity implements DialogControl, BaseViewInterface {
 
-    private boolean isVisible;
+    protected Activity aty;
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
 
@@ -51,33 +53,74 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.aty = this;
         ActivityManager.getInstance().pushOneActivity(this);
         onBeforeSetContentLayout();
-
+        initCustomActionBar();
         if (getLayoutId() != 0) {
             setContentView(getLayoutId());
         }
         mInflater = getLayoutInflater();
-        initCustomActionBar();
         // 通过注解绑定控件
         ButterKnife.bind(this);
 
         init(savedInstanceState);
         initView();
         initData();
-        isVisible = true;
     }
 
     protected void initCustomActionBar() {
-        if(getTitleResourceId()!=0) {
-            new CommonActionBar(getActionBar(), this);
+        if (!TextUtils.isEmpty(getTitleString())) {
+            CommonActionBar titleBar = new CommonActionBar(getActionBar(), new IActionBarListener() {
+
+                @Override
+                public void onBtnRight(View v) {
+                    onActionBarBtnRightClick();
+                }
+
+                @Override
+                public void onBtnLeft(View v) {
+                    onActionBarBtnLeftClick();
+                }
+
+                @Override
+                public void setTitle(TextView v) {
+                    v.setText(getTitleString());
+                }
+
+            });
+            setActionBar(titleBar);
         }
     }
 
-    protected  int getTitleResourceId(){
-        return 0;
+    /**
+     * 设置自定义ActionBar，如右图标
+     */
+    protected void setActionBar(CommonActionBar titleBar) {
+
     }
 
+    /**
+     * 返回为null或者空字符串，则不设置ActionBar
+     * @return
+     */
+    protected String getTitleString() {
+        return null;
+    }
+
+    protected void onActionBarBtnLeftClick() {
+        this.setResult(Activity.RESULT_CANCELED);
+        this.finish();
+    }
+
+    protected void onActionBarBtnRightClick() {
+
+    }
+
+    /**
+     * 设置布局文件layout
+     * @return
+     */
     protected int getLayoutId() {
         return 0;
     }
@@ -91,6 +134,14 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
 
 
     protected void init(Bundle savedInstanceState) {
+    }
+
+    protected void longToast(String msg) {
+        LibViewUtil.longToast(this, msg);
+    }
+
+    protected void toast(String msg) {
+        LibViewUtil.toast(this, msg);
     }
 
     /**
@@ -113,43 +164,60 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(getDefaultTag());
-        if(isFinishing()){
-
-        }
     }
 
-
+    /**
+     * 展示默认等待dialog
+     * @return
+     */
     @Override
     public ProgressDialog showWaitDialog() {
-        return showWaitDialog(R.string.data_loading, R.layout.dialog_progress);
+        return showWaitDialog(true);
+    }
+    /**
+     * 展示默认等待dialog
+     * @return
+     */
+    public ProgressDialog showWaitDialog(boolean isCancelable) {
+        return showWaitDialog(R.string.data_loading, R.layout.dialog_progress,isCancelable);
     }
 
     @Override
-    public ProgressDialog showWaitDialog(int resId,int viewId) {
-        return showWaitDialog(getString(resId),viewId);
+    public ProgressDialog showWaitDialog(int resId, int viewId) {
+        return showWaitDialog(resId, viewId,true);
+    }
+
+    protected ProgressDialog showWaitDialog(int resId, int viewId,boolean isCancelable) {
+        return showWaitDialog(getString(resId), viewId,isCancelable);
     }
 
     @Override
-    public ProgressDialog showWaitDialog(String message,int viewId) {
-        if (isVisible) {
-            if (waitDialog == null) {
-                waitDialog = DialogUtil.getWaitDialog(this, message,viewId);
-            }
-            if (waitDialog != null) {
-                waitDialog.setMessage(message);
-                if(viewId!=0){
-                    waitDialog.setContentView(viewId);
-                }
-                waitDialog.show();
-            }
-            return waitDialog;
+    public ProgressDialog showWaitDialog(String message, int viewId) {
+        return showWaitDialog(message, viewId,true);
+    }
+
+    protected ProgressDialog showWaitDialog(String message, int viewId,boolean isCancelable) {
+        if (waitDialog == null) {
+            waitDialog = DialogUtil.getWaitDialog(this, message, viewId);
         }
-        return null;
+        if (waitDialog != null) {
+            waitDialog.setMessage(message);
+            if (viewId != 0) {
+                waitDialog.setContentView(viewId);
+            }
+            waitDialog.setCancelable(isCancelable);
+            waitDialog.show();
+        }
+        return waitDialog;
     }
 
+    /**
+     * 关闭等待dialog
+     * @return
+     */
     @Override
     public void hideWaitDialog() {
-        if (isVisible && waitDialog != null) {
+        if (waitDialog != null) {
             try {
                 waitDialog.dismiss();
                 waitDialog = null;
@@ -159,25 +227,29 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
         }
     }
 
+    protected AsyncHttpResponseHandler getMainHandler(){
+        return mainHandler;
+    }
 
-    AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
+    final AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(getDefaultTag(), "mainHandler requestCode:"+ getRequestCode() +" --> result = " + responseString);
+            LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getRequestCode() + " --> result = " + responseString);
             hideWaitDialog();
             try {
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(),responseString);
+                    onSuccessResponse(getRequestCode(), responseString);
                 } else {
-                    onErrorResponse(getRequestCode(),responseString);
+                    onErrorResponse(getRequestCode(), result);
                 }
             } catch (Exception e) {
                 LogUtils.e(getDefaultTag(), e.getMessage());
                 PublicUtil.showToastServerBusy();
+                onErrorResponse(getRequestCode());
             }
         }
 
@@ -187,12 +259,20 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
             LogUtils.e(getDefaultTag(), throwable.getMessage());
             hideWaitDialog();
             PublicUtil.showToastServerOvertime();
+            onErrorResponse(getRequestCode());
         }
     };
 
 
-     abstract void onSuccessResponse(int requestCode,String jsonString);
+    abstract void onSuccessResponse(int requestCode, String jsonString);
 
-     abstract  void onErrorResponse(int requestCode,String jsonString);
+    protected void onErrorResponse(int requestCode,ResultBase result){
+        DialogUtil.showErrorMsg(aty, result);
+    }
+
+    protected void onErrorResponse(int requestCode){
+
+    }
+
 
 }
