@@ -267,8 +267,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 info.setWifi(cbWifi.isChecked());
                 info.setWiredNetwork(cbNetWork.isChecked());
                 List<PeopleFlow> list = new ArrayList<PeopleFlow>();
-                list.addAll(flows);
                 list.addAll(deleteFlows);
+                list.addAll(flows);
                 if (list != null && list.size() > 0) {
                     info.setPeopleFlow(list);
                 }
