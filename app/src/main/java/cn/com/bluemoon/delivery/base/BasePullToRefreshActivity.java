@@ -27,8 +27,8 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
      */
     private View emptyView;
 
-    private static final int HTTP_REQUEST_CODE_GET_MORE = 0x11;
-    private static final int HTTP_REQUEST_CODE_GET_DATA = 0x10;
+    private static final int HTTP_REQUEST_CODE_GET_MORE = 0x1000;
+    private static final int HTTP_REQUEST_CODE_GET_DATA = 0x1001;
 
     /**
      * 刷新view
@@ -214,10 +214,6 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         showWaitDialog();
         getData();
     }
-
-
-    ///////////// 工具方法 ////////////////
-
 
     ///////////// 必须重写 ////////////////
 

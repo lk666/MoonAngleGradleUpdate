@@ -37,7 +37,8 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class DeliveryApi {
 
-    private static final String TOKEN="token";
+    private static final String TOKEN = "token";
+
     /************************
      * 2.1 用户相关
      **********************************/
@@ -110,8 +111,8 @@ public class DeliveryApi {
             return;
         }
 
-       String oldPasswordEncrypt = DES.encrypt(oldPassword, Constants.DES_KEY);
-       String  newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
+        String oldPasswordEncrypt = DES.encrypt(oldPassword, Constants.DES_KEY);
+        String newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
 
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
@@ -133,7 +134,7 @@ public class DeliveryApi {
             return;
         }
 
-       String newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
+        String newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
 
         Map<String, String> params = new HashMap<>();
         params.put("mobileNo", mobileNo);
@@ -996,7 +997,7 @@ public class DeliveryApi {
     }
 
     /*2.9.2考勤打卡扫码 */
-	/* 返回： ResultCheckScanCode */
+    /* 返回： ResultCheckScanCode */
     public static void checkScanCodeCard(String token, String attendanceCode,
                                          AsyncHttpResponseHandler handler) {
 
@@ -2104,7 +2105,8 @@ public class DeliveryApi {
      * @param fileData 文件流(必填) byte[]
      * @param token    登录凭证(必填) String
      */
-    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler handler) {
+    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler
+            handler) {
         if (null == fileData || null == token) {
             return;
         }
@@ -2183,6 +2185,7 @@ public class DeliveryApi {
 
     /**
      * 5.10查询活动收衣上限
+     *
      * @param activityCode 活动编码(必填) String
      * @param token        登录凭证(必填) String
      */
@@ -2223,7 +2226,8 @@ public class DeliveryApi {
 
     /*2.14.1 新增推广点信息时上传图片*/
 	/* 返回： ResultImageUpload */
-    public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler handler) {
+    public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler
+            handler) {
         if (null == token || null == file) {
             return;
         }
@@ -2240,7 +2244,8 @@ public class DeliveryApi {
 
     /*2.14.2 推广点详情信息*/
 	/* 返回： ResultPromoteInfo */
-    public static void getPromoteInfo(String token, String bpCode, AsyncHttpResponseHandler handler) {
+    public static void getPromoteInfo(String token, String bpCode, AsyncHttpResponseHandler
+            handler) {
         if (null == token || null == bpCode) {
             return;
         }
@@ -2255,7 +2260,8 @@ public class DeliveryApi {
 
     /* 2.14.3 新增/编辑推广点信息 */
 	/* 返回： ResultBase */
-    public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler handler) {
+    public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler
+            handler) {
         if (null == token || info == null) {
             return;
         }
@@ -2287,7 +2293,8 @@ public class DeliveryApi {
 
     /*2.14.4 获取小区/商业中心列表*/
 	/* 返回： ResultBpList */
-    public static void getBpList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getBpList(String token, String content, long timestamp,
+                                 AsyncHttpResponseHandler handler) {
         if (null == token || null == content) {
             return;
         }
@@ -2304,7 +2311,8 @@ public class DeliveryApi {
 
     /*2.14.4 获取推广点档案列表*/
 	/* 返回： ResultPromoteList */
-    public static void getPromoteList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getPromoteList(String token, String content, long timestamp,
+                                      AsyncHttpResponseHandler handler) {
         if (null == token || content == null) {
             return;
         }
@@ -2321,7 +2329,8 @@ public class DeliveryApi {
 
     /*获取小组信息列表*/
 	/*返回：ResultGroupList*/
-    public static void getGroupList(String token, String content, int pageSize, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getGroupList(String token, String content, int pageSize, long timestamp,
+                                    AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -2355,8 +2364,9 @@ public class DeliveryApi {
 
     /*CEO获取人员关系列表*/
 	/*返回：ResultEmpList*/
-    public static void getEmpList(String token, String content,String type, AsyncHttpResponseHandler handler) {
-        if (null == token||null == type) {
+    public static void getEmpList(String token, String content, String type,
+                                  AsyncHttpResponseHandler handler) {
+        if (null == token || null == type) {
             return;
         }
         if (content == null) {
@@ -2374,7 +2384,8 @@ public class DeliveryApi {
 
     /*CEO删除人员辖区*/
 	/*返回：ResultBase*/
-    public static void deletePersonnelArea(String token, String bpCode, String empCode, AsyncHttpResponseHandler handler) {
+    public static void deletePersonnelArea(String token, String bpCode, String empCode,
+                                           AsyncHttpResponseHandler handler) {
         if (null == token || empCode == null || bpCode == null) {
             return;
         }
@@ -2390,7 +2401,8 @@ public class DeliveryApi {
 
     /*CEO搜索服务区域列表*/
 	/*返回：ResultServiceAreaList*/
-    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageIndex, int pageSize, AsyncHttpResponseHandler handler) {
+    public static void getServiceAreaList(String token, String bpCode, String empCode, String
+            content, int pageIndex, int pageSize, AsyncHttpResponseHandler handler) {
         if (null == token || empCode == null || bpCode == null) {
             return;
         }
@@ -2437,7 +2449,8 @@ public class DeliveryApi {
     }
 
     /* 添加服务区域 */
-    public static void addServiceArea(String bpCode, List<String> bpCodeList, String empCode, String token, AsyncHttpResponseHandler handler) {
+    public static void addServiceArea(String bpCode, List<String> bpCodeList, String empCode,
+                                      String token, AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == bpCodeList || null == empCode || null == token) {
             return;
         }
@@ -2453,7 +2466,8 @@ public class DeliveryApi {
     }
 
     /* 获取人员关系详情 */
-    public static void getRelationShipDetail(String bpCode, String empCode, String token, AsyncHttpResponseHandler handler) {
+    public static void getRelationShipDetail(String bpCode, String empCode, String token,
+                                             AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == empCode || null == token) {
             return;
         }
@@ -2468,7 +2482,8 @@ public class DeliveryApi {
     }
 
     /* 获取人员辖区列表 */
-    public static void getPersonnelAreaList(String empCode, int pageSize, long timestamp, String token, AsyncHttpResponseHandler handler) {
+    public static void getPersonnelAreaList(String empCode, int pageSize, long timestamp, String
+            token, AsyncHttpResponseHandler handler) {
         if (null == empCode || null == token) {
             return;
         }
@@ -2484,7 +2499,8 @@ public class DeliveryApi {
     }
 
     /* 获取小组/社区详情 */
-    public static void getGroupDetailInfo(String content, int pageSize, long timestamp, String token, String type, AsyncHttpResponseHandler handler) {
+    public static void getGroupDetailInfo(String content, int pageSize, long timestamp, String
+            token, String type, AsyncHttpResponseHandler handler) {
         if (null == content || null == token || null == type) {
             return;
         }
@@ -2502,7 +2518,8 @@ public class DeliveryApi {
 
 
     /* 解除人员关系 */
-    public static void deleteRelationShip(String bpCode, String empCode, long endDate, String token, String type, AsyncHttpResponseHandler handler) {
+    public static void deleteRelationShip(String bpCode, String empCode, long endDate, String
+            token, String type, AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == empCode || null == token || null == type) {
             return;
         }
@@ -2518,4 +2535,24 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /**
+     * 2.2获取订单详情，测试用
+     *
+     * @param outerCode 洗衣服务订单号(必填) String
+     * @param token     登录凭证(必填) String
+     */
+    public static void getOuterOrderInfo(int requestCode, String outerCode, String token,
+                                         AsyncHttpResponseHandler
+            handler) {
+        if (null == outerCode || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/getOrderInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, requestCode, handler);
+    }
 }

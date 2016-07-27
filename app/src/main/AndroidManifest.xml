@@ -320,12 +320,7 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <activity android:name=".module.base.TestBasePullDownToRefreshScrollViewActivity"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/App.Base.Theme"
-                  android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <activity android:name=".module.base.TestBasePullToRefreshListViewActivity"
+        <activity android:name=".base.TestBasePullToRefreshListViewActivity"
                   android:screenOrientation="portrait"
                   android:theme="@style/App.Base.Theme"
                   android:windowSoftInputMode="stateAlwaysHidden"/>

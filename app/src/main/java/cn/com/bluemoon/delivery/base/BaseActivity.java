@@ -199,15 +199,14 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     final protected ProgressDialog showWaitDialog(String message, int viewId, boolean
             isCancelable) {
         if (waitDialog == null) {
-            waitDialog = DialogUtil.getWaitDialog(this, message, viewId);
+            waitDialog = DialogUtil.getWaitDialog(this);
         }
-        if (waitDialog != null) {
-            waitDialog.setMessage(message);
-            if (viewId != 0) {
-                waitDialog.setContentView(viewId);
-            }
-            waitDialog.setCancelable(isCancelable);
-            waitDialog.show();
+
+        waitDialog.setMessage(message);
+        waitDialog.setCancelable(isCancelable);
+        waitDialog.show();
+        if (viewId != 0) {
+            waitDialog.setContentView(viewId);
         }
         return waitDialog;
     }
@@ -293,6 +292,4 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
      * 请求成功
      */
     abstract void onSuccessResponse(int requestCode, String jsonString);
-
-
 }

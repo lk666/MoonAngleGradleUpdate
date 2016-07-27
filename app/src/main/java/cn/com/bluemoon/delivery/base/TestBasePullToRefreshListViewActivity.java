@@ -1,5 +1,6 @@
-package cn.com.bluemoon.delivery.module.base;
+package cn.com.bluemoon.delivery.base;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -7,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.List;
@@ -17,15 +19,77 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OuterOrderReceive;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultOuterOrderInfo;
-import cn.com.bluemoon.delivery.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 
+/**
+ * 测试下拉刷新列表Activity
+ * Created by lk on 2016/7/27.
+ */
 public class TestBasePullToRefreshListViewActivity extends
         BasePullToRefreshListViewActivity<TestBasePullToRefreshListViewActivity.CollectAdapter,
                 OuterOrderReceive> implements OnListItemClickListener {
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.title_outer_detail);
+    }
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        outerCode = getIntent().getStringExtra(EXTRA_OUTERCODE);
+        if (outerCode == null) {
+            outerCode = "";
+        }
+    }
+
+    @Override
+    protected TestBasePullToRefreshListViewActivity.CollectAdapter getNewAdapter() {
+        return new CollectAdapter(this, this);
+    }
+
+    /**
+     * Mode不包含上拉加载时，可这样重写此方法
+     *
+     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
+     */
+    @Override
+    protected List<OuterOrderReceive> getGetMoreList(String result) {
+        return null;
+    }
+
+    @Override
+    protected List<OuterOrderReceive> getGetDataList(String result) {
+        ResultOuterOrderInfo resultObj = JSON.parseObject(result, ResultOuterOrderInfo.class);
+        return resultObj.getOrderReceive();
+    }
+
+    @Override
+    protected PullToRefreshBase.Mode getMode() {
+        return PullToRefreshBase.Mode.PULL_FROM_START;
+    }
+
+    @Override
+    protected void invokeGetDataDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
+        DeliveryApi.getOuterOrderInfo(requestCode, outerCode, ClientStateManager.getLoginToken(this), handler);
+    }
+
+    /**
+     * Mode不包含上拉加载时，可这样重写此方法
+     */
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
+    }
+
+    @Override
+    protected void onSuccessResponse(int requestCode, String jsonString) {
+        super.onSuccessResponse(requestCode, jsonString);
+        // 其他requestCode可在此处理
+    }
+
     /**
      * 洗衣服务订单号
      */
@@ -35,19 +99,6 @@ public class TestBasePullToRefreshListViewActivity extends
      * 洗衣服务订单号
      */
     private String outerCode;
-
-    @Override
-    protected int getActionBarTitleRes() {
-        return R.string.title_outer_detail;
-    }
-
-    @Override
-    protected void setIntentData() {
-        outerCode = getIntent().getStringExtra(EXTRA_OUTERCODE);
-        if (outerCode == null) {
-            outerCode = "";
-        }
-    }
 
     /**
      * 收衣单列表Adapter
@@ -119,33 +170,10 @@ public class TestBasePullToRefreshListViewActivity extends
         }
     }
 
-    @Override
-    protected CollectAdapter getNewAdapter() {
-        return new CollectAdapter(this, this);
-    }
 
-    @Override
-    protected List<OuterOrderReceive> getGetMoreList(Object result) {
-        return ((ResultOuterOrderInfo) result).getOrderReceive();
-    }
-
-    @Override
-    protected void invokeGetMoreDeliveryApi(AsyncHttpResponseHandler handler) {
-        DeliveryApi.getOuterOrderInfo(outerCode, ClientStateManager.getLoginToken(this), handler);
-    }
-
-    @Override
-    protected List<OuterOrderReceive> getGetDataList(Object result) {
-        return ((ResultOuterOrderInfo) result).getOrderReceive();
-    }
-
-    @Override
-    protected void invokeGetDataDeliveryApi(AsyncHttpResponseHandler handler) {
-        DeliveryApi.getOuterOrderInfo(outerCode, ClientStateManager.getLoginToken(this), handler);
-    }
-
-    @Override
-    protected Class getResultClass() {
-        return ResultOuterOrderInfo.class;
+    public static void actionStart(Activity context, String activityCode) {
+        Intent intent = new Intent(context, TestBasePullToRefreshListViewActivity.class);
+        intent.putExtra(EXTRA_OUTERCODE, activityCode);
+        context.startActivity(intent);
     }
 }
