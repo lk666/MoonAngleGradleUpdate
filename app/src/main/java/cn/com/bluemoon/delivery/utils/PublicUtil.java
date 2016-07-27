@@ -661,25 +661,6 @@ public class PublicUtil extends LibPublicUtil{
         return txtPhone;
     }
 
-    /**
-     * 跳转搜索页
-     * @param aty
-     * @param fragment 为null时是activity接收返回
-     * @param title
-     * @param key key不能为null
-     * @param requestCode
-     */
-    public static void openSearchView(Activity aty,Fragment fragment,String title,String key,int requestCode){
-        Intent intent = new Intent(aty,SearchActivity.class);
-        intent.putExtra("title",title);
-        intent.putExtra("key", key);
-        if(fragment!=null){
-            fragment.startActivityForResult(intent, requestCode);
-        }else{
-            aty.startActivityForResult(intent, requestCode);
-        }
-    }
-
 
 	public static void setGravity(final EditText tv) {
 		tv.addTextChangedListener(new TextWatcher() {
