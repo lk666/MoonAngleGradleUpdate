@@ -273,7 +273,6 @@
                 android:gravity="center_vertical"
                 android:paddingLeft="16dp"
                 android:paddingRight="16dp"
-                android:text="@string/with_order_collect_order_receive_count"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_15"/>
 

@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.clothing.collect.withorder;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
@@ -61,7 +62,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private static final int REQUEST_CODE_DELIVER = 0x44;
     private static final int REQUEST_CODE_DELIVER_CONFIRM = 0x45;
     private ClothingTabActivity main;
-    private ResultWithOrderClothingCollectList orderList;
     private OrderAdapter adapter;
     Dialog refuseDialog;
     EditText editReason;
@@ -136,9 +136,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     }
 
     private void setData(ResultWithOrderClothingCollectList resultOrder) {
-        orderList = resultOrder;
-        adapter.setList(orderList.getOrderInfos());
-        main.setAmountShow(manager, orderList.getOrderInfos().size());
+        adapter.setList(resultOrder.getOrderInfos());
+        main.setAmountShow(manager, resultOrder.getOrderInfos().size());
         adapter.notifyDataSetChanged();
     }
 
@@ -221,15 +220,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
     }
 
-    /**
-     * 弹出拨打电话
-     *
-     * @param num
-     */
-    private void call(String num) {
-        PublicUtil.showCallPhoneDialog(main, num);
-    }
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -284,8 +274,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
     /**
      * 处理扫码、手动输入数字码返回
-     *
-     * @param code
      */
     private void handleScaneCodeBack(String code) {
         showProgressDialog();
@@ -299,7 +287,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
      */
     AsyncHttpResponseHandler scanOrderInfoHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
-        // TODO: lk 2016/6/26 待测试
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
@@ -365,6 +352,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             return R.layout.item_with_order_clothing_collect_order_list;
         }
 
+        @SuppressLint("DefaultLocale")
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
             final WithOrderClothingCollectOrder order = (WithOrderClothingCollectOrder) getItem
@@ -468,9 +456,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     tvRightAction.setTextColor(colorTxtBtnGray);
                     break;
 
-                case WithOrderClothingCollectOrder.WASH_STATUS_RECEIVE:
-                case WithOrderClothingCollectOrder.WASH_STATUS_CONTINUE_LAUNDRYING:
-                case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
                 default:
                     btnRightAction.setVisibility(View.GONE);
                     tvRightAction.setVisibility(View.GONE);
@@ -478,8 +463,8 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             }
 
             tvPayTotal.setText(String.format("%.2f", (order.getPayTotal() / 100.0)));
-            tvReceivableCount.setText(order.getReceivableCount() + "");
-            tvActualCount.setText(order.getActualCount() + "");
+            tvReceivableCount.setText(String.valueOf(order.getReceivableCount()));
+            tvActualCount.setText(String.valueOf(order.getActualCount()));
 
             if (isNew) {
                 tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);

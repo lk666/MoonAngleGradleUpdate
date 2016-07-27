@@ -1,7 +1,5 @@
 package cn.com.bluemoon.delivery.app.api.model.punchcard;
 
-import android.graphics.Bitmap;
-
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;

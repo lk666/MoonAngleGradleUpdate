@@ -23,8 +23,10 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo
 import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreDeliverVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreReceiveVo;
+import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.Product;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
+import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.inventory.ImageUtil;
@@ -32,30 +34,9 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DES;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
-/**
- * ClassName:DeliveryApi <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason:   TODO ADD REASON. <br/>
- * Date:     2016年2月16日 上午9:25:36 <br/>
- *
- * @author allenli
- * @version
- * @see
- * @since JDK 1.6
- */
-
-/**
- * ClassName: DeliveryApi <br/>
- * Function: TODO ADD FUNCTION. <br/>
- * Reason: TODO ADD REASON(可选). <br/>
- * date: 2016年2月16日 上午9:25:36 <br/>
- *
- * @author allenli
- * @since JDK 1.6
- */
 public class DeliveryApi {
 
-
+    private static final String TOKEN="token";
     /************************
      * 2.1 用户相关
      **********************************/
@@ -69,11 +50,11 @@ public class DeliveryApi {
             return;
         }
 
-        password = DES.encrypt(password, Constants.DES_KEY);
+        String passwordEncrypt = DES.encrypt(password, Constants.DES_KEY);
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("account", account);
-        params.put("password", password);
+        params.put("password", passwordEncrypt);
         params.put("deviceNum",
                 ClientStateManager.getChannelId(AppContext.getInstance()));
         String jsonString = JSONObject.toJSONString(params);
@@ -91,8 +72,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/getUserInfo%s",
                 ApiClientHelper.getParamUrl());
@@ -107,8 +88,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("deviceNum",
                 ClientStateManager.getChannelId(AppContext.getInstance()));
 
@@ -128,13 +109,13 @@ public class DeliveryApi {
             return;
         }
 
-        oldPassword = DES.encrypt(oldPassword, Constants.DES_KEY);
-        newPassword = DES.encrypt(newPassword, Constants.DES_KEY);
+       String oldPasswordEncrypt = DES.encrypt(oldPassword, Constants.DES_KEY);
+       String  newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
-        params.put("oldPassword", oldPassword);
-        params.put("newPassword", newPassword);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("oldPassword", oldPasswordEncrypt);
+        params.put("newPassword", newPasswordEncrypt);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/updatePassword%s",
                 ApiClientHelper.getParamUrl());
@@ -151,12 +132,12 @@ public class DeliveryApi {
             return;
         }
 
-        newPassword = DES.encrypt(newPassword, Constants.DES_KEY);
+       String newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("mobileNo", mobileNo);
         params.put("verifyCode", verifyCode);
-        params.put("newPassword", newPassword);
+        params.put("newPassword", newPasswordEncrypt);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/resetPassword%s",
                 ApiClientHelper.getParamUrl());
@@ -172,7 +153,7 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("mobileNo", mobileNo);
         params.put("account", account);
         String jsonString = JSONObject.toJSONString(params);
@@ -190,9 +171,9 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
 
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/getAppRights%s",
                 ApiClientHelper.getParamUrl());
@@ -212,8 +193,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/order/getOrderCount%s",
                 ApiClientHelper.getParamUrl());
@@ -229,8 +210,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("type", type.getType());
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/order/getOrdersByType%s",
@@ -247,8 +228,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(
@@ -266,8 +247,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/order/acceptOrder%s",
@@ -285,8 +266,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
         params.put("date", date);
         params.put("type", type);
@@ -306,8 +287,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
 
         String jsonString = JSONObject.toJSONString(params);
@@ -327,8 +308,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
         params.put("signType", signType);
         params.put("receiveCode", receiveCode);
@@ -347,8 +328,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
 
         String jsonString = JSONObject.toJSONString(params);
@@ -379,8 +360,8 @@ public class DeliveryApi {
         BASE64Encoder encoder = new BASE64Encoder();
         String fileString = encoder.encode(file);
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
         params.put("dispatchId", dispatchId);
         params.put("type", type);
@@ -420,8 +401,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderType", orderType);
         params.put("count", count);
         params.put("timestamp", timestamp);
@@ -434,25 +415,6 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
-    /* 2.2.11获取订单物流信息 */
-    /* 返回： ResultLogistics */
-    public static void getOrderLogistics(String orderId, String orderSource,
-                                         AsyncHttpResponseHandler handler) {
-
-        if (orderId == null || StringUtils.isEmpty(orderSource)) {
-            return;
-        }
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("orderId", orderId);
-        params.put("orderSource", orderSource);
-
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(
-                "bluemoon-control/order/getOrderLogistics%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-    }
 
     /******************
      * 2.3 仓库相关
@@ -467,8 +429,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(
@@ -487,8 +449,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("dispatchId", dispatchId);
         params.put("storehouseCode", storehouse.getStorehouseCode());
         params.put("storehouseName", storehouse.getStorehouseName());
@@ -515,57 +477,12 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(
                 "bluemoon-control/qrcode/moonAngelQrCodeService%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-    }
-
-    /* 2.4.2 月亮小屋APP扫描天使二维码关系绑定情况 */
-    /* 返回： ResultBindState */
-    public static void findCustomerBindingState(String token,
-                                                String customerCode, AsyncHttpResponseHandler
-                                                        handler) {
-
-        if (null == token || StringUtils.isEmpty(customerCode)) {
-            return;
-        }
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
-        params.put("customerCode", customerCode);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(
-                "bluemoon-control/qrcode/findCustomerBindingState%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-    }
-
-    /* 2.4.3 消费者绑定月亮天使关系 */
-    /* 返回： ResultBase */
-    public static void customerBindingOrg(String token, String customerCode,
-                                          String inventoryCode, String orgCode,
-                                          AsyncHttpResponseHandler handler) {
-
-        if (null == token || StringUtils.isEmpty(customerCode)
-                || StringUtils.isEmpty(inventoryCode)
-                || StringUtils.isEmpty(orgCode)) {
-            return;
-        }
-
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
-        params.put("customerCode", customerCode);
-        params.put("inventoryCode", inventoryCode);
-        params.put("orgCode", orgCode);
-
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(
-                "bluemoon-control/qrcode/customerBindingOrg%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -579,9 +496,9 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("pickupCode", pickupCode);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/pickup/getOrderInfoByPickupCode%s",
                 ApiClientHelper.getParamUrl());
@@ -610,9 +527,9 @@ public class DeliveryApi {
 			return;
 		}*/
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("signType", signType);
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("orderId", orderId);
         params.put("orderSource", orderSource);
         params.put("storehouseCode", storehouseCode);
@@ -632,7 +549,7 @@ public class DeliveryApi {
     /* 返回： ResultDict */
     public static void getDictInfo(AsyncHttpResponseHandler handler) {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("type", Constants.TYPE_DICTINFO);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/dict/getDictInfo%s",
@@ -643,7 +560,7 @@ public class DeliveryApi {
     /* 2.7.1 获取app最新版本 */
     /* 返回： ResultVersionInfo */
     public static void getLastVersion(AsyncHttpResponseHandler handler) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         params.put("platform", ApiClientHelper.CLIENT);
         params.put("appType", Constants.APP_TYPE);
 
@@ -663,8 +580,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("type", type);
         params.put("venueCode", venueCode);
         String jsonString = JSONObject.toJSONString(params);
@@ -683,8 +600,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("ticketCode", ticketCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/ticket/checkScanCode%s",
@@ -702,8 +619,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("venueCode", venueCode);
         params.put("timesCode", timesCode);
         params.put("ticketCode", ticketCode);
@@ -726,8 +643,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/receipt/getWaitReceiptOrders%s",
@@ -744,8 +661,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
         String jsonString = JSONObject.toJSONString(params);
@@ -761,8 +678,8 @@ public class DeliveryApi {
         if (null == token || StringUtils.isEmpty(orderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderCode", orderCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/receipt/getWaitReceiptOrderDetail%s",
@@ -784,8 +701,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/out/getWaitOutOrders%s",
@@ -803,8 +720,8 @@ public class DeliveryApi {
         if (StringUtils.isEmpty(orderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderCode", orderCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/out/getWaitOutOrderDetail%s",
@@ -822,8 +739,8 @@ public class DeliveryApi {
         if (StringUtils.isEmpty(orderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderCode", orderCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/out/getOutOrderDetail%s",
@@ -841,8 +758,8 @@ public class DeliveryApi {
         if (StringUtils.isEmpty(orderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderCode", orderCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/receipt/getReceiptOrderDetail%s",
@@ -860,8 +777,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
         String jsonString = JSONObject.toJSONString(params);
@@ -879,8 +796,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/mallerpCommon/queryOperatorPersons%s",
@@ -903,8 +820,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/stock/queryStockSummary%s",
@@ -921,8 +838,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/store/queryStoresBycharger%s",
@@ -940,8 +857,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("storeCode", storeCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/store/queryReceiveAddressByStoreCode%s",
@@ -959,8 +876,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("storeReceiveAddress", mallStoreRecieverAddress);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/store/manageReceiveAddress%s",
@@ -978,8 +895,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("storeCode", storeCode);
         params.put("addressId", addressId);
         String jsonString = JSONObject.toJSONString(params);
@@ -998,8 +915,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("addressId", addressId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/store/deleteReceiveAddress%s",
@@ -1017,8 +934,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("storeCode", storeCode);
         String jsonString = JSONObject.toJSONString(params);
         String url;
@@ -1042,7 +959,7 @@ public class DeliveryApi {
     public static void getRegionSelect(String pid, String type,
                                        AsyncHttpResponseHandler handler) {
 
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, String> params = new HashMap<>();
         String jsonString = "{}";
         if (!(pid == null && type == null)) {
             params.put("pid", pid);
@@ -1061,15 +978,15 @@ public class DeliveryApi {
 
 
     /*2.9.1是否打卡查询接口 */
-	/* 返回： ResultIsPunchCard */
+    /* 返回： ResultIsPunchCard */
     public static void isPunchCard(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/isPunchCard%s",
@@ -1086,8 +1003,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("attendanceCode", attendanceCode);
 
         String jsonString = JSONObject.toJSONString(params);
@@ -1114,8 +1031,8 @@ public class DeliveryApi {
         if (punchCard.getAltitude() == Constants.DEFAUL_LOCATION) {
             punchCard.setAltitude(Constants.UNKNOW_LONGITUDE);
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("punchCard", punchCard);
         params.put("workTask", workTask);
 
@@ -1133,8 +1050,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/getPunchCard%s",
                 ApiClientHelper.getParamUrl());
@@ -1150,8 +1067,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("condition", condition);
         params.put("timestamp", timestamp);
         String jsonString = JSONObject.toJSONString(params);
@@ -1168,8 +1085,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/getWorkDiary%s",
                 ApiClientHelper.getParamUrl());
@@ -1186,8 +1103,8 @@ public class DeliveryApi {
         if (StringUtils.isEmpty(relativeOrderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("relativeOrderCode", relativeOrderCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/mallerpCommon/getOrderPics%s",
@@ -1209,8 +1126,8 @@ public class DeliveryApi {
         BASE64Encoder encoder = new BASE64Encoder();
         String fileString = encoder.encode(ImageUtil.Bitmap2Bytes(file));
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("relativeOrderCode", relativeOrderCode);
         params.put("operateType", operateType);
         params.put("picBase64", fileString);
@@ -1228,8 +1145,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/getImgList%s",
                 ApiClientHelper.getParamUrl());
@@ -1243,8 +1160,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("timestamp", timestamp);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/getPunchCardList%s",
@@ -1259,8 +1176,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("condition", condition);
         params.put("count", count);
         params.put("timestamp", timestamp);
@@ -1278,8 +1195,8 @@ public class DeliveryApi {
         if (null == token || StringUtils.isEmpty(workTaskType)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("workTaskType", workTaskType);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/getWorkTask%s",
@@ -1295,8 +1212,8 @@ public class DeliveryApi {
         if (null == token || StringUtils.isEmpty(diaryContent)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("diaryContent", diaryContent);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/confirmWorkDiary%s",
@@ -1311,8 +1228,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/getWorkDailyList%s",
                 ApiClientHelper.getParamUrl());
@@ -1327,8 +1244,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("workDailyList", wd);
         params.put("totalBreedSalesNum", totalBreedSalesNum);
         params.put("totalSalesNum", totalSalesNum);
@@ -1349,8 +1266,8 @@ public class DeliveryApi {
         BASE64Encoder encoder = new BASE64Encoder();
         String fileString = encoder.encode(file);
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("imgPath", fileString);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/uploadImg%s",
@@ -1365,29 +1282,11 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("imgId", imgId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/attendance/removeImg%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-    }
-
-    /* 2.9.16 根据主键获取打卡信息 */
-	/* 返回： ResultGetPunchCardById */
-    public static void getPunchCardById(String token, long punchCardId, AsyncHttpResponseHandler
-            handler) {
-
-        if (null == token || punchCardId == 0) {
-            return;
-        }
-
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
-        params.put("punchCardId", punchCardId);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/attendance/getPunchCardById%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -1398,8 +1297,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("dictTypeId", "MS_RECEIPT_DIFFER");
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/mallerpCommon/queryDifferReasons%s",
@@ -1417,8 +1316,8 @@ public class DeliveryApi {
         if (null == token || StringUtils.isEmpty(orderCode)) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderCode", orderCode);
         params.put("deliDate", deliDate);
         params.put("outBackup", outBackup);
@@ -1440,8 +1339,8 @@ public class DeliveryApi {
         if (null == token || StringUtils.isEmpty(orderCode)) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("orderCode", orderCode);
         params.put("reDate", reDate);
         params.put("reStoreAddrId", reStoreAddrId);
@@ -1460,8 +1359,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/mallerpCommon/getModelNum%s",
@@ -1476,8 +1375,8 @@ public class DeliveryApi {
         if (null == token || contents == null) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("contents", contents);
 
         String jsonString = JSONObject.toJSONString(params);
@@ -1492,8 +1391,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/card/getOwnAuthCouponAct%s",
@@ -1509,8 +1408,8 @@ public class DeliveryApi {
                 || StringUtils.isEmpty(activityCode) || coupons == null) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("mobile", mobile);
         params.put("activityCode", activityCode);
         params.put("coupons", coupons);
@@ -1528,8 +1427,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("date", date);
 
         String jsonString = JSONObject.toJSONString(params);
@@ -1550,8 +1449,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/message/getNewMessage%s",
                 ApiClientHelper.getParamUrl());
@@ -1566,8 +1465,8 @@ public class DeliveryApi {
         if (null == token || pageSize <= 0) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("pageSize", pageSize);
         params.put("timestamp", timestamp);
         String jsonString = JSONObject.toJSONString(params);
@@ -1584,8 +1483,8 @@ public class DeliveryApi {
         if (null == token || pageSize <= 0) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("pageSize", pageSize);
         params.put("timestamp", timestamp);
         String jsonString = JSONObject.toJSONString(params);
@@ -1601,8 +1500,8 @@ public class DeliveryApi {
         if (null == token || StringUtils.isEmpty(infoId)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("infoId", infoId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/message/getInfoDetail%s",
@@ -1616,8 +1515,8 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/knowledge/getMenuList%s",
                 ApiClientHelper.getParamUrl());
@@ -1632,8 +1531,8 @@ public class DeliveryApi {
         if (null == token || StringUtils.isEmpty(paperId)) {
             return;
         }
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("paperId", paperId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/knowledge/getPaperDetail%s",
@@ -1649,8 +1548,8 @@ public class DeliveryApi {
         if (null == token || pageSize <= 0) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("pageSize", pageSize);
         params.put("timestamp", timestamp);
         String jsonString = JSONObject.toJSONString(params);
@@ -1661,13 +1560,14 @@ public class DeliveryApi {
 
     /*2.11.8收藏/取消收藏*/
 	/*返回：ResultBase*/
+
     public static void collectPaper(String token, String paperId, boolean isCollect,
                                     AsyncHttpResponseHandler handler) {
         if (null == token || StringUtils.isEmpty(paperId)) {
             return;
         }
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("token", token);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("paperId", paperId);
         params.put("isCollect", isCollect);
         String jsonString = JSONObject.toJSONString(params);
@@ -1687,7 +1587,7 @@ public class DeliveryApi {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getOrderInfos%s",
                 ApiClientHelper.getParamUrl());
@@ -1703,7 +1603,7 @@ public class DeliveryApi {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
         String jsonString = JSONObject.toJSONString(params);
@@ -1721,7 +1621,7 @@ public class DeliveryApi {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
         String jsonString = JSONObject.toJSONString(params);
@@ -1743,7 +1643,7 @@ public class DeliveryApi {
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("typeCode", typeCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getClothesTypeConfigs%s",
@@ -1764,7 +1664,7 @@ public class DeliveryApi {
      * @param hasStain        int	    Y       有无污渍（1:有；0：无）
      * @param remark          String    N		备注
      * @param clothesImgIds   String	Y		图片IDs 多个用豆号隔开 3232,3234223
-     * @param outerCode      String	Y		洗衣服务订单号
+     * @param outerCode       String	Y		洗衣服务订单号
      */
     public static void registerCollectInfo(String token, String collectCode, String typeCode,
                                            String clothesnameCode, String clothesCode, int hasFlaw,
@@ -1776,7 +1676,7 @@ public class DeliveryApi {
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("collectCode", collectCode);
         params.put("typeCode", typeCode);
         params.put("clothesnameCode", clothesnameCode);
@@ -1809,7 +1709,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("outerCode", outerCode);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
@@ -1828,7 +1728,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("status", status);
         params.put("outerCode", outerCode);
         String jsonString = JSONObject.toJSONString(params);
@@ -1846,7 +1746,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/collectInfoDetails%s",
@@ -1864,7 +1764,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/collectInfoDetails%s",
@@ -1884,7 +1784,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("collectCode", collectCode);
         params.put("receiverCode", receiverCode);
         params.put("receiverName", receiverName);
@@ -1906,7 +1806,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/queryTransmitInfo%s",
@@ -1923,8 +1823,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("remark", remark);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
@@ -1942,8 +1842,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/receiveCollectInfo%s",
@@ -1960,8 +1860,8 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("token", token);
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
         params.put("collectCode", collectCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/confirmOrderInfo%s",
@@ -1978,7 +1878,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getActivityInfos%s",
                 ApiClientHelper.getParamUrl());
@@ -1994,7 +1894,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("activityCode", activityCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getActivityInfo%s",
@@ -2012,7 +1912,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("activityCode", activityCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getMatters%s",
@@ -2036,7 +1936,7 @@ public class DeliveryApi {
         }
 
         Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("appointBackTime", appointBackTime);
         params.put("collectCode", collectCode);
         params.put("collectBrcode", collectBrcode);
@@ -2057,7 +1957,7 @@ public class DeliveryApi {
         }
 
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("empCode", empCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getEmp%s",
@@ -2074,7 +1974,7 @@ public class DeliveryApi {
     public static void registerClothesCode(String token, String clothesCode,
                                            AsyncHttpResponseHandler handler) {
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("clothesCode", clothesCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerClothesCode%s",
@@ -2091,7 +1991,7 @@ public class DeliveryApi {
     public static void delCollectInfo(String token, String clothesCode, AsyncHttpResponseHandler
             handler) {
         Map<String, String> params = new HashMap<>();
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("clothesCode", clothesCode);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delCollectInfo%s",
@@ -2111,7 +2011,7 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put("imgId", imgId);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delImg%s",
                 ApiClientHelper.getParamUrl());
@@ -2131,7 +2031,7 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put("clothesCode", clothesCode);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getCollectInfoDetailsItem%s",
                 ApiClientHelper.getParamUrl());
@@ -2150,7 +2050,7 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put("code", code);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/scanOrderInfo%s",
                 ApiClientHelper.getParamUrl());
@@ -2170,7 +2070,7 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put("clothesCode", clothesCode);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/validateClothesCode%s",
                 ApiClientHelper.getParamUrl());
@@ -2190,7 +2090,7 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put("outerCode", outerCode);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getOrderInfo%s",
                 ApiClientHelper.getParamUrl());
@@ -2203,8 +2103,8 @@ public class DeliveryApi {
      * @param fileData 文件流(必填) byte[]
      * @param token    登录凭证(必填) String
      */
-    public static void uploadClothesImg( String token, byte[] fileData,  AsyncHttpResponseHandler handler) {
-        if (null == fileData  || null == token) {
+    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler handler) {
+        if (null == fileData || null == token) {
             return;
         }
 
@@ -2213,8 +2113,8 @@ public class DeliveryApi {
 
         Map<String, String> params = new HashMap<>();
         params.put("fileData", fileString);
-        params.put("fileName",  UUID.randomUUID() + ".png");
-        params.put("token", token);
+        params.put("fileName", UUID.randomUUID() + ".png");
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/uploadImg%s",
                 ApiClientHelper.getParamUrl());
@@ -2254,7 +2154,6 @@ public class DeliveryApi {
                 null == collectBrcode || null == county || null == customerName ||
                 null == customerPhone || null == province || null == street ||
                 null == token || null == village) {
-            // TODO: lk 2016/6/28 报参数错误（未知错误啥的）
             return;
         }
 
@@ -2271,7 +2170,7 @@ public class DeliveryApi {
         params.put("isUrgent", isUrgent);
         params.put("province", province);
         params.put("street", street);
-        params.put("token", token);
+        params.put(TOKEN, token);
         params.put("village", village);
         params.put("clothesInfo", JSON.toJSONString(clothesInfo));
 
@@ -2283,7 +2182,6 @@ public class DeliveryApi {
 
     /**
      * 5.10查询活动收衣上限
-     *
      * @param activityCode 活动编码(必填) String
      * @param token        登录凭证(必填) String
      */
@@ -2294,7 +2192,7 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put("activityCode", activityCode);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/queryActivityLimitNum" +
                         "%s",
@@ -2315,10 +2213,310 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put("activityCode", activityCode);
-        params.put("token", token);
+        params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getClothesTypeInfos%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
     }
+
+    /*2.14.1 新增推广点信息时上传图片*/
+	/* 返回： ResultImageUpload */
+    public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler handler) {
+        if (null == token || null == file) {
+            return;
+        }
+        BASE64Encoder encoder = new BASE64Encoder();
+        String fileString = encoder.encode(file);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("imgInfo", fileString);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/uploadImg%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*2.14.2 推广点详情信息*/
+	/* 返回： ResultPromoteInfo */
+    public static void getPromoteInfo(String token, String bpCode, AsyncHttpResponseHandler handler) {
+        if (null == token || null == bpCode) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("bpCode", bpCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/getPromoteInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* 2.14.3 新增/编辑推广点信息 */
+	/* 返回： ResultBase */
+    public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler handler) {
+        if (null == token || info == null) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("address", info.getAddress());
+        params.put("bpCode", info.getBpCode());
+        params.put("bpCode1", info.getBpCode1());
+        params.put("bpName", info.getBpName());
+        params.put("bpName1", info.getBpName1());
+        params.put("cashPledge", info.getCashPledge());
+        params.put("holidayPrice", info.getHolidayPrice());
+        if (info.getPeopleFlow() != null) {
+            params.put("peopleFlow", info.getPeopleFlow());
+        }
+        params.put("picInfo", info.getPicInfo());
+        params.put("remark", info.getRemark());
+        params.put("rentInfo", info.getRentInfo());
+        params.put("siteType", info.getSiteType());
+        params.put("wifi", info.getWifi());
+        params.put("wiredNetwork", info.getWiredNetwork());
+        params.put("workPrice", info.getWorkPrice());
+        params.put("useArea", info.getUseArea());
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/editPromoteInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*2.14.4 获取小区/商业中心列表*/
+	/* 返回： ResultBpList */
+    public static void getBpList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+        if (null == token || null == content) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("content", content);
+        params.put("pageSize", AppContext.PAGE_SIZE);
+        params.put("timestamp", timestamp);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/getBpList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*2.14.4 获取推广点档案列表*/
+	/* 返回： ResultPromoteList */
+    public static void getPromoteList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+        if (null == token || content == null) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("content", content);
+        params.put("pageSize", AppContext.PAGE_SIZE);
+        params.put("timestamp", timestamp);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/promote/getPromoteList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*获取小组信息列表*/
+	/*返回：ResultGroupList*/
+    public static void getGroupList(String token, String content, int pageSize, long timestamp, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        if (content == null) {
+            content = "";
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("content", content);
+        params.put("pageSize", pageSize);
+        params.put("timestamp", timestamp);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getGroupList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*CEO获取社区列表*/
+	/*返回：ResultCommunityList*/
+    public static void getCommunityList(String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getCommunityList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*CEO获取人员关系列表*/
+	/*返回：ResultEmpList*/
+    public static void getEmpList(String token, String content,String type, AsyncHttpResponseHandler handler) {
+        if (null == token||null == type) {
+            return;
+        }
+        if (content == null) {
+            content = "";
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("content", content);
+        params.put("type", type);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getEmpList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*CEO删除人员辖区*/
+	/*返回：ResultBase*/
+    public static void deletePersonnelArea(String token, String bpCode, String empCode,String groupCode, AsyncHttpResponseHandler handler) {
+        if (null == token || empCode == null || bpCode == null || groupCode == null) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        params.put("groupCode", groupCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/deletePersonnelArea%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*CEO搜索服务区域列表*/
+	/*返回：ResultServiceAreaList*/
+    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageIndex, int pageSize, AsyncHttpResponseHandler handler) {
+        if (null == token || empCode == null || bpCode == null) {
+            return;
+        }
+        if (null == content) content = "";
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        params.put("content", content);
+        params.put("pageIndex", pageIndex);
+        params.put("pageSize", pageSize);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getServiceAreaList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* 机构新增人员关系 */
+    public static void addRelationShip(RelationDetail item, String token, String type,
+                                       AsyncHttpResponseHandler handler) {
+
+        if (null == item || null == token || null == type) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("communityCode", item.getBpCode1());
+        params.put("communityName", item.getBpName1());
+        params.put("empCode", item.getEmpCode());
+        params.put("empName", item.getEmpName());
+        params.put("endDate", item.getEndDate());
+        params.put("groupCode", item.getBpCode());
+        params.put("groupName", item.getBpName());
+        params.put("relationType", item.getRelType());
+        params.put("remark", item.getRemark());
+        params.put("startDate", item.getStartDate());
+        params.put(TOKEN, token);
+        params.put("type", type);
+        params.put("workLength", item.getWorkLength());
+        params.put("workType", item.getWorkType());
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/addRelationShip%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* 添加服务区域 */
+    public static void addServiceArea(String bpCode, List<String> bpCodeList, String empCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == bpCode || null == bpCodeList || null == empCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("bpCode", bpCode);
+        params.put("bpCodeList", bpCodeList);
+        params.put("empCode", empCode);
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/addServiceArea%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* 获取人员关系详情 */
+    public static void getRelationShipDetail(String bpCode, String empCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == bpCode || null == empCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* 获取人员辖区列表 */
+    public static void getPersonnelAreaList(String groupCode,String empCode, int pageSize, long timestamp, String token, AsyncHttpResponseHandler handler) {
+        if (null == empCode || null == token || null == groupCode) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("groupCode", groupCode);
+        params.put("empCode", empCode);
+        params.put("pageSize", pageSize);
+        params.put("timestamp", timestamp);
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getPersonnelAreaList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* 获取小组/社区详情 */
+    public static void getGroupDetailInfo(String content, int pageSize, long timestamp, String token, String type, AsyncHttpResponseHandler handler) {
+        if (null == content || null == token || null == type) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("content", content);
+        params.put("pageSize", pageSize);
+        params.put("timestamp", timestamp);
+        params.put(TOKEN, token);
+        params.put("type", type);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/getGroupDetailInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+    /* 解除人员关系 */
+    public static void deleteRelationShip(String bpCode, String empCode, long endDate, String token, String type, AsyncHttpResponseHandler handler) {
+        if (null == bpCode || null == empCode || null == token || null == type) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("bpCode", bpCode);
+        params.put("empCode", empCode);
+        params.put("endDate", endDate);
+        params.put(TOKEN, token);
+        params.put("type", type);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/team/deleteRelationShip%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
 }

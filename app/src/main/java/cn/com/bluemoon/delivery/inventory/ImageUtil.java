@@ -8,21 +8,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.provider.MediaStore;
 
-import com.alibaba.fastjson.JSONObject;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
-
-import cn.com.bluemoon.delivery.app.AppContext;
-import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
-import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 
 /**
  * Created by summer on 2016/3/30.

@@ -28,9 +28,8 @@ public class ClothingTabActivity extends BaseFragmentActivity {
     public static final String WITH_ORDER_COLLECT_MANAGE = "WITH_ORDER_COLLECT_MANAGE";
     public static final String WITHOUT_ORDER_COLLECT_MANAGE = "WITHOUT_ORDER_COLLECT_MANAGE";
 
-    private final static TabState[] TAB_WITH_ORDER =new TabState[2];
+    private final static TabState[] TAB_WITH_ORDER = new TabState[2];
 
-    private FragmentTabHost mTabHost;
     private TextView amountTv;
     private TextView amountTv2;
 
@@ -41,35 +40,39 @@ public class ClothingTabActivity extends BaseFragmentActivity {
 
         TYPE = getIntent().getStringExtra("type");
 
-        if(TYPE.equals(WITH_ORDER_COLLECT_MANAGE)){
+        if (TYPE.equals(WITH_ORDER_COLLECT_MANAGE)) {
 
-                TAB_WITH_ORDER[0]=new TabState(WithOrderManageFragment.class, R.drawable.tab_without_order_receive_selector,
-                        R.string.tab_bottom_with_order_collect_manage, WITH_ORDER_COLLECT_MANAGE);
-                TAB_WITH_ORDER[1]= new TabState(CollectClothesRecordFragment.class, R.drawable.tab_without_order_record_selector,
+            TAB_WITH_ORDER[0] = new TabState(WithOrderManageFragment.class, R.drawable
+                    .tab_without_order_receive_selector,
+                    R.string.tab_bottom_with_order_collect_manage, WITH_ORDER_COLLECT_MANAGE);
+            TAB_WITH_ORDER[1] = new TabState(CollectClothesRecordFragment.class, R.drawable
+                    .tab_without_order_record_selector,
                     R.string.tab_bottom_with_order_collect_record, WITH_ORDER_COLLECT_MANAGE);
-        }else{
-            TAB_WITH_ORDER[0]=new TabState(WithoutOrderManageFragment.class, R.drawable.tab_without_order_receive_selector,
+        } else {
+            TAB_WITH_ORDER[0] = new TabState(WithoutOrderManageFragment.class, R.drawable
+                    .tab_without_order_receive_selector,
                     R.string.tab_bottom_with_order_collect_manage, WITHOUT_ORDER_COLLECT_MANAGE);
-            TAB_WITH_ORDER[1]= new TabState(CollectClothesRecordFragment.class, R.drawable.tab_without_order_record_selector,
+            TAB_WITH_ORDER[1] = new TabState(CollectClothesRecordFragment.class, R.drawable
+                    .tab_without_order_record_selector,
                     R.string.tab_bottom_with_order_collect_record, WITHOUT_ORDER_COLLECT_MANAGE);
         }
 
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
 
-       // if (getIntent().getStringExtra(TYPE).equals(WITH_ORDER_COLLECT_MANAGE)) {
-            for (int i = 0; i < TAB_WITH_ORDER.length; i++) {
-                TabHost.TabSpec tabSpec = mTabHost.newTabSpec(getResources()
-                        .getString(TAB_WITH_ORDER[i].getContent()))
-                        .setIndicator(getTabItemView(TAB_WITH_ORDER[i].getImage(),
-                                getResources().getString(TAB_WITH_ORDER[i].getContent()), i));
+        // if (getIntent().getStringExtra(TYPE).equals(WITH_ORDER_COLLECT_MANAGE)) {
+        for (int i = 0; i < TAB_WITH_ORDER.length; i++) {
+            TabHost.TabSpec tabSpec = mTabHost.newTabSpec(getResources()
+                    .getString(TAB_WITH_ORDER[i].getContent()))
+                    .setIndicator(getTabItemView(TAB_WITH_ORDER[i].getImage(),
+                            getResources().getString(TAB_WITH_ORDER[i].getContent()), i));
 
-                Bundle bundle = new Bundle();
-                bundle.putString("manager", TAB_WITH_ORDER[i].getManager());
-                mTabHost.addTab(tabSpec, TAB_WITH_ORDER[i].getClazz(), bundle);
-            }
-       // }
+            Bundle bundle = new Bundle();
+            bundle.putString("manager", TAB_WITH_ORDER[i].getManager());
+            mTabHost.addTab(tabSpec, TAB_WITH_ORDER[i].getClazz(), bundle);
+        }
+        // }
     }
 
     private View getTabItemView(int resId, String content, int index) {
@@ -90,10 +93,10 @@ public class ClothingTabActivity extends BaseFragmentActivity {
 //        mTabHost.setCurrentTab(index);
 //    }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_OK) {
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (resultCode == RESULT_OK) {
 //            int count = Integer.parseInt(amountTv.getText().toString());
 //            if (count > 1) {
 //                count = count - 1;
@@ -102,19 +105,19 @@ public class ClothingTabActivity extends BaseFragmentActivity {
 //                amountTv.setVisibility(View.GONE);
 //            }
 //            TabTo(1);
-        }
-    }
+//        }
+//    }
 
     public void setAmountShow(String type, int amount) {
 //        switch (type) {
 //            // 收衣管理
 //            case WITH_ORDER_COLLECT_MANAGE:
-                if (amount > 0) {
-                    amountTv.setText(String.valueOf(amount));
-                    amountTv.setVisibility(View.VISIBLE);
-                } else {
-                    amountTv.setVisibility(View.GONE);
-                }
+        if (amount > 0) {
+            amountTv.setText(String.valueOf(amount));
+            amountTv.setVisibility(View.VISIBLE);
+        } else {
+            amountTv.setVisibility(View.GONE);
+        }
 //                break;
 //        }
     }

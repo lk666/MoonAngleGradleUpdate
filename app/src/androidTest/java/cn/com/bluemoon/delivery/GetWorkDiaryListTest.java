@@ -1,6 +1,5 @@
 package cn.com.bluemoon.delivery;
 
-import android.content.res.AssetManager;
 import android.test.InstrumentationTestCase;
 
 import com.alibaba.fastjson.JSON;
@@ -17,7 +16,6 @@ import java.util.concurrent.TimeUnit;
 
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultGetWorkDiaryList;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 

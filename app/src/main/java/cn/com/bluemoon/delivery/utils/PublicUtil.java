@@ -6,12 +6,20 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Paint;
 import android.location.LocationManager;
 import android.support.v4.app.Fragment;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Xml;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.WebView;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
 
@@ -40,14 +48,17 @@ import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.card.CardTabActivity;
+import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.order.OrderDetailActivity;
-import cn.com.bluemoon.delivery.web.WebViewActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
 import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class PublicUtil extends LibPublicUtil{
 
@@ -165,9 +176,6 @@ public class PublicUtil extends LibPublicUtil{
 
 	/**
 	 * 打开签收扫描界面
-	 * @param aty
-	 * @param fragment
-	 * @param requestCode
 	 * @param resultCode  大于1的正整数
 	 */
 	public static void openScanOrder(Activity aty, Fragment fragment, String title,
@@ -182,9 +190,6 @@ public class PublicUtil extends LibPublicUtil{
 
 	/**
 	 * 打开新扫描界面
-	 * @param aty
-	 * @param fragment
-	 * @param requestCode
 	 * @param resultCode  大于1的正整数
 	 */
 	public static void openNewScanOrder(Activity aty, Fragment fragment, String title,
@@ -199,23 +204,6 @@ public class PublicUtil extends LibPublicUtil{
 
 	/**
 	 * 打开扫描界面
-	 * @param aty
-	 * @param requestCode
-	 * @param resultCode  大于1的正整数
-	 */
-	public static void openScan(Activity aty, String title,
-									 String btnString, int requestCode, int resultCode){
-		initScanConfigure(aty);
-		Configure.TITLE_TXT = title;
-		Configure.BTN_CLICK_TXT = btnString;
-		Configure.BUTTON_VISIBILITY = View.VISIBLE;
-		BarcodeUtil.openScan(aty, requestCode, resultCode);
-	}
-
-	/**
-	 * 打开扫描界面
-	 * @param aty
-	 * @param requestCode
 	 * @param resultCode  大于1的正整数
 	 */
 	public static void openNewScan(Activity aty, String title,
@@ -250,14 +238,7 @@ public class PublicUtil extends LibPublicUtil{
 		initScanConfigure(aty);
 		Configure.BUTTON_VISIBILITY = View.GONE;
 		Configure.TITLE_TXT = title;
-		if(fragment!=null){
-			BarcodeUtil.openScan(aty, fragment, requestCode);
-		}else{
-			BarcodeUtil.openScan(aty, requestCode);
-		}
-	}
-	public static void openScanCard(Activity aty,String title,int requestCode){
-		openScanCard(aty, null, title, requestCode);
+		BarcodeUtil.openScan(aty, fragment, requestCode);
 	}
 
 	public static String sha1(String str) {
@@ -430,7 +411,7 @@ public class PublicUtil extends LibPublicUtil{
 		byte[] buffer = null;
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			bit.compress(CompressFormat.PNG, 95, out);
+			bit.compress(CompressFormat.JPEG, 100, out);
 			buffer = out.toByteArray();
 			out.close();
 		} catch (IOException e) {
@@ -476,7 +457,7 @@ public class PublicUtil extends LibPublicUtil{
 	}
 
 	public static void showCallPhoneDialog(final Activity aty,View view,final String phoneNo){
-		showCallPhoneDialog(aty,null,view,phoneNo,phoneNo);
+		showCallPhoneDialog(aty, null, view, phoneNo, phoneNo);
 	}
 
 	/**
@@ -610,60 +591,126 @@ public class PublicUtil extends LibPublicUtil{
 	public static void showPunchCardView(final Activity aty,boolean isPunchCard){
 		Intent intent = new Intent(aty, CardTabActivity.class);
       	intent.putExtra("isPunchCard",isPunchCard);
-//		intent.putExtra("isPunchCard",false);
-		aty.startActivity(intent);
-	}
+        aty.startActivity(intent);
+    }
 
-	public static boolean isTipsByDay(Context context){
-		TipsItem item = ClientStateManager.getTipsByDay(context);
-		if(DateUtil.isToday(item.getTimestamp())){
-			if(item.getCount()<2&&!isOPenLocation(context)){
-				item.setCount(item.getCount()+1);
-				ClientStateManager.setTipsByDay(context,item);
-				return true;
-			}
-		}else if(!isOPenLocation(context)){
-			item.setTimestamp(System.currentTimeMillis());
-			item.setCount(1);
-			ClientStateManager.setTipsByDay(context, item);
-			return true;
-		}
-		return false;
-	}
+    public static boolean isTipsByDay(Context context) {
+        TipsItem item = ClientStateManager.getTipsByDay(context);
+        if (DateUtil.isToday(item.getTimestamp())) {
+            if (item.getCount() < 2 && !isOPenLocation(context)) {
+                item.setCount(item.getCount() + 1);
+                ClientStateManager.setTipsByDay(context, item);
+                return true;
+            }
+        } else if (!isOPenLocation(context)) {
+            item.setTimestamp(System.currentTimeMillis());
+            item.setCount(1);
+            ClientStateManager.setTipsByDay(context, item);
+            return true;
+        }
+        return false;
+    }
 
 
-	public static String getStringByLengh(String str,int count){
-		if(str!=null&&str.length()>count){
-			return str.substring(0,count)+"...";
-		}
-		return str;
-	}
+    public static boolean jsConnect(WebView view, String url, JsConnectCallBack callBack) {
+        return JsConnectManager.jsConnect(JsConnectManager.URL_ANGEL, view, url, callBack);
+    }
 
-	public static boolean jsConnect(WebView view,String url,JsConnectCallBack callBack){
-		return JsConnectManager.jsConnect(JsConnectManager.URL_ANGEL, view, url, callBack);
-	}
-
-	public static void openWebView(Context context,String url,String title,boolean isActionBar,
-								   boolean isHorizontalProgress,boolean isBackByJs,boolean isBackFinish){
+    public static void openWebView(Context context, String url, String title,boolean isActionBar,
+									boolean isBackByJs) {
 		Intent intent = new Intent(context, WebViewActivity.class);
 		intent.putExtra("url", url);
-		intent.putExtra("title",title);
-		intent.putExtra("actionbar",isActionBar);
-		intent.putExtra("progress",isHorizontalProgress);
-		intent.putExtra("back",isBackByJs);
-		intent.putExtra("isBackFinish", isBackFinish);
+		intent.putExtra("title", title);
+		intent.putExtra("actionbar", isActionBar);
+		intent.putExtra("back", isBackByJs);
 		context.startActivity(intent);
 	}
 
-	public static void openWebView(Context context,String url,String title){
-		openWebView(context, url, title, false, false, false, false);
+	public static void openWebView(Context context, String url, String title,boolean isBackByJs) {
+		openWebView(context,url,title,!JsConnectManager.isHideTitleByUrl(url),isBackByJs);
 	}
 
-	public static String getAppInfo(){
-		Map<String, String> params = new HashMap<String, String>();
-		params.put("version",AppContext.getInstance().getPackageInfo().versionName);
-		params.put("client", ApiClientHelper.CLIENT);
-		return JSONObject.toJSONString(params);
+    public static void openWebView(Context context, String url, String title) {
+        openWebView(context, url, title, false, false);
+    }
+
+    public static String getAppInfo() {
+        Map<String, String> params = new HashMap<String, String>();
+        params.put("version", AppContext.getInstance().getPackageInfo().versionName);
+        params.put("client", ApiClientHelper.CLIENT);
+        params.put("cuid", AppContext.getInstance().getAppId());
+		params.put("token", ClientStateManager.getLoginToken(AppContext.getInstance()));
+        return JSONObject.toJSONString(params);
+    }
+
+	public static CommonEmptyView getEmptyView(String content,CommonEmptyView.EmptyListener listener) {
+		CommonEmptyView emptyView = new CommonEmptyView(AppContext.getInstance());
+		if(content!=null){
+			emptyView.setContentText(content);
+		}
+		if(listener!=null){
+			emptyView.setEmptyListener(listener);
+		}
+		return emptyView;
+	}
+
+	public static void setEmptyView(View listview,View emptyView){
+		if (listview instanceof PullToRefreshListView) {
+			((PullToRefreshListView)listview).setEmptyView(emptyView);
+		} else if (listview instanceof ListView) {
+			((ViewGroup) listview.getParent()).addView(emptyView);
+			((ListView)listview).setEmptyView(emptyView);
+		}
+		emptyView.setVisibility(View.GONE);
+	}
+
+    public static CommonEmptyView setEmptyView(View listview,String content,CommonEmptyView.EmptyListener listener) {
+        CommonEmptyView emptyView = getEmptyView(content, listener);
+		setEmptyView(listview, emptyView);
+		return emptyView;
+    }
+
+    public static String getStringParams(String... params){
+        return LibStringUtil.getStringParamsByFormat("-", params);
+    }
+
+    public static TextView getPhoneView(final Activity aty,final TextView txtPhone){
+        txtPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+        txtPhone.getPaint().setAntiAlias(true);
+        txtPhone.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				PublicUtil.showCallPhoneDialog(aty, txtPhone.getText().toString());
+			}
+		});
+        return txtPhone;
+    }
+
+	public static void setGravity(final EditText tv) {
+		tv.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+			}
+
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				int lineCount = tv.getLineCount();
+				if (lineCount > 1) {
+					tv.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+				} else {
+					tv.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+				}
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+
+			}
+		});
+
 	}
 
 }

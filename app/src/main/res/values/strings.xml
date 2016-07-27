@@ -1,5 +1,18 @@
 <resources>
-    <string name="action_settings">Settings</string>
+
+    <!-- SDK迁移过来 -->
+    <string name="xlistview_header_hint_loading">正在刷新...</string>
+    <string name="xlistview_header_last_time">上次更新时间：</string>
+    <string name="xlistview_footer_hint_normal">查看更多</string>
+    <string name="xlistview_footer_hint_ready">松开载入更多</string>
+    <string name="btn_call">呼叫</string>
+    <string name="btn_save">保存</string>
+    <string name="day">日</string>
+    <string name="qrcode_btn_click_txt">输入数字码</string>
+    <string name="qrcode_code_title_txt">我的二维码</string>
+    <string name="qrcode_code_txt">QRCODE</string>
+    <string name="history_no_data">暂无查找历史</string>
+
 
     <string name="required_filed">*</string>
     <string name="btn_delete">删除</string>
@@ -13,30 +26,21 @@
     <string name="order_null_content">加载失败，请检查您当前的网络环境</string>
     <string name="more_amount">99+</string>
     <string name="main_tab_no_data">此功能需要更新版本才能使用！</string>
-    <string name="no_data">没有可加载数据了</string>
 
-    <string name="pull_to_refresh">下拉可以刷新</string>
-    <string name="release_to_refresh">释放立即刷新</string>
     <string name="refreshing">努力加载中！</string>
-    <string name="not_updated_yet">暂未更新过</string>
-    <string name="updated_at">上次更新于%1$s前</string>
-    <string name="updated_time">更新于  </string>
-    <string name="updated_just_now">刚刚更新</string>
-    <string name="time_error">时间有问题</string>
 
     <!-- main tab -->
-    <string name="main_tab_delivery">订单派送</string>
     <string name="main_tab_qrcode">我的二维码</string>
-    <string name="main_tab_sale">现场签收</string>
-    <string name="main_tab_ticket">科技馆检票</string>
     <string name="main_tab_card">打卡</string>
+    <string name="main_empty_menu">暂无菜单数据</string>
 
     <!-- BTN-->
     <string name="btn_ok_with_space">确  定</string>
     <string name="btn_ok2_with_space">确  认</string>
     <string name="btn_ok3">确认</string>
-    <string name="btn_save_with_space">保  存</string>
     <string name="btn_cancel_with_space">取  消</string>
+    <string name="btn_save_with_space">保  存</string>
+    <string name="btn_select_all">全选</string>
 
     <!-- ticket -->
     <string name="ticket_type_ticket">门票</string>
@@ -53,15 +57,12 @@
     <string name="ticket_enter">进场</string>
     <string name="ticket_no_enter">不进场</string>
     <string name="ticket_check_success">入场成功</string>
-    <string name="ticket_check_used_fail">该门票已使用！</string>
     <string name="ticket_times_title">场次选择</string>
     <string name="ticket_venue_title">场馆选择</string>
     <string name="ticket_choose_title">洗涤科技馆选择</string>
     <string name="ticket_check_title">洗涤科技馆检票</string>
     <string name="ticket_get_data_fail">获取场次数据超时，请重试</string>
-    <string name="ticket_count_name">正佳馆</string>
     <string name="ticket_count_address">场馆：</string>
-    <string name="ticket_count_date">日期：</string>
     <string name="ticket_count_time">场次：</string>
     <string name="ticket_code_content">可输入门票编码、合作伙伴编码\n员工编码、手机号</string>
 
@@ -74,24 +75,14 @@
     <string name="tab_history">历史单</string>
     <string name="tab_detail">订单详情</string>
 
-    <string name="cate_amount">品种数:</string>
-    <string name="total_amount">总支数:</string>
-    <string name="total_price">合计:</string>
-
-    <string name="title_dialog">提示</string>
     <string name="tips">提示：</string>
     <string name="clear_dialog_msg">确定要清除应用缓存？</string>
     <string name="clear_cache_success">清除成功！</string>
     <string name="no_cache">没有可清除的缓存！</string>
     <string name="change_pwd_success">修改成功！</string>
     <string name="data_loading">加载中&#8230;</string>
-    <string name="service_content">是否拨打客服电话？</string>
-    <string name="service_phone">400&#8211;111&#8211;1118</string>
-    <string name="login_success">登录成功！</string>
-    <string name="login_fail">登录失败！</string>
     <string name="token_out">登录过期，请重新登陆</string>
     <string name="new_version_alert_no_update">当前已是最新版本！</string>
-    <string name="new_version_no_data">没有可更新数据</string>
     <string name="new_version_updating">正在更新</string>
     <string name="new_version_yes">立即更新</string>
     <string name="new_version_no">稍后再说</string>
@@ -113,9 +104,7 @@
 
     <!-- user -->
     <string name="user_settings">设置</string>
-    <string name="user_personinfo">个人资料</string>
     <string name="user_general">通用</string>
-    <string name="user_call">联系客服</string>
     <string name="service_dialog_title">客服联系方式</string>
     <string name="service_call">1.拨打客服电话400-111-1118转3</string>
     <string name="service_weixin">2.关注微信公众号“蓝月亮的世界”进行在线咨询</string>
@@ -126,8 +115,6 @@
     <string name="user_findpwd">找回密码</string>
     <string name="user_resetpwd">重置密码</string>
     <string name="user_changepwd">修改密码</string>
-    <string name="user_name">姓名</string>
-    <string name="user_account">账号</string>
     <string name="user_phone_hint">手机号码</string>
     <string name="user_clear_cache">清除缓存</string>
     <string name="user_check_version">检测新版本</string>
@@ -138,7 +125,6 @@
     <string name="exit_app_dialog_msg">退出后，不会清除登陆信息。确定要退出？</string>
     <string name="exit_app_msg">确定要退出月亮天使应用？</string>
     <string name="new_version_alert_title">升级提示</string>
-    <string name="new_version_alert">已有新的版本， 立即下载?\n请停留于你现在有Wi-Fi连接的地方直至应用下载完成，否则你或会产生流量费</string>
     <string name="yes">是</string>
     <string name="no">否</string>
     <string name="ok">确 认</string>
@@ -154,7 +140,6 @@
     <string name="confirm_psw">确认密码</string>
     <string name="confirm_psw_hint">请输入确认密码</string>
     <string name="reset_success">密码重置成功</string>
-    <string name="reset_fail">密码重置失败</string>
     <string name="register_right_code">请输入正确验证码！</string>
     <string name="register_not_empty">请确认输入内容不能为空！</string>
     <string name="register_right_pwd">请确认密码不能小于6位数！</string>
@@ -162,7 +147,6 @@
     <string name="register_get_phone_fail">没有获取到正确号码</string>
     <string name="register_check_again">重新验证</string>
     <string name="register_second">秒</string>
-    <string name="reset_get_sms_fail">获取短信失败</string>
     <string name="reset_send_sms_success">验证码发送成功</string>
     <string name="reset_id_hint">请输入存货顾问/员工编号</string>
     <string name="reset_phone_hint">请输入手机号</string>
@@ -186,7 +170,6 @@
     <string name="pending_order_person_phone">负责人手机：%s</string>
     <string name="pending_order_person_phone_null">负责人手机：无</string>
     <string name="pending_order_select_storehouse_title">选择出货仓</string>
-    <string name="pending_order_select_storehouse_null">您还没有默认仓库，请选择其他出货仓。</string>
     <string name="pending_order_select_ok_txt">确 定</string>
     <string name="pending_order_select_txt">出货仓</string>
     <string name="pending_order_get_or_not">是否取消接单？</string>
@@ -194,25 +177,14 @@
 
 
     <!-- 待接单 -->
-    <string name="pending_order_accept_content">派单号：%1$s\n%2$s</string>
-    <string name="pending_order_accept_failed">接单失败</string>
-    <string name="pending_order_cancle">取消\n接单</string>
-    <string name="pending_order_cancle_window_title">取消接单结果</string>
-    <string name="pending_order_cancle_content">派单号：%s</string>
-    <string name="pending_order_cancle_failed">取消失败</string>
     <string name="pending_order_get">接 单</string>
 
     <!-- 待预约 -->
-    <string name="pending_order_appointment_title">预约结果</string>
-    <string name="pending_order_appointment_content">预约派单号：%s</string>
-    <string name="pending_order_appointment_failed">预约失败</string>
     <string name="pending_order_appointment_date">请选择日期</string>
     <string name="pending_order_appointment_time">请选择时间</string>
     <string name="pending_order_appointment_current">预约时间不能早于当前时间</string>
     <string name="pending_order_appointment_over">预约时间不能超过15天</string>
     <string name="pending_order_storehouse_null">无默认仓库</string>
-    <string name="pending_order_storehouse_select">请选择出货仓</string>
-    <string name="pending_order_storehouse_select_null">对不起，您当前没有可选择的仓库</string>
     <string name="pending_order_appointment">预 约</string>
     <string name="pending_order_edit_storehouse">修改仓库</string>
     <string name="pending_order_cancle_txt">取消接单</string>
@@ -222,51 +194,34 @@
     <string name="pending_order_time_hint">--:--</string>
     <string name="pending_order_appointment_confirm">确定预约时间</string>
     <string name="pending_order_appointment_oderid">订单号：</string>
-    <string name="pending_order_appointment_datetime">预约时间</string>
     <!-- 待送货 -->
-    <string name="pending_order_delivery_content">派单号：%1$s,%2$s\n</string>
-    <string name="pending_order_delivery_failed">送货操作失败</string>
     <string name="pending_order_delivery_sure">是否确定现在去送货</string>
     <string name="pending_order_to_delivery">去送货</string>
     <!-- 待签收 -->
     <string name="pending_order_edit_appointment">修改预约</string>
-    <string name="pending_order_receive_cancle">退货</string>
     <string name="pending_order_receive_content">请填写退货说明</string>
-    <string name="pending_order_receive_cancle_not_allow">已做换货处理，不能再次操作</string>
-    <string name="pending_order_receive_sign_content">派单号：%s</string>
-    <string name="pending_order_receive_sign_failed">签收失败</string>
-    <string name="pending_order_receive_edit_date_content">修改预约派单号: %s</string>
-    <string name="pending_order_receive_edit_failed">修改失败</string>
-    <string name="pending_order_receive_sign_by_hand">请手写签名</string>
-    <string name="pending_order_receive_success">操作成功</string>
-    <string name="pending_order_receive_failed">操作失败</string>
     <string name="pending_order_receive_sign_title">签  收</string>
     <string name="pending_order_receive_sign_scan_btn">输入收货验证码</string>
 
     <!-- 扫码 -->
     <string name="scan_code_input_number">请输入收货验证数字码</string>
     <string name="scan_code_btn">扫描收货验证码</string>
-    <string name="scan_code_result">派单号：%1$s,%2$s\n</string>
 
     <!-- 自提-->
     <string name="tab_extract_scan_code_title">现场签收</string>
-    <string name="tab_extract_storehouse_select_title">仓库选择</string>
     <string name="tab_bottom_scan_code_text">自提扫码</string>
     <string name="tab_bottom_show_history_text">历史查看</string>
-    <string name="tab_bottom_storehouse_text">出货仓库</string>
 
     <string name="extract_scan_code_input_number">请输入现场签收数字码</string>
     <string name="extract_scan_code_btn">扫描现场签收码</string>
     <string name="extract_input_code_btn">输入现场签收码</string>
     <string name="extract_cacle_comfire_txt">是否确定取消订单?</string>
-    <string name="extract_cacle_order_txt">取消订单</string>
     <string name="extract_ok_btn">确定取消</string>
     <string name="extract_cancle_btn">暂不取消</string>
     <string name="extract_order_info_title">订单信息</string>
     <string name="extract_order_storehouse">出货仓</string>
     <string name="extract_order_storecharge">负责人</string>
     <string name="extract_order_number">订单编号</string>
-    <string name="extract_order_sign_code">签收码</string>
     <string name="extract_order_user">下单人</string>
     <string name="extract_order_pay_time">下单时间</string>
     <string name="extract_order_sign_time">签收时间</string>
@@ -280,38 +235,19 @@
 
     <!-- 退换货 -->
     <string name="return_order">退货</string>
-    <string name="change_order">换货</string>
-    <string name="return_order_success">退货成功</string>
-    <string name="change_order_success">换货成功</string>
-    <string name="return_change_result">派单号：%s</string>
-    <string name="change_all_orders">整单换货</string>
-    <string name="change_signle_order">单品换货</string>
-    <string name="change_order_reason">换货原因</string>
-    <string name="return_all_orders">整单退货</string>
-    <string name="return_signle_order">单品退货</string>
     <string name="return_order_reason">退货原因</string>
     <string name="return_order_upload_picture">照片上传</string>
-    <string name="return_change_pic_not_null">图片不能为空</string>
-    <string name="return_change_areadly_do">已做部分单品%1$s，此单不可整单%2$s</string>
-    <string name="return_change_only_support_tmall">非天猫平台订单暂不支持单品%s</string>
     <string name="return_change_get_detail_fail">获取订单详情失败</string>
-    <string name="return_change_get_reason_fail">获取退货原因失败</string>
     <string name="return_change_no_reason">请点击标签选择退货原因</string>
     <string name="return_change_no_photo">没有获取到产品退货照片，请拍照后提交</string>
     <string name="return_change_no_item">获取订单数据失败，请退出重试</string>
-    <string name="return_change_no_content">请填写退货说明后提交</string>
 
     <!-- 订单详情 -->
-    <string name="detail_order_code">订单号：</string>
-    <string name="order_detail_name">收货人：</string>
-    <string name="order_detail_address">收货地址：</string>
-    <string name="order_detail_warehouse">出货仓：</string>
     <string name="order_detail_paytime">付款时间：</string>
     <string name="order_detail_appointmenttime">预约时间：</string>
     <string name="order_detail_deliverytime">送货时间：</string>
     <string name="order_detail_signtime">签收时间：</string>
     <string name="order_detail_detail">订单明细</string>
-    <string name="order_detail_totalprice">总价：￥</string>
 
     <!-- 历史订单 -->
     <string name="order_history_totalcount">共%s单</string>
@@ -319,23 +255,14 @@
     <string name="order_boxes_num">共%s箱</string>
     <string name="history_content">当前无历史单</string>
     <string name="history_no_item">已经没有单啦！</string>
-    <string name="history_order_title_dispatchid">派单编码</string>
-    <string name="history_order_title_price">总金额</string>
-    <string name="history_order_title_orderid">订单编码</string>
-    <string name="history_order_title_time">签收时间</string>
-    <string name="sign_time_sure">确认收货时间</string>
     <string name="history_order_start_date">开始时间</string>
-    <string name="history_order_date_hint">年/月/日</string>
     <string name="history_order_end_date">结束时间</string>
-    <string name="history_order_search">搜    索</string>
     <string name="history_order_receipt_date">签收日期：</string>
     <string name="history_order_scene_receipt_date">现场签收日期：</string>
 
     <string name="order_money_sign">￥</string>
 
 
-    <string name="receive_management">收货管理</string>
-    <string name="delivery_management">发货管理</string>
     <string name="tab_bottom_my_warehouse_text">我的仓库</string>
     <string name="tab_bottom_my_stock_text">我的库存</string>
 
@@ -411,8 +338,6 @@
     <string name="order_boxes">%s</string>
     <string name="txt_order_input_deliver_date">输入发货日期</string>
     <string name="txt_order_input_receive_date">输入收货日期</string>
-    <string name="txt_order_input_deliver_time">输入发货时间</string>
-    <string name="txt_order_input_receive_time">输入收货时间</string>
     <string name="txt_order_diff_reason_toast">请选择差异原因!</string>
     <string name="txt_order_date_not_null_tip">日期不能为空</string>
 
@@ -421,9 +346,6 @@
 
     <string name="txt_order_deliver_success_tip">出库成功，你的出库单为：</string>
     <string name="txt_order_receive_success_tip">入库成功，你的入库单为：</string>
-
-    <string name="txt_order_deliver_fail_tip">出库失败</string>
-    <string name="txt_order_receive_fail_tip">入库失败</string>
 
     <string name="txt_ticket_upload_fail_count">有%s张上传失败</string>
     <string name="txt_ticket_upload_fail_reupload">重新上传</string>
@@ -451,7 +373,6 @@
     <string name="text_recrive_date">收货日期</string>
     <string name="text_recrive_upload_ticket">上传入库单据</string>
     <string name="text_diff_reason">请填写差异原因</string>
-    <string name="text_diff_reason_select_tip">请选择差异原因</string>
     <string name="order_recive_submit_message_tip">确认后不可修改，是否确认收货?</string>
     <string name="order_title_receive_amount">收货数量：</string>
     <string name="order_title_delive_amount">发货数量：</string>
@@ -467,12 +388,9 @@
 
     <!--上传图片-->
     <string name="order_upload_pic_ticket">请上传单据</string>
-    <string name="order_upload_deliver_pic_ticket">上传出库单</string>
-    <string name="order_upload_receive_pic_ticket">上传入库单</string>
     <string name="text_deliver_ticket_tip2">未上传单据</string>
     <string name="text_ticket_tip">单据</string>
     <string name="text_no_ticket_tip">无单据</string>
-    <string name="select_pic">选择图片</string>
     <string name="order_upload_ticket_pic_tip">说明：</string>
     <string name="order_upload_ticket_pic_tip1">1、最多上传5张图片;</string>
     <string name="order_upload_ticket_pic_tip2">2、每张图片不能大于5M;</string>
@@ -542,7 +460,6 @@
     <string name="puncard_info">打卡信息</string>
     <string name="card_get_location_tips">打开“定位服务”来允许“月亮天使”确定您的位置。</string>
     <string name="card_input_type_all_tab">编码打卡，无编码打卡</string>
-    <string name="card_input_type_code">编码打卡</string>
     <string name="card_choose_address">选择地点</string>
     <string name="card_input_address_code">地点编码</string>
     <string name="card_no_code_workplace">无编码打卡点</string>
@@ -551,7 +468,6 @@
     <string name="card_input_choose">请选择</string>
     <string name="card_input_address_detail">详细地址</string>
     <string name="card_btn_punch_card">打    卡</string>
-    <string name="card_title_punch_card_msg">打开信息</string>
     <string name="card_worktask_cannot_empty">工作任务还没有选择呢！</string>
     <string name="card_workplace_cannot_empty">您还没有选择地点哦！</string>
     <string name="card_address_cannot_empty">您还没有填写详细地址哦！</string>
@@ -597,14 +513,13 @@
     <string name="input_code_and_name">请输入编码/名称</string>
     <string name="card_search_history">历史记录</string>
     <string name="card_btn_cancle">取 消</string>
-    <string name="card_btn_search">搜 索</string>
+    <string name="card_btn_search">确 定</string>
 
     <!-- coupons -->
     <string name="coupons_tab_push">卡券推送</string>
     <string name="coupons_tab_record">推送记录</string>
     <string name="coupons_activity_name">活动名称</string>
     <string name="coupons_activity_name_hint">请选择活动</string>
-    <string name="coupons_consumer">消费者</string>
     <string name="coupons_consumer_scan_code">请扫描消费者二维码</string>
     <string name="coupons_scan_code_title">扫描二维码</string>
     <string name="coupons_list">选择推送券</string>
@@ -629,12 +544,71 @@
     <string name="paper_detail_date">发布日期：%s</string>
     <string name="paper_detail_collect">收藏</string>
 
+    <!-- 作业点档案相关 -->
+    <string name="promote_record_title">推广点档案</string>
+    <string name="promote_edit_txt">编辑</string>
+    <string name="promote_work_date">工作日：￥%s/天</string>
+    <string name="promote_holiday_date">节假日：￥%s/天</string>
+    <string name="promote_outdoor_area">%s㎡</string>
+    <string name="promote_add_title">新增推广点</string>
+    <string name="promote_edit_title">编辑推广点</string>
+    <string name="promote_detail_title">推广点详情</string>
+    <string name="promote_not_save">您的信息还没保存，确定不保存吗？</string>
+    <string name="promote_date_txt">%1$s，%2$s</string>
+    <string name="promote_time_txt">%1$s-%2$s，%3$s (人)</string>
+    <string name="people_flow_add_title">新增测试</string>
+    <string name="people_flow_title">人流量测试</string>
+    <string name="people_flow_start_time">开始时间</string>
+    <string name="people_flow_start_time_select">请选择开始时间</string>
+    <string name="people_flow_end_time">结束时间</string>
+    <string name="people_flow_end_time_select">请选择结束时间</string>
+    <string name="people_flow_time_earlier">结束时间早于开始时间</string>
+    <string name="people_flow_place_input">请填写测试位置</string>
+    <string name="people_flow_amount_input">请填写人流数量</string>
+    <string name="people_flow_delete">确定删除人流量测试吗？</string>
+    <string name="community_title">选择小区/商业中心</string>
+    <string name="community_select_txt">请选择小区/商业中心</string>
+    <string name="place_info_input">请完善场地基本信息</string>
+    <string name="rent_info_input">请完善租金信息</string>
+    <string name="community_txt">小区/商业中心</string>
+    <string name="please_select_txt">请选择</string>
+    <string name="please_input_txt">请输入</string>
+    <string name="community_input_txt_20">请输入，最多20字</string>
+    <string name="search_key">请输入关键字</string>
+    <string name="add_promote_place_txt">场地基本信息</string>
+    <string name="add_promote_place">推广点位置</string>
+    <string name="add_promote_rent_info">租金信息</string>
+    <string name="add_promote_rent_txt">租金</string>
+    <string name="add_promote_place_area">场地面积(㎡)</string>
+    <string name="add_promote_place_type">场地类型</string>
+    <string name="add_promote_outdoor">室外</string>
+    <string name="add_promote_indoor">室内</string>
+    <string name="add_promote_work_date">工作日(元)</string>
+    <string name="add_promote_holiday">周末/节假日(元)</string>
+    <string name="add_promote_place_fee">场地押金(元)</string>
+    <string name="add_promote_other_fee">其他费用</string>
+    <string name="add_promote_network_txt">有线网络设备</string>
+    <string name="add_promote_network_info">网络信息</string>
+    <string name="add_promote_wifi">Wi-Fi设备</string>
+    <string name="add_promote_uploda_img">图片上传</string>
+    <string name="add_promote_uploda_img2">(最多上传5张)</string>
+    <string name="add_promote_people_flow">人流量测试</string>
+    <string name="people_flow_date">测试日期</string>
+    <string name="people_flow_time">测试时间</string>
+    <string name="people_flow_place">测试位置</string>
+    <string name="people_flow_input">请填写</string>
+    <string name="people_flow_amount">人流数量 (人)</string>
+    <string name="people_flow_stauts">人群状态</string>
+    <string name="people_flow_info">请描述</string>
+    <string name="promote_has">有</string>
+    <string name="promote_none">无</string>
+    <string name="promote_append">%1$s—%2$s</string>
+    <string name="promote_append2">%1$s—%2$s，%3$s</string>
 
     <!--keyListener-->
     <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
     <string name="title_message">消息</string>
     <string name="title_notify">通知</string>
@@ -649,6 +623,7 @@
     <string name="with_order_collect_no_order">当前无订单数据</string>
     <string name="with_order_collect_manual_input_code_btn">手动输入</string>
     <string name="with_order_collect_collect_number_text">收衣单号：</string>
+    <string name="with_order_collect_collect_number_text_num">收衣单号：%s</string>
     <string name="with_order_collect_btn_accept">接单</string>
     <string name="with_order_collect_btn_start_collect">开始收衣</string>
     <string name="with_order_collect_btn_continue_collect">继续收衣</string>
@@ -669,10 +644,9 @@
     <string name="with_order_collect_is_urgent">加急</string>
     <string name="with_order_collect_appoint_back_time">预约还衣时间</string>
     <string name="with_order_collect_appoint_back_time_hint">请输入预约还衣时间</string>
-    <string name="with_order_collect_appoint_actual_count">实收：</string>
-    <string name="with_order_collect_appoint_receivable_count">应收：</string>
+    <string name="with_order_collect_appoint_receivable_count_num">应收：%s</string>
     <string name="with_order_collect_order_receive">收衣明细</string>
-    <string name="with_order_collect_order_receive_count">实收数量：</string>
+    <string name="with_order_collect_order_receive_count_num">实收数量：%s</string>
     <string name="with_order_collect_appoint_back_time_later_hint">预约时间必需在48小时之后！</string>
 
     <!-- 衣物登记 -->
@@ -680,10 +654,7 @@
     <string name="clothing_book_in_base_info">衣物基本信息</string>
     <string name="clothing_book_in_number">衣物编码</string>
     <string name="clothing_book_in_number_hint">请扫描/输入衣物编码</string>
-    <string name="clothing_book_in_service_type">服务类型</string>
-    <string name="clothing_book_in_service_type_hint">请选择服务类型</string>
     <string name="clothing_book_in_name">衣物名称</string>
-    <string name="clothing_book_in_name_hint">请选择衣物名称</string>
     <string name="clothing_book_in_falw">有无瑕疵</string>
     <string name="clothing_book_in_falw_hint">请输入衣物瑕疵信息，如：色差、破损、缺件等</string>
     <string name="clothing_book_in_falw_empty">衣物瑕疵信息不能为空</string>
@@ -696,7 +667,6 @@
     <string name="clothing_book_delete_hint">确认删除该衣物信息？</string>
 
 
-
     <!--无订单收衣-->
     <string name="tab_title_without_order_collect_manage">活动收衣</string>
 
@@ -707,13 +677,12 @@
     <string name="clothing_btn_search">查 询</string>
     <string name="clothing_deliver_name">接收人姓名</string>
     <string name="clothing_deliver_phone">接收人电话</string>
-    <string name="clothing_deliver_code_hint">请输入转交人编码</string>
+    <string name="clothing_deliver_code_hint">请输入接收人编号</string>
     <string name="clothing_deliver_mark_hint">请输入备注，最多50字</string>
 
     <string name="clothing_deliver_user">转交人</string>
     <string name="title_clothing_deliver_confirm">确认收衣</string>
 
-    <string name="link_phone"><u>18620798515</u></string>
     <string name="clothing_title_refuse">拒绝原因</string>
     <string name="clothing_hint_refuse">请在此处填写拒接原因</string>
     <string name="no_refuse_reason">未填写拒绝原因</string>
@@ -722,6 +691,7 @@
     <string name="title_clothing_detail">衣物详情</string>
     <string name="clothing_detail_collect_code">收衣单号：</string>
     <string name="clothing_detail_brcode">收衣单条码：</string>
+    <string name="clothing_detail_brcode_num">收衣单条码：%s</string>
     <string name="clothing_detail_receiver_name">接收人：</string>
     <string name="clothing_detail_time">收衣时间：</string>
     <string name="clothing_detail_appoint_back_time">预约还衣：</string>
@@ -758,9 +728,9 @@
     <string name="create_collect_dialog_name_phone">姓名电话</string>
     <string name="create_collect_dialog_address">地址</string>
     <string name="create_collect_dialog_actual_receive">实收：</string>
+    <string name="create_collect_dialog_actual_receive_num_unit">实收：%s件</string>
+    <string name="create_collect_dialog_actual_receive_num">实收：%s</string>
     <string name="create_collect_can_not_delete">请至少保留一张图片</string>
-
-    <string name="notice_add_clothes_no_brcode">还未扫描收衣条码，请扫描后继续操作。</string>
 
     <string name="pending_order_success">已成功接单</string>
 
@@ -785,7 +755,6 @@
 
     <string name="no_user_error_message">请先查询用户信息</string>
     <string name="text_empty">无</string>
-    <string name="unit_clothes">件</string>
     <string name="text_to">至</string>
     <string name="btn_cancle_receive">取消接收</string>
     <string name="btn_receive">确认接收</string>
@@ -794,4 +763,66 @@
     <string name="err_net">请检查您的网络</string>
 
     <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
+
+    <!-- 我的团队 -->
+    <string name="team_group">小组</string>
+    <string name="team_community">社区</string>
+    <string name="team_work_full">全职</string>
+    <string name="team_work_part">兼职</string>
+    <string name="team_work_part_hint">兼职需录入作业时长</string>
+    <string name="team_group_title">小组信息</string>
+    <string name="team_member_title">团队成员</string>
+    <string name="team_my_member_title">我的团队成员</string>
+    <string name="team_group_detail_title">小组详情</string>
+    <string name="team_group_groupnum">总小组数：%s</string>
+    <string name="team_group_membernum">总人数：%1$s/%2$s</string>
+    <string name="team_group_search_hint">请输入编码/小组名称</string>
+    <string name="team_member_search_hint">请输入关键字</string>
+    <string name="team_group_member_search_hint">请输入人员编码或名称</string>
+    <string name="team_area_search_hint">请输入编码、名称、街道</string>
+    <string name="team_member_limit">该功能只对\n社区CEO开放</string>
+    <string name="team_group_detail_total_num">总人数/规划数：%1$d / %2$d</string>
+    <string name="team_group_detail_full_num">全职人数：%s</string>
+    <string name="team_group_detail_part_num">兼职人数：%s</string>
+    <string name="team_group_detail_unlock">解除组关系</string>
+    <string name="team_community_detail_unlock">解除社区关系</string>
+    <string name="team_group_detail_member">人员辖区</string>
+    <string name="team_group_detail_edit">编辑</string>
+    <string name="team_group_detail_msg">加入：%1$s，%2$s</string>
+    <string name="team_group_start_date">开始日期</string>
+    <string name="team_group_end_date">结束日期</string>
+    <string name="team_group_date_hint">请选择</string>
+    <string name="team_group_add_member">添加人员</string>
+    <string name="team_group_add_member_code">编码添加</string>
+    <string name="team_group_select_member">选择人员</string>
+    <string name="team_group_select_member_tips">请选择人员</string>
+    <string name="team_member_detail_title">人员关系详情</string>
+    <string name="team_member_detail_type">关系类型</string>
+    <string name="team_member_detail_community">所属社区</string>
+    <string name="team_member_detail_community_hint">请选择社区</string>
+    <string name="team_member_detail_community_select">选择社区</string>
+    <string name="team_member_detail_group">所属小组</string>
+    <string name="team_member_detail_group_hint">请选择小组</string>
+    <string name="team_member_detail_style">作业性质</string>
+    <string name="team_member_detail_lengh">作业时长(h)</string>
+    <string name="team_member_detail_content">备注</string>
+    <string name="team_member_detail_content_hint">请填写备注</string>
+    <string name="team_member_add_title">填写关系信息</string>
+    <string name="team_member_edit_title">编辑人员关系</string>
+    <string name="team_member_add_existed">该人员已建立关系，\n不可重复！</string>
+    <string name="team_area_total_num">总户数：%s</string>
+    <string name="team_area_num">户：%s</string>
+    <string name="team_area_add_date">添加日期：%s</string>
+    <string name="team_area_delete_content">确定删除该辖区吗？</string>
+    <string name="team_area_select_title">添加服务区域</string>
+    <string name="team_area_select_empty">请选择服务区域</string>
+    <string name="team_edit_limit_startdate">开始日期不能为空哦！</string>
+    <string name="team_edit_limit_startdate_month">不可以选择一个月之前的日期哦！</string>
+    <string name="team_edit_limit_enddate">结束日期不能早于开始日期</string>
+    <string name="team_edit_limit_worktype">作业性质不能为空</string>
+    <string name="team_edit_limit_parttime">兼职时长不可以等于0小时！</string>
+
+
+
+
 </resources>

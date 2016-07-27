@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery.card;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -10,7 +9,6 @@ import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCardType;
 import cn.com.bluemoon.delivery.app.api.model.card.Workplace;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.tagview.Tag;
 
 /**

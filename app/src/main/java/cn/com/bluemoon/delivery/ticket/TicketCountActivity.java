@@ -1,12 +1,5 @@
 package cn.com.bluemoon.delivery.ticket;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
-import org.kymjs.kjframe.utils.StringUtils;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +11,16 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.ui.BindView;
+import org.kymjs.kjframe.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultVenueInfo;
 import cn.com.bluemoon.delivery.app.api.model.VenueInfo;
@@ -27,8 +30,6 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.umeng.analytics.MobclickAgent;
 
 public class TicketCountActivity extends KJActivity {
 

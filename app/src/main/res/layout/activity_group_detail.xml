@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <View
+        android:id="@+id/view_pop_start"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#fefefe"
+        android:paddingBottom="10dp"
+        >
+        <TextView
+            android:id="@+id/txt_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingRight="10dp"
+            android:paddingLeft="10dp"
+            android:paddingBottom="@dimen/linepaddingtxt"
+            android:background="@color/bar_blue"
+            android:textColor="@color/view_bg"
+            android:textSize="@dimen/text_size_15"
+            android:lineSpacingExtra="8dp"
+            android:layout_marginBottom="10dp"
+            />
+
+        <TextView
+            android:id="@+id/txt_total_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/txt_title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/text_black_light"
+            android:textSize="@dimen/text_size_15"
+            />
+        <TextView
+            android:id="@+id/txt_full"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black_light"
+            android:textSize="@dimen/text_size_15"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@id/txt_total_num"
+            android:layout_marginTop="5dp"
+            />
+        <TextView
+            android:id="@+id/txt_part"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="10dp"
+            android:textColor="@color/text_black_light"
+            android:textSize="@dimen/text_size_15"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/txt_full"
+            android:layout_below="@id/txt_total_num"
+            />
+    </RelativeLayout>
+
+
+
+    <View style="@style/line_solid_deep_style"/>
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_group_detail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg_f2"
+        android:cacheColorHint="#00000000"
+        android:dividerHeight="10dp"
+        android:scrollbars="none"
+        ptr:ptrMode="both"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black" />
+
+
+</LinearLayout>

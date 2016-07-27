@@ -1,12 +1,10 @@
 package cn.com.bluemoon.delivery.coupons;
 
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -16,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,26 +32,20 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultStorehouse;
-import cn.com.bluemoon.delivery.app.api.model.Storehouse;
 import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
 import cn.com.bluemoon.delivery.app.api.model.coupon.CouponAct;
 import cn.com.bluemoon.delivery.app.api.model.coupon.ResultCouponAct;
 import cn.com.bluemoon.delivery.app.api.model.coupon.ResultUserBase;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.card.CardTabActivity;
-import cn.com.bluemoon.delivery.card.PunchCardOndutyActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DateTimePikcerUtil;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.OrdersUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
@@ -162,7 +153,7 @@ public class CouponsPushFragment extends Fragment implements OnClickListener{
 				if(result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
 					txtRegisterTime.setText(String.format(getString(R.string.coupons_record_register_time),
 							DateUtil.getTime(result.getUserBase().getRegistTime(), "yyyy-MM-dd")));
-					String nickName = PublicUtil.getStringByLengh(result.getUserBase().getNickName(), 9);
+					String nickName = LibStringUtil.getStringByLengh(result.getUserBase().getNickName(), 9);
 					txtConsumerName.setText(nickName);
 					txtPhone.setText(result.getUserBase().getMobile());
 					layoutNamePhone.setVisibility(View.VISIBLE);

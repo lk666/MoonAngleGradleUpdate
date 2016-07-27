@@ -1,8 +1,5 @@
 package cn.com.bluemoon.delivery.utils;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.graphics.Color;
 import android.view.View;
@@ -13,6 +10,9 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.NumberPicker;
 import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @SuppressLint("ResourceAsColor")
 public class DateTimePikcerUtil {

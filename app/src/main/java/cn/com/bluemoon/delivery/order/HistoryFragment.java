@@ -1,12 +1,5 @@
 package cn.com.bluemoon.delivery.order;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.utils.StringUtils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +15,19 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.umeng.analytics.MobclickAgent;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.AppContext;
@@ -44,11 +50,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
 
 @SuppressLint("SimpleDateFormat")
 public class HistoryFragment extends Fragment {
@@ -260,6 +261,8 @@ public class HistoryFragment extends Fragment {
 			LayoutInflater inflate = LayoutInflater.from(context);
 			if (lists.size() == 0) {
 				View viewEmpty = inflate.inflate(R.layout.layout_no_data, null);
+				TextView txtContent = (TextView)viewEmpty.findViewById(R.id.txt_content);
+				txtContent.setText(R.string.history_content);
 				LayoutParams params = new LayoutParams(
 						LayoutParams.MATCH_PARENT, listView.getHeight());
 				viewEmpty.setLayoutParams(params);
@@ -270,9 +273,9 @@ public class HistoryFragment extends Fragment {
 						.inflate(R.layout.list_notmore_item, null);
 				return viewEnd;
 			}
-			// if (convertView == null) {
+			 if (convertView == null) {
 			convertView = inflate.inflate(R.layout.order_history_item, null);
-			// }
+			 }
 
 			TextView txtOrderid = (TextView) convertView
 					.findViewById(R.id.txt_orderid);

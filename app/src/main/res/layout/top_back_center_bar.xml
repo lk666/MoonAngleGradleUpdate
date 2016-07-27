@@ -1,84 +1,70 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:background="@color/title_background" >
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/title_background">
 
-    <cn.com.bluemoon.delivery.ui.ImageViewForClick
+    <cn.com.bluemoon.lib.view.ImageViewForClick
         android:id="@+id/img_back"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="15dp"
         android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:layout_centerVertical="true"
-        android:src="@drawable/icon_back"/>
+        android:src="@drawable/icon_back" />
 
-    <TextView
+    <cn.com.bluemoon.lib.view.TextViewForClick
         android:id="@+id/tv_back"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:visibility="gone"
-        android:gravity="center"
+        android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:padding="10dp"
         android:layout_centerVertical="true"
+        android:gravity="center"
+        android:padding="10dp"
         android:textColor="@color/view_bg"
-        android:background="@drawable/btn_black_blue"
-        android:textSize="@dimen/text_size_large_16"/>
+        android:textSize="@dimen/text_size_large_16"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/tv_tbb_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:minWidth="150dp"
-        android:maxWidth="300dp"
-        android:singleLine="true"
         android:ellipsize="end"
         android:gravity="center"
+        android:maxWidth="300dp"
+        android:minWidth="150dp"
+        android:singleLine="true"
         android:textColor="@color/view_bg"
-        android:textSize="18sp"/>
+        android:textSize="18sp" />
 
-    <TextView
+    <cn.com.bluemoon.lib.view.TextViewForClick
         android:id="@+id/tv_right"
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:orientation="horizontal"
-        android:visibility="gone"
+        android:layout_height="match_parent"
         android:layout_alignParentRight="true"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
-        android:gravity="center"
         android:layout_centerVertical="true"
-        android:textColor="@color/view_bg"
-        android:background="@drawable/btn_black_blue"
-        android:textSize="@dimen/text_size_large_16"/>
-
-        <ImageView
-            android:id="@+id/img_right"
-            android:layout_width="wrap_content"
-            android:layout_height="fill_parent"
-            android:layout_alignParentRight="true"
-            android:paddingRight="10dp"
-            android:paddingLeft="10dp"
-            android:visibility="gone"
-            android:background="@drawable/btn_black_blue"
-            android:layout_centerVertical="true"/>
-
-    <ImageView
-        android:id="@+id/img_right2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:paddingLeft="10dp"
-        android:visibility="gone"
-        android:background="@drawable/btn_black_blue"
-        android:layout_centerVertical="true"/>
+        android:paddingRight="10dp"
+        android:textColor="@color/view_bg"
+        android:textSize="@dimen/text_size_large_16"
+        android:visibility="gone" />
 
+    <cn.com.bluemoon.lib.view.ImageViewForClick
+        android:id="@+id/img_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scaleType="center"
+        android:visibility="gone"
+         />
 
 </RelativeLayout>

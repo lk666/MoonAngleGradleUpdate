@@ -49,6 +49,11 @@ public class Constants {
     public static final String LATITUDE = "Latitude";
     public static final String ALTITUDE = "Altitude";
 
+    public static final Double UNKNOW_VALUE = 4.9E-324;
+    public static final String WIFI_GPS = "WIFI_GPS";
+    public static final String GPS_GPS = "GPS_GPS";
+    public static final String GPRS_GPS = "GPRS_GPS";
+
 
     /********************
      * code scan
@@ -127,4 +132,15 @@ public class Constants {
     public static final String STATUS_CANCEL_ORDER = "CANCEL";
     public static final String STATUS_ACCEPTL_ORDER = "RECEIVE";
 
+	/*****************************team**********************************/
+	public final static String TYPE_ADD = "add";
+	public final static String TYPE_UPDATE = "update";
+    public final static String TYPE_SCAN = "scan";
+    public final static String TYPE_INPUT = "input";
+	public final static String RELTYPE_GROUP = "group";
+	public final static String RELTYPE_COMMUNITY = "community";
+	public final static String WORKTYPE_FULL = "fullTime";
+	public final static String WORKTYPE_PART = "partTime";
+
+	public final static long LARGETIME = 253402185600000l;
 }

@@ -63,8 +63,6 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
 
     /**
      * 获取图片IDs，多个用逗号隔开，如：3232,3234223
-     *
-     * @return
      */
     public String getAllIdsString() {
         StringBuilder builder = new StringBuilder("");

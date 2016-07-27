@@ -1,10 +1,11 @@
 package cn.com.bluemoon.delivery.utils;
 
+import android.annotation.SuppressLint;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import android.annotation.SuppressLint;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
 
 @SuppressLint("SimpleDateFormat")
@@ -16,7 +17,7 @@ public class DateUtil extends LibDateUtil{
 	        return formatter.parse(date);  
 	    } catch (ParseException e) {  
 	        e.printStackTrace();  
-	        return new Date();  
+	        return new Date(System.currentTimeMillis());
 	    }  
 	}  
 	  
@@ -27,5 +28,15 @@ public class DateUtil extends LibDateUtil{
 	
 	public static String getCurDate(){
 		return getTime(System.currentTimeMillis(), "yyyy-MM-dd");
+	}
+	public static String getCurDateAndWeek(){
+		return getTime(System.currentTimeMillis(), "yyyy-MM-dd  EE");
+	}
+	public static long getTimeOffsetMonth(){
+		return getTimeOffsetMonth(-1);
+	}
+
+	public static String getTime(long t) {
+		return getTime(t, "yyyy-MM-dd");
 	}
 }

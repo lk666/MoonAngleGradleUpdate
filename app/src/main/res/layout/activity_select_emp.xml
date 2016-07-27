@@ -1,0 +1,46 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical"
+    >
+
+    <cn.com.bluemoon.lib.view.CommonSearchView
+        xmlns:search="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/searchview_select_member"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        search:text_hint="@string/team_group_member_search_hint"
+        />
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_select_member"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:cacheColorHint="#00000000"
+        android:dividerHeight="0.5dp"
+        android:divider="@color/line_soild_bg"
+        android:scrollbars="none"
+        ptr:ptrMode="disabled"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black" />
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:textColor="@color/view_bg"
+        android:textSize="@dimen/text_size_15"
+        android:background="@drawable/btn_red_shape_large"
+        android:text="@string/btn_ok"
+        android:visibility="gone"
+        />
+
+</LinearLayout>

@@ -1,9 +1,9 @@
 package cn.com.bluemoon.delivery.manager;
 
-import java.util.Stack;
-
 import android.app.Activity;
 import android.util.Log;
+
+import java.util.Stack;
 
 public class ActivityManager {
 	private static ActivityManager instance;

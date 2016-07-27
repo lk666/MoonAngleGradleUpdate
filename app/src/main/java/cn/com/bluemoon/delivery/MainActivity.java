@@ -47,13 +47,15 @@ import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
-import cn.com.bluemoon.delivery.notice.PaperListActivity;
+import cn.com.bluemoon.delivery.jobrecord.PromoteActivity;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.notice.NoticeListActivity;
+import cn.com.bluemoon.delivery.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.storage.StorageTabActivity;
+import cn.com.bluemoon.delivery.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
@@ -68,7 +70,11 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
+import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.RedpointTextView;
 
@@ -91,6 +97,7 @@ public class MainActivity extends SlidingActivity {
     private PullToRefreshListView scrollViewMain;
     private GridViewAdapter gridViewAdapter;
     private UserRightAdapter userRightAdapter;
+    private CommonEmptyView emptyView;
 
 //    private Map<Integer, View> map = new HashMap<Integer, View>();
 //    private KJBitmap kjb;
@@ -128,13 +135,17 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 mMenu.showMenu(!mMenu.isMenuShowing());
+                if(MenuFragment.user==null&&mMenuFragment!=null){
+                    mMenuFragment.setUserInfo();
+                }
             }
         });
         imgScan.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                PublicUtil.openScanCard(main, null, 0);
+                // TODO Auto-generated method stub
+             PublicUtil.openScanCard(main, null, null, 0);
             }
         });
         txtTips =(AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -147,7 +158,15 @@ public class MainActivity extends SlidingActivity {
         });
         scrollViewMain = (PullToRefreshListView)findViewById(R.id.scrollView_main);
         scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-
+        emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_empty_menu),
+                new CommonEmptyView.EmptyListener() {
+                    @Override
+                    public void onRefresh() {
+                        if(progressDialog!=null) progressDialog.show();
+                        DeliveryApi.getAppRights(token, appRightsHandler);
+                        DeliveryApi.getNewMessage(token, newMessageHandler);
+                    }
+                });
         scrollViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -237,9 +256,9 @@ public class MainActivity extends SlidingActivity {
         @Override
         public void onFailure(int statusCode, Header[] headers, String responseString,
                               Throwable throwable) {
-            if (listRight!=null) {
+            /*if (listRight!=null) {
                 setMenu();
-            }
+            }*/
         }
     };
 
@@ -259,8 +278,8 @@ public class MainActivity extends SlidingActivity {
                     right.setAmount(0);
                 }
             }
+            setMenu();
         }
-        setMenu();
     }
 
     private void setMenu() {
@@ -360,8 +379,9 @@ public class MainActivity extends SlidingActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         isDestory = false;
-
-        DeliveryApi.getModelNum(token, getAmountHandler);
+        if(listRight!=null){
+            DeliveryApi.getModelNum(token, getAmountHandler);
+        }
     }
 
     @Override
@@ -430,17 +450,19 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    if(!BuildConfig.RELEASE){
+                    /*if(!BuildConfig.RELEASE){
                         mockData();
-                    }
+                    }*/
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),getAmountHandler);
                 } else {
                     PublicUtil.showErrorMsg(main, userRightResult);
+                    LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
+                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
         }
 
@@ -451,73 +473,19 @@ public class MainActivity extends SlidingActivity {
             scrollViewMain.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
             if(progressDialog!=null) progressDialog.dismiss();
-//			setMenu(null);
+            LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
         }
     };
 
-    /*private Map<Integer,List<UserRight>> getListGroup(){
-        Map<Integer,List<UserRight>> map = new TreeMap<>(
-                new Comparator() {
-                    @Override
-                    public int compare(Object lhs, Object rhs) {
-                        if ((Integer)lhs > (Integer)rhs){
-                            return 1;
-                        }else if ((Integer)lhs < (Integer)rhs){
-                            return -1;
-                        }else{
-                            return 0;
-                        }
-                    }
-                }
-        );
-        if(listRight!=null){
-            for (UserRight right : listRight){
-                if(!map.containsKey(right.getGroupNum())) {
-                    List<UserRight> item = new ArrayList<>();
-                    item.add(right);
-                    map.put(right.getGroupNum(), item);
-                }else{
-                    map.get(right.getGroupNum()).add(right);
-                }
-            }
-        }
 
-        return map;
-    }*/
-
-
-    private void mockData() {
-        /*UserRight item = new UserRight();
-        item.setMenuCode("sfa");
-        item.setMenuName("sfa");
-        item.setUrl("http://www.runoob.com/try/try.php?filename=tryjsref_oninput");
+    /*private void mockData() {
+        UserRight item = new UserRight();
+        item.setMenuCode(MenuCode.my_team.toString());
+        item.setMenuName(getString(R.string.team_title));
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
-        if(item.getGroupNum()>groupCount) {
-            groupCount = item.getGroupNum();
-        }*/
-
-//        UserRight item = new UserRight();
-//        item.setMenuCode(MenuCode.mall_erp_clothing_collect_normal.toString());
-//        item.setMenuName("收衣管理");
-//        item.setIconImg("http://img4.duitang.com/uploads/item/201604/11/20160411233438_4iaL3.thumb.700_0.jpeg");
-//        item.setIconImg(listRight.get(0).getIconImg());
-//        item.setGroupNum(1);
-//
-//        UserRight item1 = new UserRight();
-//        item1.setMenuCode(MenuCode.mall_erp_clothing_collect_without_order.toString());
-//        item1.setMenuName("无订单收衣");
-//        item1.setIconImg("http://img4.duitang.com/uploads/item/201604/11/20160411233438_4iaL3.thumb.700_0.jpeg");
-//        item1.setIconImg(listRight.get(0).getIconImg());
-//        item1.setGroupNum(2);
-//
-//        listRight.add(item);
-//        listRight.add(item1);
-//        if(item.getGroupNum()>groupCount) {
-//            groupCount = item.getGroupNum();
-//        }
-    }
+    }*/
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
@@ -567,8 +535,8 @@ public class MainActivity extends SlidingActivity {
                         PublicUtil.showToastErrorData(main);
                     } else {
                         String title = getString(R.string.main_tab_qrcode);
-                        String str = angelQrResult.getOrgName() + "\n"
-                                + angelQrResult.getInventoryName();
+                        String str = LibStringUtil.getStringParamsByFormat("\n",
+                                angelQrResult.getOrgName(), angelQrResult.getInventoryName());
                         DialogUtil.showCodeDialog(main, title, angelQrResult.getQrcode(), str);
                     }
                 } else {
@@ -648,7 +616,7 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if(resultCode==RESULT_CANCELED){
+        if(resultCode==RESULT_CANCELED){
             return;
         }
         if(resultCode==RESULT_OK){
@@ -656,10 +624,11 @@ public class MainActivity extends SlidingActivity {
                 case 0:
                     if(data==null) return;
                     String result = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    PublicUtil.showToast(result);
+//                    PublicUtil.showToast(result);
+                    PublicUtil.showMessage(main,result);
                     break;
             }
-        }*/
+        }
     }
 
 
@@ -752,9 +721,10 @@ public class MainActivity extends SlidingActivity {
                intent = new Intent(main, CouponsTabActivity.class);
                startActivity(intent);
            } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
-               PublicUtil.openWebView(main, userRight.getUrl() +
-                               "?token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), false, false, true, false);
+               PublicUtil.openWebView(main, userRight.getUrl()
+                               +(userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
+                               + "token=" + ClientStateManager.getLoginToken(main),
+                       userRight.getMenuName(), false, true);
            } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
                intent = new Intent(main, MessageListActivity.class);
                startActivity(intent);
@@ -766,20 +736,22 @@ public class MainActivity extends SlidingActivity {
                startActivity(intent);
            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
                PublicUtil.showMessageService(main);
-           } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+           }  else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode())) {
+               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
+           } else if (MenuCode.activity_collect_clothes.toString().equals(userRight.getMenuCode())) {
+               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
+           } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
+               intent = new Intent(main, PromoteActivity.class);
+               startActivity(intent);
+           } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
+               intent = new Intent(main, MyTeamActivity.class);
+               startActivity(intent);
+           }else if (!StringUtils.isEmpty(userRight.getUrl())) {
                PublicUtil.openWebView(main, userRight.getUrl()
                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                + "token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), true, true, false,false);
-           }
-           // TODO: lk 2016/6/12 有订单收衣管理，待定
-           else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode())) {
-               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
-           }
-           else if (MenuCode.activity_collect_clothes.toString().equals(userRight.getMenuCode())) {
-               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
-           }
-           else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+                       userRight.getMenuName(), false);
+           } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
            } else{
                PublicUtil.showToast(getString(R.string.main_tab_no_data));
@@ -819,7 +791,7 @@ public class MainActivity extends SlidingActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            HolderView holderView = null;
+            HolderView holderView;
             if (convertView == null) {
                 holderView = new HolderView();
                 convertView = LayoutInflater.from(context).inflate(
@@ -847,6 +819,7 @@ public class MainActivity extends SlidingActivity {
                 if (!StringUtils.isEmpty(listUserRight.get(position).getIconImg())) {
                     KJFUtil.getUtil().getKJB().display(holderView.imgItem, listUserRight.get(position).getIconImg());
                 }
+
                 holderView.txtItem.setText(listUserRight.get(position).getMenuName());
             }else{
                 convertView.setBackgroundColor(getResources().getColor(R.color.white));

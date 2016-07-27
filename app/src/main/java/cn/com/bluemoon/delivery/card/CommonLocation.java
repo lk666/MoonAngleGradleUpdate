@@ -1,16 +1,11 @@
 package cn.com.bluemoon.delivery.card;
 
 import android.content.BroadcastReceiver;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.ServiceConnection;
-import android.location.Location;
-import android.os.IBinder;
 
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * Created by bm on 2016/4/12.

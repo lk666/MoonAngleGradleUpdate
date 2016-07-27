@@ -14,24 +14,21 @@ import cn.com.bluemoon.delivery.R;
 
 public class DialogForSubmitOrder {
     Context context;
-    Dialogcallback dialogcallback;
+    DialogCallback dialogcallback;
     Dialog dialog;
     TextView title;
 
-    TextView txtCommenNameShould;
-    TextView txtShouldOrderNums;
-    TextView txtCommenNameReal;
-    TextView txtRealOrderNums;
-    TextView txtDiffOrderNums;
-    TextView txtCommenNameRealTotalMoney;
+    TextView txtCommonNameShould;
+    TextView txtShouldOrderNum;
+    TextView txtCommonNameReal;
+    TextView txtRealOrderNum;
+    TextView txtDiffOrderNum;
+    TextView txtCommonNameRealTotalMoney;
     TextView txtRealTotalMoney;
-    TextView txtCommenNameTip;
+    TextView txtCommonNameTip;
 
     Button positiveButton;
     Button negativeButton;
-
-    String type;//deliver or  receive
-
 
     /**
      * init the dialog
@@ -43,35 +40,35 @@ public class DialogForSubmitOrder {
         dialog = new Dialog(context, R.style.dialog);
         dialog.setContentView(R.layout.dialog_submit_view);
         title = (TextView) dialog.findViewById(R.id.title);
-        txtCommenNameShould = (TextView) dialog.findViewById(R.id.txt_commenName_should);
-        txtShouldOrderNums = (TextView) dialog.findViewById(R.id.txt_should_order_nums);
-        txtCommenNameReal = (TextView) dialog.findViewById(R.id.txt_commenName_real);
-        txtRealOrderNums = (TextView) dialog.findViewById(R.id.txt_real_order_nums);
-        txtDiffOrderNums = (TextView) dialog.findViewById(R.id.txt_diff_order_nums);
-        txtCommenNameRealTotalMoney = (TextView) dialog.findViewById(R.id.txt_commenName_real_total_money);
+        txtCommonNameShould = (TextView) dialog.findViewById(R.id.txt_commenName_should);
+        txtShouldOrderNum = (TextView) dialog.findViewById(R.id.txt_should_order_nums);
+        txtCommonNameReal = (TextView) dialog.findViewById(R.id.txt_commenName_real);
+        txtRealOrderNum = (TextView) dialog.findViewById(R.id.txt_real_order_nums);
+        txtDiffOrderNum = (TextView) dialog.findViewById(R.id.txt_diff_order_nums);
+        txtCommonNameRealTotalMoney = (TextView) dialog.findViewById(R.id.txt_commenName_real_total_money);
         txtRealTotalMoney = (TextView) dialog.findViewById(R.id.txt_real_total_money);
-        txtCommenNameTip = (TextView) dialog.findViewById(R.id.txt_commenName_tip);
+        txtCommonNameTip = (TextView) dialog.findViewById(R.id.txt_commenName_tip);
 
         positiveButton =(Button) dialog.findViewById(R.id.positiveButton);
         negativeButton =(Button) dialog.findViewById(R.id.negativeButton);
         initListener();
 
         if("deliver".equals(type)){
-            txtCommenNameShould.setText(context.getString(R.string.detail_order_deliver_should));
-            txtCommenNameReal.setText(context.getString(R.string.detail_order_deliver_real));
-            txtCommenNameRealTotalMoney.setText(context.getString(R.string.order_real_deliver_money));
-            txtCommenNameTip.setText(context.getString(R.string.order_deliver_submit_message_tip));
+            txtCommonNameShould.setText(context.getString(R.string.detail_order_deliver_should));
+            txtCommonNameReal.setText(context.getString(R.string.detail_order_deliver_real));
+            txtCommonNameRealTotalMoney.setText(context.getString(R.string.order_real_deliver_money));
+            txtCommonNameTip.setText(context.getString(R.string.order_deliver_submit_message_tip));
 
         }else{
-            txtCommenNameShould.setText(context.getString(R.string.detail_order_receive_should));
-            txtCommenNameReal.setText(context.getString(R.string.detail_order_receive_real));
-            txtCommenNameRealTotalMoney.setText(context.getString(R.string.order_real_receive_money));
-            txtCommenNameTip.setText(context.getString(R.string.order_recive_submit_message_tip));
+            txtCommonNameShould.setText(context.getString(R.string.detail_order_receive_should));
+            txtCommonNameReal.setText(context.getString(R.string.detail_order_receive_real));
+            txtCommonNameRealTotalMoney.setText(context.getString(R.string.order_real_receive_money));
+            txtCommonNameTip.setText(context.getString(R.string.order_recive_submit_message_tip));
         }
 
-        txtShouldOrderNums.setText(should);
-        txtRealOrderNums.setText(real);
-        txtDiffOrderNums.setText(diff);
+        txtShouldOrderNum.setText(should);
+        txtRealOrderNum.setText(real);
+        txtDiffOrderNum.setText(diff);
         txtRealTotalMoney.setText(totalMoney);
     }
 
@@ -80,7 +77,7 @@ public class DialogForSubmitOrder {
         positiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                dialogcallback.dialogdo("");
+                dialogcallback.dialogDo("");
                 dismiss();
             }
         });
@@ -94,11 +91,11 @@ public class DialogForSubmitOrder {
 
     }
 
-    public interface Dialogcallback {
-        public void dialogdo(String string);
+    public interface DialogCallback {
+         void dialogDo(String string);
     }
 
-    public void setDialogCallback(Dialogcallback dialogcallback) {
+    public void setDialogCallback(DialogCallback dialogcallback) {
         this.dialogcallback = dialogcallback;
     }
 
@@ -115,10 +112,6 @@ public class DialogForSubmitOrder {
 
     public void show() {
         dialog.show();
-    }
-
-    public void hide() {
-        dialog.hide();
     }
 
     public void dismiss() {

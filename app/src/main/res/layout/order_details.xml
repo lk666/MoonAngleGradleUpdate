@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
     android:orientation="vertical" >
 
     <ScrollView
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/page_bg_f2"
         android:layout_weight="1"
@@ -14,7 +14,7 @@
         android:scrollbars="none" >
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
             android:focusableInTouchMode="true"
@@ -22,7 +22,7 @@
             android:orientation="vertical" >
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:background="#fefefe"
@@ -51,7 +51,7 @@
             <View style="@style/line_solid_deep_style" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#fefefe"
@@ -59,7 +59,7 @@
                 android:padding="10dp" >
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#fefefe"
                     android:orientation="vertical" >
@@ -104,7 +104,7 @@
                             android:src="@mipmap/address"/>
                     <TextView
                         android:id="@+id/txt_address"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:lineSpacingExtra="5dp"
                         android:paddingBottom="@dimen/linepaddingtxt"
@@ -115,7 +115,7 @@
 
                 <LinearLayout
                     android:id="@+id/layout_warehouse"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
                     android:orientation="vertical" >
@@ -140,7 +140,7 @@
                     android:layout_marginBottom="10dp" />
 
                 <LinearLayout
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
                     android:orientation="horizontal" >
@@ -152,13 +152,12 @@
                         android:src="@mipmap/time" />
 
                     <LinearLayout
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical" >
 
                         <LinearLayout
-                            android:id="@+id/lin_order"
-                            android:layout_width="fill_parent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:orientation="horizontal" >
 
@@ -179,7 +178,7 @@
 
                         <LinearLayout
                             android:id="@+id/layout_subscribe"
-                            android:layout_width="fill_parent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal"
@@ -202,7 +201,7 @@
 
                         <LinearLayout
                             android:id="@+id/layout_delivery"
-                            android:layout_width="fill_parent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal"
@@ -225,7 +224,7 @@
 
                         <LinearLayout
                             android:id="@+id/layout_sign"
-                            android:layout_width="fill_parent"
+                            android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="10dp"
                             android:orientation="horizontal"
@@ -252,7 +251,7 @@
             <View style="@style/line_solid_deep_style" />
 
             <LinearLayout
-                android:layout_width="fill_parent"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#fefefe"
@@ -261,7 +260,7 @@
                 android:paddingRight="10dp" >
 
                 <TextView
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:paddingBottom="10dp"
                     android:paddingTop="10dp"
@@ -273,7 +272,7 @@
 
                 <ListView
                     android:id="@+id/listview_product"
-                    android:layout_width="fill_parent"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:dividerHeight="0dp"
                     android:fadingEdge="none"
@@ -285,7 +284,7 @@
 
                     <TextView
                         android:id="@+id/txt_totalprice"
-                        android:layout_width="fill_parent"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="right"
                         android:layout_marginTop="10dp"

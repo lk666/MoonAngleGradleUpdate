@@ -1,9 +1,5 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="fab_margin">16dp</dimen>
-
-    <dimen name="wheel_text_size">18dp</dimen>
-    <dimen name="wheel_item_height">15dp</dimen>
 
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="listview_left_margin">10dp</dimen>
@@ -23,26 +19,18 @@
     <dimen name="account_order_home_icon_width">30sp</dimen>
     <dimen name="account_order_home_icon_height">30sp</dimen>
 
-    <dimen name="text_size_mini_8">8sp</dimen>
-    <dimen name="text_size_small_10">10sp</dimen>
-    <dimen name="text_size_normal_12">12sp</dimen>
     <dimen name="text_size_large_14">14sp</dimen>
     <dimen name="text_size_large_16">16sp</dimen>
     <dimen name="text_size_large_18">18sp</dimen>
-    <dimen name="text_size_title_20">20sp</dimen>
 
     <dimen name="point_width">12dp</dimen>
     <dimen name="point_height">12dp</dimen>
 
-    <dimen name="point_width_large">16dp</dimen>
-    <dimen name="point_height_large">16dp</dimen>
-
     <dimen name="linepaddingtxt">0dp</dimen>
     <dimen name="linepaddingtxt2">0dp</dimen>
-    <dimen name="text_margin">16dp</dimen>
+    <dimen name="linepaddingtxt3">5dp</dimen>
+    <dimen name="linepaddingtxt4">5dp</dimen>
 
-    <dimen name="slidingmenu_offset">100dp</dimen>
-    <dimen name="list_padding">10dp</dimen>
     <dimen name="shadow_width">15dp</dimen>
 
     <dimen name="div_btn_clothes_book_in">18dp</dimen>

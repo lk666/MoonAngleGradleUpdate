@@ -8,46 +8,36 @@
  */
 package cn.com.bluemoon.delivery.extract;
 
-import java.util.List;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.KJBitmap;
-import org.kymjs.kjframe.utils.StringUtils;
-
 import android.app.Activity;
-import android.content.Context;
 import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import cn.com.bluemoon.delivery.ClientStateManager;
-import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.adapter.OrderProductAdapter;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.OrderInfo;
-import cn.com.bluemoon.delivery.app.api.model.Product;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfo;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
-import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.utils.StringUtils;
+
+import cn.com.bluemoon.delivery.ClientStateManager;
+import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.adapter.OrderProductAdapter;
+import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.OrderInfo;
+import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfo;
+import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
+import cn.com.bluemoon.delivery.manager.ActivityManager;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class HistoryOrderDetailActivity extends Activity {
 	private String TAG = "OrderDetailActivity";
