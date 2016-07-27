@@ -1,5 +1,11 @@
+import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
 def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
+def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HHmmss")
+    df.setTimeZone(TimeZone.getDefault())
+    return df.format(new Date()) }
 android {
     compileSdkVersion 21
     buildToolsVersion '23.0.3'
@@ -19,7 +25,7 @@ android {
         targetSdkVersion 21
         versionCode 17
         versionName "4.2.0"
-        buildConfigField("String", "BUILD_CODE", "\"${gitSha}\"")
+        buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
     }
 
@@ -31,7 +37,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
-                        def fileName = "Delivery_${defaultConfig.versionName}(${gitSha})_debug.apk"
+                        def fileName = "月亮天使_${buildTime()}_测试版_${defaultConfig.versionName}(${gitNum}).apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
@@ -46,7 +52,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('release.apk')) {
-                        def fileName = "Delivery_${defaultConfig.versionName}(${gitSha})_release.apk"
+                        def fileName = "月亮天使_${buildTime()}_正式版_${defaultConfig.versionName}(${gitNum}).apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
