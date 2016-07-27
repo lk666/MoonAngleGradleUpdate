@@ -41,6 +41,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
+ * 衣物转交
  * Created by allenli on 2016/6/22.
  */
 public class ClothingDeliverActivity extends BaseActionBarActivity {
@@ -135,9 +136,9 @@ public class ClothingDeliverActivity extends BaseActionBarActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 if (txtDeliverRemark.getLineCount() > 1) {
-                    txtDeliverRemark.setGravity(Gravity.LEFT);
+                    txtDeliverRemark.setGravity(Gravity.START);
                 } else {
-                    txtDeliverRemark.setGravity(Gravity.RIGHT);
+                    txtDeliverRemark.setGravity(Gravity.END);
                 }
             }
         });

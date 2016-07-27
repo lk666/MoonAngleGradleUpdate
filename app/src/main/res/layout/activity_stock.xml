@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
     android:orientation="vertical">
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/bar_blue">
 
         <TextView
             android:id="@+id/txt_store_id"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:gravity="center"
@@ -30,7 +30,7 @@
         tab:text="@string/text_stock_tab_names" />
 
     <LinearLayout
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#fefefe"
         android:orientation="vertical"
@@ -39,7 +39,7 @@
 
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -65,7 +65,7 @@
         <View style="@style/line_dotted_style"></View>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -91,7 +91,7 @@
         <View style="@style/line_dotted_style"></View>
 
         <LinearLayout
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="35dp"
             android:gravity="center_vertical"
             android:orientation="horizontal">
@@ -121,14 +121,14 @@
         android:layout_marginBottom="10dp"></View>
 
     <LinearLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical"
         >
 
         <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView xmlns:ptr="http://schemas.android.com/apk/res-auto"
             android:id="@+id/listview_main"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@color/page_bg_f2"

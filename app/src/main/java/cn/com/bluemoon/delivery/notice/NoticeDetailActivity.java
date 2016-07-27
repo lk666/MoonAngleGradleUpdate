@@ -2,12 +2,10 @@ package cn.com.bluemoon.delivery.notice;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
@@ -21,13 +19,11 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.utils.StringUtils;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.knowledge.ResultKnowledges;
 import cn.com.bluemoon.delivery.app.api.model.knowledge.ResultPaperDetail;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultInfoDetail;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;

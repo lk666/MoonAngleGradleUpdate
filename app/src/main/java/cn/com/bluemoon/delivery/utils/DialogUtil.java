@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.utils;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.lib.callback.CodeDialogCallback;
 import cn.com.bluemoon.lib.callback.ImageDialogCallback;
@@ -14,7 +15,7 @@ public class DialogUtil {
 	public static QRCodeDialog showCodeDialog(Activity context,String title,
 			String codeUrl,String code,String str,String tips,CodeDialogCallback cb)
 	{
-			QRCodeDialog codeDialog = new QRCodeDialog(context);
+			QRCodeDialog codeDialog = new QRCodeDialog();
 		if(!codeDialog.isVisible())
 		{
 			codeDialog.setLoadString(context.getString(R.string.data_loading));
@@ -37,7 +38,8 @@ public class DialogUtil {
 
 	public static ImageDialog showPictureDialog(Activity context,Bitmap bm,String imgUrl,ImageDialogCallback cb)
 	{
-		ImageDialog picDialog = new ImageDialog(context,cb);
+		ImageDialog picDialog = new ImageDialog();
+		picDialog.setCallback(cb);
 		if (!picDialog.isVisible()) {
 			picDialog.setLoadString(context.getString(R.string.data_loading));
 			if (bm != null) {

@@ -40,6 +40,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
+ * 确认收衣界面
  * Created by allenli on 2016/6/23.
  */
 public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implements

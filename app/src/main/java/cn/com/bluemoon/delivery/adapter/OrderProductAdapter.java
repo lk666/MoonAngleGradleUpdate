@@ -1,9 +1,5 @@
 package cn.com.bluemoon.delivery.adapter;
 
-import java.util.List;
-
-import org.kymjs.kjframe.KJBitmap;
-
 import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,6 +9,11 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import org.kymjs.kjframe.KJBitmap;
+
+import java.util.List;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.Product;
 import cn.com.bluemoon.delivery.utils.DialogUtil;

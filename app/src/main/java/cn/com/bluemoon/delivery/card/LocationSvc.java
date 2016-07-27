@@ -10,7 +10,6 @@ import android.os.IBinder;
 import android.util.Log;
 
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * @desc 定位服务

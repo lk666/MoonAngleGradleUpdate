@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
-    xmlns:CommonSearchView="http://schemas.android.com/apk/res-auto">
+    >
 
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
@@ -22,9 +22,10 @@
         ptr:ptrHeaderTextColor="@color/text_black"/>
 
     <cn.com.bluemoon.lib.view.CommonSearchView
+        xmlns:search="http://schemas.android.com/apk/res-auto"
         android:id="@+id/search_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        CommonSearchView:text_hint = "@string/search_key"/>
+        android:layout_height="wrap_content"
+        search:text_hint = "@string/search_key"/>
 
 </RelativeLayout>

@@ -1,12 +1,5 @@
 package cn.com.bluemoon.delivery.order;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.utils.StringUtils;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
@@ -22,6 +15,19 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.umeng.analytics.MobclickAgent;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.utils.StringUtils;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.AppContext;
@@ -44,11 +50,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
 
 @SuppressLint("SimpleDateFormat")
 public class HistoryFragment extends Fragment {

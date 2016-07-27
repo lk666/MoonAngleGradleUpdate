@@ -5,7 +5,7 @@
 
     <View
         android:id="@+id/view_pop_start"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="0dp" />
 
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
@@ -27,7 +27,7 @@
         xmlns:search="http://schemas.android.com/apk/res-auto"
         android:id="@+id/searchview_member"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         search:text_hint="@string/team_member_search_hint"
         />
 

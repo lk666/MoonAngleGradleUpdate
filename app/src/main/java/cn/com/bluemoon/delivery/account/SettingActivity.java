@@ -1,23 +1,20 @@
 package cn.com.bluemoon.delivery.account;
 
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
-
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.ui.BindView;
+
+import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.Constants;
 
 public class SettingActivity extends KJActivity {
 
@@ -25,27 +22,16 @@ public class SettingActivity extends KJActivity {
 	private RelativeLayout reGeneral;
 	@BindView(id = R.id.re_about, click = true)
 	private RelativeLayout reAbout;
-//	@BindView(id = R.id.re_call, click = true)
-//	private RelativeLayout reCall;
 	private String TAG = "SettingActivity";
 
 	@Override
 	public void setRootView() {
-		// TODO Auto-generated method stub
 		initCustomActionBar();
 		setContentView(R.layout.account_set_main);
-		ActivityManager.getInstance().pushOneActivity(this);
-	}
-
-	@Override
-	public void initWidget() {
-		// TODO Auto-generated method stub
-		super.initWidget();
 	}
 
 	@Override
 	public void widgetClick(View v) {
-		// TODO Auto-generated method stub
 		super.widgetClick(v);
 		switch (v.getId()) {
 		case R.id.re_general:
@@ -54,9 +40,6 @@ public class SettingActivity extends KJActivity {
 		case R.id.re_about:
 			toPersoninfo(Constants.MODE_CHECK);
 			break;
-//		case R.id.re_call:
-//			PublicUtil.showMessageService(aty);
-//			break;
 		}
 	}
 
@@ -65,18 +48,15 @@ public class SettingActivity extends KJActivity {
 
 			@Override
 			public void onBtnRight(View v) {
-				// TODO Auto-generated method stub
 			}
 
 			@Override
 			public void onBtnLeft(View v) {
-				// TODO Auto-generated method stub
 				finish();
 			}
 
 			@Override
 			public void setTitle(TextView v) {
-				// TODO Auto-generated method stub
 				v.setText(getText(R.string.user_settings));
 			}
 		});

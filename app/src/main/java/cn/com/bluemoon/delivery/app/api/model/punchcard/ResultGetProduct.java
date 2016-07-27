@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.entity.BaseAPIResult;
 
 /**
  * Created by liangjiangli on 2016/4/1.

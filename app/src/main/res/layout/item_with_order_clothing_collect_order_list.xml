@@ -44,7 +44,7 @@
     </LinearLayout>
 
 
-    <View style="@style/line_solid_padding_left_style"></View>
+    <View style="@style/line_solid_padding_left_style"/>
 
     <RelativeLayout
         android:layout_width="match_parent"

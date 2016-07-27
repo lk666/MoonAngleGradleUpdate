@@ -8,26 +8,23 @@
  */
 package cn.com.bluemoon.delivery.order;
 
-import java.util.Calendar;
-import java.util.Locale;
-
-
 import android.content.Context;
-import android.content.DialogInterface;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnTouchListener;
 import android.view.ViewGroup.LayoutParams;
-import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+
+import java.util.Calendar;
+import java.util.Locale;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;

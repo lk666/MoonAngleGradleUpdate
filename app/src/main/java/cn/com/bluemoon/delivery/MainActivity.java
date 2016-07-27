@@ -70,8 +70,11 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
+import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibStringUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.RedpointTextView;
 
@@ -94,6 +97,7 @@ public class MainActivity extends SlidingActivity {
     private PullToRefreshListView scrollViewMain;
     private GridViewAdapter gridViewAdapter;
     private UserRightAdapter userRightAdapter;
+    private CommonEmptyView emptyView;
 
 //    private Map<Integer, View> map = new HashMap<Integer, View>();
 //    private KJBitmap kjb;
@@ -131,6 +135,9 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 mMenu.showMenu(!mMenu.isMenuShowing());
+                if(MenuFragment.user==null&&mMenuFragment!=null){
+                    mMenuFragment.setUserInfo();
+                }
             }
         });
         imgScan.setOnClickListener(new View.OnClickListener() {
@@ -138,10 +145,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                if(!BuildConfig.RELEASE){
-                    Intent intent = new Intent(main, MyTeamActivity.class);
-                    startActivity(intent);
-                }
+             PublicUtil.openScanCard(main, null, null, 0);
             }
         });
         txtTips =(AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -154,7 +158,15 @@ public class MainActivity extends SlidingActivity {
         });
         scrollViewMain = (PullToRefreshListView)findViewById(R.id.scrollView_main);
         scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-
+        emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_empty_menu),
+                new CommonEmptyView.EmptyListener() {
+                    @Override
+                    public void onRefresh() {
+                        if(progressDialog!=null) progressDialog.show();
+                        DeliveryApi.getAppRights(token, appRightsHandler);
+                        DeliveryApi.getNewMessage(token, newMessageHandler);
+                    }
+                });
         scrollViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -445,10 +457,12 @@ public class MainActivity extends SlidingActivity {
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),getAmountHandler);
                 } else {
                     PublicUtil.showErrorMsg(main, userRightResult);
+                    LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
+                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
         }
 
@@ -459,7 +473,7 @@ public class MainActivity extends SlidingActivity {
             scrollViewMain.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
             if(progressDialog!=null) progressDialog.dismiss();
-//			setMenu(null);
+            LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
         }
     };
 
@@ -602,7 +616,7 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        /*if(resultCode==RESULT_CANCELED){
+        if(resultCode==RESULT_CANCELED){
             return;
         }
         if(resultCode==RESULT_OK){
@@ -610,10 +624,11 @@ public class MainActivity extends SlidingActivity {
                 case 0:
                     if(data==null) return;
                     String result = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    PublicUtil.showToast(result);
+//                    PublicUtil.showToast(result);
+                    PublicUtil.showMessage(main,result);
                     break;
             }
-        }*/
+        }
     }
 
 
@@ -706,9 +721,10 @@ public class MainActivity extends SlidingActivity {
                intent = new Intent(main, CouponsTabActivity.class);
                startActivity(intent);
            } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
-               PublicUtil.openWebView(main, userRight.getUrl() +
-                               "?token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), false, false, true, false);
+               PublicUtil.openWebView(main, userRight.getUrl()
+                               +(userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
+                               + "token=" + ClientStateManager.getLoginToken(main),
+                       userRight.getMenuName(), false, true);
            } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
                intent = new Intent(main, MessageListActivity.class);
                startActivity(intent);
@@ -734,7 +750,7 @@ public class MainActivity extends SlidingActivity {
                PublicUtil.openWebView(main, userRight.getUrl()
                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                + "token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), true, true, false, false);
+                       userRight.getMenuName(), false);
            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
            } else{
@@ -775,7 +791,7 @@ public class MainActivity extends SlidingActivity {
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
-            HolderView holderView = null;
+            HolderView holderView;
             if (convertView == null) {
                 holderView = new HolderView();
                 convertView = LayoutInflater.from(context).inflate(
@@ -803,6 +819,7 @@ public class MainActivity extends SlidingActivity {
                 if (!StringUtils.isEmpty(listUserRight.get(position).getIconImg())) {
                     KJFUtil.getUtil().getKJB().display(holderView.imgItem, listUserRight.get(position).getIconImg());
                 }
+
                 holderView.txtItem.setText(listUserRight.get(position).getMenuName());
             }else{
                 convertView.setBackgroundColor(getResources().getColor(R.color.white));

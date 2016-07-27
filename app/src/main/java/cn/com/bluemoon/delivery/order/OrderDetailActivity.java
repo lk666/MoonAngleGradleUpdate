@@ -1,17 +1,23 @@
 package cn.com.bluemoon.delivery.order;
 
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
-import org.kymjs.kjframe.utils.StringUtils;
-
 import android.graphics.Paint;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.umeng.analytics.MobclickAgent;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.KJActivity;
+import org.kymjs.kjframe.ui.BindView;
+import org.kymjs.kjframe.utils.StringUtils;
+
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.adapter.OrderProductAdapter;
@@ -28,11 +34,6 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
 
 public class OrderDetailActivity extends KJActivity {
 

@@ -1,0 +1,28 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <cn.com.bluemoon.lib.view.CommonSearchView
+        xmlns:search="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/searchview_group"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        search:text_hint="@string/team_group_search_hint"
+        />
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_group"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg_f2"
+        android:cacheColorHint="#00000000"
+        android:dividerHeight="0dp"
+        android:scrollbars="none"
+        ptr:ptrMode="both"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black" />
+
+</LinearLayout>

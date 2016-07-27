@@ -39,7 +39,7 @@
             android:layout_marginRight="10dp"
             android:text="@string/team_group_end_date"
             />
-        <TextView
+        <cn.com.bluemoon.delivery.ui.DateTextView
             android:id="@+id/txt_end_date"
             android:layout_width="0dp"
             android:layout_height="40dp"
