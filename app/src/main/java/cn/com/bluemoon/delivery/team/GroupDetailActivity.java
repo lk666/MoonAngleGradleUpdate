@@ -89,7 +89,7 @@ public class GroupDetailActivity extends KJActivity {
         if(getIntent().hasExtra("code")){
             empEdit.setGroupCode(getIntent().getStringExtra("code"));
         }
-        emptyView = PublicUtil.setEmptyView(listviewDetail, String.format(getString(R.string.empty_hint),
+        emptyView = PublicUtil.setEmptyView(listviewDetail, getString(R.string.empty_hint,
                 getString(R.string.team_group_detail_title)), new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -206,9 +206,9 @@ public class GroupDetailActivity extends KJActivity {
                     empEdit.setCommunityName(result.getCommunityName());
                     timestamp = result.getTimestamp();
                     txtTitle.setText(PublicUtil.getStringParams(result.getBpCode(), result.getBpName()));
-                    txtTotal.setText(String.format(getString(R.string.team_group_detail_total_num),result.getActualTotalPopulation(),result.getPlanTotalPopulation()));
-                    txtFull.setText(String.format(getString(R.string.team_group_detail_full_num), result.getFullTimeNumber()));
-                    txtPart.setText(String.format(getString(R.string.team_group_detail_part_num), result.getPartTimeNumber()));
+                    txtTotal.setText(getString(R.string.team_group_detail_total_num,result.getActualTotalPopulation(),result.getPlanTotalPopulation()));
+                    txtFull.setText(getString(R.string.team_group_detail_full_num, result.getFullTimeNumber()));
+                    txtPart.setText(getString(R.string.team_group_detail_part_num, result.getPartTimeNumber()));
                     setData(result.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(aty, result);

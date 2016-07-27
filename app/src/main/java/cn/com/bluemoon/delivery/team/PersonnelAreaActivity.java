@@ -85,7 +85,7 @@ public class PersonnelAreaActivity extends KJActivity {
             finish();
             return;
         }
-        emptyView = PublicUtil.setEmptyView(listviewArea, String.format(getString(R.string.empty_hint),
+        emptyView = PublicUtil.setEmptyView(listviewArea, getString(R.string.empty_hint,
                 getString(R.string.team_group_detail_member)), new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -219,7 +219,7 @@ public class PersonnelAreaActivity extends KJActivity {
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     timestamp = result.getTimestamp();
                     txtName.setText(PublicUtil.getStringParams(result.getEmpCode(), result.getEmpName()));
-                    txtNum.setText(String.format(getString(R.string.team_area_total_num), result.getTotalFamily()));
+                    txtNum.setText(getString(R.string.team_area_total_num, result.getTotalFamily()));
                     setData(result.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(aty, result);
@@ -342,11 +342,11 @@ public class PersonnelAreaActivity extends KJActivity {
             } else {
                 layoutArea.setVisibility(View.GONE);
             }
-            txtNum.setText(String.format(getString(R.string.team_area_num), item.getTotalRooms()));
+            txtNum.setText(getString(R.string.team_area_num, item.getTotalRooms()));
             txtName.setText(name);
             txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
                     + item.getVillageName() + item.getStreetName());
-            txtDate.setText(String.format(getString(R.string.team_area_add_date),
+            txtDate.setText(getString(R.string.team_area_add_date,
                     DateUtil.getTime(item.getStartDate())));
             txtDelete.setOnClickListener(new View.OnClickListener() {
                 @Override
