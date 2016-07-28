@@ -24,6 +24,7 @@ import java.util.Map;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
+import cn.com.bluemoon.delivery.utils.CacheManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
@@ -50,6 +51,7 @@ public class WebViewActivity extends Activity {
 	private boolean isProgress;
 	private boolean isBackByJs;
 	private boolean isBackFinish;
+	private boolean isClearCache;
 	private Map<String,String> map;
 	/**
 	 * TODO 
@@ -80,6 +82,7 @@ public class WebViewActivity extends Activity {
 			isProgress = getIntent().getBooleanExtra("progress",false);
 			isBackByJs = getIntent().getBooleanExtra("back",false);
 			isBackFinish = getIntent().getBooleanExtra("isBackFinish",false);
+			isClearCache = getIntent().getBooleanExtra("isClearCache",false);
 			if(isActionBar){
 				if (layout_title.getVisibility() == View.GONE)
 					layout_title.setVisibility(View.VISIBLE);
@@ -104,7 +107,8 @@ public class WebViewActivity extends Activity {
 		webSetting.setDomStorageEnabled(true);
 		webSetting.setDatabaseEnabled(true);
 		webSetting.setJavaScriptEnabled(true);
-		webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
+		webSetting.setCacheMode(WebSettings.LOAD_NO_CACHE);
+		webSetting.setAppCacheEnabled(false);
 		moonWebView.setWebChromeClient(new WebChromeClient() {
 
 			@Override
@@ -273,6 +277,9 @@ public class WebViewActivity extends Activity {
 		if(map!=null){
 			map.clear();
 			map = null;
+		}
+		if(isClearCache){
+			CacheManager.cleanWebViewCache(aty);
 		}
 	}
 
