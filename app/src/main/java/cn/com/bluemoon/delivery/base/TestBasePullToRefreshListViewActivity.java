@@ -73,7 +73,12 @@ public class TestBasePullToRefreshListViewActivity extends
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
-        DeliveryApi.getOuterOrderInfo(requestCode, outerCode, ClientStateManager.getLoginToken(this), handler);
+        // TODO: lk 2016/7/28  界面中的DeliveryApi方法必须使用特定界面的context，
+        // 以使 ApiHttpClient.cancelAll(this)生效
+        // DeliveryApi.getOuterOrderInfo(this, requestCode, outerCode, ClientStateManager
+        // .getLoginToken(this), handler);
+        DeliveryApi.getOuterOrderInfo(requestCode, outerCode, ClientStateManager.getLoginToken
+                (this), handler);
     }
 
     /**

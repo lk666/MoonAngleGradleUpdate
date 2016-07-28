@@ -236,7 +236,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     protected abstract PullToRefreshBase.Mode getMode();
 
     /**
-     * 具体调用刷新数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(requestCode,
+     * 具体调用刷新数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(this, requestCode,
      * ClientStateManager.getLoginToken(this), "80474765", handler);
      *
      * @param requestCode DeliveryApi的方法中的requestCode参数
@@ -253,8 +253,8 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     abstract protected void setGetData(String result);
 
     /**
-     * 具体调用加载更多数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(ClientStateManager.getLoginToken(this),
-     * "80474765", handler);
+     * 具体调用加载更多数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(this,
+     * ClientStateManager.getLoginToken(this), "80474765", handler);
      *
      * @param requestCode DeliveryApi的方法中的requestCode参数
      * @param handler     DeliveryApi的方法中的AsyncHttpResponseHandler参数
