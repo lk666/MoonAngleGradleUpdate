@@ -9,7 +9,6 @@ import android.widget.BaseAdapter;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 
 /**
  * 基础列表adapter

@@ -22,6 +22,7 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
  * 基础Activity，实现了一些公共方法
  * Created by lk on 2016/6/14.
  */
+@Deprecated
 public abstract class BaseActivity extends Activity implements IShowDialog {
 
     private CommonProgressDialog progressDialog;

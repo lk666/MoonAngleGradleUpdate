@@ -4,11 +4,14 @@ import android.support.v4.app.Fragment;
 
 import com.umeng.analytics.MobclickAgent;
 
+import cn.com.bluemoon.delivery.module.base.IShowDialog;
+
 /**
  * 基础fragment
  * Created by lk on 2016/6/13.
  */
-public abstract class BaseFragment extends Fragment implements IShowDialog{
+@Deprecated
+public abstract class BaseFragment extends Fragment implements IShowDialog {
 
     /**
      * 默认TAG

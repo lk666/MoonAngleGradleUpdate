@@ -12,6 +12,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
  * 具有自定义actionBar的基础Activity
  * Created by lk on 2016/6/14.
  */
+@Deprecated
 public abstract class BaseActionBarActivity extends BaseActivity {
 
 

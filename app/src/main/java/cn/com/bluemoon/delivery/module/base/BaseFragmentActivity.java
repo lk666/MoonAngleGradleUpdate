@@ -8,15 +8,13 @@ import com.umeng.analytics.MobclickAgent;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-// TODO: lk 2016/6/12 修改目录结构，先规划再动手
-// TODO: lk 2016/6/12 所有的activity继承基类，解决内存泄漏
-// TODO: lk 2016/6/12 删除kjframe，换用imageloader+butterknife 
 // TODO: lk 2016/6/12 可考虑换用logutil 
 
 /**
  * 基础FragmentActivity，实现了一些公共方法
  * Created by lk on 2016/6/3.
  */
+@Deprecated
 public abstract class BaseFragmentActivity extends FragmentActivity implements IShowDialog{
 
     private CommonProgressDialog progressDialog;
