@@ -282,12 +282,10 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     /**
      * 设置布局文件layout，一般都要重写
      */
-    protected int getLayoutId() {
-        return 0;
-    }
+    protected abstract int getLayoutId();
 
     /**
      * 请求成功
      */
-    abstract void onSuccessResponse(int requestCode, String jsonString);
+    protected abstract void onSuccessResponse(int requestCode, String jsonString);
 }
