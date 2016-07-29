@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.alibaba.fastjson.JSON;
@@ -28,6 +29,7 @@ import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.Product;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
+import cn.com.bluemoon.delivery.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.inventory.ImageUtil;
@@ -2542,8 +2544,7 @@ public class DeliveryApi {
      * @param token     登录凭证(必填) String
      */
     public static void getOuterOrderInfo(int requestCode, String outerCode, String token,
-                                         AsyncHttpResponseHandler
-            handler) {
+                                         AsyncHttpResponseHandler handler) {
         if (null == outerCode || null == token) {
             return;
         }
@@ -2553,6 +2554,12 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, requestCode, handler);
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler)handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, requestCode, handler);
     }
 }

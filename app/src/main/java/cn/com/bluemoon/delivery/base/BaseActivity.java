@@ -103,8 +103,8 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
         MobclickAgent.onPageEnd(getDefaultTag());
     }
 
-    final AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
+    final AsyncHttpResponseHandler mainHandler = new WithContextTextHttpResponseHandler(
+            HTTP.UTF_8, this) {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
@@ -139,7 +139,7 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     ///////////// 工具方法 ////////////////
 
     /**
-     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(this, ClientStateManager.getLoginToken(this),
+     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken(this),
      * "80474765", getMainHandler());
      */
     final protected AsyncHttpResponseHandler getMainHandler() {
