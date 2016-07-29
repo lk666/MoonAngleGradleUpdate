@@ -256,6 +256,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
+            android:name=".base._ClothingTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
             android:name=".module.clothing.collect.withorder.WithOrderCollectBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
