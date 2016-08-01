@@ -2468,7 +2468,7 @@ public class DeliveryApi {
     }
 
     /* 获取人员关系详情 */
-    public static void getRelationShipDetail(String bpCode, String empCode, String token,
+    public static void getRelationShipDetail(Context context,String bpCode, String empCode, String token,int requestCode,
                                              AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == empCode || null == token) {
             return;
@@ -2480,7 +2480,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(context, url, jsonString, requestCode,handler);
     }
 
     /* 获取人员辖区列表 */

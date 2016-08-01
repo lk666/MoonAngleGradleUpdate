@@ -472,10 +472,7 @@ public class MemberFragment extends BackHandledFragment {
                         emp.setMobileNo(item.getMobileNo());
                         openRelationInfo(emp, Constants.TYPE_UPDATE);
                     }else if(v == layoutInfo){
-                        Intent intent = new Intent(mContext,RelationShipDetailActivity.class);
-                        intent.putExtra("bpCode",item.getCommunityCode());
-                        intent.putExtra("empCode",item.getBpCode());
-                        startActivity(intent);
+                        RelationShipDetailActivity.actionStart(mContext,item.getCommunityCode(),item.getBpCode());
                     }
                 }
             };
