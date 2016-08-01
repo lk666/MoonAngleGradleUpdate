@@ -48,7 +48,7 @@ public abstract class BaseFragment extends Fragment implements DialogControl {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-
+// TODO: lk 2016/8/1 未完成 
 
     }
 

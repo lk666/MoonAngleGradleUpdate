@@ -45,7 +45,7 @@ public class BaseTabActivity extends FragmentActivity
         implements DialogControl, BaseViewInterface {
 
     /**
-     * List<TabState>，tab数据
+     * List<OldTabState>，tab数据
      */
     public final static String EXTRA_TAB_STATES = "EXTRA_TAB_STATES";
 
@@ -105,14 +105,13 @@ public class BaseTabActivity extends FragmentActivity
             TabHost.TabSpec tabSpec = tabhost.newTabSpec(getResources()
                     .getString(tabs.get(i).getContent()))
                     .setIndicator(getTabItemView(tabs.get(i).getImage(),
-                            getResources().getString(tabs.get(i).getContent()), i));
+                            getResources().getString(tabs.get(i).getContent())));
             Bundle bundle = new Bundle();
-            bundle.putString("manager", tabs.get(i).getManager());
             tabhost.addTab(tabSpec, tabs.get(i).getClazz(), bundle);
         }
     }
 
-    private View getTabItemView(int resId, String content, int index) {
+    private View getTabItemView(int resId, String content) {
         View view = layoutInflater.inflate(R.layout.tab_item_view, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
         imageView.setImageResource(resId);
