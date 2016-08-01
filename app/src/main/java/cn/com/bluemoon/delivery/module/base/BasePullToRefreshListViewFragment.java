@@ -7,12 +7,11 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 /**
- * 基于PullToRefreshListView的基础刷新activity，自动显示空数据页面和网络错误页面
+ * 基于PullToRefreshListView的基础刷新fragment，自动显示空数据页面和网络错误页面
  * Created by lk on 2016/7/26.
  */
-public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseListAdapter, ITEM
-        extends Object> extends BasePullToRefreshActivity {
-
+public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseListAdapter, ITEM
+        extends Object> extends BasePullToRefreshFragment {
     /**
      * 列表adapter
      */
@@ -99,9 +98,8 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
     final protected int getPtrId() {
         return R.id.ptrlv;
     }
-    ///////////// 工具方法 ////////////////
-
     ///////////// 可选重写 ////////////////
+
     /**
      * 设置列表其他属性，如设置分割线等
      */
@@ -113,6 +111,7 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
     }
 
     ///////////// 必须重写 ////////////////
+
     /**
      * 产生adapter
      *

@@ -325,13 +325,9 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <activity android:name=".module.base.TestBasePullToRefreshListViewActivity"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/App.Base.Theme"
-                  android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity android:name=".module.jobrecord.PromoteDetailActivity"
-           android:screenOrientation="portrait"
-           android:theme="@style/App.Base.Theme"/>
+                  android:screenOrientation="portrait"
+                  android:theme="@style/App.Base.Theme"/>
 
        <activity android:name=".module.jobrecord.PromoteActivity"
             android:screenOrientation="portrait"

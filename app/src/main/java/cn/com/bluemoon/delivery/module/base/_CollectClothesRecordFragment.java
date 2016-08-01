@@ -9,4 +9,19 @@ public  class _CollectClothesRecordFragment extends BaseFragment {
     protected int getLayoutId() {
         return 0;
     }
+
+    @Override
+    protected void onSuccessResponse(int requestCode, String jsonString) {
+
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+
+    }
 }

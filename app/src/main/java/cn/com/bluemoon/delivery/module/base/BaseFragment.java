@@ -11,36 +11,45 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+
 import butterknife.ButterKnife;
+import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * 基础Fragment，必须属于{@link BaseTabActivity}
  * Created by lk on 2016/7/29.
  */
-public abstract class BaseFragment extends Fragment implements DialogControl {
+public abstract class BaseFragment extends Fragment implements DialogControl, BaseViewInterface {
 
     private BaseTabActivity aty;
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        aty = (BaseTabActivity) getActivity();
-        onBeforeCreateView();
-    }
-
+    private View mainView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
+        aty = (BaseTabActivity) getActivity();
+        onBeforeCreateView();
         initCustomActionBar();
+
         View v = inflater.inflate(getLayoutId(), container, false);
         ButterKnife.bind(this, v);
+        mainView = v;
         return v;
     }
 
@@ -48,8 +57,8 @@ public abstract class BaseFragment extends Fragment implements DialogControl {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-// TODO: lk 2016/8/1 未完成 
-
+        initView();
+        initData();
     }
 
     private void initCustomActionBar() {
@@ -77,7 +86,6 @@ public abstract class BaseFragment extends Fragment implements DialogControl {
         }
     }
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -93,9 +101,13 @@ public abstract class BaseFragment extends Fragment implements DialogControl {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        ApiHttpClient.cancelAll(aty);
     }
 
     ///////////// 工具方法 ////////////////
+    final protected View getMainView() {
+        return mainView;
+    }
 
     /**
      * 获取Activity
@@ -123,28 +135,70 @@ public abstract class BaseFragment extends Fragment implements DialogControl {
     }
 
     @Override
-    public void hideWaitDialog() {
+    final public void hideWaitDialog() {
         aty.hideWaitDialog();
     }
 
     @Override
-    public ProgressDialog showWaitDialog() {
+    final public ProgressDialog showWaitDialog() {
         return aty.showWaitDialog();
     }
 
     @Override
-    public ProgressDialog showWaitDialog(int resId, int viewId) {
+    final public ProgressDialog showWaitDialog(int resId, int viewId) {
         return aty.showWaitDialog(resId, viewId);
     }
 
     @Override
-    public ProgressDialog showWaitDialog(String text, int viewId) {
+    final public ProgressDialog showWaitDialog(String text, int viewId) {
         return aty.showWaitDialog(text, viewId);
     }
 
     final protected ProgressDialog showWaitDialog(String message, int viewId, boolean
             isCancelable) {
         return aty.showWaitDialog(message, viewId, isCancelable);
+    }
+
+    private final AsyncHttpResponseHandler mainHandler = new WithContextTextHttpResponseHandler(
+            HTTP.UTF_8, aty) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getRequestCode() + " --> " +
+                    "result = " + responseString);
+            hideWaitDialog();
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    onSuccessResponse(getRequestCode(), responseString);
+                } else {
+                    onErrorResponse(getRequestCode(), result);
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+                onFailureResponse(getRequestCode());
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            hideWaitDialog();
+            PublicUtil.showToastServerOvertime();
+            onFailureResponse(getRequestCode());
+        }
+    };
+
+    /**
+     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken
+     * (this),
+     * "80474765", getMainHandler());
+     */
+    final protected AsyncHttpResponseHandler getMainHandler() {
+        return mainHandler;
     }
 
     ///////////// 可选重写 ////////////////
@@ -182,10 +236,29 @@ public abstract class BaseFragment extends Fragment implements DialogControl {
     protected void setActionBar(CommonActionBar titleBar) {
     }
 
+    /**
+     * 请求返回非OK
+     */
+    protected void onErrorResponse(int requestCode, ResultBase result) {
+        DialogUtil.showErrorMsg(aty, result);
+    }
+
+    /**
+     * 请求失败
+     */
+    protected void onFailureResponse(int requestCode) {
+    }
+
+
     ///////////// 必须重写 ////////////////
 
     /**
      * 设置布局文件layout，一般都要重写
      */
     protected abstract int getLayoutId();
+
+    /**
+     * 请求成功
+     */
+    protected abstract void onSuccessResponse(int requestCode, String jsonString);
 }
