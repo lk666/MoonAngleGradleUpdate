@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.card.PunchCardFragment;
-import cn.com.bluemoon.delivery.card.RecordCardFragment;
+import cn.com.bluemoon.delivery.module.card.PunchCardFragment;
+import cn.com.bluemoon.delivery.module.card.RecordCardFragment;
 
 public enum CardTabState {
 	PUNCH(PunchCardFragment.class, R.drawable.card_tab_punch, R.string.tab_bottom_punch_card_text),

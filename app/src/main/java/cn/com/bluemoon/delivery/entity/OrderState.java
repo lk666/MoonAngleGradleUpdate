@@ -1,11 +1,11 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.order.HistoryFragment;
-import cn.com.bluemoon.delivery.order.PendingAppointmentFragment;
-import cn.com.bluemoon.delivery.order.PendingDeliveryFragment;
-import cn.com.bluemoon.delivery.order.PendingOrdersFragment;
-import cn.com.bluemoon.delivery.order.PendingReceiptFragment;
+import cn.com.bluemoon.delivery.module.order.HistoryFragment;
+import cn.com.bluemoon.delivery.module.order.PendingAppointmentFragment;
+import cn.com.bluemoon.delivery.module.order.PendingDeliveryFragment;
+import cn.com.bluemoon.delivery.module.order.PendingOrdersFragment;
+import cn.com.bluemoon.delivery.module.order.PendingReceiptFragment;
 
 public enum OrderState {
 	/** ���ӵ� */

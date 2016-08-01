@@ -19,17 +19,17 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 
-import cn.com.bluemoon.delivery.account.LoginActivity;
-import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
-import cn.com.bluemoon.delivery.manager.UpdateManager;
-import cn.com.bluemoon.delivery.service.LocationService;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.account.LoginActivity;
+import cn.com.bluemoon.delivery.module.service.LocationService;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.manager.UpdateManager;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;

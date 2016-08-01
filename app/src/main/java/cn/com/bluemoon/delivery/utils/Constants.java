@@ -5,8 +5,8 @@ import android.os.Environment;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.AppContext;
 
 public class Constants {
 
@@ -91,7 +91,7 @@ public class Constants {
 
     public static final int RETURN_TYPE = 1;
     public static final int EXCHANGE_TYPE = 2;
-    public static final String INTENTFILTER_ACTION = "cn.com.bluemoon.delivery.order";
+    public static final String INTENTFILTER_ACTION = "cn.com.bluemoon.delivery.module.order";
 
     public static final String QRCODE_ANGEL = "BM_ANGEL";
     public static final String QRCODE_MOONMALL = "BM_MOONMALL";

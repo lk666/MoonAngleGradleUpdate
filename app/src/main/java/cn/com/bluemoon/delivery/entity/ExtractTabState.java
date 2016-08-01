@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.extract.ScanFragment;
-import cn.com.bluemoon.delivery.order.HistoryFragment;
+import cn.com.bluemoon.delivery.module.extract.ScanFragment;
+import cn.com.bluemoon.delivery.module.order.HistoryFragment;
 
 public enum ExtractTabState {
 

@@ -12,9 +12,9 @@ import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
-import cn.com.bluemoon.delivery.module.oldbase.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderManageFragment;
 import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.WithoutOrderManageFragment;
+import cn.com.bluemoon.delivery.module.oldbase.BaseFragmentActivity;
 
 // TODO: lk 2016/6/16 可干掉与当前activity重复layout的资源文件 
 

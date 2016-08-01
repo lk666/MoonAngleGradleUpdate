@@ -25,7 +25,6 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
-import org.apache.http.message.BasicNameValuePair;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.ByteArrayOutputStream;
@@ -41,16 +40,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import cn.com.bluemoon.delivery.ClientStateManager;
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.account.LoginActivity;
-import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
-import cn.com.bluemoon.delivery.card.CardTabActivity;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
-import cn.com.bluemoon.delivery.order.OrderDetailActivity;
+import cn.com.bluemoon.delivery.module.account.LoginActivity;
+import cn.com.bluemoon.delivery.module.card.CardTabActivity;
+import cn.com.bluemoon.delivery.module.order.OrderDetailActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;

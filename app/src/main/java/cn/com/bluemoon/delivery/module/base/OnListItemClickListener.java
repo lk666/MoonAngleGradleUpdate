@@ -1,0 +1,11 @@
+package cn.com.bluemoon.delivery.module.base;
+
+import android.view.View;
+
+/**
+ * {@link BaseListAdapter}项点击事件回调
+ * Created by luokai on 2016/6/14.
+ */
+public interface OnListItemClickListener {
+    void onItemClick(Object item, View view, int position);
+}

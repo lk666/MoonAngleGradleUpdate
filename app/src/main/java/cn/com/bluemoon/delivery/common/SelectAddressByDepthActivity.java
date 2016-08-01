@@ -27,13 +27,13 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.address.ResultArea;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
-import cn.com.bluemoon.delivery.base.BaseListAdapter;
-import cn.com.bluemoon.delivery.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 

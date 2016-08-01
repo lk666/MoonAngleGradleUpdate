@@ -5,7 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
+import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 
 /**

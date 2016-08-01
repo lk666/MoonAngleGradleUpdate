@@ -21,17 +21,17 @@ import org.json.JSONObject;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.AppStartActivity;
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
-import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
-import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
-import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
-import cn.com.bluemoon.delivery.notice.MessageListActivity;
-import cn.com.bluemoon.delivery.notice.NoticeListActivity;
-import cn.com.bluemoon.delivery.notice.PaperListActivity;
-import cn.com.bluemoon.delivery.order.OrdersTabActivity;
-import cn.com.bluemoon.delivery.storage.StorageTabActivity;
-import cn.com.bluemoon.delivery.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
+import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
+import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
+import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
+import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
+import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
+import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
+import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
+import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 
 /*
  *0 - Success

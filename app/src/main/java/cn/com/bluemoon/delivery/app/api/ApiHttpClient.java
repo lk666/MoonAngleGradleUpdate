@@ -12,8 +12,8 @@ import org.apache.http.entity.ByteArrayEntity;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
-import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 
 public class ApiHttpClient {

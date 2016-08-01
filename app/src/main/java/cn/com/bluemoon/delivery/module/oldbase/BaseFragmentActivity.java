@@ -5,7 +5,7 @@ import android.support.v4.app.FragmentActivity;
 
 import com.umeng.analytics.MobclickAgent;
 
-import cn.com.bluemoon.delivery.manager.ActivityManager;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 // TODO: lk 2016/6/12 可考虑换用logutil 

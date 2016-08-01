@@ -7,7 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
+import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 
 public class CommonActionBar implements OnClickListener {
 

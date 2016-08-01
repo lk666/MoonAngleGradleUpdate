@@ -1,26 +1,16 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 
-import android.text.Html;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.util.TextUtils;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.account.LoginActivity;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.lib.callback.CodeDialogCallback;
-import cn.com.bluemoon.lib.callback.ImageDialogCallback;
-import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
+import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.lib.utils.LibDialogUtil;
-import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ImageDialog;
