@@ -58,8 +58,8 @@ public class BaseTabActivity extends FragmentActivity
     private List<TabState> tabs;
     private List<TextView> amountTvs;
 
-    protected static void actionStart(Context context, ArrayList<TabState> tabs) {
-        Intent intent = new Intent(context, BaseTabActivity.class);
+    protected static void actionStart(Context context, ArrayList<TabState> tabs, Class clazz) {
+        Intent intent = new Intent(context, clazz);
         intent.putExtra(EXTRA_TAB_STATES, tabs);
         context.startActivity(intent);
     }

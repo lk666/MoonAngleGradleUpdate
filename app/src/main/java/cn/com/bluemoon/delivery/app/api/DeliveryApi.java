@@ -1018,7 +1018,7 @@ public class DeliveryApi {
     }
 
     /*2.9.3保存更新打卡信息 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void confirmAttendance(String token, PunchCard punchCard, String workTask,
                                          AsyncHttpResponseHandler handler) {
 
@@ -1047,7 +1047,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.4 展示打卡信息 */
-	/* 返回： ResultShowPunchCardDetail */
+    /* 返回： ResultShowPunchCardDetail */
     public static void getPunchCard(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -1063,7 +1063,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.4 展示打卡信息 */
-	/* 返回： ResultGetProduct */
+    /* 返回： ResultGetProduct */
     public static void getProductList(String token, String condition, long timestamp,
                                       AsyncHttpResponseHandler handler) {
 
@@ -2386,7 +2386,8 @@ public class DeliveryApi {
 
     /*CEO删除人员辖区*/
 	/*返回：ResultBase*/
-    public static void deletePersonnelArea(String token, String bpCode, String empCode,String groupCode, AsyncHttpResponseHandler handler) {
+    public static void deletePersonnelArea(String token, String bpCode, String empCode, String
+            groupCode, AsyncHttpResponseHandler handler) {
         if (null == token || empCode == null || bpCode == null || groupCode == null) {
             return;
         }
@@ -2468,7 +2469,8 @@ public class DeliveryApi {
     }
 
     /* 获取人员关系详情 */
-    public static void getRelationShipDetail(Context context,String bpCode, String empCode, String token,int requestCode,
+    public static void getRelationShipDetail(Context context, String bpCode, String empCode,
+                                             String token, int requestCode,
                                              AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == empCode || null == token) {
             return;
@@ -2480,11 +2482,12 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(context, url, jsonString, requestCode,handler);
+        ApiHttpClient.post(context, url, jsonString, requestCode, handler);
     }
 
     /* 获取人员辖区列表 */
-    public static void getPersonnelAreaList(String groupCode,String empCode, int pageSize, long timestamp, String token, AsyncHttpResponseHandler handler) {
+    public static void getPersonnelAreaList(String groupCode, String empCode, int pageSize, long
+            timestamp, String token, AsyncHttpResponseHandler handler) {
         if (null == empCode || null == token || null == groupCode) {
             return;
         }
@@ -2557,7 +2560,44 @@ public class DeliveryApi {
 
         Context context = AppContext.getInstance();
         if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler)handler).getContext();
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, requestCode, handler);
+    }
+
+    /**
+     * 5.3获取活动列表 ，测试用
+     */
+    public static void getActivityInfos(int requestCode, String token,
+                                        AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token)) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+
+        postRequest(requestCode, params,
+                "washingService-controller/wash/activity/getActivityInfos%s", handler);
+    }
+
+    /**
+     * 提交http请求
+     *
+     * @param requestCode 请求编码，用于标识回调的唯一性
+     * @param params      参数列表
+     * @param subUrl      请求的url子部
+     * @param handler     回调
+     */
+    private static void postRequest(int requestCode, Map<String, Object> params, String subUrl,
+                                    AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
         }
 
         ApiHttpClient.post(context, url, jsonString, requestCode, handler);

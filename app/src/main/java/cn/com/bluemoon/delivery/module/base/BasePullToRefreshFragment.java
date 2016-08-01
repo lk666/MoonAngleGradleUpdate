@@ -14,10 +14,10 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 /**
- * 基础下拉刷新上拉加载Activity，layout最好只包含一个PullToRefresh控件和一个空白页、一个错误页
- * Created by lk on 2016/7/26.
+ * 基础下拉刷新上拉加载Fragment，layout最好只包含一个PullToRefresh控件和一个空白页、一个错误页
+ * Created by lk on 2016/8/1.
  */
-public abstract class BasePullToRefreshActivity extends BaseActivity {
+public abstract class BasePullToRefreshFragment extends BaseFragment {
     /**
      * 错误页面View
      */
@@ -36,8 +36,9 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     private PullToRefreshBase ptr;
 
     @Override
-    final public void initView() {
-        ptr = (PullToRefreshBase) findViewById(getPtrId());
+    public void initView() {
+
+        ptr = (PullToRefreshBase) getMainView().findViewById(getPtrId());
         ptr.setMode(getMode());
 
         ptr.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
@@ -66,10 +67,18 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     /**
+     * 加载更多
+     */
+    private void getMore() {
+        LibViewUtil.setChildEnableRecursion(ptr, false);
+        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE, getMainHandler());
+    }
+
+    /**
      * 设置错误页面
      */
     private void initErrorViewEvent(View errorView) {
-        CommonEmptyView error = new CommonEmptyView(this);
+        CommonEmptyView error = new CommonEmptyView(getBaseTabActivity());
         error.setEmptyListener(new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -80,21 +89,12 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     /**
-     * 加载更多
-     */
-    private void getMore() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE, getMainHandler());
-    }
-
-
-    /**
      * 设置空数据页面
      *
      * @param emptyView
      */
     private void initEmptyViewEvent(View emptyView) {
-        CommonEmptyView empty = new CommonEmptyView(this);
+        CommonEmptyView empty = new CommonEmptyView(getActivity());
         empty.setEmptyListener(new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -105,6 +105,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     ///////////// 工具方法 ////////////////
+
     /**
      * 显示内容页
      */
@@ -114,14 +115,13 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         LibViewUtil.setViewVisibility(ptr, View.VISIBLE);
     }
 
-
     /**
      * 显示错误页
      */
     final protected void showNetErrorView() {
         if (errorView == null) {
             int layoutId = R.layout.viewstub_wrapper;
-            View viewStub = findViewById(R.id.viewstub_error);
+            View viewStub = getMainView().findViewById(R.id.viewstub_error);
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
                 stub.setLayoutResource(layoutId);
@@ -141,7 +141,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     final protected void showEmptyView() {
         if (emptyView == null) {
             int layoutId = R.layout.viewstub_wrapper;
-            final View viewStub = findViewById(R.id.viewstub_empty);
+            final View viewStub = getMainView().findViewById(R.id.viewstub_empty);
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
                 stub.setLayoutResource(layoutId);
@@ -157,7 +157,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
 
     ///////////// 可选重写 ////////////////
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString,ResultBase result) {
+    protected void onSuccessResponse(int requestCode, String jsonString) {
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {
@@ -213,7 +213,6 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         showWaitDialog();
         getData();
     }
-
     ///////////// 必须重写 ////////////////
 
     /**
@@ -245,13 +244,6 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
             handler);
 
     /**
-     * 设置刷新请求成功的数据
-     *
-     * @param result ResultBase类的json字符串，resultcode为OK
-     */
-    abstract protected void setGetData(String result);
-
-    /**
      * 具体调用加载更多数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(requestCode,
      * ClientStateManager.getLoginToken(this), "80474765", handler);
      *
@@ -260,6 +252,13 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
      */
     protected abstract void invokeGetMoreDeliveryApi(int requestCode, AsyncHttpResponseHandler
             handler);
+
+    /**
+     * 设置刷新请求成功的数据
+     *
+     * @param result ResultBase类的json字符串，resultcode为OK
+     */
+    abstract protected void setGetData(String result);
 
     /**
      * 设置加载更多数据请求成功的数据
