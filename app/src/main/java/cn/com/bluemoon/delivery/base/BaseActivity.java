@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
@@ -43,6 +42,7 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
 
     @Override
     protected void onDestroy() {
+        hideWaitDialog();
         super.onDestroy();
         ApiHttpClient.cancelAll(this);
         ActivityManager.getInstance().popOneActivity(this);
@@ -139,7 +139,8 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     ///////////// 工具方法 ////////////////
 
     /**
-     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken(this),
+     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken
+     * (this),
      * "80474765", getMainHandler());
      */
     final protected AsyncHttpResponseHandler getMainHandler() {
