@@ -37,7 +37,6 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
  */
 public class LogActivity extends Activity {
     private String TAG = "LogActivity";
-    private ActivityManager manager;
     private EditText etLog;
     private Button btnSave;
     private CommonProgressDialog progressDialog;
@@ -48,8 +47,7 @@ public class LogActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        manager = ActivityManager.getInstance();
-        manager.pushOneActivity(this);
+        ActivityManager.getInstance().pushOneActivity(this);
         mContext = this;
         progressDialog = new CommonProgressDialog(this);
         progressDialog.setCancelable(false);

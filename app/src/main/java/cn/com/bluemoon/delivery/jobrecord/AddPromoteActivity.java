@@ -267,14 +267,14 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 info.setWifi(cbWifi.isChecked());
                 info.setWiredNetwork(cbNetWork.isChecked());
                 List<PeopleFlow> list = new ArrayList<PeopleFlow>();
-                list.addAll(flows);
                 list.addAll(deleteFlows);
+                list.addAll(flows);
                 if (list != null && list.size() > 0) {
                     info.setPeopleFlow(list);
                 }
                 progressDialog.show();
                 btnOk.setEnabled(false);
-                if (images.size() > 1) {
+                if (images.size() > 1 && images.size() > imgIds.size() + 1) {
                     for (int i = imgIds.size(); i < images.size() - 1; i++) {
                         if (images.get(i).getFileid() > -1) {
                             imgIds.add(images.get(i));
@@ -491,10 +491,12 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 }
                 flows.set(index, peopleFlow);
             } else if (resultCode == 3) {
-                isModify = true;
                 PeopleFlow flow = flows.get(index);
-                flow.setRecordStatus("delete");
-                deleteFlows.add(flow);
+                if (StringUtils.isNotBlank(flow.getFlowId())) {
+                    isModify = true;
+                    flow.setRecordStatus("delete");
+                    deleteFlows.add(flow);
+                }
                 flows.remove(index);
             }
             peopleFlowAdapter.notifyDataSetChanged();

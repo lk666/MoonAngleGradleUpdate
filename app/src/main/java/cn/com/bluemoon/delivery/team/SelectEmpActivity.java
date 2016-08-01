@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -163,14 +164,11 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
                     setData(empListResult.getItemList());
                 } else {
                     PublicUtil.showErrorMsg(aty, empListResult);
-                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
-                LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
             }
-
         }
 
         @Override
@@ -181,6 +179,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
                 progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
             LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
+            LibViewUtil.setViewVisibility(btnOk, View.GONE);
         }
     };
 
@@ -213,9 +212,9 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
                 list = new ArrayList<>();
             }
             if (list.size() > 0) {
-                btnOk.setVisibility(View.VISIBLE);
+                LibViewUtil.setViewVisibility(btnOk, View.VISIBLE);
             } else {
-                btnOk.setVisibility(View.GONE);
+                LibViewUtil.setViewVisibility(btnOk, View.GONE);
             }
             return list.size();
         }

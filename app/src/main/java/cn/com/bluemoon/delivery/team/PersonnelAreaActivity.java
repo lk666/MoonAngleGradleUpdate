@@ -122,7 +122,7 @@ public class PersonnelAreaActivity extends KJActivity {
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getPersonnelAreaList(empCode, AppContext.PAGE_SIZE, timestamp,
+        DeliveryApi.getPersonnelAreaList(groupCode,empCode, AppContext.PAGE_SIZE, timestamp,
                 ClientStateManager.getLoginToken(aty), getPersonnelAreaListHandler);
     }
 
@@ -160,7 +160,7 @@ public class PersonnelAreaActivity extends KJActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 if (progressDialog != null) progressDialog.show();
-                DeliveryApi.deletePersonnelArea(ClientStateManager.getLoginToken(aty), bpCode, empCode, deletePersonAreaHandler);
+                DeliveryApi.deletePersonnelArea(ClientStateManager.getLoginToken(aty), bpCode, empCode,groupCode, deletePersonAreaHandler);
             }
         });
         dialog.setPositiveButton(R.string.btn_cancel, null);
@@ -337,7 +337,7 @@ public class PersonnelAreaActivity extends KJActivity {
             String name = PublicUtil.getStringParams(item.getBpCode(), item.getBpName());
             if (!StringUtils.isEmpty(item.getBpCode1())) {
                 layoutArea.setVisibility(View.VISIBLE);
-                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName()));
+                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
                 name = PublicUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
             } else {
                 layoutArea.setVisibility(View.GONE);
@@ -345,7 +345,7 @@ public class PersonnelAreaActivity extends KJActivity {
             txtNum.setText(getString(R.string.team_area_num, item.getTotalRooms()));
             txtName.setText(name);
             txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
-                    + item.getVillageName() + item.getStreetName());
+                    + item.getStreetName() + item.getVillageName());
             txtDate.setText(getString(R.string.team_area_add_date,
                     DateUtil.getTime(item.getStartDate())));
             txtDelete.setOnClickListener(new View.OnClickListener() {

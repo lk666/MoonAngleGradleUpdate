@@ -309,7 +309,7 @@ public class RecordCardFragment extends Fragment {
 					//跳转网页
 					String url = String.format(BuildConfig.PUNCH_DETAILDS_DOMAIN, "angel/#/punchDetails?token="
 							+ClientStateManager.getLoginToken(mContext)+"&punchCardId="+punchCard.getPunchCardId());
-					PublicUtil.openWebView(context,url,null,true,false,false,false);
+					PublicUtil.openWebView(context,url,null,true,false);
 				}
 			});
 			return convertView;

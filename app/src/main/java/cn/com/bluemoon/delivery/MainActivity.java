@@ -723,12 +723,10 @@ public class MainActivity extends SlidingActivity {
                intent = new Intent(main, CouponsTabActivity.class);
                startActivity(intent);
            } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
-               PublicUtil.openWebView(main, userRight.getUrl() +
-                               "?token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), false, false, true, false);
-           } else if (MenuCode.leave_web.toString().equals(userRight.getMenuCode())) {
-               PublicUtil.openWebView(main, userRight.getUrl(),
-                       userRight.getMenuName(), false, false, true, false);
+               PublicUtil.openWebView(main, userRight.getUrl()
+                               +(userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
+                               + "token=" + ClientStateManager.getLoginToken(main),
+                       userRight.getMenuName(), false, true);
            } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
                intent = new Intent(main, MessageListActivity.class);
                startActivity(intent);
@@ -754,7 +752,7 @@ public class MainActivity extends SlidingActivity {
                PublicUtil.openWebView(main, userRight.getUrl()
                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                + "token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), true, true, false, false);
+                       userRight.getMenuName(), false);
            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                //click empty
            } else{

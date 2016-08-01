@@ -10,6 +10,7 @@ import android.widget.TextView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * 衣物名称类型View
@@ -53,7 +54,9 @@ public class ClothesNameView extends FrameLayout {
         tvType = (TextView) itemView.findViewById(R.id.tv_type);
 
         ImageLoaderUtil.displayImage(getContext(), type.getImgPath(), ivType);
-        tvType.setText(type.getClothesName());
+        String name = type.getClothesName() == null ? "" : type.getClothesName();
+        tvType.setText(name);
+        LibViewUtil.setMaxEcplise(tvType, 2, name);
         ivChecked.setVisibility(View.GONE);
 
         addView(itemView);

@@ -57,7 +57,6 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 public class WorkDiaryActivity extends Activity {
 
     private final String TAG = "WorkDiaryActivity";
-    private ActivityManager manager;
     private ListView listview;
     private CommonProgressDialog progressDialog;
     private WorkDiaryActivity mContext;
@@ -74,8 +73,7 @@ public class WorkDiaryActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        manager = ActivityManager.getInstance();
-        manager.pushOneActivity(this);
+        ActivityManager.getInstance().pushOneActivity(this);
         mContext = this;
         progressDialog = new CommonProgressDialog(mContext);
         setContentView(R.layout.activiy_work_diary);
@@ -163,7 +161,7 @@ public class WorkDiaryActivity extends Activity {
             }
 
         });
-        bar.getImgRightView().setBackgroundResource(R.mipmap.add_work_diary);
+        bar.getImgRightView().setImageResource(R.mipmap.add_work_diary);
         bar.getImgRightView().setVisibility(View.VISIBLE);
     }
     AsyncHttpResponseHandler confirmWorkDailyHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
