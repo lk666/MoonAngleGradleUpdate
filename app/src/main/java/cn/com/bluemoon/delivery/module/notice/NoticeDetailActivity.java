@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.notice;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -59,6 +60,7 @@ public class NoticeDetailActivity extends Activity {
     }
 
 
+    @SuppressLint("SetJavaScriptEnabled")
     private void initView(){
         txtNoticeTitle =(TextView) findViewById(R.id.txt_notice_title);
         txtNoticeDate =(TextView) findViewById(R.id.txt_notice_date);
