@@ -1,10 +1,12 @@
 package cn.com.bluemoon.delivery.entity;
 
+import java.io.Serializable;
+
 /**
  * 基础TabHost的数据项类
  * Created by luokai on 2016/6/12.
  */
-public class TabState {
+public class TabState implements Serializable {
     private Class clazz;
     private int image;
     private int content;

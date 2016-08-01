@@ -1,11 +1,15 @@
 package cn.com.bluemoon.delivery.base;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TabHost;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -16,79 +20,106 @@ import com.umeng.analytics.MobclickAgent;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
+import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.interf.DialogControl;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
-
 /**
- * 基础Activity，实现了一些公共方法
- * Created by lk on 2016/6/14.
+ * 基础FragmentActivity，用于各fragment集合的界面
+ * Created by lk on 2016/6/3.
  */
-public abstract class BaseActivity extends Activity implements DialogControl, BaseViewInterface {
+public class BaseTabActivity extends FragmentActivity
+        implements DialogControl, BaseViewInterface {
+
+    /**
+     * List<TabState>，tab数据
+     */
+    public final static String EXTRA_TAB_STATES = "EXTRA_TAB_STATES";
+
+    @Bind(android.R.id.tabhost)
+    FragmentTabHost tabhost;
 
     private ProgressDialog waitDialog;
-    protected LayoutInflater mInflater;
+    private LayoutInflater layoutInflater;
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        ApiHttpClient.cancelAll(this);
-        ActivityManager.getInstance().popOneActivity(this);
+    private List<TabState> tabs;
+    private List<TextView> amountTvs;
+
+    protected static void actionStart(Context context, ArrayList<TabState> tabs) {
+        Intent intent = new Intent(context, BaseTabActivity.class);
+        intent.putExtra(EXTRA_TAB_STATES, tabs);
+        context.startActivity(intent);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ActivityManager.getInstance().pushOneActivity(this);
+
         onBeforeSetContentLayout();
-        initCustomActionBar();
-        if (getLayoutId() != 0) {
-            setContentView(getLayoutId());
-        }
-        mInflater = getLayoutInflater();
+        setContentView(R.layout.extract_tab);
         // 通过注解绑定控件
         ButterKnife.bind(this);
+        layoutInflater = LayoutInflater.from(this);
 
-        init(savedInstanceState);
         initView();
         initData();
     }
 
-    private void initCustomActionBar() {
-        if (!TextUtils.isEmpty(getTitleString())) {
-            CommonActionBar titleBar = new CommonActionBar(getActionBar(), new IActionBarListener
-                    () {
-
-                @Override
-                public void onBtnRight(View v) {
-                    onActionBarBtnRightClick();
-                }
-
-                @Override
-                public void onBtnLeft(View v) {
-                    onActionBarBtnLeftClick();
-                }
-
-                @Override
-                public void setTitle(TextView v) {
-                    v.setText(getTitleString());
-                }
-
-            });
-            setActionBar(titleBar);
+    private void onBeforeSetContentLayout() {
+        tabs = (List<TabState>) getIntent().getSerializableExtra(EXTRA_TAB_STATES);
+        if (tabs == null) {
+            tabs = new ArrayList<>();
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityManager.getInstance().popOneActivity(this);
+    }
+
+    @Override
+    public void initView() {
+        tabhost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
+        tabhost.getTabWidget().setDividerDrawable(null);
+        amountTvs = new ArrayList<>();
+    }
+
+    @Override
+    public void initData() {
+        for (int i = 0; i < tabs.size(); i++) {
+            TabHost.TabSpec tabSpec = tabhost.newTabSpec(getResources()
+                    .getString(tabs.get(i).getContent()))
+                    .setIndicator(getTabItemView(tabs.get(i).getImage(),
+                            getResources().getString(tabs.get(i).getContent()), i));
+            Bundle bundle = new Bundle();
+            bundle.putString("manager", tabs.get(i).getManager());
+            tabhost.addTab(tabSpec, tabs.get(i).getClazz(), bundle);
+        }
+    }
+
+    private View getTabItemView(int resId, String content, int index) {
+        View view = layoutInflater.inflate(R.layout.tab_item_view, null);
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+        imageView.setImageResource(resId);
+        TextView textView = (TextView) view.findViewById(R.id.textview);
+        textView.setText(content);
+        amountTvs.add(textView);
+        return view;
     }
 
     @Override
@@ -103,8 +134,8 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
         MobclickAgent.onPageEnd(getDefaultTag());
     }
 
-    final AsyncHttpResponseHandler mainHandler = new WithContextTextHttpResponseHandler(
-            HTTP.UTF_8, this) {
+    final AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
@@ -139,7 +170,7 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     ///////////// 工具方法 ////////////////
 
     /**
-     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken(this),
+     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(this, ClientStateManager.getLoginToken(this),
      * "80474765", getMainHandler());
      */
     final protected AsyncHttpResponseHandler getMainHandler() {
@@ -147,14 +178,20 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     }
 
     /**
-     * 默认TAG
-     *
-     * @return getClass().getSimpleName()
+     * 设置角标数量
      */
-    final protected String getDefaultTag() {
-        return this.getClass().getSimpleName();
-    }
+    public void setAmount(int index, int amount) {
+        if (amountTvs == null || index > amountTvs.size() || index < 0) {
+            return;
+        }
 
+        if (amount > 0) {
+            amountTvs.get(index).setText(String.valueOf(amount));
+            amountTvs.get(index).setVisibility(View.VISIBLE);
+        } else {
+            amountTvs.get(index).setVisibility(View.GONE);
+        }
+    }
 
     final protected void longToast(String msg) {
         LibViewUtil.longToast(this, msg);
@@ -162,10 +199,6 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
 
     final protected void toast(String msg) {
         LibViewUtil.toast(this, msg);
-    }
-
-    final protected View inflateView(int resId) {
-        return mInflater.inflate(resId, null);
     }
 
     /**
@@ -223,18 +256,21 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
             }
         }
     }
+
     ///////////// 可选重写 ////////////////
 
     /**
-     * 在oncreate后执行，一般为获取intentata
+     * 默认TAG
      */
-    protected void onBeforeSetContentLayout() {
+    protected String getDefaultTag() {
+        return this.getClass().getSimpleName();
     }
 
     /**
-     * 可用于保存和还原界面缓存数据
+     * 请求成功
      */
-    protected void init(Bundle savedInstanceState) {
+    protected void onSuccessResponse(int requestCode, String jsonString) {
+
     }
 
     /**
@@ -250,42 +286,4 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     protected void onFailureResponse(int requestCode) {
     }
 
-    /**
-     * 返回为null或者空字符串，则不设置ActionBar(若要不显示actionbar，须在主题中声明)
-     */
-    protected String getTitleString() {
-        return null;
-    }
-
-    /**
-     * 设置自定义ActionBar，如右图标
-     */
-    protected void setActionBar(CommonActionBar titleBar) {
-    }
-
-    /**
-     * 左键点击事件，一般不需重写
-     */
-    protected void onActionBarBtnLeftClick() {
-        this.setResult(Activity.RESULT_CANCELED);
-        this.finish();
-    }
-
-    /**
-     * 右键点击事件
-     */
-    protected void onActionBarBtnRightClick() {
-    }
-
-    ///////////// 必须重写 ////////////////
-
-    /**
-     * 设置布局文件layout，一般都要重写
-     */
-    protected abstract int getLayoutId();
-
-    /**
-     * 请求成功
-     */
-    protected abstract void onSuccessResponse(int requestCode, String jsonString);
 }
