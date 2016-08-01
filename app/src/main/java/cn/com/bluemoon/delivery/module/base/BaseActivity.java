@@ -115,7 +115,7 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString);
+                    onSuccessResponse(getRequestCode(), responseString,result);
                 } else {
                     onErrorResponse(getRequestCode(), result);
                 }
@@ -288,5 +288,5 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     /**
      * 请求成功
      */
-    protected abstract void onSuccessResponse(int requestCode, String jsonString);
+    protected abstract void onSuccessResponse(int requestCode, String jsonString,ResultBase result);
 }

@@ -158,7 +158,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
 
     ///////////// 可选重写 ////////////////
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString) {
+    protected void onSuccessResponse(int requestCode, String jsonString,ResultBase result) {
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {

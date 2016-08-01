@@ -13,6 +13,7 @@ import org.kymjs.kjframe.utils.StringUtils;
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultRelationDetail;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -66,7 +67,7 @@ public class RelationShipDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString) {
+    protected void onSuccessResponse(int requestCode, String jsonString,ResultBase result) {
         ResultRelationDetail relationDetailResult = JSON.parseObject(jsonString, ResultRelationDetail.class);
         setData(relationDetailResult.getRelationDetail());
     }
