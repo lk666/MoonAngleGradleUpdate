@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
-import cn.com.bluemoon.delivery.module.base.BaseFragmentActivity;
+import cn.com.bluemoon.delivery.module.oldbase.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.WithOrderManageFragment;
 import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.WithoutOrderManageFragment;
 

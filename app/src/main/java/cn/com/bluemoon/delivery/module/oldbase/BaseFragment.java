@@ -1,10 +1,8 @@
-package cn.com.bluemoon.delivery.module.base;
+package cn.com.bluemoon.delivery.module.oldbase;
 
 import android.support.v4.app.Fragment;
 
 import com.umeng.analytics.MobclickAgent;
-
-import cn.com.bluemoon.delivery.module.base.IShowDialog;
 
 /**
  * 基础fragment

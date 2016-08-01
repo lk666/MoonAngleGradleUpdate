@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.base;
+package cn.com.bluemoon.delivery.module.oldbase;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;

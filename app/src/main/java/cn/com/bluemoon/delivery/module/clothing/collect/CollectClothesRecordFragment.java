@@ -26,7 +26,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.CollectInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.module.base.BaseFragment;
+import cn.com.bluemoon.delivery.module.oldbase.BaseFragment;
 import cn.com.bluemoon.delivery.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.order.TimerFilterWindow;

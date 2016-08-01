@@ -38,7 +38,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClothesCode;
-import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;

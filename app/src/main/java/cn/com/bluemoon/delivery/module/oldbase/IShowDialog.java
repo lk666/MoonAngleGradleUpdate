@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.base;
+package cn.com.bluemoon.delivery.module.oldbase;
 
 /**
  * Created by allenli on 2016/7/20.
