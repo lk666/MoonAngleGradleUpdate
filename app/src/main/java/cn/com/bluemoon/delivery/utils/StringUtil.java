@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.utils;  
+package cn.com.bluemoon.delivery.utils;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,8 +11,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.regex.Pattern;
-
-import cn.com.bluemoon.delivery.entity.ItemListBean;
 
 // TODO: lk 2016/6/22 各种乱码
 /**  
@@ -78,19 +76,6 @@ public class StringUtil {
 		String minute = sdate.substring(10, 12);
         return year+"/"+month+"/"+day+" "+hour+":"+minute;
      }
-	
-	public static String getResultMessage(ItemListBean result) {
-		if (result!=null && result.itemList != null && result.itemList.get(0)!=null) {
-			if (result.itemList.get(0).getMessage() == null) {
-				return result.itemList.get(0).getDispatchId() + "\n" + result.itemList.get(0).getMsg();
-			} else {
-				return result.itemList.get(0).getDispatchId() + "\n" + result.itemList.get(0).getMessage();
-			}
-		} else {
-			
-			return "error";
-		}
-	}
 	
 	 private final static Pattern emailer = Pattern
 	            .compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");
