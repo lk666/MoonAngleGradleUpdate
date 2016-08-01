@@ -119,7 +119,7 @@ public class RelationInfoActivity extends KJActivity {
                     txtWorkLengh.setText(s.toString().substring(0, index + 2));
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
-                if(!StringUtils.isEmpty(s.toString())&&Double.parseDouble(s.toString())>24){
+                if (!StringUtils.isEmpty(s.toString()) && Double.parseDouble(s.toString()) > 24) {
                     txtWorkLengh.setText("24.0");
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
@@ -147,7 +147,8 @@ public class RelationInfoActivity extends KJActivity {
                 txtCommunity.setClickable(false);
                 txtService.setClickable(false);
                 txtType.setText(getString(R.string.team_group));
-                txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
+                txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item
+                        .getBpName1()));
                 txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
             } else if (Constants.RELTYPE_COMMUNITY.equals(item.getRelType())) {
                 txtType.setText(getString(R.string.team_community));
@@ -165,8 +166,8 @@ public class RelationInfoActivity extends KJActivity {
             if (progressDialog != null) {
                 progressDialog.show();
             }
-            DeliveryApi.getRelationShipDetail(bpCode, item.getEmpCode(),
-                    ClientStateManager.getLoginToken(aty), getRelationShipDetailHandler);
+            DeliveryApi.getRelationShipDetail(aty, bpCode, item.getEmpCode(),
+                    ClientStateManager.getLoginToken(aty), 0, getRelationShipDetailHandler);
         }
     }
 
@@ -232,7 +233,8 @@ public class RelationInfoActivity extends KJActivity {
         if (StringUtils.isEmpty(item.getChargeName())) {
             txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
         } else {
-            txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName(), item.getChargeName()));
+            txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName(),
+                    item.getChargeName()));
         }
         if (Constants.WORKTYPE_PART.equals(item.getWorkType())) {
             setWorkType(false);
@@ -270,7 +272,7 @@ public class RelationInfoActivity extends KJActivity {
         }
         if (Constants.WORKTYPE_PART.equals(item.getWorkType())
                 && (StringUtils.isEmpty(txtWorkLengh.getText().toString())
-                ||"0".equals(txtWorkLengh.getText().toString()))) {
+                || "0".equals(txtWorkLengh.getText().toString()))) {
             PublicUtil.showToast(getString(R.string.team_edit_limit_parttime));
             return;
         }
@@ -319,7 +321,8 @@ public class RelationInfoActivity extends KJActivity {
         if (progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getCommunityList(ClientStateManager.getLoginToken(aty), getCommunityListHandler);
+        DeliveryApi.getCommunityList(ClientStateManager.getLoginToken(aty),
+                getCommunityListHandler);
     }
 
     private void setCommunity(Community community) {
@@ -328,14 +331,16 @@ public class RelationInfoActivity extends KJActivity {
         txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
     }
 
-    AsyncHttpResponseHandler getRelationShipDetailHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+    AsyncHttpResponseHandler getRelationShipDetailHandler = new TextHttpResponseHandler(HTTP
+            .UTF_8) {
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             LogUtils.d(TAG, "getRelationShipDetailHandler result = " + responseString);
             if (progressDialog != null)
                 progressDialog.dismiss();
             try {
-                ResultRelationDetail result = JSON.parseObject(responseString, ResultRelationDetail.class);
+                ResultRelationDetail result = JSON.parseObject(responseString,
+                        ResultRelationDetail.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     item = result.getRelationDetail();
                     setData();
@@ -398,7 +403,8 @@ public class RelationInfoActivity extends KJActivity {
             if (progressDialog != null)
                 progressDialog.dismiss();
             try {
-                ResultCommunityList result = JSON.parseObject(responseString, ResultCommunityList.class);
+                ResultCommunityList result = JSON.parseObject(responseString, ResultCommunityList
+                        .class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listCommunity = result.getItemList();
                     if (listCommunity.size() == 1) {
