@@ -45,6 +45,7 @@ import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base._ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
@@ -288,7 +289,7 @@ public class MainActivity extends SlidingActivity {
     private void setMenu() {
         List<MenuBean> list = new ArrayList<>();
         if (listRight != null) {
-            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级 
+            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级
             for (int i = 0; i < groupCount; i++) {
                 List<UserRight> item = new ArrayList<>();
                 for (UserRight right : listRight) {
@@ -742,7 +743,8 @@ public class MainActivity extends SlidingActivity {
            }  else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode())) {
                ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
            } else if (MenuCode.activity_collect_clothes.toString().equals(userRight.getMenuCode())) {
-               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
+               _ClothingTabActivity.actionStart(main);
+              // ClothingTabActivity.actionStart(main, ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
            } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
                intent = new Intent(main, PromoteActivity.class);
                startActivity(intent);

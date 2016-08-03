@@ -36,6 +36,11 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
  */
 public abstract class BaseFragment extends Fragment implements DialogControl, BaseViewInterface {
 
+    /**
+     * 给fragment使用的bundle数据
+     */
+    public static final String EXTRA_BUNDLE_DATA = "EXTRA_BUNDLE_DATA";
+
     private BaseTabActivity aty;
     private View mainView;
 
@@ -171,7 +176,7 @@ public abstract class BaseFragment extends Fragment implements DialogControl, Ba
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString);
+                    onSuccessResponse(getRequestCode(), responseString, result);
                 } else {
                     onErrorResponse(getRequestCode(), result);
                 }
@@ -204,7 +209,9 @@ public abstract class BaseFragment extends Fragment implements DialogControl, Ba
     ///////////// 可选重写 ////////////////
 
     /**
-     * 在oncreateView后执行，一般为获取getArguments();的数据
+     * 在oncreateView后执行，一般为获取getArguments();的数据；
+     * <br/>
+     * 可使用getArguments().getSerializable(EXTRA_BUNDLE_DATA)获取Bundle
      */
     protected void onBeforeCreateView() {
     }
@@ -260,5 +267,6 @@ public abstract class BaseFragment extends Fragment implements DialogControl, Ba
     /**
      * 请求成功
      */
-    protected abstract void onSuccessResponse(int requestCode, String jsonString);
+    protected abstract void onSuccessResponse(int requestCode, String jsonString,
+                                              @Nullable ResultBase resultBase);
 }

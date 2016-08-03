@@ -11,7 +11,6 @@ public class TabState implements Serializable {
     private int image;
     private int content;
 
-
     public TabState(Class clazz, int image, int content) {
         this.clazz = clazz;
         this.image = image;

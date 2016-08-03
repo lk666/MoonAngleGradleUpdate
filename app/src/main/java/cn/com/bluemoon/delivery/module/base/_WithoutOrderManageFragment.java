@@ -16,6 +16,7 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultActivityInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ActivityInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -85,8 +86,8 @@ public class _WithoutOrderManageFragment extends
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString) {
-        super.onSuccessResponse(requestCode, jsonString);
+    protected void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
+        super.onSuccessResponse(requestCode, jsonString, resultBase);
         // 其他requestCode可在此处理
     }
 

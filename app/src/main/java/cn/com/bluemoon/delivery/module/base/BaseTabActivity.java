@@ -27,6 +27,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.entity.ArgumentTabState;
 import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
@@ -41,8 +42,7 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * 基础FragmentActivity，用于各fragment集合的界面
  * Created by lk on 2016/6/3.
  */
-public class BaseTabActivity extends FragmentActivity
-        implements DialogControl, BaseViewInterface {
+public class BaseTabActivity extends FragmentActivity implements DialogControl, BaseViewInterface {
 
     /**
      * List<OldTabState>，tab数据
@@ -102,14 +102,22 @@ public class BaseTabActivity extends FragmentActivity
     @Override
     public void initData() {
         for (int i = 0; i < tabs.size(); i++) {
+            TabState ts = tabs.get(i);
             TabHost.TabSpec tabSpec = tabhost.newTabSpec(getResources()
-                    .getString(tabs.get(i).getContent()))
-                    .setIndicator(getTabItemView(tabs.get(i).getImage(),
-                            getResources().getString(tabs.get(i).getContent())));
+                    .getString(ts.getContent()))
+                    .setIndicator(getTabItemView(ts.getImage(),
+                            getResources().getString(ts.getContent())));
+
             Bundle bundle = new Bundle();
-            tabhost.addTab(tabSpec, tabs.get(i).getClazz(), bundle);
+            if (ts instanceof ArgumentTabState) {
+                bundle.putSerializable(BaseFragment.EXTRA_BUNDLE_DATA,
+                        ((ArgumentTabState) ts).getBundleData());
+            }
+
+            tabhost.addTab(tabSpec, ts.getClazz(), bundle);
         }
     }
+
 
     private View getTabItemView(int resId, String content) {
         View view = layoutInflater.inflate(R.layout.tab_item_view, null);
@@ -145,7 +153,7 @@ public class BaseTabActivity extends FragmentActivity
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString);
+                    onSuccessResponse(getRequestCode(), responseString, result);
                 } else {
                     onErrorResponse(getRequestCode(), result);
                 }
@@ -268,7 +276,7 @@ public class BaseTabActivity extends FragmentActivity
     /**
      * 请求成功
      */
-    protected void onSuccessResponse(int requestCode, String jsonString) {
+    protected void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
 
     }
 

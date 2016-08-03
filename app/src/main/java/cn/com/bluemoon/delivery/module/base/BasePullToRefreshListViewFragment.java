@@ -98,6 +98,11 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
     final protected int getPtrId() {
         return R.id.ptrlv;
     }
+
+    @Override
+    final protected int getHeadViewStubId() {
+        return R.id.viewstub_head;
+    }
     ///////////// 可选重写 ////////////////
 
     /**

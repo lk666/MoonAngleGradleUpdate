@@ -14,10 +14,16 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 /**
- * 基础下拉刷新上拉加载Fragment，layout最好只包含一个PullToRefresh控件和一个空白页、一个错误页
+ * 基础下拉刷新上拉加载Fragment，layout最好只包含一个不滚动的头部、一个PullToRefresh控件和一个空白页、一个错误页
  * Created by lk on 2016/8/1.
  */
 public abstract class BasePullToRefreshFragment extends BaseFragment {
+
+    /**
+     * 头
+     */
+    private View head;
+
     /**
      * 错误页面View
      */
@@ -37,6 +43,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
 
     @Override
     public void initView() {
+        initHeadView();
 
         ptr = (PullToRefreshBase) getMainView().findViewById(getPtrId());
         ptr.setMode(getMode());
@@ -56,6 +63,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         initPtr(ptr);
 
         LibViewUtil.setViewVisibility(ptr, View.GONE);
+        LibViewUtil.setViewVisibility(head, View.GONE);
     }
 
     /**
@@ -72,6 +80,22 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     private void getMore() {
         LibViewUtil.setChildEnableRecursion(ptr, false);
         invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE, getMainHandler());
+    }
+
+    /**
+     * 初始化头部
+     */
+    private void initHeadView() {
+        if (getHeadLayoutId() != 0 && getHeadViewStubId() != 0) {
+            int layoutId = getHeadLayoutId();
+            final View viewStub = getMainView().findViewById(getHeadViewStubId());
+            if (viewStub != null) {
+                final ViewStub stub = (ViewStub) viewStub;
+                stub.setLayoutResource(layoutId);
+                head = stub.inflate();
+                initHeadViewEvent(head);
+            }
+        }
     }
 
     /**
@@ -113,6 +137,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         LibViewUtil.setViewVisibility(errorView, View.GONE);
         LibViewUtil.setViewVisibility(emptyView, View.GONE);
         LibViewUtil.setViewVisibility(ptr, View.VISIBLE);
+        LibViewUtil.setViewVisibility(head, View.VISIBLE);
     }
 
     /**
@@ -133,6 +158,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         LibViewUtil.setViewVisibility(emptyView, View.GONE);
         LibViewUtil.setViewVisibility(errorView, View.VISIBLE);
         LibViewUtil.setViewVisibility(ptr, View.GONE);
+        LibViewUtil.setViewVisibility(head, View.GONE);
     }
 
     /**
@@ -153,11 +179,34 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         LibViewUtil.setViewVisibility(errorView, View.GONE);
         LibViewUtil.setViewVisibility(ptr, View.GONE);
+        LibViewUtil.setViewVisibility(head, View.GONE);
     }
 
     ///////////// 可选重写 ////////////////
+
+    /**
+     * 获取头部的layoutId
+     */
+    protected int getHeadLayoutId() {
+        return 0;
+    }
+
+    /**
+     * 获取头部在主layout中的viewstub的Id
+     */
+    protected int getHeadViewStubId() {
+        return 0;
+    }
+
+
+    /**
+     * 设置头部
+     */
+    private void initHeadViewEvent(View headView) {
+    }
+
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString) {
+    protected void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {
