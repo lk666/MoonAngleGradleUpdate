@@ -15,6 +15,7 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OuterOrderReceive;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultOuterOrderInfo;
@@ -92,8 +93,8 @@ public class TestBasePullToRefreshListViewActivity extends
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString) {
-        super.onSuccessResponse(requestCode, jsonString);
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString,result);
         // 其他requestCode可在此处理
     }
 

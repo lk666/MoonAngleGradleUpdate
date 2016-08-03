@@ -22,6 +22,7 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
@@ -35,7 +36,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
  * 基础Fragment，必须属于{@link BaseTabActivity}
  * Created by lk on 2016/7/29.
  */
-public abstract class BaseFragment extends Fragment implements DialogControl, BaseViewInterface {
+public abstract class BaseFragment extends Fragment implements BaseMainInterface, BaseViewInterface {
 
     /**
      * 给fragment使用的bundle数据
@@ -210,7 +211,7 @@ public abstract class BaseFragment extends Fragment implements DialogControl, Ba
      * (this),
      * "80474765", getMainHandler());
      */
-    final protected AsyncHttpResponseHandler getMainHandler() {
+    final public AsyncHttpResponseHandler getMainHandler() {
         return mainHandler;
     }
 
@@ -255,7 +256,7 @@ public abstract class BaseFragment extends Fragment implements DialogControl, Ba
      * 请求返回非OK
      */
     protected void onErrorResponse(int requestCode, ResultBase result) {
-        DialogUtil.showErrorMsg(aty, result);
+        PublicUtil.showErrorMsg(aty, result);
     }
 
     /**

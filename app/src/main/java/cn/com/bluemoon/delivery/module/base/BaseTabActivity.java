@@ -29,8 +29,10 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.entity.ArgumentTabState;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
+import cn.com.bluemoon.delivery.module.base.interf.IHandlerListener;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -42,7 +44,8 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * 基础FragmentActivity，用于各fragment集合的界面
  * Created by lk on 2016/6/3.
  */
-public class BaseTabActivity extends FragmentActivity implements DialogControl, BaseViewInterface {
+public class BaseTabActivity extends FragmentActivity implements DialogControl, BaseViewInterface,
+        BaseMainInterface {
 
     /**
      * List<OldTabState>，tab数据
@@ -118,7 +121,6 @@ public class BaseTabActivity extends FragmentActivity implements DialogControl, 
         }
     }
 
-
     private View getTabItemView(int resId, String content) {
         View view = layoutInflater.inflate(R.layout.tab_item_view, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
@@ -180,7 +182,7 @@ public class BaseTabActivity extends FragmentActivity implements DialogControl, 
      * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(this, ClientStateManager.getLoginToken(this),
      * "80474765", getMainHandler());
      */
-    final protected AsyncHttpResponseHandler getMainHandler() {
+    final public AsyncHttpResponseHandler getMainHandler() {
         return mainHandler;
     }
 
@@ -206,6 +208,14 @@ public class BaseTabActivity extends FragmentActivity implements DialogControl, 
 
     final protected void toast(String msg) {
         LibViewUtil.toast(this, msg);
+    }
+
+    final protected void longToast(int resId) {
+        LibViewUtil.longToast(this, resId);
+    }
+
+    final protected void toast(int resId) {
+        LibViewUtil.toast(this, resId);
     }
 
     /**
@@ -284,7 +294,7 @@ public class BaseTabActivity extends FragmentActivity implements DialogControl, 
      * 请求返回非OK
      */
     protected void onErrorResponse(int requestCode, ResultBase result) {
-        DialogUtil.showErrorMsg(this, result);
+        PublicUtil.showErrorMsg(this, result);
     }
 
     /**
