@@ -14,10 +14,15 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 /**
- * 基础下拉刷新上拉加载Activity，layout最好只包含一个PullToRefresh控件和一个空白页、一个错误页
+ * 基础下拉刷新上拉加载Activity，layout最好只包含一个不滚动的头部、一个PullToRefresh控件和一个空白页、一个错误页
  * Created by lk on 2016/7/26.
  */
 public abstract class BasePullToRefreshActivity extends BaseActivity {
+    /**
+     * 头，开始不显示，
+     */
+    private View head;
+
     /**
      * 错误页面View
      */
@@ -37,6 +42,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
 
     @Override
     final public void initView() {
+        initHeadView();
         ptr = (PullToRefreshBase) findViewById(getPtrId());
         ptr.setMode(getMode());
 
@@ -55,7 +61,25 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         initPtr(ptr);
 
         LibViewUtil.setViewVisibility(ptr, View.GONE);
+        setHeadViewVisibility(View.GONE);
     }
+
+    /**
+     * 初始化头部
+     */
+    private void initHeadView() {
+        if (getHeadLayoutId() != 0 && getHeadViewStubId() != 0) {
+            int layoutId = getHeadLayoutId();
+            final View viewStub = findViewById(getHeadViewStubId());
+            if (viewStub != null) {
+                final ViewStub stub = (ViewStub) viewStub;
+                stub.setLayoutResource(layoutId);
+                head = stub.inflate();
+                initHeadViewEvent(head);
+            }
+        }
+    }
+
 
     /**
      * 获取界面数据（刷新界面）
@@ -105,15 +129,22 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     ///////////// 工具方法 ////////////////
+
+    /**
+     * 设置头可见性
+     */
+    final protected void setHeadViewVisibility(int visibility) {
+        LibViewUtil.setViewVisibility(head, visibility);
+    }
+
     /**
      * 显示内容页
      */
-    final protected void showRefreshView() {
+    protected void showRefreshView() {
         LibViewUtil.setViewVisibility(errorView, View.GONE);
         LibViewUtil.setViewVisibility(emptyView, View.GONE);
         LibViewUtil.setViewVisibility(ptr, View.VISIBLE);
     }
-
 
     /**
      * 显示错误页
@@ -156,6 +187,27 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     ///////////// 可选重写 ////////////////
+
+    /**
+     * 获取头部的layoutId
+     */
+    protected int getHeadLayoutId() {
+        return 0;
+    }
+
+    /**
+     * 获取头部在主layout中的viewstub的Id
+     */
+    protected int getHeadViewStubId() {
+        return 0;
+    }
+
+    /**
+     * 设置头部
+     */
+    protected void initHeadViewEvent(View headView) {
+    }
+
     @Override
     protected void onSuccessResponse(int requestCode, String jsonString) {
         ptr.onRefreshComplete();

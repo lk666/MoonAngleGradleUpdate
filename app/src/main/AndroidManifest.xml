@@ -257,7 +257,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.base._ClothingTabActivity"
+            android:name=".module.base.example._ClothingTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity

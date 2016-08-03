@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/page_bg_f2"
+              android:orientation="vertical">
+
+    <View
+        android:id="@+id/view_pop_start"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"/>
+
+    <TextView
+        android:id="@+id/tv_time"
+        android:textSize="@dimen/text_size_13"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/bar_blue"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:textColor="@color/white_bg"/>
+
+</LinearLayout>

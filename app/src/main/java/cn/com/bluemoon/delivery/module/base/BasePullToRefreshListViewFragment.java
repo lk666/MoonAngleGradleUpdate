@@ -11,7 +11,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Created by lk on 2016/7/26.
  */
 public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseListAdapter, ITEM
-        extends Object> extends BasePullToRefreshFragment {
+        extends Object> extends BasePullToRefreshFragment implements OnListItemClickListener {
     /**
      * 列表adapter
      */

@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.base;
+package cn.com.bluemoon.delivery.module.base.example;
 
 import android.app.Activity;
 import android.content.Context;
@@ -19,6 +19,9 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.OuterOrderReceive;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultOuterOrderInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewActivity;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
@@ -31,7 +34,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
  */
 public class TestBasePullToRefreshListViewActivity extends
         BasePullToRefreshListViewActivity<TestBasePullToRefreshListViewActivity.CollectAdapter,
-                OuterOrderReceive> implements OnListItemClickListener {
+                        OuterOrderReceive> implements OnListItemClickListener {
     @Override
     protected String getTitleString() {
         return getString(R.string.title_outer_detail);

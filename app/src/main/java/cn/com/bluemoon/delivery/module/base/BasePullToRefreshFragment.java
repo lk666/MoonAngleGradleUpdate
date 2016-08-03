@@ -20,7 +20,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 public abstract class BasePullToRefreshFragment extends BaseFragment {
 
     /**
-     * 头
+     * 头，开始不显示，
      */
     private View head;
 
@@ -42,7 +42,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     private PullToRefreshBase ptr;
 
     @Override
-    public void initView() {
+    final public void initView() {
         initHeadView();
 
         ptr = (PullToRefreshBase) getMainView().findViewById(getPtrId());
@@ -63,23 +63,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         initPtr(ptr);
 
         LibViewUtil.setViewVisibility(ptr, View.GONE);
-        LibViewUtil.setViewVisibility(head, View.GONE);
-    }
-
-    /**
-     * 获取界面数据（刷新界面）
-     */
-    private void getData() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA, getMainHandler());
-    }
-
-    /**
-     * 加载更多
-     */
-    private void getMore() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE, getMainHandler());
+        setHeadViewVisibility(View.GONE);
     }
 
     /**
@@ -131,19 +115,41 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     ///////////// 工具方法 ////////////////
 
     /**
+     * 设置头可见性
+     */
+    final protected void setHeadViewVisibility(int visibility) {
+        LibViewUtil.setViewVisibility(head, visibility);
+    }
+
+    /**
+     * 加载更多
+     */
+    final protected void getMore() {
+        LibViewUtil.setChildEnableRecursion(ptr, false);
+        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE, getMainHandler());
+    }
+
+    /**
+     * 获取界面数据（刷新界面）
+     */
+    final protected void getData() {
+        LibViewUtil.setChildEnableRecursion(ptr, false);
+        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA, getMainHandler());
+    }
+
+    /**
      * 显示内容页
      */
-    final protected void showRefreshView() {
+    protected void showRefreshView() {
         LibViewUtil.setViewVisibility(errorView, View.GONE);
         LibViewUtil.setViewVisibility(emptyView, View.GONE);
         LibViewUtil.setViewVisibility(ptr, View.VISIBLE);
-        LibViewUtil.setViewVisibility(head, View.VISIBLE);
     }
 
     /**
      * 显示错误页
      */
-    final protected void showNetErrorView() {
+    protected void showNetErrorView() {
         if (errorView == null) {
             int layoutId = R.layout.viewstub_wrapper;
             View viewStub = getMainView().findViewById(R.id.viewstub_error);
@@ -158,13 +164,12 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         LibViewUtil.setViewVisibility(emptyView, View.GONE);
         LibViewUtil.setViewVisibility(errorView, View.VISIBLE);
         LibViewUtil.setViewVisibility(ptr, View.GONE);
-        LibViewUtil.setViewVisibility(head, View.GONE);
     }
 
     /**
      * 显示空数据页
      */
-    final protected void showEmptyView() {
+    protected void showEmptyView() {
         if (emptyView == null) {
             int layoutId = R.layout.viewstub_wrapper;
             final View viewStub = getMainView().findViewById(R.id.viewstub_empty);
@@ -179,7 +184,6 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         LibViewUtil.setViewVisibility(errorView, View.GONE);
         LibViewUtil.setViewVisibility(ptr, View.GONE);
-        LibViewUtil.setViewVisibility(head, View.GONE);
     }
 
     ///////////// 可选重写 ////////////////
@@ -198,11 +202,10 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         return 0;
     }
 
-
     /**
      * 设置头部
      */
-    private void initHeadViewEvent(View headView) {
+    protected void initHeadViewEvent(View headView) {
     }
 
     @Override

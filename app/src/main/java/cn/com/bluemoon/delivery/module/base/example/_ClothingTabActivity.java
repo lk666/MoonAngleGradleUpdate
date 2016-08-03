@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.base;
+package cn.com.bluemoon.delivery.module.base.example;
 
 import android.content.Context;
 
@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.ArgumentTabState;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 
 public class _ClothingTabActivity extends BaseTabActivity {
     public static void actionStart(Context context) {

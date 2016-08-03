@@ -2582,6 +2582,38 @@ public class DeliveryApi {
                 "washingService-controller/wash/activity/getActivityInfos%s", handler);
     }
 
+    /**2.5 收衣记录，测试用*/
+	/*返回：ResultCollectInfo*/
+    public static void collectInfoRecord(int requestCode, String token, long startDate, long endDate,
+                                         AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        postRequest(requestCode, params,
+                "washingService-controller/wash/collectInfoRecord%s", handler);
+    }
+
+
+    /**5.8收衣记录，测试用*/
+	/*返回：ResultCollectInfo*/
+    public static void collectInfoRecord2(int requestCode, String token, long startDate, long endDate,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        postRequest(requestCode, params,
+                "washingService-controller/wash/activity/collectInfoRecord%s",handler);
+    }
+
+
     /**
      * 提交http请求
      *

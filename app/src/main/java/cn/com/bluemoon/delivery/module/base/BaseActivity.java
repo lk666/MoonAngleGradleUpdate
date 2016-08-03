@@ -19,6 +19,7 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
@@ -137,6 +138,12 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     };
 
     ///////////// 工具方法 ////////////////
+    /**
+     * 获取token
+     */
+    final protected  String getToken() {
+        return ClientStateManager.getLoginToken(this);
+    }
 
     /**
      * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken
