@@ -82,7 +82,7 @@ public class RelationShipDetailActivity extends BaseActivity {
         String bpCode = getIntent().getStringExtra("bpCode");
         String empCode = getIntent().getStringExtra("empCode");
         showWaitDialog();
-        DeliveryApi.getRelationShipDetail(0,bpCode, empCode, ClientStateManager.getLoginToken(this),getMainHandler());
+        DeliveryApi.getRelationShipDetail(0,bpCode, empCode, ClientStateManager.getLoginToken(this),getNewHandler(0, ResultBase.class));
     }
 
     public static void actionStart(Context context,String bpCode,String empCode){

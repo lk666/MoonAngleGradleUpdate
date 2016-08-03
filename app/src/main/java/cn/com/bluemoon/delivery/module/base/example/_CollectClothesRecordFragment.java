@@ -10,9 +10,6 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -157,14 +154,13 @@ public class _CollectClothesRecordFragment extends BasePullToRefreshListViewFrag
      * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
      */
     @Override
-    protected List<CollectInfo> getGetMoreList(String result) {
+    protected List<CollectInfo> getGetMoreList(ResultBase result) {
         return null;
     }
 
     @Override
-    protected List<CollectInfo> getGetDataList(String result) {
-        ResultCollectInfo resultObj = JSON.parseObject(result,
-                ResultCollectInfo.class);
+    protected List<CollectInfo> getGetDataList(ResultBase result) {
+        ResultCollectInfo resultObj = (ResultCollectInfo) result;
         return resultObj.getCollectInfos();
     }
 
@@ -174,11 +170,13 @@ public class _CollectClothesRecordFragment extends BasePullToRefreshListViewFrag
     }
 
     @Override
-    protected void invokeGetDataDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
+    protected void invokeGetDataDeliveryApi(int requestCode) {
         if (manager.equals(ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE)) {
-            DeliveryApi.collectInfoRecord(requestCode, getToken(), startTime, endTime, handler);
+            DeliveryApi._collectInfoRecord(getToken(), startTime, endTime, getNewHandler
+                    (requestCode, ResultCollectInfo.class));
         } else {
-            DeliveryApi.collectInfoRecord2(requestCode, getToken(), startTime, endTime, handler);
+            DeliveryApi._collectInfoRecord2(getToken(), startTime, endTime, getNewHandler
+                    (requestCode, ResultCollectInfo.class));
         }
     }
 
@@ -186,11 +184,11 @@ public class _CollectClothesRecordFragment extends BasePullToRefreshListViewFrag
      * Mode不包含上拉加载时，可这样重写此方法
      */
     @Override
-    protected void invokeGetMoreDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
         super.onSuccessResponse(requestCode, jsonString, resultBase);
         // 其他requestCode可在此处理
     }

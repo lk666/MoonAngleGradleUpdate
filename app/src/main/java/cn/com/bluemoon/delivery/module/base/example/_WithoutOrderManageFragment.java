@@ -9,9 +9,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -56,17 +53,15 @@ public class _WithoutOrderManageFragment extends
 
     /**
      * Mode不包含上拉加载时，可这样重写此方法
-     *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
      */
     @Override
-    protected List<ActivityInfo> getGetMoreList(String result) {
+    protected List<ActivityInfo> getGetMoreList(ResultBase result) {
         return null;
     }
 
     @Override
-    protected List<ActivityInfo> getGetDataList(String result) {
-        ResultActivityInfo resultObj = JSON.parseObject(result, ResultActivityInfo.class);
+    protected List<ActivityInfo> getGetDataList(ResultBase result) {
+        ResultActivityInfo resultObj = (ResultActivityInfo) result;
         return resultObj.getActivityInfos();
     }
 
@@ -76,20 +71,20 @@ public class _WithoutOrderManageFragment extends
     }
 
     @Override
-    protected void invokeGetDataDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
-        DeliveryApi.getActivityInfos(requestCode, ClientStateManager.getLoginToken(getActivity())
-                , handler);
+    protected void invokeGetDataDeliveryApi(int requestCode) {
+        DeliveryApi._getActivityInfos(ClientStateManager.getLoginToken(getActivity())
+                , getNewHandler(requestCode, ResultActivityInfo.class));
     }
 
     /**
      * Mode不包含上拉加载时，可这样重写此方法
      */
     @Override
-    protected void invokeGetMoreDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
         super.onSuccessResponse(requestCode, jsonString, resultBase);
         // 其他requestCode可在此处理
     }

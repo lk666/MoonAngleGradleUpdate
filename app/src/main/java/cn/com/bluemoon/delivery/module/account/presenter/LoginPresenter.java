@@ -4,6 +4,8 @@ import org.kymjs.kjframe.utils.StringUtils;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.account.model.ILoginModel;
 import cn.com.bluemoon.delivery.module.account.model.LoginModel;
 import cn.com.bluemoon.delivery.module.account.view.interf.ILoginView;
@@ -36,7 +38,8 @@ public class LoginPresenter {
             return;
         }
         loginView.showWaitDialog();
-        userModel.login(loginView.getUserName(), loginView.getUserPsw(), loginView.getMainHandler());
+        userModel.login(loginView.getUserName(), loginView.getUserPsw(),
+                loginView.getNewHandler(0, ResultToken.class));
     }
 
     public void saveData(String jsonString){

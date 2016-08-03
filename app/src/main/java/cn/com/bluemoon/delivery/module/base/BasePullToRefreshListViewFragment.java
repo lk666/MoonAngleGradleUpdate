@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.base;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -41,7 +42,7 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
     }
 
     @Override
-    final protected void setGetMore(String result) {
+    final protected void setGetMore(ResultBase result) {
         List dataList = getGetMoreList(result);
         // 判断数据是否为空
         if (dataList == null || dataList.isEmpty()) {
@@ -70,7 +71,7 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
 
 
     @Override
-    final protected void setGetData(String result) {
+    final protected void setGetData(ResultBase result) {
         List dataList = getGetDataList(result);
         // 判断数据是否为空
         if (dataList == null || dataList.isEmpty()) {
@@ -127,16 +128,16 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
     /**
      * 获取加载更多数据返回，处理请求成功的数据（数据不为空），进而得到列表数据
      *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
+     * @param result ResultBase类的子类对象，resultcode为OK
      * @return 列表数据
      */
-    protected abstract List<ITEM> getGetMoreList(String result);
+    protected abstract List<ITEM> getGetMoreList(ResultBase result);
 
     /**
      * 获取刷新数据返回，处理请求成功的数据（数据不为空），进而得到列表数据
      *
-     * @param result 继承ResultBase的classType数据，不为null，也非空数据
+     * @param result ResultBase类的子类对象，resultcode为OK
      * @return 列表数据
      */
-    protected abstract List<ITEM> getGetDataList(String result);
+    protected abstract List<ITEM> getGetDataList(ResultBase result);
 }

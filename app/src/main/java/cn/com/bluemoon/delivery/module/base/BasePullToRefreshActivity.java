@@ -5,8 +5,6 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ListView;
 
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -86,7 +84,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
      */
     private void getData() {
         LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA, getMainHandler());
+        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA);
     }
 
     /**
@@ -108,7 +106,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
      */
     private void getMore() {
         LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE, getMainHandler());
+        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE);
     }
 
 
@@ -215,11 +213,11 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         switch (requestCode) {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
-                setGetData(jsonString);
+                setGetData(result);
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
-                setGetMore(jsonString);
+                setGetMore(result);
                 break;
             default:
                 break;
@@ -287,34 +285,30 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     protected abstract PullToRefreshBase.Mode getMode();
 
     /**
-     * 具体调用刷新数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(requestCode,
-     * ClientStateManager.getLoginToken(this), "80474765", handler);
+     * 具体调用刷新数据时的DeliveryApi的方法
      *
      * @param requestCode DeliveryApi的方法中的requestCode参数
-     * @param handler     DeliveryApi的方法中的AsyncHttpResponseHandler参数
      */
-    protected abstract void invokeGetDataDeliveryApi(int requestCode, AsyncHttpResponseHandler
-            handler);
+    protected abstract void invokeGetDataDeliveryApi(int requestCode);
 
     /**
      * 设置刷新请求成功的数据
      *
-     * @param result ResultBase类的json字符串，resultcode为OK
+     * @param result ResultBase类的子类对象，resultcode为OK
      */
-    abstract protected void setGetData(String result);
+    abstract protected void setGetData(ResultBase result);
 
     /**
-     * 具体调用加载更多数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(requestCode,
-     * ClientStateManager.getLoginToken(this), "80474765", handler);
+     * 具体调用加载更多数据时的DeliveryApi的方法
      *
      * @param requestCode DeliveryApi的方法中的requestCode参数
-     * @param handler     DeliveryApi的方法中的AsyncHttpResponseHandler参数
      */
-    protected abstract void invokeGetMoreDeliveryApi(int requestCode, AsyncHttpResponseHandler
-            handler);
+    protected abstract void invokeGetMoreDeliveryApi(int requestCode);
 
     /**
      * 设置加载更多数据请求成功的数据
+     *
+     * @param result ResultBase类的子类对象，resultcode为OK
      */
-    protected abstract void setGetMore(String result);
+    protected abstract void setGetMore(ResultBase result);
 }

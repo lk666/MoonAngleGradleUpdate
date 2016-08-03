@@ -2546,7 +2546,7 @@ public class DeliveryApi {
      * @param outerCode 洗衣服务订单号(必填) String
      * @param token     登录凭证(必填) String
      */
-    public static void getOuterOrderInfo(int requestCode, String outerCode, String token,
+    public static void _getOuterOrderInfo(String outerCode, String token,
                                          AsyncHttpResponseHandler handler) {
         if (null == outerCode || null == token) {
             return;
@@ -2563,13 +2563,13 @@ public class DeliveryApi {
             context = ((WithContextTextHttpResponseHandler) handler).getContext();
         }
 
-        ApiHttpClient.post(context, url, jsonString, requestCode, handler);
+        ApiHttpClient.post(context, url, jsonString, handler);
     }
 
     /**
      * 5.3获取活动列表 ，测试用
      */
-    public static void getActivityInfos(int requestCode, String token,
+    public static void _getActivityInfos(String token,
                                         AsyncHttpResponseHandler handler) {
         if (StringUtil.isEmpty(token)) {
             return;
@@ -2578,13 +2578,12 @@ public class DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
 
-        postRequest(requestCode, params,
-                "washingService-controller/wash/activity/getActivityInfos%s", handler);
+        postRequest(params, "washingService-controller/wash/activity/getActivityInfos%s", handler);
     }
 
     /**2.5 收衣记录，测试用*/
 	/*返回：ResultCollectInfo*/
-    public static void collectInfoRecord(int requestCode, String token, long startDate, long endDate,
+    public static void _collectInfoRecord(String token, long startDate, long endDate,
                                          AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
@@ -2593,14 +2592,13 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        postRequest(requestCode, params,
-                "washingService-controller/wash/collectInfoRecord%s", handler);
+        postRequest(params,  "washingService-controller/wash/collectInfoRecord%s", handler);
     }
 
 
     /**5.8收衣记录，测试用*/
 	/*返回：ResultCollectInfo*/
-    public static void collectInfoRecord2(int requestCode, String token, long startDate, long endDate,
+    public static void _collectInfoRecord2(String token, long startDate, long endDate,
                                           AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
@@ -2609,20 +2607,18 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        postRequest(requestCode, params,
-                "washingService-controller/wash/activity/collectInfoRecord%s",handler);
+        postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s",handler);
     }
 
 
     /**
      * 提交http请求
      *
-     * @param requestCode 请求编码，用于标识回调的唯一性
      * @param params      参数列表
      * @param subUrl      请求的url子部
      * @param handler     回调
      */
-    private static void postRequest(int requestCode, Map<String, Object> params, String subUrl,
+    private static void postRequest(Map<String, Object> params, String subUrl,
                                     AsyncHttpResponseHandler handler) {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(subUrl, ApiClientHelper.getParamUrl());
@@ -2632,6 +2628,6 @@ public class DeliveryApi {
             context = ((WithContextTextHttpResponseHandler) handler).getContext();
         }
 
-        ApiHttpClient.post(context, url, jsonString, requestCode, handler);
+        ApiHttpClient.post(context, url, jsonString, handler);
     }
 }

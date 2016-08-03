@@ -8,9 +8,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -35,7 +32,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
  */
 public class TestBasePullToRefreshListViewActivity extends
         BasePullToRefreshListViewActivity<TestBasePullToRefreshListViewActivity.CollectAdapter,
-                        OuterOrderReceive> implements OnListItemClickListener {
+                OuterOrderReceive> implements OnListItemClickListener {
     @Override
     protected String getTitleString() {
         return getString(R.string.title_outer_detail);
@@ -56,17 +53,15 @@ public class TestBasePullToRefreshListViewActivity extends
 
     /**
      * Mode不包含上拉加载时，可这样重写此方法
-     *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
      */
     @Override
-    protected List<OuterOrderReceive> getGetMoreList(String result) {
+    protected List<OuterOrderReceive> getGetMoreList(ResultBase result) {
         return null;
     }
 
     @Override
-    protected List<OuterOrderReceive> getGetDataList(String result) {
-        ResultOuterOrderInfo resultObj = JSON.parseObject(result, ResultOuterOrderInfo.class);
+    protected List<OuterOrderReceive> getGetDataList(ResultBase result) {
+        ResultOuterOrderInfo resultObj = (ResultOuterOrderInfo) result;
         return resultObj.getOrderReceive();
     }
 
@@ -76,25 +71,21 @@ public class TestBasePullToRefreshListViewActivity extends
     }
 
     @Override
-    protected void invokeGetDataDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
-        // TODO: lk 2016/7/28  界面中的DeliveryApi方法必须使用特定界面的context，
-        // 以使 ApiHttpClient.cancelAll(this)生效
-        // DeliveryApi.getOuterOrderInfo(this, requestCode, outerCode, ClientStateManager
-        // .getLoginToken(this), handler);
-        DeliveryApi.getOuterOrderInfo(requestCode, outerCode, ClientStateManager.getLoginToken
-                (this), handler);
+    protected void invokeGetDataDeliveryApi(int requestCode) {
+        DeliveryApi.getOuterOrderInfo(outerCode, ClientStateManager.getLoginToken
+                (this), getNewHandler(requestCode, ResultOuterOrderInfo.class));
     }
 
     /**
      * Mode不包含上拉加载时，可这样重写此方法
      */
     @Override
-    protected void invokeGetMoreDeliveryApi(int requestCode, AsyncHttpResponseHandler handler) {
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        super.onSuccessResponse(requestCode, jsonString,result);
+        super.onSuccessResponse(requestCode, jsonString, result);
         // 其他requestCode可在此处理
     }
 

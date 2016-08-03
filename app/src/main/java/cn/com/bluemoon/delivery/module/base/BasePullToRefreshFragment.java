@@ -126,7 +126,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
      */
     final protected void getMore() {
         LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE, getMainHandler());
+        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE);
     }
 
     /**
@@ -134,7 +134,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
      */
     final protected void getData() {
         LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA, getMainHandler());
+        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA);
     }
 
     /**
@@ -209,17 +209,17 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
-                setGetData(jsonString);
+                setGetData(resultBase);
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
-                setGetMore(jsonString);
+                setGetMore(resultBase);
                 break;
             default:
                 break;
@@ -227,7 +227,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     }
 
     @Override
-    protected void onFailureResponse(int requestCode) {
+    public void onFailureResponse(int requestCode) {
         super.onFailureResponse(requestCode);
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
@@ -243,7 +243,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     }
 
     @Override
-    protected void onErrorResponse(int requestCode, ResultBase result) {
+    public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
@@ -286,34 +286,29 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     protected abstract PullToRefreshBase.Mode getMode();
 
     /**
-     * 具体调用刷新数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(requestCode,
-     * ClientStateManager.getLoginToken(this), "80474765", handler);
+     * 具体调用刷新数据时的DeliveryApi的方法
      *
      * @param requestCode DeliveryApi的方法中的requestCode参数
-     * @param handler     DeliveryApi的方法中的AsyncHttpResponseHandler参数
      */
-    protected abstract void invokeGetDataDeliveryApi(int requestCode, AsyncHttpResponseHandler
-            handler);
+    protected abstract void invokeGetDataDeliveryApi(int requestCode);
 
     /**
-     * 具体调用加载更多数据时的DeliveryApi的方法，格式应如： DeliveryApi.getEmp(requestCode,
-     * ClientStateManager.getLoginToken(this), "80474765", handler);
+     * 具体调用加载更多数据时的DeliveryApi的方法
      *
      * @param requestCode DeliveryApi的方法中的requestCode参数
-     * @param handler     DeliveryApi的方法中的AsyncHttpResponseHandler参数
      */
-    protected abstract void invokeGetMoreDeliveryApi(int requestCode, AsyncHttpResponseHandler
-            handler);
+    protected abstract void invokeGetMoreDeliveryApi(int requestCode);
 
     /**
      * 设置刷新请求成功的数据
      *
-     * @param result ResultBase类的json字符串，resultcode为OK
+     * @param result ResultBase类的子类对象，resultcode为OK
      */
-    abstract protected void setGetData(String result);
+    abstract protected void setGetData(ResultBase result);
 
     /**
      * 设置加载更多数据请求成功的数据
+     * @param result ResultBase类的子类对象，resultcode为OK
      */
-    protected abstract void setGetMore(String result);
+    protected abstract void setGetMore(ResultBase result);
 }

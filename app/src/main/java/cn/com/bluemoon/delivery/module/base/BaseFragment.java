@@ -24,11 +24,10 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
-import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
@@ -36,7 +35,8 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
  * 基础Fragment，必须属于{@link BaseTabActivity}
  * Created by lk on 2016/7/29.
  */
-public abstract class BaseFragment extends Fragment implements BaseMainInterface, BaseViewInterface {
+public abstract class BaseFragment extends Fragment implements BaseMainInterface, BaseViewInterface,
+        IHttpRespone {
 
     /**
      * 给fragment使用的bundle数据
@@ -111,12 +111,69 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
         ApiHttpClient.cancelAll(aty);
     }
 
+    private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
+                                                final IHttpRespone iHttpRespone) {
+        WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
+                HTTP.UTF_8, getActivity(), requestcode, clazz) {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if (iHttpRespone == null) {
+                    return;
+                }
+                LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
+                        " " + "result = " + responseString);
+                hideWaitDialog();
+                try {
+                    Object resultObj = getClazz().newInstance();
+                    resultObj = JSON.parseObject(responseString, getClazz());
+                    if (resultObj instanceof ResultBase) {
+                        ResultBase resultBase = (ResultBase) resultObj;
+                        if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                            iHttpRespone.onSuccessResponse(getReqCode(),
+                                    responseString, resultBase);
+                        } else {
+                            iHttpRespone.onErrorResponse(getReqCode(), resultBase);
+                        }
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                } catch (Exception e) {
+                    LogUtils.e(getDefaultTag(), e.getMessage());
+                    PublicUtil.showToastServerBusy();
+                    iHttpRespone.onFailureResponse(getReqCode());
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers,
+                                  String responseString, Throwable throwable) {
+                if (iHttpRespone == null) {
+                    return;
+                }
+                LogUtils.e(getDefaultTag(), throwable.getMessage());
+                hideWaitDialog();
+                PublicUtil.showToastServerOvertime();
+                iHttpRespone.onFailureResponse(getReqCode());
+            }
+        };
+        return handler;
+    }
     ///////////// 工具方法 ////////////////
+
     /**
      * 获取token
      */
-    final protected  String getToken() {
+    final protected String getToken() {
         return ClientStateManager.getLoginToken(getActivity());
+    }
+
+    /**
+     * 在调用DeliveryApi的方法时使用
+     */
+    @Override
+    final public AsyncHttpResponseHandler getNewHandler(final int requestcode, final Class clazz) {
+        return getHandler(requestcode, clazz, this);
     }
 
     final protected View getMainView() {
@@ -172,49 +229,6 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
             isCancelable) {
         return aty.showWaitDialog(message, viewId, isCancelable);
     }
-
-    private final AsyncHttpResponseHandler mainHandler = new WithContextTextHttpResponseHandler(
-            HTTP.UTF_8, aty) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getRequestCode() + " --> " +
-                    "result = " + responseString);
-            hideWaitDialog();
-            try {
-                ResultBase result = JSON.parseObject(responseString,
-                        ResultBase.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString, result);
-                } else {
-                    onErrorResponse(getRequestCode(), result);
-                }
-            } catch (Exception e) {
-                LogUtils.e(getDefaultTag(), e.getMessage());
-                PublicUtil.showToastServerBusy();
-                onFailureResponse(getRequestCode());
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(getDefaultTag(), throwable.getMessage());
-            hideWaitDialog();
-            PublicUtil.showToastServerOvertime();
-            onFailureResponse(getRequestCode());
-        }
-    };
-
-    /**
-     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken
-     * (this),
-     * "80474765", getMainHandler());
-     */
-    final public AsyncHttpResponseHandler getMainHandler() {
-        return mainHandler;
-    }
-
     ///////////// 可选重写 ////////////////
 
     /**
@@ -255,14 +269,14 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     /**
      * 请求返回非OK
      */
-    protected void onErrorResponse(int requestCode, ResultBase result) {
+    public void onErrorResponse(int requestCode, ResultBase result) {
         PublicUtil.showErrorMsg(aty, result);
     }
 
     /**
      * 请求失败
      */
-    protected void onFailureResponse(int requestCode) {
+    public void onFailureResponse(int requestCode) {
     }
 
 
@@ -272,10 +286,4 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      * 设置布局文件layout，一般都要重写
      */
     protected abstract int getLayoutId();
-
-    /**
-     * 请求成功
-     */
-    protected abstract void onSuccessResponse(int requestCode, String jsonString,
-                                              @Nullable ResultBase resultBase);
 }

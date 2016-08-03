@@ -19,12 +19,11 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
-import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.module.base.interf.IHandlerListener;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
@@ -38,7 +37,8 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * 基础Activity，实现了一些公共方法
  * Created by lk on 2016/6/14.
  */
-public abstract class BaseActivity extends Activity implements BaseMainInterface, BaseViewInterface {
+public abstract class BaseActivity extends Activity implements BaseMainInterface, BaseViewInterface,
+        IHttpRespone {
 
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
@@ -106,54 +106,70 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
         MobclickAgent.onPageEnd(getDefaultTag());
     }
 
-    final AsyncHttpResponseHandler mainHandler = new WithContextTextHttpResponseHandler(
-            HTTP.UTF_8, this) {
+    private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
+                                                final IHttpRespone iHttpRespone) {
+        WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
+                HTTP.UTF_8, this, requestcode, clazz) {
 
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getRequestCode() + " --> " +
-                    "result = " + responseString);
-            hideWaitDialog();
-            try {
-                ResultBase result = JSON.parseObject(responseString,
-                        ResultBase.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString,result);
-                } else {
-                    onErrorResponse(getRequestCode(), result);
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if (iHttpRespone == null) {
+                    return;
                 }
-            } catch (Exception e) {
-                LogUtils.e(getDefaultTag(), e.getMessage());
-                PublicUtil.showToastServerBusy();
-                onFailureResponse(getRequestCode());
+                LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
+                        " " + "result = " + responseString);
+                hideWaitDialog();
+                try {
+                    Object resultObj = getClazz().newInstance();
+                    resultObj = JSON.parseObject(responseString, getClazz());
+                    if (resultObj instanceof ResultBase) {
+                        ResultBase resultBase = (ResultBase) resultObj;
+                        if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                            iHttpRespone.onSuccessResponse(getReqCode(),
+                                    responseString, resultBase);
+                        } else {
+                            iHttpRespone.onErrorResponse(getReqCode(), resultBase);
+                        }
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                } catch (Exception e) {
+                    LogUtils.e(getDefaultTag(), e.getMessage());
+                    PublicUtil.showToastServerBusy();
+                    iHttpRespone.onFailureResponse(getReqCode());
+                }
             }
-        }
 
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(getDefaultTag(), throwable.getMessage());
-            hideWaitDialog();
-            PublicUtil.showToastServerOvertime();
-            onFailureResponse(getRequestCode());
-        }
-    };
+            @Override
+            public void onFailure(int statusCode, Header[] headers,
+                                  String responseString, Throwable throwable) {
+                if (iHttpRespone == null) {
+                    return;
+                }
+                LogUtils.e(getDefaultTag(), throwable.getMessage());
+                hideWaitDialog();
+                PublicUtil.showToastServerOvertime();
+                iHttpRespone.onFailureResponse(getReqCode());
+            }
+        };
+        return handler;
+    }
 
     ///////////// 工具方法 ////////////////
+
     /**
      * 获取token
      */
-    final protected  String getToken() {
+    final protected String getToken() {
         return ClientStateManager.getLoginToken(this);
     }
 
     /**
-     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(requestCode, ClientStateManager.getLoginToken
-     * (this),
-     * "80474765", getMainHandler());
+     * 在调用DeliveryApi的方法时使用
      */
-    final public AsyncHttpResponseHandler getMainHandler() {
-        return mainHandler;
+    @Override
+    final public AsyncHttpResponseHandler getNewHandler(final int requestcode, final Class clazz) {
+        return getHandler(requestcode, clazz, this);
     }
 
     /**
@@ -164,7 +180,6 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
     final protected String getDefaultTag() {
         return this.getClass().getSimpleName();
     }
-
 
     final protected void longToast(String msg) {
         LibViewUtil.longToast(this, msg);
@@ -258,14 +273,16 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
     /**
      * 请求返回非OK
      */
-    protected void onErrorResponse(int requestCode, ResultBase result) {
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
         PublicUtil.showErrorMsg(this, result);
     }
 
     /**
      * 请求失败
      */
-    protected void onFailureResponse(int requestCode) {
+    @Override
+    public void onFailureResponse(int requestCode) {
     }
 
     /**
@@ -301,9 +318,4 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
      * 设置布局文件layout，一般都要重写
      */
     protected abstract int getLayoutId();
-
-    /**
-     * 请求成功
-     */
-    protected abstract void onSuccessResponse(int requestCode, String jsonString, ResultBase result);
 }
