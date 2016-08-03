@@ -50,29 +50,35 @@
             android:screenOrientation="portrait"
             android:theme="@style/Anim_style2"/>
         <activity
-            android:name=".module.account.LoginActivity"
+            android:name=".module.account.view.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Anim_style2"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".module.account.SettingInfoActivity"
+            android:name=".module.mvptest.view.UserActivity"
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:theme="@style/Anim_style2"
+            android:windowSoftInputMode="adjustResize"/>
+        <activity
+            android:name=".module.account.view.SettingInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.account.SettingActivity"
+            android:name=".module.account.view.SettingActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.account.ResetPswActivity"
+            android:name=".module.account.view.ResetPswActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.account.InputPhoneActivity"
+            android:name=".module.account.view.InputPhoneActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.account.ChangePswActivity"
+            android:name=".module.account.view.ChangePswActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateHidden"/>
@@ -325,9 +331,13 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
 
-        <activity android:name=".module.jobrecord.PromoteDetailActivity"
+        <activity android:name=".module.base.TestBasePullToRefreshListViewActivity"
                   android:screenOrientation="portrait"
-                  android:theme="@style/App.Base.Theme"/>
+                  android:theme="@style/App.Base.Theme"
+                  android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity android:name=".module.jobrecord.PromoteDetailActivity"
+           android:screenOrientation="portrait"
+           android:theme="@style/App.Base.Theme"/>
 
        <activity android:name=".module.jobrecord.PromoteActivity"
             android:screenOrientation="portrait"

@@ -157,7 +157,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
 
     ///////////// 可选重写 ////////////////
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString,ResultBase result) {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {
@@ -175,7 +175,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     @Override
-    protected void onFailureResponse(int requestCode) {
+    public void onFailureResponse(int requestCode) {
         super.onFailureResponse(requestCode);
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
@@ -191,7 +191,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     @Override
-    protected void onErrorResponse(int requestCode, ResultBase result) {
+    public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);

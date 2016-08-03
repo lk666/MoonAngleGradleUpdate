@@ -90,7 +90,7 @@ public class TestBasePullToRefreshListViewActivity extends
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString,result);
         // 其他requestCode可在此处理
     }

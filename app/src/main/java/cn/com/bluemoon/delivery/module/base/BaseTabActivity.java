@@ -28,8 +28,9 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
-import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
+import cn.com.bluemoon.delivery.module.base.interf.IHandlerListener;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -42,7 +43,7 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * Created by lk on 2016/6/3.
  */
 public class BaseTabActivity extends FragmentActivity
-        implements DialogControl, BaseViewInterface {
+        implements BaseMainInterface, BaseViewInterface {
 
     /**
      * List<OldTabState>，tab数据
@@ -145,7 +146,7 @@ public class BaseTabActivity extends FragmentActivity
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString);
+                    onSuccessResponse(getRequestCode(), responseString,result);
                 } else {
                     onErrorResponse(getRequestCode(), result);
                 }
@@ -172,7 +173,7 @@ public class BaseTabActivity extends FragmentActivity
      * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(this, ClientStateManager.getLoginToken(this),
      * "80474765", getMainHandler());
      */
-    final protected AsyncHttpResponseHandler getMainHandler() {
+    final public AsyncHttpResponseHandler getMainHandler() {
         return mainHandler;
     }
 
@@ -198,6 +199,14 @@ public class BaseTabActivity extends FragmentActivity
 
     final protected void toast(String msg) {
         LibViewUtil.toast(this, msg);
+    }
+
+    final protected void longToast(int resId) {
+        LibViewUtil.longToast(this, resId);
+    }
+
+    final protected void toast(int resId) {
+        LibViewUtil.toast(this, resId);
     }
 
     /**
@@ -268,7 +277,7 @@ public class BaseTabActivity extends FragmentActivity
     /**
      * 请求成功
      */
-    protected void onSuccessResponse(int requestCode, String jsonString) {
+    protected void onSuccessResponse(int requestCode, String jsonString,ResultBase result) {
 
     }
 
@@ -276,7 +285,7 @@ public class BaseTabActivity extends FragmentActivity
      * 请求返回非OK
      */
     protected void onErrorResponse(int requestCode, ResultBase result) {
-        DialogUtil.showErrorMsg(this, result);
+        PublicUtil.showErrorMsg(this, result);
     }
 
     /**

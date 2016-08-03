@@ -764,7 +764,7 @@
 
     <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
 
-    <item type="id" name="tag_position">0xFFF11222</item>
+    <item name="tag_position" type="id">0xFFF11222</item>
 
     <!-- 我的团队 -->
     <string name="team_group">小组</string>
@@ -823,8 +823,6 @@
     <string name="team_edit_limit_enddate">结束日期不能早于开始日期</string>
     <string name="team_edit_limit_worktype">作业性质不能为空</string>
     <string name="team_edit_limit_parttime">兼职时长不可以等于0小时！</string>
-
-
 
 
 </resources>

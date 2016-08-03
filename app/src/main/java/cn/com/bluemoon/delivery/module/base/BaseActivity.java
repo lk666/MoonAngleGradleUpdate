@@ -19,9 +19,11 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.base.interf.IHandlerListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
@@ -35,7 +37,7 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * 基础Activity，实现了一些公共方法
  * Created by lk on 2016/6/14.
  */
-public abstract class BaseActivity extends Activity implements DialogControl, BaseViewInterface {
+public abstract class BaseActivity extends Activity implements BaseMainInterface, BaseViewInterface {
 
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
@@ -143,7 +145,7 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
      * (this),
      * "80474765", getMainHandler());
      */
-    final protected AsyncHttpResponseHandler getMainHandler() {
+    final public AsyncHttpResponseHandler getMainHandler() {
         return mainHandler;
     }
 
@@ -163,6 +165,14 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
 
     final protected void toast(String msg) {
         LibViewUtil.toast(this, msg);
+    }
+
+    final protected void longToast(int resId) {
+        LibViewUtil.longToast(this, resId);
+    }
+
+    final protected void toast(int resId) {
+        LibViewUtil.toast(this, resId);
     }
 
     final protected View inflateView(int resId) {
@@ -242,7 +252,7 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
      * 请求返回非OK
      */
     protected void onErrorResponse(int requestCode, ResultBase result) {
-        DialogUtil.showErrorMsg(this, result);
+        PublicUtil.showErrorMsg(this, result);
     }
 
     /**
@@ -288,5 +298,5 @@ public abstract class BaseActivity extends Activity implements DialogControl, Ba
     /**
      * 请求成功
      */
-    protected abstract void onSuccessResponse(int requestCode, String jsonString,ResultBase result);
+    protected abstract void onSuccessResponse(int requestCode, String jsonString, ResultBase result);
 }
