@@ -1,14 +1,14 @@
 package cn.com.bluemoon.delivery.module.mvptest.model;
 
-import cn.com.bluemoon.delivery.module.mvptest.model.bean.User;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 /**
  * Created by bm on 2016/8/1.
  */
 public interface IUserModel {
 
-    User getUser();
+    void getUser(AsyncHttpResponseHandler handler);
 
-    void upLoadUser(String id,String name);
+    void logout(AsyncHttpResponseHandler handler);
 
 }

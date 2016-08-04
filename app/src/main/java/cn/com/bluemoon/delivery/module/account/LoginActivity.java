@@ -1,29 +1,36 @@
-package cn.com.bluemoon.delivery.module.account.view;
+package cn.com.bluemoon.delivery.module.account;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
+
+import org.kymjs.kjframe.utils.StringUtils;
+
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.module.account.presenter.LoginPresenter;
-import cn.com.bluemoon.delivery.module.account.view.interf.ILoginView;
+import cn.com.bluemoon.delivery.app.api.model.ResultToken;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.ClearEditText;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
-public class LoginActivity extends BaseActivity implements ILoginView {
+public class LoginActivity extends BaseActivity{
 
     @Bind(R.id.et_user_name)
     ClearEditText etUserName;
     @Bind(R.id.et_user_psw)
     ClearEditText etUserPsw;
-    private LoginPresenter loginPresenter;
     private String jumpCode;
 
     @Override
@@ -33,7 +40,9 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        loginPresenter.saveData(jsonString);
+        ClientStateManager.setLoginToken(((ResultToken) result).getToken());
+        ClientStateManager.setUserName(getUserName());
+        MobclickAgent.onProfileSignIn(getUserName());
         toMainActivity();
     }
 
@@ -51,15 +60,14 @@ public class LoginActivity extends BaseActivity implements ILoginView {
 
     @Override
     public void initView() {
-        loginPresenter = new LoginPresenter(this);
         etUserName.setMaxLength(9);
         etUserPsw.setMaxLength(16);
     }
 
     @Override
     public void initData() {
-        loginPresenter.clearData();
-        loginPresenter.setUserName();
+        ClientStateManager.clearData();
+        setUserName(ClientStateManager.getUserName());
 
     }
 
@@ -67,29 +75,31 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         return intent == null ? null : intent.getStringExtra(Constants.KEY_JUMP);
     }
 
-    @Override
     public String getUserName() {
         return etUserName.getText().toString();
     }
 
-    @Override
     public String getUserPsw() {
         return etUserPsw.getText().toString();
     }
 
-    @Override
     public void setUserName(String name) {
         etUserName.setText(name);
         etUserName.setSelection(etUserName.length());
         etUserName.updateCleanable(0, false);
     }
 
-    @Override
+    private void login(String name,String psw){
+        if (StringUtils.isEmpty(name) || StringUtils.isEmpty(psw)) {
+            LibViewUtil.toast(AppContext.getInstance(), AppContext.getInstance().getString(R.string.register_not_empty));
+            return;
+        }
+        showWaitDialog();
+        DeliveryApi.ssoLogin(name, psw, getNewHandler(0, ResultToken.class));
+    }
+
     public void toMainActivity() {
-        Intent intent = new Intent();
-        intent.setClass(this, MainActivity.class);
-        intent.putExtra(Constants.KEY_JUMP, jumpCode);
-        startActivity(intent);
+        MainActivity.actStart(this,jumpCode);
         finish();
     }
 
@@ -97,7 +107,7 @@ public class LoginActivity extends BaseActivity implements ILoginView {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                loginPresenter.login();
+                login(getUserName(),getUserPsw());
                 break;
             case R.id.txt_forget_psw:
                 Intent intent = new Intent();
@@ -136,8 +146,13 @@ public class LoginActivity extends BaseActivity implements ILoginView {
         super.onActivityResult(requestCode, resultCode, data);
         switch (resultCode) {
             case RESULT_OK:
-                loginPresenter.setUserName();
+                setUserName(ClientStateManager.getUserName());
                 break;
         }
+    }
+
+    public static void actStart(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 }

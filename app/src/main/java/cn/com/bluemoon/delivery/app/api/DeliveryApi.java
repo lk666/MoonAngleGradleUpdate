@@ -47,7 +47,7 @@ public class DeliveryApi {
 
 	/* 2.1.1 用户登录 */
     /* 返回： ResulToken */
-    public static void ssoLogin(int requestCode, String account, String password,
+    public static void ssoLogin(String account, String password,
                                 AsyncHttpResponseHandler handler) {
 
         if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
@@ -64,7 +64,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/ssoLogin%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, requestCode, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /* 2.1.2 获取用户信息 */
@@ -2469,7 +2469,7 @@ public class DeliveryApi {
     }
 
     /* 获取人员关系详情 */
-    public static void getRelationShipDetail(int requestCode, String bpCode, String empCode,
+    public static void getRelationShipDetail(String bpCode, String empCode,
                                              String token,
                                              AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == empCode || null == token) {
@@ -2482,7 +2482,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, requestCode, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString,handler);
     }
 
     /* 获取人员辖区列表 */

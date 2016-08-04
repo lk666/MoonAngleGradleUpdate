@@ -68,8 +68,7 @@ public class RelationShipDetailActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultRelationDetail relationDetailResult = JSON.parseObject(jsonString, ResultRelationDetail.class);
-        setData(relationDetailResult.getRelationDetail());
+        setData(((ResultRelationDetail)result).getRelationDetail());
     }
 
     @Override
@@ -82,7 +81,7 @@ public class RelationShipDetailActivity extends BaseActivity {
         String bpCode = getIntent().getStringExtra("bpCode");
         String empCode = getIntent().getStringExtra("empCode");
         showWaitDialog();
-        DeliveryApi.getRelationShipDetail(0,bpCode, empCode, ClientStateManager.getLoginToken(this),getNewHandler(0, ResultBase.class));
+        DeliveryApi.getRelationShipDetail(bpCode, empCode, ClientStateManager.getLoginToken(),getNewHandler(0, ResultRelationDetail.class));
     }
 
     public static void actionStart(Context context,String bpCode,String empCode){

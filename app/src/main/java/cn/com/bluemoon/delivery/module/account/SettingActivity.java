@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.account.view;
+package cn.com.bluemoon.delivery.module.account;
 
 import android.content.Intent;
 import android.view.KeyEvent;

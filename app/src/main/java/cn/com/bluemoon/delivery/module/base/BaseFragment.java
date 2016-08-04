@@ -30,6 +30,8 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * 基础Fragment，必须属于{@link BaseTabActivity}
@@ -189,11 +191,19 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
 
 
     final protected void longToast(String msg) {
-        aty.longToast(msg);
+        ViewUtil.longToast(msg);
     }
 
     final protected void toast(String msg) {
-        aty.toast(msg);
+        ViewUtil.toast(msg);
+    }
+
+    final protected void longToast(int resId) {
+        ViewUtil.longToast(resId);
+    }
+
+    final protected void toast(int resId) {
+        ViewUtil.toast(resId);
     }
 
     /**

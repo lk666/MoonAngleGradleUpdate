@@ -9,10 +9,11 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.mvptest.presenter.UserPresenter;
 
-public class UserActivity extends BaseActivity implements IUserView{
+public class UserActivity extends BaseActivity implements IUserView {
 
 
     @Bind(R.id.et_id)
@@ -28,7 +29,7 @@ public class UserActivity extends BaseActivity implements IUserView{
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
+        userPresenter.success(requestCode,result);
     }
 
     @Override
@@ -41,28 +42,6 @@ public class UserActivity extends BaseActivity implements IUserView{
 
     }
 
-    @OnClick({R.id.btn_get, R.id.btn_upload})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_get:
-                userPresenter.setUser();
-                break;
-            case R.id.btn_upload:
-                userPresenter.upload(getUserId(),getUserName());
-                break;
-        }
-    }
-
-    @Override
-    public String getUserName() {
-        return etName.getText().toString();
-    }
-
-    @Override
-    public String getUserId() {
-        return etId.getText().toString();
-    }
-
     @Override
     public void setUserName(String name) {
         etName.setText(name);
@@ -73,8 +52,25 @@ public class UserActivity extends BaseActivity implements IUserView{
         etId.setText(id);
     }
 
-    public static void actStart(Context context){
-        Intent intent = new Intent(context,UserActivity.class);
+    @Override
+    public void toLoginView() {
+        LoginActivity.actStart(this);
+    }
+
+    public static void actStart(Context context) {
+        Intent intent = new Intent(context, UserActivity.class);
         context.startActivity(intent);
+    }
+
+    @OnClick({R.id.btn_get, R.id.btn_exit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btn_get:
+                userPresenter.getUser();
+                break;
+            case R.id.btn_exit:
+                userPresenter.logout();
+                break;
+        }
     }
 }
