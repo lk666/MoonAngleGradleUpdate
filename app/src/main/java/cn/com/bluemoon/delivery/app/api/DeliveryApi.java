@@ -647,13 +647,10 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
 
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/receipt/getWaitReceiptOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/receipt/getWaitReceiptOrders%s",handler);
     }
 
     /*已收货-汇总接口 */
@@ -705,13 +702,10 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
 
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/out/getWaitOutOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/out/getWaitOutOrders%s",handler);
     }
 
     /*待发货详情*/

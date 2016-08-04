@@ -12,7 +12,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Created by lk on 2016/7/26.
  */
 public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseListAdapter, ITEM
-        extends Object> extends BasePullToRefreshActivity implements OnListItemClickListener{
+        extends Object> extends BasePullToRefreshActivity implements OnListItemClickListener {
 
     /**
      * 列表adapter
@@ -105,7 +105,14 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
     final protected int getHeadViewStubId() {
         return R.id.viewstub_head;
     }
+
+    ///////////// 工具方法 ////////////////
+    final protected List<ITEM> getList() {
+        return list;
+    }
+
     ///////////// 可选重写 ////////////////
+
     /**
      * 设置列表其他属性，如设置分割线等
      */
@@ -117,6 +124,7 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
     }
 
     ///////////// 必须重写 ////////////////
+
     /**
      * 产生adapter
      *

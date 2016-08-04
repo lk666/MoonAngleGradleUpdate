@@ -30,6 +30,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.inventory.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultOrderVo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.module.order.TimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -66,7 +67,7 @@ public class ProcessedFragment extends Fragment {
                              Bundle savedInstanceState) {
         try {
             Bundle bundle = getArguments();
-            type = bundle.getString("type");
+            type = (String) bundle.getSerializable(BaseFragment.EXTRA_BUNDLE_DATA);
 
         }catch (Exception ex){
 
@@ -75,7 +76,7 @@ public class ProcessedFragment extends Fragment {
         main = getActivity();
 
 
-        View v = inflater.inflate(R.layout.fragment_tab_inventory, container,
+        View v = inflater.inflate(R.layout.head_fragment_tab_inventory, container,
                 false);
         popStart = (View) v.findViewById(R.id.view_pop_start);
         txtCount = (TextView) v.findViewById(R.id.txt_count);

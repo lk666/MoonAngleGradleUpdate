@@ -104,6 +104,12 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
     final protected int getHeadViewStubId() {
         return R.id.viewstub_head;
     }
+
+    ///////////// 工具方法 ////////////////
+    final protected List<ITEM> getList() {
+        return list;
+    }
+
     ///////////// 可选重写 ////////////////
 
     /**

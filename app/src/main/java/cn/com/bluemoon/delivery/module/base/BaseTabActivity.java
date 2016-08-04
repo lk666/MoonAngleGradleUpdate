@@ -126,7 +126,7 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
         imageView.setImageResource(resId);
         TextView textView = (TextView) view.findViewById(R.id.textview);
         textView.setText(content);
-        amountTvs.add(textView);
+        amountTvs.add((TextView) view.findViewById(R.id.txt_count));
         return view;
     }
 
@@ -161,8 +161,8 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
                     if (resultObj instanceof ResultBase) {
                         ResultBase resultBase = (ResultBase) resultObj;
                         if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                            iHttpRespone.onSuccessResponse(getReqCode(),
-                                    responseString, resultBase);
+                            iHttpRespone.onSuccessResponse(getReqCode(), responseString,
+                                    resultBase);
                         } else {
                             iHttpRespone.onErrorResponse(getReqCode(), resultBase);
                         }
@@ -171,8 +171,7 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
                     }
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
-                    PublicUtil.showToastServerBusy();
-                    iHttpRespone.onFailureResponse(getReqCode());
+                    iHttpRespone.onSuccessException(getReqCode(), e);
                 }
             }
 
@@ -184,8 +183,7 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
                 }
                 LogUtils.e(getDefaultTag(), throwable.getMessage());
                 hideWaitDialog();
-                PublicUtil.showToastServerOvertime();
-                iHttpRespone.onFailureResponse(getReqCode());
+                iHttpRespone.onFailureResponse(getReqCode(), throwable);
             }
         };
         return handler;
@@ -322,6 +320,13 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
     /**
      * 请求失败
      */
-    public void onFailureResponse(int requestCode) {
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        PublicUtil.showToastServerOvertime();
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        PublicUtil.showToastServerBusy();
     }
 }

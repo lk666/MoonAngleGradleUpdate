@@ -141,7 +141,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
                     PublicUtil.showToastServerBusy();
-                    iHttpRespone.onFailureResponse(getReqCode());
+                    iHttpRespone.onSuccessException(getReqCode(), e);
                 }
             }
 
@@ -153,8 +153,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
                 }
                 LogUtils.e(getDefaultTag(), throwable.getMessage());
                 hideWaitDialog();
-                PublicUtil.showToastServerOvertime();
-                iHttpRespone.onFailureResponse(getReqCode());
+                iHttpRespone.onFailureResponse(getReqCode(), throwable);
             }
         };
         return handler;
@@ -276,10 +275,15 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     /**
      * 请求失败
      */
-    public void onFailureResponse(int requestCode) {
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        PublicUtil.showToastServerOvertime();
     }
 
-
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        PublicUtil.showToastServerBusy();
+    }
     ///////////// 必须重写 ////////////////
 
     /**

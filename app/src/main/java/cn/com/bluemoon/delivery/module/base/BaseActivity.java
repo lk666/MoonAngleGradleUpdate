@@ -125,8 +125,8 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
                     if (resultObj instanceof ResultBase) {
                         ResultBase resultBase = (ResultBase) resultObj;
                         if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                            iHttpRespone.onSuccessResponse(getReqCode(),
-                                    responseString, resultBase);
+                            iHttpRespone.onSuccessResponse(getReqCode(), responseString,
+                                    resultBase);
                         } else {
                             iHttpRespone.onErrorResponse(getReqCode(), resultBase);
                         }
@@ -135,8 +135,7 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
                     }
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
-                    PublicUtil.showToastServerBusy();
-                    iHttpRespone.onFailureResponse(getReqCode());
+                    iHttpRespone.onSuccessException(getReqCode(), e);
                 }
             }
 
@@ -148,8 +147,7 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
                 }
                 LogUtils.e(getDefaultTag(), throwable.getMessage());
                 hideWaitDialog();
-                PublicUtil.showToastServerOvertime();
-                iHttpRespone.onFailureResponse(getReqCode());
+                iHttpRespone.onFailureResponse(getReqCode(), throwable);
             }
         };
         return handler;
@@ -282,7 +280,13 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
      * 请求失败
      */
     @Override
-    public void onFailureResponse(int requestCode) {
+    public void onFailureResponse(int requestCode, Throwable t) {
+        PublicUtil.showToastServerOvertime();
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        PublicUtil.showToastServerBusy();
     }
 
     /**

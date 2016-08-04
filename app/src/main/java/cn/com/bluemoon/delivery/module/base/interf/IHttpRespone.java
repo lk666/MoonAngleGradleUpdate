@@ -14,9 +14,14 @@ public interface IHttpRespone {
     void onSuccessResponse(int requestCode, String jsonString, ResultBase result);
 
     /**
+     * onsuccess时出现exception
+     */
+    void onSuccessException(int requestCode, Throwable t);
+
+    /**
      * 请求失败
      */
-    void onFailureResponse(int requestCode);
+    void onFailureResponse(int requestCode, Throwable t);
 
     /**
      * 请求返回非OK

@@ -7,6 +7,7 @@ import android.widget.ListView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
@@ -208,15 +209,17 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ptr.onRefreshComplete();
-        LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
                 setGetData(result);
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
                 setGetMore(result);
                 break;
             default:
@@ -225,30 +228,62 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     @Override
-    public void onFailureResponse(int requestCode) {
-        super.onFailureResponse(requestCode);
-        ptr.onRefreshComplete();
-        LibViewUtil.setChildEnableRecursion(ptr, true);
+    public void onSuccessException(int requestCode, Throwable t) {
         switch (requestCode) {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
+                PublicUtil.showToastServerBusy();
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
+                break;
+            // 加载更多数据
+            case HTTP_REQUEST_CODE_GET_MORE:
+                PublicUtil.showToastServerBusy();
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;
         }
-        showNetErrorView();
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        switch (requestCode) {
+            // 刷新数据
+            case HTTP_REQUEST_CODE_GET_DATA:
+                PublicUtil.showToastServerOvertime();
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
+                showNetErrorView();
+                break;
+            // 加载更多数据
+            case HTTP_REQUEST_CODE_GET_MORE:
+                PublicUtil.showToastServerOvertime();
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        ptr.onRefreshComplete();
-        LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
+                PublicUtil.showErrorMsg(this, result);
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
+                break;
+            // 加载更多数据
+            case HTTP_REQUEST_CODE_GET_MORE:
+                PublicUtil.showErrorMsg(this, result);
+                ptr.onRefreshComplete();
+                LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;

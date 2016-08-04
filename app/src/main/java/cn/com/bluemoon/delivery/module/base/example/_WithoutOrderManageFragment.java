@@ -72,7 +72,7 @@ public class _WithoutOrderManageFragment extends
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-        DeliveryApi._getActivityInfos(ClientStateManager.getLoginToken(getActivity())
+        DeliveryApi._getActivityInfos(getToken()
                 , getNewHandler(requestCode, ResultActivityInfo.class));
     }
 
