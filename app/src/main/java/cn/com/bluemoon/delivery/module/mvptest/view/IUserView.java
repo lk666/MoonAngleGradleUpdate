@@ -7,9 +7,10 @@ import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
  */
 public interface IUserView extends BaseMainInterface {
 
-    String getUserName();
-    String getUserId();
     void setUserName(String name);
+
     void setUserId(String id);
+
+    void toLoginView();
 
 }

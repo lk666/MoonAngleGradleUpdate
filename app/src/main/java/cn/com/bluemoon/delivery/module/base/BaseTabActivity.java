@@ -36,8 +36,8 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * 基础FragmentActivity，用于各fragment集合的界面
@@ -225,19 +225,19 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
     }
 
     final protected void longToast(String msg) {
-        LibViewUtil.longToast(this, msg);
+        ViewUtil.longToast(this, msg);
     }
 
     final protected void toast(String msg) {
-        LibViewUtil.toast(this, msg);
+        ViewUtil.toast(msg);
     }
 
     final protected void longToast(int resId) {
-        LibViewUtil.longToast(this, resId);
+        ViewUtil.longToast(resId);
     }
 
     final protected void toast(int resId) {
-        LibViewUtil.toast(this, resId);
+        ViewUtil.toast(resId);
     }
 
     /**
