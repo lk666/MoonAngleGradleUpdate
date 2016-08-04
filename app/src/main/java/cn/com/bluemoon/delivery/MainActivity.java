@@ -259,7 +259,6 @@ public class MainActivity extends SlidingActivity {
             /*if (listRight!=null) {
                 setMenu();
             }*/
-
         }
     };
 
