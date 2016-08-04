@@ -145,7 +145,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
 
                     @Override
                     public void setTitle(TextView v) {
-                        v.setText("收衣记录");
+                        v.setText(getString(R.string.tab_bottom_with_order_collect_record));
 
                     }
                 });

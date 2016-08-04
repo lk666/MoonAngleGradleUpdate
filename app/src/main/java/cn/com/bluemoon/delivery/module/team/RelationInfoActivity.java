@@ -166,8 +166,8 @@ public class RelationInfoActivity extends KJActivity {
             if (progressDialog != null) {
                 progressDialog.show();
             }
-            DeliveryApi.getRelationShipDetail(aty, bpCode, item.getEmpCode(),
-                    ClientStateManager.getLoginToken(aty), 0, getRelationShipDetailHandler);
+            DeliveryApi.getRelationShipDetail(0, bpCode, item.getEmpCode(),
+                    ClientStateManager.getLoginToken(aty), getRelationShipDetailHandler);
         }
     }
 

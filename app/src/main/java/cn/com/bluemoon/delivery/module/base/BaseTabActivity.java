@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
@@ -27,9 +26,12 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.entity.ArgumentTabState;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
-import cn.com.bluemoon.delivery.module.base.interf.DialogControl;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -41,11 +43,11 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * 基础FragmentActivity，用于各fragment集合的界面
  * Created by lk on 2016/6/3.
  */
-public class BaseTabActivity extends FragmentActivity
-        implements DialogControl, BaseViewInterface {
+public class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
+        BaseMainInterface, IHttpRespone {
 
     /**
-     * List<TabState>，tab数据
+     * List<OldTabState>，tab数据
      */
     public final static String EXTRA_TAB_STATES = "EXTRA_TAB_STATES";
 
@@ -58,8 +60,8 @@ public class BaseTabActivity extends FragmentActivity
     private List<TabState> tabs;
     private List<TextView> amountTvs;
 
-    protected static void actionStart(Context context, ArrayList<TabState> tabs) {
-        Intent intent = new Intent(context, BaseTabActivity.class);
+    protected static void actionStart(Context context, ArrayList<TabState> tabs, Class clazz) {
+        Intent intent = new Intent(context, clazz);
         intent.putExtra(EXTRA_TAB_STATES, tabs);
         context.startActivity(intent);
     }
@@ -102,17 +104,23 @@ public class BaseTabActivity extends FragmentActivity
     @Override
     public void initData() {
         for (int i = 0; i < tabs.size(); i++) {
+            TabState ts = tabs.get(i);
             TabHost.TabSpec tabSpec = tabhost.newTabSpec(getResources()
-                    .getString(tabs.get(i).getContent()))
-                    .setIndicator(getTabItemView(tabs.get(i).getImage(),
-                            getResources().getString(tabs.get(i).getContent()), i));
+                    .getString(ts.getContent()))
+                    .setIndicator(getTabItemView(ts.getImage(),
+                            getResources().getString(ts.getContent())));
+
             Bundle bundle = new Bundle();
-            bundle.putString("manager", tabs.get(i).getManager());
-            tabhost.addTab(tabSpec, tabs.get(i).getClazz(), bundle);
+            if (ts instanceof ArgumentTabState) {
+                bundle.putSerializable(BaseFragment.EXTRA_BUNDLE_DATA,
+                        ((ArgumentTabState) ts).getBundleData());
+            }
+
+            tabhost.addTab(tabSpec, ts.getClazz(), bundle);
         }
     }
 
-    private View getTabItemView(int resId, String content, int index) {
+    private View getTabItemView(int resId, String content) {
         View view = layoutInflater.inflate(R.layout.tab_item_view, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
         imageView.setImageResource(resId);
@@ -134,47 +142,70 @@ public class BaseTabActivity extends FragmentActivity
         MobclickAgent.onPageEnd(getDefaultTag());
     }
 
-    final AsyncHttpResponseHandler mainHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
+    private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
+                                                final IHttpRespone iHttpRespone) {
+        WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
+                HTTP.UTF_8, this, requestcode, clazz) {
 
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getRequestCode() + " --> " +
-                    "result = " + responseString);
-            hideWaitDialog();
-            try {
-                ResultBase result = JSON.parseObject(responseString,
-                        ResultBase.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    onSuccessResponse(getRequestCode(), responseString);
-                } else {
-                    onErrorResponse(getRequestCode(), result);
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if (iHttpRespone == null) {
+                    return;
                 }
-            } catch (Exception e) {
-                LogUtils.e(getDefaultTag(), e.getMessage());
-                PublicUtil.showToastServerBusy();
-                onFailureResponse(getRequestCode());
+                LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
+                        " " + "result = " + responseString);
+                hideWaitDialog();
+                try {
+                    Object resultObj = getClazz().newInstance();
+                    resultObj = JSON.parseObject(responseString, getClazz());
+                    if (resultObj instanceof ResultBase) {
+                        ResultBase resultBase = (ResultBase) resultObj;
+                        if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                            iHttpRespone.onSuccessResponse(getReqCode(),
+                                    responseString, resultBase);
+                        } else {
+                            iHttpRespone.onErrorResponse(getReqCode(), resultBase);
+                        }
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                } catch (Exception e) {
+                    LogUtils.e(getDefaultTag(), e.getMessage());
+                    PublicUtil.showToastServerBusy();
+                    iHttpRespone.onFailureResponse(getReqCode());
+                }
             }
-        }
 
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(getDefaultTag(), throwable.getMessage());
-            hideWaitDialog();
-            PublicUtil.showToastServerOvertime();
-            onFailureResponse(getRequestCode());
-        }
-    };
+            @Override
+            public void onFailure(int statusCode, Header[] headers,
+                                  String responseString, Throwable throwable) {
+                if (iHttpRespone == null) {
+                    return;
+                }
+                LogUtils.e(getDefaultTag(), throwable.getMessage());
+                hideWaitDialog();
+                PublicUtil.showToastServerOvertime();
+                iHttpRespone.onFailureResponse(getReqCode());
+            }
+        };
+        return handler;
+    }
 
     ///////////// 工具方法 ////////////////
 
     /**
-     * 在调用DeliveryApi的方法时使用，如： DeliveryApi.getEmp(this, ClientStateManager.getLoginToken(this),
-     * "80474765", getMainHandler());
+     * 获取token
      */
-    final protected AsyncHttpResponseHandler getMainHandler() {
-        return mainHandler;
+    final protected String getToken() {
+        return ClientStateManager.getLoginToken(this);
+    }
+
+    /**
+     * 在调用DeliveryApi的方法时使用
+     */
+    @Override
+    final public AsyncHttpResponseHandler getNewHandler(final int requestcode, final Class clazz) {
+        return getHandler(requestcode, clazz, this);
     }
 
     /**
@@ -199,6 +230,14 @@ public class BaseTabActivity extends FragmentActivity
 
     final protected void toast(String msg) {
         LibViewUtil.toast(this, msg);
+    }
+
+    final protected void longToast(int resId) {
+        LibViewUtil.longToast(this, resId);
+    }
+
+    final protected void toast(int resId) {
+        LibViewUtil.toast(this, resId);
     }
 
     /**
@@ -269,21 +308,20 @@ public class BaseTabActivity extends FragmentActivity
     /**
      * 请求成功
      */
-    protected void onSuccessResponse(int requestCode, String jsonString) {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
 
     }
 
     /**
      * 请求返回非OK
      */
-    protected void onErrorResponse(int requestCode, ResultBase result) {
-        DialogUtil.showErrorMsg(this, result);
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        PublicUtil.showErrorMsg(this, result);
     }
 
     /**
      * 请求失败
      */
-    protected void onFailureResponse(int requestCode) {
+    public void onFailureResponse(int requestCode) {
     }
-
 }

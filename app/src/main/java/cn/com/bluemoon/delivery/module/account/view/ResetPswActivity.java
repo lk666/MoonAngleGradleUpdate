@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.account;
+package cn.com.bluemoon.delivery.module.account.view;
 
 import android.os.CountDownTimer;
 import android.view.KeyEvent;

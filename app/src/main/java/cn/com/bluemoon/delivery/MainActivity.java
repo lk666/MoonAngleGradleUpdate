@@ -50,6 +50,7 @@ import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
 import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
+import cn.com.bluemoon.delivery.module.mvptest.view.UserActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
@@ -136,7 +137,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 mMenu.showMenu(!mMenu.isMenuShowing());
-                if(MenuFragment.user==null&&mMenuFragment!=null){
+                if (MenuFragment.user == null && mMenuFragment != null) {
                     mMenuFragment.setUserInfo();
                 }
             }
@@ -146,7 +147,8 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-             PublicUtil.openScanCard(main, null, null, 0);
+//             PublicUtil.openScanCard(main, null, null, 0);
+                UserActivity.actStart(main);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -163,7 +165,7 @@ public class MainActivity extends SlidingActivity {
                 new CommonEmptyView.EmptyListener() {
                     @Override
                     public void onRefresh() {
-                        if(progressDialog!=null) progressDialog.show();
+                        if (progressDialog != null) progressDialog.show();
                         DeliveryApi.getAppRights(token, appRightsHandler);
                         DeliveryApi.getNewMessage(token, newMessageHandler);
                     }
@@ -288,7 +290,7 @@ public class MainActivity extends SlidingActivity {
     private void setMenu() {
         List<MenuBean> list = new ArrayList<>();
         if (listRight != null) {
-            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级 
+            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级
             for (int i = 0; i < groupCount; i++) {
                 List<UserRight> item = new ArrayList<>();
                 for (UserRight right : listRight) {
@@ -385,7 +387,7 @@ public class MainActivity extends SlidingActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         isDestory = false;
-        if(listRight!=null){
+        if (listRight != null) {
             DeliveryApi.getModelNum(token, getAmountHandler);
         }
     }
@@ -464,7 +466,7 @@ public class MainActivity extends SlidingActivity {
                             getAmountHandler);
                 } else {
                     PublicUtil.showErrorMsg(main, userRightResult);
-                    LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
+                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
@@ -479,8 +481,8 @@ public class MainActivity extends SlidingActivity {
             LogUtils.e(TAG, throwable.getMessage());
             scrollViewMain.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
-            if(progressDialog!=null) progressDialog.dismiss();
-            LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
+            if (progressDialog != null) progressDialog.dismiss();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
 
@@ -622,16 +624,16 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_CANCELED){
+        if (resultCode == RESULT_CANCELED) {
             return;
         }
-        if(resultCode==RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case 0:
-                    if(data==null) return;
+                    if (data == null) return;
                     String result = data.getStringExtra(LibConstants.SCAN_RESULT);
 //                    PublicUtil.showToast(result);
-                    PublicUtil.showMessage(main,result);
+                    PublicUtil.showMessage(main, result);
                     break;
             }
         }
@@ -698,71 +700,75 @@ public class MainActivity extends SlidingActivity {
 
     private void clickGridView(UserRight userRight) {
 
-       if (PublicUtil.isFastDoubleClick(1000)) {
-           return;
-       }
-       try {
-           Intent intent;
-           if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, OrdersTabActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.site_sign.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, ExtractTabActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.check_in.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, TicketChooseActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.mall_erp_delivery.toString().equals(userRight.getMenuCode())) {
-               InventoryTabActivity.actionStart(main, InventoryTabActivity.DELIVERY_MANAGEMENT);
-           } else if (MenuCode.mall_erp_receipt.toString().equals(userRight.getMenuCode())) {
-               InventoryTabActivity.actionStart(main, InventoryTabActivity.RECEIVE_MANAGEMENT);
-           } else if (MenuCode.mall_erp_stock.toString().equals(userRight.getMenuCode())) {
-               StorageTabActivity.actionStart(main);
-           } else if (MenuCode.punch_card.toString().equals(userRight.getMenuCode())) {
-               gotoPunchCard();
-           } else if (MenuCode.card_coupons.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, CouponsTabActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
-               PublicUtil.openWebView(main, userRight.getUrl()
-                               +(userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
-                               + "token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), false, true);
-           } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, MessageListActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.my_inform.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, NoticeListActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.knowledge_base.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, PaperListActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
-               PublicUtil.showMessageService(main);
-           }  else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode())) {
-               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
-           } else if (MenuCode.activity_collect_clothes.toString().equals(userRight.getMenuCode())) {
-               ClothingTabActivity.actionStart(main, ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
-           } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, PromoteActivity.class);
-               startActivity(intent);
-           } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
-               intent = new Intent(main, MyTeamActivity.class);
-               startActivity(intent);
-           }else if (!StringUtils.isEmpty(userRight.getUrl())) {
-               PublicUtil.openWebView(main, userRight.getUrl()
-                               + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
-                               + "token=" + ClientStateManager.getLoginToken(main),
-                       userRight.getMenuName(), false);
-           } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
-               //click empty
-           } else{
-               PublicUtil.showToast(getString(R.string.main_tab_no_data));
-           }
-       } catch (Exception ex) {
-           PublicUtil.showToast(main, ex.getMessage());
-       }
-   }
+        if (PublicUtil.isFastDoubleClick(1000)) {
+            return;
+        }
+        try {
+            Intent intent;
+            if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, OrdersTabActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.site_sign.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, ExtractTabActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.check_in.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, TicketChooseActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.mall_erp_delivery.toString().equals(userRight.getMenuCode())) {
+                InventoryTabActivity.actionStart(main, InventoryTabActivity.DELIVERY_MANAGEMENT);
+            } else if (MenuCode.mall_erp_receipt.toString().equals(userRight.getMenuCode())) {
+                InventoryTabActivity.actionStart(main, InventoryTabActivity.RECEIVE_MANAGEMENT);
+            } else if (MenuCode.mall_erp_stock.toString().equals(userRight.getMenuCode())) {
+                StorageTabActivity.actionStart(main);
+            } else if (MenuCode.punch_card.toString().equals(userRight.getMenuCode())) {
+                gotoPunchCard();
+            } else if (MenuCode.card_coupons.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, CouponsTabActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
+                PublicUtil.openWebView(main, userRight.getUrl()
+                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
+                                + "token=" + ClientStateManager.getLoginToken(main),
+                        userRight.getMenuName(), false, true);
+            } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, MessageListActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.my_inform.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, NoticeListActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.knowledge_base.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, PaperListActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
+                PublicUtil.showMessageService(main);
+            } else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode()
+            )) {
+                ClothingTabActivity.actionStart(main, ClothingTabActivity
+                        .WITH_ORDER_COLLECT_MANAGE);
+            } else if (MenuCode.activity_collect_clothes.toString().equals(userRight.getMenuCode
+                    ())) {
+                ClothingTabActivity.actionStart(main, ClothingTabActivity
+                        .WITHOUT_ORDER_COLLECT_MANAGE);
+            } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, PromoteActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, MyTeamActivity.class);
+                startActivity(intent);
+            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+                PublicUtil.openWebView(main, userRight.getUrl()
+                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
+                                + "token=" + ClientStateManager.getLoginToken(main),
+                        userRight.getMenuName(), false);
+            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+                //click empty
+            } else {
+                PublicUtil.showToast(getString(R.string.main_tab_no_data));
+            }
+        } catch (Exception ex) {
+            PublicUtil.showToast(main, ex.getMessage());
+        }
+    }
 
 
     class UserRightAdapter extends BaseAdapter {

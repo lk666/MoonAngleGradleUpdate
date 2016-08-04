@@ -5,6 +5,8 @@ import android.view.ViewGroup;
 import android.view.ViewStub;
 import android.widget.ListView;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -12,10 +14,11 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 /**
- * 基础下拉刷新上拉加载Activity，layout最好只包含一个不滚动的头部、一个PullToRefresh控件和一个空白页、一个错误页
- * Created by lk on 2016/7/26.
+ * 基础下拉刷新上拉加载Fragment，layout最好只包含一个不滚动的头部、一个PullToRefresh控件和一个空白页、一个错误页
+ * Created by lk on 2016/8/1.
  */
-public abstract class BasePullToRefreshActivity extends BaseActivity {
+public abstract class BasePullToRefreshFragment extends BaseFragment {
+
     /**
      * 头，开始不显示，
      */
@@ -41,7 +44,8 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     @Override
     final public void initView() {
         initHeadView();
-        ptr = (PullToRefreshBase) findViewById(getPtrId());
+
+        ptr = (PullToRefreshBase) getMainView().findViewById(getPtrId());
         ptr.setMode(getMode());
 
         ptr.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
@@ -68,7 +72,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     private void initHeadView() {
         if (getHeadLayoutId() != 0 && getHeadViewStubId() != 0) {
             int layoutId = getHeadLayoutId();
-            final View viewStub = findViewById(getHeadViewStubId());
+            final View viewStub = getMainView().findViewById(getHeadViewStubId());
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
                 stub.setLayoutResource(layoutId);
@@ -78,20 +82,11 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         }
     }
 
-
-    /**
-     * 获取界面数据（刷新界面）
-     */
-    private void getData() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA);
-    }
-
     /**
      * 设置错误页面
      */
     private void initErrorViewEvent(View errorView) {
-        CommonEmptyView error = new CommonEmptyView(this);
+        CommonEmptyView error = new CommonEmptyView(getBaseTabActivity());
         error.setEmptyListener(new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -102,21 +97,12 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     /**
-     * 加载更多
-     */
-    private void getMore() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
-        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE);
-    }
-
-
-    /**
      * 设置空数据页面
      *
      * @param emptyView
      */
     private void initEmptyViewEvent(View emptyView) {
-        CommonEmptyView empty = new CommonEmptyView(this);
+        CommonEmptyView empty = new CommonEmptyView(getActivity());
         empty.setEmptyListener(new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -136,6 +122,22 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     /**
+     * 加载更多
+     */
+    final protected void getMore() {
+        LibViewUtil.setChildEnableRecursion(ptr, false);
+        invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE);
+    }
+
+    /**
+     * 获取界面数据（刷新界面）
+     */
+    final protected void getData() {
+        LibViewUtil.setChildEnableRecursion(ptr, false);
+        invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA);
+    }
+
+    /**
      * 显示内容页
      */
     protected void showRefreshView() {
@@ -147,10 +149,10 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     /**
      * 显示错误页
      */
-    final protected void showNetErrorView() {
+    protected void showNetErrorView() {
         if (errorView == null) {
             int layoutId = R.layout.viewstub_wrapper;
-            View viewStub = findViewById(R.id.viewstub_error);
+            View viewStub = getMainView().findViewById(R.id.viewstub_error);
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
                 stub.setLayoutResource(layoutId);
@@ -167,10 +169,10 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     /**
      * 显示空数据页
      */
-    final protected void showEmptyView() {
+    protected void showEmptyView() {
         if (emptyView == null) {
             int layoutId = R.layout.viewstub_wrapper;
-            final View viewStub = findViewById(R.id.viewstub_empty);
+            final View viewStub = getMainView().findViewById(R.id.viewstub_empty);
             if (viewStub != null) {
                 final ViewStub stub = (ViewStub) viewStub;
                 stub.setLayoutResource(layoutId);
@@ -207,17 +209,17 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     @Override
-    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
         ptr.onRefreshComplete();
         LibViewUtil.setChildEnableRecursion(ptr, true);
         switch (requestCode) {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
-                setGetData(result);
+                setGetData(resultBase);
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
-                setGetMore(result);
+                setGetMore(resultBase);
                 break;
             default:
                 break;
@@ -263,7 +265,6 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         showWaitDialog();
         getData();
     }
-
     ///////////// 必须重写 ////////////////
 
     /**
@@ -292,13 +293,6 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     protected abstract void invokeGetDataDeliveryApi(int requestCode);
 
     /**
-     * 设置刷新请求成功的数据
-     *
-     * @param result ResultBase类的子类对象，resultcode为OK
-     */
-    abstract protected void setGetData(ResultBase result);
-
-    /**
      * 具体调用加载更多数据时的DeliveryApi的方法
      *
      * @param requestCode DeliveryApi的方法中的requestCode参数
@@ -306,8 +300,14 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     protected abstract void invokeGetMoreDeliveryApi(int requestCode);
 
     /**
-     * 设置加载更多数据请求成功的数据
+     * 设置刷新请求成功的数据
      *
+     * @param result ResultBase类的子类对象，resultcode为OK
+     */
+    abstract protected void setGetData(ResultBase result);
+
+    /**
+     * 设置加载更多数据请求成功的数据
      * @param result ResultBase类的子类对象，resultcode为OK
      */
     protected abstract void setGetMore(ResultBase result);
