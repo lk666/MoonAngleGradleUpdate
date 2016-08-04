@@ -13,6 +13,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
@@ -20,7 +21,6 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.app.api.model.storage.ResultMallStoreRecieverAddress;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -40,7 +40,7 @@ public class WarehouseAddressActivity extends BaseActivity {
     PullToRefreshListView listView;
 
     private MallStoreRecieverAddressAdapter adapter;
-    private ResultMallStoreRecieverAddress item;
+    private List<MallStoreRecieverAddress> addressList;
     private boolean isEdit;
     private int initAddressId;
     private int currentAddressId;
@@ -68,8 +68,8 @@ public class WarehouseAddressActivity extends BaseActivity {
         if (result == null || result.getAddressList() == null || result.getAddressList().size() < 1) {
             adapter.setList(new ArrayList<MallStoreRecieverAddress>());
         } else {
-            item = result;
-            adapter.setList(item.getAddressList());
+            addressList = result.getAddressList();
+            adapter.setList(addressList);
         }
         listView.setAdapter(adapter);
 
@@ -82,8 +82,8 @@ public class WarehouseAddressActivity extends BaseActivity {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        if (null != item && null != item.getAddressList().get(0)) {
-            WarehouseAddressEditActivity.actionStart(this, storeId, storeName, false, item.getAddressList().get(0));
+        if (null != addressList && null != addressList.get(0)) {
+            WarehouseAddressEditActivity.actionStart(this, storeId, storeName, false, addressList.get(0));
         }
     }
 
@@ -126,24 +126,19 @@ public class WarehouseAddressActivity extends BaseActivity {
     public void initData() {
         if (selectAddress != null) {
             if (selectAddress.getIsDefault() > 0) {
-                for (MallStoreRecieverAddress addressItem : item.getAddressList()
-                        ) {
-                    if (addressItem.getAddressId() == selectAddress.getAddressId()) {
-                        addressItem.setIsDefault(1);
-                    } else {
-                        addressItem.setIsDefault(0);
-                    }
+                for (int i = 0; i < addressList.size(); i++) {
+                    MallStoreRecieverAddress address = addressList.get(i);
+                    address.setIsDefault(address.getAddressId() == selectAddress.getAddressId() ? 1 : 0);
+                    addressList.set(i, address);
                 }
             } else {
-                for (MallStoreRecieverAddress addressItem : item.getAddressList()
-                        ) {
+                for (MallStoreRecieverAddress addressItem : addressList) {
 
                     if (addressItem.getAddressId() == selectAddress.getAddressId()) {
                         selectAddress = addressItem;
                     }
                 }
-
-                item.getAddressList().remove(selectAddress);
+                addressList.remove(selectAddress);
                 selectAddress = null;
 
 
@@ -194,16 +189,12 @@ public class WarehouseAddressActivity extends BaseActivity {
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
             final MallStoreRecieverAddress address = list.get(position);
-            TextView txtAddress = getViewById(R.id.txt_address);
-            TextView txtReciver = getViewById(R.id.txt_receiver);
-            final CheckBox cbDefault = getViewById(R.id.cb_select);
-            LinearLayout layoutLine = getViewById(R.id.layout_line);
-            TextView txtRecycle = getViewById(R.id.txt_recycle);
-            TextView txtEdit = getViewById(R.id.txt_edit);
-            txtEdit.setTag(address);
-            txtRecycle.setTag(address);
-            layoutLine.setTag(address);
-            cbDefault.setTag(address);
+            TextView txtAddress = (TextView)convertView.findViewById(R.id.txt_address);
+            TextView txtReciver = (TextView)convertView.findViewById(R.id.txt_receiver);
+            final CheckBox cbDefault = (CheckBox)convertView.findViewById(R.id.cb_select);
+            LinearLayout layoutLine = (LinearLayout)convertView.findViewById(R.id.layout_line);
+            TextView txtRecycle = (TextView)convertView.findViewById(R.id.txt_recycle);
+            TextView txtEdit = (TextView)convertView.findViewById(R.id.txt_edit);
 
             txtAddress.setText(String.format("%s%s%s%s%s%s",
                     address.getProvinceName(),
@@ -216,32 +207,16 @@ public class WarehouseAddressActivity extends BaseActivity {
                     getString(R.string.text_store_receive_person),
                     address.getReceiverName() + " " + address.getReceiverPhone()));
 
-
             cbDefault.setChecked(address.getIsDefault() > 0 ? true : false);
 
-
-            cbDefault.setOnClickListener(new View.OnClickListener() {
+            View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    MallStoreRecieverAddress address = (MallStoreRecieverAddress) v.getTag();
-                    if (address.getIsDefault() != 0) {
-                        cbDefault.setChecked(true);
-                    } else {
-                        setDefaultOrDeleteAddress(address, false);
-                    }
+                    setDefaultOrDeleteAddress(address, false);
                 }
-            });
-
-            layoutLine.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    MallStoreRecieverAddress address = (MallStoreRecieverAddress) v.getTag();
-                    if (address.getIsDefault() == 0) {
-                        setDefaultOrDeleteAddress(address, false);
-                    }
-                }
-            });
+            };
+            cbDefault.setOnClickListener(listener);
+            layoutLine.setOnClickListener(listener);
 
 
             if (cbDefault.isChecked()) {
@@ -251,7 +226,7 @@ public class WarehouseAddressActivity extends BaseActivity {
             txtEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WarehouseAddressEditActivity.actionStart(WarehouseAddressActivity.this, storeId, storeName, true, (MallStoreRecieverAddress) v.getTag());
+                    WarehouseAddressEditActivity.actionStart(WarehouseAddressActivity.this, storeId, storeName, true, address);
                 }
             });
 
@@ -259,9 +234,7 @@ public class WarehouseAddressActivity extends BaseActivity {
             txtRecycle.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    final MallStoreRecieverAddress address = (MallStoreRecieverAddress) v.getTag();
-                    if (address.getIsDefault() != 0) {
+                    if (cbDefault.isChecked()) {
                         LibPublicUtil.showToast(WarehouseAddressActivity.this, getString(R.string.error_delete_address));
                     } else {
 
