@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.account.view;
+package cn.com.bluemoon.delivery.module.account;
 
 import android.os.CountDownTimer;
 import android.view.KeyEvent;
@@ -207,7 +207,7 @@ public class ResetPswActivity extends KJActivity {
 			try {
 				ResultBase baseResult = JSON.parseObject(responseString,ResultBase.class);
 				if(baseResult.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
-					ClientStateManager.setUserName(aty, userid);
+					ClientStateManager.setUserName(userid);
 					PublicUtil.showToast(aty, getString(R.string.reset_success));
 					setResult(RESULT_OK, null);
 					finish();

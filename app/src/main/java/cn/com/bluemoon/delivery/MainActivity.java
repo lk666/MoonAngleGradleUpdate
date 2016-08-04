@@ -147,8 +147,8 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-//             PublicUtil.openScanCard(main, null, null, 0);
-                UserActivity.actStart(main);
+             PublicUtil.openScanCard(main, null, null, 0);
+//                UserActivity.actStart(main);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -849,6 +849,12 @@ public class MainActivity extends SlidingActivity {
             TextView txtItem;
             RedpointTextView countTextView;
         }
+    }
+
+    public static void actStart(Context context,String jumpCode) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        context.startActivity(intent);
     }
 
 

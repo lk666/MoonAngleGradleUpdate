@@ -41,8 +41,8 @@ public class ClientStateManager {
     public static final String HISTORY_SELECT_MEMBER = "HISTORY_SELECT_MEMBER";
     public static final String HISTORY_SELECT_AREA = "HISTORY_SELECT_AREA";
 
-    public static void clearData(Context context) {
-        ClientStateManager.setLoginToken(context, "");
+    public static void clearData() {
+        ClientStateManager.setLoginToken("");
         MenuFragment.user = null;
     }
 
@@ -56,10 +56,17 @@ public class ClientStateManager {
         return pref.getString(LOGIN_TOKEN_KEY, "");
     }
 
-    public static boolean setLoginToken(Context ctx, String token) {
+    public static String getLoginToken() {
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(AppContext.getInstance());
+        return pref.getString(LOGIN_TOKEN_KEY, "");
+    }
+
+    public static boolean setLoginToken(String token) {
         try {
             SharedPreferences pref = PreferenceManager
-                    .getDefaultSharedPreferences(ctx);
+                    .getDefaultSharedPreferences(AppContext.getInstance());
             pref.edit().putString(LOGIN_TOKEN_KEY, token).commit();
         } catch (Exception e) {
             return false;
@@ -67,17 +74,17 @@ public class ClientStateManager {
         return true;
     }
 
-    public static String getUserName(Context ctx) {
+    public static String getUserName() {
 
         SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(ctx);
+                .getDefaultSharedPreferences(AppContext.getInstance());
         return pref.getString(USER_NAME_KEY, "");
     }
 
-    public static boolean setUserName(Context ctx, String username) {
+    public static boolean setUserName(String username) {
         try {
             SharedPreferences pref = PreferenceManager
-                    .getDefaultSharedPreferences(ctx);
+                    .getDefaultSharedPreferences(AppContext.getInstance());
             pref.edit().putString(USER_NAME_KEY, username).commit();
         } catch (Exception e) {
             return false;
@@ -174,7 +181,7 @@ public class ClientStateManager {
 
     public static boolean setActivityCode(Context ctx, String code) {
         try {
-            String str = System.currentTimeMillis() + "-" + code + "-" + getUserName(ctx);
+            String str = System.currentTimeMillis() + "-" + code + "-" + getUserName();
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
             pref.edit().putString(COUPON_DEFUAT, str).commit();
@@ -191,7 +198,7 @@ public class ClientStateManager {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);
             str = pref.getString(COUPON_DEFUAT, "");
-            if ("".equals(str) || !str.split("-")[2].equals(getUserName(ctx))) {
+            if ("".equals(str) || !str.split("-")[2].equals(getUserName())) {
                 return "0";
             } else {
                 long time = Long.valueOf(str.split("-")[0]);

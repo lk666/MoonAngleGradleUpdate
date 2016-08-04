@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.base;
 
 import android.content.Context;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,6 +20,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
     protected List<T> list;
     protected Context context;
     protected OnListItemClickListener listener;
+    private View mConvertView;
 
     public BaseListAdapter(Context context, OnListItemClickListener listener) {
         this.context = context;
@@ -53,6 +55,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
         if (convertView == null) {
             isNew = true;
             convertView = LayoutInflater.from(context).inflate(getLayoutId(), null);
+            mConvertView = convertView;
         }
 
         setView(position, convertView, parent, isNew);
@@ -83,6 +86,25 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
                 }
             }
         }
+    }
+
+    /**
+     * ViewHolder 复用控件
+     *
+     * @param R.id.*
+     */
+    public <T extends View> T getViewById(int id) {
+        SparseArray<View> viewHolder = (SparseArray<View>) mConvertView.getTag();
+        if (viewHolder == null) {
+            viewHolder = new SparseArray<View>();
+            mConvertView.setTag(viewHolder);
+        }
+        View childView = viewHolder.get(id);
+        if (childView == null) {
+            childView = mConvertView.findViewById(id);
+            viewHolder.put(id, childView);
+        }
+        return (T) childView;
     }
 
     /**
