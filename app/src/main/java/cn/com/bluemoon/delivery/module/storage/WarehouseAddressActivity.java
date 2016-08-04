@@ -167,8 +167,16 @@ public class WarehouseAddressActivity extends BaseActivity {
     }
 
     @Override
-    public void onFailureResponse(int requestCode) {
-        super.onFailureResponse(requestCode);
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        if (requestCode == 2) {
+            isEdit = true;
+        }
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        super.onSuccessException(requestCode, t);
         if (requestCode == 2) {
             isEdit = true;
         }

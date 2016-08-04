@@ -22,6 +22,7 @@ import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.ui.TabSelector;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -91,9 +92,12 @@ public class StockDetailActivity extends BaseActivity {
         tabSelector.setOnClickListener(listener);
         txtStoreId.setText(String.format("%s-%s", storeId, storeName));
         listView.setMode(PullToRefreshBase.Mode.DISABLED);
-        CommonEmptyView emptyView = new CommonEmptyView(this);
-        emptyView.setContentHit(R.string.text_stock_detail);
-        listView.setEmptyView(emptyView);
+        PublicUtil.setEmptyView(listView, getString(R.string.text_stock_detail), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
         adapter = new StockDetailAdapter(this);
     }
 
@@ -111,8 +115,14 @@ public class StockDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void onFailureResponse(int requestCode) {
-        super.onFailureResponse(requestCode);
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        setData(null);
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        super.onSuccessException(requestCode, t);
         setData(null);
     }
 
