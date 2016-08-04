@@ -892,7 +892,7 @@ public class DeliveryApi {
 
     /*默认仓库地址修改接口 */
     /* 返回： Result */
-    public static void modifyDefaultAddress(int requestCode, String token, String storeCode, int addressId,
+    public static void modifyDefaultAddress(String token, String storeCode, int addressId,
                                             AsyncHttpResponseHandler handler) {
 
         if (StringUtil.isEmpty(token) || StringUtil.isEmpty(storeCode) || addressId == 0) {
@@ -906,13 +906,13 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/store/modifyDefaultAddress%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, requestCode, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
     /*删除仓库收货地址 */
     /* 返回： Result */
-    public static void deleteReceiveAddress(int requestCode, String token, int addressId, AsyncHttpResponseHandler
+    public static void deleteReceiveAddress(String token, int addressId, AsyncHttpResponseHandler
             handler) {
 
         if (StringUtil.isEmpty(token) || addressId == 0) {
@@ -925,14 +925,14 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/store/deleteReceiveAddress%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, requestCode, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
     /* 正常品/不良品 库存详情查询 */
     /* 返回： ResultProductDetail */
     public static void queryStockDetail(String token, String storeCode, ProductType productType,
-                                        int requestCode, AsyncHttpResponseHandler handler) {
+                                        AsyncHttpResponseHandler handler) {
 
         if (null == token || StringUtils.isEmpty(storeCode)) {
             return;
@@ -950,7 +950,7 @@ public class DeliveryApi {
             url = String.format("bluemoon-control/stock/queryNormalStockDetail%s",
                     ApiClientHelper.getParamUrl());
         }
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, requestCode, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 

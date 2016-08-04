@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.View;
@@ -13,18 +12,9 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -34,7 +24,6 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -62,18 +51,15 @@ public class WarehouseAddressActivity extends BaseActivity {
     private String storeName;
 
     private void setDefaultOrDeleteAddress(MallStoreRecieverAddress address, boolean isDelete) {
-        String token = ClientStateManager.getLoginToken(WarehouseAddressActivity.this);
         showWaitDialog();
         if (isDelete) {
             selectAddress = address;
             selectAddress.setIsDefault(0);
-            DeliveryApi.deleteReceiveAddress(1, token, address.getAddressId(), defaultOrDeleteHandler);
-
+            DeliveryApi.deleteReceiveAddress(getToken(), address.getAddressId(), getNewHandler(2, ResultBase.class));
         } else {
-
             selectAddress = address;
             selectAddress.setIsDefault(1);
-            DeliveryApi.modifyDefaultAddress(2, token, storeId, address.getAddressId(), defaultOrDeleteHandler);
+            DeliveryApi.modifyDefaultAddress(getToken(), storeId, address.getAddressId(), getNewHandler(2, ResultBase.class));
         }
     }
 
@@ -114,11 +100,6 @@ public class WarehouseAddressActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString) {
-
-    }
-
-    @Override
     public void initView() {
         storeId = getIntent().getStringExtra("storeId");
         storeName = getIntent().getStringExtra("storeName");
@@ -131,9 +112,13 @@ public class WarehouseAddressActivity extends BaseActivity {
 
         txtStoreId.setText(String.format("%s-%s", storeId, storeName));
         listView.setMode(PullToRefreshBase.Mode.DISABLED);
-        CommonEmptyView emptyView = new CommonEmptyView(this);
-        emptyView.setContentHit(R.string.text_store_address_title);
-        listView.setEmptyView(emptyView);
+        PublicUtil.setEmptyView(listView, getString(R.string.text_store_address_title), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                showWaitDialog();
+                DeliveryApi.queryReceiveAddressByStoreCode(getToken(), storeId, getNewHandler(1, ResultMallStoreRecieverAddress.class));
+            }
+        });
         adapter = new MallStoreRecieverAddressAdapter(WarehouseAddressActivity.this);
     }
 
@@ -166,17 +151,36 @@ public class WarehouseAddressActivity extends BaseActivity {
             adapter.notifyDataSetChanged();
 
         } else {
-            String token = ClientStateManager.getLoginToken(WarehouseAddressActivity.this);
             showWaitDialog();
-            DeliveryApi.queryReceiveAddressByStoreCode(token, storeId, addressDetailHandler);
+            DeliveryApi.queryReceiveAddressByStoreCode(getToken(), storeId, getNewHandler(1, ResultMallStoreRecieverAddress.class));
+        }
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        switch (requestCode) {
+            case 1 :
+                ResultMallStoreRecieverAddress addressDetailResult = (ResultMallStoreRecieverAddress) result;
+                setData(addressDetailResult);
+                break;
+            case  2 :
+                isEdit = true;
+                initData();
+                break;
+        }
+
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode) {
+        super.onFailureResponse(requestCode);
+        if (requestCode == 2) {
+            isEdit = true;
         }
     }
 
     @SuppressLint("InflateParams")
     class MallStoreRecieverAddressAdapter extends BaseListAdapter<MallStoreRecieverAddress> {
-
-        private List<MallStoreRecieverAddress> lists;
-
 
         public MallStoreRecieverAddressAdapter(Context context) {
             super(context, null);
@@ -189,7 +193,7 @@ public class WarehouseAddressActivity extends BaseActivity {
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            final MallStoreRecieverAddress address = lists.get(position);
+            final MallStoreRecieverAddress address = list.get(position);
             TextView txtAddress = getViewById(R.id.txt_address);
             TextView txtReciver = getViewById(R.id.txt_receiver);
             final CheckBox cbDefault = getViewById(R.id.cb_select);
@@ -277,67 +281,6 @@ public class WarehouseAddressActivity extends BaseActivity {
             });
         }
     }
-
-
-    AsyncHttpResponseHandler defaultOrDeleteHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            hideWaitDialog();
-            try {
-                ResultBase baseResult = JSON.parseObject(responseString,
-                        ResultBase.class);
-                if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    isEdit = true;
-                    initData();
-                } else {
-                    PublicUtil.showErrorMsg(WarehouseAddressActivity.this, baseResult);
-                }
-            } catch (Exception e) {
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            hideWaitDialog();
-            isEdit = true;
-            PublicUtil.showToastServerOvertime();
-        }
-    };
-
-
-    AsyncHttpResponseHandler addressDetailHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            hideWaitDialog();
-            try {
-                ResultMallStoreRecieverAddress addressDetailResult = JSON.parseObject(responseString,
-                        ResultMallStoreRecieverAddress.class);
-                if (addressDetailResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    setData(addressDetailResult);
-
-                } else {
-                    PublicUtil.showErrorMsg(WarehouseAddressActivity.this, addressDetailResult);
-                }
-            } catch (Exception e) {
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            hideWaitDialog();
-            PublicUtil.showToastServerOvertime();
-        }
-    };
 
     public static void actionStart(Fragment fragment, String storeId, String storeName, int initAddressId) {
         Intent intent = new Intent(fragment.getActivity(), WarehouseAddressActivity.class);

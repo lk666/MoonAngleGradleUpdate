@@ -22,7 +22,6 @@ import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.ui.TabSelector;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -82,24 +81,6 @@ public class StockDetailActivity extends BaseActivity {
     }
 
     @Override
-    protected void onSuccessResponse(int requestCode, String jsonString) {
-        ResultProductDetail productDetailResult = JSON.parseObject(jsonString,
-                ResultProductDetail.class);
-        LogUtils.d("---------------------------->requestCode="+requestCode);
-        setData(productDetailResult);
-    }
-
-    @Override
-    protected void onFailureResponse(int requestCode) {
-        setData(null);
-    }
-
-    @Override
-    protected void onErrorResponse(int requestCode, ResultBase result) {
-        setData(null);
-    }
-
-    @Override
     public void initView() {
         storeId = getIntent().getStringExtra("storeId");
         storeName = getIntent().getStringExtra("storeName");
@@ -120,9 +101,26 @@ public class StockDetailActivity extends BaseActivity {
     public void initData() {
         String token = ClientStateManager.getLoginToken(StockDetailActivity.this);
         showWaitDialog();
-        DeliveryApi.queryStockDetail(token, storeId, currentType, 1, getMainHandler());
+        DeliveryApi.queryStockDetail(token, storeId, currentType, getNewHandler(1,ResultProductDetail.class));
     }
 
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        ResultProductDetail productDetailResult = (ResultProductDetail)result;
+        setData(productDetailResult);
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode) {
+        super.onFailureResponse(requestCode);
+        setData(null);
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        setData(null);
+    }
 
     private void setData(ResultProductDetail result) {
         if (result == null || result.getProductDetailList() == null || result.getProductDetailList().size() < 1) {

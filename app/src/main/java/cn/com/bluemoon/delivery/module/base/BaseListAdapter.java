@@ -88,6 +88,11 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
         }
     }
 
+    /**
+     * ViewHolder 复用控件
+     *
+     * @param R.id.*
+     */
     public <T extends View> T getViewById(int id) {
         SparseArray<View> viewHolder = (SparseArray<View>) mConvertView.getTag();
         if (viewHolder == null) {
