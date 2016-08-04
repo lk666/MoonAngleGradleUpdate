@@ -4,253 +4,252 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
+import org.apache.commons.lang3.text.StrBuilder;
 
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.inventory.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultOrderVo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.order.TimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class ProcessedFragment extends Fragment {
-    private String TAG = "ProcessedFragment";
+/**
+ * 已收发货
+ */
+public class ProcessedFragment extends BasePullToRefreshListViewFragment {
 
-    private SuspenseAdapter adapter;
-    private FragmentActivity main;
-    private CommonProgressDialog progressDialog;
-    private PullToRefreshListView listView;
     private String type;
-
     private TextView txtCount;
     private TextView txtPrice;
     private TextView txtTotalBoxes;
     View popStart;
 
-    private ResultOrderVo item;
+    private int orderTotalNum;
+    private long orderTotalMoney;
+    private double orderTotalCase;
+
     private long startTime = 0;
     private long endTime = 0;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        try {
-            Bundle bundle = getArguments();
-            type = (String) bundle.getSerializable(BaseFragment.EXTRA_BUNDLE_DATA);
-
-        }catch (Exception ex){
-
-        }
-        initCustomActionBar();
-        main = getActivity();
-
-
-        View v = inflater.inflate(R.layout.head_fragment_tab_inventory, container,
-                false);
-        popStart = (View) v.findViewById(R.id.view_pop_start);
-        txtCount = (TextView) v.findViewById(R.id.txt_count);
-        txtPrice = (TextView) v.findViewById(R.id.txt_price);
-        txtTotalBoxes=(TextView)v.findViewById(R.id.txt_total_boxes);
-
-
-        setCountAndPrice(0, null,0);
-        listView = (PullToRefreshListView) v
-                .findViewById(R.id.listview_main);
-        listView.setMode(PullToRefreshBase.Mode.DISABLED);
-        progressDialog = new CommonProgressDialog(main);
-        adapter = new SuspenseAdapter(main);
-        getItem();
-        return v;
+    protected void onBeforeCreateView() {
+        Bundle bundle = getArguments();
+        type = (String) bundle.getSerializable(BaseFragment.EXTRA_BUNDLE_DATA);
     }
 
-    private void getItem() {
-        String token = ClientStateManager.getLoginToken(main);
-        if ( progressDialog != null) {
-            progressDialog.show();
-        }
-
-        if(type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
-            DeliveryApi.getReceiptOrders(token,startTime, endTime, inventoryOrderHandler);
-        }else{
-            DeliveryApi.getOutOrders(token, startTime, endTime, inventoryOrderHandler);
-        }
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_fragment_tab_inventory;
     }
 
-    private void setData(ResultOrderVo result) {
-        if (result == null || result.getOrderList()==null || result.getOrderList().size() < 1) {
-            //PublicUtil.showToastErrorData(main);
-            adapter.setList(new ArrayList<OrderVo>());
-            listView.setAdapter(adapter);
-            //return;
-        }else
-        {
-            item = result;
-            setCountAndPrice(item.getOrderTotalNum(), StringUtil.formatPriceByFen(item.getOrderTotalMoney()), item.getOrderTotalCase());
-            adapter.setList(item.getOrderList());
-        }
-        listView.setAdapter(adapter);
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
 
+        popStart = (View) headView.findViewById(R.id.view_pop_start);
+        txtCount = (TextView) headView.findViewById(R.id.txt_count);
+        txtPrice = (TextView) headView.findViewById(R.id.txt_price);
+        txtTotalBoxes = (TextView) headView.findViewById(R.id.txt_total_boxes);
+
+        setCountAndPrice(0, null, 0);
+    }
+
+    private void setCountAndPrice(int size, String price, double boxes) {
+        String count;
+        if (size > 99) {
+            count = "99+";
+        } else {
+            count = String.valueOf(size);
+        }
+        count = String.format(getString(R.string.order_history_totalcount), count);
+        if (StringUtil.isEmpty(price) || "0".equals(price)
+                || "0.0".equals(price)) {
+            price = "0.00";
+        }
+        price = String.format(getString(R.string.order_history_price), price);
+
+
+        txtCount.setText(count);
+        txtPrice.setText(price);
+        txtTotalBoxes.setText(String.format(getString(R.string.order_boxes_num),
+                StringUtil.formatBoxesNum(boxes)));
+    }
+
+    @Override
+    protected String getTitleString() {
+        String title = getString(R.string.tab_title_delivered_text);
+        if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
+            title = getString(R.string.tab_title_received_text);
+        }
+        return title;
     }
 
 
-    private void initCustomActionBar() {
-
-        CommonActionBar actionBar =   new CommonActionBar(getActivity().getActionBar(),
-                new IActionBarListener() {
-
-                    @Override
-                    public void onBtnRight(View v) {
-                        // TODO Auto-generated method stub
-
-                            TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new TimerFilterWindow.TimerFilterListener() {
-                                @Override
-                                public void callBack(long startDate, long endDate) {
-                                    if(startDate>=0 && endDate>=startDate){
-                                    startTime = LibDateUtil.getTimeByCustTime(startDate)/1000;
-                                    endTime =  LibDateUtil.getTimeByCustTime(endDate)/1000;
-
-                                    Date start = new Date(startTime*1000);
-                                    Date end = new Date(endTime*1000);
-
-                                        if(endDate>=startDate
-                                                &&(((end.getDate()>=start.getDate()) && ((end.getYear()*12+end.getMonth())-(start.getYear()*12+start.getMonth())<=5) )
-                                                || ((end.getDate()<start.getDate()) && ((end.getYear()*12+end.getMonth())-(start.getYear()*12+start.getMonth())<=6)))){
-                                            setCountAndPrice(0, null,0);
-                                        getItem();
-                                    }else{
-                                        PublicUtil.showMessage(main,getString(R.string.txt_order_fillter_date_error));
-                                    }
-
-                                }}
-                            });
-                            popupWindow.showPopwindow(popStart);
-
-                    }
-
-                    @Override
-                    public void onBtnLeft(View v) {
-                        // TODO Auto-generated method stub
-                        getActivity().finish();
-                    }
-
-                    @Override
-                    public void setTitle(TextView v) {
-                        // TODO Auto-generated method stub
-                        if(type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
-                            v.setText(R.string.tab_title_received_text);
-                        }else{
-                            v.setText(R.string.tab_title_delivered_text);
-                        }
-                    }
-                });
+    @Override
+    protected void setActionBar(CommonActionBar actionBar) {
+        super.setActionBar(actionBar);
 
         actionBar.getTvRightView().setText(R.string.btn_txt_fillter);
         actionBar.getTvRightView().setCompoundDrawablePadding(10);
 
-        Drawable drawableFillter=getResources().getDrawable(R.mipmap.icon_filter);
-        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter.getMinimumHeight());
-        actionBar.getTvRightView().setCompoundDrawables(drawableFillter,null,null,null);
-       actionBar.getTvRightView().setVisibility(View.VISIBLE);
+        Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
+        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
+                .getMinimumHeight());
+        actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
+        actionBar.getTvRightView().setVisibility(View.VISIBLE);
+    }
 
+    @Override
+    protected void onActionBarBtnRightClick() {
+        TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new
+                TimerFilterWindow.TimerFilterListener() {
+                    @Override
+                    public void callBack(long startDate, long endDate) {
+                        if (startDate >= 0 && endDate >= startDate) {
+                            startTime = LibDateUtil.getTimeByCustTime(startDate);
+                            endTime = LibDateUtil.getTimeByCustTime(endDate);
+
+                            if (DateUtil.getTimeOffsetMonth(startTime, 6) >
+                                    endTime) {
+                                if (startTime == 0 && endTime == 0) {
+                                    return;
+                                }
+
+                                setCountAndPrice(0, null, 0);
+                                showWaitDialog();
+                                getData();
+                            } else {
+                                PublicUtil.showMessage(getActivity(), getString(R.string
+                                        .txt_order_fillter_date_error));
+                            }
+
+                        }
+                    }
+                });
+        popupWindow.showPopwindow(popStart);
+    }
+
+
+    @Override
+    protected void showEmptyView() {
+        super.showEmptyView();
+        // 可在此处设置head等
+        setHeadViewVisibility(View.VISIBLE);
+        getBaseTabActivity().setAmount(0, 0);
+    }
+
+    @Override
+    protected void showNetErrorView() {
+        super.showNetErrorView();
+        // 可在此处设置head等
+        setHeadViewVisibility(View.GONE);
+    }
+
+    @Override
+    protected void showRefreshView() {
+        super.showRefreshView();
+        // 列表数据刷新，如可在此处设置head等
+        setHeadViewVisibility(View.VISIBLE);
+        setCountAndPrice(orderTotalNum, StringUtil.formatPriceByFen(orderTotalMoney),
+                orderTotalCase);
+    }
+
+    @Override
+    protected SuspenseAdapter getNewAdapter() {
+        return new SuspenseAdapter(getActivity(), this);
+    }
+
+    /**
+     * Mode不包含上拉加载时，可这样重写此方法
+     *
+     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
+     */
+    @Override
+    protected List<OrderVo> getGetMoreList(ResultBase result) {
+        return null;
+    }
+
+    @Override
+    protected List<OrderVo> getGetDataList(ResultBase result) {
+        ResultOrderVo resultObj = (ResultOrderVo) result;
+        orderTotalNum = resultObj.getOrderTotalNum();
+        orderTotalMoney = resultObj.getOrderTotalMoney();
+        orderTotalCase = resultObj.getOrderTotalCase();
+        return resultObj.getOrderList();
+    }
+
+    @Override
+    protected PullToRefreshBase.Mode getMode() {
+        return PullToRefreshBase.Mode.PULL_FROM_START;
+    }
+
+    @Override
+    protected void invokeGetDataDeliveryApi(int requestCode) {
+        if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
+            DeliveryApi.getReceiptOrders(getToken(), startTime, endTime, getNewHandler(requestCode,
+                    ResultOrderVo.class));
+        } else {
+            DeliveryApi.getOutOrders(getToken(), startTime, endTime, getNewHandler(requestCode,
+                    ResultOrderVo.class));
+        }
+    }
+
+    /**
+     * Mode不包含上拉加载时，可这样重写此方法
+     */
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
     }
 
     @SuppressLint("InflateParams")
-    class SuspenseAdapter extends BaseAdapter {
+    class SuspenseAdapter extends BaseListAdapter<OrderVo> {
 
-        private Context context;
-        private List<OrderVo> lists;
-
-        public SuspenseAdapter(Context context) {
-            this.context = context;
-        }
-
-        public void setList(List<OrderVo> list) {
-            this.lists = list;
+        public SuspenseAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
         }
 
         @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return lists.size();
+        protected int getLayoutId() {
+            return R.layout.order_processed_item;
         }
 
         @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return lists.get(position);
-        }
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            OrderVo order = (OrderVo) getItem(position);
 
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
+            TextView txtOrderId = getViewById(R.id.txt_order_id);
+            TextView txtDate = getViewById(R.id.txt_date);
+            TextView txtPrice = getViewById(R.id.txt_price);
+            TextView txtBoxesCount = getViewById(R.id.txt_boxes_count);
 
-        @Override
-        public View getView(final int position, View convertView,
-                            ViewGroup parent) {
-            // TODO Auto-generated method stub
-            LayoutInflater inflate = LayoutInflater.from(context);
-            if (lists.size() == 0) {
-                View viewEmpty = inflate.inflate(R.layout.layout_no_data, null);
-                AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                        AbsListView.LayoutParams.MATCH_PARENT, listView.getHeight());
-                viewEmpty.setLayoutParams(params);
-                return viewEmpty;
-            }
+            txtOrderId.setText(order.getOrderCode());
+            txtPrice.setText(new StrBuilder(getString(R.string.order_money_sign))
+                    .append(StringUtil.formatPriceByFen(order.getTotalAmountRmb())).toString());
 
-            convertView = inflate.inflate(R.layout.order_processed_item, null);
+            txtDate.setText(DateUtil.getTime(order.getOrderDate(), "yyyy-MM-dd"));
 
-            TextView txtOrderId = (TextView) convertView
-                    .findViewById(R.id.txt_order_id);
-            TextView txtDate = (TextView) convertView
-                    .findViewById(R.id.txt_date);
-            TextView txtPrice = (TextView) convertView
-                    .findViewById(R.id.txt_price);
-            TextView txtBoxesCount = (TextView) convertView
-                    .findViewById(R.id.txt_boxes_count);
-
-            txtOrderId.setText(lists.get(position).getOrderCode());
-            txtPrice.setText(
-                    getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(lists.get(position).getTotalAmountRmb()));
-
-            txtDate.setText( DateUtil.getTime(lists.get(position).getOrderDate(), "yyyy-MM-dd"));
-
-            txtBoxesCount.setText(String.format(getString(R.string.order_boxes_count),
-                            StringUtil.formatBoxesNum(lists.get(position).getTotalCase()))+
-                            String.format(getString(R.string.order_product_count),
-                                    lists.get(position).getTotalNum())
+            txtBoxesCount.setText(
+                    new StrBuilder(String.format(getString(R.string.order_boxes_count),
+                            StringUtil.formatBoxesNum(order.getTotalCase())))
+                            .append(String.format(getString(R.string.order_product_count),
+                                    order.getTotalNum())).toString()
             );
             int index = position % 2;
             if (index == 1) {
@@ -260,90 +259,23 @@ public class ProcessedFragment extends Fragment {
                         .setBackgroundResource(R.drawable.list_item_white_bg);
             }
 
-            convertView.setOnClickListener(new View.OnClickListener() {
-
-                @Override
-                public void onClick(View v) {
-                    // TODO Auto-generated method stub
-                    if(type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
-                        OrderEndReceiveDetailActivity.actionStart(main,
-                                InventoryTabActivity.RECEIVE_MANAGEMENT,lists.get(position).getOrderCode());
-                    }else{
-                        OrderEndDeliverDetailActivity.actionStart(main,
-                                InventoryTabActivity.DELIVERY_MANAGEMENT, lists.get(position).getOrderCode());
-                    }
-                }
-            });
-            return convertView;
+            setClickEvent(isNew, position, convertView);
         }
-
     }
 
-    AsyncHttpResponseHandler inventoryOrderHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "getInventoryOrder result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            listView.onRefreshComplete();
-            try {
-                ResultOrderVo orderResult = JSON.parseObject(responseString,
-                        ResultOrderVo.class);
-                if (orderResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    setData(orderResult);
-                } else {
-                    PublicUtil.showErrorMsg(main, orderResult);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+        OrderVo order = (OrderVo) item;
+        if (null != order) {
+            if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
+                OrderEndReceiveDetailActivity.actionStart(getActivity(),
+                        InventoryTabActivity.RECEIVE_MANAGEMENT, order
+                                .getOrderCode());
+            } else {
+                OrderEndDeliverDetailActivity.actionStart(getActivity(),
+                        InventoryTabActivity.DELIVERY_MANAGEMENT, order
+                                .getOrderCode());
             }
         }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            PublicUtil.showToastServerOvertime();
-        }
-    };
-
-    private void setCountAndPrice(int size,String price,double boxes){
-        String count = "0";
-        if (size > 99) {
-            count = "99+";
-        } else {
-            count = String.valueOf(size);
-        }
-        count = String.format(getString(R.string.order_history_totalcount), count);
-        if (StringUtil.isEmpty(price)||"0".equals(price)
-                ||"0.0".equals(price)) {
-            price = "0.00";
-        }
-        price = String.format(getString(R.string.order_history_price), price);
-
-
-        txtCount.setText(count);
-        txtPrice.setText(price);
-        txtTotalBoxes.setText(String.format(getString(R.string.order_boxes_num), StringUtil.formatBoxesNum(boxes)));
     }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
-    }
-
 }

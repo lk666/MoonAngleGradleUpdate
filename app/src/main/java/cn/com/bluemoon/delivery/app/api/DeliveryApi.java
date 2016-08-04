@@ -650,14 +650,13 @@ public class DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
 
-        postRequest(params, "bluemoon-control/receipt/getWaitReceiptOrders%s",handler);
+        postRequest(params, "bluemoon-control/receipt/getWaitReceiptOrders%s", handler);
     }
 
     /*已收货-汇总接口 */
     /* 返回： ResultOrderVo */
     public static void getReceiptOrders(String token, long startDate, long endDate,
                                         AsyncHttpResponseHandler handler) {
-
         if (null == token) {
             return;
         }
@@ -666,10 +665,8 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/receipt/getReceiptOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+
+        postRequest(params, "bluemoon-control/receipt/getReceiptOrders%s", handler);
     }
 
     /*待收货详情*/
@@ -705,7 +702,7 @@ public class DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
 
-        postRequest(params, "bluemoon-control/out/getWaitOutOrders%s",handler);
+        postRequest(params, "bluemoon-control/out/getWaitOutOrders%s", handler);
     }
 
     /*待发货详情*/
@@ -779,10 +776,8 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/out/getOutOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+
+        postRequest(params, "bluemoon-control/out/getOutOrders%", handler);
     }
 
 
@@ -1120,7 +1115,7 @@ public class DeliveryApi {
         }
 
 		/*BASE64Encoder encoder = new BASE64Encoder();
-		String fileString = encoder.encode(ImageUtil.getBytes(file));*/
+        String fileString = encoder.encode(ImageUtil.getBytes(file));*/
         BASE64Encoder encoder = new BASE64Encoder();
         String fileString = encoder.encode(ImageUtil.Bitmap2Bytes(file));
 
@@ -2476,7 +2471,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/team/getRelationShipDetail%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString,handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /* 获取人员辖区列表 */
@@ -2541,7 +2536,7 @@ public class DeliveryApi {
      * @param token     登录凭证(必填) String
      */
     public static void _getOuterOrderInfo(String outerCode, String token,
-                                         AsyncHttpResponseHandler handler) {
+                                          AsyncHttpResponseHandler handler) {
         if (null == outerCode || null == token) {
             return;
         }
@@ -2564,7 +2559,7 @@ public class DeliveryApi {
      * 5.3获取活动列表 ，测试用
      */
     public static void _getActivityInfos(String token,
-                                        AsyncHttpResponseHandler handler) {
+                                         AsyncHttpResponseHandler handler) {
         if (StringUtil.isEmpty(token)) {
             return;
         }
@@ -2575,24 +2570,11 @@ public class DeliveryApi {
         postRequest(params, "washingService-controller/wash/activity/getActivityInfos%s", handler);
     }
 
-    /**2.5 收衣记录，测试用*/
+    /**
+     * 2.5 收衣记录，测试用
+     */
 	/*返回：ResultCollectInfo*/
     public static void _collectInfoRecord(String token, long startDate, long endDate,
-                                         AsyncHttpResponseHandler handler) {
-        if (null == token) {
-            return;
-        }
-        Map<String, Object> params = new HashMap<>();
-        params.put(TOKEN, token);
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        postRequest(params,  "washingService-controller/wash/collectInfoRecord%s", handler);
-    }
-
-
-    /**5.8收衣记录，测试用*/
-	/*返回：ResultCollectInfo*/
-    public static void _collectInfoRecord2(String token, long startDate, long endDate,
                                           AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
@@ -2601,16 +2583,33 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s",handler);
+        postRequest(params, "washingService-controller/wash/collectInfoRecord%s", handler);
+    }
+
+
+    /**
+     * 5.8收衣记录，测试用
+     */
+	/*返回：ResultCollectInfo*/
+    public static void _collectInfoRecord2(String token, long startDate, long endDate,
+                                           AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
     }
 
 
     /**
      * 提交http请求
      *
-     * @param params      参数列表
-     * @param subUrl      请求的url子部
-     * @param handler     回调
+     * @param params  参数列表
+     * @param subUrl  请求的url子部
+     * @param handler 回调
      */
     private static void postRequest(Map<String, Object> params, String subUrl,
                                     AsyncHttpResponseHandler handler) {

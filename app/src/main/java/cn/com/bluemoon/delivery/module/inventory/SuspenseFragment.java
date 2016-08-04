@@ -29,6 +29,9 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
+/**
+ * 待收发货
+ */
 public class SuspenseFragment extends BasePullToRefreshListViewFragment {
 
     private static final int REQUEST_CODE_QUERY_OPERATOR_PERSONS = 0x1;
