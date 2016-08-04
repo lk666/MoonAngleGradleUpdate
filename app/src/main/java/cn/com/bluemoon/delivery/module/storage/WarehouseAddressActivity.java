@@ -1,18 +1,14 @@
 package cn.com.bluemoon.delivery.module.storage;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,48 +23,103 @@ import org.apache.http.protocol.HTTP;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.app.api.model.storage.ResultMallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 
-public class WarehouseAddressActivity extends Activity {
+public class WarehouseAddressActivity extends BaseActivity {
 
-    private String TAG = "WarehouseAddressActivity";
+    @Bind(R.id.txt_store_id)
+    TextView txtStoreId;
+    @Bind(R.id.listview_main)
+    PullToRefreshListView listView;
 
     private MallStoreRecieverAddressAdapter adapter;
-    private WarehouseAddressActivity main;
-    private CommonProgressDialog progressDialog;
-    private PullToRefreshListView listView;
     private ResultMallStoreRecieverAddress item;
     private boolean isEdit;
     private int initAddressId;
     private int currentAddressId;
     private MallStoreRecieverAddress selectAddress = null;
-    private TextView txtStoreId;
 
 
     private String storeId;
     private String storeName;
 
+    private void setDefaultOrDeleteAddress(MallStoreRecieverAddress address, boolean isDelete) {
+        String token = ClientStateManager.getLoginToken(WarehouseAddressActivity.this);
+        showWaitDialog();
+        if (isDelete) {
+            selectAddress = address;
+            selectAddress.setIsDefault(0);
+            DeliveryApi.deleteReceiveAddress(1, token, address.getAddressId(), defaultOrDeleteHandler);
+
+        } else {
+
+            selectAddress = address;
+            selectAddress.setIsDefault(1);
+            DeliveryApi.modifyDefaultAddress(2, token, storeId, address.getAddressId(), defaultOrDeleteHandler);
+        }
+    }
+
+
+    private void setData(ResultMallStoreRecieverAddress result) {
+        if (result == null || result.getAddressList() == null || result.getAddressList().size() < 1) {
+            adapter.setList(new ArrayList<MallStoreRecieverAddress>());
+        } else {
+            item = result;
+            adapter.setList(item.getAddressList());
+        }
+        listView.setAdapter(adapter);
+
+    }
+
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_warehouse_address);
-        main = this;
+    protected String getTitleString() {
+        return getString(R.string.text_store_address_title);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        if (null != item && null != item.getAddressList().get(0)) {
+            WarehouseAddressEditActivity.actionStart(this, storeId, storeName, false, item.getAddressList().get(0));
+        }
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar titleBar) {
+        titleBar.getImgRightView().setImageResource(R.mipmap.add_warehouse);
+        titleBar.getImgRightView().setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_warehouse_address;
+    }
+
+    @Override
+    protected void onSuccessResponse(int requestCode, String jsonString) {
+
+    }
+
+    @Override
+    public void initView() {
         storeId = getIntent().getStringExtra("storeId");
         storeName = getIntent().getStringExtra("storeName");
         initAddressId = getIntent().getIntExtra("initAddressId", 0);
@@ -77,22 +128,18 @@ public class WarehouseAddressActivity extends Activity {
         if (StringUtil.isEmpty(storeId) || StringUtil.isEmpty(storeName)) {
             finish();
         }
-        initCustomActionBar();
-        listView = (PullToRefreshListView) findViewById(R.id.listview_main);
-        txtStoreId = (TextView) findViewById(R.id.txt_store_id);
 
         txtStoreId.setText(String.format("%s-%s", storeId, storeName));
         listView.setMode(PullToRefreshBase.Mode.DISABLED);
-        progressDialog = new CommonProgressDialog(main);
-        adapter = new MallStoreRecieverAddressAdapter(main);
-        getItem();
-
+        CommonEmptyView emptyView = new CommonEmptyView(this);
+        emptyView.setContentHit(R.string.text_store_address_title);
+        listView.setEmptyView(emptyView);
+        adapter = new MallStoreRecieverAddressAdapter(WarehouseAddressActivity.this);
     }
 
-
-    private void getItem() {
-
-        if (null != selectAddress) {
+    @Override
+    public void initData() {
+        if (selectAddress != null) {
             if (selectAddress.getIsDefault() > 0) {
                 for (MallStoreRecieverAddress addressItem : item.getAddressList()
                         ) {
@@ -119,158 +166,54 @@ public class WarehouseAddressActivity extends Activity {
             adapter.notifyDataSetChanged();
 
         } else {
-            String token = ClientStateManager.getLoginToken(main);
-            if (progressDialog != null) {
-                progressDialog.show();
-            }
+            String token = ClientStateManager.getLoginToken(WarehouseAddressActivity.this);
+            showWaitDialog();
             DeliveryApi.queryReceiveAddressByStoreCode(token, storeId, addressDetailHandler);
         }
     }
 
-    private void setDefaultOrDeleteAddress(MallStoreRecieverAddress address, boolean isDelete) {
-        String token = ClientStateManager.getLoginToken(main);
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
-
-
-        if (isDelete) {
-            selectAddress = address;
-            selectAddress.setIsDefault(0);
-            DeliveryApi.deleteReceiveAddress(token, address.getAddressId(), defaultOrDeleteHandler);
-
-        } else {
-
-            selectAddress = address;
-            selectAddress.setIsDefault(1);
-            DeliveryApi.modifyDefaultAddress(token, storeId, address.getAddressId(), defaultOrDeleteHandler);
-        }
-    }
-
-
-    private void setData(ResultMallStoreRecieverAddress result) {
-        if (result == null || result.getAddressList() == null || result.getAddressList().size() < 1) {
-            adapter.setList(new ArrayList<MallStoreRecieverAddress>());
-        } else {
-            item = result;
-            adapter.setList(item.getAddressList());
-        }
-        listView.setAdapter(adapter);
-
-    }
-
-
-    private void initCustomActionBar() {
-
-        CommonActionBar bar = new CommonActionBar(main.getActionBar(),
-                new IActionBarListener() {
-
-                    @Override
-                    public void onBtnRight(View v) {
-                        // TODO Auto-generated method stub
-                        if (null != item && null != item.getAddressList().get(0)) {
-                            WarehouseAddressEditActivity.actionStart(main, storeId, storeName, false, item.getAddressList().get(0));
-                        }
-                    }
-
-                    @Override
-                    public void onBtnLeft(View v) {
-                        // TODO Auto-generated method stub
-                        back();
-                    }
-
-                    @Override
-                    public void setTitle(TextView v) {
-                        // TODO Auto-generated method stub
-                        v.setText(R.string.text_store_address_title);
-                    }
-                });
-
-        bar.getImgRightView().setImageResource(R.mipmap.add_warehouse);
-        bar.getImgRightView().setVisibility(View.VISIBLE);
-
-    }
-
     @SuppressLint("InflateParams")
-    class MallStoreRecieverAddressAdapter extends BaseAdapter {
+    class MallStoreRecieverAddressAdapter extends BaseListAdapter<MallStoreRecieverAddress> {
 
-        private Context context;
         private List<MallStoreRecieverAddress> lists;
 
 
         public MallStoreRecieverAddressAdapter(Context context) {
-            this.context = context;
-        }
-
-        public void setList(List<MallStoreRecieverAddress> list) {
-            this.lists = list;
+            super(context, null);
         }
 
         @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return lists.size();
+        protected int getLayoutId() {
+            return R.layout.store_address_detail_item;
         }
 
         @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return lists.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView,
-                            ViewGroup parent) {
-            // TODO Auto-generated method stub
-            LayoutInflater inflate = LayoutInflater.from(context);
-            if (lists.size() == 0) {
-                View viewEmpty = inflate.inflate(R.layout.layout_no_data, null);
-                AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                        AbsListView.LayoutParams.MATCH_PARENT, listView.getHeight());
-                viewEmpty.setLayoutParams(params);
-                return viewEmpty;
-            }
-
-            convertView = inflate.inflate(R.layout.store_address_detail_item, null);
-
-            TextView txtAddress = (TextView) convertView
-                    .findViewById(R.id.txt_address);
-
-            TextView txtReciver = (TextView) convertView
-                    .findViewById(R.id.txt_receiver);
-
-            final CheckBox cbDefault = (CheckBox) convertView
-                    .findViewById(R.id.cb_select);
-
-            LinearLayout layoutLine = (LinearLayout) convertView.findViewById(R.id.layout_line);
-
-            TextView txtRecycle = (TextView) convertView.findViewById(R.id.txt_recycle);
-
-            TextView txtEdit = (TextView) convertView.findViewById(R.id.txt_edit);
-            txtEdit.setTag(lists.get(position));
-            txtRecycle.setTag(lists.get(position));
-            layoutLine.setTag(lists.get(position));
-            cbDefault.setTag(lists.get(position));
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            final MallStoreRecieverAddress address = lists.get(position);
+            TextView txtAddress = getViewById(R.id.txt_address);
+            TextView txtReciver = getViewById(R.id.txt_receiver);
+            final CheckBox cbDefault = getViewById(R.id.cb_select);
+            LinearLayout layoutLine = getViewById(R.id.layout_line);
+            TextView txtRecycle = getViewById(R.id.txt_recycle);
+            TextView txtEdit = getViewById(R.id.txt_edit);
+            txtEdit.setTag(address);
+            txtRecycle.setTag(address);
+            layoutLine.setTag(address);
+            cbDefault.setTag(address);
 
             txtAddress.setText(String.format("%s%s%s%s%s%s",
-                    lists.get(position).getProvinceName(),
-                    lists.get(position).getCityName(),
-                    lists.get(position).getCountyName(),
-                    lists.get(position).getTownName(),
-                    lists.get(position).getVillageName(),
-                    lists.get(position).getAddress()));
+                    address.getProvinceName(),
+                    address.getCityName(),
+                    address.getCountyName(),
+                    address.getTownName(),
+                    address.getVillageName(),
+                    address.getAddress()));
             txtReciver.setText(String.format(
                     getString(R.string.text_store_receive_person),
-                    lists.get(position).getReceiverName() + " " + lists.get(position).getReceiverPhone()));
+                    address.getReceiverName() + " " + address.getReceiverPhone()));
 
 
-            cbDefault.setChecked(lists.get(position).getIsDefault() > 0 ? true : false);
+            cbDefault.setChecked(address.getIsDefault() > 0 ? true : false);
 
 
             cbDefault.setOnClickListener(new View.OnClickListener() {
@@ -298,13 +241,13 @@ public class WarehouseAddressActivity extends Activity {
 
 
             if (cbDefault.isChecked()) {
-                currentAddressId = lists.get(position).getAddressId();
+                currentAddressId = address.getAddressId();
             }
 
             txtEdit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    WarehouseAddressEditActivity.actionStart(main, storeId, storeName, true, (MallStoreRecieverAddress) v.getTag());
+                    WarehouseAddressEditActivity.actionStart(WarehouseAddressActivity.this, storeId, storeName, true, (MallStoreRecieverAddress) v.getTag());
                 }
             });
 
@@ -315,7 +258,7 @@ public class WarehouseAddressActivity extends Activity {
 
                     final MallStoreRecieverAddress address = (MallStoreRecieverAddress) v.getTag();
                     if (address.getIsDefault() != 0) {
-                        LibPublicUtil.showToast(main, getString(R.string.error_delete_address));
+                        LibPublicUtil.showToast(WarehouseAddressActivity.this, getString(R.string.error_delete_address));
                     } else {
 
                         new CommonAlertDialog.Builder(context)
@@ -332,10 +275,7 @@ public class WarehouseAddressActivity extends Activity {
                     }
                 }
             });
-
-            return convertView;
         }
-
     }
 
 
@@ -345,20 +285,17 @@ public class WarehouseAddressActivity extends Activity {
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            LogUtils.d(TAG, "defaultHandler result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
+            hideWaitDialog();
             try {
                 ResultBase baseResult = JSON.parseObject(responseString,
                         ResultBase.class);
                 if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     isEdit = true;
-                    getItem();
+                    initData();
                 } else {
-                    PublicUtil.showErrorMsg(main, baseResult);
+                    PublicUtil.showErrorMsg(WarehouseAddressActivity.this, baseResult);
                 }
             } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
             }
         }
@@ -366,9 +303,7 @@ public class WarehouseAddressActivity extends Activity {
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null)
-                progressDialog.dismiss();
+            hideWaitDialog();
             isEdit = true;
             PublicUtil.showToastServerOvertime();
         }
@@ -381,9 +316,7 @@ public class WarehouseAddressActivity extends Activity {
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            LogUtils.d(TAG, "addressDetailHandler result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
+            hideWaitDialog();
             try {
                 ResultMallStoreRecieverAddress addressDetailResult = JSON.parseObject(responseString,
                         ResultMallStoreRecieverAddress.class);
@@ -391,10 +324,9 @@ public class WarehouseAddressActivity extends Activity {
                     setData(addressDetailResult);
 
                 } else {
-                    PublicUtil.showErrorMsg(main, addressDetailResult);
+                    PublicUtil.showErrorMsg(WarehouseAddressActivity.this, addressDetailResult);
                 }
             } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
             }
         }
@@ -402,9 +334,7 @@ public class WarehouseAddressActivity extends Activity {
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null)
-                progressDialog.dismiss();
+            hideWaitDialog();
             PublicUtil.showToastServerOvertime();
         }
     };
@@ -424,9 +354,8 @@ public class WarehouseAddressActivity extends Activity {
 
         if (resultCode == RESULT_OK) {
             isEdit = true;
-            selectAddress=null;
-            getItem();
-
+            selectAddress = null;
+            initData();
         }
 
     }
@@ -448,6 +377,6 @@ public class WarehouseAddressActivity extends Activity {
         } else {
             setResult(RESULT_OK);
         }
-        main.finish();
+        finish();
     }
 }
