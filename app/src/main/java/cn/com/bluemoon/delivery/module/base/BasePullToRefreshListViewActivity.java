@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.base;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -24,11 +25,6 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
      */
     private List<ITEM> list;
 
-    /**
-     * 下拉刷新listview
-     */
-    private PullToRefreshListView ptrlv;
-
     @Override
     final protected int getLayoutId() {
         return R.layout.activity_pull_to_refresh_list_view;
@@ -36,9 +32,11 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
 
     @Override
     final protected void initPtr(PullToRefreshBase ptr) {
-        ptrlv = (PullToRefreshListView) ptr;
+        PullToRefreshListView ptrlv = (PullToRefreshListView) ptr;
         initPullToRefreshListView(ptrlv);
         adapter = getNewAdapter();
+        list = new ArrayList<>();
+        adapter.setList(list);
         ptrlv.setAdapter(adapter);
     }
 
@@ -57,19 +55,9 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
      * 设置加载更多数据请求成功的列表数据
      */
     private void setGetMoreList(List list) {
-        if (this.list != null) {
-            this.list.addAll(list);
-        } else {
-            setAdapterList(list);
-        }
+        this.list.addAll(list);
         adapter.notifyDataSetChanged();
     }
-
-    private void setAdapterList(List list) {
-        this.list = list;
-        adapter.setList(this.list);
-    }
-
 
     @Override
     final protected void setGetData(ResultBase result) {
@@ -87,12 +75,8 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
      * 设置刷新请求成功的列表数据
      */
     private void setGetDataList(List list) {
-        if (this.list == null) {
-            setAdapterList(list);
-        } else {
-            this.list.clear();
-            this.list.addAll(list);
-        }
+        this.list.clear();
+        this.list.addAll(list);
         adapter.notifyDataSetChanged();
     }
 

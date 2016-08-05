@@ -45,12 +45,6 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
  */
 public class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
         BaseMainInterface, IHttpRespone {
-
-    /**
-     * List<OldTabState>，tab数据
-     */
-    public final static String EXTRA_TAB_STATES = "EXTRA_TAB_STATES";
-
     @Bind(android.R.id.tabhost)
     FragmentTabHost tabhost;
 
@@ -62,7 +56,7 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
 
     protected static void actionStart(Context context, ArrayList<TabState> tabs, Class clazz) {
         Intent intent = new Intent(context, clazz);
-        intent.putExtra(EXTRA_TAB_STATES, tabs);
+        intent.putExtra(BaseFragment.EXTRA_BUNDLE_DATA, tabs);
         context.startActivity(intent);
     }
 
@@ -72,7 +66,7 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
         ActivityManager.getInstance().pushOneActivity(this);
 
         onBeforeSetContentLayout();
-        setContentView(R.layout.extract_tab);
+        setContentView(R.layout.base_tab);
         // 通过注解绑定控件
         ButterKnife.bind(this);
         layoutInflater = LayoutInflater.from(this);
@@ -82,7 +76,7 @@ public class BaseTabActivity extends FragmentActivity implements BaseViewInterfa
     }
 
     private void onBeforeSetContentLayout() {
-        tabs = (List<TabState>) getIntent().getSerializableExtra(EXTRA_TAB_STATES);
+        tabs = (List<TabState>) getIntent().getSerializableExtra(BaseFragment.EXTRA_BUNDLE_DATA);
         if (tabs == null) {
             tabs = new ArrayList<>();
         }

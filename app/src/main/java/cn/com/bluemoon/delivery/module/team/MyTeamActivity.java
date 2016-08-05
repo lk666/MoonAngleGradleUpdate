@@ -28,7 +28,7 @@ public class MyTeamActivity extends FragmentActivity implements BackHandledInter
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.extract_tab);
+        setContentView(R.layout.base_tab);
 
         ActivityManager.getInstance().pushOneActivity(this);
         layoutInflater = LayoutInflater.from(this);

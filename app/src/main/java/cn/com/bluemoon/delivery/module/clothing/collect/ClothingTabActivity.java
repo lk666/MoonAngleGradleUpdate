@@ -35,7 +35,7 @@ public class ClothingTabActivity extends BaseFragmentActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.extract_tab);
+        setContentView(R.layout.base_tab);
 
         TYPE = getIntent().getStringExtra("type");
 

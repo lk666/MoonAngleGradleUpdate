@@ -203,10 +203,10 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
-            DeliveryApi.getReceiptOrders(getToken(), startTime, endTime, getNewHandler(requestCode,
+            DeliveryApi.getReceiptOrders(getToken(), startTime / 1000, endTime / 1000, getNewHandler(requestCode,
                     ResultOrderVo.class));
         } else {
-            DeliveryApi.getOutOrders(getToken(), startTime, endTime, getNewHandler(requestCode,
+            DeliveryApi.getOutOrders(getToken(), startTime / 1000, endTime / 1000, getNewHandler(requestCode,
                     ResultOrderVo.class));
         }
     }
