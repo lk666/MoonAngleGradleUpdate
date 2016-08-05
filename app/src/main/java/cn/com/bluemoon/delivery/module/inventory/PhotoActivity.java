@@ -11,70 +11,65 @@
 package cn.com.bluemoon.delivery.module.inventory;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
-import com.umeng.analytics.MobclickAgent;
-
 import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.bitmap.BitmapCallBack;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
-public class PhotoActivity extends Activity implements OnClickListener {
-    private String TAG = "PhotoActivity";
+public class PhotoActivity extends BaseActivity {
 
-    private Activity main;
-
-    private CommonProgressDialog progressDialog;
-
-    private ImageView ivImage;
-    private ProgressBar pbImage;
-
+    @Bind(R.id.iv_image)
+    ImageView ivImage;
+    @Bind(R.id.pb_image)
+    ProgressBar pbImage;
     private String imgUrl;
-    private String type;
-
     KJBitmap kjb;
+    private PhotoActivity main;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
         requestWindowFeature(Window.FEATURE_NO_TITLE);
-        setContentView(R.layout.photo_tikect_image);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN); // 设置全屏
-        ActivityManager.getInstance().pushOneActivity(this);
-        init();
-        initView();
+        main = this;
     }
 
-    private void init() {
-        main = this;
+    @Override
+    protected int getLayoutId() {
+        return R.layout.photo_tikect_image;
+    }
+
+    public static void actionStart(Context context, String imgUrl) {
+        Intent intent = new Intent(context, PhotoActivity.class);
+        intent.putExtra("imgUrl", imgUrl);
+        context.startActivity(intent);
+    }
+
+
+    @Override
+    public void initView() {
         if (kjb == null) kjb = new KJBitmap();
         imgUrl = getIntent().getStringExtra("imgUrl");
-        type = getIntent().getStringExtra("type");
-        progressDialog = new CommonProgressDialog(main);
     }
 
-    private void initView() {
-        ivImage = (ImageView) findViewById(R.id.iv_image);
-        ivImage.setOnClickListener(this);
-        pbImage =(ProgressBar) findViewById(R.id.pb_image);
-
-
-        if("".equals(imgUrl)|| imgUrl == null){
-            PublicUtil.showToast(main, getString(R.string.get_photo_fail));
+    @Override
+    public void initData() {
+        if (StringUtil.isEmpty(imgUrl)) {
+            toast(R.string.get_photo_fail);
             return;
         }
 
@@ -99,7 +94,7 @@ public class PhotoActivity extends Activity implements OnClickListener {
             @Override
             public void onFailure(Exception e) {
                 super.onFailure(e);
-                PublicUtil.showToast(main,getString(R.string.get_big_photo_data_fail));
+                toast(R.string.get_big_photo_data_fail);
                 main.finish();
             }
 
@@ -108,37 +103,17 @@ public class PhotoActivity extends Activity implements OnClickListener {
                 super.onSuccess(bitmap);
             }
         });
-
-    };
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(TAG);
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.iv_image:
-                finish();
-                break;
-        }
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+
     }
 
-
-    public static void actionStart(Context context, String type, String imgUrl) {
-        Intent intent = new Intent(context, PhotoActivity.class);
-        intent.putExtra("imgUrl", imgUrl);
-        intent.putExtra("type", type);
-        context.startActivity(intent);
+    @OnClick(R.id.iv_image)
+    public void onClick() {
+        finish();
     }
-
-
 }
 
 

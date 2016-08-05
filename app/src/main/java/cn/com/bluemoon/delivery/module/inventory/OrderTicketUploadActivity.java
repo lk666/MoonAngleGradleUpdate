@@ -523,7 +523,7 @@ public class OrderTicketUploadActivity extends Activity implements OnClickListen
                     if ("addPic".equals(list.get(position))) {
                         showTakePhotoView();
                     } else {
-                        PhotoActivity.actionStart(main, "img", list.get(position).toString());
+                        PhotoActivity.actionStart(main,list.get(position).toString());
                     }
                 }
             });
