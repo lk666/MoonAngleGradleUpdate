@@ -33,7 +33,7 @@ public class StorageTabActivity extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		// TODO Auto-generated method stub
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.extract_tab);
+		setContentView(R.layout.base_tab);
 		context = this;
 
 		ActivityManager.getInstance().pushOneActivity(this);

@@ -31,7 +31,6 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * 基础Fragment，必须属于{@link BaseTabActivity}
