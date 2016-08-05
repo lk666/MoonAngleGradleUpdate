@@ -220,8 +220,8 @@
         <activity
             android:name=".common.WebViewActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".module.coupons.CouponsTabActivity"
             android:screenOrientation="portrait"
@@ -263,16 +263,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.base.example._ClothingTabActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-        <activity
             android:name=".module.clothing.collect.withorder.WithOrderCollectBookInActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity
-            android:name=".module.base.example.TestBasePullToRefreshListViewActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
@@ -335,66 +326,66 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-
-        <activity android:name=".module.base.TestBasePullToRefreshListViewActivity"
-                  android:screenOrientation="portrait"
-                  android:theme="@style/App.Base.Theme"
-                  android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity android:name=".module.jobrecord.PromoteDetailActivity"
-           android:screenOrientation="portrait"
-           android:theme="@style/App.Base.Theme"/>
-
-       <activity android:name=".module.jobrecord.PromoteActivity"
+        <activity
+            android:name=".module.jobrecord.PromoteDetailActivity"
             android:screenOrientation="portrait"
-           android:windowSoftInputMode="adjustPan"
             android:theme="@style/App.Base.Theme"/>
 
-        <activity android:name=".module.jobrecord.AddPromoteActivity"
+        <activity
+            android:name=".module.jobrecord.PromoteActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden"
-            android:theme="@style/App.Base.Theme"/>
-        <activity android:name=".module.jobrecord.PeopleFlowActivity"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan"/>
+
+        <activity
+            android:name=".module.jobrecord.AddPromoteActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateHidden"/>
+        <activity
+            android:name=".module.jobrecord.PeopleFlowActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-        <activity android:name=".module.jobrecord.CommunitySelectActivity"
+        <activity
+            android:name=".module.jobrecord.CommunitySelectActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".module.team.MyTeamActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".module.team.GroupDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme" />
+            android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".module.team.SelectEmpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".module.team.RelationShipDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme" />
+            android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".module.team.RelationInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme" />
+            android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".module.team.PersonnelAreaActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme" />
+            android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".module.team.SelectAreaActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan"
-            android:theme="@style/App.Base.Theme" />
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".module.team.CommonSelectActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme" />
+            android:theme="@style/App.Base.Theme"/>
 
         <activity
             android:name=".module.team.SearchGroupActivity"
@@ -406,7 +397,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop"/>
 
-        <service android:name=".module.card.LocationSvc" />
+        <service android:name=".module.card.LocationSvc"/>
 
         <!-- push应用定义消息receiver声明 -->
         <receiver android:name=".utils.BMPushMessageReceiver">
