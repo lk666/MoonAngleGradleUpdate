@@ -10,7 +10,6 @@
 package cn.com.bluemoon.delivery.module.inventory;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,7 +27,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -37,14 +35,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
-
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -53,6 +44,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -60,22 +52,31 @@ import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreReceiveVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultDetail;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultPreReceiveOrderBean;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class OrderReceiveDetailActivity extends Activity implements OnClickListener {
-    private String TAG = "OrderReceiveDetailActivity";
-    private ListView listView;
+public class OrderReceiveDetailActivity extends BaseActivity implements OnClickListener {
+    @Bind(R.id.listview_product)
+    ListView listView;
+    @Bind(R.id.txt_need)
+    TextView txtNeed;
+    @Bind(R.id.txt_should_deliver_box)
+    TextView txtShouldDeliverBox;
+    @Bind(R.id.txt_actual)
+    TextView txtActual;
+    @Bind(R.id.txt_real_deliver_box)
+    TextView txtRealDeliverBox;
+    @Bind(R.id.txt_diff_nums)
+    TextView txtDiffNums;
+    @Bind(R.id.btn_settle_deliver)
+    Button btnSettleDeliver;
     private OrderProductAdapter adapter;
     private List<ProductPreReceiveVo> lists;
     private View headView;
@@ -89,8 +90,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
     private TextView txtCustomerNameFhBill;
     private TextView txtCommonNameDeliverShipper;
     private TextView txtCommenNameFhfAddress;
-    private TextView txtNeed;
-    private TextView txtActual;
 
     private TextView txtOrderid;
     private TextView txtSource;
@@ -109,18 +108,11 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
     private RelativeLayout relDistributionBuniessName;
     private RelativeLayout llDiffLayout;
 
-    private Button btnSettleDeliver;
-    private TextView txtShouldDeliverBox;
-    private TextView txtRealDeliverBox;
-    private TextView txtDiffNums;
-
     private OrderReceiveDetailActivity main;
     private String orderCode;
     private String type;
     private String storeCode;
     private int storehouseCode;
-
-    private CommonProgressDialog progressDialog;
 
     ResultPreReceiveOrderBean detailInfo;
 
@@ -142,50 +134,96 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
 
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_receive_details);
-        main = this;
-        ActivityManager.getInstance().pushOneActivity(this);
-        init();
-        initCustomActionBar();
-        initView();
+    protected int getLayoutId() {
+        return R.layout.order_receive_details;
     }
 
-    private void init() {
-        lists = new ArrayList<ProductPreReceiveVo>();
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
         orderCode = getIntent().getStringExtra("orderCode");
         type = getIntent().getStringExtra("type");
+    }
+
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.text_recvive_detail);
+    }
+
+    @Override
+    public void initView() {
+        main = this;
+        lists = new ArrayList<ProductPreReceiveVo>();
         piclist = new ArrayList<String>();
         failUpload = new ArrayList<String>();
-        progressDialog = new CommonProgressDialog(main);
-    }
-
-    private void initView() {
-        btnSettleDeliver = (Button) findViewById(R.id.btn_settle_deliver);
-        btnSettleDeliver.setOnClickListener(this);
-        txtShouldDeliverBox = (TextView) findViewById(R.id.txt_should_deliver_box);
-        txtRealDeliverBox = (TextView) findViewById(R.id.txt_real_deliver_box);
-        txtDiffNums = (TextView) findViewById(R.id.txt_diff_nums);
-        listView = (ListView) findViewById(R.id.listview_product);
-        txtNeed = (TextView) findViewById(R.id.txt_need);
-        txtActual = (TextView) findViewById(R.id.txt_actual);
         initHeadView();
         initFoot();
-        adapter = new OrderProductAdapter(this, lists);
-        listView.setAdapter(adapter);
-        getData();
     }
 
-    private void getData() {
-        if (orderCode == null || "".equals(orderCode)) {
+    @Override
+    public void initData() {
+
+        adapter = new OrderProductAdapter(this,null);
+        adapter.setList(lists);
+        listView.setAdapter(adapter);
+        if (TextUtils.isEmpty(orderCode)) {
             return;
         }
-        String token = ClientStateManager.getLoginToken(main);
-        if (progressDialog != null) {
-            progressDialog.show();
+        DeliveryApi.getReceiveDetail(ClientStateManager.getLoginToken(),
+                orderCode, getNewHandler(0, ResultPreReceiveOrderBean.class));
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        switch (requestCode){
+            case 0:
+                detailInfo = (ResultPreReceiveOrderBean)result;
+                setData(detailInfo);
+                break;
+            case 1:
+                PublicUtil.showCustomToast(main, getString(R.string.txt_order_receive_success_tip) +
+                        "\n" + ((ResultDetail)result).getReceiptCode(), Gravity.CENTER_VERTICAL);
+                handler.obtainMessage(1007).sendToTarget();
+                break;
+            case 2:
+                break;
         }
-        DeliveryApi.getReceiveDetail(token, orderCode, deliverOrderDetailHandler);
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        if(requestCode == 2){
+            PublicUtil.showToast(main, result.getResponseMsg());
+            if (uploadTaskNums >= 1) {
+                failUpload.add(piclist.get(uploadTaskNums - 1).toString());
+            }
+        }else{
+            super.onErrorResponse(requestCode, result);
+        }
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        if(requestCode == 2){
+            PublicUtil.showToastServerBusy();
+            if (uploadTaskNums >= 1) {
+                failUpload.add(piclist.get(uploadTaskNums - 1).toString());
+            }
+        }else{
+            super.onSuccessException(requestCode, t);
+        }
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        if(requestCode == 2){
+            PublicUtil.showToastServerOvertime();
+            if (uploadTaskNums >= 1) {
+                failUpload.add(piclist.get(uploadTaskNums - 1).toString());
+            }
+        }else{
+            super.onFailureResponse(requestCode,t);
+        }
     }
 
     private void initHeadView() {
@@ -249,35 +287,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         btnSettleDeliver.setText(getString(R.string.btn_detail_order_receive));
         llOutBack.setVisibility(View.GONE);
         listView.addFooterView(footView);
-    }
-
-    private void initCustomActionBar() {
-        new CommonActionBar(getActionBar(), new IActionBarListener() {
-            @Override
-            public void setTitle(TextView v) {
-                v.setText(getResources().getString(R.string.text_recvive_detail));
-            }
-
-            @Override
-            public void onBtnRight(View v) {
-            }
-
-            @Override
-            public void onBtnLeft(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-        });
-    }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(TAG);
     }
 
     @Override
@@ -381,14 +390,14 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                 for (int i = 0; i < lists.size(); i++) {
                     String productNo = lists.get(i).getProductNo();
                     String isMetail = productNo.substring(0, 1);
-                 //   if (!"9".equals(isMetail)) {
-                        sumCount = sumCount + lists.get(i).getDifferNum();
-                        xianshu = xianshu + lists.get(i).getDiffCase();
-                        mSumCount = mSumCount + lists.get(i).getOutNum();
-                        TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
-                 //   } else {
-                 //       TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
-                 //   }
+                    //   if (!"9".equals(isMetail)) {
+                    sumCount = sumCount + lists.get(i).getDifferNum();
+                    xianshu = xianshu + lists.get(i).getDiffCase();
+                    mSumCount = mSumCount + lists.get(i).getOutNum();
+                    TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
+                    //   } else {
+                    //       TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
+                    //   }
                 }
 
                 String shouldDeliverCount = String.format(getResources().getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(detailInfo.getOrderDetail().getTotalCase())) +
@@ -418,7 +427,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         if (orderCode == null || "".equals(orderCode)) {
             return;
         }
-        String token = ClientStateManager.getLoginToken(main);
         if (detailInfo == null) {
             return;
         }
@@ -428,7 +436,7 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         } else {
             addressid = detailInfo.getOrderDetail().getReStoreAddrId();
             if (detailInfo.getOrderDetail().getReStoreAddrId() == 0 && detailInfo.getOrderDetail().isAllowedEditAddress()) {
-                PublicUtil.showToast(main, getString(R.string.txt_order_receive_address_toast));
+                toast(R.string.txt_order_receive_address_toast);
                 return;
             }
         }
@@ -437,48 +445,10 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
             lists.get(i).setReNum(lists.get(i).getDifferNum());
         }
 
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
-        DeliveryApi.getSubmitReceiveDetail(token, orderCode, submitTime, addressid, lists, submitReceiveHandler);
+        showWaitDialog();
+        DeliveryApi.getSubmitReceiveDetail(ClientStateManager.getLoginToken(),
+                orderCode, submitTime, addressid, lists, getNewHandler(1, ResultDetail.class));
     }
-
-
-    AsyncHttpResponseHandler submitReceiveHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "uploadHeader result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            try {
-                ResultDetail result = JSON.parseObject(responseString,
-                        ResultDetail.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-
-                    PublicUtil.showCustomToast(main, getString(R.string.txt_order_receive_success_tip) +
-                            "\n" + result.getReceiptCode(), Gravity.CENTER_VERTICAL);
-                    handler.obtainMessage(1007).sendToTarget();
-                } else {
-                    PublicUtil.showCustomToast(OrderReceiveDetailActivity.this, result.getResponseMsg(), Gravity.CENTER_VERTICAL);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            LogUtils.e(TAG, throwable.getMessage());
-            PublicUtil.showToastServerOvertime();
-
-        }
-    };
 
 
     private void uploadPhoto(String path) {
@@ -494,41 +464,9 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         }
         Bitmap bm = ImageUtil.convertToBitmap(path);
         // PublicUtil.getBytes(bm);
-        DeliveryApi.uploadTicketPic(token, orderCode, "receipt", LibImageUtil.scaleBitmap(bm, 800), uploadHandler);
+        DeliveryApi.uploadTicketPic(token, orderCode, "receipt", LibImageUtil.scaleBitmap(bm, 800),
+                getNewHandler(2,ResultBase.class));
     }
-
-    AsyncHttpResponseHandler uploadHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "uploadHeader result = " + responseString);
-            try {
-                ResultBase result = JSON.parseObject(responseString,
-                        ResultBase.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    //  Toast.makeText(OrderReceiveDetailActivity.this, "第" + uploadTaskNums + "张上传成功", Toast.LENGTH_LONG).show();
-                } else {
-                    PublicUtil.showToast(main, result.getResponseMsg());
-                    if (uploadTaskNums >= 1) {
-                        failUpload.add(piclist.get(uploadTaskNums - 1).toString());
-                    }
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            PublicUtil.showToastServerOvertime();
-            if (uploadTaskNums >= 1) {
-                failUpload.add(piclist.get(uploadTaskNums - 1).toString());
-            }
-        }
-    };
 
     private boolean isDeliver() {
         if (InventoryTabActivity.DELIVERY_MANAGEMENT.equals(type)) {
@@ -559,10 +497,10 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                     if (data == null) {
                         return;
                     }
-                    dictId = data.getStringExtra("dictId");
-                    dictName = data.getStringExtra("dictName");
-                    diffReasonDetail = data.getStringExtra("diffReasonDetail");
-                    int pos = data.getIntExtra("pos", 0);
+                    dictId = data.getStringExtra(OrderDiffReasonActivity.KEY_DICTID);
+                    dictName = data.getStringExtra(OrderDiffReasonActivity.KEY_DICTNAME);
+                    diffReasonDetail = data.getStringExtra(OrderDiffReasonActivity.KEY_DIFFREASONDETAIL);
+                    int pos = data.getIntExtra(OrderDiffReasonActivity.KEY_POS, 0);
                     lists.get(pos).setReDifferReason(dictId);
                     lists.get(pos).setReDifferBackup(diffReasonDetail);
                     lists.get(pos).setReDifferReasonName(dictName);
@@ -625,11 +563,11 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                     for (int i = 0; i < lists.size(); i++) {
                         String productNo = lists.get(i).getProductNo();
                         String flag = productNo.substring(0, 1);
-                     //   if (!"9".equals(flag)) {
-                            sumCount = sumCount + lists.get(i).getDifferNum();
-                            xianshu = xianshu + lists.get(i).getDiffCase();
-                            diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
-                     //   }
+                        //   if (!"9".equals(flag)) {
+                        sumCount = sumCount + lists.get(i).getDifferNum();
+                        xianshu = xianshu + lists.get(i).getDiffCase();
+                        diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
+                        //   }
                     }
                     txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(xianshu))
                             + String.format(getString(R.string.order_product_count), sumCount)));
@@ -647,38 +585,6 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
     };
 
 
-    AsyncHttpResponseHandler deliverOrderDetailHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "deliverOrderDetailHandler result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            try {
-                ResultPreReceiveOrderBean resultPreReceiveOrderBean = JSON.parseObject(responseString,
-                        ResultPreReceiveOrderBean.class);
-                if (resultPreReceiveOrderBean.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    detailInfo = resultPreReceiveOrderBean;
-                    setData(resultPreReceiveOrderBean);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            PublicUtil.showToastServerOvertime();
-        }
-    };
-
     private void setData(ResultPreReceiveOrderBean result) {
         if (result == null || result.getOrderDetail() == null) {
             PublicUtil.showToastErrorData(main);
@@ -692,9 +598,9 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
             lis.get(i).setReNum(lis.get(i).getOutNum());
             //lis.get(i).setDiffCase(lis.get(i).getOutCase());
 
-            if("90000714".equals(lis.get(i).getProductNo())){
-                lis.get(i).setDiffCase(lis.get(i).getOutCase()/500);
-            }else{
+            if ("90000714".equals(lis.get(i).getProductNo())) {
+                lis.get(i).setDiffCase(lis.get(i).getOutCase() / 500);
+            } else {
                 lis.get(i).setDiffCase(lis.get(i).getOutCase());
             }
 
@@ -711,26 +617,15 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
             relDeliverAddress.setEnabled(false);
         }
         txtOrderid.setText(result.getOrderDetail().getOrderCode());
-        txtOrderDeliverStoreNums.setText((String.format(getString(R.string.order_boxes_count),
+        txtOrderDeliverStoreNums.setText((getString(R.string.order_boxes_count,
                 StringUtil.formatBoxesNum(result.getOrderDetail().getTotalCase())) +
-                String.format(getString(R.string.order_product_count), result.getOrderDetail().getTotalNum())));
+                getString(R.string.order_product_count, result.getOrderDetail().getTotalNum())));
         txtTotalMoney.setText(getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(result.getOrderDetail().getTotalMoney()));
 
-        txtSource.setText(DateUtil.getTime(result.getOrderDetail().getOutDate(), "yyyy-MM-dd"));
+        txtSource.setText(DateUtil.getTime(result.getOrderDetail().getOutDate()));
 
-        StringBuilder sb = new StringBuilder("");
-        if (!StringUtil.isEmptyString(result.getOrderDetail().getReStoreCode())) {
-            sb.append(result.getOrderDetail().getReStoreCode());
-        }
-        if (!StringUtil.isEmptyString(result.getOrderDetail().getReStoreType())) {
-            sb.append("-").append(result.getOrderDetail().getReStoreType());
-        }
-        if(!StringUtil.isEmptyString(result.getOrderDetail().getReStoreChargeName())){
-            sb.append("-").append(result.getOrderDetail().getReStoreChargeName());
-        }
-        txtFhStore.setText(sb.toString());
-      /*  txt_fh_stor.setText(result.getOrderDetail().getReStoreCode() + "-"
-                + result.getOrderDetail().getReStoreType() + "-" + result.getOrderDetail().getReStoreChargeName());*/
+        txtFhStore.setText(PublicUtil.getStringParams(result.getOrderDetail().getReStoreCode(),
+                result.getOrderDetail().getReStoreType(),result.getOrderDetail().getReStoreChargeName()));
         txtFhAddress.setText(result.getOrderDetail().getReStoreAddrName());
         txtFhPhone.setText(result.getOrderDetail().getDeliveryTel());
         txtFhPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -738,7 +633,7 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
 
         txtFhName.setText(result.getOrderDetail().getDeliveryName());
         txtDistributionBuniessName.setText(result.getOrderDetail().getCompanyName());
-        if ("".equals(result.getOrderDetail().getCompanyName()) || result.getOrderDetail().getCompanyName() == null) {
+        if (TextUtils.isEmpty(result.getOrderDetail().getCompanyName())) {
             relDistributionBuniessName.setVisibility(View.GONE);
         }
         txtFhfAddress.setText(result.getOrderDetail().getDeliveryAddr());
@@ -756,20 +651,20 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         for (int i = 0; i < lists.size(); i++) {
     /*        String productNo = lists.get(i).getProductNo();
             String flag = productNo.substring(0, 1);*/
-          //  if (!"9".equals(flag)) {
-                sumCount = sumCount + lists.get(i).getDifferNum();
-                xianshu = xianshu + lists.get(i).getDiffCase();
-                diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
-         //   }
+            //  if (!"9".equals(flag)) {
+            sumCount = sumCount + lists.get(i).getDifferNum();
+            xianshu = xianshu + lists.get(i).getDiffCase();
+            diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
+            //   }
 
 
         }
 
-        txtShouldDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(xianshu))
-                + String.format(getString(R.string.order_product_count), sumCount)));
-        txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(xianshu))
-                + String.format(getString(R.string.order_product_count), sumCount)));
-        txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), 0));
+        txtShouldDeliverBox.setText((getString(R.string.order_boxes_count, StringUtil.formatBoxesNum(xianshu))
+                + getString(R.string.order_product_count, sumCount)));
+        txtRealDeliverBox.setText((getString(R.string.order_boxes_count, StringUtil.formatBoxesNum(xianshu))
+                + getString(R.string.order_product_count, sumCount)));
+        txtDiffNums.setText(getString(R.string.txt_order_product_count, 0));
     }
 
     public static void actionStart(Fragment context, String type, String orderCode) {
@@ -779,182 +674,135 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         context.startActivityForResult(intent, 0);
     }
 
-    class OrderProductAdapter extends BaseAdapter {
-        LayoutInflater mInflater;
-        private List<ProductPreReceiveVo> list;
-        Context context;
+    class OrderProductAdapter extends BaseListAdapter<ProductPreReceiveVo>{
 
-        public OrderProductAdapter(Context context, List<ProductPreReceiveVo> data) {
-            this.context = context;
-            this.mInflater = LayoutInflater.from(context);
-            this.list = data;
+        public OrderProductAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
         }
 
         @Override
-        public int getCount() {
-            return list.size();
+        protected int getLayoutId() {
+            return R.layout.order_details_receive_item;
         }
 
         @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            ViewHolder holder = null;
-            if (convertView == null) {
-                holder = new ViewHolder();
-                convertView = mInflater.inflate(R.layout.order_details_receive_item, null);
-                holder.txtOrderNumber = (TextView) convertView.findViewById(R.id.txt_order_number);
-                holder.txtBoxRuleNum = (TextView) convertView.findViewById(R.id.txt_box_rule_num);
-                holder.txtOrderProductName = (TextView) convertView.findViewById(R.id.txt_order_product_name);
-                holder.txtDeliveryNum = (TextView) convertView.findViewById(R.id.txt_delivery_nums);
-                holder.txtDeliveryBoxNum = (TextView) convertView.findViewById(R.id.txt_delivery_box_nums);
-                holder.editBookCount = (EditText) convertView.findViewById(R.id.book_count);
-                holder.txtRealBoxNum = (TextView) convertView.findViewById(R.id.txt_real_box_nums);
-                holder.imgBookReduce = (ImageView) convertView.findViewById(R.id.book_reduce);
-                holder.imgBookAdd = (ImageView) convertView.findViewById(R.id.book_add);
-                holder.lineDottedBottom = convertView.findViewById(R.id.line_dotted_bottom);
-                holder.txtDiffNumProductReceive = (TextView) convertView.findViewById(R.id.txt_diff_nums_product_receive);
-                holder.relDiffLayout = (RelativeLayout) convertView.findViewById(R.id.rel_diff_layout);
-                holder.txtDiffReason = (TextView) convertView.findViewById(R.id.txt_diff_reason);
-                holder.lineSolidDeepBottom = convertView.findViewById(R.id.line_solid_deep_bottom);
-                holder.relDiffLayout.setVisibility(View.VISIBLE);
-                holder.lineDottedBottom.setVisibility(View.GONE);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
-
+        protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
             final ProductPreReceiveVo info = list.get(position);
-            holder.txtOrderNumber.setText(list.get(position).getProductNo());
-            holder.txtBoxRuleNum.setText(String.valueOf(list.get(position).getCarton()));
-            holder.txtOrderProductName.setText(list.get(position).getProductName());
-            holder.txtDeliveryNum.setText(String.valueOf(list.get(position).getOutNum()));
+            if(info== null) return;
+
+            TextView txtOrderNumber = getViewById(R.id.txt_order_number);
+            TextView txtBoxRuleNum = getViewById(R.id.txt_box_rule_num);
+            TextView txtOrderProductName = getViewById(R.id.txt_order_product_name);
+            TextView txtDeliveryNum = getViewById(R.id.txt_delivery_nums);
+            TextView txtDeliveryBoxNum = getViewById(R.id.txt_delivery_box_nums);
+            TextView editBookCount = getViewById(R.id.book_count);
+            TextView txtRealBoxNum = getViewById(R.id.txt_real_box_nums);
+            ImageView imgBookReduce = getViewById(R.id.book_reduce);
+            ImageView imgBookAdd = getViewById(R.id.book_add);
+            View lineDottedBottom = getViewById(R.id.line_dotted_bottom);
+            TextView txtDiffNumProductReceive = getViewById(R.id.txt_diff_nums_product_receive);
+            RelativeLayout relDiffLayout = getViewById(R.id.rel_diff_layout);
+            TextView txtDiffReason = getViewById(R.id.txt_diff_reason);
+            View lineSolidDeepBottom = getViewById(R.id.line_solid_deep_bottom);
+            relDiffLayout.setVisibility(View.VISIBLE);
+            lineDottedBottom.setVisibility(View.GONE);
+
+            txtOrderNumber.setText(info.getProductNo());
+            txtBoxRuleNum.setText(String.valueOf(info.getCarton()));
+            txtOrderProductName.setText(info.getProductName());
+            txtDeliveryNum.setText(String.valueOf(info.getOutNum()));
             //应发箱数
-            if("90000714".equals(list.get(position).getProductNo())){
-                holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
-                        StringUtil.formatBoxesNum(list.get(position).getOutCase() / 500))));
-            }else{
-                holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
-                        StringUtil.formatBoxesNum(list.get(position).getOutCase()))));
+            if ("90000714".equals(info.getProductNo())) {
+                txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(info.getOutCase() / 500))));
+            } else {
+                txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(info.getOutCase()))));
             }
 
-            holder.txtRealBoxNum.setText(String.format(getString(R.string.order_boxes),
-                    StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
-            holder.editBookCount.setText(String.valueOf(list.get(position).getDifferNum()));
-            String diffNums = String.valueOf(list.get(position).getOutNum() - list.get(position).getDifferNum());
-            holder.txtDiffNumProductReceive.setText(diffNums);
+            txtRealBoxNum.setText(String.format(getString(R.string.order_boxes),
+                    StringUtil.formatBoxesNum(info.getDiffCase())));
+            editBookCount.setText(String.valueOf(info.getDifferNum()));
+            String diffNums = String.valueOf(info.getOutNum() - info.getDifferNum());
+            txtDiffNumProductReceive.setText(diffNums);
 
-            holder.imgBookAdd.setOnClickListener(new OnClickListener() {
+            imgBookAdd.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (list.get(position).getOutNum() == list.get(position).getDifferNum()) {
+                    if (info.getOutNum() == info.getDifferNum()) {
                         return;
                     }
-                    list.get(position).setDifferNum(list.get(position).getDifferNum() + 1);
-                    double num ;
-                    if("90000714".equals(list.get(position).getProductNo())){
-                        num = (double) (list.get(position).getDifferNum()) / (list.get(position).getCarton()*500);
-                    }else{
-                        num = (double) (list.get(position).getDifferNum()) / list.get(position).getCarton();
+                    info.setDifferNum(info.getDifferNum() + 1);
+                    double num;
+                    if ("90000714".equals(info.getProductNo())) {
+                        num = (double) (info.getDifferNum()) / (info.getCarton() * 500);
+                    } else {
+                        num = (double) (info.getDifferNum()) / info.getCarton();
                     }
-                    list.get(position).setDiffCase(num);
-                    adapter.notifyDataSetChanged();
+                    info.setDiffCase(num);
+                    notifyDataSetChanged();
                     handler.obtainMessage(1006).sendToTarget();
                 }
             });
 
-            holder.imgBookReduce.setOnClickListener(new OnClickListener() {
+            imgBookReduce.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (list.get(position).getDifferNum() <= 0) {
+                    if (info.getDifferNum() <= 0) {
                         return;
                     }
-                    list.get(position).setDifferNum(list.get(position).getDifferNum() - 1);
-                    double num ;
-                    if("90000714".equals(list.get(position).getProductNo())){
-                        num = (double) (list.get(position).getDifferNum()) / (list.get(position).getCarton()*500);
-                    }else{
-                        num = (double) (list.get(position).getDifferNum()) / list.get(position).getCarton();
+                    info.setDifferNum(info.getDifferNum() - 1);
+                    double num;
+                    if ("90000714".equals(info.getProductNo())) {
+                        num = (double) (info.getDifferNum()) / (info.getCarton() * 500);
+                    } else {
+                        num = (double) (info.getDifferNum()) / info.getCarton();
                     }
 
-                    list.get(position).setDiffCase(num);
-                    adapter.notifyDataSetChanged();
+                    info.setDiffCase(num);
+                    notifyDataSetChanged();
                     handler.obtainMessage(1006).sendToTarget();
                 }
             });
 
-            holder.editBookCount.setOnClickListener(new OnClickListener() {
+            editBookCount.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, list.get(position).getOutNum(), list.get(position).getDifferNum(), isDeliver());
+                    DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, info.getOutNum(), info.getDifferNum(), isDeliver());
                     myDialog.setDialogCallback(dialogCallback);
                     myDialog.show();
                 }
             });
 
             if (info.getDifferNum() != info.getOutNum() && !isDeliver()) {
-                holder.relDiffLayout.setVisibility(View.VISIBLE);
-                holder.lineDottedBottom.setVisibility(View.GONE);
-                if (!"".equals(info.getReDifferReason()) && info.getReDifferReason() != null) {
-                    holder.txtDiffReason.setText(info.getReDifferReasonName());
-                    holder.txtDiffReason.setTextColor(getResources().getColor(R.color.text_grep));
+                relDiffLayout.setVisibility(View.VISIBLE);
+                lineDottedBottom.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(info.getReDifferReason())) {
+                    txtDiffReason.setText(info.getReDifferReasonName());
+                    txtDiffReason.setTextColor(getResources().getColor(R.color.text_grep));
                 } else {
-                    holder.txtDiffReason.setText(getResources().getString(R.string.text_diff_reason));
-                    holder.txtDiffReason.setTextColor(getResources().getColor(R.color.text_red));
+                    txtDiffReason.setText(getResources().getString(R.string.text_diff_reason));
+                    txtDiffReason.setTextColor(getResources().getColor(R.color.text_red));
                 }
             } else {
-                holder.relDiffLayout.setVisibility(View.GONE);
-                holder.lineDottedBottom.setVisibility(View.VISIBLE);
+                relDiffLayout.setVisibility(View.GONE);
+                lineDottedBottom.setVisibility(View.VISIBLE);
             }
 
             if (position == list.size() - 1) {
-                holder.lineDottedBottom.setVisibility(View.GONE);
-                holder.lineSolidDeepBottom.setVisibility(View.GONE);
+                lineDottedBottom.setVisibility(View.GONE);
+                lineSolidDeepBottom.setVisibility(View.GONE);
             } else {
-                holder.lineSolidDeepBottom.setVisibility(View.GONE);
+                lineSolidDeepBottom.setVisibility(View.GONE);
             }
 
-            holder.relDiffLayout.setOnClickListener(new OnClickListener() {
+            relDiffLayout.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(main, OrderDiffReasonActivity.class);
-                    intent.putExtra("type", type);
-                    intent.putExtra("pos", position);
-                    if (!StringUtil.isEmpty(info.getReDifferReason())) {
-                        intent.putExtra("dictId", info.getReDifferReason());
-                        intent.putExtra("dictName", info.getReDifferReasonName());
-                        intent.putExtra("dictBackUp", info.getReDifferBackup());
-                    }
-                    main.startActivityForResult(intent, 102);
+                    OrderDiffReasonActivity.actStart(main, 102, position, info.getReDifferReason(),
+                            info.getReDifferReasonName(), info.getReDifferBackup());
                 }
             });
-
-            return convertView;
-        }
-
-        final class ViewHolder {
-            TextView txtOrderNumber;
-            TextView txtBoxRuleNum;
-            TextView txtOrderProductName;
-            TextView txtDeliveryNum;
-            TextView txtDeliveryBoxNum;
-            EditText editBookCount;
-            TextView txtRealBoxNum;
-            ImageView imgBookReduce;
-            ImageView imgBookAdd;
-            RelativeLayout relDiffLayout;
-            TextView txtDiffNumProductReceive;
-            View lineDottedBottom;
-            View lineSolidDeepBottom;
-            TextView txtDiffReason;
         }
     }
 
@@ -968,9 +816,9 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
                 }
                 lists.get(postion).setDifferNum(Integer.valueOf(nums));
                 double num;
-                if("90000714".equals(lists.get(postion).getProductNo())){
-                    num = (double) (Integer.valueOf(nums)) / (lists.get(postion).getCarton()*500);
-                }else{
+                if ("90000714".equals(lists.get(postion).getProductNo())) {
+                    num = (double) (Integer.valueOf(nums)) / (lists.get(postion).getCarton() * 500);
+                } else {
                     num = (double) (Integer.valueOf(nums)) / lists.get(postion).getCarton();
                 }
                 lists.get(postion).setDiffCase(num);
@@ -985,10 +833,7 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
 
 
     private void uploadData() {
-        progressDialog.setCanceledOnTouchOutside(false);
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
+        showWaitDialog(false);
         cancelReadCacheTask();
         uploadTask = (UploadTask) new UploadTask().execute("");
     }
@@ -1015,8 +860,7 @@ public class OrderReceiveDetailActivity extends Activity implements OnClickListe
         protected void onPostExecute(String info) {
             super.onPostExecute(info);
 
-            if (progressDialog != null)
-                progressDialog.dismiss();
+            hideWaitDialog();
             handler.obtainMessage(1005).sendToTarget();
         }
     }

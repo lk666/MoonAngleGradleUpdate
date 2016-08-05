@@ -7,8 +7,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.kymjs.kjframe.utils.StringUtils;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,7 +48,7 @@ public class DeliveryApi {
     public static void ssoLogin(String account, String password,
                                 AsyncHttpResponseHandler handler) {
 
-        if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
+        if (StringUtil.isEmpty(account) || StringUtil.isEmpty(password)) {
             return;
         }
 
@@ -108,8 +106,8 @@ public class DeliveryApi {
     public static void updatePassword(String token, String oldPassword,
                                       String newPassword, AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(oldPassword)
-                || StringUtils.isEmpty(newPassword)) {
+        if (null == token || StringUtil.isEmpty(oldPassword)
+                || StringUtil.isEmpty(newPassword)) {
             return;
         }
 
@@ -131,8 +129,8 @@ public class DeliveryApi {
     public static void resetPassword(String mobileNo, String verifyCode,
                                      String newPassword, AsyncHttpResponseHandler handler) {
 
-        if (StringUtils.isEmpty(mobileNo) || StringUtils.isEmpty(verifyCode)
-                || StringUtils.isEmpty(newPassword)) {
+        if (StringUtil.isEmpty(mobileNo) || StringUtil.isEmpty(verifyCode)
+                || StringUtil.isEmpty(newPassword)) {
             return;
         }
 
@@ -153,7 +151,7 @@ public class DeliveryApi {
     public static void getVerifyCode(String mobileNo, String account,
                                      AsyncHttpResponseHandler handler) {
 
-        if (StringUtils.isEmpty(mobileNo) || StringUtils.isEmpty(account)) {
+        if (StringUtil.isEmpty(mobileNo) || StringUtil.isEmpty(account)) {
             return;
         }
 
@@ -354,10 +352,10 @@ public class DeliveryApi {
                                              AsyncHttpResponseHandler handler) {
 
         if (null == token || orderId == null
-                || StringUtils.isEmpty(dispatchId) || StringUtils.isEmpty(type)
-                || StringUtils.isEmpty(type)
-                || StringUtils.isEmpty(orderSource) || StringUtils.isEmpty(msg)
-                || StringUtils.isEmpty(productType) || null == file) {
+                || StringUtil.isEmpty(dispatchId) || StringUtil.isEmpty(type)
+                || StringUtil.isEmpty(type)
+                || StringUtil.isEmpty(orderSource) || StringUtil.isEmpty(msg)
+                || StringUtil.isEmpty(productType) || null == file) {
             return;
         }
 
@@ -448,7 +446,7 @@ public class DeliveryApi {
     public static void saveStorehouse(String token, String dispatchId,
                                       Storehouse storehouse, AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(dispatchId)
+        if (null == token || StringUtil.isEmpty(dispatchId)
                 || null == storehouse) {
             return;
         }
@@ -496,7 +494,7 @@ public class DeliveryApi {
     public static void getOrderInfo(String token, String pickupCode, AsyncHttpResponseHandler
             handler) {
 
-        if (null == token || StringUtils.isEmpty(pickupCode)) {
+        if (null == token || StringUtil.isEmpty(pickupCode)) {
             return;
         }
 
@@ -523,11 +521,11 @@ public class DeliveryApi {
         String pickupCode = result.getPickupCode();
         String mobilePhone = result.getMobilePhone();
 
-		/*if (null == token || StringUtils.isEmpty(orderId) || StringUtil.isEmpty(orderSource)
-                || StringUtils.isEmpty(storehouseCode) || StringUtils.isEmpty(storehouseName)
-				|| StringUtils.isEmpty(storechargeCode) || StringUtils.isEmpty(storechargeName)
-				|| StringUtils.isEmpty(storechargeMobileno) || StringUtils.isEmpty(pickupCode)
-				|| StringUtils.isEmpty(mobilePhone) || StringUtils.isEmpty(signType)) {
+		/*if (null == token || StringUtil.isEmpty(orderId) || StringUtil.isEmpty(orderSource)
+                || StringUtil.isEmpty(storehouseCode) || StringUtil.isEmpty(storehouseName)
+				|| StringUtil.isEmpty(storechargeCode) || StringUtil.isEmpty(storechargeName)
+				|| StringUtil.isEmpty(storechargeMobileno) || StringUtil.isEmpty(pickupCode)
+				|| StringUtil.isEmpty(mobilePhone) || StringUtil.isEmpty(signType)) {
 			return;
 		}*/
 
@@ -580,7 +578,7 @@ public class DeliveryApi {
     public static void getVenueList(String token, String type, String venueCode,
                                     AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(type)) {
+        if (null == token || StringUtil.isEmpty(type)) {
             return;
         }
 
@@ -600,7 +598,7 @@ public class DeliveryApi {
     public static void checkScanCode(String token, String ticketCode, AsyncHttpResponseHandler
             handler) {
 
-        if (null == token || StringUtils.isEmpty(ticketCode)) {
+        if (null == token || StringUtil.isEmpty(ticketCode)) {
             return;
         }
 
@@ -619,7 +617,7 @@ public class DeliveryApi {
     public static void comesInto(String token, String venueCode, String timesCode, String
             ticketCode, AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(ticketCode)) {
+        if (null == token || StringUtil.isEmpty(ticketCode)) {
             return;
         }
 
@@ -673,7 +671,7 @@ public class DeliveryApi {
     /* 返回： ResultDeliverOrderDetailInfo */
     public static void getReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler
             handler) {
-        if (null == token || StringUtils.isEmpty(orderCode)) {
+        if (null == token || StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -712,7 +710,7 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(orderCode)) {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -731,7 +729,7 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(orderCode)) {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -750,7 +748,7 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(orderCode)) {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -923,7 +921,7 @@ public class DeliveryApi {
     public static void queryStockDetail(String token, String storeCode, ProductType productType,
                                         AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(storeCode)) {
+        if (null == token || StringUtil.isEmpty(storeCode)) {
             return;
         }
 
@@ -992,7 +990,7 @@ public class DeliveryApi {
     public static void checkScanCodeCard(String token, String attendanceCode,
                                          AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(attendanceCode)) {
+        if (null == token || StringUtil.isEmpty(attendanceCode)) {
             return;
         }
 
@@ -1011,7 +1009,7 @@ public class DeliveryApi {
     public static void confirmAttendance(String token, PunchCard punchCard, String workTask,
                                          AsyncHttpResponseHandler handler) {
 
-        if (null == token || punchCard == null || StringUtils.isEmpty(workTask)) {
+        if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
             return;
         }
 
@@ -1093,7 +1091,7 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(relativeOrderCode)) {
+        if (StringUtil.isEmpty(relativeOrderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1185,7 +1183,7 @@ public class DeliveryApi {
     public static void getWorkTask(String token, String workTaskType, AsyncHttpResponseHandler
             handler) {
 
-        if (null == token || StringUtils.isEmpty(workTaskType)) {
+        if (null == token || StringUtil.isEmpty(workTaskType)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1202,7 +1200,7 @@ public class DeliveryApi {
     public static void confirmWorkDiary(String token, String diaryContent,
                                         AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(diaryContent)) {
+        if (null == token || StringUtil.isEmpty(diaryContent)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1306,7 +1304,7 @@ public class DeliveryApi {
                                               String outBackup
             , int deliStoreAddrId, List<ProductPreDeliverVo> outOrderDetail,
                                               AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(orderCode)) {
+        if (null == token || StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -1329,7 +1327,7 @@ public class DeliveryApi {
             reStoreAddrId,
                                               List<ProductPreReceiveVo> receiptOrderDetail,
                                               AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(orderCode)) {
+        if (null == token || StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -1397,8 +1395,8 @@ public class DeliveryApi {
 	/*返回：ResultBase*/
     public static void mensendCoupon(String token, String mobile, String activityCode,
                                      List<Coupon> coupons, AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(mobile)
-                || StringUtils.isEmpty(activityCode) || coupons == null) {
+        if (null == token || StringUtil.isEmpty(mobile)
+                || StringUtil.isEmpty(activityCode) || coupons == null) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -1490,7 +1488,7 @@ public class DeliveryApi {
 	/*返回：ResultInfoDetail*/
     public static void getInfoDetail(String token, String infoId, AsyncHttpResponseHandler
             handler) {
-        if (null == token || StringUtils.isEmpty(infoId)) {
+        if (null == token || StringUtil.isEmpty(infoId)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1521,7 +1519,7 @@ public class DeliveryApi {
 	/*返回：ResultPaperDetail*/
     public static void getPaperDetail(String token, String paperId, AsyncHttpResponseHandler
             handler) {
-        if (null == token || StringUtils.isEmpty(paperId)) {
+        if (null == token || StringUtil.isEmpty(paperId)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1556,7 +1554,7 @@ public class DeliveryApi {
 
     public static void collectPaper(String token, String paperId, boolean isCollect,
                                     AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(paperId)) {
+        if (null == token || StringUtil.isEmpty(paperId)) {
             return;
         }
         Map<String, Object> params = new HashMap<>();

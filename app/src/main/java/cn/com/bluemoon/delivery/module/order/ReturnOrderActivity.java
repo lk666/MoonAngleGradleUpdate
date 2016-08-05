@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
@@ -147,7 +148,7 @@ public class ReturnOrderActivity extends Activity implements OnClickListener{
 		}
 		DeliveryApi.returnOrExchangeGoods(token, order.getOrderId(), 
 				order.getDispatchId(), order.getOrderSource(),
-				tagListView.getTagsChecked().get(0).getKey(), PublicUtil.getBytes(bm),
+				tagListView.getTagsChecked().get(0).getKey(), FileUtil.getBytes(bm),
 				content, returnGoodsHandler);	
 	}
 	

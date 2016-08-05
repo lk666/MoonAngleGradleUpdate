@@ -28,6 +28,7 @@ import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
@@ -76,7 +77,7 @@ public class TicketCountActivity extends KJActivity {
 		List<VenueInfo> list = items.getItemList();
 		if(list==null){
 			list = new ArrayList<VenueInfo>();
-			PublicUtil.showToastErrorData();
+			ViewUtil.toastErrorData();
 		}
 		adapter = new TicketCountAdapter(aty,items.getItemList());
 		listView.setAdapter(adapter);

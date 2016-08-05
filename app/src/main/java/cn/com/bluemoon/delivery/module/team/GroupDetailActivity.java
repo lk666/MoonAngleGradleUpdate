@@ -89,8 +89,7 @@ public class GroupDetailActivity extends KJActivity {
         if(getIntent().hasExtra("code")){
             empEdit.setGroupCode(getIntent().getStringExtra("code"));
         }
-        emptyView = PublicUtil.setEmptyView(listviewDetail, getString(R.string.empty_hint,
-                getString(R.string.team_group_detail_title)), new CommonEmptyView.EmptyListener() {
+        emptyView = PublicUtil.setEmptyView(listviewDetail,R.string.team_group_detail_title, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 pullDown = false;

@@ -11,7 +11,7 @@
     <string name="qrcode_btn_click_txt">输入数字码</string>
     <string name="qrcode_code_title_txt">我的二维码</string>
     <string name="qrcode_code_txt">QRCODE</string>
-    <string name="history_no_data">暂无查找历史</string>
+    <string name="empty_hint3">暂无%s数据</string>
 
 
     <string name="required_filed">*</string>

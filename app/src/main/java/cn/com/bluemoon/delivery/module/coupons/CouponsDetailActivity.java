@@ -22,6 +22,7 @@ import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.utils.LibStringUtil;
 
 /**
@@ -57,7 +58,7 @@ public class CouponsDetailActivity extends KJActivity{
             item = (MensendLog)getIntent().getSerializableExtra("item");
         }
         if(item==null){
-            PublicUtil.showToastErrorData();
+            ViewUtil.toastErrorData();
             return;
         }
         txtPushTime.setText(DateUtil.getTime(item.getSendTime(), "yyyy-MM-dd HH:mm"));

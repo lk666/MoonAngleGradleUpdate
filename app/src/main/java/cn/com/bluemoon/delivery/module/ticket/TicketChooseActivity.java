@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -234,7 +235,7 @@ public class TicketChooseActivity extends KJActivity {
 									item.getTimesCode(), result,
 									comesIntoHandler);
 						} else {
-							PublicUtil.showToastErrorData();
+							ViewUtil.toastErrorData();
 							openScan();
 						}
 					}
@@ -280,7 +281,7 @@ public class TicketChooseActivity extends KJActivity {
 			case Constants.REQUEST_SCAN:
 				result = data.getStringExtra(LibConstants.SCAN_RESULT);
 				if (StringUtils.isEmpty(result)) {
-					PublicUtil.showToastErrorData();
+					ViewUtil.toastErrorData();
 					return;
 				}
 				if (progressDialog != null) {

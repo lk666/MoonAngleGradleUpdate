@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -330,7 +331,7 @@ public class MainActivity extends SlidingActivity {
             gridViewAdapter.setList(list);
             gridViewAdapter.notifyDataSetChanged();
         }
-        if (!StringUtil.isEmpty(jumpCode)) {
+        if (!TextUtils.isEmpty(jumpCode)) {
             jump(jumpCode);
         }
 
@@ -581,7 +582,7 @@ public class MainActivity extends SlidingActivity {
                 ResultNewInfo resultInfos = JSON.parseObject(responseString,
                         ResultNewInfo.class);
                 if (resultInfos.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    if (!StringUtil.isEmpty(resultInfos.getMsgContent())) {
+                    if (!TextUtils.isEmpty(resultInfos.getMsgContent())) {
                         txtTips.setVisibility(View.VISIBLE);
                         txtTips.setText(resultInfos.getMsgContent());
                     } else {
@@ -740,7 +741,7 @@ public class MainActivity extends SlidingActivity {
                 intent = new Intent(main, PaperListActivity.class);
                 startActivity(intent);
             } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
-                PublicUtil.showMessageService(main);
+                DialogUtil.showServiceDialog(main);
             } else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode()
             )) {
                 ClothingTabActivity.actionStart(main, ClothingTabActivity

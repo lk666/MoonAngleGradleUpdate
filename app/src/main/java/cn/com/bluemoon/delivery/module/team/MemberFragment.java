@@ -88,8 +88,7 @@ public class MemberFragment extends BackHandledFragment {
         progressDialog.setCancelable(false);
         listview = (PullToRefreshListView) rootView.findViewById(R.id.listview_member);
         popStart = rootView.findViewById(R.id.view_pop_start);
-        emptyView = PublicUtil.setEmptyView(listview, String.format(getString(R.string.empty_hint),
-                getString(R.string.team_my_member_title)), new CommonEmptyView.EmptyListener() {
+        emptyView = PublicUtil.setEmptyView(listview,R.string.team_my_member_title, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 pullDown = false;

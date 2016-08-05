@@ -2,155 +2,89 @@ package cn.com.bluemoon.delivery.module.inventory;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
+import android.text.TextUtils;
 import android.widget.EditText;
-import android.widget.TextView;
-import android.widget.Toast;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.Dict;
-import cn.com.bluemoon.delivery.app.api.model.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultDict;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
+import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.lib.tagview.Tag;
 import cn.com.bluemoon.lib.tagview.TagListView;
 import cn.com.bluemoon.lib.tagview.TagView;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 
-public class OrderDiffReasonActivity extends Activity implements OnClickListener {
-    private String TAG = "OrderDiffReasonActivity";
-    private OrderDiffReasonActivity main;
-    private Button btnSubmit;
-    private EditText edContent;
-    private TagListView tagListView;
-    private TagView tagViewChecked;
-    private Tag tagChecked;
-    private Bitmap bm;
-    private CommonProgressDialog progressDialog;
-    private OrderVo order;
+public class OrderDiffReasonActivity extends BaseActivity {
 
+    public static String KEY_POS = "pos";
+    public static String KEY_DICTID = "dictId";
+    public static String KEY_DICTNAME = "dictName";
+    public static String KEY_DIFFREASONDETAIL = "diffReasonDetail";
+    @Bind(R.id.tag_listview)
+    TagListView tagListview;
+    @Bind(R.id.ed_content)
+    EditText edContent;
     private List<Dict> listDict;
-
     private String dictId;
     private String dictName;
     private String diffReasonDetail;
-    private int pos = 0;
-    private String isNot;
-    private List<Tag> mTags;
+    private int pos;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_order_diff_reason);
-        main = this;
-        initCustomActionBar();
-        ActivityManager.getInstance().pushOneActivity(this);
+    protected int getLayoutId() {
+        return R.layout.activity_order_diff_reason;
+    }
+
+    @Override
+    protected void onBeforeSetContentLayout() {
         listDict = new ArrayList<Dict>();
-
-        pos = getIntent().getIntExtra("pos", 0);
-        if (getIntent().hasExtra("dictId")) {
-            dictId = getIntent().getStringExtra("dictId");
-        }
-        if (getIntent().hasExtra("dictName")) {
-            dictName = getIntent().getStringExtra("dictName");
-        }
-        if (getIntent().hasExtra("dictBackUp")) {
-            diffReasonDetail = getIntent().getStringExtra("dictBackUp");
-        }
-
-        progressDialog = new CommonProgressDialog(this);
-        btnSubmit = (Button) findViewById(R.id.btn_submit);
-        btnSubmit.setOnClickListener(this);
-        edContent = (EditText) findViewById(R.id.ed_content);
-
-        getData();
-        //getDictInfo();
+        pos = getIntent().getIntExtra(KEY_POS, 0);
+        dictId = getIntent().getStringExtra(KEY_DICTID);
+        dictName = getIntent().getStringExtra(KEY_DICTNAME);
+        diffReasonDetail = getIntent().getStringExtra(KEY_DIFFREASONDETAIL);
     }
-
-
-    private void getData() {
-        String token = ClientStateManager.getLoginToken(main);
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
-        DeliveryApi.getDictInfo(token, dictInfoHandler);
-    }
-
 
     @Override
-    public void onClick(View v) {
-        // TODO Auto-generated method stub
+    protected String getTitleString() {
+        return getString(R.string.text_diff_reason_title);
+    }
 
-        switch (v.getId()) {
-            case R.id.btn_submit:
-                String dictId = "";
-                if(tagListView.getTagsChecked().size() <= 0 ){
-                    PublicUtil.showToast(main, getString(R.string.text_diff_reason));
-                    return;
-                }
+    @Override
+    public void initView() {
 
-                Tag tag =  tagListView.getTagsChecked().get(0);
-                dictName = tag.getTitle();
-                dictId = tag.getKey();
+    }
 
-                diffReasonDetail = edContent.getText().toString();
+    @Override
+    public void initData() {
+        showWaitDialog();
+        DeliveryApi.getDictInfo(ClientStateManager.getLoginToken(), getNewHandler(0, ResultDict.class));
+    }
 
-                if ("".equals(dictName) || dictName == null) {
-                    Toast.makeText(OrderDiffReasonActivity.this, getString(R.string.text_diff_reason), Toast.LENGTH_LONG).show();
-                    return;
-                }
-              /*  for (int i = 0; i < listDict.size(); i++) {
-                    if (dictName.equals(listDict.get(i).getDictName())) {
-                        dictId = listDict.get(i).getDictId();
-                    }
-                }*/
-
-                Intent it = new Intent();
-                it.putExtra("dictId", dictId);
-                it.putExtra("dictName", dictName);//差异原因
-                it.putExtra("diffReasonDetail", diffReasonDetail);//差异原因说明
-                it.putExtra("pos", pos);
-
-                System.out.println(dictId+"-"+dictName+"-"+diffReasonDetail);
-                setResult(RESULT_OK, it);
-                main.finish();
-                break;
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        ResultDict resultDict = (ResultDict) result;
+        if (resultDict != null && resultDict.getDictList() != null) {
+            listDict.addAll(resultDict.getDictList());
+            init();
         }
     }
 
-    private void initTagListView() {
+    private void init() {
 
-        tagListView = (TagListView) findViewById(R.id.tag_listview);
-        tagListView.setMode(TagListView.Mode.single);
-        mTags = new ArrayList<Tag>();
+        tagListview.setMode(TagListView.Mode.single);
+        List<Tag> mTags = new ArrayList<Tag>();
         for (int i = 0; i < listDict.size(); i++) {
             Tag tag = new Tag();
             tag.setId(i);
-            if(!StringUtil.isEmpty(dictId) && dictId.equals(listDict.get(i).getDictId()) ){
+            if (!TextUtils.isEmpty(dictId) && dictId.equals(listDict.get(i).getDictId())) {
                 tag.setChecked(true);
             }
             tag.setKey(listDict.get(i).getDictId());
@@ -158,111 +92,44 @@ public class OrderDiffReasonActivity extends Activity implements OnClickListener
             mTags.add(tag);
 
         }
-        tagListView.setTags(mTags);
-        initData();
-    }
-
-
-    private void initData() {
-
-        if (mTags.size() <= 0) {
-            return;
-        }
-        if(StringUtil.isEmpty(dictId)){
-            return;
-        }
-        for (int i = 0; i < listDict.size(); i++) {
-            if (dictId.equals(listDict.get(i).getDictId())) {
-                tagListView.getViewByTag(mTags.get(i)).setBackgroundResource(R.drawable.btn_red_shape_large);
-                ((TagView) tagListView.getViewByTag(mTags.get(i))).setTextColor(getResources().getColor(R.color.white));
-            }
-        }
+        tagListview.setTags(mTags);
         edContent.setText(diffReasonDetail);
     }
 
-
-    private void initCustomActionBar() {
-        new CommonActionBar(getActionBar(), new IActionBarListener() {
-
-            @Override
-            public void onBtnRight(View v) {
-
-            }
-
-            @Override
-            public void onBtnLeft(View v) {
-                OrderDiffReasonActivity.this.finish();
-            }
-
-            @Override
-            public void setTitle(TextView v) {
-                v.setText(getString(R.string.text_diff_reason_title));
-            }
-
-        });
+    public static void actStart(Activity context, int requestCode, int pos, String dictId, String dictName, String diffReasonDetail) {
+        Intent intent = new Intent(context, OrderDiffReasonActivity.class);
+        intent.putExtra(KEY_POS, pos);
+        intent.putExtra(KEY_DICTID, dictId);
+        intent.putExtra(KEY_DICTNAME, dictName);
+        intent.putExtra(KEY_DIFFREASONDETAIL, diffReasonDetail);
+        context.startActivityForResult(intent, requestCode);
     }
 
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED)
+    @OnClick(R.id.btn_submit)
+    public void onClick() {
+        String dictId;
+        if (tagListview.getTagsChecked().size() <= 0) {
+            toast(R.string.text_diff_reason);
             return;
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-
-            }
-        }
-    }
-
-    AsyncHttpResponseHandler dictInfoHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "getDictInfo result = " + responseString);
-            if (progressDialog != null) progressDialog.dismiss();
-            try {
-                ResultDict dictResult = JSON.parseObject(responseString,
-                        ResultDict.class);
-                if (dictResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    if (dictResult != null && dictResult.getDictList() != null) {
-                        listDict.addAll(dictResult.getDictList());
-                        initTagListView();
-                    }
-                } else {
-                    PublicUtil.showErrorMsg(main, dictResult);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
         }
 
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null) progressDialog.dismiss();
-            PublicUtil.showToastServerOvertime();
+        Tag tag = tagListview.getTagsChecked().get(0);
+        dictName = tag.getTitle();
+        dictId = tag.getKey();
+        diffReasonDetail = edContent.getText().toString();
+
+        if (TextUtils.isEmpty(dictName)) {
+            toast(R.string.text_diff_reason);
+            return;
         }
-    };
 
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
+        Intent it = new Intent();
+        it.putExtra(KEY_POS, pos);
+        it.putExtra(KEY_DICTID, dictId);
+        it.putExtra(KEY_DICTNAME, dictName);//差异原因
+        it.putExtra(KEY_DIFFREASONDETAIL, diffReasonDetail);//差异原因说明
+
+        setResult(RESULT_OK, it);
+        finish();
     }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-    }
-
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-    }
-
 }

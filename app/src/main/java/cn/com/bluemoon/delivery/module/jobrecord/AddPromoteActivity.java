@@ -50,6 +50,7 @@ import cn.com.bluemoon.delivery.utils.AnimationUtils;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.TextWatcherUtils;
@@ -284,7 +285,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                                 break;
                             }
                         } else {
-                            DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), PublicUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
+                            DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), FileUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
                             break;
                         }
                     }
@@ -391,7 +392,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     imageInfo.setFileid(Long.valueOf(result.getId()));
                     imgIds.add(imageInfo);
                     if (imgIds.size() < images.size() - 1) {
-                        DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), PublicUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
+                        DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), FileUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
                     } else {
                         setImageInfo();
                         DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken(AddPromoteActivity.this), info, saveHandler);

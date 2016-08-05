@@ -39,6 +39,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
@@ -81,12 +82,11 @@ public class PersonnelAreaActivity extends KJActivity {
             empCode = getIntent().getStringExtra("empCode");
         }
         if(StringUtil.isEmpty(groupCode)||StringUtil.isEmpty(empCode)){
-            PublicUtil.showToastErrorData();
+            ViewUtil.toastErrorData();
             finish();
             return;
         }
-        emptyView = PublicUtil.setEmptyView(listviewArea, getString(R.string.empty_hint,
-                getString(R.string.team_group_detail_member)), new CommonEmptyView.EmptyListener() {
+        emptyView = PublicUtil.setEmptyView(listviewArea, R.string.team_group_detail_member, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 pullDown = false;

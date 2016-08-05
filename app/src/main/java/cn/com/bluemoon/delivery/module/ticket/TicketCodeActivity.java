@@ -32,6 +32,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
@@ -185,7 +186,7 @@ public class TicketCodeActivity extends KJActivity {
 							DeliveryApi.comesInto(token, 
 									item.getVenueCode(),item.getTimesCode(), result, comesIntoHandler);
 						}else{
-							PublicUtil.showToastErrorData();
+							ViewUtil.toastErrorData();
 						}
 					}
 				});

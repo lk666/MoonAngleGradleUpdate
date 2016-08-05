@@ -27,6 +27,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.qrcode.CaptureActivity;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
@@ -52,7 +53,7 @@ public class TicketScanActivity extends CaptureActivity{
 		super.handleDecode(result, barcode);
 		String resultString = result.getText().toString();
 		if (StringUtils.isEmpty(resultString)) {
-			PublicUtil.showToastErrorData();
+			ViewUtil.toastErrorData();
 			return;
 		}
 		String token = ClientStateManager.getLoginToken(main);
@@ -130,7 +131,7 @@ public class TicketScanActivity extends CaptureActivity{
 									item.getTimesCode(), resultCode,
 									comesIntoHandler);
 						} else {
-							PublicUtil.showToastErrorData();
+							ViewUtil.toastErrorData();
 							reStart();
 						}
 					}

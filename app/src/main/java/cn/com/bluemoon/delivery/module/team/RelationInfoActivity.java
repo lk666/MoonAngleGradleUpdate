@@ -37,6 +37,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonClearEditText;
@@ -100,7 +101,7 @@ public class RelationInfoActivity extends KJActivity {
             empEdit = (EmpEdit) getIntent().getSerializableExtra("empEdit");
         }
         if (empEdit == null) {
-            PublicUtil.showToastErrorData();
+            ViewUtil.toastErrorData();
             finish();
             return;
         }
@@ -109,7 +110,7 @@ public class RelationInfoActivity extends KJActivity {
         txtStartDate.setCallBack(callback);
         txtEndDate.setCallBack(callback);
         txtStartDate.updateMinDate(DateUtil.getTimeOffsetMonth());
-        txtPhone = PublicUtil.getPhoneView(aty, txtPhone);
+//        txtPhone = PublicUtil.getPhoneView(aty, txtPhone);
         txtWorkLengh.setCallBack(new CommonEditTextCallBack() {
             @Override
             public void afterTextChanged(Editable s) {

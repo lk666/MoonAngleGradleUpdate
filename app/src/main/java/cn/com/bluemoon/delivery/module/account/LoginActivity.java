@@ -99,7 +99,7 @@ public class LoginActivity extends BaseActivity{
     }
 
     public void toMainActivity() {
-        MainActivity.actStart(this,jumpCode);
+        MainActivity.actStart(this, jumpCode);
         finish();
     }
 
@@ -153,6 +153,12 @@ public class LoginActivity extends BaseActivity{
 
     public static void actStart(Context context) {
         Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
+    }
+
+    public static void actStart(Context context,String jumpCode) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(Constants.KEY_JUMP,jumpCode);
         context.startActivity(intent);
     }
 }

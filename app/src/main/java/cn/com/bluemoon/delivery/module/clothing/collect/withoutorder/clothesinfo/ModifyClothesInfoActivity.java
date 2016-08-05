@@ -42,6 +42,7 @@ import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCod
 import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -591,7 +592,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         showProgressDialog();
         DeliveryApi.uploadClothesImg(ClientStateManager.getLoginToken(ModifyClothesInfoActivity
                         .this),
-                PublicUtil.getBytes(bm), createResponseHandler(new IHttpResponseHandler() {
+                FileUtil.getBytes(bm), createResponseHandler(new IHttpResponseHandler() {
                     @Override
                     public void onResponseSuccess(String responseString) {
                         ClothingPic pic = JSON.parseObject(responseString, ClothingPic.class);

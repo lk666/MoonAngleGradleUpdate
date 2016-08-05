@@ -9,6 +9,7 @@ import java.util.List;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 public class ApiClientHelper {
@@ -31,7 +32,7 @@ public class ApiClientHelper {
 	
 
 	public static synchronized String getParamUrl() {
-		String timeStamp = PublicUtil.getCurrentTimeStamp();
+		String timeStamp = DateUtil.getCurrentTimeStamp();
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		String[] arrays = { Constants.PRIVATE_KEY ,CLIENT, 
 				AppContext.getInstance().getAppId(),FORMAT,timeStamp,
