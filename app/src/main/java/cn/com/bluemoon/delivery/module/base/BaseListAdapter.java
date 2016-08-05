@@ -55,8 +55,8 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
         if (convertView == null) {
             isNew = true;
             convertView = LayoutInflater.from(context).inflate(getLayoutId(), null);
-            mConvertView = convertView;
         }
+        mConvertView = convertView;
 
         setView(position, convertView, parent, isNew);
 
