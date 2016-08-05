@@ -32,7 +32,7 @@
     <!-- main tab -->
     <string name="main_tab_qrcode">我的二维码</string>
     <string name="main_tab_card">打卡</string>
-    <string name="main_empty_menu">暂无菜单数据</string>
+    <string name="main_menu_title">菜单</string>
 
     <!-- BTN-->
     <string name="btn_ok_with_space">确  定</string>

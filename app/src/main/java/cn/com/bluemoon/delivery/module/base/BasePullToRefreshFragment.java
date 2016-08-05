@@ -45,7 +45,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         initHeadView();
 
         ptr = (PullToRefreshBase) getMainView().findViewById(getPtrId());
-        ptr.setMode(getMode());
+        ptr.setMode(getMode()==null?PullToRefreshBase.Mode.DISABLED:getMode());
 
         ptr.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override

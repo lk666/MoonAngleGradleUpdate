@@ -40,6 +40,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -204,7 +205,7 @@ public class GroupDetailActivity extends KJActivity {
                     empEdit.setCommunityCode(result.getCommunityCode());
                     empEdit.setCommunityName(result.getCommunityName());
                     timestamp = result.getTimestamp();
-                    txtTitle.setText(PublicUtil.getStringParams(result.getBpCode(), result.getBpName()));
+                    txtTitle.setText(StringUtil.getStringParams(result.getBpCode(), result.getBpName()));
                     txtTotal.setText(getString(R.string.team_group_detail_total_num,result.getActualTotalPopulation(),result.getPlanTotalPopulation()));
                     txtFull.setText(getString(R.string.team_group_detail_full_num, result.getFullTimeNumber()));
                     txtPart.setText(getString(R.string.team_group_detail_part_num, result.getPartTimeNumber()));
@@ -399,7 +400,7 @@ public class GroupDetailActivity extends KJActivity {
             final TextView txtMember = ViewHolder.get(convertView, R.id.txt_member);
             final TextView txtEdit = ViewHolder.get(convertView, R.id.txt_edit);
             final GroupDetail item = list.get(position);
-            txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
+            txtName.setText(StringUtil.getStringParams(item.getBpCode(), item.getBpName()));
             if(!StringUtils.isEmpty(item.getPosiName())){
                 txtJob.setText(item.getPosiName());
                 LibViewUtil.setViewVisibility(txtJob, View.VISIBLE);
@@ -420,7 +421,7 @@ public class GroupDetailActivity extends KJActivity {
             }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
-            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate()), work));
+            txtMsg.setText(StringUtil.getStringParams(DateUtil.getTime(item.getStartDate()), work));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override

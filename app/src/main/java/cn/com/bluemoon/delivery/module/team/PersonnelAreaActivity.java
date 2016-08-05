@@ -218,7 +218,7 @@ public class PersonnelAreaActivity extends KJActivity {
 
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     timestamp = result.getTimestamp();
-                    txtName.setText(PublicUtil.getStringParams(result.getEmpCode(), result.getEmpName()));
+                    txtName.setText(StringUtil.getStringParams(result.getEmpCode(), result.getEmpName()));
                     txtNum.setText(getString(R.string.team_area_total_num, result.getTotalFamily()));
                     setData(result.getItemList());
                 } else {
@@ -334,11 +334,11 @@ public class PersonnelAreaActivity extends KJActivity {
             TextView txtDate = ViewHolder.get(convertView, R.id.txt_date);
             final TextView txtDelete = ViewHolder.get(convertView, R.id.txt_delete);
             final PersonnelArea item = list.get(position);
-            String name = PublicUtil.getStringParams(item.getBpCode(), item.getBpName());
+            String name = StringUtil.getStringParams(item.getBpCode(), item.getBpName());
             if (!StringUtils.isEmpty(item.getBpCode1())) {
                 layoutArea.setVisibility(View.VISIBLE);
-                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
-                name = PublicUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
+                txtAreaName.setText(StringUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
+                name = StringUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
             } else {
                 layoutArea.setVisibility(View.GONE);
             }

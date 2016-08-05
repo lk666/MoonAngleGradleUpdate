@@ -43,7 +43,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     final public void initView() {
         initHeadView();
         ptr = (PullToRefreshBase) findViewById(getPtrId());
-        ptr.setMode(getMode());
+        ptr.setMode(getMode()==null?PullToRefreshBase.Mode.DISABLED:getMode());
 
         ptr.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override

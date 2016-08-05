@@ -162,7 +162,7 @@ public class MainActivity extends SlidingActivity {
         });
         scrollViewMain = (PullToRefreshListView) findViewById(R.id.scrollView_main);
         scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-        emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_empty_menu),
+        emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_menu_title),
                 new CommonEmptyView.EmptyListener() {
                     @Override
                     public void onRefresh() {

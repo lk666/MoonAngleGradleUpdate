@@ -28,6 +28,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
 
 /**
@@ -52,6 +53,12 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
     protected void onBeforeCreateView() {
         Bundle bundle = getArguments();
         type = (String) bundle.getSerializable(BaseFragment.EXTRA_BUNDLE_DATA);
+    }
+
+    @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+        ptrlv.getRefreshableView().setDivider(null);
+        ptrlv.getRefreshableView().setDividerHeight(0);
     }
 
     @Override

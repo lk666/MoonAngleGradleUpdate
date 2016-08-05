@@ -523,15 +523,6 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     /**
-     * 用“-”符号连接多个字符串，忽略空字符串
-     * @param params
-     * @return
-     */
-    public static String getStringParams(String... params) {
-        return LibStringUtil.getStringParamsByFormat("-", params);
-    }
-
-    /**
      * 将textview设置为蓝色下划线，并添加点击拨打电话功能
      * @param aty
      * @param txtPhone

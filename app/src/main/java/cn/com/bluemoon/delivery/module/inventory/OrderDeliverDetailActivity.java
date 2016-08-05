@@ -289,11 +289,8 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_deliver_address:
-                Intent intent = new Intent(main, OrderSelectDeliveryAddrActivity.class);
-                intent.putExtra("type", InventoryTabActivity.DELIVERY_MANAGEMENT);
-                intent.putExtra("storeCode", storeCode);
-                intent.putExtra("storehouseCode", storehouseCode);
-                main.startActivityForResult(intent, 101);
+                OrderSelectDeliveryAddrActivity.actionStart(main,
+                        InventoryTabActivity.DELIVERY_MANAGEMENT,storeCode,101);
                 break;
             case R.id.rel_deliver_date:
                 String initDateTime = "";//2016-4-2 10:00

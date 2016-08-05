@@ -24,7 +24,6 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 public class CommonSelectActivity extends Activity {
 
-    private String TAG = "CommonSelectActivity";
     private ListView listView;
     private SelectAdapter adapter;
     private String title;

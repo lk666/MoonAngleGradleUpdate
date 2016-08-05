@@ -163,7 +163,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     @Override
     public void initData() {
 
-        adapter = new OrderProductAdapter(this,null);
+        adapter = new OrderProductAdapter(this, null);
         adapter.setList(lists);
         listView.setAdapter(adapter);
         if (TextUtils.isEmpty(orderCode)) {
@@ -175,14 +175,14 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        switch (requestCode){
+        switch (requestCode) {
             case 0:
-                detailInfo = (ResultPreReceiveOrderBean)result;
+                detailInfo = (ResultPreReceiveOrderBean) result;
                 setData(detailInfo);
                 break;
             case 1:
                 PublicUtil.showCustomToast(main, getString(R.string.txt_order_receive_success_tip) +
-                        "\n" + ((ResultDetail)result).getReceiptCode(), Gravity.CENTER_VERTICAL);
+                        "\n" + ((ResultDetail) result).getReceiptCode(), Gravity.CENTER_VERTICAL);
                 handler.obtainMessage(1007).sendToTarget();
                 break;
             case 2:
@@ -192,37 +192,37 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        if(requestCode == 2){
+        if (requestCode == 2) {
             PublicUtil.showToast(main, result.getResponseMsg());
             if (uploadTaskNums >= 1) {
                 failUpload.add(piclist.get(uploadTaskNums - 1).toString());
             }
-        }else{
+        } else {
             super.onErrorResponse(requestCode, result);
         }
     }
 
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
-        if(requestCode == 2){
+        if (requestCode == 2) {
             PublicUtil.showToastServerBusy();
             if (uploadTaskNums >= 1) {
                 failUpload.add(piclist.get(uploadTaskNums - 1).toString());
             }
-        }else{
+        } else {
             super.onSuccessException(requestCode, t);
         }
     }
 
     @Override
     public void onFailureResponse(int requestCode, Throwable t) {
-        if(requestCode == 2){
+        if (requestCode == 2) {
             PublicUtil.showToastServerOvertime();
             if (uploadTaskNums >= 1) {
                 failUpload.add(piclist.get(uploadTaskNums - 1).toString());
             }
-        }else{
-            super.onFailureResponse(requestCode,t);
+        } else {
+            super.onFailureResponse(requestCode, t);
         }
     }
 
@@ -293,11 +293,8 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_deliver_address:
-                Intent intent = new Intent(main, OrderSelectDeliveryAddrActivity.class);
-                intent.putExtra("type", InventoryTabActivity.RECEIVE_MANAGEMENT);
-                intent.putExtra("storeCode", storeCode);
-                intent.putExtra("storehouseCode", storehouseCode);
-                main.startActivityForResult(intent, 101);
+                OrderSelectDeliveryAddrActivity.actionStart(main,
+                        InventoryTabActivity.RECEIVE_MANAGEMENT, storeCode, 101);
                 break;
             case R.id.rel_deliver_date:
                 String initDateTime = "";
@@ -465,7 +462,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         Bitmap bm = ImageUtil.convertToBitmap(path);
         // PublicUtil.getBytes(bm);
         DeliveryApi.uploadTicketPic(token, orderCode, "receipt", LibImageUtil.scaleBitmap(bm, 800),
-                getNewHandler(2,ResultBase.class));
+                getNewHandler(2, ResultBase.class));
     }
 
     private boolean isDeliver() {
@@ -624,8 +621,8 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
 
         txtSource.setText(DateUtil.getTime(result.getOrderDetail().getOutDate()));
 
-        txtFhStore.setText(PublicUtil.getStringParams(result.getOrderDetail().getReStoreCode(),
-                result.getOrderDetail().getReStoreType(),result.getOrderDetail().getReStoreChargeName()));
+        txtFhStore.setText(StringUtil.getStringParams(result.getOrderDetail().getReStoreCode(),
+                result.getOrderDetail().getReStoreType(), result.getOrderDetail().getReStoreChargeName()));
         txtFhAddress.setText(result.getOrderDetail().getReStoreAddrName());
         txtFhPhone.setText(result.getOrderDetail().getDeliveryTel());
         txtFhPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -674,7 +671,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         context.startActivityForResult(intent, 0);
     }
 
-    class OrderProductAdapter extends BaseListAdapter<ProductPreReceiveVo>{
+    class OrderProductAdapter extends BaseListAdapter<ProductPreReceiveVo> {
 
         public OrderProductAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
@@ -688,7 +685,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         @Override
         protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
             final ProductPreReceiveVo info = list.get(position);
-            if(info== null) return;
+            if (info == null) return;
 
             TextView txtOrderNumber = getViewById(R.id.txt_order_number);
             TextView txtBoxRuleNum = getViewById(R.id.txt_box_rule_num);

@@ -23,6 +23,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.ui.DateTextView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class ChooseDateWindow extends PopupWindow {
 
@@ -43,7 +44,7 @@ public class ChooseDateWindow extends PopupWindow {
 		this.listener = listener;
 		this.bpCode = bpCode;
 		this.communityCode = communityCode;
-		init(PublicUtil.getStringParams(bpCode,bpName));
+		init(StringUtil.getStringParams(bpCode, bpName));
 	}
 
 	public ChooseDateWindow(Context context,ChooseDateListener listener) {
@@ -117,7 +118,7 @@ public class ChooseDateWindow extends PopupWindow {
 	public void setData(String bpCode,String bpName,String communityCode){
 		this.bpCode = bpCode;
 		this.communityCode = communityCode;
-		txtContent.setText(PublicUtil.getStringParams(bpCode,bpName));
+		txtContent.setText(StringUtil.getStringParams(bpCode,bpName));
 	}
 
 	public void setMinDate(long minDate) {

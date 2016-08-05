@@ -39,6 +39,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -439,7 +440,7 @@ public class MemberFragment extends BackHandledFragment {
             final TextView txtUnlock = ViewHolder.get(convertView, R.id.txt_unlock);
             final TextView txtEdit = ViewHolder.get(convertView, R.id.txt_edit);
             final GroupDetail item = list.get(position);
-            txtName.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
+            txtName.setText(StringUtil.getStringParams(item.getBpCode(), item.getBpName()));
             txtPhone.setText(item.getMobileNo());
             String work = "s";
             if(Constants.WORKTYPE_PART.equals(item.getWorkType())){
@@ -450,8 +451,8 @@ public class MemberFragment extends BackHandledFragment {
             }else if(Constants.WORKTYPE_FULL.equals(item.getWorkType())){
                 work = getString(R.string.team_work_full);
             }
-            txtMsg.setText(PublicUtil.getStringParams(DateUtil.getTime(item.getStartDate()), work));
-            txtCommunity.setText(PublicUtil.getStringParams(item.getCommunityCode(), item.getCommunityName()));
+            txtMsg.setText(StringUtil.getStringParams(DateUtil.getTime(item.getStartDate()), work));
+            txtCommunity.setText(StringUtil.getStringParams(item.getCommunityCode(), item.getCommunityName()));
 
             View.OnClickListener onClickListener = new View.OnClickListener() {
                 @Override

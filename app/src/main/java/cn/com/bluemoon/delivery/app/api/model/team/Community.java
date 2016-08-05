@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.app.api.model.team;
 import java.io.Serializable;
 
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.view.selectordialog.ISecectedItem;
 
 /**
@@ -30,6 +31,6 @@ public class Community implements Serializable,ISecectedItem{
 
     @Override
     public String getShowText() {
-        return PublicUtil.getStringParams(bpCode,bpName);
+        return StringUtil.getStringParams(bpCode, bpName);
     }
 }

@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -280,7 +281,7 @@ public class GroupFragment extends Fragment {
             TextView txtName = ViewHolder.get(convertView, R.id.txt_name);
             TextView txtNum = ViewHolder.get(convertView, R.id.txt_num);
             final TeamGroup item = list.get(position);
-            txtName.setText(PublicUtil.getStringParams(item.getBpCode(),item.getBpName(),item.getChargeName()));
+            txtName.setText(StringUtil.getStringParams(item.getBpCode(), item.getBpName(), item.getChargeName()));
             txtNum.setText(String.format(getString(R.string.team_group_membernum),
                     item.getActualPopulation(), item.getPlanPopulation()));
             int index = position % 2;

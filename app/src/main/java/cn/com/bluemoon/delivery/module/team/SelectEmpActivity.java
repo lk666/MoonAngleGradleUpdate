@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
@@ -41,7 +42,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class SelectEmpActivity extends Activity implements CommonSearchView.SearchViewListener{
+public class SelectEmpActivity extends Activity implements CommonSearchView.SearchViewListener {
 
     private String TAG = "SelectEmpActivity";
     private SelectEmpActivity aty;
@@ -69,7 +70,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
                 getData();
             }
         });
-        LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
+        LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         searchView = (CommonSearchView) findViewById(R.id.searchview_select_member);
         searchView.setSearchViewListener(this);
         searchView.setSearchEmpty(false);
@@ -101,7 +102,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
             return;
         }
         if (progressDialog != null) progressDialog.show();
-        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), searchView.getText(),Constants.TYPE_INPUT, getEmpListHandler);
+        DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), searchView.getText(), Constants.TYPE_INPUT, getEmpListHandler);
     }
 
     private void setData(List<Emp> list) {
@@ -238,7 +239,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
             final TextView txtName = ViewHolder.get(convertView, R.id.txt_name);
             final TextView txtContent = ViewHolder.get(convertView, R.id.txt_content);
             final Emp item = list.get(position);
-            txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
+            txtName.setText(StringUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
             if (StringUtils.isEmpty(item.getBpCode())) {
                 txtName.setTextColor(getResources().getColor(R.color.text_black));
                 txtContent.setVisibility(View.GONE);
@@ -250,7 +251,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
                 txtContent.setVisibility(View.VISIBLE);
                 checkBox.setButtonDrawable(R.mipmap.checkbox_disable);
                 convertView.setBackgroundColor(getResources().getColor(R.color.view_bg));
-                txtContent.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
+                txtContent.setText(StringUtil.getStringParams(item.getBpCode(), item.getBpName()));
             }
             if (item.isCheck()) {
                 checkBox.setChecked(true);

@@ -6,8 +6,6 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-
 import org.kymjs.kjframe.utils.StringUtils;
 
 import butterknife.Bind;
@@ -21,6 +19,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 public class RelationShipDetailActivity extends BaseActivity {
@@ -68,7 +67,7 @@ public class RelationShipDetailActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        setData(((ResultRelationDetail)result).getRelationDetail());
+        setData(((ResultRelationDetail) result).getRelationDetail());
     }
 
     @Override
@@ -81,19 +80,19 @@ public class RelationShipDetailActivity extends BaseActivity {
         String bpCode = getIntent().getStringExtra("bpCode");
         String empCode = getIntent().getStringExtra("empCode");
         showWaitDialog();
-        DeliveryApi.getRelationShipDetail(bpCode, empCode, ClientStateManager.getLoginToken(),getNewHandler(0, ResultRelationDetail.class));
+        DeliveryApi.getRelationShipDetail(bpCode, empCode, ClientStateManager.getLoginToken(), getNewHandler(0, ResultRelationDetail.class));
     }
 
-    public static void actionStart(Context context,String bpCode,String empCode){
+    public static void actionStart(Context context, String bpCode, String empCode) {
         Intent intent = new Intent();
-        intent.setClass(context,RelationShipDetailActivity.class);
+        intent.setClass(context, RelationShipDetailActivity.class);
         intent.putExtra("bpCode", bpCode);
-        intent.putExtra("empCode",empCode);
+        intent.putExtra("empCode", empCode);
         context.startActivity(intent);
     }
 
     private void setData(RelationDetail item) {
-        txtName.setText(PublicUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
+        txtName.setText(StringUtil.getStringParams(item.getEmpCode(), item.getEmpName()));
         txtPhone.setText(item.getMobileNo());
         if (Constants.RELTYPE_COMMUNITY.equals(item.getRelType())) {
             txtType.setText(getString(R.string.team_community));
@@ -102,12 +101,12 @@ public class RelationShipDetailActivity extends BaseActivity {
             line2.setVisibility(View.VISIBLE);
             txtService.setVisibility(View.VISIBLE);
             if (StringUtils.isEmpty(item.getChargeName())) {
-                txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName()));
+                txtService.setText(StringUtil.getStringParams(item.getBpCode(), item.getBpName()));
             } else {
-                txtService.setText(PublicUtil.getStringParams(item.getBpCode(), item.getBpName(), item.getChargeName()));
+                txtService.setText(StringUtil.getStringParams(item.getBpCode(), item.getBpName(), item.getChargeName()));
             }
         }
-        txtCommunity.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
+        txtCommunity.setText(StringUtil.getStringParams(item.getBpCode1(), item.getBpName1()));
 
         if (Constants.WORKTYPE_FULL.equals(item.getWorkType())) {
             LibViewUtil.setViewVisibility(layoutWorkType, View.VISIBLE);

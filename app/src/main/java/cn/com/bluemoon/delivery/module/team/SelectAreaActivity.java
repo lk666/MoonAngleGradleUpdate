@@ -39,6 +39,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -47,7 +48,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
-public class SelectAreaActivity extends Activity implements CommonSearchView.SearchViewListener{
+public class SelectAreaActivity extends Activity implements CommonSearchView.SearchViewListener {
 
     private String TAG = "SelectAreaActivity";
     private SelectAreaActivity aty;
@@ -63,7 +64,7 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
     private List<String> listSelected;
     private List<ServiceArea> items;
     private int pageNext;
-    private int pageMax=1;
+    private int pageMax = 1;
     private boolean pullUp;
     private boolean pullDown;
     private String bpCode;
@@ -206,7 +207,7 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
         if (items == null) {
             items = new ArrayList<>();
         }
-        if (pullUp && (pageNext>=pageMax||list == null || list.size() == 0)) {
+        if (pullUp && (pageNext >= pageMax || list == null || list.size() == 0)) {
             PublicUtil.showToast(R.string.card_no_list_data);
             return;
         }
@@ -279,8 +280,8 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
                 ResultServiceAreaList result = JSON.parseObject(responseString, ResultServiceAreaList.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     setData(result.getItemList());
-                    pageMax = result.getTotal()/ AppContext.PAGE_SIZE;
-                    if(result.getTotal()% AppContext.PAGE_SIZE>0){
+                    pageMax = result.getTotal() / AppContext.PAGE_SIZE;
+                    if (result.getTotal() % AppContext.PAGE_SIZE > 0) {
                         pageMax++;
                     }
                 } else {
@@ -421,11 +422,11 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
             TextView txtAreaName = ViewHolder.get(convertView, R.id.txt_area_name);
             TextView txtAddress = ViewHolder.get(convertView, R.id.txt_address);
             final ServiceArea item = list.get(position);
-            String name = PublicUtil.getStringParams(item.getBpCode(), item.getBpName());
+            String name = StringUtil.getStringParams(item.getBpCode(), item.getBpName());
             if (!StringUtils.isEmpty(item.getBpCode1())) {
                 layoutArea.setVisibility(View.VISIBLE);
-                txtAreaName.setText(PublicUtil.getStringParams(item.getBpCode1(), item.getBpName()));
-                name = PublicUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
+                txtAreaName.setText(StringUtil.getStringParams(item.getBpCode1(), item.getBpName()));
+                name = StringUtil.getStringParams(name, item.getYuanGarden(), item.getBalcony());
             } else {
                 layoutArea.setVisibility(View.GONE);
             }
