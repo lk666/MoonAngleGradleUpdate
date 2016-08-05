@@ -777,7 +777,7 @@ public class DeliveryApi {
         params.put("startDate", startDate);
         params.put("endDate", endDate);
 
-        postRequest(params, "bluemoon-control/out/getOutOrders%", handler);
+        postRequest(params, "bluemoon-control/out/getOutOrders%s", handler);
     }
 
 
