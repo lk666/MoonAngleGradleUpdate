@@ -27,16 +27,24 @@
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
+        android:text="日程"/>
+=======
         android:text="日程"
         android:textColor="#ffffff"
         android:textSize="16sp"/>
+>>>>>>> d6c6e72ba7709fb4bdbe1ce55e8b07bd41bdb934
 
     <RadioButton
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+<<<<<<< HEAD
+        android:text="会议"/>
+=======
         android:text="会议"
         android:textColor="#ffffff"
         android:textSize="16sp"/>
+>>>>>>> d6c6e72ba7709fb4bdbe1ce55e8b07bd41bdb934
 
 </RadioGroup>
 

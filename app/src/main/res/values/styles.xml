@@ -323,4 +323,9 @@
         <item name="android:textColor">#323232</item>
     </style>
 
+    <!--普通白色15标题字体-->
+    <style name="txt_title_white_15" parent="txt_title_13">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
 </resources>
