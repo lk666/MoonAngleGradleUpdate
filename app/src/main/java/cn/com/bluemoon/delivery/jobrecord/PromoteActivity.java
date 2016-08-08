@@ -9,7 +9,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -20,19 +19,14 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
-import cn.com.bluemoon.delivery.app.api.model.card.Workplace;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
@@ -44,13 +38,14 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
 /**
  * Created by LIANGJIANGLI on 2016/6/22.
  */
-public class PromoteActivity extends Activity{
+public class PromoteActivity extends Activity implements CommonSearchView.SearchViewListener{
 
     private String TAG = "PromoteActivity";
     private CommonProgressDialog progressDialog;
@@ -72,24 +67,31 @@ public class PromoteActivity extends Activity{
         listview = (PullToRefreshListView) findViewById(R.id.listview_promote);
         adapter = new PromoteAdapter(this);
         listview.setAdapter(adapter);
-        searchView = (CommonSearchView) findViewById(R.id.search_view);
-        progressDialog = new CommonProgressDialog(this);
-        searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.PROMOTE_KEY));
-        searchView.hideHistoryView();
-        searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
-            @Override
-            public void onSearch(CommonSearchView view,String str) {
-                searchKey = str;
-                searchView.hideHistoryView();
-                DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
-            }
+        PublicUtil.setEmptyView(listview, null, new CommonEmptyView.EmptyListener() {
 
+//            @Override
+//            public void onSearch(CommonSearchView view,String str) {
+//                searchKey = str;
+//                searchView.hideHistoryView();
+//                DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
+//            }
+//
+//            @Override
+//            public void onCancel(CommonSearchView view) {
+//                searchView.hideHistoryView();
+//                searchKey = "";
+//            }
             @Override
-            public void onCancel(CommonSearchView view) {
-                searchView.hideHistoryView();
-                searchKey = "";
+            public void onRefresh() {
+                isPullDown = false;
+                isPullUp = false;
+                getList();
             }
         });
+        searchView = (CommonSearchView) findViewById(R.id.search_view);
+        progressDialog = new CommonProgressDialog(this);
+        searchView.setSearchViewListener(this);
+        searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.PROMOTE_KEY));
 
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -181,6 +183,19 @@ public class PromoteActivity extends Activity{
             PublicUtil.showToastServerOvertime();
         }
     };
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+		isPullDown = false;
+        isPullUp = false;
+        searchKey = str;
+        DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+        searchKey = "";
+    }
 
     class PromoteAdapter extends BaseAdapter {
 
@@ -303,6 +318,7 @@ public class PromoteActivity extends Activity{
                         item.setSiteTypeName(getString(R.string.add_promote_outdoor));
                     }
                     item.setUseArea(info.getUseArea());
+                    item.setBpName(info.getBpName());
                     items.set(index, item);
                     adapter.notifyDataSetChanged();
                 }

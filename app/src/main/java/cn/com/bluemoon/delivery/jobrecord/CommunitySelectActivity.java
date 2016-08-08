@@ -36,13 +36,14 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
 /**
  * Created by LIANGJIANGLI on 2016/7/1.
  */
-public class CommunitySelectActivity extends Activity{
+public class CommunitySelectActivity extends Activity implements CommonSearchView.SearchViewListener{
 
     private String TAG = "CommunitySelectActivity";
     private CommonProgressDialog progressDialog;
@@ -64,6 +65,14 @@ public class CommunitySelectActivity extends Activity{
         listview = (PullToRefreshListView) findViewById(R.id.listview_community);
         adapter = new CommunityAdapter(this);
         listview.setAdapter(adapter);
+        PublicUtil.setEmptyView(listview, null, new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                isPullDown = false;
+                isPullUp = false;
+                getList();
+            }
+        });
         searchView = (CommonSearchView) findViewById(R.id.search_view);
         Button btnOk = (Button) findViewById(R.id.btn_ok);
         progressDialog = new CommonProgressDialog(this);
@@ -111,6 +120,7 @@ public class CommunitySelectActivity extends Activity{
             }
         });
 
+        searchView.setSearchViewListener(this);
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -211,6 +221,19 @@ public class CommunitySelectActivity extends Activity{
             PublicUtil.showToastServerOvertime();
         }
     };
+
+    @Override
+    public void onSearch(CommonSearchView view, String str) {
+		isPullDown = false;
+        isPullUp = false;
+        searchKey = str;
+        DeliveryApi.getBpList(ClientStateManager.getLoginToken(CommunitySelectActivity.this), searchKey, 0, getBpListHandler);
+    }
+
+    @Override
+    public void onCancel(CommonSearchView view) {
+        searchKey = "";
+    }
 
     class CommunityAdapter extends BaseAdapter {
 

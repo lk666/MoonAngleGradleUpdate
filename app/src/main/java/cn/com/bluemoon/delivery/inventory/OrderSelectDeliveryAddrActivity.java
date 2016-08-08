@@ -24,7 +24,6 @@ import android.widget.CheckBox;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -48,7 +47,6 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class OrderSelectDeliveryAddrActivity extends Activity implements OnClickListener {

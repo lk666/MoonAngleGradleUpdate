@@ -111,10 +111,12 @@
             <View style="@style/line_solid_deep_style" />
 
             <RelativeLayout
+                android:id="@+id/layout_worktype"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:background="#fefefe"
+                android:visibility="gone"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
                 android:paddingTop="10dp">
@@ -178,7 +180,10 @@
             </RelativeLayout>
 
 
-            <View style="@style/line_solid_deep_style" />
+            <View
+                android:id="@+id/line"
+                style="@style/line_solid_deep_style"
+                android:visibility="gone"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"

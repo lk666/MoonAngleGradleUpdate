@@ -6,9 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -17,22 +15,12 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
-import org.kymjs.kjframe.utils.StringUtils;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.ResultVenueInfo;
-import cn.com.bluemoon.delivery.app.api.model.VenueInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class CommonSelectActivity extends Activity {
 
@@ -52,7 +40,7 @@ public class CommonSelectActivity extends Activity {
         initCustomActionBar();
         setContentView(R.layout.activity_ticket_count);
         listView = (ListView) findViewById(R.id.listView_ticket);
-        PublicUtil.setEmptyView(listView,String.format(getString(R.string.empty_hint),title));
+        PublicUtil.setEmptyView(listView,String.format(getString(R.string.empty_hint),title),null);
         if (list == null) {
             return;
         }

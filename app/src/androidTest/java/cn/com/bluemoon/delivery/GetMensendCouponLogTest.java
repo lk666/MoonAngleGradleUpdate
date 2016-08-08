@@ -17,7 +17,6 @@ import java.util.concurrent.TimeUnit;
 
 import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.app.api.model.coupon.ResultMensendLog;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 

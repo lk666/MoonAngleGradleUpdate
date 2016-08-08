@@ -1,10 +1,6 @@
 package cn.com.bluemoon.delivery.extract;
 
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -19,6 +15,16 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.umeng.analytics.MobclickAgent;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -32,11 +38,6 @@ import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.ClearEditText;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
 
 public class ScanFragment extends Fragment implements OnClickListener {
 	private String TAG = "ScanFragment";

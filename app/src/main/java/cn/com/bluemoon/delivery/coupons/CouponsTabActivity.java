@@ -15,9 +15,6 @@ import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.card.PunchCardFragment;
-import cn.com.bluemoon.delivery.card.PunchCardGetOffWordFragment;
-import cn.com.bluemoon.delivery.entity.CardTabState;
 import cn.com.bluemoon.delivery.entity.CouponsTabState;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 

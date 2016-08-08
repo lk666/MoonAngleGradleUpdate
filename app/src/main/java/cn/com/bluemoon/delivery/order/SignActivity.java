@@ -9,18 +9,23 @@
 package cn.com.bluemoon.delivery.order;
 
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
+
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.umeng.analytics.MobclickAgent;
+
+import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -34,11 +39,6 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.view.ClearEditText;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
 
 public class SignActivity extends Activity implements OnClickListener{
 	private String TAG = "SignActivity";

@@ -35,12 +35,12 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.address.SelectAddressByDepthActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultQueryActivityLimitNum;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCreateCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
+import cn.com.bluemoon.delivery.common.SelectAddressByDepthActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -379,8 +379,9 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         tvPhone.setText(etPhone.getText().toString());
         tvAddress.setText((new StrBuilder(province)).append(city).append(county).append(street)
                 .append(village).append(address).toString());
-        tvActualReceive.setText(getString(R.string.create_collect_dialog_actual_receive) +
-                clothesInfo.size() + getString(R.string.unit_clothes));
+        tvActualReceive.setText(
+                String.format(getString(R.string.create_collect_dialog_actual_receive_num_unit),
+                        clothesInfo.size()));
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -441,7 +442,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                             createResponseHandler(new IHttpResponseHandler() {
                                 @Override
                                 public void onResponseSuccess(String responseString) {
-                                    // TODO: lk 2016/6/30 待测试
                                     // 完成收衣返回成功，弹出显示信息窗口，服务器未返回收衣单号
                                     ResultRegisterCreateCollectInfo info = JSON.parseObject
                                             (responseString,
@@ -518,7 +518,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             // 选择省市
             case REQUEST_CODE_SELECT_PROVINCE_CITY_COUNTRY:
                 if (resultCode == RESULT_OK) {
-                    List<Area> regions = (List<Area>) data.getSerializableExtra("subRegionList");
+                    List<Area> regions = (List<Area>) data.getSerializableExtra(
+                            SelectAddressByDepthActivity.EXTRA_AREA);
                     String tmpProvince = regions.get(0).getDname();
                     String tmpCity = regions.get(1).getDname();
                     String tmpCountry = regions.get(2).getDname();
@@ -530,7 +531,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         county = tmpCountry;
                         countyArea = regions.get(2);
 
-                        tvProvinceCityCountry.setText(province + city + county);
+                        tvProvinceCityCountry.setText(new StrBuilder(province).append(city)
+                                .append(county).toString());
                         vDivStreetVillage.setVisibility(View.VISIBLE);
                         llStreetVillage.setVisibility(View.VISIBLE);
                         tvStreetVillage.setText("");
@@ -543,7 +545,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             // 选择乡镇/街道 + 村/社区
             case REQUEST_CODE_SELECT_STREET_VILLAGE:
                 if (resultCode == RESULT_OK) {
-                    List<Area> regions = (List<Area>) data.getSerializableExtra("subRegionList");
+                    List<Area> regions = (List<Area>) data.getSerializableExtra
+                            (SelectAddressByDepthActivity.EXTRA_AREA);
                     String tmpStreet = regions.get(0).getDname();
                     String tmpVillage = regions.get(1).getDname();
 
@@ -551,7 +554,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         street = tmpStreet;
                         village = tmpVillage;
 
-                        tvStreetVillage.setText(street + village);
+                        tvStreetVillage.setText(new StrBuilder(street).append(village)
+                                .toString());
                     }
                 }
                 break;
@@ -635,8 +639,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      */
     private void setActualReceive() {
         int size = clothesInfo.size();
-        tvActualCollectCount.setText(getString(R.string.create_collect_dialog_actual_receive) +
-                size);
+        tvActualCollectCount.setText(
+                String.format(getString(R.string.create_collect_dialog_actual_receive_num), size));
 
         if (limitNum > size) {
             btnAdd.setEnabled(true);
@@ -653,11 +657,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
 
     /**
      * 处理扫码、手动输入数字码返回
-     *
-     * @param code
      */
     private void handleScaneCodeBack(String code) {
-        // TODO: lk 2016/7/2 应加个接口验证收衣单条码合法性
         tvCollectBrcode.setText(code);
     }
 
@@ -729,7 +730,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-             ontActionBarBtnLeftClick();
+            ontActionBarBtnLeftClick();
             return true;
         }
         return false;

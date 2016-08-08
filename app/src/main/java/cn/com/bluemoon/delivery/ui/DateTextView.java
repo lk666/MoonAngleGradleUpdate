@@ -6,115 +6,136 @@ import android.view.View;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Locale;
+
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 
 /**
  * Created by bm on 2016/7/4.
  */
-public class DateTextView extends TextView{
+public class DateTextView extends TextView {
 
     private CommonDatePickerDialog datePicker;
     private DateTextViewCallBack callBack;
-    private long minDate;
-    private long maxDate;
+    private Calendar calendar;
+    private String format = "yyyy-MM-dd";
 
     public DateTextView(Context context) {
         super(context);
         init();
     }
+
     public DateTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         init();
     }
+
     public DateTextView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init();
     }
 
-    private void init(){
-        setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (callBack == null || !callBack.cancelClick(v)) {
-                    showDatePickerDialog();
-                }
-            }
-        });
+    private void init() {
+        updateDatePicker();
+        setOnClickListener(listener);
     }
 
-    public void setMinDate(long minDate){
-        this.minDate = minDate;
+    OnClickListener listener = new OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            showDatePickerDialog();
+        }
+    };
+
+    public void setDate(int year, int month, int day) {
+        if (calendar == null || year <= 0 || month < 0 || day <= 0) {
+            calendar = Calendar.getInstance(Locale.CHINA);
+        } else {
+            calendar.set(year, month, day);
+        }
     }
 
-    public void setMaxDate(long maxDate){
-        this.maxDate = maxDate;
+    public void setDate(Date date) {
+        if (calendar == null) {
+            calendar = Calendar.getInstance(Locale.CHINA);
+        }
+        calendar.setTime(date);
     }
 
-    public void setCallBack(DateTextViewCallBack callBack){
+    private void updateDatePicker(){
+        setDate(0,-1,0);
+        datePicker = new CommonDatePickerDialog(getContext(), mDateSetListener,
+                calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                calendar.get(Calendar.DAY_OF_MONTH));
+    }
+
+    public long getDate(){
+        return calendar.getTimeInMillis();
+    }
+
+    public void updateMinDate(long minDate) {
+        if(datePicker.getDatePicker().getMinDate()==0){
+            datePicker.getDatePicker().setMinDate(minDate);
+        }else if(minDate!=datePicker.getDatePicker().getMinDate()){
+            updateDatePicker();
+            datePicker.getDatePicker().setMinDate(minDate);
+        }
+    }
+
+    public void updateMaxDate(long maxDate) {
+        if(datePicker.getDatePicker().getMinDate()== 0) {
+            datePicker.getDatePicker().setMaxDate(maxDate);
+        }else if(maxDate!=datePicker.getDatePicker().getMaxDate()){
+            updateDatePicker();
+            datePicker.getDatePicker().setMaxDate(maxDate);
+        }
+    }
+
+    public void setFormat(String format) {
+        this.format = format;
+    }
+
+    public void setCallBack(DateTextViewCallBack callBack) {
         this.callBack = callBack;
     }
 
+    public CommonDatePickerDialog getDatePicker(){
+        return datePicker;
+    }
+
     public void showDatePickerDialog() {
-        String date = getText().toString();
-        if(date.split("-").length!=3||(Integer.parseInt(date.substring(0,4))>2050)){
-            date = DateUtil.getCurDate();
+        Date date = DateUtil.strToDate(format, getText().toString());
+        setDate(date);
+        if (calendar.get(Calendar.YEAR) > 2050) {
+            calendar = Calendar.getInstance(Locale.CHINA);
         }
-        String[] strs = date.split("-");
-        if(strs.length!=3){
-            return;
+        if(!datePicker.isShowing()){
+            datePicker.updateDate(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                    calendar.get(Calendar.DAY_OF_MONTH));
         }
-        if (datePicker == null) {
-            datePicker = new CommonDatePickerDialog(getContext(), mDateSetListener,
-                    Integer.valueOf(strs[0]), Integer.valueOf(strs[1])-1,
-                    Integer.valueOf(strs[2]));
-            if(minDate>0){
-                datePicker.getDatePicker().setMinDate(minDate);
-            }
-            if(maxDate>0){
-                datePicker.getDatePicker().setMaxDate(maxDate);
-            }
-            datePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-            datePicker.show();
-        } else {
-            if (!datePicker.isShowing()) {
-                datePicker.updateDate(Integer.valueOf(strs[0]), Integer.valueOf(strs[1])-1, Integer.valueOf(strs[2]));
-                datePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
-                datePicker.show();
-            }
-        }
+        datePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+        datePicker.show();
+
     }
 
     CommonDatePickerDialog.OnDateSetListener mDateSetListener = new CommonDatePickerDialog.OnDateSetListener() {
 
 
-
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
-            String mYear;
-            String mMonth;
-            String mDay;
-            mYear = String.valueOf(year);
-            if (monthOfYear <= 8) {
-                mMonth = "0" + (monthOfYear + 1);
-            } else {
-                mMonth = String.valueOf(monthOfYear + 1);
-            }
-            if (dayOfMonth <= 9) {
-                mDay = String.valueOf("0" + dayOfMonth);
-            } else {
-                mDay = String.valueOf(dayOfMonth);
-            }
-            setText(mYear+"-"+mMonth+"-"+mDay);
-            if(callBack!=null){
-                callBack.onDate(DateTextView.this,DateUtil.strToDate("yyyy-MM-dd",getText().toString()).getTime());
+            setDate(year, monthOfYear, dayOfMonth);
+            setText(DateUtil.getTime(calendar.getTimeInMillis(), format));
+            if (callBack != null) {
+                callBack.onDate(DateTextView.this, calendar.getTimeInMillis());
             }
         }
     };
 
-    public interface DateTextViewCallBack{
-        void onDate(View view,long date);
-        boolean cancelClick(View view);
+    public interface DateTextViewCallBack {
+        void onDate(View view, long date);
     }
 
 }

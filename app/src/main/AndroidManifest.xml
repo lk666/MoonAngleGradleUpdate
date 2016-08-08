@@ -44,6 +44,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".sz.meeting.SchedualActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+
         </activity>
         <activity
             android:name=".MainActivity"
@@ -181,11 +188,11 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".address.SelectAddressActivity"
+            android:name=".common.SelectAddressActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
-            android:name=".address.SelectAddressByDepthActivity"
+            android:name=".common.SelectAddressByDepthActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
@@ -214,8 +221,9 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".web.WebViewActivity"
+            android:name=".common.WebViewActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".coupons.CouponsTabActivity"
@@ -288,7 +296,7 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.ClothingBookInActivity"
+            android:name=".module.clothing.collect.withorder.ClothingBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
@@ -377,6 +385,7 @@
         <activity
             android:name=".team.SelectAreaActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".team.CommonSelectActivity"
@@ -384,10 +393,14 @@
             android:theme="@style/App.Base.Theme" />
 
         <activity
-            android:name=".team.SearchActivity"
+            android:name=".team.SearchGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
+        <activity
+            android:name=".ui.ShowMultipleImageView"
+            android:screenOrientation="portrait"
+            android:theme="@style/MyDialogStyleTop"/>
 
         <service android:name=".card.LocationSvc" />
 

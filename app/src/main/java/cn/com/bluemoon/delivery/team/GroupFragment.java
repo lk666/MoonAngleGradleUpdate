@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.team;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -31,7 +30,6 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.team.ResultGroupList;
 import cn.com.bluemoon.delivery.app.api.model.team.TeamGroup;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.card.CardUtils;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -39,9 +37,9 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-import cn.com.bluemoon.lib.view.CommonSearchView;
 
 public class GroupFragment extends Fragment {
 
@@ -54,11 +52,11 @@ public class GroupFragment extends Fragment {
     private GroupAdapter groupAdapter;
     private CommonProgressDialog progressDialog;
     private View rootView;
-    private long timestamp = 0;
+    private long timestamp;
     private boolean pullUp;
     private boolean pullDown;
     private List<TeamGroup> items;
-    private String content = "";
+    private CommonEmptyView emptyView;
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -79,7 +77,7 @@ public class GroupFragment extends Fragment {
         txtMembernum = (TextView) rootView.findViewById(R.id.txt_membernum);
         listviewGroup = (PullToRefreshListView) rootView.findViewById(R.id.listview_group);
         layoutTitle = (LinearLayout) rootView.findViewById(R.id.layout_title);
-        PublicUtil.setEmptyView(listviewGroup, String.format(getString(R.string.empty_hint),
+        emptyView = PublicUtil.setEmptyView(listviewGroup, String.format(getString(R.string.empty_hint),
                 getString(R.string.team_group_title)), new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
@@ -90,6 +88,7 @@ public class GroupFragment extends Fragment {
         });
 
         progressDialog = new CommonProgressDialog(mContext);
+        progressDialog.setCancelable(false);
 
         listviewGroup.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -120,7 +119,7 @@ public class GroupFragment extends Fragment {
         if (!pullUp && !pullDown && progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getGroupList(ClientStateManager.getLoginToken(mContext), content, AppContext.PAGE_SIZE, timestamp, groupListHandler);
+        DeliveryApi.getGroupList(ClientStateManager.getLoginToken(mContext), "", AppContext.PAGE_SIZE, timestamp, groupListHandler);
     }
 
     private void setData(List<TeamGroup> list) {
@@ -130,7 +129,8 @@ public class GroupFragment extends Fragment {
         if (pullUp && (list == null || list.size() == 0)) {
             PublicUtil.showToast(R.string.card_no_list_data);
             return;
-        } else if (pullUp) {
+        }
+        if (pullUp) {
             items.addAll(list);
         } else {
             items = list;
@@ -163,21 +163,23 @@ public class GroupFragment extends Fragment {
                 progressDialog.dismiss();
             listviewGroup.onRefreshComplete();
             try {
-                ResultGroupList groupListResult = JSON.parseObject(responseString, ResultGroupList.class);
+                ResultGroupList result = JSON.parseObject(responseString, ResultGroupList.class);
 
-                if (groupListResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    MyTeamActivity.roleCode = groupListResult.getRoleCode();
-                    timestamp = groupListResult.getTimestamp();
-                    txtGroupNum.setText(String.format(getString(R.string.team_group_groupnum), groupListResult.getTotalGroup()));
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    MyTeamActivity.roleCode = result.getRoleCode();
+                    timestamp = result.getTimestamp();
+                    txtGroupNum.setText(String.format(getString(R.string.team_group_groupnum), result.getTotalGroup()));
                     txtMembernum.setText(String.format(getString(R.string.team_group_membernum),
-                            groupListResult.getActualTotalPopulation(), groupListResult.getPlanTotalPopulation()));
-                    setData(groupListResult.getItemList());
+                            result.getActualTotalPopulation(), result.getPlanTotalPopulation()));
+                    setData(result.getItemList());
                 } else {
-                    PublicUtil.showErrorMsg(mContext, groupListResult);
+                    PublicUtil.showErrorMsg(mContext, result);
+                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
+                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
             }
 
         }
@@ -190,6 +192,8 @@ public class GroupFragment extends Fragment {
                 progressDialog.dismiss();
             listviewGroup.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
+
         }
     };
 
@@ -200,8 +204,8 @@ public class GroupFragment extends Fragment {
 
             @Override
             public void onBtnRight(View v) {
-                PublicUtil.openSearchView(mContext,GroupFragment.this,getString(R.string.team_group_title),
-                        ClientStateManager.HISTORY_GROUP,1);
+                Intent intent = new Intent(mContext,SearchGroupActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -217,18 +221,6 @@ public class GroupFragment extends Fragment {
         });
         actionBar.getImgRightView().setImageResource(R.mipmap.team_search);
         actionBar.getImgRightView().setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1&&Activity.RESULT_OK == resultCode&&data!=null){
-            content = data.getStringExtra(SearchActivity.KEY_RESULT);
-            pullUp = false;
-            pullDown = false;
-            getData();
-        }
-
     }
 
     @Override

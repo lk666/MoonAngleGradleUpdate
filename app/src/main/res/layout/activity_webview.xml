@@ -11,13 +11,12 @@
         android:visibility="gone"
         android:background="@color/title_background" >
 
-        <ImageView
+        <cn.com.bluemoon.lib.view.ImageViewForClick
             android:id="@+id/img_back"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_black_blue"
             android:gravity="center_vertical"
             android:scaleType="fitCenter"
             android:padding="10dp"
@@ -36,13 +35,12 @@
             android:textColor="@color/view_bg"
             android:textSize="18sp"/>
 
-        <ImageView
+        <cn.com.bluemoon.lib.view.ImageViewForClick
             android:id="@+id/img_right"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:background="@drawable/btn_black_blue"
             android:gravity="center_vertical"
             android:scaleType="fitCenter"
             android:visibility="gone"
@@ -51,7 +49,7 @@
         <ProgressBar
             android:id="@+id/pro_web"
             style="?android:attr/progressBarStyleHorizontal"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="2dip"
             android:visibility="gone"
             android:progressDrawable="@drawable/pro_web_bg_blue"

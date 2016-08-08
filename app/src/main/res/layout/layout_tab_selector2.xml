@@ -8,14 +8,14 @@
 
     <FrameLayout
         android:id="@+id/frame_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="@drawable/border_white_shape" >
 
         <LinearLayout
             android:id="@+id/line_layout"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:background="@drawable/btn_border_grep_shape"
             android:orientation="horizontal" >
         </LinearLayout>

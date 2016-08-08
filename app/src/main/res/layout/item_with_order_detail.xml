@@ -24,7 +24,6 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:text="asdasdsasdsa"
         android:textColor="@color/text_black"
         android:textSize="@dimen/text_size_13"/>
 
@@ -35,7 +34,6 @@
         android:layout_below="@+id/tv_type_name"
         android:layout_marginLeft="16dp"
         android:gravity="center_vertical"
-        android:text="asdasdsasdsa"
         android:textColor="@color/text_black_light"
         android:textSize="@dimen/text_size_11"/>
 
@@ -47,7 +45,6 @@
         android:layout_marginLeft="85dp"
         android:layout_toLeftOf="@+id/btn_add"
         android:gravity="center_vertical"
-        android:text="asdasdsasdsa"
         android:textColor="@color/text_black_light"
         android:textSize="@dimen/text_size_11"/>
 </RelativeLayout>

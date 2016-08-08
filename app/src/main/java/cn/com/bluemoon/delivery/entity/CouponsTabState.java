@@ -1,8 +1,6 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.card.PunchCardFragment;
-import cn.com.bluemoon.delivery.card.RecordCardFragment;
 import cn.com.bluemoon.delivery.coupons.CouponsPushFragment;
 import cn.com.bluemoon.delivery.coupons.CouponsRecordFragment;
 

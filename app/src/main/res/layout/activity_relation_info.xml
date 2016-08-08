@@ -228,8 +228,8 @@
                         android:layout_width="60dp"
                         android:layout_height="30dp"
                         android:gravity="center"
-                        android:background="@drawable/btn_border_red_shape4"
-                        android:textColor="@color/text_red"
+                        android:background="@drawable/btn_border_grep_shape4"
+                        android:textColor="@color/text_black_light"
                         android:text="@string/team_work_full"
                         android:textSize="@dimen/text_size_15" />
 

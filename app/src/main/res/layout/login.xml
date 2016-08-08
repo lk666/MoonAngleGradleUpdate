@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="#55c4ec"
     android:fitsSystemWindows="true"
     android:orientation="vertical" >
 
     <LinearLayout
-        android:id="@+id/edit_layout"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:focusableInTouchMode="true"
         android:gravity="center"
@@ -18,10 +17,9 @@
         android:orientation="vertical" >
 
         <ImageView
-            android:id="@+id/img_head"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="10dp"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
             android:scaleType="fitCenter"
@@ -29,7 +27,7 @@
 
         <cn.com.bluemoon.lib.view.ClearEditText
             android:id="@+id/login_user_edit"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:background="@drawable/btn_white_shape_top"
@@ -46,7 +44,7 @@
 
         <cn.com.bluemoon.lib.view.ClearEditText
             android:id="@+id/login_passwd_edit"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
             android:layout_marginTop="1dp"
@@ -64,7 +62,7 @@
         
         <Button
             android:id="@+id/login_btn"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="42dp"
             android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_17"
@@ -74,8 +72,8 @@
             android:text="@string/loginbtn"
              />
         
-        <LinearLayout 
-            android:layout_width="fill_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:gravity="end">
@@ -88,12 +86,12 @@
             android:paddingBottom="20dp"
             android:paddingLeft="20dp"
             android:paddingRight="5dp"
-            android:layout_marginBottom="40dp"
+            android:layout_marginBottom="30dp"
             android:text="忘记密码？"
             android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_large_16" />
         </LinearLayout>
 
     </LinearLayout>
-    
+
 </RelativeLayout>

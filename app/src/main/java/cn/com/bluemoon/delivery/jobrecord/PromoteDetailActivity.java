@@ -3,12 +3,11 @@ package cn.com.bluemoon.delivery.jobrecord;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
-import android.util.TimeUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -23,34 +22,28 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.bitmap.BitmapCallBack;
 
-import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ImageInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
-import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteList;
-import cn.com.bluemoon.delivery.app.api.model.punchcard.ImageBean;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.ShowMultipleImageView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
-import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
 /**
  * Created by LIANGJIANGLI on 2016/6/27.
@@ -104,6 +97,23 @@ public class PromoteDetailActivity extends Activity {
         bpCode = getIntent().getStringExtra("bpCode");
         progressDialog.show();
         DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), bpCode, getPromoteInfoHandler );
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                if (images != null && images.size() > 0) {
+                    String[] urls = new String[images.size()];
+                    for (int i = 0; i < images.size(); i++) {
+                        urls[i] = images.get(i).getFilePath();
+                    }
+                    Intent intent = new Intent(PromoteDetailActivity.this, ShowMultipleImageView.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("bitmaps", urls);
+                    intent.putExtra("position", position);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
+            }
+        });
     }
     AsyncHttpResponseHandler getPromoteInfoHandler = new TextHttpResponseHandler() {
 
@@ -123,11 +133,11 @@ public class PromoteDetailActivity extends Activity {
                     txtWorkPrice.setText(StringUtil.formatPrice(info.getWorkPrice()));
                     txtHolidayPrice.setText(StringUtil.formatPrice(info.getHolidayPrice()));
                     txtDeposit.setText(StringUtil.formatPrice(info.getCashPledge()));
-                    txtOtherFee.setText(info.getRemark());
+                    txtOtherFee.setText(StringUtils.isNotBlank(info.getRemark()) ? info.getRemark() : getString(R.string.promote_none));
                     txtWifi.setText(info.getWifi()? getString(R.string.promote_has) : getString(R.string.promote_none));
                     txtNetwork.setText(info.getWiredNetwork()? getString(R.string.promote_has) : getString(R.string.promote_none));
-                    txtBpname.setText(String.format(getString(R.string.promote_append),info.getBpCode1(), info.getBpName1()));
                     txtBpname1.setText(String.format(getString(R.string.promote_append),info.getBpCode(), info.getBpName()));
+                    txtBpname.setText(String.format(getString(R.string.promote_append2),info.getBpCode1(), info.getBpName1(), info.getBpName2()));
                     images = info.getPicInfo();
                     if (images == null || images.size() == 0) {
                         layoutImage.setVisibility(View.GONE);
@@ -224,7 +234,6 @@ public class PromoteDetailActivity extends Activity {
 
             final ImageView imgWork = (ImageView) convertView.findViewById(R.id.img_promote);
             final ImageInfo img = images.get(position);
-            Bitmap imgBitmap = null;
             if (StringUtils.isNotBlank(img.getFilePath())) {
                 kjBitmap.display(imgWork, img.getFilePath(), new BitmapCallBack() {
                     @Override
@@ -233,17 +242,6 @@ public class PromoteDetailActivity extends Activity {
                     }
                 });
             }
-
-            imgWork.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(img.getBitmap()==null){
-                        PublicUtil.showToast(getString(R.string.down_image_not_complete));
-                    } else {
-                        DialogUtil.showPictureDialog(PromoteDetailActivity.this, images.get(position).getBitmap());
-                    }
-                }
-            });
             return convertView;
         }
 

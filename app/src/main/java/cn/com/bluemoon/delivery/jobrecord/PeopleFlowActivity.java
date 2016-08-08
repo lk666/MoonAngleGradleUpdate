@@ -3,59 +3,39 @@ package cn.com.bluemoon.delivery.jobrecord;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.annotation.IntegerRes;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Gravity;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewTreeObserver;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.logging.Log;
-import org.apache.http.Header;
-import org.kymjs.kjframe.KJBitmap;
-import org.kymjs.kjframe.bitmap.BitmapCallBack;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
 import java.util.Locale;
 
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PeopleFlow;
-import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.CommonTimePickerDialog;
 
 /**
@@ -127,6 +107,24 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
             txtEndTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtEndTime.getPaint().setAntiAlias(true);
             txtEndTime.setOnClickListener(this);
+            etFlow.addTextChangedListener(new TextWatcher() {
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                    if (StringUtils.isNotBlank(s.toString()) && Integer.valueOf(s.toString()) == 0) {
+                        etFlow.setText("");
+                    }
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+
+                }
+            });
             if (type == 2) {
                 PeopleFlow peopleFlow = (PeopleFlow)getIntent().getSerializableExtra("peopleFlow");
                 flowId = peopleFlow.getFlowId();
@@ -239,7 +237,7 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
                     + "-" + DateUtil.getTime(peopleFlow.getEndTime(), "HH:mm"));
             txtPlace.setText(peopleFlow.getAddress());
             txtFlow.setText(String.valueOf(peopleFlow.getPeopleFlow()));
-            txtStatus.setText(String.valueOf(peopleFlow.getPeopleStatus()));
+            txtStatus.setText(StringUtils.isNotBlank(peopleFlow.getPeopleStatus()) ? peopleFlow.getPeopleStatus() : getString(R.string.promote_none));
         }
     }
 

@@ -3,8 +3,6 @@ package cn.com.bluemoon.delivery.app.api.model;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.com.bluemoon.delivery.app.api.model.UserRight;
-
 /**
  * Created by summer on 2016/5/13.
  */
