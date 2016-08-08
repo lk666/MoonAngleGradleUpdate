@@ -17,7 +17,6 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.inventory.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultOrderVo;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
@@ -210,10 +209,12 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
-            DeliveryApi.getReceiptOrders(getToken(), startTime / 1000, endTime / 1000, getNewHandler(requestCode,
+            DeliveryApi.getReceiptOrders(getToken(), startTime / 1000, endTime / 1000,
+                    getNewHandler(requestCode,
                     ResultOrderVo.class));
         } else {
-            DeliveryApi.getOutOrders(getToken(), startTime / 1000, endTime / 1000, getNewHandler(requestCode,
+            DeliveryApi.getOutOrders(getToken(), startTime / 1000, endTime / 1000, getNewHandler
+                    (requestCode,
                     ResultOrderVo.class));
         }
     }
@@ -276,12 +277,10 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
         if (null != order) {
             if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
                 OrderEndReceiveDetailActivity.actionStart(getActivity(),
-                        InventoryTabActivity.RECEIVE_MANAGEMENT, order
-                                .getOrderCode());
+                        InventoryTabActivity.RECEIVE_MANAGEMENT, order.getOrderCode());
             } else {
                 OrderEndDeliverDetailActivity.actionStart(getActivity(),
-                        InventoryTabActivity.DELIVERY_MANAGEMENT, order
-                                .getOrderCode());
+                        InventoryTabActivity.DELIVERY_MANAGEMENT, order.getOrderCode());
             }
         }
     }

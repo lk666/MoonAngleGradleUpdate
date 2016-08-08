@@ -732,13 +732,10 @@ public class DeliveryApi {
         if (StringUtil.isEmpty(orderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("orderCode", orderCode);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/out/getOutOrderDetail%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/out/getOutOrderDetail%s", handler);
     }
 
     /*已收货详情*/
@@ -1094,13 +1091,10 @@ public class DeliveryApi {
         if (StringUtil.isEmpty(relativeOrderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("relativeOrderCode", relativeOrderCode);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/mallerpCommon/getOrderPics%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/mallerpCommon/getOrderPics%s", handler);
     }
 
     /* 上传单据图片 */

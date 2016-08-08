@@ -25,6 +25,8 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
      */
     private List<ITEM> list;
 
+    protected PullToRefreshListView ptrlv;
+
     @Override
     final protected int getLayoutId() {
         return R.layout.activity_pull_to_refresh_list_view;
@@ -32,7 +34,7 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
 
     @Override
     final protected void initPtr(PullToRefreshBase ptr) {
-        PullToRefreshListView ptrlv = (PullToRefreshListView) ptr;
+        ptrlv = (PullToRefreshListView) ptr;
         initPullToRefreshListView(ptrlv);
         adapter = getNewAdapter();
         list = new ArrayList<>();

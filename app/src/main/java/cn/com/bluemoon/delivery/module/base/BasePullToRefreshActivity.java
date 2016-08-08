@@ -20,7 +20,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     /**
      * 头，开始不显示，
      */
-    private View head;
+    protected View head;
 
     /**
      * 错误页面View
@@ -41,7 +41,6 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
 
     @Override
     final public void initView() {
-        initHeadView();
         ptr = (PullToRefreshBase) findViewById(getPtrId());
         ptr.setMode(getMode()==null?PullToRefreshBase.Mode.DISABLED:getMode());
 
@@ -58,6 +57,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
         });
 
         initPtr(ptr);
+        initHeadView();
 
         LibViewUtil.setViewVisibility(ptr, View.GONE);
         setHeadViewVisibility(View.GONE);
@@ -66,7 +66,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     /**
      * 初始化头部
      */
-    private void initHeadView() {
+    protected void initHeadView() {
         if (getHeadLayoutId() != 0 && getHeadViewStubId() != 0) {
             int layoutId = getHeadLayoutId();
             final View viewStub = findViewById(getHeadViewStubId());
@@ -148,7 +148,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     /**
      * 显示错误页
      */
-    final protected void showNetErrorView() {
+    protected void showNetErrorView() {
         if (errorView == null) {
             int layoutId = R.layout.viewstub_wrapper;
             View viewStub = findViewById(R.id.viewstub_error);
@@ -168,7 +168,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     /**
      * 显示空数据页
      */
-    final protected void showEmptyView() {
+    protected void showEmptyView() {
         if (emptyView == null) {
             int layoutId = R.layout.viewstub_wrapper;
             final View viewStub = findViewById(R.id.viewstub_empty);

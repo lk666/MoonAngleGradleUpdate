@@ -21,7 +21,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     /**
      * 头，开始不显示，
      */
-    private View head;
+    protected View head;
 
     /**
      * 错误页面View
@@ -42,10 +42,8 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
 
     @Override
     final public void initView() {
-        initHeadView();
-
         ptr = (PullToRefreshBase) getMainView().findViewById(getPtrId());
-        ptr.setMode(getMode()==null?PullToRefreshBase.Mode.DISABLED:getMode());
+        ptr.setMode(getMode() == null ? PullToRefreshBase.Mode.DISABLED : getMode());
 
         ptr.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -60,6 +58,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         });
 
         initPtr(ptr);
+        initHeadView();
 
         LibViewUtil.setViewVisibility(ptr, View.GONE);
         setHeadViewVisibility(View.GONE);
@@ -68,7 +67,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     /**
      * 初始化头部
      */
-    private void initHeadView() {
+    protected void initHeadView() {
         if (getHeadLayoutId() != 0 && getHeadViewStubId() != 0) {
             int layoutId = getHeadLayoutId();
             final View viewStub = getMainView().findViewById(getHeadViewStubId());
