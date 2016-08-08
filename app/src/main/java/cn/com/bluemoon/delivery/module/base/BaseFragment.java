@@ -112,6 +112,12 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
         ApiHttpClient.cancelAll(aty);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        ButterKnife.unbind(this);
+    }
+
     private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
                                                 final IHttpRespone iHttpRespone) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(

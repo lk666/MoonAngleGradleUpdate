@@ -4,7 +4,6 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
@@ -27,11 +26,17 @@ import org.apache.http.protocol.HTTP;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.storage.ResultStock;
 import cn.com.bluemoon.delivery.app.api.model.storage.ResultStore;
 import cn.com.bluemoon.delivery.app.api.model.storage.Store;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.BaseFragment;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -39,171 +44,108 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 
-public class WarehouseFragment extends Fragment {
+public class WarehouseFragment extends BaseFragment {
 
-    private String TAG = "WarehouseFragment";
-
+    @Bind(R.id.listview_main)
+    PullToRefreshListView listView;
     private StoreAdapter adapter;
     private FragmentActivity main;
-    private CommonProgressDialog progressDialog;
-    private PullToRefreshListView listView;
-
     private ResultStore item;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-
-        initCustomActionBar();
-        main = getActivity();
-
-
-        View v = inflater.inflate(R.layout.fragment_tab_strage, container,
-                false);
-
-        listView = (PullToRefreshListView) v
-                .findViewById(R.id.listview_main);
-        listView.setMode(PullToRefreshBase.Mode.DISABLED);
-        progressDialog = new CommonProgressDialog(main);
-        adapter = new StoreAdapter(main);
-        getItem();
-        return v;
+    protected int getLayoutId() {
+        return R.layout.fragment_tab_strage;
     }
 
-    private void getItem() {
-        String token = ClientStateManager.getLoginToken(main);
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.tab_bottom_my_warehouse_text);
+    }
 
-        DeliveryApi.queryStoresBycharger(token, warehouseHandler);
+    @Override
+    public void initView() {
+        main = getActivity();
+        listView.setMode(PullToRefreshBase.Mode.DISABLED);
+        PublicUtil.setEmptyView(listView, getTitleString(), new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
+        adapter = new StoreAdapter(main);
+    }
+
+
+    @Override
+    public void initData() {
+        showWaitDialog();
+        DeliveryApi.queryStoresBycharger(getToken(), getNewHandler(1, ResultStore.class));
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        ResultStore storeResult = (ResultStore)result;
+        setData(storeResult);
     }
 
     private void setData(ResultStore result) {
         if (result == null || result.getStoreList() == null || result.getStoreList().size() < 1) {
             adapter.setList(new ArrayList<Store>());
         } else {
-
             item = result;
-
             adapter.setList(item.getStoreList());
         }
         listView.setAdapter(adapter);
-
     }
 
-
-    private void initCustomActionBar() {
-
-        new CommonActionBar(getActivity().getActionBar(),
-                new IActionBarListener() {
-
-                    @Override
-                    public void onBtnRight(View v) {
-                        // TODO Auto-generated method stub
-                    }
-
-                    @Override
-                    public void onBtnLeft(View v) {
-                        // TODO Auto-generated method stub
-                        getActivity().finish();
-                    }
-
-                    @Override
-                    public void setTitle(TextView v) {
-                        // TODO Auto-generated method stub
-                        v.setText(R.string.tab_bottom_my_warehouse_text);
-                    }
-                });
-
-    }
 
     @SuppressLint("InflateParams")
-    class StoreAdapter extends BaseAdapter {
-
-        private Context context;
-        private List<Store> lists;
-
+    class StoreAdapter extends BaseListAdapter<Store> {
         public StoreAdapter(Context context) {
-            this.context = context;
-        }
+            super(context, null);
 
-        public void setList(List<Store> list) {
-            this.lists = list;
         }
 
         @Override
-        public int getCount() {
-            // TODO Auto-generated method stub
-            return lists.size();
+        protected int getLayoutId() {
+            return R.layout.store_processed_item;
         }
 
         @Override
-        public Object getItem(int position) {
-            // TODO Auto-generated method stub
-            return lists.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            // TODO Auto-generated method stub
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView,
-                            ViewGroup parent) {
-            // TODO Auto-generated method stub
-            LayoutInflater inflate = LayoutInflater.from(context);
-            if (lists.size() == 0) {
-                View viewEmpty = inflate.inflate(R.layout.layout_no_data, null);
-                AbsListView.LayoutParams params = new AbsListView.LayoutParams(
-                        AbsListView.LayoutParams.MATCH_PARENT, listView.getHeight());
-                viewEmpty.setLayoutParams(params);
-                return viewEmpty;
-            }
-
-            convertView = inflate.inflate(R.layout.store_processed_item, null);
-
-            TextView txtDetail = (TextView) convertView.findViewById(R.id.txt_detail);
-            TextView txtWarehouseId = (TextView) convertView
-                    .findViewById(R.id.txt_storehouse_id);
-
-            TextView txtChargePerson = (TextView) convertView.findViewById(R.id.txt_charge_person);
-
-            TextView txtWarehouseName = (TextView) convertView
-                    .findViewById(R.id.txt_storehouse_name);
-
-            TextView txtStoreAddress = (TextView) convertView
-                    .findViewById(R.id.txt_store_address_name);
-
-            TextView txtReceiver = (TextView) convertView
-                    .findViewById(R.id.txt_receiver);
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            final Store store = list.get(position);
+            TextView txtDetail = getViewById(R.id.txt_detail);
+            TextView txtWarehouseId = getViewById(R.id.txt_storehouse_id);
+            TextView txtChargePerson = getViewById(R.id.txt_charge_person);
+            TextView txtWarehouseName = getViewById(R.id.txt_storehouse_name);
+            TextView txtStoreAddress = getViewById(R.id.txt_store_address_name);
+            TextView txtReceiver = getViewById(R.id.txt_receiver);
 
 
-            txtWarehouseId.setText(lists.get(position).getStoreCode());
-            txtWarehouseName.setText(lists.get(position).getStoreName());
-            txtChargePerson.setText(String.format(
-                    getString(R.string.text_store_charge_person),
-                    lists.get(position).getChargerName() + " " + lists.get(position).getChargerPhone()));
+            txtWarehouseId.setText(store.getStoreCode());
+            txtWarehouseName.setText(store.getStoreName());
+            txtChargePerson.setText(
+                    getString(R.string.text_store_charge_person,
+                    store.getChargerName() + " " + store.getChargerPhone()));
 
-            txtReceiver.setText(String.format(
-                    getString(R.string.text_store_receive_person),
-                    lists.get(position).getReceiverName() + " " + lists.get(position).getReceiverPhone()));
+            txtReceiver.setText(
+                    getString(R.string.text_store_receive_person,
+                    store.getReceiverName() + " " + store.getReceiverPhone()));
 
-            txtStoreAddress.setText(lists.get(position).getAddress());
+            txtStoreAddress.setText(store.getAddress());
 
-            String addressStr = String.format(getString(R.string.text_store_default),
+            String addressStr = getString(R.string.text_store_default,
                     String.format("%s%s%s%s%s%s",
-                            lists.get(position).getProvinceName(),
-                            lists.get(position).getCityName(),
-                            lists.get(position).getCountyName(),
-                            lists.get(position).getTownName(),
-                            lists.get(position).getVillageName(),
-                            lists.get(position).getAddress())
+                            store.getProvinceName(),
+                            store.getCityName(),
+                            store.getCountyName(),
+                            store.getTownName(),
+                            store.getVillageName(),
+                            store.getAddress())
             );
 
             SpannableString ss = new SpannableString(addressStr);
@@ -212,9 +154,7 @@ public class WarehouseFragment extends Fragment {
 
             txtStoreAddress.setText(ss);
 
-            convertView.setTag(lists.get(position));
-
-            if (!lists.get(position).isAllowedEditAddress) {
+            if (!store.isAllowedEditAddress) {
                 txtDetail.setVisibility(View.GONE);
             } else {
 
@@ -222,73 +162,33 @@ public class WarehouseFragment extends Fragment {
 
                     @Override
                     public void onClick(View v) {
-                        // TODO Auto-generated method stub
-                        Store store = (Store) v.getTag();
-                        if (null != store) {
-                            WarehouseAddressActivity.actionStart(WarehouseFragment.this, store.getStoreCode(), store.getStoreName(), store.getAddressId());
+                        if (store != null) {
+                            try {
+                                WarehouseAddressActivity.actionStart(WarehouseFragment.this, store.getStoreCode(), store.getStoreName(), store.getAddressId());
+                            } catch (Exception e) {
+                                longToast(e.getMessage());
+                            }
+
                         }
 
                     }
                 });
             }
-            return convertView;
         }
 
     }
 
-    AsyncHttpResponseHandler warehouseHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "warehouseHandler result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            try {
-                ResultStore storeResult = JSON.parseObject(responseString,
-                        ResultStore.class);
-                if (storeResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    setData(storeResult);
-                } else {
-                    PublicUtil.showErrorMsg(main, storeResult);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null)
-                progressDialog.dismiss();
-
-            PublicUtil.showToastServerOvertime();
-        }
-    };
-
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
 
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-        if (progressDialog != null) {
-            progressDialog.dismiss();
-        }
+        hideWaitDialog();
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == main.RESULT_OK) {
-            getItem();
+            initData();
         }
     }
 }
