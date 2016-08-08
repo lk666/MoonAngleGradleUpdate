@@ -112,13 +112,13 @@ public class SelectEmpActivity extends Activity {
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
-        public void onSearch(String str) {
+        public void onSearch(CommonSearchView view,String str) {
             getData();
             searchView.hideHistoryView();
         }
 
         @Override
-        public void onCancel() {
+        public void onCancel(CommonSearchView view) {
             searchView.hideHistoryView();
         }
 

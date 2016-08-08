@@ -22,8 +22,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.KJActivity;
-import org.kymjs.kjframe.ui.BindView;
 import org.kymjs.kjframe.utils.StringUtils;
 
 import java.util.ArrayList;
@@ -230,7 +228,7 @@ public class SelectAreaActivity extends Activity {
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
-        public void onSearch(String str) {
+        public void onSearch(CommonSearchView view,String str) {
             content = str;
             pullDown = false;
             pullUp = false;
@@ -239,7 +237,7 @@ public class SelectAreaActivity extends Activity {
         }
 
         @Override
-        public void onCancel() {
+        public void onCancel(CommonSearchView view) {
             searchView.hideHistoryView();
         }
 

@@ -159,7 +159,7 @@ public class MemberFragment extends BackHandledFragment {
 
     CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
         @Override
-        public void onSearch(String str) {
+        public void onSearch(CommonSearchView view,String str) {
             content = str;
             searchView.hideHistoryView();
             pullDown = false;
@@ -169,7 +169,7 @@ public class MemberFragment extends BackHandledFragment {
         }
 
         @Override
-        public void onCancel() {
+        public void onCancel(CommonSearchView view) {
             searchView.hideHistoryView();
         }
 

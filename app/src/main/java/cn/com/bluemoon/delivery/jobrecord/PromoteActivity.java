@@ -78,14 +78,14 @@ public class PromoteActivity extends Activity{
         searchView.hideHistoryView();
         searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
             @Override
-            public void onSearch(String str) {
+            public void onSearch(CommonSearchView view,String str) {
                 searchKey = str;
                 searchView.hideHistoryView();
                 DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
             }
 
             @Override
-            public void onCancel() {
+            public void onCancel(CommonSearchView view) {
                 searchView.hideHistoryView();
                 searchKey = "";
             }
