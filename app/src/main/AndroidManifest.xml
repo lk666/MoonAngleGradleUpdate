@@ -44,6 +44,13 @@
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
+        </activity>
+        <activity
+            android:name=".sz.meeting.SchedualActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+
         </activity>
         <activity
             android:name=".MainActivity"
