@@ -10,7 +10,6 @@
 package cn.com.bluemoon.delivery.module.inventory;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -18,17 +17,14 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,7 +36,6 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
@@ -53,6 +48,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -60,23 +56,34 @@ import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreDeliverVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultDetail;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ResultPreDeliverOrderBean;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class OrderDeliverDetailActivity extends Activity implements OnClickListener {
-    private String TAG = "OrderDeliverDetailActivity";
+public class OrderDeliverDetailActivity extends BaseActivity implements OnClickListener,OnListItemClickListener {
+    @Bind(R.id.listview_product)
+    ListView listviewProduct;
+    @Bind(R.id.txt_need)
+    TextView txtNeed;
+    @Bind(R.id.txt_should_deliver_box)
+    TextView txtShouldDeliverBox;
+    @Bind(R.id.txt_actual)
+    TextView txtActual;
+    @Bind(R.id.txt_real_deliver_box)
+    TextView txtRealDeliverBox;
+    @Bind(R.id.txt_diff_nums)
+    TextView txtDiffNums;
+    @Bind(R.id.btn_settle_deliver)
+    Button btnSettleDeliver;
 
-    private ListView listView;
     private OrderProductAdapter adapter;
     private List<ProductPreDeliverVo> lists;
     private View headView;
@@ -90,8 +97,6 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
     private TextView txtCustomerNameFhBill;
     private TextView txtCommonNameDeliverShipper;
     private TextView txtCommonNameFhfAddress;
-    private TextView txtNeed;
-    private TextView txtActual;
 
     private TextView txtOrderId;
     private TextView txtSource;
@@ -110,18 +115,9 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
     private RelativeLayout relDistributionBusinessName;
     private RelativeLayout llDiffLayout;
 
-    private Button btnSettleDeliver;
-    private TextView txtShouldDeliverBox;
-    private TextView txtRealDeliverBox;
-    private TextView txtDiffNum;
-
     private OrderDeliverDetailActivity main;
     private String orderCode;
-    private String type;
     private String storeCode;
-    private int storehouseCode;
-
-    private CommonProgressDialog progressDialog;
 
     ResultPreDeliverOrderBean detailInfo;
 
@@ -138,54 +134,57 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
     private long totalMoneySubmit;//total money
     private long submitTime = 0;
 
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        orderCode = getIntent().getStringExtra("orderCode");
+    }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.order_receive_details);
-        main = this;
-        ActivityManager.getInstance().pushOneActivity(this);
-        init();
-        initCustomActionBar();
-        initView();
+    protected int getLayoutId() {
+        return R.layout.order_receive_details;
     }
 
-    private void init() {
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.detail_order_deliver);
+    }
+
+    @Override
+    public void initView() {
+        main = this;
         lists = new ArrayList<>();
-        orderCode = getIntent().getStringExtra("orderCode");
-        type = getIntent().getStringExtra("type");
         picList = new ArrayList<>();
         failUpload = new ArrayList<>();
-        main = this;
-        progressDialog = new CommonProgressDialog(main);
-    }
-
-    private void initView() {
-        btnSettleDeliver = (Button) findViewById(R.id.btn_settle_deliver);
         btnSettleDeliver.setOnClickListener(this);
-        txtShouldDeliverBox = (TextView) findViewById(R.id.txt_should_deliver_box);
-        txtRealDeliverBox = (TextView) findViewById(R.id.txt_real_deliver_box);
-        txtDiffNum = (TextView) findViewById(R.id.txt_diff_nums);
-        listView = (ListView) findViewById(R.id.listview_product);
-        txtNeed = (TextView) findViewById(R.id.txt_need);
-        txtActual = (TextView) findViewById(R.id.txt_actual);
         initHeadView();
         initFoot();
-
-        adapter = new OrderProductAdapter(this, lists);
-        listView.setAdapter(adapter);
-        getData();
+        adapter = new OrderProductAdapter(this, this);
+        adapter.setList(lists);
+        listviewProduct.setAdapter(adapter);
     }
 
-    private void getData() {
-        if (orderCode == null || "".equals(orderCode)) {
+    @Override
+    public void initData() {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
-        String token = ClientStateManager.getLoginToken(main);
-        if (progressDialog != null) {
-            progressDialog.show();
+        showWaitDialog();
+        DeliveryApi.getDeliverDetail(ClientStateManager.getLoginToken(), orderCode,
+                getNewHandler(0, ResultPreDeliverOrderBean.class));
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        if(requestCode == 0){
+            detailInfo = (ResultPreDeliverOrderBean)result;
+            setData(detailInfo);
+        }else if(requestCode == 1){
+            toast(getString(R.string.txt_order_deliver_success_tip) +
+                    "\n" + ((ResultDetail) result).getOutCode());
+            setResult(RESULT_OK);
+            finish();
         }
-        DeliveryApi.getDeliverDetail(token, orderCode, deliverOrderDetailHandler);
     }
 
     private void initHeadView() {
@@ -222,7 +221,7 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
         relDeliverAddress.setOnClickListener(this);
         relDeliverDate.setOnClickListener(this);
         relDeliverTicket.setOnClickListener(this);
-        listView.addHeaderView(headView);
+        listviewProduct.addHeaderView(headView);
         initTipText();
     }
 
@@ -250,63 +249,27 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
         txtActual.setText(getString(R.string.detail_order_deliver_real));
         btnSettleDeliver.setText(getString(R.string.btn_detail_order_deliver));
         outBackLayout.setVisibility(View.VISIBLE);
-        listView.addFooterView(footView);
+        listviewProduct.addFooterView(footView);
     }
 
-    private void initCustomActionBar() {
-        new CommonActionBar(getActionBar(), new IActionBarListener() {
-
-            @Override
-            public void setTitle(TextView v) {
-
-                v.setText(getResources().getString(R.string.detail_order_deliver));
-            }
-
-            @Override
-            public void onBtnRight(View v) {
-
-            }
-
-            @Override
-            public void onBtnLeft(View v) {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-        });
-    }
-
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
-
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-    }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.rel_deliver_address:
                 OrderSelectDeliveryAddrActivity.actionStart(main,
-                        InventoryTabActivity.DELIVERY_MANAGEMENT,storeCode,101);
+                        InventoryTabActivity.DELIVERY_MANAGEMENT, storeCode, 101);
                 break;
             case R.id.rel_deliver_date:
                 String initDateTime = "";//2016-4-2 10:00
                 initDateTime = txtFhDate.getText().toString().trim();
-                if (null == initDateTime || "".equals(initDateTime) ||
+                if (StringUtil.isEmpty(initDateTime) ||
                         getString(R.string.txt_order_input_deliver_date).equals(initDateTime)
                         || getString(R.string.txt_order_input_receive_date).equals(initDateTime)) {
-
-
-                    Date datetime = new Date();
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(datetime);
+                    cal.setTime(new Date());
                     cal.add(Calendar.HOUR_OF_DAY, 1);
-                    datetime = cal.getTime();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    initDateTime = dateFormat.format(datetime);
+                    initDateTime = DateUtil.getTime(cal.getTimeInMillis(),"yyyy-MM-dd HH:mm");
                 }
                 DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
                         main, initDateTime, new DateTimePickDialogUtil.OnDetailClickLister() {
@@ -337,16 +300,8 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
                 dateTimePicKDialog.dateTimePicKDialog();
                 break;
             case R.id.rel_deliverTicket:
-                Intent it = new Intent(main, OrderTicketUploadActivity.class);
-                it.putExtra("type", InventoryTabActivity.DELIVERY_MANAGEMENT);
-                it.putExtra("storeCode", storeCode);
-                it.putExtra("storehouseCode", storehouseCode);
-                if (picList != null && picList.size() > 0) {
-                    Bundle b = new Bundle();
-                    b.putStringArrayList("piclist", (ArrayList<String>) picList);
-                    it.putExtra("piclist", b);
-                }
-                main.startActivityForResult(it, 103);
+                OrderTicketUploadActivity.actionStart(main, InventoryTabActivity.DELIVERY_MANAGEMENT,
+                        storeCode, picList, 103);
 
                 break;
             case R.id.txt_fh_phone:
@@ -425,49 +380,10 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
             lists.get(i).setOutNum(lists.get(i).getDifferNum());
         }
 
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
+        showWaitDialog();
         DeliveryApi.getSubmitDeliverDetail(token, orderCode, submitTime, outBack, addressId,
-                lists, submitDeliverHandler);
+                lists, getNewHandler(1, ResultPreDeliverOrderBean.class));
     }
-
-
-    AsyncHttpResponseHandler submitDeliverHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "uploadHeader result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            try {
-                ResultDetail result = JSON.parseObject(responseString,
-                        ResultDetail.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    PublicUtil.showCustomToast(main, getString(R.string.txt_order_deliver_success_tip) +
-                            "\n" + result.getOutCode(), Gravity.CENTER_VERTICAL);
-                    handler.obtainMessage(1007).sendToTarget();
-
-                } else {
-                    PublicUtil.showCustomToast(OrderDeliverDetailActivity.this, result.getResponseMsg(), Gravity.CENTER_VERTICAL);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            LogUtils.e(TAG, throwable.getMessage());
-            PublicUtil.showToastServerOvertime();
-
-        }
-    };
 
     private void uploadPhoto(String path) {
         String token = ClientStateManager.getLoginToken(main);
@@ -489,7 +405,7 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            LogUtils.d(TAG, "uploadHeader result = " + responseString);
+            LogUtils.d(getDefaultTag(), "uploadHeader result = " + responseString);
             try {
                 ResultBase result = JSON.parseObject(responseString,
                         ResultBase.class);
@@ -501,30 +417,24 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
                     }
                 }
             } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
+                LogUtils.e(getDefaultTag(), e.getMessage());
                 PublicUtil.showToastServerBusy();
+                if (uploadTaskNum >= 1) {
+                    failUpload.add(picList.get(uploadTaskNum - 1).toString());
+                }
             }
         }
 
         @Override
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
             PublicUtil.showToastServerOvertime();
             if (uploadTaskNum >= 1) {
                 failUpload.add(picList.get(uploadTaskNum - 1).toString());
             }
         }
     };
-
-
-    private boolean isDeliver() {
-        if (InventoryTabActivity.DELIVERY_MANAGEMENT.equals(type)) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -573,7 +483,7 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
                     if (failUpload.size() > 0) {
                         new CommonAlertDialog.Builder(main)
                                 .setMessage(String.format(getString(R.string.txt_ticket_upload_fail_count), failUpload.size()))
-                                //.setMessage("有" + failUpload.size() + "张上传失败")
+                                        //.setMessage("有" + failUpload.size() + "张上传失败")
                                 .setNegativeButton(getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -611,11 +521,8 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
 
                     txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNum))
                             + String.format(getString(R.string.order_product_count), sumCount)));
-                    txtDiffNum.setText(String.format(getString(R.string.txt_order_product_count), diffNum));
+                    txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), diffNum));
                     break;
-                case 1007:
-                    setResult(RESULT_OK);
-                    finish();
                 default:
                     break;
             }
@@ -624,48 +531,12 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
 
     };
 
-
-    AsyncHttpResponseHandler deliverOrderDetailHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "deliverOrderDetailHandler result = " + responseString);
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            try {
-                ResultPreDeliverOrderBean resultPreDeliverOrderBean = JSON.parseObject(responseString,
-                        ResultPreDeliverOrderBean.class);
-
-                if (resultPreDeliverOrderBean.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    detailInfo = resultPreDeliverOrderBean;
-                    setData(resultPreDeliverOrderBean);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null)
-                progressDialog.dismiss();
-            PublicUtil.showToastServerOvertime();
-        }
-    };
-
-
     private void setData(ResultPreDeliverOrderBean result) {
         if (result == null || result.getOrderDetail() == null) {
             PublicUtil.showToastErrorData(main);
             return;
         }
         storeCode = result.getOrderDetail().getDeliStoreCode();
-        storehouseCode = result.getOrderDetail().getDeliStoreAddrId();
 
         List<ProductPreDeliverVo> lis = result.getOrderDetail().getProductDetails();
         for (int i = 0; i < lis.size(); i++) {
@@ -744,177 +615,123 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
                 + String.format(getString(R.string.order_product_count), sumCount)));
         txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNum))
                 + String.format(getString(R.string.order_product_count), sumCount)));
-        txtDiffNum.setText(String.format(getString(R.string.txt_order_product_count), 0));
+        txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), 0));
 
     }
 
 
-    public static void actionStart(Fragment context, String type, String orderCode) {
+    public static void actionStart(Fragment context, String orderCode) {
         Intent intent = new Intent(context.getActivity(), OrderDeliverDetailActivity.class);
         intent.putExtra("orderCode", orderCode);
-        intent.putExtra("type", type);
         context.startActivityForResult(intent, 0);
     }
 
-
-    class OrderProductAdapter extends BaseAdapter {
-
-        LayoutInflater mInflater;
-        private List<ProductPreDeliverVo> list;
-        Context context;
-
-        public OrderProductAdapter(Context context, List<ProductPreDeliverVo> data) {
-            this.context = context;
-            this.mInflater = LayoutInflater.from(context);
-            this.list = data;
-        }
-
-        @Override
-        public int getCount() {
-
-            return list.size();
-        }
-
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-
-        @Override
-        public long getItemId(int position) {
-
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            ViewHolder holder;
-            if (convertView == null) {
-                holder = new ViewHolder();
-                if (isDeliver()) {
-                    convertView = mInflater.inflate(R.layout.order_details_deliver_item, null);
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+        ProductPreDeliverVo i = (ProductPreDeliverVo)item;
+        switch (view.getId()){
+            case R.id.book_add:
+                if (i.getOutNum() == i.getDifferNum()) {
+                    return;
+                }
+                i.setDifferNum(i.getDifferNum() + 1);
+                double num;
+                if ("90000714".equals(i.getProductNo())) {
+                    num = (double) (i.getDifferNum()) / (i.getCarton() * 500);
                 } else {
-                    convertView = mInflater.inflate(R.layout.order_details_receive_item, null);
+                    num = (double) (i.getDifferNum()) / i.getCarton();
                 }
-                holder.txtOrderNumber = (TextView) convertView.findViewById(R.id.txt_order_number);
-                holder.txtBoxRuleNum = (TextView) convertView.findViewById(R.id.txt_box_rule_num);
-                holder.txtOrderProductName = (TextView) convertView.findViewById(R.id.txt_order_product_name);
-                holder.txtDeliveryNum = (TextView) convertView.findViewById(R.id.txt_delivery_nums);
-                holder.txtDeliveryBoxNum = (TextView) convertView.findViewById(R.id.txt_delivery_box_nums);
-                holder.editBookCount = (EditText) convertView.findViewById(R.id.book_count);
-                holder.txtRealBoxNum = (TextView) convertView.findViewById(R.id.txt_real_box_nums);
-                holder.imgBookReduce = (ImageView) convertView.findViewById(R.id.book_reduce);
-                holder.imgBookAdd = (ImageView) convertView.findViewById(R.id.book_add);
-                holder.lineDottedBottom = convertView.findViewById(R.id.line_dotted_bottom);
-                holder.txtDiffNumProductReceive = (TextView) convertView.findViewById(R.id.txt_diff_nums_product_receive);
-                holder.relDiffLayout = (RelativeLayout) convertView.findViewById(R.id.rel_diff_layout);
-                holder.txtDiffReason = (TextView) convertView.findViewById(R.id.txt_diff_reason);
-                holder.lineSolidDeepBottom = convertView.findViewById(R.id.line_solid_deep_bottom);
-                holder.lineDottedBottom.setVisibility(View.VISIBLE);
-                holder.relDiffLayout.setVisibility(View.GONE);
-                convertView.setTag(holder);
-            } else {
-                holder = (ViewHolder) convertView.getTag();
-            }
+                i.setDiffCase(num);
+                adapter.notifyDataSetChanged();
+                handler.obtainMessage(1006).sendToTarget();
+                break;
+            case R.id.book_reduce:
+                if (i.getDifferNum() <= 0) {
+                    return;
+                }
+                i.setDifferNum(i.getDifferNum() - 1);
+                if ("90000714".equals(i.getProductNo())) {
+                    num = (double) (i.getDifferNum()) / (i.getCarton() * 500);
+                } else {
+                    num = (double) (i.getDifferNum()) / i.getCarton();
+                }
 
-            holder.txtOrderNumber.setText(list.get(position).getProductNo());
-            holder.txtBoxRuleNum.setText(String.valueOf(list.get(position).getCarton()));
-            holder.txtOrderProductName.setText(list.get(position).getProductName());
-            holder.txtDeliveryNum.setText(String.valueOf(list.get(position).getOutNum()));
+                i.setDiffCase(num);
+                adapter.notifyDataSetChanged();
+                handler.obtainMessage(1006).sendToTarget();
+                break;
+            case R.id.book_count:
+                DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, i.getOutNum(), i.getDifferNum(), true);
+                myDialog.setDialogCallback(dialogCallback);
+                myDialog.show();
+                break;
+        }
+
+    }
+
+    class OrderProductAdapter extends BaseListAdapter<ProductPreDeliverVo> {
+
+
+        public OrderProductAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
+        }
+
+        @Override
+        protected int getLayoutId() {
+           return R.layout.order_details_deliver_item;
+        }
+
+        @Override
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            ProductPreDeliverVo item = list.get(position);
+            if(item==null) return;
+            TextView txtOrderNumber = getViewById(R.id.txt_order_number);
+            TextView txtBoxRuleNum = getViewById(R.id.txt_box_rule_num);
+            TextView txtOrderProductName = getViewById(R.id.txt_order_product_name);
+            TextView txtDeliveryNum = getViewById(R.id.txt_delivery_nums);
+            TextView txtDeliveryBoxNum = getViewById(R.id.txt_delivery_box_nums);
+            EditText editBookCount = getViewById(R.id.book_count);
+            TextView txtRealBoxNum = getViewById(R.id.txt_real_box_nums);
+            ImageView imgBookReduce = getViewById(R.id.book_reduce);
+            ImageView imgBookAdd = getViewById(R.id.book_add);
+            View lineDottedBottom = getViewById(R.id.line_dotted_bottom);
+            TextView txtDiffNumProductReceive = getViewById(R.id.txt_diff_nums_product_receive);
+            RelativeLayout relDiffLayout = getViewById(R.id.rel_diff_layout);
+            TextView txtDiffReason = getViewById(R.id.txt_diff_reason);
+            View lineSolidDeepBottom = getViewById(R.id.line_solid_deep_bottom);
+            lineDottedBottom.setVisibility(View.VISIBLE);
+            relDiffLayout.setVisibility(View.GONE);
+
+            txtOrderNumber.setText(item.getProductNo());
+            txtBoxRuleNum.setText(String.valueOf(item.getCarton()));
+            txtOrderProductName.setText(item.getProductName());
+            txtDeliveryNum.setText(String.valueOf(item.getOutNum()));
             //应发箱数
-            if ("90000714".equals(list.get(position).getProductNo())) {
-                holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
-                        StringUtil.formatBoxesNum(list.get(position).getOutCase() / 500))));
+            if ("90000714".equals(item.getProductNo())) {
+                txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(item.getOutCase() / 500))));
             } else {
-                holder.txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
-                        StringUtil.formatBoxesNum(list.get(position).getOutCase()))));
+                txtDeliveryBoxNum.setText((String.format(getString(R.string.order_boxes),
+                        StringUtil.formatBoxesNum(item.getOutCase()))));
             }
 
-            holder.txtRealBoxNum.setText(String.format(getString(R.string.order_boxes),
-                    StringUtil.formatBoxesNum(list.get(position).getDiffCase())));
-            holder.editBookCount.setText(String.valueOf(list.get(position).getDifferNum()));
+            txtRealBoxNum.setText(String.format(getString(R.string.order_boxes),
+                    StringUtil.formatBoxesNum(item.getDiffCase())));
+            editBookCount.setText(String.valueOf(item.getDifferNum()));
 
-            String diffNum = String.valueOf((list.get(position).getOutNum() - list.get(position).getDifferNum()));
-            holder.txtDiffNumProductReceive.setText(diffNum);
+            String diffNum = String.valueOf((item.getOutNum() - item.getDifferNum()));
+            txtDiffNumProductReceive.setText(diffNum);
 
-            holder.imgBookAdd.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    if (list.get(position).getOutNum() == list.get(position).getDifferNum()) {
-                        return;
-                    }
-                    list.get(position).setDifferNum(list.get(position).getDifferNum() + 1);
-                    double num;
-                    if ("90000714".equals(list.get(position).getProductNo())) {
-                        num = (double) (list.get(position).getDifferNum()) / (list.get(position).getCarton() * 500);
-                    } else {
-                        num = (double) (list.get(position).getDifferNum()) / list.get(position).getCarton();
-                    }
-                    list.get(position).setDiffCase(num);
-                    adapter.notifyDataSetChanged();
-                    handler.obtainMessage(1006).sendToTarget();
-                }
-            });
-
-            holder.imgBookReduce.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (list.get(position).getDifferNum() <= 0) {
-                        return;
-                    }
-                    list.get(position).setDifferNum(list.get(position).getDifferNum() - 1);
-                    double num;
-                    if ("90000714".equals(list.get(position).getProductNo())) {
-                        num = (double) (list.get(position).getDifferNum()) / (list.get(position).getCarton() * 500);
-                    } else {
-                        num = (double) (list.get(position).getDifferNum()) / list.get(position).getCarton();
-                    }
-
-                    list.get(position).setDiffCase(num);
-                    adapter.notifyDataSetChanged();
-                    handler.obtainMessage(1006).sendToTarget();
-                }
-            });
-
-            holder.editBookCount.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, list.get(position).getOutNum(), list.get(position).getDifferNum(), isDeliver());
-                    myDialog.setDialogCallback(dialogCallback);
-                    myDialog.show();
-                }
-            });
-
-            holder.lineDottedBottom.setVisibility(View.VISIBLE);
+            lineDottedBottom.setVisibility(View.VISIBLE);
 
             if (position == list.size() - 1) {
-                holder.lineDottedBottom.setVisibility(View.GONE);
-                holder.lineSolidDeepBottom.setVisibility(View.GONE);
+                lineDottedBottom.setVisibility(View.GONE);
+                lineSolidDeepBottom.setVisibility(View.GONE);
             } else {
-                holder.lineSolidDeepBottom.setVisibility(View.GONE);
+                lineSolidDeepBottom.setVisibility(View.GONE);
             }
-            return convertView;
-        }
 
-        final class ViewHolder {
-            TextView txtOrderNumber;
-            TextView txtBoxRuleNum;
-            TextView txtOrderProductName;
-            TextView txtDeliveryNum;
-            TextView txtDeliveryBoxNum;
-            EditText editBookCount;
-            TextView txtRealBoxNum;
-            ImageView imgBookReduce;
-            ImageView imgBookAdd;
-            RelativeLayout relDiffLayout;
-            TextView txtDiffNumProductReceive;
-            View lineDottedBottom;
-            View lineSolidDeepBottom;
-            TextView txtDiffReason;
+            setClickEvent(isNew,position,imgBookAdd,imgBookReduce,editBookCount);
         }
     }
 
@@ -947,10 +764,7 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
 
 
     private void uploadData() {
-        progressDialog.setCanceledOnTouchOutside(false);
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
+        showWaitDialog(false);
         cancelReadCacheTask();
         uploadTask = (UploadTask) new UploadTask().execute("");
     }
@@ -977,8 +791,7 @@ public class OrderDeliverDetailActivity extends Activity implements OnClickListe
         @Override
         protected void onPostExecute(String info) {
             super.onPostExecute(info);
-            if (progressDialog != null)
-                progressDialog.dismiss();
+            hideWaitDialog();
             handler.obtainMessage(1005).sendToTarget();
         }
     }

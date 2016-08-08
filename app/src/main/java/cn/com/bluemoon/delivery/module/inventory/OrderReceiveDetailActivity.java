@@ -17,7 +17,6 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
@@ -35,7 +34,13 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -56,7 +61,9 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibImageUtil;
@@ -110,9 +117,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
 
     private OrderReceiveDetailActivity main;
     private String orderCode;
-    private String type;
     private String storeCode;
-    private int storehouseCode;
 
     ResultPreReceiveOrderBean detailInfo;
 
@@ -142,7 +147,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         orderCode = getIntent().getStringExtra("orderCode");
-        type = getIntent().getStringExtra("type");
     }
 
     @Override
@@ -156,19 +160,20 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         lists = new ArrayList<ProductPreReceiveVo>();
         piclist = new ArrayList<String>();
         failUpload = new ArrayList<String>();
+        btnSettleDeliver.setOnClickListener(this);
         initHeadView();
         initFoot();
+        adapter = new OrderProductAdapter(this, null);
+        adapter.setList(lists);
+        listView.setAdapter(adapter);
     }
 
     @Override
     public void initData() {
-
-        adapter = new OrderProductAdapter(this, null);
-        adapter.setList(lists);
-        listView.setAdapter(adapter);
-        if (TextUtils.isEmpty(orderCode)) {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
+        showWaitDialog();
         DeliveryApi.getReceiveDetail(ClientStateManager.getLoginToken(),
                 orderCode, getNewHandler(0, ResultPreReceiveOrderBean.class));
     }
@@ -181,19 +186,19 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                 setData(detailInfo);
                 break;
             case 1:
-                PublicUtil.showCustomToast(main, getString(R.string.txt_order_receive_success_tip) +
-                        "\n" + ((ResultDetail) result).getReceiptCode(), Gravity.CENTER_VERTICAL);
-                handler.obtainMessage(1007).sendToTarget();
+                toast(getString(R.string.txt_order_receive_success_tip) +
+                        "\n" + ((ResultDetail) result).getReceiptCode());
+                setResult(RESULT_OK);
+                finish();
                 break;
             case 2:
                 break;
         }
     }
 
-    @Override
+    /*@Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         if (requestCode == 2) {
-            PublicUtil.showToast(main, result.getResponseMsg());
             if (uploadTaskNums >= 1) {
                 failUpload.add(piclist.get(uploadTaskNums - 1).toString());
             }
@@ -205,7 +210,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         if (requestCode == 2) {
-            PublicUtil.showToastServerBusy();
             if (uploadTaskNums >= 1) {
                 failUpload.add(piclist.get(uploadTaskNums - 1).toString());
             }
@@ -217,14 +221,13 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     @Override
     public void onFailureResponse(int requestCode, Throwable t) {
         if (requestCode == 2) {
-            PublicUtil.showToastServerOvertime();
             if (uploadTaskNums >= 1) {
                 failUpload.add(piclist.get(uploadTaskNums - 1).toString());
             }
         } else {
             super.onFailureResponse(requestCode, t);
         }
-    }
+    }*/
 
     private void initHeadView() {
         headView = LayoutInflater.from(this).inflate(R.layout.order_deliver_listview_head, null);
@@ -299,17 +302,13 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
             case R.id.rel_deliver_date:
                 String initDateTime = "";
                 initDateTime = txtFhDate.getText().toString().trim();
-                if (null == initDateTime || "".equals(initDateTime) ||
+                if (StringUtil.isEmpty(initDateTime) ||
                         getString(R.string.txt_order_input_deliver_date).equals(initDateTime)
                         || getString(R.string.txt_order_input_receive_date).equals(initDateTime)) {
-
-                    Date datetime = new Date();
                     Calendar cal = Calendar.getInstance();
-                    cal.setTime(datetime);
+                    cal.setTime(new Date());
                     cal.add(Calendar.HOUR_OF_DAY, 2);
-                    datetime = cal.getTime();
-                    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-                    initDateTime = dateFormat.format(datetime);
+                    initDateTime = DateUtil.getTime(cal.getTimeInMillis(),"yyyy-MM-dd HH:mm");
                 }
                 DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
                         main, initDateTime, new DateTimePickDialogUtil.OnDetailClickLister() {
@@ -343,16 +342,8 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                 break;
 
             case R.id.rel_deliverTicket:
-                Intent it = new Intent(main, OrderTicketUploadActivity.class);
-                it.putExtra("type", InventoryTabActivity.RECEIVE_MANAGEMENT);
-                it.putExtra("storeCode", storeCode);
-                it.putExtra("storehouseCode", storehouseCode);
-                if (piclist != null && piclist.size() > 0) {
-                    Bundle b = new Bundle();
-                    b.putStringArrayList("piclist", (ArrayList<String>) piclist);
-                    it.putExtra("piclist", b);
-                }
-                main.startActivityForResult(it, 103);
+                OrderTicketUploadActivity.actionStart(main, InventoryTabActivity.RECEIVE_MANAGEMENT,
+                        storeCode, piclist, 103);
 
                 break;
             case R.id.txt_fh_phone:
@@ -461,17 +452,44 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         }
         Bitmap bm = ImageUtil.convertToBitmap(path);
         // PublicUtil.getBytes(bm);
-        DeliveryApi.uploadTicketPic(token, orderCode, "receipt", LibImageUtil.scaleBitmap(bm, 800),
-                getNewHandler(2, ResultBase.class));
+        DeliveryApi.uploadTicketPic(token, orderCode, "receipt", LibImageUtil.scaleBitmap(bm, 800),uploadHandler);
     }
 
-    private boolean isDeliver() {
-        if (InventoryTabActivity.DELIVERY_MANAGEMENT.equals(type)) {
-            return true;
-        } else {
-            return false;
+    AsyncHttpResponseHandler uploadHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            LogUtils.d(getDefaultTag(), "uploadHeader result = " + responseString);
+            try {
+                ResultBase result = JSON.parseObject(responseString,
+                        ResultBase.class);
+                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+//                    toast("第" + uploadTaskNums + "张上传成功");
+                } else {
+                    PublicUtil.showToast(main, result.getResponseMsg());
+                    if (uploadTaskNums >= 1) {
+                        failUpload.add(piclist.get(uploadTaskNums - 1));
+                    }
+                }
+            } catch (Exception e) {
+                LogUtils.e(getDefaultTag(), e.getMessage());
+                PublicUtil.showToastServerBusy();
+                if (uploadTaskNums >= 1) {
+                    failUpload.add(piclist.get(uploadTaskNums - 1));
+                }
+            }
         }
-    }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(getDefaultTag(), throwable.getMessage());
+            PublicUtil.showToastServerOvertime();
+            if (uploadTaskNums >= 1) {
+                failUpload.add(piclist.get(uploadTaskNums - 1));
+            }
+        }
+    };
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -570,9 +588,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                             + String.format(getString(R.string.order_product_count), sumCount)));
                     txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), diffNums));
                     break;
-                case 1007:
-                    setResult(RESULT_OK);
-                    finish();
                 default:
                     break;
             }
@@ -588,7 +603,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
             return;
         }
         storeCode = result.getOrderDetail().getReStoreCode();
-        storehouseCode = result.getOrderDetail().getReStoreAddrId();
         List<ProductPreReceiveVo> lis = result.getOrderDetail().getProductDetails();
         for (int i = 0; i < lis.size(); i++) {
             lis.get(i).setDifferNum(lis.get(i).getOutNum());
@@ -664,10 +678,9 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         txtDiffNums.setText(getString(R.string.txt_order_product_count, 0));
     }
 
-    public static void actionStart(Fragment context, String type, String orderCode) {
+    public static void actionStart(Fragment context,String orderCode) {
         Intent intent = new Intent(context.getActivity(), OrderReceiveDetailActivity.class);
         intent.putExtra("orderCode", orderCode);
-        intent.putExtra("type", type);
         context.startActivityForResult(intent, 0);
     }
 
@@ -765,25 +778,20 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
             editBookCount.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, info.getOutNum(), info.getDifferNum(), isDeliver());
+                    DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, info.getOutNum(), info.getDifferNum(), false);
                     myDialog.setDialogCallback(dialogCallback);
                     myDialog.show();
                 }
             });
 
-            if (info.getDifferNum() != info.getOutNum() && !isDeliver()) {
-                relDiffLayout.setVisibility(View.VISIBLE);
-                lineDottedBottom.setVisibility(View.GONE);
-                if (!TextUtils.isEmpty(info.getReDifferReason())) {
-                    txtDiffReason.setText(info.getReDifferReasonName());
-                    txtDiffReason.setTextColor(getResources().getColor(R.color.text_grep));
-                } else {
-                    txtDiffReason.setText(getResources().getString(R.string.text_diff_reason));
-                    txtDiffReason.setTextColor(getResources().getColor(R.color.text_red));
-                }
+            relDiffLayout.setVisibility(View.VISIBLE);
+            lineDottedBottom.setVisibility(View.GONE);
+            if (!TextUtils.isEmpty(info.getReDifferReason())) {
+                txtDiffReason.setText(info.getReDifferReasonName());
+                txtDiffReason.setTextColor(getResources().getColor(R.color.text_grep));
             } else {
-                relDiffLayout.setVisibility(View.GONE);
-                lineDottedBottom.setVisibility(View.VISIBLE);
+                txtDiffReason.setText(getResources().getString(R.string.text_diff_reason));
+                txtDiffReason.setTextColor(getResources().getColor(R.color.text_red));
             }
 
             if (position == list.size() - 1) {
@@ -848,7 +856,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         protected String doInBackground(String... params) {
             for (int i = 0; i < piclist.size(); i++) {
                 uploadTaskNums = i + 1;
-                uploadPhoto(piclist.get(i).toString());
+                uploadPhoto(piclist.get(i));
             }
             return "success";
         }

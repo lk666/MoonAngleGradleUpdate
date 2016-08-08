@@ -293,11 +293,9 @@ public class SuspenseFragment extends BasePullToRefreshListViewFragment {
         OrderVo order = (OrderVo) item;
         if (null != order) {
             if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
-                OrderReceiveDetailActivity.actionStart(SuspenseFragment.this,
-                        InventoryTabActivity.RECEIVE_MANAGEMENT, order.getOrderCode());
+                OrderReceiveDetailActivity.actionStart(SuspenseFragment.this, order.getOrderCode());
             } else {
-                OrderDeliverDetailActivity.actionStart(SuspenseFragment.this,
-                        InventoryTabActivity.DELIVERY_MANAGEMENT, order.getOrderCode());
+                OrderDeliverDetailActivity.actionStart(SuspenseFragment.this, order.getOrderCode());
             }
         }
     }
