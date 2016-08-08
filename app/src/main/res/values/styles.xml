@@ -194,23 +194,6 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <style name="DialogStyleTop">
-        <!--         <item name="android:windowAnimationStyle">@style/AnimTop</item> -->
-        <item name="android:windowFrame">@null</item>
-        <!-- 边框 -->
-        <item name="android:windowIsFloating">true</item>
-        <!-- 是否浮现在activity之上 -->
-        <item name="android:windowIsTranslucent">true</item>
-        <!-- 半透明 -->
-        <item name="android:windowNoTitle">true</item>
-        <!-- 无标题 -->
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <!-- 背景透明 -->
-        <item name="android:backgroundDimEnabled">true</item>
-        <!-- 模糊 -->
-        <!-- <item name="android:windowFullscreen">true</item> -->
-    </style>
-
     <style name="AnimTop" parent="@android:style/Animation">
         <item name="android:windowEnterAnimation">@anim/push_top_in</item>
         <item name="android:windowExitAnimation">@anim/push_top_out</item>
@@ -320,6 +303,29 @@
     <!--普通黑色11标题字体-->
     <style name="txt_title_11" parent="txt_title_13">
         <item name="android:textSize">@dimen/text_size_11</item>
+    </style>
+
+    <style name="MyDialogStyleTop" parent="android:Theme.Dialog" >
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">true</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@color/black_transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
+
+    <style name="dateStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#323232</item>
+    </style>
+
+    <!--普通白色15标题字体-->
+    <style name="txt_title_white_15" parent="txt_title_13">
+        <item name="android:textColor">#ffffff</item>
     </style>
 
 </resources>

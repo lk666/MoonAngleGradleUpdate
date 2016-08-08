@@ -1,0 +1,69 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/title_background">
+
+    <cn.com.bluemoon.lib.view.ImageViewForClick
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:src="@drawable/icon_back" />
+
+
+<RadioGroup
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_centerInParent="true"
+    android:gravity="center">
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="日程"
+        android:textColor="#ffffff"
+        android:textSize="16sp"/>
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="会议"
+        android:textColor="#ffffff"
+        android:textSize="16sp"/>
+
+</RadioGroup>
+
+
+
+
+    <cn.com.bluemoon.lib.view.ImageViewForClick
+        android:id="@+id/img_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:scaleType="center"
+        android:src="@mipmap/user_top_nav" />
+
+    <cn.com.bluemoon.lib.view.ImageViewForClick
+        android:id="@+id/img_right2"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/img_right"
+        android:layout_centerVertical="true"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="center"
+        android:src="@mipmap/collect_white" />
+
+</RelativeLayout>
