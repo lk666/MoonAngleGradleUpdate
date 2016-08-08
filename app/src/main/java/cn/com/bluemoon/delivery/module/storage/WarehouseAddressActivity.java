@@ -84,6 +84,11 @@ public class WarehouseAddressActivity extends BaseActivity {
     }
 
     @Override
+    protected void onActionBarBtnLeftClick() {
+        back();
+    }
+
+    @Override
     protected void onActionBarBtnRightClick() {
         if (null != addressList && null != addressList.get(0)) {
             WarehouseAddressEditActivity.actionStart(this, storeId, storeName, false, addressList
