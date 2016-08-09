@@ -1,8 +1,12 @@
 package cn.com.bluemoon.delivery.sz.meeting;
 
+import android.app.ActionBar;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -30,6 +34,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cn.com.bluemoon.lib.view.ImageViewForClick;
 
 public class SchedualActivity extends KJActivity implements CalendarCard.OnCellClickListener {
 	private String TAG = SchedualActivity.class.getSimpleName();
@@ -38,6 +43,9 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	private TextView dateTv;
 	@BindView(id=R.id.vp_calendar)
 	private ViewPager viewPager;
+
+	private ImageViewForClick backBtn,msgBtn,setBtn;
+	private RadioButton meetingRbtn;
 
 	private CommonProgressDialog progressDialog;
 	private int mCurrentIndex = 498;
@@ -152,7 +160,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		super.widgetClick(v);
 		switch (v.getId()) {
 			case R.id.submit_btn:
-			//submit();
+				//submit();
 				break;
 			case R.id.tv_date:
 				CustomDate tempDate = new CustomDate(2016,12,1);
@@ -160,7 +168,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 				break;
 		}
 	}
-	
+
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK) {
@@ -168,28 +176,55 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		}
 		return false;
 	}
-	
+
 	private void initCustomActionBar() {
-		new CommonActionBar(getActionBar(),new IActionBarListener() {
-			
+		ActionBar actionBar = getActionBar();
+		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+		actionBar.setDisplayShowCustomEnabled(true);
+		actionBar.setCustomView(R.layout.top_meeting_bar);
+
+		RadioGroup radioGroup = (RadioGroup) actionBar.getCustomView().findViewById(R.id.rgroup);
+		backBtn = (ImageViewForClick) actionBar.getCustomView().findViewById(R.id.img_back);
+		msgBtn = (ImageViewForClick) actionBar.getCustomView().findViewById(R.id.img_right2);
+		setBtn = (ImageViewForClick) actionBar.getCustomView().findViewById(R.id.img_right);
+		meetingRbtn = (RadioButton) actionBar.getCustomView().findViewById(R.id.rbtn2);
+		final View line1 = actionBar.getCustomView().findViewById(R.id.line1);
+		final View line2 = actionBar.getCustomView().findViewById(R.id.line2);
+
+		backBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onBtnRight(View v) {
-				// TODO Auto-generated method stub
-			}
-			
-			@Override
-			public void onBtnLeft(View v) {
-				// TODO Auto-generated method stub
+			public void onClick(View view) {
 				finish();
 			}
+		});
 
+		msgBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void setTitle(TextView v) {
-				// TODO Auto-generated method stub
-				v.setText("日程");
+			public void onClick(View view) {
+
 			}
 		});
-		
+
+		setBtn.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+
+			}
+		});
+
+		radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(RadioGroup group, int checkedId) {
+				if(checkedId == R.id.rbtn1){
+					line1.setVisibility(View.VISIBLE);
+					line2.setVisibility(View.INVISIBLE);
+				}else if(checkedId == R.id.rbtn2){
+					line1.setVisibility(View.INVISIBLE);
+					line2.setVisibility(View.VISIBLE);
+				}
+			}
+		});
+
 	}
 
 	public void submit() {
@@ -200,9 +235,9 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		}
 
 	}
-	
+
 	AsyncHttpResponseHandler changePwdHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-		
+
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
 			LogUtils.d(TAG,"updatePassword result = " + responseString);
@@ -221,25 +256,25 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 				PublicUtil.showToastServerBusy(aty);
 			}
 		}
-		
+
 		@Override
-		public void onFailure(int statusCode, Header[] headers, String responseString, 
-				Throwable throwable) {
+		public void onFailure(int statusCode, Header[] headers, String responseString,
+							  Throwable throwable) {
 			LogUtils.e(TAG, throwable.getMessage());
 			if(progressDialog != null)
 				progressDialog.dismiss();
 			PublicUtil.showToastServerOvertime(aty);
 		}
 	};
-	
+
 	public void onResume() {
-	    super.onResume();
-	    MobclickAgent.onPageStart(TAG); 
+		super.onResume();
+		MobclickAgent.onPageStart(TAG);
 	}
 	public void onPause() {
-	    super.onPause();
-	    MobclickAgent.onPageEnd(TAG); 
-	    if(progressDialog != null)
+		super.onPause();
+		MobclickAgent.onPageEnd(TAG);
+		if(progressDialog != null)
 			progressDialog.dismiss();
 	}
 

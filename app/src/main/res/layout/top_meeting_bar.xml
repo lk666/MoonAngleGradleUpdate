@@ -17,28 +17,67 @@
         android:src="@drawable/icon_back" />
 
 
-<RadioGroup
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:layout_centerInParent="true"
-    android:gravity="center">
 
-    <RadioButton
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="日程"
-        android:textColor="#ffffff"
-        android:textSize="16sp"/>
+        android:orientation="vertical"
+        android:layout_centerInParent="true"
+        android:gravity="center">
+        <RadioGroup
+            android:id="@+id/rgroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerInParent="true"
+            android:gravity="center">
 
-    <RadioButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="会议"
-        android:textColor="#ffffff"
-        android:textSize="16sp"/>
+            <RadioButton
+                android:id="@+id/rbtn1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="日程"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:button="@null"
+                android:background="@android:color/transparent"
+                android:padding="10dp"/>
 
-</RadioGroup>
+            <RadioButton
+                android:id="@+id/rbtn2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="会议"
+                android:textSize="16sp"
+                android:textColor="#ffffff"
+                android:button="@null"
+                android:background="@android:color/transparent"
+                android:padding="10dp"/>
+
+        </RadioGroup>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+            <View
+                android:id="@+id/line1"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:background="#ffffff"/>
+
+            <View
+                android:id="@+id/line2"
+                android:layout_width="0dp"
+                android:layout_height="2dp"
+                android:layout_weight="1"
+                android:background="#ffffff"
+                android:visibility="invisible"/>
+        </LinearLayout>
+
+    </LinearLayout>
 
 
 
