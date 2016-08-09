@@ -2,6 +2,8 @@ package cn.com.bluemoon.delivery.sz.view.calendar;
 
 import java.io.Serializable;
 
+import cn.com.bluemoon.delivery.sz.util.DateUtil;
+
 public class CustomDate implements Serializable{
 	
 	

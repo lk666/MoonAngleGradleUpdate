@@ -1,13 +1,16 @@
 package cn.com.bluemoon.delivery.sz.meeting;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.view.WindowManager;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RadioButton;
@@ -26,19 +29,20 @@ import org.kymjs.kjframe.ui.BindView;
 import org.kymjs.kjframe.utils.StringUtils;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.sz.adapter.TaskAdapter;
 import cn.com.bluemoon.delivery.sz.bean.TaskBean;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.sz.util.DateUtil;
+import cn.com.bluemoon.delivery.sz.view.datepicker.adapter.NumericWheelAdapter;
+import cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView;
 import cn.com.bluemoon.delivery.sz.view.calendar.CalendarCard;
 import cn.com.bluemoon.delivery.sz.view.calendar.CalendarViewAdapter;
 import cn.com.bluemoon.delivery.sz.view.calendar.CustomDate;
-import cn.com.bluemoon.delivery.sz.view.calendar.DateUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -67,7 +71,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	private CalendarViewAdapter<CalendarCard> adapter;
 	private TaskAdapter taskAdapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
-
+	private WheelView yearWv,monthWv;
 
 
 	enum SildeDirection {
@@ -110,13 +114,12 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		adapter = new CalendarViewAdapter<CalendarCard>(views);
 		setViewPager();
 
-		dateTv.setText(DateUtil.getYear()+"年"+DateUtil.getMonth()+"月");
+		dateTv.setText(DateUtil.getYear()+"年"+ DateUtil.getMonth()+"月");
 
 		dateTv.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				CustomDate tempDate = new CustomDate(2016,12,1);
-				updateCalendarView(tempDate);
+				showDateDialog();
 			}
 		});
 	}
@@ -289,6 +292,95 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		});
 
 	}
+
+	/**
+	 * 显示日期
+	 */
+	private void showDateDialog() {
+		final AlertDialog dialog = new AlertDialog.Builder(this)
+				.create();
+		dialog.show();
+		Window window = dialog.getWindow();
+		// 设置布局
+		window.setContentView(R.layout.datapick);
+		// 设置宽高
+		window.setLayout(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+		// 设置弹出的动画效果
+		window.setWindowAnimations(R.style.AnimBottom);
+
+
+		Calendar c = Calendar.getInstance();
+		int curYear = c.get(Calendar.YEAR);
+		int curMonth = c.get(Calendar.MONTH) + 1;//通过Calendar算出的月数要+1
+		int curDate = c.get(Calendar.DATE);
+		yearWv = (WheelView) window.findViewById(R.id.year);
+		initYear(curYear);
+		monthWv = (WheelView) window.findViewById(R.id.month);
+		initMonth();
+
+		yearWv.setCurrentItem(curYear - 1990);
+		monthWv.setCurrentItem(curMonth - 1);
+
+		yearWv.setVisibleItems(5);
+		monthWv.setVisibleItems(5);
+
+
+		// 设置监听
+		Button ok = (Button) window.findViewById(R.id.set);
+		Button cancel = (Button) window.findViewById(R.id.cancel);
+		ok.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+//				String str = (yearWv.getCurrentItem()+1990) + "-"+ (monthWv.getCurrentItem()+1)+"-"+(dayWv.getCurrentItem()+1);
+//				PublicUtil.showToast(SchedualActivity.this,str);
+				CustomDate tempDate = new CustomDate(yearWv.getCurrentItem()+1990,monthWv.getCurrentItem()+1,1);
+				updateCalendarView(tempDate);
+				dialog.cancel();
+			}
+		});
+		cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				dialog.cancel();
+			}
+		});
+		LinearLayout cancelLayout = (LinearLayout) window.findViewById(R.id.view_none);
+		cancelLayout.setOnTouchListener(new View.OnTouchListener() {
+			@Override
+			public boolean onTouch(View view, MotionEvent motionEvent) {
+				dialog.cancel();
+				return false;
+			}
+		});
+
+	}
+
+	/**
+	 * 初始化年  年份不同 另起adapter
+	 */
+	private void initYear(int curYear) {
+		NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,1990, curYear+10);
+		numericWheelAdapter.setLabel(" 年");
+		//		numericWheelAdapter.setTextSize(15);  设置字体大小
+		yearWv.setViewAdapter(numericWheelAdapter);
+		yearWv.setCyclic(false);
+	}
+
+	/**
+	 * 初始化月
+	 */
+	private void initMonth() {
+		NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,1, 12, "%02d");
+		numericWheelAdapter.setLabel(" 月");
+		//		numericWheelAdapter.setTextSize(15);  设置字体大小
+		monthWv.setViewAdapter(numericWheelAdapter);
+		monthWv.setCyclic(false);
+	}
+
+
+
 
 	public void submit() {
 

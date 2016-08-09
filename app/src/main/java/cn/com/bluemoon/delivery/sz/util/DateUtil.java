@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.sz.view.calendar;
+package cn.com.bluemoon.delivery.sz.util;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -8,7 +8,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import cn.com.bluemoon.delivery.sz.view.calendar.CustomDate;
 
+/**
+ * Created by dujiande on 2016/8/9.
+ */
 public class DateUtil {
 
 	public static String[] weekName = { "周日", "周一", "周二", "周三", "周四", "周五","周六" };
@@ -36,7 +40,7 @@ public class DateUtil {
 
 		return days;
 	}
-	
+
 	public static int getYear() {
 		return Calendar.getInstance().get(Calendar.YEAR);
 	}
@@ -60,7 +64,7 @@ public class DateUtil {
 		return Calendar.getInstance().get(Calendar.MINUTE);
 	}
 	public static CustomDate getNextSunday() {
-		
+
 		Calendar c = Calendar.getInstance();
 		c.add(Calendar.DATE, 7 - getWeekDay()+1);
 		CustomDate date = new CustomDate(c.get(Calendar.YEAR),
@@ -105,7 +109,7 @@ public class DateUtil {
 			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			date = sdf.parse(dateString);
 
-//			Log.d(""+"SimpleDateFormat==============", ""+sdf.format(date));
+			//			Log.d(""+"SimpleDateFormat==============", ""+sdf.format(date));
 		} catch (ParseException e) {
 			System.out.println(e.getMessage());
 		}
@@ -114,10 +118,10 @@ public class DateUtil {
 
 	public static boolean isToday(CustomDate date){
 		return(date.year == DateUtil.getYear() &&
-				date.month == DateUtil.getMonth() 
+				date.month == DateUtil.getMonth()
 				&& date.day == DateUtil.getCurrentMonthDay());
 	}
-	
+
 	public static boolean isCurrentMonth(CustomDate date){
 		return(date.year == DateUtil.getYear() &&
 				date.month == DateUtil.getMonth());
