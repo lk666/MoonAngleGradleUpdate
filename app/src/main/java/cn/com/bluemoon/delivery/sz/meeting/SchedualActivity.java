@@ -1,10 +1,15 @@
 package cn.com.bluemoon.delivery.sz.meeting;
 
 import android.app.ActionBar;
+import android.content.Context;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -20,11 +25,15 @@ import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 import org.kymjs.kjframe.utils.StringUtils;
 
+import java.util.ArrayList;
+
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
+import cn.com.bluemoon.delivery.sz.adapter.TaskAdapter;
+import cn.com.bluemoon.delivery.sz.bean.TaskBean;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.sz.view.calendar.CalendarCard;
 import cn.com.bluemoon.delivery.sz.view.calendar.CalendarViewAdapter;
@@ -39,9 +48,14 @@ import cn.com.bluemoon.lib.view.ImageViewForClick;
 public class SchedualActivity extends KJActivity implements CalendarCard.OnCellClickListener {
 	private String TAG = SchedualActivity.class.getSimpleName();
 
-	@BindView(id=R.id.tv_date,click=true)
+
 	private TextView dateTv;
-	@BindView(id=R.id.vp_calendar)
+	@BindView(id=R.id.img_add,click=true)
+	private ImageViewForClick addBtn;
+
+	@BindView(id=R.id.schedual_listview)
+	private ListView listView;
+
 	private ViewPager viewPager;
 
 	private ImageViewForClick backBtn,msgBtn,setBtn;
@@ -51,6 +65,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	private int mCurrentIndex = 498;
 	private CalendarCard[] mShowViews;
 	private CalendarViewAdapter<CalendarCard> adapter;
+	private TaskAdapter taskAdapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
 
 
@@ -74,15 +89,64 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(aty);
 
+		View headerView = LayoutInflater.from(this).inflate( R.layout.header_schedual, null);
+		listView.addHeaderView(headerView);
+		dateTv = (TextView) headerView.findViewById(R.id.tv_date);
+		viewPager = (ViewPager)headerView.findViewById(R.id.vp_calendar);
+
+		ArrayList<TaskBean> taskdata = new ArrayList<TaskBean>();
+		TaskBean temp = new TaskBean();
+		temp.setType(2);
+		taskdata.add(temp);
+		taskAdapter = new TaskAdapter(this,taskdata);
+		listView.setAdapter(taskAdapter);
+		test();
+
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
 			views[i] = new CalendarCard(this, this);
 		}
+		adjustViewPagerHeight(views[1].getCurrentRowNum());
 		adapter = new CalendarViewAdapter<CalendarCard>(views);
 		setViewPager();
 
-
 		dateTv.setText(DateUtil.getYear()+"年"+DateUtil.getMonth()+"月");
+
+		dateTv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				CustomDate tempDate = new CustomDate(2016,12,1);
+				updateCalendarView(tempDate);
+			}
+		});
+	}
+
+	private void adjustViewPagerHeight(int rowNum){
+		WindowManager wm = (WindowManager) getSystemService(Context.WINDOW_SERVICE);
+		int width = wm.getDefaultDisplay().getWidth();
+		int cellspace = width / 7;
+		int height = cellspace * rowNum;
+		viewPager.setLayoutParams(new LinearLayout.LayoutParams(width,height));
+	}
+
+
+	private void test() {
+		ArrayList<TaskBean> taskdata = new ArrayList<TaskBean>();
+		TaskBean temp = new TaskBean();
+		temp.setType(0);
+		temp.setDatetime("8:00 - 9:00");
+		temp.setContent("原型讨论设计");
+		taskdata.add(temp);
+
+		for(int i=0;i<4;i++){
+			temp = new TaskBean();
+			temp.setType(1);
+			temp.setDatetime("9:00 - 11:00");
+			temp.setContent("需求会议评审"+i);
+			taskdata.add(temp);
+		}
+
+		taskAdapter.refresh(taskdata);
 	}
 
 	private void setViewPager() {
@@ -133,6 +197,9 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 			mShowViews[arg0 % mShowViews.length].leftSlide();
 		}
 		mDirection = SildeDirection.NO_SILDE;
+
+		int currentRowNum = mShowViews[arg0 % mShowViews.length].getCurrentRowNum();
+		adjustViewPagerHeight(currentRowNum);
 	}
 
 	private void updateCalendarView(CustomDate date){
@@ -159,12 +226,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		// TODO Auto-generated method stub
 		super.widgetClick(v);
 		switch (v.getId()) {
-			case R.id.submit_btn:
-				//submit();
-				break;
-			case R.id.tv_date:
-				CustomDate tempDate = new CustomDate(2016,12,1);
-				updateCalendarView(tempDate);
+			case R.id.img_add:
+				PublicUtil.showToast("you click add btn");
 				break;
 		}
 	}

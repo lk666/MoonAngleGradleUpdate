@@ -10,25 +10,30 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.kymjs.kjframe.KJBitmap;
+
 
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.Product;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
+
+import cn.com.bluemoon.delivery.sz.bean.TaskBean;
+
 
 public class TaskAdapter extends BaseAdapter {
 
-	private List<Product> list;
+	private List<TaskBean> list;
 	private Context context;
-	public KJBitmap kjb;
 
-	public TaskAdapter(Context context , List<Product> list) {
+
+	public TaskAdapter(Context context , List<TaskBean> list) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.list = list;
+	}
+
+	public void refresh( List<TaskBean> list){
+		this.list = list;
+		notifyDataSetChanged();
 	}
 	
 	@Override
@@ -52,57 +57,53 @@ public class TaskAdapter extends BaseAdapter {
 	@Override
 	public View getView(final int position, View convertView, ViewGroup parent) {
 		// TODO Auto-generated method stub
-		ViewProductHolder holder;
+		ViewTaskBeanHolder holder;
 		if(convertView==null) {
-			holder = new ViewProductHolder();
+			holder = new ViewTaskBeanHolder();
 			LayoutInflater inflater = LayoutInflater.from(context);
-			convertView = inflater.inflate(R.layout.order_product_item, null);
+			convertView = inflater.inflate(R.layout.item_task, null);
 			
-			holder.imgProduct = (ImageView) convertView.findViewById(R.id.img_product);
-			holder.txtContent = (TextView) convertView.findViewById(R.id.txt_content);
-			holder.txtMoney = (TextView) convertView.findViewById(R.id.txt_money);
-			holder.txtCount = (TextView) convertView.findViewById(R.id.txt_count);
-			holder.line =  convertView.findViewById(R.id.line);
+			holder.imgStatus = (ImageView) convertView.findViewById(R.id.status_iv);
+			holder.txtContent = (TextView) convertView.findViewById(R.id.content_tv);
+			holder.txtDate = (TextView) convertView.findViewById(R.id.datetime_tv);
+			holder.txtStatus = (TextView) convertView.findViewById(R.id.status_tv);
 			convertView.setTag(holder);
 			
 		}
 		else {
-			holder = (ViewProductHolder) convertView.getTag();
+			holder = (ViewTaskBeanHolder) convertView.getTag();
 		}
-		
-		holder.txtMoney.setText(context.getString(R.string.order_money_sign)+PublicUtil.getPriceFrom(list.get(position).getPayPrice()));
-		holder.txtContent.setText(list.get(position).getShopProName());
-		holder.txtCount.setText("x"+list.get(position).getBuyNum());
-		if(kjb== null) kjb = new KJBitmap();
-		kjb.display(holder.imgProduct, list.get(position).getImg());
-		
-		if(position == list.size()-1){
-			holder.line.setVisibility(View.GONE);
+		TaskBean taskBean = list.get(position);
+		if(taskBean.getType() == 0){
+			holder.imgStatus.setVisibility(View.VISIBLE);
+			holder.imgStatus.setBackgroundResource(R.drawable.bg_circle_blue_shape);
+
+			holder.txtStatus.setText("可调整");
+			holder.txtDate.setText(taskBean.getDatetime());
+			holder.txtContent.setText(taskBean.getContent());
+		}else if(taskBean.getType() == 1){
+			holder.imgStatus.setVisibility(View.VISIBLE);
+			holder.imgStatus.setBackgroundResource(R.drawable.bg_circle_red_shape);
+
+			holder.txtStatus.setText("不可调整");
+			holder.txtDate.setText(taskBean.getDatetime());
+			holder.txtContent.setText(taskBean.getContent());
 		}else{
-			holder.line.setVisibility(View.VISIBLE);
+			holder.imgStatus.setVisibility(View.INVISIBLE);
+			holder.txtStatus.setText("无日程安排");
+			holder.txtDate.setText("");
+			holder.txtContent.setText("");
 		}
-		
-		holder.imgProduct.setOnClickListener(new OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				try {
-					DialogUtil.showPictureDialog((Activity)context, list.get(position).getImg());
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
+
+
 		return convertView;
 	}
 	
-	class ViewProductHolder {
-		ImageView imgProduct;
+	class ViewTaskBeanHolder {
+		View imgStatus;
+		TextView txtStatus;
+		TextView txtDate;
 		TextView txtContent;
-		TextView txtMoney;
-		TextView txtCount;
-		View line;
 	}
 
 }

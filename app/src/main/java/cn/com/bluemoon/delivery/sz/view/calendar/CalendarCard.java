@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
+import android.view.WindowManager;
 
 /**
  * 自定义日历卡
@@ -38,6 +39,8 @@ public class CalendarCard extends View {
 	private Cell mClickCell;
 	private float mDownX;
 	private float mDownY;
+
+	private int currentRowNum = 6;
 
 	/**
 	 * 单元格点击的回调接口
@@ -89,6 +92,10 @@ public class CalendarCard extends View {
 		fillDate();//实例数据
 	}
 
+	public int getCurrentRowNum() {
+		return currentRowNum;
+	}
+
 	@SuppressLint("LongLogTag")
 	private void fillDate() {
 		int monthDay = DateUtil.getCurrentMonthDay(); // 今天
@@ -98,6 +105,8 @@ public class CalendarCard extends View {
 				mShowDate.month); // 当前月的天数
 		int firstDayWeek = DateUtil.getWeekDayFromDate(mShowDate.year,
 				mShowDate.month);//当月的那一号
+
+		currentRowNum = (int)Math.ceil((currentMonthDays+firstDayWeek)/7.0);
 
 		Log.d(mShowDate.year+"/"+mShowDate.month+"getWeekDayFromDate==============",""+firstDayWeek);
 
@@ -168,11 +177,13 @@ public class CalendarCard extends View {
 		super.onSizeChanged(w, h, oldw, oldh);
 		mViewWidth = w;
 		mViewHeight = h;
-		mCellSpace = Math.min(mViewHeight / TOTAL_ROW, mViewWidth / TOTAL_COL);
+		//mCellSpace = Math.min(mViewHeight / TOTAL_ROW, mViewWidth / TOTAL_COL);
+		mCellSpace = mViewWidth / TOTAL_COL;
 		if (!callBackCellSpace) {
 			callBackCellSpace = true;
 		}
 		mTextPaint.setTextSize(mCellSpace / 3);
+
 	}
 
 	@Override
