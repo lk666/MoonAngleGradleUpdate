@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.mvptest.model;
+package cn.com.bluemoon.delivery.module.usermvptest.model;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 

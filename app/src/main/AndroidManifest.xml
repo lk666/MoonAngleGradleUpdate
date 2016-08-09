@@ -56,10 +56,9 @@
             android:theme="@style/Anim_style2"
             android:windowSoftInputMode="adjustResize"/>
         <activity
-            android:name=".module.mvptest.view.UserActivity"
-            android:launchMode="singleTask"
+            android:name=".module.usermvptest.view.UserActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/Anim_style2"
+            android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustResize"/>
         <activity
             android:name=".module.account.SettingInfoActivity"

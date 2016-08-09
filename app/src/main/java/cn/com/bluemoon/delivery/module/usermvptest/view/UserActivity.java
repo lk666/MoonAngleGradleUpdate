@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.mvptest.view;
+package cn.com.bluemoon.delivery.module.usermvptest.view;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,7 +11,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.module.mvptest.presenter.UserPresenter;
+import cn.com.bluemoon.delivery.module.usermvptest.presenter.UserPresenter;
 
 public class UserActivity extends BaseActivity implements IUserView {
 
@@ -28,8 +28,13 @@ public class UserActivity extends BaseActivity implements IUserView {
     }
 
     @Override
+    protected String getTitleString() {
+        return getString(R.string.app_name);
+    }
+
+    @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        userPresenter.success(requestCode,result);
+        userPresenter.success(requestCode, result);
     }
 
     @Override

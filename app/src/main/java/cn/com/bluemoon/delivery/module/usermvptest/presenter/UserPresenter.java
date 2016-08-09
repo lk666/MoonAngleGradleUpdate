@@ -1,10 +1,10 @@
-package cn.com.bluemoon.delivery.module.mvptest.presenter;
+package cn.com.bluemoon.delivery.module.usermvptest.presenter;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultUser;
-import cn.com.bluemoon.delivery.module.mvptest.model.IUserModel;
-import cn.com.bluemoon.delivery.module.mvptest.model.UserModel;
-import cn.com.bluemoon.delivery.module.mvptest.view.IUserView;
+import cn.com.bluemoon.delivery.module.usermvptest.model.IUserModel;
+import cn.com.bluemoon.delivery.module.usermvptest.model.UserModel;
+import cn.com.bluemoon.delivery.module.usermvptest.view.IUserView;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**

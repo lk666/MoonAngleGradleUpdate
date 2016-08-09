@@ -51,7 +51,6 @@ import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
 import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
-import cn.com.bluemoon.delivery.module.mvptest.view.UserActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
@@ -59,6 +58,7 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.usermvptest.view.UserActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -67,7 +67,6 @@ import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.PushUtils;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -148,8 +147,8 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-             PublicUtil.openScanCard(main, null, null, 0);
-//                UserActivity.actStart(main);
+//             PublicUtil.openScanCard(main, null, null, 0);
+                UserActivity.actStart(main);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);

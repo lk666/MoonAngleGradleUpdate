@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.mvptest.view;
+package cn.com.bluemoon.delivery.module.usermvptest.view;
 
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 

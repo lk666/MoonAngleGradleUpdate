@@ -6,13 +6,16 @@
     android:gravity="center"
     android:focusableInTouchMode="true"
     android:focusable="true"
+    android:background="#fefefe"
     android:padding="50dp">
 
     <EditText
         android:id="@+id/et_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_border_grep"
         android:hint="账号"
+        android:padding="10dp"
         android:textColor="@color/text_black"
         android:layout_marginBottom="20dp"
         />
@@ -20,7 +23,9 @@
         android:id="@+id/et_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@drawable/edittext_border_grep"
         android:hint="姓名"
+        android:padding="10dp"
         android:textColor="@color/text_black"
         android:layout_marginBottom="20dp"
         />
@@ -29,13 +34,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="get"/>
+        android:background="@drawable/btn_blue_shape"
+        android:textColor="@color/view_bg"
+        android:text="获取资料"/>
 
     <Button
         android:id="@+id/btn_exit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="loginout"/>
+        android:background="@drawable/btn_red_shape"
+        android:textColor="@color/view_bg"
+        android:text="退出登录"/>
 
 </LinearLayout>
