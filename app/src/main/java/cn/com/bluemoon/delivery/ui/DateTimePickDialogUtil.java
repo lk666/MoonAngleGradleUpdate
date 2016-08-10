@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -17,6 +18,7 @@ import cn.com.bluemoon.delivery.R;
 
 /**
  * TODO   select order deliver or receive time
+ *
  * @author wangshanhai
  * @version 1.1.0
  * @time 2016-4-10 上午11:43:51
@@ -42,60 +44,61 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
     }
 
     /**
-     *
      * @param activity
-     * @param initDateTime  2016-1-1 10:00
+     * @param initDateTime        2016-1-1 10:00
      * @param onDetailClickLister
      */
-    public DateTimePickDialogUtil(Activity activity, String initDateTime, OnDetailClickLister onDetailClickLister) {
+    public DateTimePickDialogUtil(Activity activity, String initDateTime, OnDetailClickLister
+            onDetailClickLister) {
         this.activity = activity;
         this.initDateTime = initDateTime;
         this.onDetailClickLister = onDetailClickLister;
     }
 
     /**
-     *
      * @param activity
-     * @param initTime long型时间戳  142121212121
+     * @param initTime            long型时间戳  142121212121
      * @param onDetailClickLister
      */
-    public DateTimePickDialogUtil(Activity activity, long initTime, OnDetailClickLister onDetailClickLister) {
+    public DateTimePickDialogUtil(Activity activity, long initTime, OnDetailClickLister
+            onDetailClickLister) {
         this.activity = activity;
         this.initTime = initTime;
         this.onDetailClickLister = onDetailClickLister;
     }
 
     /**
-     *
      * @param activity
-     * @param initDaTeTime2    yyyyMMddHHmmss
+     * @param initDaTeTime2       yyyyMMddHHmmss
      * @param type
      * @param onDetailClickLister
      */
-    public DateTimePickDialogUtil(Activity activity, String initDaTeTime2, boolean type,OnDetailClickLister onDetailClickLister) {
+    public DateTimePickDialogUtil(Activity activity, String initDaTeTime2, boolean type,
+                                  OnDetailClickLister onDetailClickLister) {
         this.activity = activity;
         this.initDaTeTime2 = initDaTeTime2;
         this.onDetailClickLister = onDetailClickLister;
     }
 
 
+    @SuppressLint("SimpleDateFormat")
     public void init(DatePicker datePicker, TimePicker timePicker) {
         Calendar calendar = Calendar.getInstance();
         if (!(null == initDateTime || "".equals(initDateTime))) {
             calendar = this.getCalendarByInintData(initDateTime);
-        }else if(!(null == initDaTeTime2 || "".equals(initDaTeTime2))){
-            try{
+        } else if (!(null == initDaTeTime2 || "".equals(initDaTeTime2))) {
+            try {
                 calendar.setTime(new SimpleDateFormat("yyyyMMddHHmmss").parse(initDaTeTime2));
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 initDateTime = calendar.get(Calendar.YEAR) + "-"
                         + calendar.get(Calendar.MONTH) + "-"
                         + calendar.get(Calendar.DAY_OF_MONTH) + "- "
                         + calendar.get(Calendar.HOUR_OF_DAY) + ":"
                         + calendar.get(Calendar.MINUTE);
             }
-        } else  {
-            if(initTime > 0){
-                calendar.setTimeInMillis(initTime*1000);
+        } else {
+            if (initTime > 0) {
+                calendar.setTimeInMillis(initTime * 1000);
             }
             initDateTime = calendar.get(Calendar.YEAR) + "-"
                     + calendar.get(Calendar.MONTH) + "-"
@@ -126,12 +129,14 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
 
         ad = new AlertDialog.Builder(activity)
                 .setView(dateTimeLayout)
-                .setPositiveButton(activity.getResources().getString(R.string.btn_ok), new DialogInterface.OnClickListener() {
+                .setPositiveButton(activity.getResources().getString(R.string.btn_ok), new
+                        DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         onDetailClickLister.btnClickLister(time, "time");
                     }
                 })
-                .setNegativeButton(activity.getResources().getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
+                .setNegativeButton(activity.getResources().getString(R.string.btn_cancel), new
+                        DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         onDetailClickLister.btnClickLister(time, "dismiss");
                     }
@@ -166,11 +171,12 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
         Calendar calendar = Calendar.getInstance();
         calendar.set(datePicker.getYear(), datePicker.getMonth(),
                 datePicker.getDayOfMonth(), timePicker.getCurrentHour(),
-                timePicker.getCurrentMinute(),0);
+                timePicker.getCurrentMinute(), 0);
 /*        calendar.set(datePicker.getYear(), datePicker.getMonth(),
                 datePicker.getDayOfMonth(), timePicker.getCurrentHour(),
                 calendar.get(Calendar.MINUTE));// minute 也返回去*/
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd" +
+                " HH:mm");
         dateTime = sdf.format(calendar.getTime());
         time = calendar.getTimeInMillis() / 1000;
         //ad.setTitle(dateTime);
@@ -193,11 +199,11 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
         String hourStr = spliteString(time, ":", "index", "front"); // 时
         String minuteStr = spliteString(time, ":", "index", "back"); // 分
 
-        int currentYear = Integer.valueOf(yearStr.trim()).intValue();
-        int currentMonth = Integer.valueOf(monthStr.trim()).intValue() - 1;
-        int currentDay = Integer.valueOf(dayStr.trim()).intValue();
-        int currentHour = Integer.valueOf(hourStr.trim()).intValue();
-        int currentMinute = Integer.valueOf(minuteStr.trim()).intValue();
+        int currentYear = Integer.valueOf(yearStr.trim());
+        int currentMonth = Integer.valueOf(monthStr.trim()) - 1;
+        int currentDay = Integer.valueOf(dayStr.trim());
+        int currentHour = Integer.valueOf(hourStr.trim());
+        int currentMinute = Integer.valueOf(minuteStr.trim());
 
         calendar.set(currentYear, currentMonth, currentDay, currentHour,
                 currentMinute);

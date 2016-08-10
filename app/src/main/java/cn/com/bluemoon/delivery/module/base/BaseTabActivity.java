@@ -43,7 +43,7 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
  * 基础FragmentActivity，用于各fragment集合的界面
  * Created by lk on 2016/6/3.
  */
-public class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
+public abstract class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
         BaseMainInterface, IHttpRespone {
     @Bind(android.R.id.tabhost)
     FragmentTabHost tabhost;

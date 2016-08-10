@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.jobrecord;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,10 +42,13 @@ import cn.com.bluemoon.lib.view.CommonTimePickerDialog;
 /**
  * Created by LIANGJIANGLI on 2016/6/28.
  */
-public class PeopleFlowActivity extends Activity implements View.OnClickListener{
+public class PeopleFlowActivity extends Activity implements View.OnClickListener {
     private String TAG = "PeopleFlowActivity";
     private boolean showStartTime = false;
-    private int type; /**1==add, 2==Eidt, 3==Info**/
+    private int type;
+    /**
+     * 1==add, 2==Eidt, 3==Info
+     **/
 
     private String mYear;
     private String mMonth;
@@ -61,6 +65,7 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
     private TextView txtEndTime;
     private String flowId;
 
+    @SuppressLint("SimpleDateFormat")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,21 +73,21 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
         type = getIntent().getIntExtra("type", 0);
         initCustomActionBar();
         if (type == 1 || type == 2) {
-            Button btnSave = (Button)findViewById(R.id.btn_ok);
-            TextView txtStar = (TextView)findViewById(R.id.txt_star);
-            TextView txtStar2 = (TextView)findViewById(R.id.txt_star2);
-            TextView txtStar3 = (TextView)findViewById(R.id.txt_star3);
-            TextView txtStar4 = (TextView)findViewById(R.id.txt_star4);
-            final EditText etStatus = (EditText)findViewById(R.id.et_status);
+            Button btnSave = (Button) findViewById(R.id.btn_ok);
+            TextView txtStar = (TextView) findViewById(R.id.txt_star);
+            TextView txtStar2 = (TextView) findViewById(R.id.txt_star2);
+            TextView txtStar3 = (TextView) findViewById(R.id.txt_star3);
+            TextView txtStar4 = (TextView) findViewById(R.id.txt_star4);
+            final EditText etStatus = (EditText) findViewById(R.id.et_status);
             PublicUtil.setGravity(etStatus);
-            txtEditDate = (TextView)findViewById(R.id.txt_edit_date);
-            ImageView imgRight = (ImageView)findViewById(R.id.img_date);
-            final EditText etPlace = (EditText)findViewById(R.id.et_place);
-            final EditText etFlow = (EditText)findViewById(R.id.et_flow);
-            LinearLayout layoutTime = (LinearLayout)findViewById(R.id.layout_time);
-            txtStartTime = (TextView)findViewById(R.id.txt_start_time);
-            txtEndTime = (TextView)findViewById(R.id.txt_end_time);
-            LinearLayout layoutDate = (LinearLayout)findViewById(R.id.layout_date);
+            txtEditDate = (TextView) findViewById(R.id.txt_edit_date);
+            ImageView imgRight = (ImageView) findViewById(R.id.img_date);
+            final EditText etPlace = (EditText) findViewById(R.id.et_place);
+            final EditText etFlow = (EditText) findViewById(R.id.et_flow);
+            LinearLayout layoutTime = (LinearLayout) findViewById(R.id.layout_time);
+            txtStartTime = (TextView) findViewById(R.id.txt_start_time);
+            txtEndTime = (TextView) findViewById(R.id.txt_end_time);
+            LinearLayout layoutDate = (LinearLayout) findViewById(R.id.layout_date);
             layoutDate.setBackgroundResource(R.drawable.btn_white);
             layoutDate.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -115,7 +120,8 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (StringUtils.isNotBlank(s.toString()) && Integer.valueOf(s.toString()) == 0) {
+                    if (StringUtils.isNotBlank(s.toString()) && Integer.valueOf(s.toString()) ==
+                            0) {
                         etFlow.setText("");
                     }
                 }
@@ -126,7 +132,7 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
                 }
             });
             if (type == 2) {
-                PeopleFlow peopleFlow = (PeopleFlow)getIntent().getSerializableExtra("peopleFlow");
+                PeopleFlow peopleFlow = (PeopleFlow) getIntent().getSerializableExtra("peopleFlow");
                 flowId = peopleFlow.getFlowId();
                 txtEditDate.setText(DateUtil.getTime(peopleFlow.getCreateDate(), "yyyy-MM-dd  EE"));
                 txtStartTime.setText(DateUtil.getTime(peopleFlow.getStartTime(), "HH:mm"));
@@ -137,22 +143,24 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
                 ViewTreeObserver vto = etStatus.getViewTreeObserver();
                 vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
                     private boolean isFirst = true;
+
                     @Override
                     public void onGlobalLayout() {
                         if (isFirst) {
                             isFirst = false;
                             int lineCount = etStatus.getLineCount();
                             if (lineCount > 1) {
-                                etStatus.setGravity(Gravity.LEFT|Gravity.CENTER_VERTICAL);
+                                etStatus.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
                             } else {
-                                etStatus.setGravity(Gravity.RIGHT|Gravity.CENTER_VERTICAL);
+                                etStatus.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
                             }
                         }
                     }
                 });
 
                 mYear = DateUtil.getTime(peopleFlow.getCreateDate(), "yyyy");
-                mMon = String.valueOf(Integer.valueOf(DateUtil.getTime(peopleFlow.getCreateDate(), "MM"))-1);
+                mMon = String.valueOf(Integer.valueOf(DateUtil.getTime(peopleFlow.getCreateDate()
+                        , "MM")) - 1);
                 mMonth = DateUtil.getTime(peopleFlow.getCreateDate(), "MM");
                 mDay = DateUtil.getTime(peopleFlow.getCreateDate(), "dd");
                 mHour = DateUtil.getTime(peopleFlow.getStartTime(), "HH");
@@ -166,16 +174,19 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
             btnSave.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (getString(R.string.people_flow_start_time).equals(txtStartTime.getText().toString())) {
+                    if (getString(R.string.people_flow_start_time).equals(txtStartTime.getText()
+                            .toString())) {
                         PublicUtil.showToast(getString(R.string.people_flow_start_time_select));
                         return;
                     }
-                    if (getString(R.string.people_flow_end_time).equals(txtEndTime.getText().toString())) {
+                    if (getString(R.string.people_flow_end_time).equals(txtEndTime.getText()
+                            .toString())) {
                         PublicUtil.showToast(getString(R.string.people_flow_end_time_select));
                         return;
                     }
                     if (Integer.valueOf(mHour) > Integer.valueOf(mHour2)
-                            || Integer.valueOf(mHour) == Integer.valueOf(mHour2) && Integer.valueOf(mMinute) > Integer.valueOf(mMinute2)) {
+                            || Integer.valueOf(mHour) == Integer.valueOf(mHour2) && Integer
+                            .valueOf(mMinute) > Integer.valueOf(mMinute2)) {
                         PublicUtil.showToast(getString(R.string.people_flow_time_earlier));
                         return;
                     }
@@ -194,8 +205,10 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
                     SimpleDateFormat format2 = new SimpleDateFormat("yyyy-MM-dd  EE HH:mm");
                     try {
                         Date date = format.parse(txtEditDate.getText().toString());
-                        Date date2 = format2.parse(txtEditDate.getText().toString() + " " +txtStartTime.getText().toString());
-                        Date date3 = format2.parse(txtEditDate.getText().toString() + " " +txtEndTime.getText().toString());
+                        Date date2 = format2.parse(txtEditDate.getText().toString() + " " +
+                                txtStartTime.getText().toString());
+                        Date date3 = format2.parse(txtEditDate.getText().toString() + " " +
+                                txtEndTime.getText().toString());
                         peopleFlow.setCreateDate(date.getTime());
                         peopleFlow.setStartTime(date2.getTime());
                         peopleFlow.setEndTime(date3.getTime());
@@ -220,24 +233,25 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
             });
         }
         if (type == 3) {
-            PeopleFlow peopleFlow = (PeopleFlow)getIntent().getSerializableExtra("personFlow");
-            TextView txtDate = (TextView)findViewById(R.id.txt_date);
-            TextView txtTime = (TextView)findViewById(R.id.txt_time);
-            TextView txtPlace = (TextView)findViewById(R.id.txt_place);
-            TextView txtFlow = (TextView)findViewById(R.id.txt_flow);
-            TextView txtStatus = (TextView)findViewById(R.id.txt_status);
-            LinearLayout layoutStatus = (LinearLayout)findViewById(R.id.layout_status);
+            PeopleFlow peopleFlow = (PeopleFlow) getIntent().getSerializableExtra("personFlow");
+            TextView txtDate = (TextView) findViewById(R.id.txt_date);
+            TextView txtTime = (TextView) findViewById(R.id.txt_time);
+            TextView txtPlace = (TextView) findViewById(R.id.txt_place);
+            TextView txtFlow = (TextView) findViewById(R.id.txt_flow);
+            TextView txtStatus = (TextView) findViewById(R.id.txt_status);
+            LinearLayout layoutStatus = (LinearLayout) findViewById(R.id.layout_status);
             txtDate.setVisibility(View.VISIBLE);
             txtTime.setVisibility(View.VISIBLE);
             txtPlace.setVisibility(View.VISIBLE);
             txtFlow.setVisibility(View.VISIBLE);
             layoutStatus.setVisibility(View.VISIBLE);
-            txtDate.setText(DateUtil.getTime(peopleFlow.getCreateDate(),"yyyy-MM-dd  EE"));
+            txtDate.setText(DateUtil.getTime(peopleFlow.getCreateDate(), "yyyy-MM-dd  EE"));
             txtTime.setText(DateUtil.getTime(peopleFlow.getStartTime(), "HH:mm")
                     + "-" + DateUtil.getTime(peopleFlow.getEndTime(), "HH:mm"));
             txtPlace.setText(peopleFlow.getAddress());
             txtFlow.setText(String.valueOf(peopleFlow.getPeopleFlow()));
-            txtStatus.setText(StringUtils.isNotBlank(peopleFlow.getPeopleStatus()) ? peopleFlow.getPeopleStatus() : getString(R.string.promote_none));
+            txtStatus.setText(StringUtils.isNotBlank(peopleFlow.getPeopleStatus()) ? peopleFlow
+                    .getPeopleStatus() : getString(R.string.promote_none));
         }
     }
 
@@ -263,7 +277,8 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
         }
     }
 
-    private CommonDatePickerDialog.OnDateSetListener mDateSetListener = new CommonDatePickerDialog.OnDateSetListener() {
+    private CommonDatePickerDialog.OnDateSetListener mDateSetListener = new
+            CommonDatePickerDialog.OnDateSetListener() {
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                               int dayOfMonth) {
             mYear = String.valueOf(year);
@@ -302,19 +317,20 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
         } else {
             if (!timePicker.isShowing()) {
                 timePicker.updateTime(Integer.valueOf(hour),
-                            Integer.valueOf(minute));
+                        Integer.valueOf(minute));
             }
         }
         timePicker.show();
     }
 
-    private CommonTimePickerDialog.OnTimeSetListener mTimeSetListener = new CommonTimePickerDialog.OnTimeSetListener() {
+    private CommonTimePickerDialog.OnTimeSetListener mTimeSetListener = new
+            CommonTimePickerDialog.OnTimeSetListener() {
 
         @Override
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             String hour = String.valueOf(hourOfDay);
             if (hourOfDay <= 9) {
-                    hour = "0" + hour;
+                hour = "0" + hour;
             }
             if (showStartTime) {
                 mHour = hour;
@@ -354,14 +370,15 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
 
             @Override
             public void onBtnRight(View v) {
-                new CommonAlertDialog.Builder(PeopleFlowActivity.this).setMessage(getString(R.string.people_flow_delete)).
+                new CommonAlertDialog.Builder(PeopleFlowActivity.this).setMessage(getString(R
+                        .string.people_flow_delete)).
                         setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        setResult(3);
-                        finish();
-                    }
-                }).setPositiveButton(R.string.btn_cancel, null).show();
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                setResult(3);
+                                finish();
+                            }
+                        }).setPositiveButton(R.string.btn_cancel, null).show();
             }
 
             @Override
@@ -371,12 +388,13 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
         });
 
         if (type == 2) {
-            ImageView right = (ImageView)this.findViewById(R.id.img_right);
+            ImageView right = (ImageView) this.findViewById(R.id.img_right);
             right.setImageResource(R.mipmap.icon_del);
             right.setVisibility(View.VISIBLE);
         }
 
     }
+
     public void onResume() {
         super.onResume();
         MobclickAgent.onPageStart(TAG);
