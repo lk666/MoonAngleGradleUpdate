@@ -65,7 +65,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="筛选"
+                android:text="@string/btn_txt_fillter"
                 android:textColor="@color/view_bg"
                 android:textSize="@dimen/text_size_17" />
         </LinearLayout>

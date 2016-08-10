@@ -101,7 +101,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:paddingLeft="10dp"
-                    android:text="0"
+                    android:text="@string/order_detail_default_diff_num"
                     android:textColor="@color/text_red"
                     android:textSize="@dimen/text_size_15" />
             </RelativeLayout>
@@ -248,7 +248,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/txt_commonName_deliver_date"
-                    android:text="*"
+                    android:text="@string/required_filed"
                     android:textColor="@color/text_red"
                     android:textSize="@dimen/text_size_14" />
 
@@ -306,7 +306,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@+id/txt_customerName_fh_bill"
-                    android:text="*"
+                    android:text="@string/required_filed"
                     android:textColor="@color/text_red"
                     android:textSize="@dimen/text_size_14"
                     android:visibility="gone" />

@@ -54,7 +54,7 @@
                     android:layout_marginTop="10dp"
                     android:background="@drawable/edittext_border_grep_white"
                     android:gravity="top"
-                    android:hint="请填写差异原因"
+                    android:hint="@string/text_diff_reason"
                     android:padding="10dp"
                     android:maxLength="500"
                     android:textColor="@color/text_black_light"

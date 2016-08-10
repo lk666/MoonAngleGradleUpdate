@@ -46,7 +46,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 /**
- * 已收货物详情
+ * 已发货物详情
  */
 public class OrderEndDeliverDetailActivity extends BasePullHeadToRefreshListViewActivity
         implements View.OnClickListener {

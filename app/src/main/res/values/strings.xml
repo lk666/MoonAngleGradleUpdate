@@ -824,5 +824,18 @@
     <string name="team_edit_limit_worktype">作业性质不能为空</string>
     <string name="team_edit_limit_parttime">兼职时长不可以等于0小时！</string>
 
-
+    <string name="dialog_input_amount_default_amount">1</string>
+    <string name="update_progress_default">0%</string>
+    <string name="dialog_delivery_selected">您选中了</string>
+    <string name="dialog_delivery_default_amount">0</string>
+    <string name="dialog_delivery_unit">张订单</string>
+    <string name="take_photo">拍照</string>
+    <string name="pick_photo">从相册中选取</string>
+    <string name="load_more">向上滑加载更多</string>
+    <string name="recent_update">最近更新</string>
+    <string name="default_book_count">1</string>
+    <string name="forget_pwd">忘记密码？</string>
+    <string name="reset">重置</string>
+    <string name="order_detail_default_diff_num">0</string>
+    <string name="date_to">—</string>
 </resources>

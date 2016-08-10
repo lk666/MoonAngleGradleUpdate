@@ -101,7 +101,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="取消"
+                android:text="@string/btn_cancel"
                 android:textColor="#009cff"
                 android:textSize="17sp" />
 
@@ -120,7 +120,7 @@
                 android:ellipsize="end"
                 android:gravity="center"
                 android:singleLine="true"
-                android:text="确定"
+                android:text="@string/btn_ok"
                 android:textColor="#009cff"
                 android:textSize="17sp" />
         </LinearLayout>

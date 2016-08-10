@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_toRightOf="@+id/cb_select"
             android:gravity="center"
-            android:text="收货人："
+            android:text="@string/text_receive_person_tip"
             android:textColor="@color/text_black"
             android:textSize="14sp" />
 

@@ -28,13 +28,13 @@
                 android:textColor="@color/black"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:text="您选中了" />
+                android:text="@string/dialog_delivery_selected" />
 
             <TextView
                 android:id="@+id/amount_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="0"
+                android:text="@string/dialog_delivery_default_amount"
                 android:textSize="16sp"
                 android:textColor="@color/red"
                 android:textStyle="bold" />
@@ -45,7 +45,7 @@
                 android:textColor="@color/black"
                 android:textStyle="bold"
                 android:textSize="16sp"
-                android:text="张订单" />
+                android:text="@string/dialog_delivery_unit" />
         </LinearLayout>
 
         <TextView

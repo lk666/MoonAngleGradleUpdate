@@ -20,7 +20,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:singleLine="true"
-            android:text="5"
             android:textColor="@color/text_black_light"
             android:textSize="@dimen/text_size_14" />
 
@@ -41,7 +40,6 @@
             android:layout_alignParentLeft="true"
             android:layout_marginRight="10dp"
             android:singleLine="true"
-            android:text="10346564"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_14" />
 
@@ -54,7 +52,6 @@
             android:layout_marginRight="10dp"
             android:paddingTop="10dp"
             android:singleLine="true"
-            android:text="机洗机器及其机器"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_14" />
     </RelativeLayout>
@@ -75,8 +72,6 @@
                 android:id="@+id/txt_title_amount"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/txt_order_number"
                 android:singleLine="true"
                 android:textColor="@color/text_black_light"
                 android:textSize="@dimen/text_size_14" />
@@ -85,11 +80,8 @@
                 android:id="@+id/txt_boxes_counts"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/txt_order_number"
                 android:layout_marginRight="10dp"
                 android:singleLine="true"
-                android:text="140箱（200支）"
                 android:textColor="@color/text_black_light"
                 android:textSize="@dimen/text_size_14" />
         </LinearLayout>
@@ -104,20 +96,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/txt_order_number"
                 android:singleLine="true"
-                android:text="差异："
                 android:textColor="@color/text_black_light"
                 android:textSize="@dimen/text_size_14" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/txt_order_number"
                 android:singleLine="true"
-                android:text="0支"
                 android:textColor="@color/text_black_light"
                 android:textSize="@dimen/text_size_14" />
         </LinearLayout>
@@ -153,7 +139,6 @@
             android:layout_toRightOf="@+id/txt_commonName_diff_nums"
             android:paddingLeft="5dp"
             android:singleLine="true"
-            android:text="2"
             android:textColor="@color/text_grep"
             android:textSize="@dimen/text_size_14" />
 
@@ -177,7 +162,6 @@
             android:layout_centerInParent="true"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:layout_weight="1"
             android:ellipsize="end"
             android:maxEms="15"
             android:paddingRight="10dp"
