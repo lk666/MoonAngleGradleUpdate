@@ -43,7 +43,7 @@
 
         </RelativeLayout>
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -77,7 +77,7 @@
 
         </LinearLayout>
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
 
         <LinearLayout
@@ -110,7 +110,7 @@
 
         </LinearLayout>
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -136,7 +136,7 @@
 
         </RelativeLayout>
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -169,7 +169,7 @@
 
         </LinearLayout>
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
         <RelativeLayout
             android:id="@+id/region_layout"
@@ -205,7 +205,7 @@
         </RelativeLayout>
 
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
 
         <RelativeLayout
@@ -251,7 +251,7 @@
         </RelativeLayout>
 
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
 
         <RelativeLayout
@@ -297,7 +297,7 @@
         </RelativeLayout>
 
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -330,7 +330,7 @@
         </LinearLayout>
 
 
-        <View style="@style/line_solid_style"></View>
+        <View style="@style/line_solid_style"/>
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -355,8 +355,7 @@
                 android:button="@drawable/checkbox_swich_button" />
 
         </RelativeLayout>
-        <View style="@style/line_solid_style"
-            ></View>
+        <View style="@style/line_solid_style"/>
     </LinearLayout>
 
     <LinearLayout

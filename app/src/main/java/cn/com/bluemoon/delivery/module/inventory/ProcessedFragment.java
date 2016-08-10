@@ -69,7 +69,7 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
     protected void initHeadViewEvent(View headView) {
         super.initHeadViewEvent(headView);
 
-        popStart = (View) headView.findViewById(R.id.view_pop_start);
+        popStart = headView.findViewById(R.id.view_pop_start);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
         txtPrice = (TextView) headView.findViewById(R.id.txt_price);
         txtTotalBoxes = (TextView) headView.findViewById(R.id.txt_total_boxes);

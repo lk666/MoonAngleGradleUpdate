@@ -72,7 +72,7 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 		initCustomActionBar();
 		progressDialog = new CommonProgressDialog(mContext);
 		progressDialog.setCancelable(false);
-		popStart = (View) findViewById(R.id.view_pop_start);
+		popStart = findViewById(R.id.view_pop_start);
 		listviewProduct = (LinearLayoutForListView) findViewById(R.id.listview_product);
 		btnSign = (Button) findViewById(R.id.btn_sign);
 		tvOrderNumber = (TextView) findViewById(R.id.tv_order_number);

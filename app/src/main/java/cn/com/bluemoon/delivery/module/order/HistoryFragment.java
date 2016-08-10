@@ -77,7 +77,7 @@ public class HistoryFragment extends Fragment {
 		main = getActivity();
 		View v = inflater.inflate(R.layout.fragment_tab_history, container,
 				false);
-		popStart = (View) v.findViewById(R.id.view_pop_start);
+		popStart = v.findViewById(R.id.view_pop_start);
 		layoutDate = (LinearLayout) v.findViewById(R.id.layout_date);
 		txtCount = (TextView) v.findViewById(R.id.txt_count);
 		txtPrice = (TextView) v.findViewById(R.id.txt_price);

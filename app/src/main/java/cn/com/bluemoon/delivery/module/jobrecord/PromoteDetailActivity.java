@@ -274,8 +274,8 @@ public class PromoteDetailActivity extends Activity {
             final PeopleFlow person = people.get(position);
             final TextView txtDate = (TextView) convertView.findViewById(R.id.txt_date);
             final TextView txtTime = (TextView) convertView.findViewById(R.id.txt_time);
-            final View line1 = (View) convertView.findViewById(R.id.line_1);
-            final View line2 = (View) convertView.findViewById(R.id.line_2);
+            final View line1 = convertView.findViewById(R.id.line_1);
+            final View line2 = convertView.findViewById(R.id.line_2);
             if (position != people.size() -1) {
                 line1.setVisibility(View.VISIBLE);
                 line2.setVisibility(View.GONE);

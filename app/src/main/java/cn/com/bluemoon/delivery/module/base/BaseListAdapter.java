@@ -91,7 +91,8 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
     /**
      * ViewHolder 复用控件
      */
-    public <T extends View> T getViewById(int id) {
+    @SuppressWarnings("unchecked")
+    public <V extends View> V getViewById(int id) {
         SparseArray<View> viewHolder = (SparseArray<View>) mConvertView.getTag();
         if (viewHolder == null) {
             viewHolder = new SparseArray<>();
@@ -102,7 +103,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
             childView = mConvertView.findViewById(id);
             viewHolder.put(id, childView);
         }
-        return (T) childView;
+        return (V) childView;
     }
 
     /**

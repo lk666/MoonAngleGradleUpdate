@@ -255,8 +255,8 @@ public class CommunitySelectActivity extends Activity implements CommonSearchVie
             txtCommunity.setText(String.format(getString(R.string.promote_append),item.getBpCode(), item.getBpName()));
             txtCommunity2.setText(String.format(getString(R.string.promote_append),item.getBpCode1(), item.getBpName1()));
 
-            final View line1 = (View) convertView.findViewById(R.id.line_1);
-            final View line2 = (View) convertView.findViewById(R.id.line_2);
+            final View line1 = convertView.findViewById(R.id.line_1);
+            final View line2 = convertView.findViewById(R.id.line_2);
 
             if (position != items.size() -1) {
                 line1.setVisibility(View.VISIBLE);

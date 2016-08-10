@@ -74,7 +74,7 @@ public class PendingAppointmentFragment extends Fragment {
 		View v = inflater.inflate(R.layout.fragment_tab_appointment, container,
 				false);
 		listView = (PullToRefreshListView) v.findViewById(R.id.listview_orders);
-		popStart = (View) v.findViewById(R.id.view_pop_start);
+		popStart = v.findViewById(R.id.view_pop_start);
 		listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
 
 			@Override

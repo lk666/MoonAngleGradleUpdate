@@ -81,7 +81,7 @@ public class PendingReceiptFragment extends Fragment implements
 		progressDialog = new CommonProgressDialog(mContext);
 		View v = inflater.inflate(R.layout.fragment_tab_receipt, container,
 				false);
-		popStart = (View) v.findViewById(R.id.view_pop_start);
+		popStart = v.findViewById(R.id.view_pop_start);
 		listView = (SwipeMenuListView) v.findViewById(R.id.listview_orders);
 		listView.setPullRefreshEnable(true);
 		listView.setXListViewListener(this);
