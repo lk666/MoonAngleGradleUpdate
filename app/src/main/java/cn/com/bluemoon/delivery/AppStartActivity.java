@@ -7,7 +7,6 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
-import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -24,7 +23,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
-import cn.com.bluemoon.delivery.module.service.LocationService;
+import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;

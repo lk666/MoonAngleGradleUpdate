@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.AppConfig;
-import cn.com.bluemoon.delivery.module.service.LocationService;
+import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
