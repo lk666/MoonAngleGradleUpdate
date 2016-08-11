@@ -1,8 +1,12 @@
 package cn.com.bluemoon.delivery.sz.api;
 
 import com.alibaba.fastjson.JSONObject;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.entity.ByteArrayEntity;
+
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,7 +19,13 @@ import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 public class SzApi {
 
     private static final String HOST="http://192.168.236.1:9002/mockjsdata/15/";
+    public static AsyncHttpClient client;
 
+    static{
+        client = new AsyncHttpClient();
+        client.setConnectTimeout(20000);
+        client.setResponseTimeout(20000);
+    }
     /*  获取用户单日日程列表 */
     /*
         optStaffNum	操作员工编号	string
@@ -34,8 +44,19 @@ public class SzApi {
         params.put("scheduleType",scheduleType);
         params.put("staffNum",staffNum);
         params.put("token",token);
-        String jsonString = JSONObject.toJSONString(params);
         String url = HOST+"userSchDay";
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        client.post(AppContext.getInstance(), url, getEntity(params),"application/json", handler);
     }
+
+    private static ByteArrayEntity getEntity(Map<String, Object> params ){
+        String jsonString = JSONObject.toJSONString(params);
+        ByteArrayEntity entity = null;
+        try {
+            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return entity;
+    }
+
 }

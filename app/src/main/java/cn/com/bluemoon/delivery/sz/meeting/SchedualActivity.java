@@ -77,6 +77,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	private ScheduleAdapter scheduleAdapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
 	private WheelView yearWv,monthWv;
+	private String currentNo;
 
 
 	enum SildeDirection {
@@ -103,14 +104,15 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		dateTv = (TextView) headerView.findViewById(R.id.tv_date);
 		viewPager = (ViewPager)headerView.findViewById(R.id.vp_calendar);
 
-		ArrayList<SchedualBean> taskdata = new ArrayList<SchedualBean>();
+		ArrayList<SchedualBean> initdate = new ArrayList<SchedualBean>();
 		SchedualBean temp = new SchedualBean();
 		temp.setScheduleType(2);
-		taskdata.add(temp);
-		scheduleAdapter = new ScheduleAdapter(this,taskdata);
+		initdate.add(temp);
+		scheduleAdapter = new ScheduleAdapter(this,initdate);
 		listView.setAdapter(scheduleAdapter);
-		test();
-
+		//test();
+		currentNo = ClientStateManager.getUserName();
+		getuserSchDay(new CustomDate().toString(),currentNo);
 
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
@@ -155,11 +157,16 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		}
 	}
 
-	public void userSchDay(String optStaffNum,String scheduleDay,int scheduleType,String staffNum) {
+	public void getuserSchDay(String scheduleDay,String staffNum) {
 
 		String token = ClientStateManager.getLoginToken(aty);
+		String userNo = ClientStateManager.getUserName();
 		if(!StringUtils.isEmpty(token)){
-			SzApi.userSchDay(optStaffNum,scheduleDay,scheduleType,staffNum,token,userSchDayHandler);
+			int scheduleType = -1;
+			if(meetingRbtn.isChecked()){
+				scheduleType = 1;
+			}
+			SzApi.userSchDay(userNo,scheduleDay,scheduleType,staffNum,token,userSchDayHandler);
 		}
 
 	}
@@ -264,7 +271,9 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	@Override
 	public void clickDate(CustomDate date) {
 		dateTv.setText(date.getYear()+"年"+date.getMonth()+"月");
-		PublicUtil.showToast(date.getYear()+"年"+date.getMonth()+"月"+date.getDay()+"日");
+
+		getuserSchDay(date.toString(),currentNo);
+		//PublicUtil.showToast(date.getYear()+"年"+date.getMonth()+"月"+date.getDay()+"日");
 	}
 
 	@Override
