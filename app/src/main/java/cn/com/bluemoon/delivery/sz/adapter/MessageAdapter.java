@@ -1,31 +1,26 @@
 package cn.com.bluemoon.delivery.sz.adapter;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-
-
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-
 import cn.com.bluemoon.delivery.sz.bean.TaskBean;
 
 
-public class TaskAdapter extends BaseAdapter {
+public class MessageAdapter extends BaseAdapter {
 
 	private List<TaskBean> list;
 	private Context context;
 
 
-	public TaskAdapter(Context context , List<TaskBean> list) {
+	public MessageAdapter(Context context , List<TaskBean> list) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.list = list;

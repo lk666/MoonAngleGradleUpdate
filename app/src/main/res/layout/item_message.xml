@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="10dp"
+    android:orientation="horizontal">
+
+    <RelativeLayout
+        android:layout_width="50dp"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/status_iv"
+            android:layout_centerVertical="true"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:background="@drawable/bg_circle_msg_shape"/>
+        <TextView
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:id="@+id/num_tv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="20"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:background="@drawable/bg_circle_red_shape"
+            />
+
+        <cn.com.bluemoon.lib.view.RedpointTextView
+            android:id="@+id/txt_dispatch_count"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@color/btn_red"
+            android:textColor="@color/view_bg"
+            android:textSize="12dp"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"/>
+
+    </RelativeLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical"
+        android:layout_marginLeft="10dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+            <TextView
+                android:id="@+id/status_tv"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="代办事件"
+                android:textColor="#000000"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/datetime_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:text="07-18"
+                android:textColor="#000000"
+                android:textSize="15sp"/>
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/content_tv"
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="这是内容这是内容啊哈哈哈"
+            android:textColor="#000000"
+            android:textSize="15sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

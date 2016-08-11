@@ -126,4 +126,26 @@ public class DateUtil {
 		return(date.year == DateUtil.getYear() &&
 				date.month == DateUtil.getMonth());
 	}
+
+	public static String showPeriodTime(String bTime,String eTime){
+		SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		SimpleDateFormat sdf2 = new SimpleDateFormat("HH:mm");
+
+		String time1 = formatTime(bTime,sdf1,sdf2);
+		String time2 = formatTime(eTime,sdf1,sdf2);
+
+		return time1+" - "+time2;
+	}
+
+	public static String formatTime(String bTime,SimpleDateFormat sdf1,SimpleDateFormat sdf2){
+		String timeStr = "";
+		try {
+			Date date = sdf1.parse(bTime);
+			timeStr = sdf2.format(date);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return timeStr;
+	}
+
 }

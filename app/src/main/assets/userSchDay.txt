@@ -1,0 +1,39 @@
+{
+    "data": [
+        {
+            "scheduleTitle": "Lflkxmup Vcxa Nhywbkiwg",
+            "adjust": "0",
+            "bTime": "2010-01-05 02:32:36",
+            "eTime": "1998-06-08 20:49:43",
+            "scheduleId": "3676",
+            "scheduleType": 1
+        },
+        {
+            "scheduleTitle": "Kotyo Wswyxy Eitblrr Ldavfu Mnaw",
+            "adjust": "0",
+            "bTime": "2012-07-27 15:50:03",
+            "eTime": "2006-10-12 08:31:43",
+            "scheduleId": "4029",
+            "scheduleType": 1
+        },
+        {
+            "scheduleTitle": "Wcjjia Ehyr Srfe Ujxykxgm",
+            "adjust": "1",
+            "bTime": "2005-04-18 06:33:38",
+            "eTime": "1997-11-28 00:45:46",
+            "scheduleId": "3845",
+            "scheduleType": 1
+        },
+        {
+            "scheduleTitle": "Omw Ryd Iogwmrxy Nlqffvxiw",
+            "adjust": "1",
+            "bTime": "2007-10-19 08:19:13",
+            "eTime": "2002-11-23 10:42:30",
+            "scheduleId": "4100",
+            "scheduleType": 0
+        }
+    ],
+    "isSuccess": true,
+    "responseCode": 100,
+    "responseMsg": "OK"
+}

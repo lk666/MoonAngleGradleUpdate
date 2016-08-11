@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.sz.meeting;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.view.ViewPager;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -33,17 +34,21 @@ import java.util.Calendar;
 
 import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
-import cn.com.bluemoon.delivery.sz.adapter.TaskAdapter;
+import cn.com.bluemoon.delivery.sz.adapter.ScheduleAdapter;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.api.response.UserSchDayResponse;
+import cn.com.bluemoon.delivery.sz.bean.SchedualBean;
 import cn.com.bluemoon.delivery.sz.bean.TaskBean;
+import cn.com.bluemoon.delivery.sz.util.AssetUtil;
+import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.view.datepicker.adapter.NumericWheelAdapter;
 import cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView;
 import cn.com.bluemoon.delivery.sz.view.calendar.CalendarCard;
 import cn.com.bluemoon.delivery.sz.view.calendar.CalendarViewAdapter;
 import cn.com.bluemoon.delivery.sz.view.calendar.CustomDate;
-import cn.com.bluemoon.delivery.utils.Constants;
+
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
@@ -69,7 +74,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	private int mCurrentIndex = 498;
 	private CalendarCard[] mShowViews;
 	private CalendarViewAdapter<CalendarCard> adapter;
-	private TaskAdapter taskAdapter;
+	private ScheduleAdapter scheduleAdapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
 	private WheelView yearWv,monthWv;
 
@@ -98,12 +103,12 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		dateTv = (TextView) headerView.findViewById(R.id.tv_date);
 		viewPager = (ViewPager)headerView.findViewById(R.id.vp_calendar);
 
-		ArrayList<TaskBean> taskdata = new ArrayList<TaskBean>();
-		TaskBean temp = new TaskBean();
-		temp.setType(2);
+		ArrayList<SchedualBean> taskdata = new ArrayList<SchedualBean>();
+		SchedualBean temp = new SchedualBean();
+		temp.setScheduleType(2);
 		taskdata.add(temp);
-		taskAdapter = new TaskAdapter(this,taskdata);
-		listView.setAdapter(taskAdapter);
+		scheduleAdapter = new ScheduleAdapter(this,taskdata);
+		listView.setAdapter(scheduleAdapter);
 		test();
 
 		CalendarCard[] views = new CalendarCard[3];
@@ -134,23 +139,66 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 
 
 	private void test() {
-		ArrayList<TaskBean> taskdata = new ArrayList<TaskBean>();
-		TaskBean temp = new TaskBean();
-		temp.setType(0);
-		temp.setDatetime("8:00 - 9:00");
-		temp.setContent("原型讨论设计");
-		taskdata.add(temp);
+		try {
+			String responseString = AssetUtil.getContent(this,"userSchDay.txt");
+			UserSchDayResponse response = JSON.parseObject(responseString,UserSchDayResponse.class);
+			if(response.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
+				scheduleAdapter.refresh(response.getData());
 
-		for(int i=0;i<4;i++){
-			temp = new TaskBean();
-			temp.setType(1);
-			temp.setDatetime("9:00 - 11:00");
-			temp.setContent("需求会议评审"+i);
-			taskdata.add(temp);
+			}else{
+				PublicUtil.showToast(response.getResponseMsg());
+			}
+		} catch (Exception e) {
+			LogUtils.e(TAG, e.getMessage());
+			//PublicUtil.showToastServerBusy(aty);
+		}
+	}
+
+	public void userSchDay(String optStaffNum,String scheduleDay,int scheduleType,String staffNum) {
+
+		String token = ClientStateManager.getLoginToken(aty);
+		if(!StringUtils.isEmpty(token)){
+			SzApi.userSchDay(optStaffNum,scheduleDay,scheduleType,staffNum,token,userSchDayHandler);
 		}
 
-		taskAdapter.refresh(taskdata);
 	}
+
+	AsyncHttpResponseHandler userSchDayHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+
+		public void onStart(){
+			super.onStart();
+			progressDialog.show();
+		}
+
+		public void onFinish(){
+			super.onFinish();
+			progressDialog.dismiss();
+		}
+
+		@Override
+		public void onSuccess(int statusCode, Header[] headers, String responseString) {
+			LogUtils.d(TAG,"userSchDayHandler = " + responseString);
+			try {
+				UserSchDayResponse response = JSON.parseObject(responseString,UserSchDayResponse.class);
+				if(response.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
+					scheduleAdapter.refresh(response.getData());
+				}else{
+					PublicUtil.showToast(response.getResponseMsg());
+				}
+			} catch (Exception e) {
+				LogUtils.e(TAG, e.getMessage());
+				//PublicUtil.showToastServerBusy(aty);
+			}
+		}
+
+		@Override
+		public void onFailure(int statusCode, Header[] headers, String responseString,
+							  Throwable throwable) {
+			LogUtils.e(TAG, throwable.getMessage());
+			//PublicUtil.showToastServerOvertime(aty);
+			PublicUtil.showToast("API 错误："+statusCode);
+		}
+	};
 
 	private void setViewPager() {
 		viewPager.setAdapter(adapter);
@@ -267,7 +315,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		msgBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-
+				Intent intent = new Intent(aty,MessageActivity.class);
+				startActivity(intent);
 			}
 		});
 
@@ -378,49 +427,6 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		monthWv.setViewAdapter(numericWheelAdapter);
 		monthWv.setCyclic(false);
 	}
-
-
-
-
-	public void submit() {
-
-		String token = ClientStateManager.getLoginToken(aty);
-		if(!StringUtils.isEmpty(token)){
-			//DeliveryApi.updatePassword(token, cuPsw, nePsw, changePwdHandler);
-		}
-
-	}
-
-	AsyncHttpResponseHandler changePwdHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-		@Override
-		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			LogUtils.d(TAG,"updatePassword result = " + responseString);
-			if(progressDialog != null)
-				progressDialog.dismiss();
-			try {
-				ResultBase baseResult = JSON.parseObject(responseString,ResultBase.class);
-				if(baseResult.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
-					PublicUtil.showToast(aty, getString(R.string.change_pwd_success));
-					finish();
-				}else{
-					PublicUtil.showErrorMsg(aty, baseResult);
-				}
-			} catch (Exception e) {
-				LogUtils.e(TAG, e.getMessage());
-				PublicUtil.showToastServerBusy(aty);
-			}
-		}
-
-		@Override
-		public void onFailure(int statusCode, Header[] headers, String responseString,
-							  Throwable throwable) {
-			LogUtils.e(TAG, throwable.getMessage());
-			if(progressDialog != null)
-				progressDialog.dismiss();
-			PublicUtil.showToastServerOvertime(aty);
-		}
-	};
 
 	public void onResume() {
 		super.onResume();
