@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.storage;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -187,7 +188,7 @@ public class WarehouseFragment extends BaseFragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == main.RESULT_OK) {
+        if (resultCode == Activity.RESULT_OK) {
             initData();
         }
     }
