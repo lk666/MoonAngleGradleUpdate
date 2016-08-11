@@ -53,7 +53,7 @@ import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
+import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
@@ -692,7 +692,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             tvTypeName.setText(item.getTypeName());
             tvClothesName.setText(item.getClothesName());
 
-            ImageLoaderUtil.displayImage(context, item.getImgPath(), ivClothImg);
+            ImageLoaderUtil.displayImage(item.getImgPath(), ivClothImg);
 
             setClickEvent(isNew, position, convertView);
         }

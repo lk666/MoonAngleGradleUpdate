@@ -14,8 +14,9 @@ import java.util.UUID;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.AppConfig;
 import cn.com.bluemoon.delivery.module.service.LocationService;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 
 public class AppContext extends BaseApplication {
 
@@ -58,7 +59,7 @@ public class AppContext extends BaseApplication {
 
         shareInit();
 
-        ImageLoaderUtil.init(this);
+        ImageLoaderUtil.init(this, Constants.PATH_CACHE, !BuildConfig.RELEASE);
     }
 
     private void shareInit() {
