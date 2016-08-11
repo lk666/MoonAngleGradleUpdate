@@ -96,7 +96,7 @@ public class UploadImageActivity extends Activity{
                 if (!uploadControl&&!PublicUtil.isFastDoubleClick(1000)) {
                     uploadControl = true;
                     if (images!=null&&images.size() > 1) {
-                        needUploadList = new ArrayList<ImageBean>();
+                        needUploadList = new ArrayList<>();
                         for (ImageBean img : images) {
                             if (StringUtils.isEmpty(img.getImgId())) {
                                 needUploadList.add(img);
@@ -189,7 +189,7 @@ public class UploadImageActivity extends Activity{
                 ResultImage result = JSON.parseObject(responseString, ResultImage.class);
                 if(null!=result && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
                     imgList = result.getImgList();
-                    images = new ArrayList<ImageBean>();
+                    images = new ArrayList<>();
                     if (imgList != null && imgList.size() > 0) {
                         for (ImageBean img :imgList) {
                             images.add(img);

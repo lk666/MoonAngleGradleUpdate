@@ -126,7 +126,7 @@ public class WorkDiaryActivity extends Activity {
                 wd.setProductCode(product.getProductCode());
                 wd.setProductName(product.getProductName());
                 if (workDiaryList == null || workDiaryList.size() == 0) {
-                    workDiaryList = new ArrayList<Product>();
+                    workDiaryList = new ArrayList<>();
                     workDiaryList.add(wd);
                     adapter = new WorkDiaryAdapter(workDiaryList);
                     listview.setAdapter(adapter);
@@ -209,7 +209,7 @@ public class WorkDiaryActivity extends Activity {
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     workDiaryList = result.getWorkDailyList();
                     if (workDiaryList != null && workDiaryList.size() > 0) {
-                        workDiaryListOld = new ArrayList<Product>();
+                        workDiaryListOld = new ArrayList<>();
                         for (Product p : workDiaryList) {
                             Product product = new Product();
                             product.setProductCode(p.getProductCode());

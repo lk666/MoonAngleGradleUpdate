@@ -24,8 +24,6 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 public class CommonSelectActivity extends Activity {
 
-    private ListView listView;
-    private SelectAdapter adapter;
     private String title;
     private List<String> list;
 
@@ -38,12 +36,12 @@ public class CommonSelectActivity extends Activity {
         }
         initCustomActionBar();
         setContentView(R.layout.activity_ticket_count);
-        listView = (ListView) findViewById(R.id.listView_ticket);
-        PublicUtil.setEmptyView(listView,title,null);
+        ListView listView = (ListView) findViewById(R.id.listView_ticket);
+        PublicUtil.setEmptyView(listView, title, null);
         if (list == null) {
             return;
         }
-        adapter = new SelectAdapter(this, list);
+        SelectAdapter adapter = new SelectAdapter(this, list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -121,7 +119,7 @@ public class CommonSelectActivity extends Activity {
                 convertView = view;
             }
 
-            ((TextView)convertView).setText(list.get(position));
+            ((TextView) convertView).setText(list.get(position));
 
             int index = position % 2;
             if (index == 1) {

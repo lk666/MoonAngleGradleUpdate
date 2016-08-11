@@ -232,7 +232,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
 	};
 
 	private void setTags(List<WorkTask> workTasks){
-		List<Tag> list = new ArrayList<Tag>();
+		List<Tag> list = new ArrayList<>();
 		if(workTasks!=null){
 			for (int i = 0; i < workTasks.size(); i++) {
 				Tag tag = new Tag();

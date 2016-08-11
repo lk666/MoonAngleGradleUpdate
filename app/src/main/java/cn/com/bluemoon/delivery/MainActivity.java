@@ -83,8 +83,6 @@ import cn.com.bluemoon.lib.view.RedpointTextView;
 public class MainActivity extends SlidingActivity {
 
     private String TAG = "MainActivity";
-    private ImageView imgPerson;
-    private ImageView imgScan;
     private AlwaysMarqueeTextView txtTips;
     private MainActivity main;
     private ActivityManager manager;
@@ -98,7 +96,6 @@ public class MainActivity extends SlidingActivity {
 
     private PullToRefreshListView scrollViewMain;
     private GridViewAdapter gridViewAdapter;
-    private UserRightAdapter userRightAdapter;
     private CommonEmptyView emptyView;
 
 //    private Map<Integer, View> map = new HashMap<Integer, View>();
@@ -130,8 +127,8 @@ public class MainActivity extends SlidingActivity {
         progressDialog = new CommonProgressDialog(main);
         progressDialog.setCancelable(false);
 
-        imgPerson = (ImageView) findViewById(R.id.img_person);
-        imgScan = (ImageView) findViewById(R.id.img_scan);
+        ImageView imgPerson = (ImageView) findViewById(R.id.img_person);
+        ImageView imgScan = (ImageView) findViewById(R.id.img_scan);
         imgPerson.setOnClickListener(new View.OnClickListener() {
 
             @Override
@@ -682,7 +679,8 @@ public class MainActivity extends SlidingActivity {
                 holderView = (HolderView) convertView.getTag();
             }
 
-            userRightAdapter = new UserRightAdapter(main, list.get(position).getItem());
+            UserRightAdapter userRightAdapter = new UserRightAdapter(main, list.get(position)
+                    .getItem());
             holderView.gridView.setAdapter(userRightAdapter);
             holderView.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

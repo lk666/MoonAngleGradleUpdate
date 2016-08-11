@@ -42,7 +42,6 @@ import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -68,7 +67,8 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
-public class OrderDeliverDetailActivity extends BaseActivity implements OnClickListener,OnListItemClickListener {
+public class OrderDeliverDetailActivity extends BaseActivity implements OnClickListener,
+        OnListItemClickListener {
     @Bind(R.id.listview_product)
     ListView listviewProduct;
     @Bind(R.id.txt_need)
@@ -86,9 +86,6 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
     private OrderProductAdapter adapter;
     private List<ProductPreDeliverVo> lists;
-    private View headView;
-    private View footView;
-    private LinearLayout outBackLayout;
     private EditText tdOutBack;
 
     private TextView txtCommonNameFhck;
@@ -111,9 +108,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
     private TextView txtDistributionBusinessName;
     private TextView txtFhfAddress;
     private TextView txtListOrderDetailName;
-    private RelativeLayout relDeliverAddress, relDeliverDate, relDeliverTicket;
+    private RelativeLayout relDeliverAddress;
     private RelativeLayout relDistributionBusinessName;
-    private RelativeLayout llDiffLayout;
 
     private OrderDeliverDetailActivity main;
     private String orderCode;
@@ -131,7 +127,6 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
     private int sumCount = 0;//实收支数
     private double boxNum = 0;//箱数
     private int diffNum = 0;//差异数
-    private long totalMoneySubmit;//total money
     private long submitTime = 0;
 
     @Override
@@ -176,10 +171,10 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        if(requestCode == 0){
-            detailInfo = (ResultPreDeliverOrderBean)result;
+        if (requestCode == 0) {
+            detailInfo = (ResultPreDeliverOrderBean) result;
             setData(detailInfo);
-        }else if(requestCode == 1){
+        } else if (requestCode == 1) {
             toast(getString(R.string.txt_order_deliver_success_tip) +
                     "\n" + ((ResultDetail) result).getOutCode());
             setResult(RESULT_OK);
@@ -188,17 +183,21 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
     }
 
     private void initHeadView() {
-        headView = LayoutInflater.from(this).inflate(R.layout.order_deliver_listview_head, null);
+        View headView = LayoutInflater.from(this).inflate(R.layout.order_deliver_listview_head,
+                null);
         txtCommonNameFhck = (TextView) headView.findViewById(R.id.txt_commenName_fhck);
         txtCommonNameFhAddress = (TextView) headView.findViewById(R.id.txt_commenName_fh_address);
-        txtCommonNameDeliverDate = (TextView) headView.findViewById(R.id.txt_commonName_deliver_date);
+        txtCommonNameDeliverDate = (TextView) headView.findViewById(R.id
+                .txt_commonName_deliver_date);
         txtCustomerNameFhBill = (TextView) headView.findViewById(R.id.txt_customerName_fh_bill);
-        txtCommonNameDeliverShipper = (TextView) headView.findViewById(R.id.txt_commonName_deliver_shipper);
+        txtCommonNameDeliverShipper = (TextView) headView.findViewById(R.id
+                .txt_commonName_deliver_shipper);
         txtCommonNameFhfAddress = (TextView) headView.findViewById(R.id.txt_commenName_fhf_address);
 
         txtOrderId = (TextView) headView.findViewById(R.id.txt_orderid);
         txtSource = (TextView) headView.findViewById(R.id.txt_source);
-        txtOrderDeliverStoreNum = (TextView) headView.findViewById(R.id.txt_order_deliver_store_nums);
+        txtOrderDeliverStoreNum = (TextView) headView.findViewById(R.id
+                .txt_order_deliver_store_nums);
         txtTotalMoney = (TextView) headView.findViewById(R.id.txt_total_money);
         txtFhStore = (TextView) headView.findViewById(R.id.txt_fh_store);
         txtFhAddress = (TextView) headView.findViewById(R.id.txt_fh_address);
@@ -207,15 +206,19 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
         txtFhPhone = (TextView) headView.findViewById(R.id.txt_fh_phone);
         txtFhPhone.setOnClickListener(this);
         txtFhName = (TextView) headView.findViewById(R.id.txt_fh_name);
-        txtDistributionBusinessName = (TextView) headView.findViewById(R.id.txt_distribution_buniessName);
-        relDistributionBusinessName = (RelativeLayout) headView.findViewById(R.id.rel_distribution_buniessName);
+        txtDistributionBusinessName = (TextView) headView.findViewById(R.id
+                .txt_distribution_buniessName);
+        relDistributionBusinessName = (RelativeLayout) headView.findViewById(R.id
+                .rel_distribution_buniessName);
         txtFhfAddress = (TextView) headView.findViewById(R.id.txt_fhf_address);
         txtListOrderDetailName = (TextView) headView.findViewById(R.id.txt_list_order_detail_name);
 
         relDeliverAddress = (RelativeLayout) headView.findViewById(R.id.rel_deliver_address);
-        relDeliverDate = (RelativeLayout) headView.findViewById(R.id.rel_deliver_date);
-        relDeliverTicket = (RelativeLayout) headView.findViewById(R.id.rel_deliverTicket);
-        llDiffLayout = (RelativeLayout) headView.findViewById(R.id.ll_diff_layout);
+        RelativeLayout relDeliverDate = (RelativeLayout) headView.findViewById(R.id
+                .rel_deliver_date);
+        RelativeLayout relDeliverTicket = (RelativeLayout) headView.findViewById(R.id
+                .rel_deliverTicket);
+        RelativeLayout llDiffLayout = (RelativeLayout) headView.findViewById(R.id.ll_diff_layout);
         llDiffLayout.setVisibility(View.GONE);
 
         relDeliverAddress.setOnClickListener(this);
@@ -230,7 +233,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
         txtCommonNameFhck.setText(getResources().getString(R.string.text_deliver_store));
         txtCommonNameFhAddress.setText(getResources().getString(R.string.text_deliver_address));
         txtCommonNameDeliverDate.setText(getResources().getString(R.string.text_deliver_date));
-        txtCustomerNameFhBill.setText(getResources().getString(R.string.text_deliver_upload_ticket));
+        txtCustomerNameFhBill.setText(getResources().getString(R.string
+                .text_deliver_upload_ticket));
         txtCommonNameDeliverShipper.setText(getResources().getString(R.string.text_recriver_store));
         txtCommonNameFhfAddress.setText(getResources().getString(R.string.text_recrive_address));
         txtFhDate.setText(getResources().getString(R.string.txt_order_input_deliver_date));
@@ -241,8 +245,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
     }
 
     private void initFoot() {
-        footView = LayoutInflater.from(this).inflate(R.layout.order_deliver_list_bottom, null);
-        outBackLayout = (LinearLayout) footView.findViewById(R.id.ll_outBack);
+        View footView = LayoutInflater.from(this).inflate(R.layout.order_deliver_list_bottom, null);
+        LinearLayout outBackLayout = (LinearLayout) footView.findViewById(R.id.ll_outBack);
         tdOutBack = (EditText) footView.findViewById(R.id.td_outBack);
 
         txtNeed.setText(getString(R.string.detail_order_deliver_should));
@@ -269,7 +273,7 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
                     Calendar cal = Calendar.getInstance();
                     cal.setTime(new Date());
                     cal.add(Calendar.HOUR_OF_DAY, 1);
-                    initDateTime = DateUtil.getTime(cal.getTimeInMillis(),"yyyy-MM-dd HH:mm");
+                    initDateTime = DateUtil.getTime(cal.getTimeInMillis(), "yyyy-MM-dd HH:mm");
                 }
                 DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(
                         main, initDateTime, new DateTimePickDialogUtil.OnDetailClickLister() {
@@ -277,15 +281,18 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
                     public void btnClickLister(long time, String datetime) {
                         submitTime = time;
                         if (time > ((new Date().getTime() / 1000) + 3600)) {
-                            PublicUtil.showToast(main, getString(R.string.txt_select_date_tip_future));
+                            PublicUtil.showToast(main, getString(R.string
+                                    .txt_select_date_tip_future));
                             txtFhDate.setTextColor(main.getResources().getColor(R.color.text_grep));
                             return;
                         }
                         if ((detailInfo.getOrderDetail().getOrderDate()) >= time) {
-                            String timeTip = DateUtil.getTime(detailInfo.getOrderDetail().getOrderDate(), "yyyy-MM-dd HH:mm");
+                            String timeTip = DateUtil.getTime(detailInfo.getOrderDetail()
+                                    .getOrderDate(), "yyyy-MM-dd HH:mm");
                             timeTip = timeTip.substring(0, timeTip.indexOf(":")) + ":00";
 
-                            String dateTip = String.format(getResources().getString(R.string.txt_select_deliver_date_tip_ago), timeTip);
+                            String dateTip = String.format(getResources().getString(R.string
+                                    .txt_select_deliver_date_tip_ago), timeTip);
                             PublicUtil.showToast(main, dateTip);
                             txtFhDate.setTextColor(main.getResources().getColor(R.color.text_grep));
                             return;
@@ -293,14 +300,16 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
                         if ("time".equals(datetime)) {
                             txtFhDate.setText(DateUtil.getTime(time, "yyyy-MM-dd HH:mm"));
-                            txtFhDate.setTextColor(getResources().getColor(R.color.text_black_light));
+                            txtFhDate.setTextColor(getResources().getColor(R.color
+                                    .text_black_light));
                         }
                     }
                 });
                 dateTimePicKDialog.dateTimePicKDialog();
                 break;
             case R.id.rel_deliverTicket:
-                OrderTicketUploadActivity.actionStart(main, InventoryTabActivity.DELIVERY_MANAGEMENT,
+                OrderTicketUploadActivity.actionStart(main, InventoryTabActivity
+                        .DELIVERY_MANAGEMENT,
                         storeCode, picList, 103);
 
                 break;
@@ -309,13 +318,15 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
                 break;
 
             case R.id.btn_settle_deliver:
-                if (submitTime <= 0 || getString(R.string.txt_order_input_deliver_date).equals(txtFhDate.getText().toString().trim()) ||
-                        getString(R.string.txt_order_input_receive_date).equals(txtFhDate.getText().toString().trim())) {
+                if (submitTime <= 0 || getString(R.string.txt_order_input_deliver_date).equals
+                        (txtFhDate.getText().toString().trim()) ||
+                        getString(R.string.txt_order_input_receive_date).equals(txtFhDate.getText
+                                ().toString().trim())) {
                     PublicUtil.showToast(main, getString(R.string.txt_order_date_not_null_tip));
                     return;
                 }
 
-                totalMoneySubmit = 0;
+                long totalMoneySubmit = 0;
                 boxNum = 0;
                 diffNum = 0;
                 sumCount = 0;
@@ -327,16 +338,24 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
                     sumCount = sumCount + lists.get(i).getDifferNum();
                     boxNum = boxNum + lists.get(i).getDiffCase();
                     mSumCount = mSumCount + lists.get(i).getOutNum();
-                    totalMoneySubmit = totalMoneySubmit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
+                    totalMoneySubmit = totalMoneySubmit + (long) lists.get(i).getDifferNum() *
+                            (lists.get(i).getPriceBag());
 
                 }
 
-                String shouldDeliverCount = String.format(getResources().getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(detailInfo.getOrderDetail().getTotalCase())) +
-                        String.format(getResources().getString(R.string.order_product_count), detailInfo.getOrderDetail().getTotalNum());
-                String realDeliverCount = String.format(getResources().getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNum)) +
-                        String.format(getResources().getString(R.string.order_product_count), sumCount);
-                String diffCount = String.format(getResources().getString(R.string.order_diff_product_count), mSumCount - sumCount);
-                String totalMoney = getResources().getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(totalMoneySubmit);
+                String shouldDeliverCount = String.format(getResources().getString(R.string
+                        .order_boxes_count), StringUtil.formatBoxesNum(detailInfo.getOrderDetail
+                        ().getTotalCase())) +
+                        String.format(getResources().getString(R.string.order_product_count),
+                                detailInfo.getOrderDetail().getTotalNum());
+                String realDeliverCount = String.format(getResources().getString(R.string
+                        .order_boxes_count), StringUtil.formatBoxesNum(boxNum)) +
+                        String.format(getResources().getString(R.string.order_product_count),
+                                sumCount);
+                String diffCount = String.format(getResources().getString(R.string
+                        .order_diff_product_count), mSumCount - sumCount);
+                String totalMoney = getResources().getString(R.string.order_money_sign) +
+                        StringUtil.formatPriceByFen(totalMoneySubmit);
 
                 DialogForSubmitOrder myDialog = new DialogForSubmitOrder(main,
                         "deliver", shouldDeliverCount, realDeliverCount, diffCount, totalMoney);
@@ -370,7 +389,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
             addressId = this.addressId;
         } else {
             addressId = detailInfo.getOrderDetail().getDeliStoreAddrId();
-            if (detailInfo.getOrderDetail().getDeliStoreAddrId() == 0 && detailInfo.getOrderDetail().isAllowedEditAddress()) {
+            if (detailInfo.getOrderDetail().getDeliStoreAddrId() == 0 && detailInfo
+                    .getOrderDetail().isAllowedEditAddress()) {
                 PublicUtil.showToast(main, getString(R.string.txt_order_deliver_address_toast));
                 return;
             }
@@ -396,7 +416,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
             return;
         }
         Bitmap bm = ImageUtil.convertToBitmap(path);
-        DeliveryApi.uploadTicketPic(token, orderCode, "out", LibImageUtil.scaleBitmap(bm, 800), uploadHandler);
+        DeliveryApi.uploadTicketPic(token, orderCode, "out", LibImageUtil.scaleBitmap(bm, 800),
+                uploadHandler);
     }
 
 
@@ -482,15 +503,19 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
                 case 1005:
                     if (failUpload.size() > 0) {
                         new CommonAlertDialog.Builder(main)
-                                .setMessage(String.format(getString(R.string.txt_ticket_upload_fail_count), failUpload.size()))
-                                        //.setMessage("有" + failUpload.size() + "张上传失败")
-                                .setNegativeButton(getString(R.string.btn_cancel), new DialogInterface.OnClickListener() {
+                                .setMessage(String.format(getString(R.string
+                                        .txt_ticket_upload_fail_count), failUpload.size()))
+                                //.setMessage("有" + failUpload.size() + "张上传失败")
+                                .setNegativeButton(getString(R.string.btn_cancel), new
+                                        DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         submitDeliver();
                                     }
                                 })
-                                .setPositiveButton(getString(R.string.txt_ticket_upload_fail_reupload), new DialogInterface.OnClickListener() {
+                                .setPositiveButton(getString(R.string
+                                        .txt_ticket_upload_fail_reupload), new DialogInterface
+                                        .OnClickListener() {
 
                                     @Override
                                     public void onClick(DialogInterface dialog,
@@ -515,13 +540,16 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
                         sumCount = sumCount + lists.get(i).getDifferNum();
                         boxNum = boxNum + lists.get(i).getDiffCase();
-                        diffNum = diffNum + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
+                        diffNum = diffNum + (lists.get(i).getOutNum() - lists.get(i).getDifferNum
+                                ());
 
                     }
 
-                    txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNum))
+                    txtRealDeliverBox.setText((String.format(getString(R.string
+                            .order_boxes_count), StringUtil.formatBoxesNum(boxNum))
                             + String.format(getString(R.string.order_product_count), sumCount)));
-                    txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), diffNum));
+                    txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count)
+                            , diffNum));
                     break;
                 default:
                     break;
@@ -562,8 +590,10 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
         txtOrderId.setText(result.getOrderDetail().getOrderCode());
         txtOrderDeliverStoreNum.setText((String.format(getString(R.string.order_boxes_count),
                 StringUtil.formatBoxesNum(result.getOrderDetail().getTotalCase())) +
-                String.format(getString(R.string.order_product_count), result.getOrderDetail().getTotalNum())));
-        txtTotalMoney.setText(getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(result.getOrderDetail().getTotalMoney()));
+                String.format(getString(R.string.order_product_count), result.getOrderDetail()
+                        .getTotalNum())));
+        txtTotalMoney.setText(getString(R.string.order_money_sign) + StringUtil.formatPriceByFen
+                (result.getOrderDetail().getTotalMoney()));
         txtSource.setText(DateUtil.getTime(result.getOrderDetail().getOrderDate(), "yyyy-MM-dd"));
 
 
@@ -587,7 +617,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
         txtFhName.setText(result.getOrderDetail().getReceiveName());
         txtDistributionBusinessName.setText(result.getOrderDetail().getCompanyName());
-        if ("".equals(result.getOrderDetail().getCompanyName()) || result.getOrderDetail().getCompanyName() == null) {
+        if ("".equals(result.getOrderDetail().getCompanyName()) || result.getOrderDetail()
+                .getCompanyName() == null) {
             relDistributionBusinessName.setVisibility(View.GONE);
         }
         txtFhfAddress.setText(result.getOrderDetail().getReceiveAddr());
@@ -611,9 +642,11 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
             diffNum = diffNum + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
         }
 
-        txtShouldDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNum))
+        txtShouldDeliverBox.setText((String.format(getString(R.string.order_boxes_count),
+                StringUtil.formatBoxesNum(boxNum))
                 + String.format(getString(R.string.order_product_count), sumCount)));
-        txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNum))
+        txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count),
+                StringUtil.formatBoxesNum(boxNum))
                 + String.format(getString(R.string.order_product_count), sumCount)));
         txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), 0));
 
@@ -628,8 +661,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        ProductPreDeliverVo i = (ProductPreDeliverVo)item;
-        switch (view.getId()){
+        ProductPreDeliverVo i = (ProductPreDeliverVo) item;
+        switch (view.getId()) {
             case R.id.book_add:
                 if (i.getOutNum() == i.getDifferNum()) {
                     return;
@@ -661,7 +694,8 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
                 handler.obtainMessage(1006).sendToTarget();
                 break;
             case R.id.book_count:
-                DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, i.getOutNum(), i.getDifferNum(), true);
+                DialogForEditOrderCount myDialog = new DialogForEditOrderCount(main, position, i
+                        .getOutNum(), i.getDifferNum(), true);
                 myDialog.setDialogCallback(dialogCallback);
                 myDialog.show();
                 break;
@@ -678,13 +712,13 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
         @Override
         protected int getLayoutId() {
-           return R.layout.order_details_deliver_item;
+            return R.layout.order_details_deliver_item;
         }
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
             ProductPreDeliverVo item = list.get(position);
-            if(item==null) return;
+            if (item == null) return;
             TextView txtOrderNumber = getViewById(R.id.txt_order_number);
             TextView txtBoxRuleNum = getViewById(R.id.txt_box_rule_num);
             TextView txtOrderProductName = getViewById(R.id.txt_order_product_name);
@@ -731,23 +765,26 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
                 lineSolidDeepBottom.setVisibility(View.GONE);
             }
 
-            setClickEvent(isNew,position,imgBookAdd,imgBookReduce,editBookCount);
+            setClickEvent(isNew, position, imgBookAdd, imgBookReduce, editBookCount);
         }
     }
 
 
-    DialogForEditOrderCount.DialogCallback dialogCallback = new DialogForEditOrderCount.DialogCallback() {
+    DialogForEditOrderCount.DialogCallback dialogCallback = new DialogForEditOrderCount
+            .DialogCallback() {
         @Override
         public void dialogDo(int position, String nums, int numCount) {
             try {
                 if (Integer.valueOf(nums) > numCount) {
-                    PublicUtil.showToast(main, getString(R.string.txt_order_product_count_toast_tip));
+                    PublicUtil.showToast(main, getString(R.string
+                            .txt_order_product_count_toast_tip));
                     return;
                 }
                 lists.get(position).setDifferNum(Integer.valueOf(nums));
                 double num;
                 if ("90000714".equals(lists.get(position).getProductNo())) {
-                    num = (double) (Integer.valueOf(nums)) / (lists.get(position).getCarton() * 500);
+                    num = (double) (Integer.valueOf(nums)) / (lists.get(position).getCarton() *
+                            500);
                 } else {
                     num = (double) (Integer.valueOf(nums)) / lists.get(position).getCarton();
                 }

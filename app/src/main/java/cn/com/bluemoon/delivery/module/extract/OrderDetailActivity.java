@@ -46,16 +46,8 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 public class OrderDetailActivity extends Activity implements OnClickListener {
 	private String TAG = "OrderDetailActivity";
-	private CommonActionBar mActionbar;
 	private View popStart;
-	private LinearLayoutForListView listviewProduct;
 	private Button btnSign;
-	private TextView tvTotalPrice;
-	private TextView tvOrderNumber;
-	private TextView tvStorehouse;
-	private TextView tvOrderUserName;
-	private TextView tvOrderUserPhone;
-	private TextView tvOrderPayTime;
 	private LinearLayout layoutStorehouse;
 	private OrderDetailActivity mContext;
 	private ResultOrderInfoPickup pickupInfo;
@@ -73,14 +65,15 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 		progressDialog = new CommonProgressDialog(mContext);
 		progressDialog.setCancelable(false);
 		popStart = findViewById(R.id.view_pop_start);
-		listviewProduct = (LinearLayoutForListView) findViewById(R.id.listview_product);
+		LinearLayoutForListView listviewProduct = (LinearLayoutForListView) findViewById(R.id
+				.listview_product);
 		btnSign = (Button) findViewById(R.id.btn_sign);
-		tvOrderNumber = (TextView) findViewById(R.id.tv_order_number);
-		tvStorehouse = (TextView) findViewById(R.id.tv_storehouse);
-		tvOrderUserName = (TextView) findViewById(R.id.tv_order_username);
-		tvOrderUserPhone = (TextView) findViewById(R.id.tv_order_userphone);
-		tvOrderPayTime = (TextView) findViewById(R.id.tv_order_pay_time);
-		tvTotalPrice = (TextView) findViewById(R.id.tv_total_price);
+		TextView tvOrderNumber = (TextView) findViewById(R.id.tv_order_number);
+		TextView tvStorehouse = (TextView) findViewById(R.id.tv_storehouse);
+		TextView tvOrderUserName = (TextView) findViewById(R.id.tv_order_username);
+		TextView tvOrderUserPhone = (TextView) findViewById(R.id.tv_order_userphone);
+		TextView tvOrderPayTime = (TextView) findViewById(R.id.tv_order_pay_time);
+		TextView tvTotalPrice = (TextView) findViewById(R.id.tv_total_price);
 		layoutStorehouse = (LinearLayout) findViewById(R.id.layout_storehouse);
 		btnSign.setOnClickListener(this);
 		layoutStorehouse.setOnClickListener(this);
@@ -107,7 +100,7 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 	}
 	
 	private void initCustomActionBar() {
-		mActionbar = new CommonActionBar(getActionBar(), new IActionBarListener() {
+		CommonActionBar mActionbar = new CommonActionBar(getActionBar(), new IActionBarListener() {
 
 			@Override
 			public void onBtnRight(View v) {
@@ -123,7 +116,7 @@ public class OrderDetailActivity extends Activity implements OnClickListener {
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog,
-									int which) {
+												int which) {
 								OrderDetailActivity.this.finish();
 							}
 

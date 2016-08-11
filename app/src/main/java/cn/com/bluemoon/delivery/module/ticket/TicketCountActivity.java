@@ -76,7 +76,7 @@ public class TicketCountActivity extends KJActivity {
 		}
 		List<VenueInfo> list = items.getItemList();
 		if(list==null){
-			list = new ArrayList<VenueInfo>();
+			list = new ArrayList<>();
 			ViewUtil.toastErrorData();
 		}
 		adapter = new TicketCountAdapter(aty,items.getItemList());

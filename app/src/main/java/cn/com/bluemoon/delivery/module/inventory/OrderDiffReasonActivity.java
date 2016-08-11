@@ -45,7 +45,7 @@ public class OrderDiffReasonActivity extends BaseActivity {
 
     @Override
     protected void onBeforeSetContentLayout() {
-        listDict = new ArrayList<Dict>();
+        listDict = new ArrayList<>();
         pos = getIntent().getIntExtra(KEY_POS, 0);
         dictId = getIntent().getStringExtra(KEY_DICTID);
         dictName = getIntent().getStringExtra(KEY_DICTNAME);
@@ -80,7 +80,7 @@ public class OrderDiffReasonActivity extends BaseActivity {
     private void init() {
 
         tagListview.setMode(TagListView.Mode.single);
-        List<Tag> mTags = new ArrayList<Tag>();
+        List<Tag> mTags = new ArrayList<>();
         for (int i = 0; i < listDict.size(); i++) {
             Tag tag = new Tag();
             tag.setId(i);

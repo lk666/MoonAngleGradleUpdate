@@ -201,7 +201,7 @@ public class GetWorkPlaceActivity extends KJActivity {
 
     private void setData(List<Workplace> workplaces){
         if(items==null){
-            items = new ArrayList<Workplace>();
+            items = new ArrayList<>();
         }
         if(workplaces==null||workplaces.size()==0){
             if(isPullUp){
@@ -211,7 +211,7 @@ public class GetWorkPlaceActivity extends KJActivity {
                 items.clear();
             }
         }else{
-            List<Workplace> list = new ArrayList<Workplace>();
+            List<Workplace> list = new ArrayList<>();
             for (int i=0;i<workplaces.size();i++){
                 list.add(workplaces.get(i));
             }

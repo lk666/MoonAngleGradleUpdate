@@ -322,7 +322,7 @@ public class CouponsPushFragment extends Fragment implements OnClickListener{
 			if (StringUtils.isNotBlank(txtActivity.getText().toString())) {
 				if (StringUtils.isNotBlank(txtRegisterTime.getText().toString())) {
 					if (coupons != null && coupons.size() > 0) {
-						List<Coupon> couponSelects = new ArrayList<Coupon>();
+						List<Coupon> couponSelects = new ArrayList<>();
 						for (Coupon c : coupons) {
 							if (c.isSelect()) {
 								couponSelects.add(c);

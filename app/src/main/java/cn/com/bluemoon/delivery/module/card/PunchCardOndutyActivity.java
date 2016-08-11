@@ -222,7 +222,7 @@ public class PunchCardOndutyActivity extends Activity {
     private void initView(){
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        views=new ArrayList<View>();
+        views=new ArrayList<>();
         LayoutInflater inflater=getLayoutInflater();
         viewCode = inflater.inflate(R.layout.view_punch_card_input_code, null);
         viewOther = inflater.inflate(R.layout.view_punch_card_input_other, null);
@@ -256,7 +256,7 @@ public class PunchCardOndutyActivity extends Activity {
     }
 
     private void setTags(TagListView tagListView,List<WorkTask> workTasks){
-        List<Tag> list = new ArrayList<Tag>();
+        List<Tag> list = new ArrayList<>();
         if(workTasks!=null){
             if (workTasks.size() > 0) {
                 tagListView.setVisibility(View.VISIBLE);

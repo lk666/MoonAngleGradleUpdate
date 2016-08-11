@@ -150,7 +150,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
                         " " + "result = " + responseString);
                 hideWaitDialog();
                 try {
-                    Object resultObj = getClazz().newInstance();
+                    Object resultObj;
                     resultObj = JSON.parseObject(responseString, getClazz());
                     if (resultObj instanceof ResultBase) {
                         ResultBase resultBase = (ResultBase) resultObj;

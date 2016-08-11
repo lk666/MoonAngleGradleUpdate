@@ -140,7 +140,7 @@ public class HistoryFragment extends Fragment {
 		} else {
 			List<Order> list = result.getItemList();
 			if (list == null) {
-				list = new ArrayList<Order>();
+				list = new ArrayList<>();
 			}
 			if (list.size() < AppContext.PAGE_SIZE) {
 				isEnd = true;
@@ -155,7 +155,7 @@ public class HistoryFragment extends Fragment {
 		setCountAndPrice(item.getTotalCount(), item.getTotalAmount());
 		List<Order> list = item.getItemList();
 		if (list == null) {
-			list = new ArrayList<Order>();
+			list = new ArrayList<>();
 		}
 		if (list.size() < AppContext.PAGE_SIZE) {
 			isEnd = true;

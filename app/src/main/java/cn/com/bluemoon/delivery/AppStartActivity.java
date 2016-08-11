@@ -166,7 +166,7 @@ public class AppStartActivity extends Activity {
 
     private void showDialog(Version response) {
         String tcurrentVersion = "0.0.0";
-        String tnewVersion = null;
+        String tnewVersion;
         try {
             tcurrentVersion = main.getPackageManager()
                     .getPackageInfo(main.getPackageName(), 0).versionName;

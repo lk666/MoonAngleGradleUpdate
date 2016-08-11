@@ -47,10 +47,6 @@ public class ChoiceOrderDatePopupWindow extends PopupWindow {
     private long currentTime;
     Button okBtn;
     private OrderVo order;
-    private TextView textOrderId;
-    private TextView textUserName;
-    private TextView textUserTel;
-    private TextView textAddress;
 
     public ChoiceOrderDatePopupWindow(Context context, OrderVo orderVo,
                                       IOrderChoiceDateListener listener) {
@@ -65,10 +61,10 @@ public class ChoiceOrderDatePopupWindow extends PopupWindow {
         View view = inflater.inflate(R.layout.dialog_appointment_choice_date,
                 null);
 
-        textOrderId = (TextView) view.findViewById(R.id.text_orderid);
-        textUserName = (TextView) view.findViewById(R.id.text_username);
-        textAddress = (TextView) view.findViewById(R.id.text_address);
-        textUserTel = (TextView) view.findViewById(R.id.text_usertel);
+        TextView textOrderId = (TextView) view.findViewById(R.id.text_orderid);
+        TextView textUserName = (TextView) view.findViewById(R.id.text_username);
+        TextView textAddress = (TextView) view.findViewById(R.id.text_address);
+        TextView textUserTel = (TextView) view.findViewById(R.id.text_usertel);
 
         textAddress.setText(String.format("%s%s", order.getRegion(),
                 order.getAddress()));
@@ -157,7 +153,7 @@ public class ChoiceOrderDatePopupWindow extends PopupWindow {
             @Override
             public void onClick(View v) {
                 currentTime = getCurDateForLong();
-                String date = getDateTime();
+               // String date = getDateTime();
                 int resultCode = isCorrectTime();
                 if (resultCode == 0) {
 
@@ -278,7 +274,7 @@ public class ChoiceOrderDatePopupWindow extends PopupWindow {
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String timeStr = mYear + "-" + mMonth + "-" + mDay + " " + mHour + ":"
                 + mMinute;
-        long time = 0;
+        long time;
         try {
             time = sdf.parse(timeStr).getTime();
             if (time <= currentTime) {

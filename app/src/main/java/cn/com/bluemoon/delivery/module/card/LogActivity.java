@@ -33,16 +33,16 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 /**
+ *
  * Created by liangjiangli on 2016/3/31.
  */
 public class LogActivity extends Activity {
     private String TAG = "LogActivity";
     private EditText etLog;
-    private Button btnSave;
     private CommonProgressDialog progressDialog;
     private LogActivity mContext;
-    private boolean hasWorkDiary;
     private String logTxt;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -53,33 +53,36 @@ public class LogActivity extends Activity {
         progressDialog.setCancelable(false);
         setContentView(R.layout.activity_work_log);
         etLog = (EditText) findViewById(R.id.et_log);
-        btnSave = (Button) findViewById(R.id.btn_save);
-        hasWorkDiary = getIntent().getBooleanExtra("hasWorkDiary", true);
+        Button btnSave = (Button) findViewById(R.id.btn_save);
+        boolean hasWorkDiary = getIntent().getBooleanExtra("hasWorkDiary", true);
         if (hasWorkDiary) {
-            if(progressDialog!=null) progressDialog.show();
-            DeliveryApi.getWorkDiary(ClientStateManager.getLoginToken(mContext), getWorkDiaryHandler);
+            if (progressDialog != null) progressDialog.show();
+            DeliveryApi.getWorkDiary(ClientStateManager.getLoginToken(mContext),
+                    getWorkDiaryHandler);
         }
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(PublicUtil.isFastDoubleClick(1000)) return;
+                if (PublicUtil.isFastDoubleClick(1000)) return;
                 String text = etLog.getText().toString();
                 if (StringUtils.isNotBlank(text)) {
-                    if(progressDialog!=null)
-                    progressDialog.show();
-                    DeliveryApi.confirmWorkDiary(ClientStateManager.getLoginToken(mContext), text, new TextHttpResponseHandler(HTTP.UTF_8) {
+                    if (progressDialog != null)
+                        progressDialog.show();
+                    DeliveryApi.confirmWorkDiary(ClientStateManager.getLoginToken(mContext),
+                            text, new TextHttpResponseHandler(HTTP.UTF_8) {
                         @Override
-                        public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
-                            if(progressDialog!=null)
-                            progressDialog.dismiss();
+                        public void onFailure(int i, Header[] headers, String s, Throwable
+                                throwable) {
+                            if (progressDialog != null)
+                                progressDialog.dismiss();
                             PublicUtil.showToastServerOvertime(mContext);
                         }
 
                         @Override
                         public void onSuccess(int i, Header[] headers, String s) {
                             LogUtils.d("test", "confirmWorkDiary result = " + s);
-                            if(progressDialog!=null)
-                            progressDialog.dismiss();
+                            if (progressDialog != null)
+                                progressDialog.dismiss();
                             try {
                                 ResultBase result = JSON.parseObject(s, ResultBase.class);
                                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
@@ -101,6 +104,7 @@ public class LogActivity extends Activity {
         });
         initCustomActionBar();
     }
+
     private void initCustomActionBar() {
         new CommonActionBar(this.getActionBar(), new IActionBarListener() {
 
@@ -121,16 +125,19 @@ public class LogActivity extends Activity {
 
         });
     }
+
     AsyncHttpResponseHandler getWorkDiaryHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             LogUtils.d("test", "getWorkDiaryHandler result = " + responseString);
-            if(progressDialog!=null)
-            progressDialog.dismiss();
+            if (progressDialog != null)
+                progressDialog.dismiss();
             try {
-                ResultDiaryContent result = JSON.parseObject(responseString, ResultDiaryContent.class);
-                if(null!=result && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
+                ResultDiaryContent result = JSON.parseObject(responseString, ResultDiaryContent
+                        .class);
+                if (null != result && result.getResponseCode() == Constants
+                        .RESPONSE_RESULT_SUCCESS) {
                     etLog.setText(result.getDiaryContent());
                     logTxt = result.getDiaryContent();
                 } else {
@@ -140,11 +147,12 @@ public class LogActivity extends Activity {
                 PublicUtil.showToastServerBusy();
             }
         }
+
         @Override
         public void onFailure(int statusCode, Header[] headers, String responseString,
                               Throwable throwable) {
-            LogUtils.d("statusCode="+statusCode);
-            if(progressDialog!=null)
+            LogUtils.d("statusCode=" + statusCode);
+            if (progressDialog != null)
                 progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
         }
@@ -183,6 +191,7 @@ public class LogActivity extends Activity {
         super.onResume();
         MobclickAgent.onPageStart(TAG);
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(TAG);

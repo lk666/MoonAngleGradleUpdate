@@ -52,7 +52,7 @@ public class SelectAddressActivity extends ListActivity {
 		ActivityManager.getInstance().pushOneActivity(this);
 		dcode = getIntent().getStringExtra("dcode");
 		type = getIntent().getStringExtra("type");
-		subRegionList = new ArrayList<SubRegion>();
+		subRegionList = new ArrayList<>();
 		listContent= new ArrayList<Hashtable<String, String>>();
 		if (progressDialog == null) {
 			progressDialog = new CommonProgressDialog(this);

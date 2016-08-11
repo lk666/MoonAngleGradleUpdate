@@ -56,7 +56,6 @@ public class CouponsRecordFragment extends Fragment {
     private String mMon;
     private String mDay;
     private CommonDatePickerDialog commonDatePickerDialog;
-    private CouponRecordAdapter couponRecordAdapter;
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
@@ -78,14 +77,16 @@ public class CouponsRecordFragment extends Fragment {
         listView.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                DeliveryApi.getMensendCouponLog(ClientStateManager.getLoginToken(mContext), getDayTime(), getMensendCouponLogHandler);
+                DeliveryApi.getMensendCouponLog(ClientStateManager.getLoginToken(mContext),
+                        getDayTime(), getMensendCouponLogHandler);
             }
         });
         setCurDate();
         if (progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getMensendCouponLog(ClientStateManager.getLoginToken(mContext), getDayTime(), getMensendCouponLogHandler);
+        DeliveryApi.getMensendCouponLog(ClientStateManager.getLoginToken(mContext), getDayTime(),
+                getMensendCouponLogHandler);
         return v;
     }
 
@@ -131,7 +132,8 @@ public class CouponsRecordFragment extends Fragment {
         actionBar.getTvRightView().setCompoundDrawablePadding(10);
 
         Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
-        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter.getMinimumHeight());
+        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
+                .getMinimumHeight());
         actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
         actionBar.getTvRightView().setVisibility(View.VISIBLE);
 
@@ -142,7 +144,8 @@ public class CouponsRecordFragment extends Fragment {
         mYear = String.valueOf(dateAndTime.get(Calendar.YEAR));
         mMon = String.valueOf(dateAndTime.get(Calendar.MONTH));
         mDay = String.valueOf(dateAndTime.get(Calendar.DAY_OF_MONTH));
-        refreshMonthTxt(dateAndTime.get(Calendar.YEAR), dateAndTime.get(Calendar.MONTH), dateAndTime.get(Calendar.DAY_OF_MONTH));
+        refreshMonthTxt(dateAndTime.get(Calendar.YEAR), dateAndTime.get(Calendar.MONTH),
+                dateAndTime.get(Calendar.DAY_OF_MONTH));
     }
 
     private void refreshMonthTxt(int year, int month, int day) {
@@ -158,18 +161,21 @@ public class CouponsRecordFragment extends Fragment {
             setCurDate();
         }
         if (commonDatePickerDialog == null) {
-            commonDatePickerDialog = new CommonDatePickerDialog(mContext, onDateSetListener, Integer.valueOf(mYear),
+            commonDatePickerDialog = new CommonDatePickerDialog(mContext, onDateSetListener,
+                    Integer.valueOf(mYear),
                     Integer.valueOf(mMon), Integer.valueOf(mDay));
             commonDatePickerDialog.show();
         } else {
             if (!commonDatePickerDialog.isShowing()) {
-                commonDatePickerDialog.updateDate(Integer.valueOf(mYear), Integer.valueOf(mMon), Integer.valueOf(mDay));
+                commonDatePickerDialog.updateDate(Integer.valueOf(mYear), Integer.valueOf(mMon),
+                        Integer.valueOf(mDay));
                 commonDatePickerDialog.show();
             }
         }
     }
 
-    CommonDatePickerDialog.OnDateSetListener onDateSetListener = new CommonDatePickerDialog.OnDateSetListener() {
+    CommonDatePickerDialog.OnDateSetListener onDateSetListener = new CommonDatePickerDialog
+            .OnDateSetListener() {
 
         @Override
         public void onDateSet(DatePicker datePicker, int year, int monthOfYear, int day) {
@@ -179,7 +185,8 @@ public class CouponsRecordFragment extends Fragment {
             mDay = String.valueOf(day);
             refreshMonthTxt(year, monthOfYear, day);
             if (progressDialog != null) progressDialog.show();
-            DeliveryApi.getMensendCouponLog(ClientStateManager.getLoginToken(mContext), getDayTime(), getMensendCouponLogHandler);
+            DeliveryApi.getMensendCouponLog(ClientStateManager.getLoginToken(mContext),
+                    getDayTime(), getMensendCouponLogHandler);
         }
     };
 
@@ -192,10 +199,13 @@ public class CouponsRecordFragment extends Fragment {
                 progressDialog.dismiss();
             listView.onRefreshComplete();
             try {
-                ResultMensendLog resultMemsendLog = JSON.parseObject(responseString, ResultMensendLog.class);
+                ResultMensendLog resultMemsendLog = JSON.parseObject(responseString,
+                        ResultMensendLog.class);
                 if (resultMemsendLog.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    txtCount.setText(String.format(getString(R.string.card_record_count), resultMemsendLog.getTotal()));
-                    couponRecordAdapter = new CouponRecordAdapter(mContext);
+                    txtCount.setText(String.format(getString(R.string.card_record_count),
+                            resultMemsendLog.getTotal()));
+
+                    CouponRecordAdapter couponRecordAdapter = new CouponRecordAdapter(mContext);
                     couponRecordAdapter.setList(resultMemsendLog.getMensendLogs());
                     listView.setAdapter(couponRecordAdapter);
                 } else {
@@ -267,7 +277,7 @@ public class CouponsRecordFragment extends Fragment {
                 return viewEmpty;
             }
 //            if (convertView == null) {
-                convertView = inflate.inflate(R.layout.item_coupon_record, null);
+            convertView = inflate.inflate(R.layout.item_coupon_record, null);
 //            }
 
             int index = position % 2;

@@ -113,7 +113,7 @@ public class ReturnOrderActivity extends Activity implements OnClickListener{
 		if(list==null){
 			list = new ArrayList<>();
 		}
-		List<Tag> mTags = new ArrayList<Tag>();
+		List<Tag> mTags = new ArrayList<>();
 		for (int i = 0; i < list.size(); i++) {
 			Tag tag = new Tag();
 			tag.setId(i);

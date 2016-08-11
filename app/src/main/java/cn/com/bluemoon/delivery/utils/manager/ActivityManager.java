@@ -39,7 +39,6 @@ public class ActivityManager {
 			if (activity != null) {
 				activity.finish();
 				activityStack.remove(activity);
-				activity = null;
 			}
 		}
 	}

@@ -66,7 +66,7 @@ public class OrderTicketUploadActivity extends BaseActivity {
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         main = this;
-        list = new ArrayList<String>();
+        list = new ArrayList<>();
         type = getIntent().getStringExtra("type");
         relativeOrderCode = getIntent().getStringExtra("storeCode");
         if(getIntent().hasExtra("piclist")){

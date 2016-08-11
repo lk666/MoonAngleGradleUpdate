@@ -61,9 +61,10 @@ import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
 
 /**
+ *
  * Created by LIANGJIANGLI on 2016/6/24.
  */
-public class AddPromoteActivity extends Activity implements ObservableScrollView.ScrollListener{
+public class AddPromoteActivity extends Activity implements ObservableScrollView.ScrollListener {
 
     private String TAG = "AddPromoteActivity";
     private CommonProgressDialog progressDialog;
@@ -79,23 +80,15 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private CompoundButton cbWifi;
     private CompoundButton cbNetWork;
     private LinearLayout layoutRent;
-    private ObservableScrollView root;
-    int layoutRentHeight =  0;
-    private Button btnOk2;
+    int layoutRentHeight = 0;
     private Button btnOk;
-    private ImageView imgAddFlow;
-    private LinearLayout layoutOtherFee;
-    private LinearLayout layoutCommunitySelect;
-    private ImageView imgRight;
     private TextView txtBpname;
-    private GridView gridView;
     private ListView listview;
     private PeopleFlowAdapter peopleFlowAdapter;
-    private List<PeopleFlow> flows = new ArrayList<PeopleFlow>();
-    private List<PeopleFlow> deleteFlows = new ArrayList<PeopleFlow>();
+    private List<PeopleFlow> flows = new ArrayList<>();
+    private List<PeopleFlow> deleteFlows = new ArrayList<>();
     private int index;
-    private ResultBpList.Item bp;
-    private List<ImageInfo> images = new ArrayList<ImageInfo>();
+    private List<ImageInfo> images = new ArrayList<>();
     private TakePhotoPopView takePhotoPop;
     private ImageAdapter imageAdapter;
     private String bpCode;
@@ -108,6 +101,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
     private boolean isEdit;
     private KJBitmap kjBitmap = new KJBitmap();
     private boolean isModify;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,13 +124,12 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         cbWifi = (CompoundButton) findViewById(R.id.cb_wifi);
         cbNetWork = (CompoundButton) findViewById(R.id.cb_network);
         layoutRent = (LinearLayout) findViewById(R.id.layout_rent);
-        btnOk2 = (Button) findViewById(R.id.btn_ok2);
         btnOk = (Button) findViewById(R.id.btn_ok);
         listview = (ListView) findViewById(R.id.listview_people_flow);
-        layoutOtherFee = (LinearLayout) findViewById(R.id.layout_other_fee);
-        layoutCommunitySelect = (LinearLayout) findViewById(R.id.layout_community_select);
-        imgRight = (ImageView) findViewById(R.id.img_community_right);
-        gridView = (GridView) findViewById(R.id.gridview_img);
+        LinearLayout layoutCommunitySelect = (LinearLayout) findViewById(R.id
+                .layout_community_select);
+        ImageView imgRight = (ImageView) findViewById(R.id.img_community_right);
+        GridView gridView = (GridView) findViewById(R.id.gridview_img);
         txtBpname = (TextView) findViewById(R.id.txt_bpname);
         layoutRentHeight = AnimationUtils.getTargetHeight(layoutRent);
 
@@ -145,8 +138,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         TextWatcherUtils.setMaxNumberWatcher(etHolidayMoney, 6, 2, null);
         TextWatcherUtils.setMaxNumberWatcher(etDepositMoney, 6, 2, null);
 
-        imgAddFlow = (ImageView) findViewById(R.id.img_add_flow);
-        root = (ObservableScrollView) findViewById(R.id.root);
+        ImageView imgAddFlow = (ImageView) findViewById(R.id.img_add_flow);
+        ObservableScrollView root = (ObservableScrollView) findViewById(R.id.root);
         root.setScrollListener(this);
         progressDialog = new CommonProgressDialog(this);
         PublicUtil.setGravity(etPromotePlace);
@@ -201,7 +194,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             layoutCommunitySelect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(AddPromoteActivity.this, CommunitySelectActivity.class);
+                    Intent intent = new Intent(AddPromoteActivity.this, CommunitySelectActivity
+                            .class);
                     intent.putExtra("bpCode", bpCode);
                     startActivityForResult(intent, 2);
                 }
@@ -219,7 +213,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(info == null) {
+                if (info == null) {
                     return;
                 }
                 String bpname = txtBpname.getText().toString();
@@ -232,7 +226,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 }
                 String place = etPromotePlace.getText().toString();
                 String area = etArea.getText().toString();
-                if (StringUtils.isNotBlank(place) && StringUtils.isNotBlank(area) && StringUtils.isNotBlank(inOrOut)) {
+                if (StringUtils.isNotBlank(place) && StringUtils.isNotBlank(area) && StringUtils
+                        .isNotBlank(inOrOut)) {
                     info.setAddress(place);
                     info.setUseArea(Double.valueOf(area));
                     info.setSiteType(inOrOut);
@@ -267,7 +262,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 }
                 info.setWifi(cbWifi.isChecked());
                 info.setWiredNetwork(cbNetWork.isChecked());
-                List<PeopleFlow> list = new ArrayList<PeopleFlow>();
+                List<PeopleFlow> list = new ArrayList<>();
                 list.addAll(deleteFlows);
                 list.addAll(flows);
                 if (list != null && list.size() > 0) {
@@ -279,18 +274,22 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     for (int i = imgIds.size(); i < images.size() - 1; i++) {
                         if (images.get(i).getFileid() > -1) {
                             imgIds.add(images.get(i));
-                            if (imgIds.size() >= images.size() -1) {
+                            if (imgIds.size() >= images.size() - 1) {
                                 setImageInfo();
-                                DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken(AddPromoteActivity.this), info, saveHandler);
+                                DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken
+                                        (AddPromoteActivity.this), info, saveHandler);
                                 break;
                             }
                         } else {
-                            DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), FileUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
+                            DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken
+                                    (AddPromoteActivity.this), FileUtil.getBytes(images.get
+                                    (imgIds.size()).getBitmap()), uploadHandler);
                             break;
                         }
                     }
                 } else {
-                    DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken(AddPromoteActivity.this), info, saveHandler);
+                    DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken
+                            (AddPromoteActivity.this), info, saveHandler);
                 }
             }
         });
@@ -298,7 +297,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         if (isEdit) {
             imgRight.setVisibility(View.GONE);
             progressDialog.show();
-            DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), getIntent().getStringExtra("bpCode"), getPromoteInfoHandler );
+            DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), getIntent()
+                    .getStringExtra("bpCode"), getPromoteInfoHandler);
         } else {
             layoutCommunitySelect.setBackgroundResource(R.drawable.btn_white);
             info = new PromoteInfo();
@@ -323,7 +323,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     bpName = info.getBpName2();
                     info.setBpCode1(bpCode);
                     info.setBpName1(bpName);
-                    txtBpname.setText(info.getBpCode2()+"—"+info.getBpName2());
+                    txtBpname.setText(info.getBpCode2() + "—" + info.getBpName2());
                     etPromotePlace.setText(info.getAddress());
                     etArea.setText(String.valueOf(info.getUseArea()));
                     inOrOut = info.getSiteType();
@@ -345,7 +345,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     cbNetWork.setChecked(info.getWiredNetwork());
                     cbWifi.setChecked(info.getWifi());
 
-                    if (info.getPicInfo()!= null && info.getPicInfo().size() > 0) {
+                    if (info.getPicInfo() != null && info.getPicInfo().size() > 0) {
                         for (ImageInfo picInfo : info.getPicInfo()) {
                             images.add(picInfo);
                             setSortList(images);
@@ -386,16 +386,20 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             try {
-                ResultImageUpload result = JSON.parseObject(responseString, ResultImageUpload.class);
+                ResultImageUpload result = JSON.parseObject(responseString, ResultImageUpload
+                        .class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     ImageInfo imageInfo = new ImageInfo();
                     imageInfo.setFileid(Long.valueOf(result.getId()));
                     imgIds.add(imageInfo);
                     if (imgIds.size() < images.size() - 1) {
-                        DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken(AddPromoteActivity.this), FileUtil.getBytes(images.get(imgIds.size()).getBitmap()), uploadHandler);
+                        DeliveryApi.uploadPromoteImg(ClientStateManager.getLoginToken
+                                (AddPromoteActivity.this), FileUtil.getBytes(images.get(imgIds
+                                .size()).getBitmap()), uploadHandler);
                     } else {
                         setImageInfo();
-                        DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken(AddPromoteActivity.this), info, saveHandler);
+                        DeliveryApi.editPromoteInfo(ClientStateManager.getLoginToken
+                                (AddPromoteActivity.this), info, saveHandler);
                     }
 
                 } else {
@@ -425,7 +429,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
 
     AsyncHttpResponseHandler saveHandler = new TextHttpResponseHandler() {
         @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable throwable) {
+        public void onFailure(int statusCode, Header[] headers, String responseString, Throwable
+                throwable) {
             btnOk.setEnabled(true);
             progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
@@ -444,7 +449,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                         Bundle bundle = new Bundle();
                         String bpName = info.getBpName();
                         bpName = bpName.replace(oldAddress, "");
-                        info.setBpName(bpName+info.getAddress());
+                        info.setBpName(bpName + info.getAddress());
                         bundle.putSerializable("promote", info);
                         data.putExtras(bundle);
                     }
@@ -481,11 +486,11 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         if (requestCode == 1) {
             if (data != null && resultCode == 1) {
                 isModify = true;
-                PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
+                PeopleFlow peopleFlow = (PeopleFlow) data.getSerializableExtra("peopleFlow");
                 peopleFlow.setRecordStatus("add");
                 flows.add(peopleFlow);
             } else if (data != null && resultCode == 2) {
-                PeopleFlow peopleFlow = (PeopleFlow)data.getSerializableExtra("peopleFlow");
+                PeopleFlow peopleFlow = (PeopleFlow) data.getSerializableExtra("peopleFlow");
                 if (StringUtils.isNotBlank(peopleFlow.getFlowId())) {
                     isModify = true;
                     peopleFlow.setRecordStatus("edit");
@@ -503,8 +508,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             peopleFlowAdapter.notifyDataSetChanged();
             LibViewUtil.setListViewHeight(listview);
         } else if (requestCode == 2 && resultCode == 4 && data != null) {
-            bp = (ResultBpList.Item)data.getSerializableExtra("community");
-            txtBpname.setText(bp.getBpCode()+"—"+bp.getBpName());
+            ResultBpList.Item bp = (ResultBpList.Item) data.getSerializableExtra("community");
+            txtBpname.setText(bp.getBpCode() + "—" + bp.getBpName());
             bpCode = bp.getBpCode();
             bpName = bp.getBpName();
         }
@@ -513,12 +518,12 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             Bitmap bm = null;
             switch (requestCode) {
                 case Constants.TAKE_PIC_RESULT:
-                    if(takePhotoPop!=null){
+                    if (takePhotoPop != null) {
                         bm = takePhotoPop.getTakeImageBitmap();
                     }
                     break;
                 case Constants.CHOSE_PIC_RESULT:
-                    if(takePhotoPop!=null){
+                    if (takePhotoPop != null) {
                         bm = takePhotoPop.getPickImageBitmap(data);
                     }
                     break;
@@ -536,10 +541,10 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
 
     public void setSortList(List<ImageInfo> images) {
         if (images != null) {
-            ImageInfo second =  images.get(images.size()-2);
-            ImageInfo last =  images.get(images.size()-1);
-            images.set(images.size()-2, last);
-            images.set(images.size()-1, second);
+            ImageInfo second = images.get(images.size() - 2);
+            ImageInfo last = images.get(images.size() - 1);
+            images.set(images.size() - 2, last);
+            images.set(images.size() - 1, second);
         }
     }
 
@@ -549,11 +554,9 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
 
             @Override
             public void setTitle(TextView v) {
-                String title = null;
+                String title = getResources().getString(R.string.promote_add_title);
                 if (isEdit) {
                     title = getResources().getString(R.string.promote_edit_title);
-                } else {
-                    title = getResources().getString(R.string.promote_add_title);
                 }
                 v.setText(title);
             }
@@ -605,14 +608,15 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            convertView = LayoutInflater.from(AddPromoteActivity.this).inflate( R.layout.layout_image_for_gridview, null);
+            convertView = LayoutInflater.from(AddPromoteActivity.this).inflate(R.layout
+                    .layout_image_for_gridview, null);
 
             final ImageView imgPromote = (ImageView) convertView.findViewById(R.id.img_promote);
             final ImageView imgDelete = (ImageView) convertView.findViewById(R.id.img_delete);
             final ImageInfo img = images.get(position);
             imgPromote.setImageBitmap(img.getBitmap());
 
-            if (position != images.size()-1) {
+            if (position != images.size() - 1) {
                 imgDelete.setVisibility(View.VISIBLE);
             } else {
                 imgDelete.setVisibility(View.GONE);
@@ -631,14 +635,15 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             imgPromote.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(img.getBitmap()==null && position != images.size()-1){
+                    if (img.getBitmap() == null && position != images.size() - 1) {
                         PublicUtil.showToast(getString(R.string.down_image_not_complete));
                     } else {
-                        if (position == images.size()-1 && images.size() < 6) {
+                        if (position == images.size() - 1 && images.size() < 6) {
                             takePhotoPop.getPic(v);
                             return;
                         }
-                        DialogUtil.showPictureDialog(AddPromoteActivity.this, images.get(position).getBitmap());
+                        DialogUtil.showPictureDialog(AddPromoteActivity.this, images.get
+                                (position).getBitmap());
 
                     }
                 }
@@ -653,7 +658,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                 }
             });
 
-            if (position == 5 && position == images.size()-1) {
+            if (position == 5 && position == images.size() - 1) {
                 imgPromote.setVisibility(View.GONE);
             } else {
                 imgPromote.setVisibility(View.VISIBLE);
@@ -686,7 +691,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
-                convertView = LayoutInflater.from(AddPromoteActivity.this).inflate( R.layout.list_item_people_flow, null);
+                convertView = LayoutInflater.from(AddPromoteActivity.this).inflate(R.layout
+                        .list_item_people_flow, null);
             }
             final PeopleFlow person = flows.get(position);
             final TextView txtDate = (TextView) convertView.findViewById(R.id.txt_date);
@@ -695,7 +701,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             String dateStr = String.format(getString(R.string.promote_date_txt),
                     DateUtil.getTime(person.getCreateDate(), "yyyy-MM-dd EE"), person.getAddress());
             String timeStr = String.format(getString(R.string.promote_time_txt),
-                    DateUtil.getTime(person.getStartTime(), "HH:mm"), DateUtil.getTime(person.getEndTime(), "HH:mm"), person.getPeopleFlow());
+                    DateUtil.getTime(person.getStartTime(), "HH:mm"), DateUtil.getTime(person
+                            .getEndTime(), "HH:mm"), person.getPeopleFlow());
             txtDate.setText(dateStr);
             txtTime.setText(timeStr);
 
@@ -728,7 +735,8 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
 
     private void showNotSaveDialog() {
         if (isChangeParams()) {
-            new CommonAlertDialog.Builder(AddPromoteActivity.this).setMessage(getString(R.string.promote_not_save)).
+            new CommonAlertDialog.Builder(AddPromoteActivity.this).setMessage(getString(R.string
+                    .promote_not_save)).
                     setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -741,6 +749,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
 
 
     }
+
     private boolean isChangeParams() {
         String bpName = txtBpname.getText().toString();
         String place = etPromotePlace.getText().toString();
@@ -750,14 +759,17 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
         boolean isCheck1 = cbNetWork.isChecked();
         boolean isCheck2 = cbWifi.isChecked();
         if (!isEdit) {
-            if (StringUtils.isNotBlank(bpName) || StringUtils.isNotBlank(place) || StringUtils.isNotBlank(userArea) || StringUtils.isNotBlank(inOrOut)
+            if (StringUtils.isNotBlank(bpName) || StringUtils.isNotBlank(place) || StringUtils
+                    .isNotBlank(userArea) || StringUtils.isNotBlank(inOrOut)
                     || isCheck || isCheck1 || isCheck2 || images.size() > 1 || flows.size() > 0) {
                 return true;
             }
         } else {
             if (oldInfo != null) {
-                if ((bpCode != null && !bpCode.equals(oldInfo.getBpCode2())) || !place.equals(oldInfo.getAddress()) || Double.valueOf(userArea) != oldInfo.getUseArea()
-                        || !inOrOut.equals(oldInfo.getSiteType()) || isCheck != oldInfo.getRentInfo() || isCheck1 != oldInfo.getWiredNetwork()
+                if ((bpCode != null && !bpCode.equals(oldInfo.getBpCode2())) || !place.equals
+                        (oldInfo.getAddress()) || Double.valueOf(userArea) != oldInfo.getUseArea()
+                        || !inOrOut.equals(oldInfo.getSiteType()) || isCheck != oldInfo
+                        .getRentInfo() || isCheck1 != oldInfo.getWiredNetwork()
                         || isCheck2 != oldInfo.getWifi() || isModify) {
                     return true;
                 }

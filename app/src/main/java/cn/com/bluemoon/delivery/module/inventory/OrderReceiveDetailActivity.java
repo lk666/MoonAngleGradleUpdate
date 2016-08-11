@@ -157,9 +157,9 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     @Override
     public void initView() {
         main = this;
-        lists = new ArrayList<ProductPreReceiveVo>();
-        piclist = new ArrayList<String>();
-        failUpload = new ArrayList<String>();
+        lists = new ArrayList<>();
+        piclist = new ArrayList<>();
+        failUpload = new ArrayList<>();
         btnSettleDeliver.setOnClickListener(this);
         initHeadView();
         initFoot();

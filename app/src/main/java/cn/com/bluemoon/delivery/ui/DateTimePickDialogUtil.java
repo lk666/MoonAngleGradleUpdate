@@ -28,8 +28,6 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
         OnTimeChangedListener {
     private DatePicker datePicker;
     private TimePicker timePicker;
-    private AlertDialog ad;
-    private String dateTime;
     private String initDateTime;//2016-1-1 10:10
     private long initTime; //1433232323232
     private String initDaTeTime2;//yyyyMMddHHmmss(20160421231011)
@@ -127,20 +125,20 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
         init(datePicker, timePicker);
         timePicker.setOnTimeChangedListener(this);
 
-        ad = new AlertDialog.Builder(activity)
+        AlertDialog ad = new AlertDialog.Builder(activity)
                 .setView(dateTimeLayout)
                 .setPositiveButton(activity.getResources().getString(R.string.btn_ok), new
                         DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        onDetailClickLister.btnClickLister(time, "time");
-                    }
-                })
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                onDetailClickLister.btnClickLister(time, "time");
+                            }
+                        })
                 .setNegativeButton(activity.getResources().getString(R.string.btn_cancel), new
                         DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-                        onDetailClickLister.btnClickLister(time, "dismiss");
-                    }
-                }).show();
+                            public void onClick(DialogInterface dialog, int whichButton) {
+                                onDetailClickLister.btnClickLister(time, "dismiss");
+                            }
+                        }).show();
 
         onDateChanged(null, 0, 0, 0);
         return ad;
@@ -177,7 +175,6 @@ public class DateTimePickDialogUtil implements OnDateChangedListener,
                 calendar.get(Calendar.MINUTE));// minute 也返回去*/
         @SuppressLint("SimpleDateFormat") SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd" +
                 " HH:mm");
-        dateTime = sdf.format(calendar.getTime());
         time = calendar.getTimeInMillis() / 1000;
         //ad.setTitle(dateTime);
     }

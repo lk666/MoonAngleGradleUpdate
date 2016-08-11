@@ -23,6 +23,7 @@ import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 
 /**
+ *
  * Created by liangjiangli on 2016/4/19.
  */
 
@@ -37,7 +38,7 @@ public class TabSelector extends LinearLayout {
     private int tagCount;
     private int marginLeft;
     private int marginRight;
-    private List<TextView> txtViews = new ArrayList<TextView>();
+    private List<TextView> txtViews = new ArrayList<>();
     private int selectColor;
     private int normalColor;
     private CallBackListener listener;

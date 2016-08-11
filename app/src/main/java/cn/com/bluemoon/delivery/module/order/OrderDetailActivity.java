@@ -73,7 +73,6 @@ public class OrderDetailActivity extends KJActivity {
 	private CommonProgressDialog progressDialog;
 	private String orderId;
 	private OrderInfo item;
-	private OrderProductAdapter adapter;
 
 	@Override
 	public void setRootView() {
@@ -118,7 +117,7 @@ public class OrderDetailActivity extends KJActivity {
 				getString(R.string.extract_order_total_pay), 
 				PublicUtil.getPriceFrom(item.getTotalPrice())));
 		if (item.getProductList() != null) {
-			adapter = new OrderProductAdapter(aty, item.getProductList());
+			OrderProductAdapter adapter = new OrderProductAdapter(aty, item.getProductList());
 			listviewProduct.setAdapter(adapter);
 		} else {
 			PublicUtil.showToast(R.string.return_change_get_detail_fail);

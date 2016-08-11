@@ -193,7 +193,7 @@ public class ClientStateManager {
 
 
     public static String getActivityCode(Context ctx) {
-        String str = "0";
+        String str;
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(ctx);

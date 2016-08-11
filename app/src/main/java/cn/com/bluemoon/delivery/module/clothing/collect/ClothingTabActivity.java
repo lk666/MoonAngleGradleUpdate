@@ -30,7 +30,6 @@ public class ClothingTabActivity extends BaseFragmentActivity {
     private final static OldTabState[] TAB_WITH_ORDER = new OldTabState[2];
 
     private TextView amountTv;
-    private TextView amountTv2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,8 +81,6 @@ public class ClothingTabActivity extends BaseFragmentActivity {
         textView.setText(content);
         if (index == 0) {
             amountTv = (TextView) view.findViewById(R.id.txt_count);
-        } else {
-            amountTv2 = (TextView) view.findViewById(R.id.txt_count);
         }
         return view;
     }

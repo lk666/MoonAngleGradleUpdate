@@ -8,11 +8,12 @@ import android.view.animation.Transformation;
 import java.lang.reflect.Method;
 
 /**
+ *
  * Created by LIANGJIANGLI on 2016/6/25.
  */
 public class AnimationUtils {
 
-    private static int durationMillis = 500;
+    private static final int durationMillis = 500;
 
     public static int getTargetHeight(View v) {
         try {
