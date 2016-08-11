@@ -83,6 +83,7 @@ android {
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.*'])
     compile project(':BlueMoonSDK')
+
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'
