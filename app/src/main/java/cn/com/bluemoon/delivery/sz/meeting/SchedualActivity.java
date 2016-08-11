@@ -43,6 +43,7 @@ import cn.com.bluemoon.delivery.sz.bean.TaskBean;
 import cn.com.bluemoon.delivery.sz.util.AssetUtil;
 import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
+import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.datepicker.adapter.NumericWheelAdapter;
 import cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView;
 import cn.com.bluemoon.delivery.sz.view.calendar.CalendarCard;
@@ -324,7 +325,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		setBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-
+				PageJumps.PageJumps(SchedualActivity.this,SchedualAddMeetingActivity.class,null);
 			}
 		});
 
@@ -340,6 +341,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 				}
 			}
 		});
+
+
 
 	}
 

@@ -823,6 +823,8 @@
     <string name="team_edit_limit_parttime">兼职时长不可以等于0小时！</string>
 
 
+    <!--sz meeting-->
+    <string name="sz_meeting_schedual_add_meeting">安排会议</string>
 
 
 </resources>

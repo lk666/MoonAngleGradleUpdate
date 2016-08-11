@@ -88,8 +88,8 @@ public class CouponsDetailActivity extends KJActivity{
 
                     @Override
                     public void setTitle(TextView v) {
-                        // TODO Auto-generated method stub
-                        v.setText(R.string.coupons_record_detail);
+                            // TODO Auto-generated method stub
+                            v.setText(R.string.coupons_record_detail);
                     }
                 });
 
