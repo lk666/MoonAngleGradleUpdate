@@ -12,4 +12,12 @@
         <attr name="margin_left" format="dimension" />
         <attr name="margin_right" format="dimension" />
     </declare-styleable>
+    <declare-styleable name="MySetItemView">
+        <attr name="setMyLeftDrawable" format="reference"/>
+        <attr name="setMyHintColor" format="color"/>
+        <attr name="setMyContentColor" format="color"/>
+        <attr name="setMyContentTxt" format="string"/>
+        <attr name="setMyHintTxt" format="string"/>
+        <attr name="setMyRightVisible" format="boolean"/>
+    </declare-styleable>
 </resources>

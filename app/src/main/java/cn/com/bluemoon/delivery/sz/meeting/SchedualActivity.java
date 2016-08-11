@@ -111,6 +111,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		listView.setAdapter(scheduleAdapter);
 		test();
 
+
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
 			views[i] = new CalendarCard(this, this);
