@@ -1,5 +1,11 @@
-apply plugin: 'com.android.application'
+import java.text.SimpleDateFormat
 
+apply plugin: 'com.android.application'
+def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
+def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HHmmss")
+    df.setTimeZone(TimeZone.getDefault())
+    return df.format(new Date()) }
 android {
     compileSdkVersion 21
     buildToolsVersion "23.0.3"
@@ -17,21 +23,26 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 14
-        versionName "3.3.0"
-        buildConfigField("Integer", "BUILD_CODE", "3557")
+        versionCode 18
+        versionName "4.2.1"
+        buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
     }
 
     buildTypes {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
+            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
+            buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://tmallapi.bluemoon.com.cn/%s\""
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
-                        def fileName = "Delivery_${defaultConfig.versionName}_${defaultConfig.buildConfigFields["BUILD_CODE"].getAt("value")}_debug.apk"
+                        def fileName = "月亮天使_${buildTime()}_测试版_${defaultConfig.versionName}(${gitNum}).apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
@@ -39,6 +50,11 @@ android {
         }
         release {
             buildConfigField("boolean", "RELEASE", "true")
+            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
+            buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://mallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -46,7 +62,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('release.apk')) {
-                        def fileName = "Delivery_${defaultConfig.versionName}_${defaultConfig.buildConfigFields["BUILD_CODE"].getAt("value")}_release.apk"
+                        def fileName = "月亮天使_${buildTime()}_正式版_${defaultConfig.versionName}(${gitNum}).apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
@@ -68,6 +84,13 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
+    dexOptions{
+        incremental true
+        javaMaxHeapSize "2048m"
+        jumboMode true
+        preDexLibraries false
+    }
+
     lintOptions {
         abortOnError false
     }
@@ -81,9 +104,8 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.*'])
+    compile fileTree(include: ['*.*'], dir: 'libs')
     compile project(':BlueMoonSDK')
-
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'

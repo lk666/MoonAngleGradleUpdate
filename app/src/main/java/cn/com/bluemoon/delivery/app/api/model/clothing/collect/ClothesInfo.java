@@ -113,10 +113,17 @@ public class ClothesInfo implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        if (o instanceof ClothesInfo) {
-            ClothesInfo c = (ClothesInfo) o;
-            return c.getClothesCode().equals(getClothesCode());
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ClothesInfo that = (ClothesInfo) o;
+
+        return clothesCode.equals(that.clothesCode);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return clothesCode.hashCode();
     }
 }

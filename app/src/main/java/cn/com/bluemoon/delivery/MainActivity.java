@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -44,6 +45,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.inventory.InventoryTabActivity;
@@ -51,13 +53,18 @@ import cn.com.bluemoon.delivery.jobrecord.PromoteActivity;
 import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.sz.meeting.SchedualActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
-import cn.com.bluemoon.delivery.notice.MessageListActivity;
-import cn.com.bluemoon.delivery.notice.NoticeListActivity;
-import cn.com.bluemoon.delivery.notice.PaperListActivity;
-import cn.com.bluemoon.delivery.order.OrdersTabActivity;
-import cn.com.bluemoon.delivery.storage.StorageTabActivity;
-import cn.com.bluemoon.delivery.team.MyTeamActivity;
-import cn.com.bluemoon.delivery.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
+import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
+import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
+import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
+import cn.com.bluemoon.delivery.module.mvptest.view.UserActivity;
+import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
+import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
+import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
+import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
+import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
+import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
+import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -67,6 +74,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.PushUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
@@ -115,7 +123,7 @@ public class MainActivity extends SlidingActivity {
         setContentView(R.layout.main);
         main = this;
         initMenu();
-        if(getIntent()!=null&&getIntent().hasExtra(Constants.KEY_JUMP)){
+        if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
             jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
         }
         token = ClientStateManager.getLoginToken(main);
@@ -136,7 +144,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 mMenu.showMenu(!mMenu.isMenuShowing());
-                if(MenuFragment.user==null&&mMenuFragment!=null){
+                if (MenuFragment.user == null && mMenuFragment != null) {
                     mMenuFragment.setUserInfo();
                 }
             }
@@ -147,9 +155,10 @@ public class MainActivity extends SlidingActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
              PublicUtil.openScanCard(main, null, null, 0);
+//                UserActivity.actStart(main);
             }
         });
-        txtTips =(AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
+        txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
         txtTips.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -157,13 +166,13 @@ public class MainActivity extends SlidingActivity {
                 startActivity(it);
             }
         });
-        scrollViewMain = (PullToRefreshListView)findViewById(R.id.scrollView_main);
+        scrollViewMain = (PullToRefreshListView) findViewById(R.id.scrollView_main);
         scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-        emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_empty_menu),
+        emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_menu_title),
                 new CommonEmptyView.EmptyListener() {
                     @Override
                     public void onRefresh() {
-                        if(progressDialog!=null) progressDialog.show();
+                        if (progressDialog != null) progressDialog.show();
                         DeliveryApi.getAppRights(token, appRightsHandler);
                         DeliveryApi.getNewMessage(token, newMessageHandler);
                     }
@@ -178,7 +187,7 @@ public class MainActivity extends SlidingActivity {
         });
 
 
-        if(progressDialog!=null) progressDialog.show();
+        if (progressDialog != null) progressDialog.show();
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
     }
@@ -188,7 +197,7 @@ public class MainActivity extends SlidingActivity {
         DeliveryApi.moonAngelQrCodeService(token, angelCodeHandler);
     }
 
-    public void CloseMenu(){
+    public void CloseMenu() {
         mMenu.toggle();
     }
 
@@ -204,7 +213,8 @@ public class MainActivity extends SlidingActivity {
         mMenuFragment = new MenuFragment();
 
         setBehindContentView(R.layout.main_left_layout);// 设置左菜单
-        getFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment).commit();
+        getFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment)
+                .commit();
         mMenu = getSlidingMenu();
         mMenu.setMode(SlidingMenu.LEFT);
         // 设置触摸屏幕的模式
@@ -243,7 +253,8 @@ public class MainActivity extends SlidingActivity {
             LogUtils.d("getOrderCount", "getOrderCountHandler result = " + responseString);
             try {
                 ResultModelNum result = JSON.parseObject(responseString, ResultModelNum.class);
-                if (null != result && result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                if (null != result && result.getResponseCode() == Constants
+                        .RESPONSE_RESULT_SUCCESS) {
                     if (result.getModelBeans().size() >= 0) {
                         setAmount(result.getModelBeans());
                     }
@@ -275,7 +286,7 @@ public class MainActivity extends SlidingActivity {
                         isExit = true;
                     }
                 }
-                if(!isExit){
+                if (!isExit) {
                     right.setAmount(0);
                 }
             }
@@ -285,22 +296,22 @@ public class MainActivity extends SlidingActivity {
 
     private void setMenu() {
         List<MenuBean> list = new ArrayList<>();
-        if(listRight!=null){
-            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级 
-            for(int i=0;i<groupCount;i++){
+        if (listRight != null) {
+            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级
+            for (int i = 0; i < groupCount; i++) {
                 List<UserRight> item = new ArrayList<>();
-                for(UserRight right : listRight){
-                    if((i+1)==right.getGroupNum()){
+                for (UserRight right : listRight) {
+                    if ((i + 1) == right.getGroupNum()) {
                         item.add(right);
                     }
                 }
-                if(item.size()>0){
-                    int divNum=0;
-                    if(item.size()%4 != 0){
-                        divNum =4- item.size()%4;
+                if (item.size() > 0) {
+                    int divNum = 0;
+                    if (item.size() % 4 != 0) {
+                        divNum = 4 - item.size() % 4;
                     }
-                    if(divNum>0){
-                        for(int j=0;j<divNum;j++){
+                    if (divNum > 0) {
+                        for (int j = 0; j < divNum; j++) {
                             UserRight userRight = new UserRight();
                             userRight.setMenuCode(MenuCode.empty.toString());
                             userRight.setMenuName("");
@@ -312,26 +323,27 @@ public class MainActivity extends SlidingActivity {
                         }
                     }
                     MenuBean bean = new MenuBean();
-                    bean.setGroup(i+1);
+                    bean.setGroup(i + 1);
                     bean.setItem(item);
                     list.add(bean);
                 }
             }
         }
 
-        if(gridViewAdapter==null){
-            gridViewAdapter = new GridViewAdapter(main,list);
+        if (gridViewAdapter == null) {
+            gridViewAdapter = new GridViewAdapter(main, list);
             scrollViewMain.setAdapter(gridViewAdapter);
-        }else{
+        } else {
             gridViewAdapter.setList(list);
             gridViewAdapter.notifyDataSetChanged();
         }
-        if(!StringUtil.isEmpty(jumpCode)){
+        if (!TextUtils.isEmpty(jumpCode)) {
             jump(jumpCode);
         }
 
     }
-    private void jump(String menuCode){
+
+    private void jump(String menuCode) {
         UserRight userRight = new UserRight();
         userRight.setMenuCode(menuCode);
         userRight.setMenuName("");
@@ -344,7 +356,7 @@ public class MainActivity extends SlidingActivity {
     }
 
 
-    private void gotoPunchCard(){
+    private void gotoPunchCard() {
         if (PublicUtil.isTipsByDay(main)) {
             showLocationSettingDialog();
         } else {
@@ -353,7 +365,7 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-    private void showLocationSettingDialog(){
+    private void showLocationSettingDialog() {
         new CommonAlertDialog.Builder(main)
                 .setMessage(R.string.card_get_location_tips)
                 .setNegativeButton(R.string.btn_setting,
@@ -361,7 +373,8 @@ public class MainActivity extends SlidingActivity {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                startActivity(new Intent("android.settings.LOCATION_SOURCE_SETTINGS"));
+                                startActivity(new Intent("android.settings" +
+                                        ".LOCATION_SOURCE_SETTINGS"));
                             }
                         })
                 .setPositiveButton(R.string.btn_later, new DialogInterface.OnClickListener() {
@@ -369,7 +382,8 @@ public class MainActivity extends SlidingActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         if (progressDialog != null) progressDialog.show();
-                        DeliveryApi.isPunchCard(ClientStateManager.getLoginToken(main), isPunchCardHandler);
+                        DeliveryApi.isPunchCard(ClientStateManager.getLoginToken(main),
+                                isPunchCardHandler);
                     }
                 })
                 .show();
@@ -380,7 +394,7 @@ public class MainActivity extends SlidingActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         isDestory = false;
-        if(listRight!=null){
+        if (listRight != null) {
             DeliveryApi.getModelNum(token, getAmountHandler);
         }
     }
@@ -422,8 +436,8 @@ public class MainActivity extends SlidingActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         isDestory = false;
-        if(listRight!=null) listRight.clear();
-        if(intent!=null&&intent.hasExtra(Constants.KEY_JUMP)){
+        if (listRight != null) listRight.clear();
+        if (intent != null && intent.hasExtra(Constants.KEY_JUMP)) {
             jumpCode = intent.getStringExtra(Constants.KEY_JUMP);
         }
         token = ClientStateManager.getLoginToken(main);
@@ -442,7 +456,7 @@ public class MainActivity extends SlidingActivity {
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
             LogUtils.d(TAG, "getAppRights result = " + responseString);
-            if(progressDialog!=null) progressDialog.dismiss();
+            if (progressDialog != null) progressDialog.dismiss();
             scrollViewMain.onRefreshComplete();
 
             try {
@@ -455,10 +469,11 @@ public class MainActivity extends SlidingActivity {
                         mockData();
                     }*/
                     setMenu();
-                    DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),getAmountHandler);
+                    DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
+                            getAmountHandler);
                 } else {
                     PublicUtil.showErrorMsg(main, userRightResult);
-                    LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
+                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
                 }
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
@@ -473,8 +488,8 @@ public class MainActivity extends SlidingActivity {
             LogUtils.e(TAG, throwable.getMessage());
             scrollViewMain.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
-            if(progressDialog!=null) progressDialog.dismiss();
-            LibViewUtil.setViewVisibility(emptyView,View.VISIBLE);
+            if (progressDialog != null) progressDialog.dismiss();
+            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
 
@@ -497,9 +512,10 @@ public class MainActivity extends SlidingActivity {
             if (progressDialog != null)
                 progressDialog.dismiss();
             try {
-                ResultIsPunchCard isPunchCardResult = JSON.parseObject(responseString, ResultIsPunchCard.class);
+                ResultIsPunchCard isPunchCardResult = JSON.parseObject(responseString,
+                        ResultIsPunchCard.class);
                 if (isPunchCardResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    PublicUtil.showPunchCardView(main,isPunchCardResult.isPunchCard);
+                    PublicUtil.showPunchCardView(main, isPunchCardResult.isPunchCard);
 //                    PublicUtil.showPunchCardView(main,false);
                 } else {
                     PublicUtil.showErrorMsg(main, isPunchCardResult);
@@ -561,7 +577,6 @@ public class MainActivity extends SlidingActivity {
     };
 
 
-
     AsyncHttpResponseHandler newMessageHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
 
@@ -573,10 +588,10 @@ public class MainActivity extends SlidingActivity {
                 ResultNewInfo resultInfos = JSON.parseObject(responseString,
                         ResultNewInfo.class);
                 if (resultInfos.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    if(!StringUtil.isEmpty(resultInfos.getMsgContent())){
+                    if (!TextUtils.isEmpty(resultInfos.getMsgContent())) {
                         txtTips.setVisibility(View.VISIBLE);
                         txtTips.setText(resultInfos.getMsgContent());
-                    }else{
+                    } else {
                         txtTips.setVisibility(View.GONE);
                     }
 
@@ -595,10 +610,9 @@ public class MainActivity extends SlidingActivity {
             LogUtils.e(TAG, throwable.getMessage());
             if (progressDialog != null)
                 progressDialog.dismiss();
-          //  PublicUtil.showToastServerOvertime();
+            //  PublicUtil.showToastServerOvertime();
         }
     };
-
 
 
     @Override
@@ -617,23 +631,20 @@ public class MainActivity extends SlidingActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(resultCode==RESULT_CANCELED){
+        if (resultCode == RESULT_CANCELED) {
             return;
         }
-        if(resultCode==RESULT_OK){
-            switch (requestCode){
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
                 case 0:
-                    if(data==null) return;
+                    if (data == null) return;
                     String result = data.getStringExtra(LibConstants.SCAN_RESULT);
 //                    PublicUtil.showToast(result);
-                    PublicUtil.showMessage(main,result);
+                    PublicUtil.showMessage(main, result);
                     break;
             }
         }
     }
-
-
-
 
 
     class GridViewAdapter extends BaseAdapter {
@@ -646,7 +657,7 @@ public class MainActivity extends SlidingActivity {
             this.list = list;
         }
 
-        public void setList(List<MenuBean> list){
+        public void setList(List<MenuBean> list) {
             this.list = list;
         }
 
@@ -694,8 +705,77 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-   private void clickGridView(UserRight userRight){
+    private void clickGridView(UserRight userRight) {
 
+        if (PublicUtil.isFastDoubleClick(1000)) {
+            return;
+        }
+        try {
+            Intent intent;
+            if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, OrdersTabActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.site_sign.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, ExtractTabActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.check_in.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, TicketChooseActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.mall_erp_delivery.toString().equals(userRight.getMenuCode())) {
+                InventoryTabActivity.actionStart(main, InventoryTabActivity.DELIVERY_MANAGEMENT);
+            } else if (MenuCode.mall_erp_receipt.toString().equals(userRight.getMenuCode())) {
+                InventoryTabActivity.actionStart(main, InventoryTabActivity.RECEIVE_MANAGEMENT);
+            } else if (MenuCode.mall_erp_stock.toString().equals(userRight.getMenuCode())) {
+                StorageTabActivity.actionStart(main);
+            } else if (MenuCode.punch_card.toString().equals(userRight.getMenuCode())) {
+                gotoPunchCard();
+            } else if (MenuCode.card_coupons.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, CouponsTabActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
+                PublicUtil.openWebView(main, userRight.getUrl()
+                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
+                                + "token=" + ClientStateManager.getLoginToken(main),
+                        userRight.getMenuName(), false, true);
+            } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, MessageListActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.my_inform.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, NoticeListActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.knowledge_base.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, PaperListActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
+                DialogUtil.showServiceDialog(main);
+            } else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode()
+            )) {
+                ClothingTabActivity.actionStart(main, ClothingTabActivity
+                        .WITH_ORDER_COLLECT_MANAGE);
+            } else if (MenuCode.activity_collect_clothes.toString().equals(userRight.getMenuCode
+                    ())) {
+                ClothingTabActivity.actionStart(main, ClothingTabActivity
+                        .WITHOUT_ORDER_COLLECT_MANAGE);
+            } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, PromoteActivity.class);
+                startActivity(intent);
+            } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, MyTeamActivity.class);
+                startActivity(intent);
+            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+                PublicUtil.openWebView(main, userRight.getUrl()
+                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
+                                + "token=" + ClientStateManager.getLoginToken(main),
+                        userRight.getMenuName(), false);
+            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+                //click empty
+            } else {
+                PublicUtil.showToast(getString(R.string.main_tab_no_data));
+            }
+        } catch (Exception ex) {
+            PublicUtil.showToast(main, ex.getMessage());
+        }
+    }
        if (PublicUtil.isFastDoubleClick(1000)) {
            return;
        }
@@ -802,18 +882,21 @@ public class MainActivity extends SlidingActivity {
                         R.layout.main_gridview_item, null);
                 holderView.imgItem = (ImageView) convertView.findViewById(R.id.img_menu_item);
                 holderView.txtItem = (TextView) convertView.findViewById(R.id.txt_menu_item);
-                holderView.countTextView = (RedpointTextView) convertView.findViewById(R.id.txt_dispatch_count);
+                holderView.countTextView = (RedpointTextView) convertView.findViewById(R.id
+                        .txt_dispatch_count);
                 convertView.setTag(holderView);
             } else {
                 holderView = (HolderView) convertView.getTag();
             }
 
-            if(!MenuCode.empty.toString().equals(listUserRight.get(position).getMenuCode())){
+            if (!MenuCode.empty.toString().equals(listUserRight.get(position).getMenuCode())) {
                 if (listUserRight.get(position).getAmount() <= 0) {
-                    holderView.countTextView.setText(String.valueOf(listUserRight.get(position).getAmount()));
+                    holderView.countTextView.setText(String.valueOf(listUserRight.get(position)
+                            .getAmount()));
                     holderView.countTextView.setVisibility(View.GONE);
                 } else if (listUserRight.get(position).getAmount() < 100) {
-                    holderView.countTextView.setText(String.valueOf(listUserRight.get(position).getAmount()));
+                    holderView.countTextView.setText(String.valueOf(listUserRight.get(position)
+                            .getAmount()));
                     holderView.countTextView.setVisibility(View.VISIBLE);
                 } else {
                     holderView.countTextView.setText(getText(R.string.more_amount));
@@ -821,11 +904,12 @@ public class MainActivity extends SlidingActivity {
                 }
 
                 if (!StringUtils.isEmpty(listUserRight.get(position).getIconImg())) {
-                    KJFUtil.getUtil().getKJB().display(holderView.imgItem, listUserRight.get(position).getIconImg());
+                    KJFUtil.getUtil().getKJB().display(holderView.imgItem, listUserRight.get
+                            (position).getIconImg());
                 }
 
                 holderView.txtItem.setText(listUserRight.get(position).getMenuName());
-            }else{
+            } else {
                 convertView.setBackgroundColor(getResources().getColor(R.color.white));
                 holderView.txtItem.setVisibility(View.GONE);
                 holderView.imgItem.setVisibility(View.GONE);
@@ -842,6 +926,11 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
+    public static void actStart(Context context,String jumpCode) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        context.startActivity(intent);
+    }
 
 
 }

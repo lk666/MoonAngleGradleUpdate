@@ -22,13 +22,14 @@ import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import cn.com.bluemoon.delivery.account.ChangePswActivity;
-import cn.com.bluemoon.delivery.account.LoginActivity;
-import cn.com.bluemoon.delivery.account.SettingActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultUser;
 import cn.com.bluemoon.delivery.app.api.model.User;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.account.ChangePswActivity;
+import cn.com.bluemoon.delivery.module.account.LoginActivity;
+import cn.com.bluemoon.delivery.module.account.SettingActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -86,7 +87,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         return view;
     }
     public void setUserInfo() {
-        txtUserid.setText(ClientStateManager.getUserName(mContext));
+        txtUserid.setText(ClientStateManager.getUserName());
         if (user != null) {
             txtUserid.setText(user.getAccount());
             txtUsername.setText(user.getRealName());

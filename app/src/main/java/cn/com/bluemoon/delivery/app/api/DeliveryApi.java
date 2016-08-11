@@ -1,12 +1,11 @@
 package cn.com.bluemoon.delivery.app.api;
 
+import android.content.Context;
 import android.graphics.Bitmap;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-
-import org.kymjs.kjframe.utils.StringUtils;
 
 import java.util.HashMap;
 import java.util.List;
@@ -14,8 +13,8 @@ import java.util.Map;
 import java.util.UUID;
 
 import Decoder.BASE64Encoder;
-import cn.com.bluemoon.delivery.ClientStateManager;
-import cn.com.bluemoon.delivery.app.AppContext;
+import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
 import cn.com.bluemoon.delivery.app.api.model.Storehouse;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
@@ -27,16 +26,19 @@ import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.Product;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.entity.ProductType;
-import cn.com.bluemoon.delivery.inventory.ImageUtil;
+import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.module.inventory.ImageUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DES;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class DeliveryApi {
 
-    private static final String TOKEN="token";
+    private static final String TOKEN = "token";
+
     /************************
      * 2.1 用户相关
      **********************************/
@@ -46,7 +48,7 @@ public class DeliveryApi {
     public static void ssoLogin(String account, String password,
                                 AsyncHttpResponseHandler handler) {
 
-        if (StringUtils.isEmpty(account) || StringUtils.isEmpty(password)) {
+        if (StringUtil.isEmpty(account) || StringUtil.isEmpty(password)) {
             return;
         }
 
@@ -104,13 +106,13 @@ public class DeliveryApi {
     public static void updatePassword(String token, String oldPassword,
                                       String newPassword, AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(oldPassword)
-                || StringUtils.isEmpty(newPassword)) {
+        if (null == token || StringUtil.isEmpty(oldPassword)
+                || StringUtil.isEmpty(newPassword)) {
             return;
         }
 
-       String oldPasswordEncrypt = DES.encrypt(oldPassword, Constants.DES_KEY);
-       String  newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
+        String oldPasswordEncrypt = DES.encrypt(oldPassword, Constants.DES_KEY);
+        String newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
 
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
@@ -127,12 +129,12 @@ public class DeliveryApi {
     public static void resetPassword(String mobileNo, String verifyCode,
                                      String newPassword, AsyncHttpResponseHandler handler) {
 
-        if (StringUtils.isEmpty(mobileNo) || StringUtils.isEmpty(verifyCode)
-                || StringUtils.isEmpty(newPassword)) {
+        if (StringUtil.isEmpty(mobileNo) || StringUtil.isEmpty(verifyCode)
+                || StringUtil.isEmpty(newPassword)) {
             return;
         }
 
-       String newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
+        String newPasswordEncrypt = DES.encrypt(newPassword, Constants.DES_KEY);
 
         Map<String, String> params = new HashMap<>();
         params.put("mobileNo", mobileNo);
@@ -149,7 +151,7 @@ public class DeliveryApi {
     public static void getVerifyCode(String mobileNo, String account,
                                      AsyncHttpResponseHandler handler) {
 
-        if (StringUtils.isEmpty(mobileNo) || StringUtils.isEmpty(account)) {
+        if (StringUtil.isEmpty(mobileNo) || StringUtil.isEmpty(account)) {
             return;
         }
 
@@ -350,10 +352,10 @@ public class DeliveryApi {
                                              AsyncHttpResponseHandler handler) {
 
         if (null == token || orderId == null
-                || StringUtils.isEmpty(dispatchId) || StringUtils.isEmpty(type)
-                || StringUtils.isEmpty(type)
-                || StringUtils.isEmpty(orderSource) || StringUtils.isEmpty(msg)
-                || StringUtils.isEmpty(productType) || null == file) {
+                || StringUtil.isEmpty(dispatchId) || StringUtil.isEmpty(type)
+                || StringUtil.isEmpty(type)
+                || StringUtil.isEmpty(orderSource) || StringUtil.isEmpty(msg)
+                || StringUtil.isEmpty(productType) || null == file) {
             return;
         }
 
@@ -444,7 +446,7 @@ public class DeliveryApi {
     public static void saveStorehouse(String token, String dispatchId,
                                       Storehouse storehouse, AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(dispatchId)
+        if (null == token || StringUtil.isEmpty(dispatchId)
                 || null == storehouse) {
             return;
         }
@@ -492,7 +494,7 @@ public class DeliveryApi {
     public static void getOrderInfo(String token, String pickupCode, AsyncHttpResponseHandler
             handler) {
 
-        if (null == token || StringUtils.isEmpty(pickupCode)) {
+        if (null == token || StringUtil.isEmpty(pickupCode)) {
             return;
         }
 
@@ -519,11 +521,11 @@ public class DeliveryApi {
         String pickupCode = result.getPickupCode();
         String mobilePhone = result.getMobilePhone();
 
-		/*if (null == token || StringUtils.isEmpty(orderId) || StringUtil.isEmpty(orderSource)
-                || StringUtils.isEmpty(storehouseCode) || StringUtils.isEmpty(storehouseName)
-				|| StringUtils.isEmpty(storechargeCode) || StringUtils.isEmpty(storechargeName)
-				|| StringUtils.isEmpty(storechargeMobileno) || StringUtils.isEmpty(pickupCode)
-				|| StringUtils.isEmpty(mobilePhone) || StringUtils.isEmpty(signType)) {
+		/*if (null == token || StringUtil.isEmpty(orderId) || StringUtil.isEmpty(orderSource)
+                || StringUtil.isEmpty(storehouseCode) || StringUtil.isEmpty(storehouseName)
+				|| StringUtil.isEmpty(storechargeCode) || StringUtil.isEmpty(storechargeName)
+				|| StringUtil.isEmpty(storechargeMobileno) || StringUtil.isEmpty(pickupCode)
+				|| StringUtil.isEmpty(mobilePhone) || StringUtil.isEmpty(signType)) {
 			return;
 		}*/
 
@@ -576,7 +578,7 @@ public class DeliveryApi {
     public static void getVenueList(String token, String type, String venueCode,
                                     AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(type)) {
+        if (null == token || StringUtil.isEmpty(type)) {
             return;
         }
 
@@ -596,7 +598,7 @@ public class DeliveryApi {
     public static void checkScanCode(String token, String ticketCode, AsyncHttpResponseHandler
             handler) {
 
-        if (null == token || StringUtils.isEmpty(ticketCode)) {
+        if (null == token || StringUtil.isEmpty(ticketCode)) {
             return;
         }
 
@@ -615,7 +617,7 @@ public class DeliveryApi {
     public static void comesInto(String token, String venueCode, String timesCode, String
             ticketCode, AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(ticketCode)) {
+        if (null == token || StringUtil.isEmpty(ticketCode)) {
             return;
         }
 
@@ -643,20 +645,16 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
 
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/receipt/getWaitReceiptOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/receipt/getWaitReceiptOrders%s", handler);
     }
 
     /*已收货-汇总接口 */
     /* 返回： ResultOrderVo */
     public static void getReceiptOrders(String token, long startDate, long endDate,
                                         AsyncHttpResponseHandler handler) {
-
         if (null == token) {
             return;
         }
@@ -665,17 +663,15 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/receipt/getReceiptOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+
+        postRequest(params, "bluemoon-control/receipt/getReceiptOrders%s", handler);
     }
 
     /*待收货详情*/
     /* 返回： ResultDeliverOrderDetailInfo */
     public static void getReceiveDetail(String token, String orderCode, AsyncHttpResponseHandler
             handler) {
-        if (null == token || StringUtils.isEmpty(orderCode)) {
+        if (null == token || StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -701,13 +697,10 @@ public class DeliveryApi {
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
 
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/out/getWaitOutOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/out/getWaitOutOrders%s", handler);
     }
 
     /*待发货详情*/
@@ -717,7 +710,7 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(orderCode)) {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -736,16 +729,13 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(orderCode)) {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("orderCode", orderCode);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/out/getOutOrderDetail%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/out/getOutOrderDetail%s", handler);
     }
 
     /*已收货详情*/
@@ -755,7 +745,7 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(orderCode)) {
+        if (StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -781,10 +771,8 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("startDate", startDate);
         params.put("endDate", endDate);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/out/getOutOrders%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+
+        postRequest(params, "bluemoon-control/out/getOutOrders%s", handler);
     }
 
 
@@ -930,7 +918,7 @@ public class DeliveryApi {
     public static void queryStockDetail(String token, String storeCode, ProductType productType,
                                         AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(storeCode)) {
+        if (null == token || StringUtil.isEmpty(storeCode)) {
             return;
         }
 
@@ -971,7 +959,7 @@ public class DeliveryApi {
                 "moonRegion/region/getRegionSelect.action%s",
                 ApiClientHelper.getParamUrl());
 
-        ApiHttpClient.postDirect(AppContext.getInstance(), String.format(ApiHttpClient
+        ApiHttpClient.postDirect(AppContext.getInstance(), String.format(BuildConfig
                 .ADDRESS_URL, url), jsonString, handler);
 
     }
@@ -995,11 +983,11 @@ public class DeliveryApi {
     }
 
     /*2.9.2考勤打卡扫码 */
-	/* 返回： ResultCheckScanCode */
+    /* 返回： ResultCheckScanCode */
     public static void checkScanCodeCard(String token, String attendanceCode,
                                          AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(attendanceCode)) {
+        if (null == token || StringUtil.isEmpty(attendanceCode)) {
             return;
         }
 
@@ -1014,11 +1002,11 @@ public class DeliveryApi {
     }
 
     /*2.9.3保存更新打卡信息 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void confirmAttendance(String token, PunchCard punchCard, String workTask,
                                          AsyncHttpResponseHandler handler) {
 
-        if (null == token || punchCard == null || StringUtils.isEmpty(workTask)) {
+        if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
             return;
         }
 
@@ -1043,7 +1031,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.4 展示打卡信息 */
-	/* 返回： ResultShowPunchCardDetail */
+    /* 返回： ResultShowPunchCardDetail */
     public static void getPunchCard(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -1059,7 +1047,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.4 展示打卡信息 */
-	/* 返回： ResultGetProduct */
+    /* 返回： ResultGetProduct */
     public static void getProductList(String token, String condition, long timestamp,
                                       AsyncHttpResponseHandler handler) {
 
@@ -1078,7 +1066,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.5 获取工作日志 */
-	/* 返回： ResultDiaryContent */
+    /* 返回： ResultDiaryContent */
     public static void getWorkDiary(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -1100,16 +1088,13 @@ public class DeliveryApi {
         if (null == token) {
             return;
         }
-        if (StringUtils.isEmpty(relativeOrderCode)) {
+        if (StringUtil.isEmpty(relativeOrderCode)) {
             return;
         }
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("relativeOrderCode", relativeOrderCode);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/mallerpCommon/getOrderPics%s",
-                ApiClientHelper.getParamUrl());
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        postRequest(params, "bluemoon-control/mallerpCommon/getOrderPics%s", handler);
     }
 
     /* 上传单据图片 */
@@ -1122,7 +1107,7 @@ public class DeliveryApi {
         }
 
 		/*BASE64Encoder encoder = new BASE64Encoder();
-		String fileString = encoder.encode(ImageUtil.getBytes(file));*/
+        String fileString = encoder.encode(ImageUtil.getBytes(file));*/
         BASE64Encoder encoder = new BASE64Encoder();
         String fileString = encoder.encode(ImageUtil.Bitmap2Bytes(file));
 
@@ -1192,7 +1177,7 @@ public class DeliveryApi {
     public static void getWorkTask(String token, String workTaskType, AsyncHttpResponseHandler
             handler) {
 
-        if (null == token || StringUtils.isEmpty(workTaskType)) {
+        if (null == token || StringUtil.isEmpty(workTaskType)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1209,7 +1194,7 @@ public class DeliveryApi {
     public static void confirmWorkDiary(String token, String diaryContent,
                                         AsyncHttpResponseHandler handler) {
 
-        if (null == token || StringUtils.isEmpty(diaryContent)) {
+        if (null == token || StringUtil.isEmpty(diaryContent)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1313,7 +1298,7 @@ public class DeliveryApi {
                                               String outBackup
             , int deliStoreAddrId, List<ProductPreDeliverVo> outOrderDetail,
                                               AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(orderCode)) {
+        if (null == token || StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -1336,7 +1321,7 @@ public class DeliveryApi {
             reStoreAddrId,
                                               List<ProductPreReceiveVo> receiptOrderDetail,
                                               AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(orderCode)) {
+        if (null == token || StringUtil.isEmpty(orderCode)) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -1404,8 +1389,8 @@ public class DeliveryApi {
 	/*返回：ResultBase*/
     public static void mensendCoupon(String token, String mobile, String activityCode,
                                      List<Coupon> coupons, AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(mobile)
-                || StringUtils.isEmpty(activityCode) || coupons == null) {
+        if (null == token || StringUtil.isEmpty(mobile)
+                || StringUtil.isEmpty(activityCode) || coupons == null) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -1497,7 +1482,7 @@ public class DeliveryApi {
 	/*返回：ResultInfoDetail*/
     public static void getInfoDetail(String token, String infoId, AsyncHttpResponseHandler
             handler) {
-        if (null == token || StringUtils.isEmpty(infoId)) {
+        if (null == token || StringUtil.isEmpty(infoId)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1528,7 +1513,7 @@ public class DeliveryApi {
 	/*返回：ResultPaperDetail*/
     public static void getPaperDetail(String token, String paperId, AsyncHttpResponseHandler
             handler) {
-        if (null == token || StringUtils.isEmpty(paperId)) {
+        if (null == token || StringUtil.isEmpty(paperId)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
@@ -1563,7 +1548,7 @@ public class DeliveryApi {
 
     public static void collectPaper(String token, String paperId, boolean isCollect,
                                     AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtils.isEmpty(paperId)) {
+        if (null == token || StringUtil.isEmpty(paperId)) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -1591,7 +1576,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getOrderInfos%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1609,7 +1594,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/collectInfoRecord%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1627,7 +1612,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/collectInfoRecord%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1648,7 +1633,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getClothesTypeConfigs%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -1692,7 +1677,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -1715,7 +1700,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/startCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1734,7 +1719,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/signOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /*2.6收衣订单详情*/
@@ -1751,7 +1736,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/collectInfoDetails%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1769,7 +1754,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/collectInfoDetails%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1793,7 +1778,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/turnOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1811,7 +1796,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/queryTransmitInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1830,7 +1815,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/refuseOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1848,7 +1833,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/receiveCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1866,7 +1851,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/confirmOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /*5.3获取活动列表*/
@@ -1882,7 +1867,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getActivityInfos%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /*5.4获取活动说明*/
@@ -1899,7 +1884,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getActivityInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1917,7 +1902,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/getMatters%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -1944,7 +1929,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/updateCollectInfoParam%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -1962,7 +1947,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getEmp%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -1979,7 +1964,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/registerClothesCode%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -1996,7 +1981,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2015,7 +2000,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/delImg%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2035,7 +2020,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getCollectInfoDetailsItem%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2054,7 +2039,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/scanOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2074,7 +2059,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/validateClothesCode%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2094,7 +2079,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getOrderInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2103,7 +2088,8 @@ public class DeliveryApi {
      * @param fileData 文件流(必填) byte[]
      * @param token    登录凭证(必填) String
      */
-    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler handler) {
+    public static void uploadClothesImg(String token, byte[] fileData, AsyncHttpResponseHandler
+            handler) {
         if (null == fileData || null == token) {
             return;
         }
@@ -2118,7 +2104,7 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/uploadImg%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -2177,11 +2163,12 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/activity/registerCollectInfo%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
      * 5.10查询活动收衣上限
+     *
      * @param activityCode 活动编码(必填) String
      * @param token        登录凭证(必填) String
      */
@@ -2197,7 +2184,7 @@ public class DeliveryApi {
         String url = String.format("washingService-controller/wash/activity/queryActivityLimitNum" +
                         "%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -2217,12 +2204,13 @@ public class DeliveryApi {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("washingService-controller/wash/getClothesTypeInfos%s",
                 ApiClientHelper.getParamUrl());
-        ApiHttpClient.postClothing(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /*2.14.1 新增推广点信息时上传图片*/
 	/* 返回： ResultImageUpload */
-    public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler handler) {
+    public static void uploadPromoteImg(String token, byte[] file, AsyncHttpResponseHandler
+            handler) {
         if (null == token || null == file) {
             return;
         }
@@ -2239,7 +2227,8 @@ public class DeliveryApi {
 
     /*2.14.2 推广点详情信息*/
 	/* 返回： ResultPromoteInfo */
-    public static void getPromoteInfo(String token, String bpCode, AsyncHttpResponseHandler handler) {
+    public static void getPromoteInfo(String token, String bpCode, AsyncHttpResponseHandler
+            handler) {
         if (null == token || null == bpCode) {
             return;
         }
@@ -2254,7 +2243,8 @@ public class DeliveryApi {
 
     /* 2.14.3 新增/编辑推广点信息 */
 	/* 返回： ResultBase */
-    public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler handler) {
+    public static void editPromoteInfo(String token, PromoteInfo info, AsyncHttpResponseHandler
+            handler) {
         if (null == token || info == null) {
             return;
         }
@@ -2286,7 +2276,8 @@ public class DeliveryApi {
 
     /*2.14.4 获取小区/商业中心列表*/
 	/* 返回： ResultBpList */
-    public static void getBpList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getBpList(String token, String content, long timestamp,
+                                 AsyncHttpResponseHandler handler) {
         if (null == token || null == content) {
             return;
         }
@@ -2303,7 +2294,8 @@ public class DeliveryApi {
 
     /*2.14.4 获取推广点档案列表*/
 	/* 返回： ResultPromoteList */
-    public static void getPromoteList(String token, String content, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getPromoteList(String token, String content, long timestamp,
+                                      AsyncHttpResponseHandler handler) {
         if (null == token || content == null) {
             return;
         }
@@ -2320,7 +2312,8 @@ public class DeliveryApi {
 
     /*获取小组信息列表*/
 	/*返回：ResultGroupList*/
-    public static void getGroupList(String token, String content, int pageSize, long timestamp, AsyncHttpResponseHandler handler) {
+    public static void getGroupList(String token, String content, int pageSize, long timestamp,
+                                    AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -2354,8 +2347,9 @@ public class DeliveryApi {
 
     /*CEO获取人员关系列表*/
 	/*返回：ResultEmpList*/
-    public static void getEmpList(String token, String content,String type, AsyncHttpResponseHandler handler) {
-        if (null == token||null == type) {
+    public static void getEmpList(String token, String content, String type,
+                                  AsyncHttpResponseHandler handler) {
+        if (null == token || null == type) {
             return;
         }
         if (content == null) {
@@ -2373,7 +2367,8 @@ public class DeliveryApi {
 
     /*CEO删除人员辖区*/
 	/*返回：ResultBase*/
-    public static void deletePersonnelArea(String token, String bpCode, String empCode,String groupCode, AsyncHttpResponseHandler handler) {
+    public static void deletePersonnelArea(String token, String bpCode, String empCode, String
+            groupCode, AsyncHttpResponseHandler handler) {
         if (null == token || empCode == null || bpCode == null || groupCode == null) {
             return;
         }
@@ -2390,7 +2385,8 @@ public class DeliveryApi {
 
     /*CEO搜索服务区域列表*/
 	/*返回：ResultServiceAreaList*/
-    public static void getServiceAreaList(String token, String bpCode, String empCode, String content, int pageIndex, int pageSize, AsyncHttpResponseHandler handler) {
+    public static void getServiceAreaList(String token, String bpCode, String empCode, String
+            content, int pageIndex, int pageSize, AsyncHttpResponseHandler handler) {
         if (null == token || empCode == null || bpCode == null) {
             return;
         }
@@ -2437,7 +2433,8 @@ public class DeliveryApi {
     }
 
     /* 添加服务区域 */
-    public static void addServiceArea(String bpCode, List<String> bpCodeList, String empCode, String token, AsyncHttpResponseHandler handler) {
+    public static void addServiceArea(String bpCode, List<String> bpCodeList, String empCode,
+                                      String token, AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == bpCodeList || null == empCode || null == token) {
             return;
         }
@@ -2453,7 +2450,9 @@ public class DeliveryApi {
     }
 
     /* 获取人员关系详情 */
-    public static void getRelationShipDetail(String bpCode, String empCode, String token, AsyncHttpResponseHandler handler) {
+    public static void getRelationShipDetail(String bpCode, String empCode,
+                                             String token,
+                                             AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == empCode || null == token) {
             return;
         }
@@ -2468,7 +2467,8 @@ public class DeliveryApi {
     }
 
     /* 获取人员辖区列表 */
-    public static void getPersonnelAreaList(String groupCode,String empCode, int pageSize, long timestamp, String token, AsyncHttpResponseHandler handler) {
+    public static void getPersonnelAreaList(String groupCode, String empCode, int pageSize, long
+            timestamp, String token, AsyncHttpResponseHandler handler) {
         if (null == empCode || null == token || null == groupCode) {
             return;
         }
@@ -2485,7 +2485,8 @@ public class DeliveryApi {
     }
 
     /* 获取小组/社区详情 */
-    public static void getGroupDetailInfo(String content, int pageSize, long timestamp, String token, String type, AsyncHttpResponseHandler handler) {
+    public static void getGroupDetailInfo(String content, int pageSize, long timestamp, String
+            token, String type, AsyncHttpResponseHandler handler) {
         if (null == content || null == token || null == type) {
             return;
         }
@@ -2503,7 +2504,8 @@ public class DeliveryApi {
 
 
     /* 解除人员关系 */
-    public static void deleteRelationShip(String bpCode, String empCode, long endDate, String token, String type, AsyncHttpResponseHandler handler) {
+    public static void deleteRelationShip(String bpCode, String empCode, long endDate, String
+            token, String type, AsyncHttpResponseHandler handler) {
         if (null == bpCode || null == empCode || null == token || null == type) {
             return;
         }
@@ -2519,4 +2521,98 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /**
+     * 2.2获取订单详情，测试用
+     *
+     * @param outerCode 洗衣服务订单号(必填) String
+     * @param token     登录凭证(必填) String
+     */
+    public static void _getOuterOrderInfo(String outerCode, String token,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == outerCode || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/getOrderInfo%s",
+                ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, handler);
+    }
+
+    /**
+     * 5.3获取活动列表 ，测试用
+     */
+    public static void _getActivityInfos(String token,
+                                         AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token)) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+
+        postRequest(params, "washingService-controller/wash/activity/getActivityInfos%s", handler);
+    }
+
+    /**
+     * 2.5 收衣记录，测试用
+     */
+	/*返回：ResultCollectInfo*/
+    public static void _collectInfoRecord(String token, long startDate, long endDate,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        postRequest(params, "washingService-controller/wash/collectInfoRecord%s", handler);
+    }
+
+
+    /**
+     * 5.8收衣记录，测试用
+     */
+	/*返回：ResultCollectInfo*/
+    public static void _collectInfoRecord2(String token, long startDate, long endDate,
+                                           AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
+    }
+
+
+    /**
+     * 提交http请求
+     *
+     * @param params  参数列表
+     * @param subUrl  请求的url子部
+     * @param handler 回调
+     */
+    private static void postRequest(Map<String, Object> params, String subUrl,
+                                    AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, handler);
+    }
 }

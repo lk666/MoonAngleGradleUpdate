@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.common;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -75,6 +76,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 	 * TODO 
 	 * @see Activity#onCreate(Bundle)
 	 */
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		  
