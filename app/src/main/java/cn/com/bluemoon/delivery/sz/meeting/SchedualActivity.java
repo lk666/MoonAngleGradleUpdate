@@ -32,14 +32,13 @@ import org.kymjs.kjframe.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import cn.com.bluemoon.delivery.ClientStateManager;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.delivery.sz.adapter.ScheduleAdapter;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.api.response.UserSchDayResponse;
 import cn.com.bluemoon.delivery.sz.bean.SchedualBean;
-import cn.com.bluemoon.delivery.sz.bean.TaskBean;
 import cn.com.bluemoon.delivery.sz.util.AssetUtil;
 import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;

@@ -18,17 +18,19 @@ import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import cn.com.bluemoon.delivery.ClientStateManager;
+
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
+
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PreUtils;
+
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.ClearEditText;

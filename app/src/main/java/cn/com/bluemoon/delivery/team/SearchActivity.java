@@ -11,9 +11,10 @@ import com.umeng.analytics.MobclickAgent;
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
+
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonSearchView;

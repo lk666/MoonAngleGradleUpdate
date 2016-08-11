@@ -2,13 +2,12 @@ package cn.com.bluemoon.delivery.sz.sqlite;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
+
 import android.database.sqlite.SQLiteDatabase;
 
-import java.util.ArrayList;
 
-import cn.com.bluemoon.delivery.ClientStateManager;
-import cn.com.bluemoon.delivery.app.AppContext;
+import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
@@ -34,7 +33,7 @@ public class MsgDBUtil {
 
     private void init() {
         context = AppContext.getInstance().getApplicationContext();
-        String username = ClientStateManager.getUserName(context);
+        String username = ClientStateManager.getUserName();
         if(!StringUtil.isEmptyString(username)){
             DBOpenHelper.DB_NAME = username+".db";
         }

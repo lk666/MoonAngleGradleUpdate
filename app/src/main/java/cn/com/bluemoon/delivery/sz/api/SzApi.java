@@ -6,7 +6,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.com.bluemoon.delivery.app.AppContext;
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 
 /**
