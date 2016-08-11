@@ -42,7 +42,6 @@ public class ResetPswActivity extends KJActivity {
 	private String phone;
 	@BindView(id = R.id.reset_yzm_edit)
 	private EditText edYzm;
-	private TimeCount time;
 	@BindView(id = R.id.reset_password)
 	private ClearEditText edPassword;
 	@BindView(id = R.id.reset_confirm_password)
@@ -114,7 +113,7 @@ public class ResetPswActivity extends KJActivity {
 	}
 
 	private void startTime(int delayTime) {
-		time = new TimeCount(delayTime * 1000, 1000);
+		TimeCount time = new TimeCount(delayTime * 1000, 1000);
 		time.start();
 		btnYzm.setBackgroundResource(R.drawable.btn_disable_shape);
 	}

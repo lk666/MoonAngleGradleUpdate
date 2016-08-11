@@ -49,7 +49,6 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
     private CommonSearchView searchView;
     private PullToRefreshListView listview;
     private Button btnOk;
-    private SelectMemberAdapter adapter;
     private CommonProgressDialog progressDialog;
     private Emp emp;
     private CommonEmptyView emptyView;
@@ -107,7 +106,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
 
     private void setData(List<Emp> list) {
         this.emp = null;
-        adapter = new SelectMemberAdapter(aty);
+        SelectMemberAdapter adapter = new SelectMemberAdapter(aty);
         adapter.setList(list);
         listview.setAdapter(adapter);
     }

@@ -36,9 +36,7 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 
 public class OrdersTabActivity extends FragmentActivity {
     private String TAG = "OrdersTabActivity";
-    private static Context context;
     private LayoutInflater layoutInflater;
-    private FragmentTabHost mTabHost;
     private TextView amountTv;
     private TextView amountTv2;
     private TextView amountTv3;
@@ -51,10 +49,10 @@ public class OrdersTabActivity extends FragmentActivity {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
         setContentView(R.layout.orders_tab);
-        context = this;
+        Context context = this;
         ActivityManager.getInstance().pushOneActivity(this);
         layoutInflater = LayoutInflater.from(this);
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
         //mTabHost.getTabWidget().setStripEnabled(false);

@@ -86,10 +86,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     Button btnSettleDeliver;
     private OrderProductAdapter adapter;
     private List<ProductPreReceiveVo> lists;
-    private View headView;
-    private View footView;
-    private LinearLayout llOutBack;
-    private EditText tdOutBack;
 
     private TextView txtCommenNameFhck;
     private TextView txtCommenNameFhAddress;
@@ -111,19 +107,14 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     private TextView txtDistributionBuniessName;
     private TextView txtFhfAddress;
     private TextView txtListOrderDetailName;
-    private RelativeLayout relDeliverAddress, relDeliverDate, relDeliverTicket;
+    private RelativeLayout relDeliverAddress;
     private RelativeLayout relDistributionBuniessName;
-    private RelativeLayout llDiffLayout;
 
     private OrderReceiveDetailActivity main;
     private String orderCode;
     private String storeCode;
 
     ResultPreReceiveOrderBean detailInfo;
-
-    private String dictName;
-    private String dictId;
-    private String diffReasonDetail;
 
     private ArrayList<String> piclist;//上传图片
     private ArrayList<String> failUpload;
@@ -134,7 +125,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     private int sumCount = 0;//实收支数
     private double xianshu = 0;//箱数
     private int diffNums = 0;//差异数
-    private long TotalMoney_submit;
     private long submitTime = 0;
 
 
@@ -230,7 +220,8 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     }*/
 
     private void initHeadView() {
-        headView = LayoutInflater.from(this).inflate(R.layout.order_deliver_listview_head, null);
+        View headView = LayoutInflater.from(this).inflate(R.layout.order_deliver_listview_head,
+                null);
         txtCommenNameFhck = (TextView) headView.findViewById(R.id.txt_commenName_fhck);
         txtCommenNameFhAddress = (TextView) headView.findViewById(R.id.txt_commenName_fh_address);
         txtCommonNameDeliverDate = (TextView) headView.findViewById(R.id.txt_commonName_deliver_date);
@@ -255,9 +246,11 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         txtListOrderDetailName = (TextView) headView.findViewById(R.id.txt_list_order_detail_name);
 
         relDeliverAddress = (RelativeLayout) headView.findViewById(R.id.rel_deliver_address);
-        relDeliverDate = (RelativeLayout) headView.findViewById(R.id.rel_deliver_date);
-        relDeliverTicket = (RelativeLayout) headView.findViewById(R.id.rel_deliverTicket);
-        llDiffLayout = (RelativeLayout) headView.findViewById(R.id.ll_diff_layout);
+        RelativeLayout relDeliverDate = (RelativeLayout) headView.findViewById(R.id
+                .rel_deliver_date);
+        RelativeLayout relDeliverTicket = (RelativeLayout) headView.findViewById(R.id
+                .rel_deliverTicket);
+        RelativeLayout llDiffLayout = (RelativeLayout) headView.findViewById(R.id.ll_diff_layout);
         llDiffLayout.setVisibility(View.GONE);
         relDeliverAddress.setOnClickListener(this);
         relDeliverDate.setOnClickListener(this);
@@ -282,9 +275,9 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     }
 
     private void initFoot() {
-        footView = LayoutInflater.from(this).inflate(R.layout.order_deliver_list_bottom, null);
-        llOutBack = (LinearLayout) footView.findViewById(R.id.ll_outBack);
-        tdOutBack = (EditText) footView.findViewById(R.id.td_outBack);
+        View footView = LayoutInflater.from(this).inflate(R.layout.order_deliver_list_bottom, null);
+        LinearLayout llOutBack = (LinearLayout) footView.findViewById(R.id.ll_outBack);
+        EditText tdOutBack = (EditText) footView.findViewById(R.id.td_outBack);
         txtNeed.setText(getString(R.string.detail_order_receive_should));
         txtActual.setText(getString(R.string.detail_order_receive_real));
         btnSettleDeliver.setText(getString(R.string.btn_detail_order_receive));
@@ -370,7 +363,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                     return;
                 }
 
-                TotalMoney_submit = 0;
+                long totalMoney_submit = 0;
                 xianshu = 0;
                 diffNums = 0;
                 sumCount = 0;
@@ -382,7 +375,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                     sumCount = sumCount + lists.get(i).getDifferNum();
                     xianshu = xianshu + lists.get(i).getDiffCase();
                     mSumCount = mSumCount + lists.get(i).getOutNum();
-                    TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
+                    totalMoney_submit = totalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
                     //   } else {
                     //       TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
                     //   }
@@ -393,7 +386,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                 String realDeliverCount = String.format(getResources().getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(xianshu)) +
                         String.format(getResources().getString(R.string.order_product_count), sumCount);
                 String diffCount = String.format(getResources().getString(R.string.order_diff_product_count), mSumCount - sumCount);
-                String totalMoney = getResources().getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(TotalMoney_submit);
+                String totalMoney = getResources().getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(totalMoney_submit);
 
                 DialogForSubmitOrder myDialog = new DialogForSubmitOrder(main,
                         "receive", shouldDeliverCount, realDeliverCount, diffCount, totalMoney);
@@ -512,9 +505,10 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                     if (data == null) {
                         return;
                     }
-                    dictId = data.getStringExtra(OrderDiffReasonActivity.KEY_DICTID);
-                    dictName = data.getStringExtra(OrderDiffReasonActivity.KEY_DICTNAME);
-                    diffReasonDetail = data.getStringExtra(OrderDiffReasonActivity.KEY_DIFFREASONDETAIL);
+                    String dictId = data.getStringExtra(OrderDiffReasonActivity.KEY_DICTID);
+                    String dictName = data.getStringExtra(OrderDiffReasonActivity.KEY_DICTNAME);
+                    String diffReasonDetail = data.getStringExtra(OrderDiffReasonActivity
+                            .KEY_DIFFREASONDETAIL);
                     int pos = data.getIntExtra(OrderDiffReasonActivity.KEY_POS, 0);
                     lists.get(pos).setReDifferReason(dictId);
                     lists.get(pos).setReDifferBackup(diffReasonDetail);

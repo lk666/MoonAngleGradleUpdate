@@ -65,10 +65,9 @@ public class WorkDiaryActivity extends Activity {
     private List<Product> workDiaryListOld;
     private TextView txtTotalBreedNum;
     private TextView txtTotalNum;
-    private Button btnSave;
     private int breedNum;
     private int count;
-    private boolean hasWrokDaily;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -77,13 +76,13 @@ public class WorkDiaryActivity extends Activity {
         mContext = this;
         progressDialog = new CommonProgressDialog(mContext);
         setContentView(R.layout.activiy_work_diary);
-        hasWrokDaily = getIntent().getBooleanExtra("hasWrokDaily", true);
+        boolean hasWrokDaily = getIntent().getBooleanExtra("hasWrokDaily", true);
         txtTotalBreedNum = (TextView) findViewById(R.id.txt_total_breed_num);
         txtTotalNum = (TextView) findViewById(R.id.txt_total_num);
         txtTotalBreedNum.setText(String.format(getString(R.string.total_breed_num), 0));
         txtTotalNum.setText(String.format(getString(R.string.total_num), 0));
         listview = (ListView) findViewById(R.id.listview_work_diary);
-        btnSave = (Button) findViewById(R.id.btn_save);
+        Button btnSave = (Button) findViewById(R.id.btn_save);
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -51,7 +51,6 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
  */
 public class SearchProductActivity extends Activity {
     private String TAG = "SearchProductActivity";
-    private ActivityManager manager;
     private CommonClearEditText etSearchProduct;
     private CommonProgressDialog progressDialog;
     private SearchProductActivity mContext;
@@ -66,7 +65,7 @@ public class SearchProductActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        manager = ActivityManager.getInstance();
+        ActivityManager manager = ActivityManager.getInstance();
         manager.pushOneActivity(this);
         mContext = this;
         progressDialog = new CommonProgressDialog(this);

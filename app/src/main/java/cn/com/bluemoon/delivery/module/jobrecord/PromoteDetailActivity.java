@@ -52,7 +52,6 @@ public class PromoteDetailActivity extends Activity {
     private String TAG = "PromoteDetailActivity";
     private CommonProgressDialog progressDialog;
     private PromoteDetailActivity mContext;
-    private String bpCode;
     private TextView txtArea;
     private TextView txtPlace;
     private TextView txtPlaceType;
@@ -94,7 +93,7 @@ public class PromoteDetailActivity extends Activity {
         listview = (ListView) findViewById(R.id.listview_people_flow);
         layoutImage = (LinearLayout) findViewById(R.id.layout_image);
         layoutFlow = (LinearLayout) findViewById(R.id.layout_flow);
-        bpCode = getIntent().getStringExtra("bpCode");
+        String bpCode = getIntent().getStringExtra("bpCode");
         progressDialog.show();
         DeliveryApi.getPromoteInfo(ClientStateManager.getLoginToken(this), bpCode, getPromoteInfoHandler );
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {

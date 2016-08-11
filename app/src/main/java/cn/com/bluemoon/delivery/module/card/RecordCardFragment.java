@@ -58,7 +58,6 @@ public class RecordCardFragment extends Fragment {
 	private String mYear;
 	private String mMon;
 	private MonthDatePickerDialog monthDatePickerDialog;
-	private CardRecordAdapter cardRecordAdapter;
 
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
@@ -203,7 +202,8 @@ public class RecordCardFragment extends Fragment {
 				ResultPunchCardList punchCardListResult = JSON.parseObject(responseString, ResultPunchCardList.class);
 				if(punchCardListResult.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
 					txtCount.setText(String.format(getString(R.string.card_record_count),punchCardListResult.getTotalCount()));
-					cardRecordAdapter = new CardRecordAdapter(mContext);
+
+					CardRecordAdapter cardRecordAdapter = new CardRecordAdapter(mContext);
 					cardRecordAdapter.setList(punchCardListResult.getPunchCardList());
 					listView.setAdapter(cardRecordAdapter);
 				}else{

@@ -25,10 +25,6 @@ import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
 public class StoreHouseDetailWindow extends PopupWindow {
 
 	private Context mContext;
-	private TextView txtShCode;
-	private TextView txtShName;
-	private TextView txtShChargeName;
-	private TextView txtShAddress;
 	private ResultOrderInfoPickup info;
 
 	public StoreHouseDetailWindow(Context context,ResultOrderInfoPickup info) {
@@ -55,10 +51,10 @@ public class StoreHouseDetailWindow extends PopupWindow {
 		ll_popup.startAnimation(AnimationUtils.loadAnimation(mContext,
 				R.anim.push_top_in));
 
-		txtShCode = (TextView) view.findViewById(R.id.txt_sh_code);
-		txtShName = (TextView) view.findViewById(R.id.txt_sh_name);
-		txtShChargeName = (TextView) view.findViewById(R.id.txt_sh_charge_name);
-		txtShAddress = (TextView) view.findViewById(R.id.txt_sh_address);
+		TextView txtShCode = (TextView) view.findViewById(R.id.txt_sh_code);
+		TextView txtShName = (TextView) view.findViewById(R.id.txt_sh_name);
+		TextView txtShChargeName = (TextView) view.findViewById(R.id.txt_sh_charge_name);
+		TextView txtShAddress = (TextView) view.findViewById(R.id.txt_sh_address);
 		txtShCode.setText(info.getStorehouseCode());
 		txtShName.setText(info.getStorehouseName());
 		txtShChargeName.setText(info.getStorechargeName() + "  " + info.getStorechargeMobileno());

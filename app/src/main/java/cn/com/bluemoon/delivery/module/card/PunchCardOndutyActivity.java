@@ -73,8 +73,6 @@ public class PunchCardOndutyActivity extends Activity {
     private Button btnPunchCard;
     private CommonProgressDialog progressDialog;
     private ViewPager viewPager;
-    private View viewCode,viewOther;
-    private List<View> views;
     private int currentItem = 0;
     private String workplaceCodeStr;
     private PunchCard punchCardCode;
@@ -222,28 +220,28 @@ public class PunchCardOndutyActivity extends Activity {
     private void initView(){
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
-        views=new ArrayList<>();
+        List<View> views = new ArrayList<>();
         LayoutInflater inflater=getLayoutInflater();
-        viewCode = inflater.inflate(R.layout.view_punch_card_input_code, null);
-        viewOther = inflater.inflate(R.layout.view_punch_card_input_other, null);
+        View viewCode = inflater.inflate(R.layout.view_punch_card_input_code, null);
+        View viewOther = inflater.inflate(R.layout.view_punch_card_input_other, null);
         views.add(viewCode);
         views.add(viewOther);
         viewPager.setAdapter(new CardViewPageAdapter(views));
         viewPager.setOnPageChangeListener(new CardOnPageChangeListener());
         //viewCode
         ImageView imgRight = (ImageView) viewCode.findViewById(R.id.img_right);
-        txtAddressCode = (TextView)viewCode.findViewById(R.id.txt_address_code);
-        txtCharge = (TextView)viewCode.findViewById(R.id.txt_charge);
-        txtCardAddress = (TextView)viewCode.findViewById(R.id.txt_card_address);
-        tagListViewCode = (TagListView)viewCode.findViewById(R.id.tag_listview_card_code);
-        layoutChooseAddressCode = (LinearLayout)viewCode.findViewById(R.id.layout_choose_address_code);
+        txtAddressCode = (TextView) viewCode.findViewById(R.id.txt_address_code);
+        txtCharge = (TextView) viewCode.findViewById(R.id.txt_charge);
+        txtCardAddress = (TextView) viewCode.findViewById(R.id.txt_card_address);
+        tagListViewCode = (TagListView) viewCode.findViewById(R.id.tag_listview_card_code);
+        layoutChooseAddressCode = (LinearLayout) viewCode.findViewById(R.id.layout_choose_address_code);
         layoutChooseAddressCode.setOnClickListener(onClickListener);
 
         //viewOther
-        txtRegionOther = (TextView)viewOther.findViewById(R.id.txt_region_other);
-        etAddressOther = (TextView)viewOther.findViewById(R.id.et_address_other);
-        tagListViewOther = (TagListView)viewOther.findViewById(R.id.tag_listview_card_other);
-        layoutChooseAddressOther = (LinearLayout)viewOther.findViewById(R.id.layout_choose_address_other);
+        txtRegionOther = (TextView) viewOther.findViewById(R.id.txt_region_other);
+        etAddressOther = (TextView) viewOther.findViewById(R.id.et_address_other);
+        tagListViewOther = (TagListView) viewOther.findViewById(R.id.tag_listview_card_other);
+        layoutChooseAddressOther = (LinearLayout) viewOther.findViewById(R.id.layout_choose_address_other);
         layoutChooseAddressOther.setOnClickListener(onClickListener);
         if(PunchCardType.scan == punchCardType){
             layoutTab.setVisibility(View.GONE);

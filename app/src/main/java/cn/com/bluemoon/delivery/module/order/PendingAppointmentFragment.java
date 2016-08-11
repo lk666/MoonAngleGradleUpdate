@@ -49,7 +49,6 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class PendingAppointmentFragment extends Fragment {
 	private String TAG = "PendingAppointmentFragment";
-	private CommonActionBar mActionbar;
 	private PullToRefreshListView listView;
 	private OrdersAdapter ordersAdapter;
 	private List<OrderVo> orderList;
@@ -111,7 +110,7 @@ public class PendingAppointmentFragment extends Fragment {
 	}
 
 	private void initCustomActionBar() {
-		mActionbar = new CommonActionBar(mContext.getActionBar(),
+		CommonActionBar mActionbar = new CommonActionBar(mContext.getActionBar(),
 				new IActionBarListener() {
 
 					@Override

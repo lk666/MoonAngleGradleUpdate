@@ -44,12 +44,10 @@ public class StockDetailActivity extends BaseActivity {
     PullToRefreshListView listView;
 
     private StockDetailAdapter adapter;
-    private ResultProductDetail item;
     private ProductType currentType = ProductType.NORMAL;
 
 
     private String storeId;
-    private String storeName;
 
     TabSelector.CallBackListener listener = new TabSelector.CallBackListener() {
         @Override
@@ -84,7 +82,7 @@ public class StockDetailActivity extends BaseActivity {
     @Override
     public void initView() {
         storeId = getIntent().getStringExtra("storeId");
-        storeName = getIntent().getStringExtra("storeName");
+        String storeName = getIntent().getStringExtra("storeName");
         if (StringUtil.isEmpty(storeId) || StringUtil.isEmpty(storeName)) {
             finish();
         }
@@ -153,7 +151,7 @@ public class StockDetailActivity extends BaseActivity {
             return;
         }
 
-        item = result;
+        ResultProductDetail item = result;
         txtCategoryCount.setText(String.valueOf(item.getTotalCategory()));
         txtTotalMoney.setText(
                 getString(R.string.order_money_sign) +

@@ -55,13 +55,11 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 public class SelectStoreHouseActivity extends Activity implements OnClickListener{
 
 	private String TAG = "SelectStoreHouseActivity";
-	private CommonActionBar mActionbar;
 	private LinearLayout layoutOk;
 	private TextView phoneText;
 	private TextView addressText;
 	private List<Storehouse> storehouses;
 	private ListView listView;
-	private StoreHouseAdapter adapter;
 	private CommonProgressDialog progressDialog;
 	private Storehouse shSelect;
 	private String code;
@@ -120,7 +118,8 @@ public class SelectStoreHouseActivity extends Activity implements OnClickListene
 							phoneText.setText(getString(R.string.pending_order_person_phone_null));
 						}
 						addressText.setText(shSelect.getAddress());
-						adapter = new StoreHouseAdapter(SelectStoreHouseActivity.this, R.layout.item_storehouse_list);
+						StoreHouseAdapter adapter = new StoreHouseAdapter(SelectStoreHouseActivity
+								.this, R.layout.item_storehouse_list);
 						listView.setAdapter(adapter);
 					}
 				} else {
@@ -183,7 +182,7 @@ public class SelectStoreHouseActivity extends Activity implements OnClickListene
 	}
 
 	private void initCustomActionBar() {
-		mActionbar = new CommonActionBar(getActionBar(),
+		CommonActionBar mActionbar = new CommonActionBar(getActionBar(),
 				new IActionBarListener() {
 
 					@Override

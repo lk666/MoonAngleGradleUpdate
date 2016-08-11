@@ -54,8 +54,6 @@ public class WarehouseFragment extends BaseFragment {
     @Bind(R.id.listview_main)
     PullToRefreshListView listView;
     private StoreAdapter adapter;
-    private FragmentActivity main;
-    private ResultStore item;
 
     @Override
     protected int getLayoutId() {
@@ -69,7 +67,7 @@ public class WarehouseFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        main = getActivity();
+        FragmentActivity main = getActivity();
         listView.setMode(PullToRefreshBase.Mode.DISABLED);
         PublicUtil.setEmptyView(listView, getTitleString(), new CommonEmptyView.EmptyListener() {
             @Override
@@ -97,7 +95,7 @@ public class WarehouseFragment extends BaseFragment {
         if (result == null || result.getStoreList() == null || result.getStoreList().size() < 1) {
             adapter.setList(new ArrayList<Store>());
         } else {
-            item = result;
+            ResultStore item = result;
             adapter.setList(item.getStoreList());
         }
         listView.setAdapter(adapter);

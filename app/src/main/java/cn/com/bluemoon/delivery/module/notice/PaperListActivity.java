@@ -59,7 +59,6 @@ public class PaperListActivity extends Activity {
     private ExpandableListView listTitle;
     private MenuAdapter menuAdapter;
     private TitleFavoriteAdapter titleFavoriteAdapter;
-    private ExpandableAdapter expandableAdapter;
     private List<Knowledge> menu;
     private List<FavoriteItem> favorites;
     private long timestamp = 0;
@@ -172,7 +171,7 @@ public class PaperListActivity extends Activity {
         final List<CartItem> list = menu.get(position).getCatList();
         listTitle.setVisibility(View.VISIBLE);
         listCollect.setVisibility(View.GONE);
-        expandableAdapter = new ExpandableAdapter(list);
+        ExpandableAdapter expandableAdapter = new ExpandableAdapter(list);
         listTitle.setAdapter(expandableAdapter);
         for(int i = 0; i < expandableAdapter.getGroupCount(); i++){
             listTitle.expandGroup(i);

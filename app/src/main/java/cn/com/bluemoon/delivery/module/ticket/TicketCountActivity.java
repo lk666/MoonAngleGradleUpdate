@@ -38,7 +38,6 @@ public class TicketCountActivity extends KJActivity {
 	private CommonProgressDialog progressDialog;
 	@BindView(id = R.id.listView_ticket)
 	private ListView listView;
-	private TicketCountAdapter adapter;
 	private String type;
 	private ResultVenueInfo items;
 	private String title;
@@ -79,7 +78,7 @@ public class TicketCountActivity extends KJActivity {
 			list = new ArrayList<>();
 			ViewUtil.toastErrorData();
 		}
-		adapter = new TicketCountAdapter(aty,items.getItemList());
+		TicketCountAdapter adapter = new TicketCountAdapter(aty, items.getItemList());
 		listView.setAdapter(adapter);
 	}
 	

@@ -42,7 +42,6 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class SignActivity extends Activity implements OnClickListener{
 	private String TAG = "SignActivity";
-	private CommonActionBar mActionbar;
 	private Button btnScan;
 	private Button btnSign;
 	private ClearEditText etNumber;
@@ -145,7 +144,7 @@ public class SignActivity extends Activity implements OnClickListener{
 	};
 	
 	private void initCustomActionBar() {
-		mActionbar = new CommonActionBar(getActionBar(), new IActionBarListener() {
+		CommonActionBar mActionbar = new CommonActionBar(getActionBar(), new IActionBarListener() {
 
 			@Override
 			public void onBtnRight(View v) {

@@ -30,7 +30,6 @@ public class StockFragment extends BaseFragment {
     PullToRefreshListView listView;
     private StockAdapter adapter;
     private FragmentActivity main;
-    private ResultStock item;
 
     @Override
     protected int getLayoutId() {
@@ -66,7 +65,7 @@ public class StockFragment extends BaseFragment {
         if (result == null || result.getStockList() == null || result.getStockList().size() < 1) {
             adapter.setList(new ArrayList<Stock>());
         } else {
-            item = result;
+            ResultStock item = result;
             adapter.setList(item.getStockList());
         }
         listView.setAdapter(adapter);

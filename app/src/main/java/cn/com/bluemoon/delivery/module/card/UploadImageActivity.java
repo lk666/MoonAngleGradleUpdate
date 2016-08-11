@@ -54,16 +54,12 @@ import cn.com.bluemoon.lib.view.TakePhotoPopView;
 public class UploadImageActivity extends Activity{
 
     private String TAG = "UploadImageActivity";
-    private ActivityManager manager;
     private TakePhotoPopView takePhotoPop;
     private GridView gridView;
     private ArrayList<ImageBean> images;
     private ImageAdapter adapter;
-    private Button btnOk;
     private UploadImageActivity mContext;
     private CommonProgressDialog progressDialog;
-    private List<ImageBean> imgList;
-    private boolean hasImage;
     private boolean isDeleteImg;
     private List<ImageBean> needUploadList;
     private boolean uploadControl;
@@ -74,17 +70,17 @@ public class UploadImageActivity extends Activity{
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onCreate(savedInstanceState);
-        manager = ActivityManager.getInstance();
+        ActivityManager manager = ActivityManager.getInstance();
         manager.pushOneActivity(this);
         mContext = this;
         progressDialog = new CommonProgressDialog(mContext);
         progressDialog.setCancelable(false);
         setContentView(R.layout.activiy_punchcard_upload_img);
         gridView = (GridView) findViewById(R.id.gridview_img);
-        hasImage = getIntent().getBooleanExtra("hasImage",true);
+        boolean hasImage = getIntent().getBooleanExtra("hasImage", true);
         DeliveryApi.getImgList(ClientStateManager.getLoginToken(mContext), getImgListHandler);
 
-        btnOk = (Button)findViewById(R.id.btn_ok);
+        Button btnOk = (Button) findViewById(R.id.btn_ok);
 
 
         takePhotoPop = new TakePhotoPopView(this,
@@ -188,10 +184,10 @@ public class UploadImageActivity extends Activity{
             try {
                 ResultImage result = JSON.parseObject(responseString, ResultImage.class);
                 if(null!=result && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
-                    imgList = result.getImgList();
+                    List<ImageBean> imgList = result.getImgList();
                     images = new ArrayList<>();
                     if (imgList != null && imgList.size() > 0) {
-                        for (ImageBean img :imgList) {
+                        for (ImageBean img : imgList) {
                             images.add(img);
                         }
                     }

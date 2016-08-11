@@ -54,14 +54,12 @@ public class OrderEndDeliverDetailActivity extends BasePullHeadToRefreshListView
     private static final int REQUEST_CODE_GET_TICKET_PHOTO = 0x1;
 
     private String orderCode;
-    private String type;
 
     /**
      * 查询的图片
      */
     private List<String> list;
 
-    private View footView;
     private TextView txtOutBackup;
 
     //////////// 头部控件 ////////////////
@@ -102,7 +100,7 @@ public class OrderEndDeliverDetailActivity extends BasePullHeadToRefreshListView
         if (orderCode == null) {
             orderCode = "";
         }
-        type = getIntent().getStringExtra("type");
+        String type = getIntent().getStringExtra("type");
         if (type == null) {
             type = "";
         }
@@ -138,7 +136,8 @@ public class OrderEndDeliverDetailActivity extends BasePullHeadToRefreshListView
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
 
-        footView = LayoutInflater.from(this).inflate(R.layout.order_inventory_detail_bottom, null);
+        View footView = LayoutInflater.from(this).inflate(R.layout.order_inventory_detail_bottom,
+                null);
         txtOutBackup = (TextView) footView.findViewById(R.id.txt_outBackup);
         footView.setVisibility(View.VISIBLE);
         ptrlv.getRefreshableView().addFooterView(footView);

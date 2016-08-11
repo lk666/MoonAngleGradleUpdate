@@ -57,12 +57,10 @@ public class PendingReceiptFragment extends Fragment implements
 
 	private OrdersTabActivity mContext;
 	private CommonProgressDialog progressDialog;
-	private CommonActionBar mActionbar;
 	private SwipeMenuListView listView;
 	private List<OrderVo> orderList;
 	private OrdersAdapter ordersAdapter;
 	private int REDIRECT_TO_RETURN_ACTIVITY = 1;
-	private boolean lock;
 	private OrderVo orderClicked;
 	View popStart;
 
@@ -270,7 +268,7 @@ public class PendingReceiptFragment extends Fragment implements
 	};
 
 	private void initCustomActionBar() {
-		mActionbar = new CommonActionBar(mContext.getActionBar(),
+		CommonActionBar mActionbar = new CommonActionBar(mContext.getActionBar(),
 				new IActionBarListener() {
 
 					@Override
@@ -515,7 +513,7 @@ public class PendingReceiptFragment extends Fragment implements
 		@Override
 		public void onFailure(int statusCode, Header[] headers,
 				String responseString, Throwable throwable) {
-			lock = false;
+			boolean lock = false;
 			progressDialog.dismiss();
 			PublicUtil.showToastServerOvertime(mContext);
 		}

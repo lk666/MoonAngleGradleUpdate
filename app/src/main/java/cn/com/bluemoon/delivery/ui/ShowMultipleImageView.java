@@ -19,7 +19,6 @@ import cn.com.bluemoon.delivery.R;
  */
 public class ShowMultipleImageView extends Activity {
     private KJBitmap kjBitmap = new KJBitmap();
-    private ViewPager viewPager;
     private int currentPage=0;
     private String[] images;
 
@@ -61,7 +60,7 @@ public class ShowMultipleImageView extends Activity {
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         images = (String[]) getIntent().getSerializableExtra("bitmaps");
         int position = getIntent().getIntExtra("position", 0);
-        viewPager = (ViewPager) findViewById(R.id.viewpager1);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager.setAdapter(adapter);
         final TextView txtView = (TextView) findViewById(R.id.txt_page);
         viewPager.setCurrentItem(position);

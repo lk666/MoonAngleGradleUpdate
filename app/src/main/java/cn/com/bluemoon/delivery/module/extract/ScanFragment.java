@@ -41,7 +41,6 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class ScanFragment extends Fragment implements OnClickListener {
 	private String TAG = "ScanFragment";
-	private CommonActionBar mActionbar;
 	private ExtractTabActivity mContext;
 	private Button btnScan;
 	private Button btnSign;
@@ -94,7 +93,8 @@ public class ScanFragment extends Fragment implements OnClickListener {
 	}
 	
 	private void initCustomActionBar() {
-		mActionbar = new CommonActionBar(mContext.getActionBar(), new IActionBarListener() {
+		CommonActionBar mActionbar = new CommonActionBar(mContext.getActionBar(), new
+				IActionBarListener() {
 
 			@Override
 			public void onBtnRight(View v) {
