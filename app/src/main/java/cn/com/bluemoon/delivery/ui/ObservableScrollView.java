@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.ui;
 
 import android.content.Context;
-import android.os.Handler;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
@@ -44,39 +43,40 @@ public class ObservableScrollView extends ScrollView {
         super(context, attrs, defStyle);
     }
 
-    /**用于用户手指离开ScrollView的时候获取ScrollView滚动的Y距离，然后回调给onScroll方 */
-    private Handler handler = new Handler() {
-        public void handleMessage(android.os.Message msg) {
-            int scrollY = ObservableScrollView.this.getScrollY();
-            //此时的距离和记录下的距离不相等，在隔5毫秒给handler发送消息
-            if(lastScrollY != scrollY){
-                handler.sendMessageDelayed(handler.obtainMessage(), 20);
-            }
-            if(mListener != null){
-                mListener.scrollOritention(scrollY - lastScrollY);
-                lastScrollY = scrollY;
-            }
-
-        };
-
-    };
-
     @Override
     public boolean onTouchEvent(MotionEvent ev) {
-        if(mListener != null){
+        if (mListener != null) {
             int scrollY = ObservableScrollView.this.getScrollY();
             mListener.scrollOritention(scrollY - lastScrollY);
             lastScrollY = scrollY;
         }
-        switch (ev.getAction()){
+        switch (ev.getAction()) {
             case MotionEvent.ACTION_UP:
-                handler.sendMessageDelayed(handler.obtainMessage(), 5);
+                postScroll(5);
                 break;
         }
         return super.onTouchEvent(ev);
     }
 
-
+    /**
+     * 用于用户手指离开ScrollView的时候获取ScrollView滚动的Y距离，然后回调给onScroll方
+     */
+    private void postScroll(int intr) {
+        postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                int scrollY = ObservableScrollView.this.getScrollY();
+                //此时的距离和记录下的距离不相等，在隔5毫秒给handler发送消息
+                if (lastScrollY != scrollY) {
+                    postScroll(20);
+                }
+                if (mListener != null) {
+                    mListener.scrollOritention(scrollY - lastScrollY);
+                    lastScrollY = scrollY;
+                }
+            }
+        }, intr);
+    }
 
    /* @Override
     protected void onScrollChanged(int l, int t, int oldl, int oldt) {
