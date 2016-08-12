@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.service;
+package cn.com.bluemoon.delivery.utils.service;
 
 import android.content.Context;
 

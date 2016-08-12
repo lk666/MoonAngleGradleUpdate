@@ -838,4 +838,6 @@
     <string name="reset">重置</string>
     <string name="order_detail_default_diff_num">0</string>
     <string name="date_to">—</string>
+    <string name="total_receive_boxes_num" formatted="false">共收%s箱(%s支)</string>
+    <string name="total_boxes_num" formatted="false">%s箱(%s支)</string>
 </resources>

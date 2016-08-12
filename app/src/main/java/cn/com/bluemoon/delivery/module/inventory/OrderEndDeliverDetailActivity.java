@@ -300,14 +300,13 @@ public class OrderEndDeliverDetailActivity extends BasePullHeadToRefreshListView
         }
         ResultEndDeliverOrderVo info = result.getOutOrderDetail();
         txtOrderid.setText(info.getOrderCode());
-        txtOrderDeliverStoreNums.setText(
-                new StrBuilder(getString(R.string.order_money_sign))
-                        .append(String.format(getString(R.string.order_product_count),
-                                info.getTotalNum())).toString());
 
-        txtTotalMoney.setText(new StrBuilder(String.format(getString(R.string.order_boxes_count),
-                StringUtil.formatBoxesNum(info.getTotalCase())))
+        txtTotalMoney.setText(new StrBuilder(getString(R.string.order_money_sign))
                 .append(StringUtil.formatPriceByFen(info.getTotalMoney())).toString());
+
+        txtOrderDeliverStoreNums.setText(
+                String.format(getString(R.string.total_boxes_num),
+                        StringUtil.formatBoxesNum(info.getTotalCase()), info.getTotalNum()));
 
         txtHeadDiffNums.setText(String.format(getString(R.string.order_diff_product_count),
                 info.getTotalDiffNum() + ""));
