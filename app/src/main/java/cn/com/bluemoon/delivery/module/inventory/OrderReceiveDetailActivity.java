@@ -535,8 +535,9 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                         diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
                         //   }
                     }
-                    txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNums))
-                            + String.format(getString(R.string.order_product_count), sumCount)));
+                    txtRealDeliverBox.setText((String.format("%s%s", String.format(getString(R
+                            .string.order_boxes_count), StringUtil.formatBoxesNum(boxNums)),
+                            String.format(getString(R.string.order_product_count), sumCount))));
                     txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), diffNums));
                     break;
                 default:

@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -24,6 +25,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.TextWatcherUtils;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.ClearEditText;
 
 /**
@@ -68,6 +70,8 @@ public class WarehouseAddressEditActivity extends BaseActivity {
     CheckBox cbIsDefault;
     @Bind(R.id.btn_submit)
     Button btnSubmit;
+    @Bind(R.id.v_disable_cb_default)
+    View vDisableCbDefault;
     private String storeId;
     private String storeName;
     private boolean isEdit;
@@ -103,8 +107,10 @@ public class WarehouseAddressEditActivity extends BaseActivity {
         if (StringUtil.isEmpty(storeId) || StringUtil.isEmpty(storeName) || null == address) {
             finish();
         }
-        TextWatcherUtils.setMaxLengthWatcher(editReceiver, 15, getString(R.string.error_input_receiver));
-        TextWatcherUtils.setMaxLengthWatcher(editUserPhone, 11, getString(R.string.error_input_phone));
+        TextWatcherUtils.setMaxLengthWatcher(editReceiver, 15, getString(R.string
+                .error_input_receiver));
+        TextWatcherUtils.setMaxLengthWatcher(editUserPhone, 11, getString(R.string
+                .error_input_phone));
 
         townLayout.setOnClickListener(new View.OnClickListener() {
 
@@ -139,7 +145,8 @@ public class WarehouseAddressEditActivity extends BaseActivity {
     @Override
     public void initData() {
         textStoreId.setText(String.format("%s-%s", storeId, storeName));
-        txtRegion.setText(String.format("%s %s %s", address.getProvinceName(), address.getCityName(), address.getCountyName()));
+        txtRegion.setText(String.format("%s %s %s", address.getProvinceName(), address
+                .getCityName(), address.getCountyName()));
         if (isEdit) {
             editReceiver.setText(address.getReceiverName());
             editReceiver.updateCleanable(0, false);
@@ -148,8 +155,18 @@ public class WarehouseAddressEditActivity extends BaseActivity {
             editFloor.setText(String.valueOf(address.getFloor()));
             editFloor.updateCleanable(0, false);
             cbIsLift.setChecked(address.getIsLift() != 0);
-            cbIsDefault.setChecked(address.getIsDefault() != 0);
-            cbIsDefault.setClickable(address.getIsDefault() == 0);
+
+            boolean isDefault = address.getIsDefault() != 0;
+            if (isDefault) {
+                cbIsDefault.setChecked(true);
+                cbIsDefault.setClickable(false);
+                LibViewUtil.setViewVisibility(vDisableCbDefault, View.VISIBLE);
+            } else {
+                cbIsDefault.setChecked(false);
+                cbIsDefault.setClickable(true);
+                LibViewUtil.setViewVisibility(vDisableCbDefault, View.GONE);
+            }
+
             txtTown.setText(address.getTownName());
             txtVillage.setText(address.getVillageName());
             editAddress.setText(address.getAddress());
@@ -172,9 +189,12 @@ public class WarehouseAddressEditActivity extends BaseActivity {
 
     private void dataSubmit() {
 
-        if (StringUtil.isEmpty(editReceiver.getText().toString()) || StringUtil.isEmpty(editUserPhone.getText().toString())
-                || StringUtil.isEmpty(editUserPhone.getText().toString()) || StringUtil.isEmpty(editFloor.getText().toString())
-                || StringUtil.isEmpty(txtTown.getText().toString()) || StringUtil.isEmpty(txtVillage.getText().toString())
+        if (StringUtil.isEmpty(editReceiver.getText().toString()) || StringUtil.isEmpty
+                (editUserPhone.getText().toString())
+                || StringUtil.isEmpty(editUserPhone.getText().toString()) || StringUtil.isEmpty
+                (editFloor.getText().toString())
+                || StringUtil.isEmpty(txtTown.getText().toString()) || StringUtil.isEmpty
+                (txtVillage.getText().toString())
                 || StringUtil.isEmpty(editAddress.getText().toString())) {
             LibPublicUtil.showToast(main, getString(R.string.error_input_address));
             return;
@@ -201,7 +221,8 @@ public class WarehouseAddressEditActivity extends BaseActivity {
     }
 
 
-    public static void actionStart(Activity context, String storeId, String storeName, boolean isEdit, MallStoreRecieverAddress address) {
+    public static void actionStart(Activity context, String storeId, String storeName, boolean
+            isEdit, MallStoreRecieverAddress address) {
         Intent intent = new Intent(context, WarehouseAddressEditActivity.class);
         Bundle bundle = new Bundle();
         bundle.putBoolean("isEdit", isEdit);
@@ -212,6 +233,7 @@ public class WarehouseAddressEditActivity extends BaseActivity {
         context.startActivityForResult(intent, 0);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

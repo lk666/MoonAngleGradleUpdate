@@ -354,6 +354,15 @@
                 android:paddingRight="10dp"
                 android:button="@drawable/checkbox_swich_button" />
 
+            <View
+                android:id="@+id/v_disable_cb_default"
+                android:layout_width="match_parent"
+                android:visibility="gone"
+                android:layout_height="match_parent"
+                android:background="#80ffffff"
+                android:layout_alignLeft="@+id/cb_default"
+                android:layout_alignRight="@+id/cb_default"/>
+
         </RelativeLayout>
         <View style="@style/line_solid_style"/>
     </LinearLayout>
