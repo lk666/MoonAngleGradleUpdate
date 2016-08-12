@@ -52,6 +52,9 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
     protected void onBeforeCreateView() {
         Bundle bundle = getArguments();
         type = (String) bundle.getSerializable(BaseFragment.EXTRA_BUNDLE_DATA);
+
+        startTime = 0;
+        endTime = 0;
     }
 
     @Override
@@ -69,7 +72,7 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
     protected void initHeadViewEvent(View headView) {
         super.initHeadViewEvent(headView);
 
-        popStart = (View) headView.findViewById(R.id.view_pop_start);
+        popStart = headView.findViewById(R.id.view_pop_start);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
         txtPrice = (TextView) headView.findViewById(R.id.txt_price);
         txtTotalBoxes = (TextView) headView.findViewById(R.id.txt_total_boxes);
@@ -116,6 +119,7 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
         actionBar.getTvRightView().setCompoundDrawablePadding(10);
 
         Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
+        assert drawableFillter != null;
         drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
                 .getMinimumHeight());
         actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
@@ -211,11 +215,11 @@ public class ProcessedFragment extends BasePullToRefreshListViewFragment {
         if (type.equals(InventoryTabActivity.RECEIVE_MANAGEMENT)) {
             DeliveryApi.getReceiptOrders(getToken(), startTime / 1000, endTime / 1000,
                     getNewHandler(requestCode,
-                    ResultOrderVo.class));
+                            ResultOrderVo.class));
         } else {
             DeliveryApi.getOutOrders(getToken(), startTime / 1000, endTime / 1000, getNewHandler
                     (requestCode,
-                    ResultOrderVo.class));
+                            ResultOrderVo.class));
         }
     }
 

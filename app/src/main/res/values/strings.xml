@@ -824,5 +824,6 @@
     <string name="team_edit_limit_worktype">作业性质不能为空</string>
     <string name="team_edit_limit_parttime">兼职时长不可以等于0小时！</string>
 
-
+    <string name="total_receive_boxes_num" formatted="false">共收%s箱(%s支)</string>
+    <string name="total_boxes_num" formatted="false">%s箱(%s支)</string>
 </resources>
