@@ -46,7 +46,6 @@ import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
 import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
-import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;

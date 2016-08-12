@@ -66,7 +66,7 @@
                     android:textColor="@color/text_black"
                     android:textSize="20sp"
                     android:gravity="center"
-                    android:inputType="numberSigned"
+                    android:inputType="number"
                     android:background="@drawable/edittext_border_grep_white"/>
                 <ImageView
                     android:id="@+id/img_add"
