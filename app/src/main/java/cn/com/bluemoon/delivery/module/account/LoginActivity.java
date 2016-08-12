@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.account;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 
@@ -151,14 +152,16 @@ public class LoginActivity extends BaseActivity{
         }
     }
 
-    public static void actStart(Context context) {
+    public static void actStart(Context context,String jumpCode) {
         Intent intent = new Intent(context, LoginActivity.class);
+        if(!TextUtils.isEmpty(jumpCode)){
+            intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        }
         context.startActivity(intent);
     }
 
-    public static void actStart(Context context,String jumpCode) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.KEY_JUMP,jumpCode);
-        context.startActivity(intent);
+    public static void actStart(Context context) {
+        actStart(context,null);
     }
+
 }

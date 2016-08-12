@@ -21,7 +21,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -43,7 +42,6 @@ import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -132,9 +130,9 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
     private UploadTask uploadTask;
     private int uploadTaskNums;
     private int sumCount = 0;//实收支数
-    private double xianshu = 0;//箱数
+    private double boxNums = 0;//箱数
     private int diffNums = 0;//差异数
-    private long TotalMoney_submit;
+    private long totalMoneySubmit;
     private long submitTime = 0;
 
 
@@ -195,39 +193,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                 break;
         }
     }
-
-    /*@Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        if (requestCode == 2) {
-            if (uploadTaskNums >= 1) {
-                failUpload.add(piclist.get(uploadTaskNums - 1).toString());
-            }
-        } else {
-            super.onErrorResponse(requestCode, result);
-        }
-    }
-
-    @Override
-    public void onSuccessException(int requestCode, Throwable t) {
-        if (requestCode == 2) {
-            if (uploadTaskNums >= 1) {
-                failUpload.add(piclist.get(uploadTaskNums - 1).toString());
-            }
-        } else {
-            super.onSuccessException(requestCode, t);
-        }
-    }
-
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        if (requestCode == 2) {
-            if (uploadTaskNums >= 1) {
-                failUpload.add(piclist.get(uploadTaskNums - 1).toString());
-            }
-        } else {
-            super.onFailureResponse(requestCode, t);
-        }
-    }*/
 
     private void initHeadView() {
         headView = LayoutInflater.from(this).inflate(R.layout.order_deliver_listview_head, null);
@@ -370,30 +335,24 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                     return;
                 }
 
-                TotalMoney_submit = 0;
-                xianshu = 0;
+                totalMoneySubmit = 0;
+                boxNums = 0;
                 diffNums = 0;
                 sumCount = 0;
                 int mSumCount = 0;
                 for (int i = 0; i < lists.size(); i++) {
-                    String productNo = lists.get(i).getProductNo();
-                    String isMetail = productNo.substring(0, 1);
-                    //   if (!"9".equals(isMetail)) {
                     sumCount = sumCount + lists.get(i).getDifferNum();
-                    xianshu = xianshu + lists.get(i).getDiffCase();
+                    boxNums = boxNums + lists.get(i).getDiffCase();
                     mSumCount = mSumCount + lists.get(i).getOutNum();
-                    TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
-                    //   } else {
-                    //       TotalMoney_submit = TotalMoney_submit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
-                    //   }
+                    totalMoneySubmit = totalMoneySubmit + (long) lists.get(i).getDifferNum() * (lists.get(i).getPriceBag());
                 }
 
                 String shouldDeliverCount = String.format(getResources().getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(detailInfo.getOrderDetail().getTotalCase())) +
                         String.format(getResources().getString(R.string.order_product_count), detailInfo.getOrderDetail().getTotalNum());
-                String realDeliverCount = String.format(getResources().getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(xianshu)) +
+                String realDeliverCount = String.format(getResources().getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNums)) +
                         String.format(getResources().getString(R.string.order_product_count), sumCount);
                 String diffCount = String.format(getResources().getString(R.string.order_diff_product_count), mSumCount - sumCount);
-                String totalMoney = getResources().getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(TotalMoney_submit);
+                String totalMoney = getResources().getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(totalMoneySubmit);
 
                 DialogForSubmitOrder myDialog = new DialogForSubmitOrder(main,
                         "receive", shouldDeliverCount, realDeliverCount, diffCount, totalMoney);
@@ -418,7 +377,7 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         if (detailInfo == null) {
             return;
         }
-        int addressid = 0;
+        int addressid;
         if (addressId != 0) {
             addressid = addressId;
         } else {
@@ -444,10 +403,8 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         if (StringUtils.isEmpty(token)) {
             return;
         }
-        String filePath = path;
-
-        File newFile = new File(filePath);
-        if (newFile == null || !newFile.exists()) {
+        File newFile = new File(path);
+        if (!newFile.exists()) {
             return;
         }
         Bitmap bm = ImageUtil.convertToBitmap(path);
@@ -573,18 +530,16 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                 case 1006:
 
                     sumCount = 0;
-                    xianshu = 0;
+                    boxNums = 0;
                     diffNums = 0;
                     for (int i = 0; i < lists.size(); i++) {
                         String productNo = lists.get(i).getProductNo();
-                        String flag = productNo.substring(0, 1);
-                        //   if (!"9".equals(flag)) {
                         sumCount = sumCount + lists.get(i).getDifferNum();
-                        xianshu = xianshu + lists.get(i).getDiffCase();
+                        boxNums = boxNums + lists.get(i).getDiffCase();
                         diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
                         //   }
                     }
-                    txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(xianshu))
+                    txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count), StringUtil.formatBoxesNum(boxNums))
                             + String.format(getString(R.string.order_product_count), sumCount)));
                     txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), diffNums));
                     break;
@@ -607,7 +562,6 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         for (int i = 0; i < lis.size(); i++) {
             lis.get(i).setDifferNum(lis.get(i).getOutNum());
             lis.get(i).setReNum(lis.get(i).getOutNum());
-            //lis.get(i).setDiffCase(lis.get(i).getOutCase());
 
             if ("90000714".equals(lis.get(i).getProductNo())) {
                 lis.get(i).setDiffCase(lis.get(i).getOutCase() / 500);
@@ -628,10 +582,11 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
             relDeliverAddress.setEnabled(false);
         }
         txtOrderid.setText(result.getOrderDetail().getOrderCode());
-        txtOrderDeliverStoreNums.setText((getString(R.string.order_boxes_count,
-                StringUtil.formatBoxesNum(result.getOrderDetail().getTotalCase())) +
-                getString(R.string.order_product_count, result.getOrderDetail().getTotalNum())));
-        txtTotalMoney.setText(getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(result.getOrderDetail().getTotalMoney()));
+        String storeNums = getString(R.string.order_boxes_count,result.getOrderDetail().getTotalCase()) +
+                getString(R.string.order_product_count, result.getOrderDetail().getTotalNum());
+        txtOrderDeliverStoreNums.setText(storeNums);
+        String totalMoney = getString(R.string.order_money_sign) + StringUtil.formatPriceByFen(result.getOrderDetail().getTotalMoney());
+        txtTotalMoney.setText(totalMoney);
 
         txtSource.setText(DateUtil.getTime(result.getOrderDetail().getOutDate()));
 
@@ -657,24 +612,20 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
         }
 
         sumCount = 0;
-        xianshu = 0;
+        boxNums = 0;
         diffNums = 0;
         for (int i = 0; i < lists.size(); i++) {
-    /*        String productNo = lists.get(i).getProductNo();
-            String flag = productNo.substring(0, 1);*/
-            //  if (!"9".equals(flag)) {
             sumCount = sumCount + lists.get(i).getDifferNum();
-            xianshu = xianshu + lists.get(i).getDiffCase();
+            boxNums = boxNums + lists.get(i).getDiffCase();
             diffNums = diffNums + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
             //   }
 
 
         }
-
-        txtShouldDeliverBox.setText((getString(R.string.order_boxes_count, StringUtil.formatBoxesNum(xianshu))
-                + getString(R.string.order_product_count, sumCount)));
-        txtRealDeliverBox.setText((getString(R.string.order_boxes_count, StringUtil.formatBoxesNum(xianshu))
-                + getString(R.string.order_product_count, sumCount)));
+        String countStr = getString(R.string.order_boxes_count, boxNums)
+                + getString(R.string.order_product_count, sumCount);
+        txtShouldDeliverBox.setText(countStr);
+        txtRealDeliverBox.setText(countStr);
         txtDiffNums.setText(getString(R.string.txt_order_product_count, 0));
     }
 
@@ -714,8 +665,8 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
             RelativeLayout relDiffLayout = getViewById(R.id.rel_diff_layout);
             TextView txtDiffReason = getViewById(R.id.txt_diff_reason);
             View lineSolidDeepBottom = getViewById(R.id.line_solid_deep_bottom);
-            relDiffLayout.setVisibility(View.VISIBLE);
-            lineDottedBottom.setVisibility(View.GONE);
+//            relDiffLayout.setVisibility(View.VISIBLE);
+//            lineDottedBottom.setVisibility(View.GONE);
 
             txtOrderNumber.setText(info.getProductNo());
             txtBoxRuleNum.setText(String.valueOf(info.getCarton()));
@@ -784,14 +735,19 @@ public class OrderReceiveDetailActivity extends BaseActivity implements OnClickL
                 }
             });
 
-            relDiffLayout.setVisibility(View.VISIBLE);
-            lineDottedBottom.setVisibility(View.GONE);
-            if (!TextUtils.isEmpty(info.getReDifferReason())) {
-                txtDiffReason.setText(info.getReDifferReasonName());
-                txtDiffReason.setTextColor(getResources().getColor(R.color.text_grep));
+            if (info.getDifferNum() != info.getOutNum()) {
+                relDiffLayout.setVisibility(View.VISIBLE);
+                lineDottedBottom.setVisibility(View.GONE);
+                if (!TextUtils.isEmpty(info.getReDifferReason())) {
+                    txtDiffReason.setText(info.getReDifferReasonName());
+                    txtDiffReason.setTextColor(getResources().getColor(R.color.text_grep));
+                } else {
+                    txtDiffReason.setText(getResources().getString(R.string.text_diff_reason));
+                    txtDiffReason.setTextColor(getResources().getColor(R.color.text_red));
+                }
             } else {
-                txtDiffReason.setText(getResources().getString(R.string.text_diff_reason));
-                txtDiffReason.setTextColor(getResources().getColor(R.color.text_red));
+                relDiffLayout.setVisibility(View.GONE);
+                lineDottedBottom.setVisibility(View.VISIBLE);
             }
 
             if (position == list.size() - 1) {

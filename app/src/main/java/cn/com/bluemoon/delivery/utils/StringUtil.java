@@ -27,5 +27,17 @@ public class StringUtil extends LibStringUtil {
     public static String getStringParams(String... params) {
         return getStringParamsByFormat("-", params);
     }
+
+    public static String formatPriceByFen(long price) {
+        return String.format("%.2f", (double) price / 100);
+    }
+
+    public static String formatPriceByFen(int price) {
+        return String.format("%.2f", (double) price / 100);
+    }
+
+    public static String formatBoxesNum(double boxes) {
+        return formatByPoint(boxes,1);
+    }
 }
   

@@ -51,7 +51,6 @@ import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
 import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
-import cn.com.bluemoon.delivery.module.mvptest.view.UserActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
@@ -74,7 +73,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
 import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
@@ -149,7 +147,6 @@ public class MainActivity extends SlidingActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
              PublicUtil.openScanCard(main, null, null, 0);
-//                UserActivity.actStart(main);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -546,7 +543,7 @@ public class MainActivity extends SlidingActivity {
                         PublicUtil.showToastErrorData(main);
                     } else {
                         String title = getString(R.string.main_tab_qrcode);
-                        String str = LibStringUtil.getStringParamsByFormat("\n",
+                        String str = StringUtil.getStringParamsByFormat("\n",
                                 angelQrResult.getOrgName(), angelQrResult.getInventoryName());
                         DialogUtil.showCodeDialog(main, title, angelQrResult.getQrcode(), str);
                     }
