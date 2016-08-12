@@ -344,8 +344,9 @@ public class PersonnelAreaActivity extends KJActivity {
             }
             txtNum.setText(getString(R.string.team_area_num, item.getTotalRooms()));
             txtName.setText(name);
-            txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
-                    + item.getStreetName() + item.getVillageName());
+            txtAddress.setText(String.format("%s%s%s%s%s", item.getProvinceName(), item
+                    .getCityName(), item.getCountyName(), item.getStreetName(), item
+                    .getVillageName()));
             txtDate.setText(getString(R.string.team_area_add_date,
                     DateUtil.getTime(item.getStartDate())));
             txtDelete.setOnClickListener(new View.OnClickListener() {

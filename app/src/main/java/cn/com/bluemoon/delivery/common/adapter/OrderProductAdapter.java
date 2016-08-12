@@ -70,9 +70,10 @@ public class OrderProductAdapter extends BaseAdapter {
 			holder = (ViewProductHolder) convertView.getTag();
 		}
 		
-		holder.txtMoney.setText(context.getString(R.string.order_money_sign)+PublicUtil.getPriceFrom(list.get(position).getPayPrice()));
+		holder.txtMoney.setText(String.format("%s%s", context.getString(R.string.order_money_sign)
+				, PublicUtil.getPriceFrom(list.get(position).getPayPrice())));
 		holder.txtContent.setText(list.get(position).getShopProName());
-		holder.txtCount.setText("x"+list.get(position).getBuyNum());
+		holder.txtCount.setText(String.format("x%s", list.get(position).getBuyNum()));
 		if(kjb== null) kjb = new KJBitmap();
 		kjb.display(holder.imgProduct, list.get(position).getImg());
 		

@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -53,6 +54,7 @@ public class ShowMultipleImageView extends Activity {
 
     };
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,7 +66,7 @@ public class ShowMultipleImageView extends Activity {
         viewPager.setAdapter(adapter);
         final TextView txtView = (TextView) findViewById(R.id.txt_page);
         viewPager.setCurrentItem(position);
-        txtView.setText((position+1) + "/"+images.length);
+        txtView.setText(String.format("%d/%d", position + 1, images.length));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrollStateChanged(int arg0) {
@@ -75,7 +77,7 @@ public class ShowMultipleImageView extends Activity {
             @Override
             public void onPageSelected(int position) {
                 currentPage=position;
-                txtView.setText(currentPage+1 + "/"+ images.length);
+                txtView.setText(String.format("%d/%d", currentPage + 1, images.length));
             }
 
         });

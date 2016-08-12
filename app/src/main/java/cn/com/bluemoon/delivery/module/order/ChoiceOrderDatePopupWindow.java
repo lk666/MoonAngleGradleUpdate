@@ -335,7 +335,7 @@ public class ChoiceOrderDatePopupWindow extends PopupWindow {
             } else {
                 mMinute = String.valueOf(minute);
             }
-            timeChoice.setText(mHour + ":" + mMinute);
+            timeChoice.setText(String.format("%s:%s", mHour, mMinute));
 
         }
     };

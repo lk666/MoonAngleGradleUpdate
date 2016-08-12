@@ -134,16 +134,17 @@ public class StockDetailActivity extends BaseActivity {
         if (result == null || result.getProductDetailList() == null || result.getProductDetailList().size() < 1) {
             txtCategoryCount.setText("0");
             txtTotalMoney.setText(
-                    getString(R.string.order_money_sign) +
-                            StringUtil.formatPriceByFen(0));
+                    String.format("%s%s", getString(R.string.order_money_sign), StringUtil
+                            .formatPriceByFen(0)));
             if (currentType.equals(ProductType.BAD)) {
                 txtTotalBoxes.setText(String.format(getString(R.string.order_diff_product_count), 0));
 
             } else {
-                txtTotalBoxes.setText(String.format(getString(R.string.order_boxes_count),
-                        StringUtil.formatBoxesNum(0)) +
-                        String.format(getString(R.string.order_product_count),
-                                0));
+                txtTotalBoxes.setText(String.format("%s%s", String.format(getString(R.string
+                        .order_boxes_count),
+                        StringUtil.formatBoxesNum(0)), String.format(getString(R.string
+                        .order_product_count),
+                        0)));
             }
             adapter.setList(new ArrayList<ProductDetail>());
             adapter.notifyDataSetChanged();
@@ -154,17 +155,18 @@ public class StockDetailActivity extends BaseActivity {
         ResultProductDetail item = result;
         txtCategoryCount.setText(String.valueOf(item.getTotalCategory()));
         txtTotalMoney.setText(
-                getString(R.string.order_money_sign) +
-                        StringUtil.formatPriceByFen(item.getTotalPrice()));
+                String.format("%s%s", getString(R.string.order_money_sign), StringUtil
+                        .formatPriceByFen(item.getTotalPrice())));
 
         if (currentType.equals(ProductType.BAD)) {
             txtTotalBoxes.setText(String.format(getString(R.string.order_diff_product_count), item.getTotalNum()));
 
         } else {
-            txtTotalBoxes.setText(String.format(getString(R.string.order_boxes_count),
-                    StringUtil.formatBoxesNum(item.getTotalCase())) +
-                    String.format(getString(R.string.order_product_count),
-                            item.getTotalNum())
+            txtTotalBoxes.setText(String.format("%s%s", String.format(getString(R.string
+                    .order_boxes_count),
+                    StringUtil.formatBoxesNum(item.getTotalCase())), String.format(getString(R
+                    .string.order_product_count),
+                    item.getTotalNum()))
             );
         }
 
@@ -196,17 +198,18 @@ public class StockDetailActivity extends BaseActivity {
             txtProductId.setText(product.getProductNo());
             txtProductName.setText(product.getProductName());
             txtMoney.setText(
-                    getString(R.string.order_money_sign) +
-                            StringUtil.formatPriceByFen(list.get(position).getRealPrice()));
+                    String.format("%s%s", getString(R.string.order_money_sign), StringUtil
+                            .formatPriceByFen(list.get(position).getRealPrice())));
 
             if (currentType.equals(ProductType.BAD)) {
                 txBoxes.setText(String.format(getString(R.string.order_diff_product_count), product.getRealNum()));
                 txtBadReason.setText(product.getType());
             } else {
-                txBoxes.setText(String.format(getString(R.string.order_boxes_count),
-                        StringUtil.formatBoxesNum(product.getRealCase())) +
-                        String.format(getString(R.string.order_product_count),
-                                product.getRealNum())
+                txBoxes.setText(String.format("%s%s", String.format(getString(R.string
+                        .order_boxes_count),
+                        StringUtil.formatBoxesNum(product.getRealCase())), String.format
+                        (getString(R.string.order_product_count),
+                        product.getRealNum()))
                 );
             }
 

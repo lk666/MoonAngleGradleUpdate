@@ -24,7 +24,7 @@
             android:paddingRight="10dp"
             android:paddingTop="13dp"
             android:textColor="@color/text_black"
-            android:textSize="15dp" />
+            android:textSize="15sp" />
 
         <TextView
             android:id="@+id/txt_bpname"
@@ -36,7 +36,7 @@
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
             android:textColor="@color/text_black_light"
-            android:textSize="14dp" />
+            android:textSize="14sp" />
 
         <include layout="@layout/line_solid_view_d7" />
         <!--场地基本信息-->
@@ -74,7 +74,7 @@
                     android:textSize="15sp" />
 
                 <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:gravity="right">
@@ -124,7 +124,6 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center_vertical|right"
-                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="15sp" />
@@ -159,7 +158,6 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center_vertical|right"
-                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="15sp" />
@@ -281,7 +279,6 @@
                     android:layout_weight="1"
                     android:ellipsize="end"
                     android:gravity="center_vertical|right"
-                    android:inputType="numberDecimal"
                     android:singleLine="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="15sp" />

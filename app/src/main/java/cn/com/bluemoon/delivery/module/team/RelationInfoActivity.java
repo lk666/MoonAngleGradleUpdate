@@ -90,6 +90,8 @@ public class RelationInfoActivity extends KJActivity {
     private EmpEdit empEdit;
     private List<Community> listCommunity;
 
+    private static final String MAX_WORK_LENGTH = "24.0";
+
     @Override
     public void setRootView() {
         setContentView(R.layout.activity_relation_info);
@@ -122,7 +124,7 @@ public class RelationInfoActivity extends KJActivity {
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
                 if (!StringUtils.isEmpty(s.toString()) && Double.parseDouble(s.toString()) > 24) {
-                    txtWorkLengh.setText("24.0");
+                    txtWorkLengh.setText(MAX_WORK_LENGTH);
                     txtWorkLengh.setSelection(txtWorkLengh.length());
                 }
             }

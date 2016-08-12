@@ -231,7 +231,8 @@ public class SearchProductActivity extends Activity {
                 lineSilde.setVisibility(View.GONE);
             }
 
-            txtProductName.setText(product.getProductCode() + "-" + product.getProductName());
+            txtProductName.setText(String.format("%s-%s", product.getProductCode(), product
+                    .getProductName()));
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

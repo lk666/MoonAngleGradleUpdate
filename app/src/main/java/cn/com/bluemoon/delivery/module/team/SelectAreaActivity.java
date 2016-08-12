@@ -432,8 +432,9 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
             }
             txtNum.setText(String.format(getString(R.string.team_area_num), item.getTotalFamily()));
             txtName.setText(name);
-            txtAddress.setText(item.getProvinceName() + item.getCityName() + item.getCountyName()
-                    + item.getVillageName() + item.getStreetName());
+            txtAddress.setText(String.format("%s%s%s%s%s", item.getProvinceName(), item
+                    .getCityName(), item.getCountyName(), item.getVillageName(), item
+                    .getStreetName()));
             if (item.isCheck() && !checkBox.isChecked()) {
                 checkBox.setChecked(true);
             } else if (!item.isCheck() && checkBox.isChecked()) {

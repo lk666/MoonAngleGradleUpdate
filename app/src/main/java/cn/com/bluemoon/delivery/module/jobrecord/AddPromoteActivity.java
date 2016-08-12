@@ -323,7 +323,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
                     bpName = info.getBpName2();
                     info.setBpCode1(bpCode);
                     info.setBpName1(bpName);
-                    txtBpname.setText(info.getBpCode2() + "—" + info.getBpName2());
+                    txtBpname.setText(String.format("%s—%s", info.getBpCode2(), info.getBpName2()));
                     etPromotePlace.setText(info.getAddress());
                     etArea.setText(String.valueOf(info.getUseArea()));
                     inOrOut = info.getSiteType();
@@ -509,7 +509,7 @@ public class AddPromoteActivity extends Activity implements ObservableScrollView
             LibViewUtil.setListViewHeight(listview);
         } else if (requestCode == 2 && resultCode == 4 && data != null) {
             ResultBpList.Item bp = (ResultBpList.Item) data.getSerializableExtra("community");
-            txtBpname.setText(bp.getBpCode() + "—" + bp.getBpName());
+            txtBpname.setText(String.format("%s—%s", bp.getBpCode(), bp.getBpName()));
             bpCode = bp.getBpCode();
             bpName = bp.getBpName();
         }

@@ -203,7 +203,6 @@
             android:layout_toRightOf="@+id/txt_commonName_diff_nums"
             android:paddingLeft="5dp"
             android:singleLine="true"
-            android:text="2"
             android:textColor="@color/text_grep"
             android:textSize="@dimen/text_size_14" />
 
@@ -225,7 +224,6 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
             android:layout_toLeftOf="@+id/iv_fh_date"
-            android:layout_weight="1"
             android:ellipsize="end"
             android:singleLine="true"
             android:text="@string/text_diff_reason"

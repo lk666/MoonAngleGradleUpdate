@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.utils.manager;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -46,11 +47,12 @@ public class UpdateManager {
 //	private boolean changeTextColor;
 
 	private Handler mHandler = new Handler() {
+		@SuppressLint("DefaultLocale")
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case DOWNLOAD:
 				mProgress.setProgress(progress);
-				txtTime.setText(progress + "%");
+				txtTime.setText(String.format("%d%%", progress));
 				break;
 			case DOWNLOAD_FINISH:
 				installApk();

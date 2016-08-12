@@ -169,8 +169,8 @@ public class ResetPswActivity extends KJActivity {
 		@Override
 		public void onTick(long millisUntilFinished) {// ��ʱ������ʾ
 			btnYzm.setClickable(false);
-			btnYzm.setText("(" + millisUntilFinished / 1000 + ")"
-					+ getString(R.string.register_second));
+			btnYzm.setText(String.format("(%d)%s", millisUntilFinished / 1000, getString(R.string
+					.register_second)));
 		}
 	}
 

@@ -53,7 +53,7 @@ public class DialogForEditOrderCount {
         positiveButton = (Button) dialog.findViewById(R.id.positiveButton);
         negativeButton = (Button) dialog.findViewById(R.id.negativeButton);
         etAmount = (EditText) dialog.findViewById(R.id.et_amount);
-        etAmount.setText(this.num + "");
+        etAmount.setText(String.valueOf(this.num));
         if (this.num == staticNum) {
             imgAdd.setImageResource(R.mipmap.add_disable3);
         } else if (this.num == 0) {
@@ -80,10 +80,10 @@ public class DialogForEditOrderCount {
                         imgAdd.setImageResource(R.mipmap.add_disable3);
                         imgAdd.setEnabled(false);
 
-                        etAmount.setText(staticNum + "");
+                        etAmount.setText(String.valueOf(staticNum));
                     } else {
                         imgAdd.setImageResource(R.mipmap.add_normal3);
-                        etAmount.setText(num + "");
+                        etAmount.setText(String.valueOf(num));
                         imgAdd.setEnabled(true);
                     }
                     imgReduce.setImageResource(R.mipmap.minus_normal3);
@@ -107,7 +107,7 @@ public class DialogForEditOrderCount {
                 try {
                     num = Integer.valueOf(etAmount.getText().toString()) - 1;
                     if (num <= 0) {
-                        etAmount.setText(0 + "");
+                        etAmount.setText("0");
                         imgReduce.setImageResource(R.mipmap.minus_disable3);
                         imgReduce.setEnabled(false);
                         imgAdd.setImageResource(R.mipmap.add_normal3);
@@ -115,10 +115,10 @@ public class DialogForEditOrderCount {
                     } else if (num >= staticNum) {
                         imgAdd.setImageResource(R.mipmap.add_disable3);
                         imgAdd.setEnabled(false);
-                        etAmount.setText(staticNum + "");
+                        etAmount.setText(String.valueOf(staticNum));
                     } else {
                         imgReduce.setImageResource(R.mipmap.minus_normal3);
-                        etAmount.setText(num + "");
+                        etAmount.setText(String.valueOf(num));
                         imgReduce.setEnabled(true);
                         imgAdd.setImageResource(R.mipmap.add_normal3);
                         imgAdd.setEnabled(true);

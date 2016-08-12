@@ -286,15 +286,19 @@ public class HistoryFragment extends Fragment {
 			TextView txtSignDate = (TextView) convertView
 					.findViewById(R.id.txt_sign_date);
 			txtOrderid.setText(lists.get(position).getOrderId());
-			txtPrice.setText(getString(R.string.order_money_sign) + lists.get(position).getTotalPrice());
+			txtPrice.setText(String.format("%s%s", getString(R.string.order_money_sign), lists.get
+					(position).getTotalPrice()));
 			String date = DateUtil.getTimeStringByCustTime(lists.get(position).getSignTime(), "yyyy-MM-dd HH:mm:ss");
-			txtSignDate.setText(getString(R.string.history_order_receipt_date) + date);
+			txtSignDate.setText(String.format("%s%s", getString(R.string
+					.history_order_receipt_date), date));
 			if (HistoryFragment.ordertype.equals(HistoryOrderType.dispatch)) {
 				txtAddress.setText(lists.get(position).getAddress());
 			} else if (HistoryFragment.ordertype
 					.equals(HistoryOrderType.pickup)) {
 				txtSignDate.setVisibility(View.GONE);
-				txtAddress.setText(getString(R.string.history_order_scene_receipt_date) + LibDateUtil.getTimeStringByCustTime(lists.get(position).getSignTime(),"yyyy-MM-dd HH:mm:ss"));
+				txtAddress.setText(String.format("%s%s", getString(R.string
+						.history_order_scene_receipt_date), LibDateUtil.getTimeStringByCustTime
+						(lists.get(position).getSignTime(), "yyyy-MM-dd HH:mm:ss")));
 			}
 
 			int index = position % 2;
@@ -312,7 +316,6 @@ public class HistoryFragment extends Fragment {
 
 				@Override
 				public void onClick(View v) {
-					// TODO Auto-generated method stub
 					if (ordertype.equals(HistoryOrderType.dispatch)) {
 						PublicUtil.showOrderDetailView(main, lists
 								.get(position).getOrderId());
@@ -367,7 +370,7 @@ public class HistoryFragment extends Fragment {
 	};
 	
 	private void setCountAndPrice(int size,String price){
-		String count = "0";
+		String count;
 		if (size > 99) {
 			count = "99+";
 		} else {

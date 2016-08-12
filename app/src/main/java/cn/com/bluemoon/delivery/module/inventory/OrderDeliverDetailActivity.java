@@ -545,9 +545,9 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
                     }
 
-                    txtRealDeliverBox.setText((String.format(getString(R.string
-                            .order_boxes_count), StringUtil.formatBoxesNum(boxNum))
-                            + String.format(getString(R.string.order_product_count), sumCount)));
+                    txtRealDeliverBox.setText((String.format("%s%s", String.format(getString(R
+                            .string.order_boxes_count), StringUtil.formatBoxesNum(boxNum)), String
+                            .format(getString(R.string.order_product_count), sumCount))));
                     txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count)
                             , diffNum));
                     break;
@@ -588,12 +588,14 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
             relDeliverAddress.setEnabled(false);
         }
         txtOrderId.setText(result.getOrderDetail().getOrderCode());
-        txtOrderDeliverStoreNum.setText((String.format(getString(R.string.order_boxes_count),
-                StringUtil.formatBoxesNum(result.getOrderDetail().getTotalCase())) +
-                String.format(getString(R.string.order_product_count), result.getOrderDetail()
-                        .getTotalNum())));
-        txtTotalMoney.setText(getString(R.string.order_money_sign) + StringUtil.formatPriceByFen
-                (result.getOrderDetail().getTotalMoney()));
+        txtOrderDeliverStoreNum.setText((String.format("%s%s", String.format(getString(R.string
+                .order_boxes_count),
+                StringUtil.formatBoxesNum(result.getOrderDetail().getTotalCase())), String.format
+                (getString(R.string.order_product_count), result.getOrderDetail()
+                .getTotalNum()))));
+        txtTotalMoney.setText(String.format("%s%s", getString(R.string.order_money_sign),
+                StringUtil.formatPriceByFen
+                (result.getOrderDetail().getTotalMoney())));
         txtSource.setText(DateUtil.getTime(result.getOrderDetail().getOrderDate(), "yyyy-MM-dd"));
 
 
@@ -642,12 +644,14 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
             diffNum = diffNum + (lists.get(i).getOutNum() - lists.get(i).getDifferNum());
         }
 
-        txtShouldDeliverBox.setText((String.format(getString(R.string.order_boxes_count),
-                StringUtil.formatBoxesNum(boxNum))
-                + String.format(getString(R.string.order_product_count), sumCount)));
-        txtRealDeliverBox.setText((String.format(getString(R.string.order_boxes_count),
-                StringUtil.formatBoxesNum(boxNum))
-                + String.format(getString(R.string.order_product_count), sumCount)));
+        txtShouldDeliverBox.setText((String.format("%s%s", String.format(getString(R.string
+                .order_boxes_count),
+                StringUtil.formatBoxesNum(boxNum)), String.format(getString(R.string
+                .order_product_count), sumCount))));
+        txtRealDeliverBox.setText((String.format("%s%s", String.format(getString(R.string
+                .order_boxes_count),
+                StringUtil.formatBoxesNum(boxNum)), String.format(getString(R.string
+                .order_product_count), sumCount))));
         txtDiffNums.setText(String.format(getString(R.string.txt_order_product_count), 0));
 
     }

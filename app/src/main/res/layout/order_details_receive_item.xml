@@ -203,7 +203,6 @@
             android:layout_toRightOf="@+id/txt_commonName_diff_nums"
             android:paddingLeft="5dp"
             android:singleLine="true"
-            android:text="2"
             android:textColor="@color/text_grep"
             android:textSize="@dimen/text_size_14" />
 

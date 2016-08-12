@@ -167,7 +167,7 @@ public class TicketChooseActivity extends KJActivity {
 				item = venueItem;
 			}
 			txtAddress.setText(item.getVenueSname());
-			txtCount.setText(DateUtil.getCurDate()+"  "+item.getTimesName());
+			txtCount.setText(String.format("%s  %s", DateUtil.getCurDate(), item.getTimesName()));
 			if (!StringUtils.isEmpty(item.getVenueCode())
 					&&!StringUtils.isEmpty(item.getTimesCode())) {
 				setButtonState(true);

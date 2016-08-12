@@ -57,7 +57,8 @@ public class StoreHouseDetailWindow extends PopupWindow {
 		TextView txtShAddress = (TextView) view.findViewById(R.id.txt_sh_address);
 		txtShCode.setText(info.getStorehouseCode());
 		txtShName.setText(info.getStorehouseName());
-		txtShChargeName.setText(info.getStorechargeName() + "  " + info.getStorechargeMobileno());
+		txtShChargeName.setText(String.format("%s  %s", info.getStorechargeName(), info
+				.getStorechargeMobileno()));
 		txtShAddress.setText(info.getStorehouseAddress());
 
 		

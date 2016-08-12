@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.notice;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -486,6 +487,7 @@ public class PaperListActivity extends Activity {
         }
 
         //设置子item的组件
+        @SuppressLint("DefaultLocale")
         @Override
         public View getChildView(int groupPosition, int childPosition,
                                  boolean isLastChild, View convertView, ViewGroup parent) {
@@ -496,7 +498,8 @@ public class PaperListActivity extends Activity {
             }
             TextView tv = (TextView) convertView
                     .findViewById(R.id.txt_children);
-            tv.setText((groupPosition+1)+"."+(childPosition+1)+info.getPaperTitle());
+            tv.setText(String.format("%d.%d%s", groupPosition + 1, childPosition + 1, info
+                    .getPaperTitle()));
             return convertView;
         }
 
@@ -522,6 +525,7 @@ public class PaperListActivity extends Activity {
             return groupPosition;
         }
         //设置父item组件
+        @SuppressLint("DefaultLocale")
         @Override
         public View getGroupView(int groupPosition, boolean isExpanded,
                                  View convertView, ViewGroup parent) {
@@ -534,7 +538,8 @@ public class PaperListActivity extends Activity {
                     .findViewById(R.id.txt_parent);
             ImageView img = (ImageView) convertView
                     .findViewById(R.id.img_icon);
-            tv.setText((groupPosition+1)+"."+list.get(groupPosition).getCatSecondName());
+            tv.setText(String.format("%d.%s", groupPosition + 1, list.get(groupPosition)
+                    .getCatSecondName()));
             if(isExpanded){
                 img.setImageResource(R.mipmap.paper_fold);
             }else{

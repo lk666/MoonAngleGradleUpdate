@@ -112,7 +112,7 @@ public class OrderDetailActivity extends KJActivity {
 		txtWarehouse.setText(getWarehouseStr());
 		txtCustomerName.setText(item.getCustomerName());
 		txtPhone.setText(item.getMobilePhone());
-		txtAddress.setText(item.getRegion()+item.getAddress());
+		txtAddress.setText(String.format("%s%s", item.getRegion(), item.getAddress()));
 		txtTotalPrice.setText(String.format(
 				getString(R.string.extract_order_total_pay), 
 				PublicUtil.getPriceFrom(item.getTotalPrice())));

@@ -82,7 +82,7 @@ public class TicketCodeActivity extends KJActivity {
 		}
 		if(item!=null){
 			txtAddress.setText(item.getVenueSname());
-			txtCount.setText(DateUtil.getCurDate()+"  "+item.getTimesName());
+			txtCount.setText(String.format("%s  %s", DateUtil.getCurDate(), item.getTimesName()));
 		}else{
 			PublicUtil.showToast(aty, getString(R.string.ticket_get_data_fail));
 		}

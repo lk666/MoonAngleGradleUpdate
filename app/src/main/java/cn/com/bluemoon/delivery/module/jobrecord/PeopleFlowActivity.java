@@ -246,8 +246,8 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
             txtFlow.setVisibility(View.VISIBLE);
             layoutStatus.setVisibility(View.VISIBLE);
             txtDate.setText(DateUtil.getTime(peopleFlow.getCreateDate(), "yyyy-MM-dd  EE"));
-            txtTime.setText(DateUtil.getTime(peopleFlow.getStartTime(), "HH:mm")
-                    + "-" + DateUtil.getTime(peopleFlow.getEndTime(), "HH:mm"));
+            txtTime.setText(String.format("%s-%s", DateUtil.getTime(peopleFlow.getStartTime(),
+                    "HH:mm"), DateUtil.getTime(peopleFlow.getEndTime(), "HH:mm")));
             txtPlace.setText(peopleFlow.getAddress());
             txtFlow.setText(String.valueOf(peopleFlow.getPeopleFlow()));
             txtStatus.setText(StringUtils.isNotBlank(peopleFlow.getPeopleStatus()) ? peopleFlow
@@ -347,9 +347,9 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
                 mMinute2 = m;
             }
             if (showStartTime) {
-                txtStartTime.setText(mHour + ":" + mMinute);
+                txtStartTime.setText(String.format("%s:%s", mHour, mMinute));
             } else {
-                txtEndTime.setText(mHour2 + ":" + mMinute2);
+                txtEndTime.setText(String.format("%s:%s", mHour2, mMinute2));
             }
 
         }
