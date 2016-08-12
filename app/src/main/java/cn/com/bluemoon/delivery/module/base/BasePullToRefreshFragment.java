@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.base;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -39,9 +40,14 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
      * 刷新view
      */
     private PullToRefreshBase ptr;
+    private String emptyMsg;
 
     @Override
     final public void initView() {
+        errorView = null;
+        emptyView = null;
+        emptyMsg = null;
+
         ptr = (PullToRefreshBase) getMainView().findViewById(getPtrId());
         ptr.setMode(getMode() == null ? PullToRefreshBase.Mode.DISABLED : getMode());
 
@@ -164,6 +170,18 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
         LibViewUtil.setViewVisibility(ptr, View.GONE);
     }
 
+
+    /**
+     * 设置空数据页显示信息，建议在
+     */
+    final protected void setEmptyViewMsg(String msg) {
+        emptyMsg = msg;
+
+        if (emptyView != null) {
+            ((CommonEmptyView) ((ViewGroup) emptyView).getChildAt(0)).setContentText(emptyMsg);
+        }
+    }
+
     /**
      * 显示空数据页
      */
@@ -177,6 +195,10 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
                 emptyView = stub.inflate();
                 initEmptyViewEvent(emptyView);
             }
+        }
+
+        if (!TextUtils.isEmpty(emptyMsg)) {
+            ((CommonEmptyView) ((ViewGroup) emptyView).getChildAt(0)).setContentText(emptyMsg);
         }
 
         LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);

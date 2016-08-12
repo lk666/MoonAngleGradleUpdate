@@ -89,6 +89,8 @@ public class SuspenseFragment extends BasePullToRefreshListViewFragment {
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
+
+        setEmptyViewMsg(getString(R.string.current_no_data));
     }
 
     @Override

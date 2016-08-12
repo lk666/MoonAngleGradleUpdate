@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.base;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -31,6 +32,8 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
      */
     private View emptyView;
 
+    private String emptyMsg;
+
     private static final int HTTP_REQUEST_CODE_GET_MORE = 0x1000;
     private static final int HTTP_REQUEST_CODE_GET_DATA = 0x1001;
 
@@ -42,7 +45,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     @Override
     final public void initView() {
         ptr = (PullToRefreshBase) findViewById(getPtrId());
-        ptr.setMode(getMode()==null?PullToRefreshBase.Mode.DISABLED:getMode());
+        ptr.setMode(getMode() == null ? PullToRefreshBase.Mode.DISABLED : getMode());
 
         ptr.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
@@ -166,6 +169,17 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     /**
+     * 设置空数据页显示信息
+     */
+    final protected void setEmptyViewMsg(String msg) {
+        emptyMsg = msg;
+
+        if (emptyView != null) {
+            ((CommonEmptyView) ((ViewGroup) emptyView).getChildAt(0)).setContentText(emptyMsg);
+        }
+    }
+
+    /**
      * 显示空数据页
      */
     protected void showEmptyView() {
@@ -178,6 +192,10 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
                 emptyView = stub.inflate();
                 initEmptyViewEvent(emptyView);
             }
+        }
+
+        if (!TextUtils.isEmpty(emptyMsg)) {
+            ((CommonEmptyView) ((ViewGroup) emptyView).getChildAt(0)).setContentText(emptyMsg);
         }
 
         LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);

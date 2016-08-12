@@ -840,4 +840,6 @@
     <string name="date_to">—</string>
     <string name="total_receive_boxes_num" formatted="false">共收%s箱(%s支)</string>
     <string name="total_boxes_num" formatted="false">%s箱(%s支)</string>
+    <string name="current_no_data">暂无数据</string>
+
 </resources>
