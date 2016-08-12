@@ -402,7 +402,7 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
 
         showWaitDialog();
         DeliveryApi.getSubmitDeliverDetail(token, orderCode, submitTime, outBack, addressId,
-                lists, getNewHandler(1, ResultPreDeliverOrderBean.class));
+                lists, getNewHandler(1, ResultDetail.class));
     }
 
     private void uploadPhoto(String path) {
@@ -824,7 +824,7 @@ public class OrderDeliverDetailActivity extends BaseActivity implements OnClickL
         protected String doInBackground(String... params) {
             for (int i = 0; i < picList.size(); i++) {
                 uploadTaskNum = i + 1;
-                uploadPhoto(picList.get(i).toString());
+                uploadPhoto(picList.get(i));
             }
             return "success";
         }
