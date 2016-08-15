@@ -89,8 +89,6 @@ public class SuspenseFragment extends BasePullToRefreshListViewFragment {
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
-
-        setEmptyViewMsg(getString(R.string.current_no_data));
     }
 
     @Override
@@ -107,6 +105,8 @@ public class SuspenseFragment extends BasePullToRefreshListViewFragment {
         txtTotalBoxes = (TextView) headView.findViewById(R.id.txt_total_boxes);
 
         setCountAndPrice(0, null, 0);
+
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     private void setCountAndPrice(int size, String price, double boxes) {
