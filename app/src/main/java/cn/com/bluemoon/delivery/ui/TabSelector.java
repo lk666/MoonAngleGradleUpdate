@@ -23,7 +23,6 @@ import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 
 /**
- *
  * Created by liangjiangli on 2016/4/19.
  */
 
@@ -52,7 +51,7 @@ public class TabSelector extends LinearLayout {
         screenDefault();
 
         lineLayout = (LinearLayout) this.findViewById(R.id.line_layout);
-        frameLayout  = (FrameLayout)this.findViewById(R.id.frame_layout);
+        frameLayout = (FrameLayout) this.findViewById(R.id.frame_layout);
         imgBar = (ImageView) this.findViewById(R.id.img_bar);
 
 
@@ -70,10 +69,13 @@ public class TabSelector extends LinearLayout {
         normalColor = typedArray.getColor(R.styleable.TabSelector_color_normal_text,
                 getContext().getResources().getColor(R.color.text_black_light));
         float textSize = typedArray.getDimension(R.styleable.TabSelector_text_size, 15);
-        marginLeft = typedArray.getDimensionPixelOffset(R.styleable.TabSelector_margin_left, getPx(10));
-        marginRight = typedArray.getDimensionPixelOffset(R.styleable.TabSelector_margin_right, getPx(10));
+        marginLeft = typedArray.getDimensionPixelOffset(R.styleable.TabSelector_margin_left,
+                getPx(10));
+        marginRight = typedArray.getDimensionPixelOffset(R.styleable.TabSelector_margin_right,
+                getPx(10));
 
-        android.widget.LinearLayout.LayoutParams p = new android.widget.LinearLayout.LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+        android.widget.LinearLayout.LayoutParams p = new android.widget.LinearLayout.LayoutParams
+                (LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         p.setMargins(marginLeft, 0, marginRight, 0);
         frameLayout.setLayoutParams(p);
 
@@ -87,7 +89,8 @@ public class TabSelector extends LinearLayout {
                 txtView.setText(s);
                 txtView.setTextSize(textSize);
                 txtView.setTextColor(normalColor);
-                android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+                android.widget.LinearLayout.LayoutParams params = new android.widget.LinearLayout
+                        .LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
                 params.gravity = Gravity.CENTER;
 
                 final int index = i;
@@ -96,7 +99,8 @@ public class TabSelector extends LinearLayout {
                 }
                 txtView.setLayoutParams(params);
                 txtView.setGravity(Gravity.CENTER);
-                txtView.setLayoutParams(new LinearLayout.LayoutParams((width - marginLeft - marginRight) / tagCount,
+                txtView.setLayoutParams(new LinearLayout.LayoutParams((width - marginLeft -
+                        marginRight) / tagCount,
                         LayoutParams.MATCH_PARENT));
                 lineLayout.addView(txtView, i);
                 txtViews.add(txtView);
@@ -113,8 +117,9 @@ public class TabSelector extends LinearLayout {
             }
         }
         if (tagCount != 0)
-        imgBar.setLayoutParams(new LinearLayout.LayoutParams((width - marginLeft - marginRight) / tagCount,
-                LayoutParams.MATCH_PARENT));
+            imgBar.setLayoutParams(new LinearLayout.LayoutParams((width - marginLeft -
+                    marginRight) / tagCount,
+                    LayoutParams.MATCH_PARENT));
 
     }
 
@@ -169,4 +174,7 @@ public class TabSelector extends LinearLayout {
         void onClick(int currentTab);
     }
 
+    public String getCurTabText() {
+        return txtViews.get(currentTab).getText().toString();
+    }
 }

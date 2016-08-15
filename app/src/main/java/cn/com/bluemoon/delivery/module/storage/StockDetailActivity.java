@@ -7,8 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -45,7 +43,7 @@ public class StockDetailActivity extends BaseActivity {
 
     private StockDetailAdapter adapter;
     private ProductType currentType = ProductType.NORMAL;
-
+    private CommonEmptyView emptyView;
 
     private String storeId;
 
@@ -90,12 +88,13 @@ public class StockDetailActivity extends BaseActivity {
         tabSelector.setOnClickListener(listener);
         txtStoreId.setText(String.format("%s-%s", storeId, storeName));
         listView.setMode(PullToRefreshBase.Mode.DISABLED);
-        PublicUtil.setEmptyView(listView, getString(R.string.text_stock_detail), new CommonEmptyView.EmptyListener() {
-            @Override
-            public void onRefresh() {
-                initData();
-            }
-        });
+        emptyView = PublicUtil.setEmptyView(listView, getString(R.string.text_stock_detail), new
+                CommonEmptyView.EmptyListener() {
+                    @Override
+                    public void onRefresh() {
+                        initData();
+                    }
+                });
         adapter = new StockDetailAdapter(this);
     }
 
@@ -103,12 +102,13 @@ public class StockDetailActivity extends BaseActivity {
     public void initData() {
         String token = ClientStateManager.getLoginToken(StockDetailActivity.this);
         showWaitDialog();
-        DeliveryApi.queryStockDetail(token, storeId, currentType, getNewHandler(1,ResultProductDetail.class));
+        DeliveryApi.queryStockDetail(token, storeId, currentType, getNewHandler(1,
+                ResultProductDetail.class));
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultProductDetail productDetailResult = (ResultProductDetail)result;
+        ResultProductDetail productDetailResult = (ResultProductDetail) result;
         setData(productDetailResult);
     }
 
@@ -131,23 +131,29 @@ public class StockDetailActivity extends BaseActivity {
     }
 
     private void setData(ResultProductDetail result) {
-        if (result == null || result.getProductDetailList() == null || result.getProductDetailList().size() < 1) {
+        if (result == null || result.getProductDetailList() == null || result
+                .getProductDetailList().size() < 1) {
             txtCategoryCount.setText("0");
             txtTotalMoney.setText(
                     String.format("%s%s", getString(R.string.order_money_sign), StringUtil
                             .formatPriceByFen(0)));
             if (currentType.equals(ProductType.BAD)) {
-                txtTotalBoxes.setText(String.format(getString(R.string.order_diff_product_count), 0));
+                txtTotalBoxes.setText(String.format(getString(R.string.order_diff_product_count),
+                        0));
 
             } else {
                 txtTotalBoxes.setText(String.format("%s%s", String.format(getString(R.string
-                        .order_boxes_count),
+                                .order_boxes_count),
                         StringUtil.formatBoxesNum(0)), String.format(getString(R.string
-                        .order_product_count),
+                                .order_product_count),
                         0)));
             }
             adapter.setList(new ArrayList<ProductDetail>());
             adapter.notifyDataSetChanged();
+
+            emptyView.setContentText(String.format(getString(R.string.current_no_some_data),
+                    tabSelector.getCurTabText()));
+            emptyView.setImgVisibility(View.INVISIBLE);
             //PublicUtil.showToastErrorData(main);
             return;
         }
@@ -159,13 +165,14 @@ public class StockDetailActivity extends BaseActivity {
                         .formatPriceByFen(item.getTotalPrice())));
 
         if (currentType.equals(ProductType.BAD)) {
-            txtTotalBoxes.setText(String.format(getString(R.string.order_diff_product_count), item.getTotalNum()));
+            txtTotalBoxes.setText(String.format(getString(R.string.order_diff_product_count),
+                    item.getTotalNum()));
 
         } else {
             txtTotalBoxes.setText(String.format("%s%s", String.format(getString(R.string
-                    .order_boxes_count),
+                            .order_boxes_count),
                     StringUtil.formatBoxesNum(item.getTotalCase())), String.format(getString(R
-                    .string.order_product_count),
+                            .string.order_product_count),
                     item.getTotalNum()))
             );
         }
@@ -202,14 +209,15 @@ public class StockDetailActivity extends BaseActivity {
                             .formatPriceByFen(list.get(position).getRealPrice())));
 
             if (currentType.equals(ProductType.BAD)) {
-                txBoxes.setText(String.format(getString(R.string.order_diff_product_count), product.getRealNum()));
+                txBoxes.setText(String.format(getString(R.string.order_diff_product_count),
+                        product.getRealNum()));
                 txtBadReason.setText(product.getType());
             } else {
                 txBoxes.setText(String.format("%s%s", String.format(getString(R.string
-                        .order_boxes_count),
+                                .order_boxes_count),
                         StringUtil.formatBoxesNum(product.getRealCase())), String.format
                         (getString(R.string.order_product_count),
-                        product.getRealNum()))
+                                product.getRealNum()))
                 );
             }
 

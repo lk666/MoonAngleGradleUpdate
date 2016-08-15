@@ -842,4 +842,5 @@
     <string name="total_boxes_num" formatted="false">%s箱(%s支)</string>
     <string name="current_no_data">暂无数据</string>
 
+    <string name="current_no_some_data">暂无%s数据</string>
 </resources>
