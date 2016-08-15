@@ -33,15 +33,14 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultQueryActivityLimitNum;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCreateCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.SelectAddressByDepthActivity;
-import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
@@ -49,11 +48,12 @@ import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
         .CreateClothesInfoActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.withoutorder.clothesinfo
         .ModifyClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
+import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
@@ -692,7 +692,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             tvTypeName.setText(item.getTypeName());
             tvClothesName.setText(item.getClothesName());
 
-            ImageLoaderUtil.displayImage(context, item.getImgPath(), ivClothImg);
+            ImageLoaderUtil.displayImage(item.getImgPath(), ivClothImg);
 
             setClickEvent(isNew, position, convertView);
         }

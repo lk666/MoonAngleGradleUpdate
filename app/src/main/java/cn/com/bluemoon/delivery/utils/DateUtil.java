@@ -39,4 +39,12 @@ public class DateUtil extends LibDateUtil{
 	public static String getTime(long t) {
 		return getTime(t, "yyyy-MM-dd");
 	}
+
+	/**
+	 * 将当前时间戳转化为字符串
+	 * @return
+	 */
+	public static String getCurrentTimeStamp() {
+		return String.valueOf(System.currentTimeMillis());
+	}
 }

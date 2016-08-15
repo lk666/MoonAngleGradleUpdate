@@ -40,7 +40,7 @@
         android:layout_height="14dp"
         android:background="@color/btn_red"
         android:textColor="@color/view_bg"
-        android:textSize="9dp"
+        android:textSize="9sp"
         android:layout_marginRight="5dp"
         android:layout_marginTop="5dp"
         android:layout_alignParentRight="true"

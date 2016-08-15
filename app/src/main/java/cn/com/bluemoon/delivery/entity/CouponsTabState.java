@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.coupons.CouponsPushFragment;
-import cn.com.bluemoon.delivery.coupons.CouponsRecordFragment;
+import cn.com.bluemoon.delivery.module.coupons.CouponsPushFragment;
+import cn.com.bluemoon.delivery.module.coupons.CouponsRecordFragment;
 
 public enum CouponsTabState {
 	PUNCH(CouponsPushFragment.class, R.drawable.coupons_tab_push, R.string.coupons_tab_push),

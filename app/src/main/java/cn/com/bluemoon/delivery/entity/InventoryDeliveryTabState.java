@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.inventory.ProcessedFragment;
-import cn.com.bluemoon.delivery.inventory.SuspenseFragment;
+import cn.com.bluemoon.delivery.module.inventory.ProcessedFragment;
+import cn.com.bluemoon.delivery.module.inventory.SuspenseFragment;
 
 /**
  * Created by allenli on 2016/3/22.

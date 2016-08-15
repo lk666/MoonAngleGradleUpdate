@@ -29,9 +29,9 @@
                 android:gravity="center"
                 android:textColor="@color/text_black"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:text="*"
+                android:text="@string/required_filed"
                 android:layout_weight="1"
                 android:textSize="14sp"
                 android:gravity="left|center_vertical"
@@ -88,7 +88,7 @@
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:text="*"
+                        android:text="@string/required_filed"
                         android:layout_weight="1"
                         android:textSize="14sp"
                         android:gravity="left|center_vertical"

@@ -15,9 +15,9 @@ import java.util.Date;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
-import cn.com.bluemoon.delivery.app.AppContext;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.coupon.ResultMensendLog;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 
 /**

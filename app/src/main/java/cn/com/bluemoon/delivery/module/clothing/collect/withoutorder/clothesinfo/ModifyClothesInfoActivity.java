@@ -25,7 +25,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
@@ -33,15 +32,17 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesTypeInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeInfos;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
-import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesTypeInfoView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -591,7 +592,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         showProgressDialog();
         DeliveryApi.uploadClothesImg(ClientStateManager.getLoginToken(ModifyClothesInfoActivity
                         .this),
-                PublicUtil.getBytes(bm), createResponseHandler(new IHttpResponseHandler() {
+                FileUtil.getBytes(bm), createResponseHandler(new IHttpResponseHandler() {
                     @Override
                     public void onResponseSuccess(String responseString) {
                         ClothingPic pic = JSON.parseObject(responseString, ClothingPic.class);

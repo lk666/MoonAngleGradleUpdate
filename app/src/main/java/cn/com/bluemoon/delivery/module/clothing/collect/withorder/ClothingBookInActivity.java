@@ -30,7 +30,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -38,13 +37,15 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClothesCode;
-import cn.com.bluemoon.delivery.module.base.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
+import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -720,7 +721,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private void uploadImg(Bitmap bm) {
         showProgressDialog();
         DeliveryApi.uploadClothesImg(ClientStateManager.getLoginToken(ClothingBookInActivity.this),
-                PublicUtil.getBytes(bm), uploadImageHandler);
+                FileUtil.getBytes(bm), uploadImageHandler);
     }
 
 

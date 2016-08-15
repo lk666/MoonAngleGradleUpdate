@@ -1,65 +1,61 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.lib.callback.CodeDialogCallback;
-import cn.com.bluemoon.lib.callback.ImageDialogCallback;
-import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
+import cn.com.bluemoon.lib.utils.LibDialogUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ImageDialog;
 import cn.com.bluemoon.lib.view.QRCodeDialog;
 
-public class DialogUtil {
+public class DialogUtil extends LibDialogUtil{
 
-	public static QRCodeDialog showCodeDialog(Activity context,String title,
-			String codeUrl,String code,String str,String tips,CodeDialogCallback cb)
-	{
-			QRCodeDialog codeDialog = new QRCodeDialog();
-		if(!codeDialog.isVisible())
-		{
-			codeDialog.setLoadString(context.getString(R.string.data_loading));
-			if(title!=null) codeDialog.setTitle(title);
-			if(codeUrl!=null)codeDialog.setCodeUrl(codeUrl);
-			if(str!= null) codeDialog.setString(str);
-			if(code!=null) codeDialog.setBitmap(BarcodeUtil.createQRCode(code));
-			if(tips!=null) codeDialog.setContent(tips);
-			if(cb!=null) codeDialog.setCallback(cb);
-			codeDialog.setSavePath(PublicUtil.getPhotoPath());
-			codeDialog.show(context.getFragmentManager(), "dialog");
-		}
-		return codeDialog;
-	}
+
 
 	public static QRCodeDialog showCodeDialog(Activity context,String title,
 			String code,String str){
-		return showCodeDialog(context, title, null, code, str, null, null);
-	}
-
-	public static ImageDialog showPictureDialog(Activity context,Bitmap bm,String imgUrl,ImageDialogCallback cb)
-	{
-		ImageDialog picDialog = new ImageDialog();
-		picDialog.setCallback(cb);
-		if (!picDialog.isVisible()) {
-			picDialog.setLoadString(context.getString(R.string.data_loading));
-			if (bm != null) {
-				picDialog.setBitmap(bm);
-			} else {
-				if (imgUrl != null)
-					picDialog.setCodeUrl(imgUrl);
-			}
-			picDialog.setSavePath(PublicUtil.getPhotoPath());
-			picDialog.show(context.getFragmentManager(), "dialog");
-		}
-		return picDialog;
+		return showCodeDialog(context, title, null, code, str, null, PublicUtil.getPhotoPath(),null);
 	}
 
 	public static ImageDialog showPictureDialog(Activity context,String imgUrl){
-		return showPictureDialog(context, null, imgUrl, null);
+		return showPictureDialog(context, null, imgUrl, PublicUtil.getPhotoPath(), null);
 	}
 
 	public static ImageDialog showPictureDialog(Activity context,Bitmap bit){
-		return showPictureDialog(context, bit, null, null);
+		return showPictureDialog(context, bit, null, PublicUtil.getPhotoPath(),null);
 	}
+
+	/**
+	 * 显示客服对话框
+	 * @param aty
+	 */
+	public static void showServiceDialog(final Activity aty) {
+		CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(aty);
+		dialog.setTitle(aty.getString(R.string.service_dialog_title));
+		dialog.setMessageSize(14);
+		dialog.setMessage(aty.getString(R.string.service_call)
+				+ "\n"
+				+ aty.getString(R.string.service_weixin));
+		dialog.setPositiveButton(aty.getString(R.string.service_weixin_btn),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						PublicUtil.showWeixinApp(aty, aty.getString(R.string.no_weixin));
+					}
+				});
+		dialog.setNegativeButton(aty.getString(R.string.service_call_btn),
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						PublicUtil.callPhone(aty, Constants.SERVICE_PHONE);
+					}
+				});
+		dialog.show();
+	}
+
 
 }

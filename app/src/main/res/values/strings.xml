@@ -11,7 +11,7 @@
     <string name="qrcode_btn_click_txt">输入数字码</string>
     <string name="qrcode_code_title_txt">我的二维码</string>
     <string name="qrcode_code_txt">QRCODE</string>
-    <string name="history_no_data">暂无查找历史</string>
+    <string name="empty_hint3">暂无%s数据</string>
 
 
     <string name="required_filed">*</string>
@@ -32,7 +32,7 @@
     <!-- main tab -->
     <string name="main_tab_qrcode">我的二维码</string>
     <string name="main_tab_card">打卡</string>
-    <string name="main_empty_menu">暂无菜单数据</string>
+    <string name="main_menu_title">菜单</string>
 
     <!-- BTN-->
     <string name="btn_ok_with_space">确  定</string>
@@ -764,6 +764,8 @@
 
     <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
 
+    <item name="tag_position" type="id">0xFFF11222</item>
+
     <!-- 我的团队 -->
     <string name="team_group">小组</string>
     <string name="team_community">社区</string>
@@ -822,7 +824,23 @@
     <string name="team_edit_limit_worktype">作业性质不能为空</string>
     <string name="team_edit_limit_parttime">兼职时长不可以等于0小时！</string>
 
+    <string name="dialog_input_amount_default_amount">1</string>
+    <string name="update_progress_default">0%</string>
+    <string name="dialog_delivery_selected">您选中了</string>
+    <string name="dialog_delivery_default_amount">0</string>
+    <string name="dialog_delivery_unit">张订单</string>
+    <string name="take_photo">拍照</string>
+    <string name="pick_photo">从相册中选取</string>
+    <string name="load_more">向上滑加载更多</string>
+    <string name="recent_update">最近更新</string>
+    <string name="default_book_count">1</string>
+    <string name="forget_pwd">忘记密码？</string>
+    <string name="reset">重置</string>
+    <string name="order_detail_default_diff_num">0</string>
+    <string name="date_to">—</string>
+    <string name="total_receive_boxes_num" formatted="false">共收%s箱(%s支)</string>
+    <string name="total_boxes_num" formatted="false">%s箱(%s支)</string>
+    <string name="current_no_data">暂无数据</string>
 
-
-
+    <string name="current_no_some_data">暂无%s数据</string>
 </resources>

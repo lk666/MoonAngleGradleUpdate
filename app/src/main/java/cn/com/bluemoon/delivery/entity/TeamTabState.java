@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.team.GroupFragment;
-import cn.com.bluemoon.delivery.team.MemberFragment;
+import cn.com.bluemoon.delivery.module.team.GroupFragment;
+import cn.com.bluemoon.delivery.module.team.MemberFragment;
 
 public enum TeamTabState {
 	GROUP(GroupFragment.class, R.drawable.team_tab_group, R.string.team_group_title),

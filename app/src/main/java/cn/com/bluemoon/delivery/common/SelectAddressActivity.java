@@ -27,10 +27,10 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.ResultArea;
 import cn.com.bluemoon.delivery.entity.SubRegion;
-import cn.com.bluemoon.delivery.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class SelectAddressActivity extends ListActivity {
@@ -52,7 +52,7 @@ public class SelectAddressActivity extends ListActivity {
 		ActivityManager.getInstance().pushOneActivity(this);
 		dcode = getIntent().getStringExtra("dcode");
 		type = getIntent().getStringExtra("type");
-		subRegionList = new ArrayList<SubRegion>();
+		subRegionList = new ArrayList<>();
 		listContent= new ArrayList<Hashtable<String, String>>();
 		if (progressDialog == null) {
 			progressDialog = new CommonProgressDialog(this);

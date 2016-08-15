@@ -73,18 +73,6 @@
 
         <View style="@style/line_solid_style"/>
 
-
-        <!--<cn.com.bluemoon.delivery.ui.RefleshListView
-            android:id="@+id/scrollView_main"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:cacheColorHint="@null"
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:overScrollMode="never"
-            android:fastScrollEnabled="false"
-            android:listSelector="@android:color/transparent"
-            android:scrollbars="none"/>-->
         <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
             xmlns:ptr="http://schemas.android.com/apk/res-auto"
             android:id="@+id/scrollView_main"

@@ -20,16 +20,16 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.List;
 
-import cn.com.bluemoon.delivery.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultCollectInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.CollectInfo;
-import cn.com.bluemoon.delivery.async.listener.IActionBarListener;
-import cn.com.bluemoon.delivery.module.base.BaseFragment;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.order.TimerFilterWindow;
+import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.oldbase.BaseFragment;
+import cn.com.bluemoon.delivery.module.order.TimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
@@ -145,7 +145,7 @@ public class CollectClothesRecordFragment extends BaseFragment implements OnList
 
                     @Override
                     public void setTitle(TextView v) {
-                        v.setText("收衣记录");
+                        v.setText(getString(R.string.tab_bottom_with_order_collect_record));
 
                     }
                 });

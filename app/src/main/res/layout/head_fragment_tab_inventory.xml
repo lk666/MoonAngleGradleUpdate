@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical" >
+
+    <View
+        android:id="@+id/view_pop_start"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:background="@color/bar_blue" >
+
+        <TextView
+            android:id="@+id/txt_count"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:singleLine="true"
+            android:textColor="@color/view_bg"
+            android:textSize="@dimen/text_size_17" />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingRight="10dp" >
+
+            <TextView
+                android:id="@+id/txt_price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_gravity="right"
+                android:singleLine="true"
+                android:textColor="@color/view_bg"
+                android:textSize="@dimen/text_size_15" />
+
+            <TextView
+                android:id="@+id/txt_total_boxes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:gravity="center"
+                android:singleLine="true"
+                android:textColor="@color/view_bg"
+                android:textSize="@dimen/text_size_15" />
+        </LinearLayout>
+    </RelativeLayout>
+
+</LinearLayout>

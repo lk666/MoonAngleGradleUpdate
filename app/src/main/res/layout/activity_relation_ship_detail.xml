@@ -111,7 +111,7 @@
             <View style="@style/line_solid_deep_style" />
 
             <RelativeLayout
-                android:id="@+id/layout_worktype"
+                android:id="@+id/layout_work_type"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
@@ -204,7 +204,7 @@
                     android:textSize="@dimen/text_size_15" />
 
                 <TextView
-                    android:id="@+id/txt_startdate"
+                    android:id="@+id/txt_start_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
@@ -216,7 +216,7 @@
                 <View
                     android:id="@+id/line4"
                     style="@style/line_solid_style"
-                    android:layout_below="@id/txt_startdate"
+                    android:layout_below="@id/txt_start_date"
                     android:layout_marginBottom="10dp"
                     android:layout_marginTop="10dp" />
 
@@ -230,7 +230,7 @@
                     android:textSize="@dimen/text_size_15" />
 
                 <TextView
-                    android:id="@+id/txt_enddate"
+                    android:id="@+id/txt_end_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"

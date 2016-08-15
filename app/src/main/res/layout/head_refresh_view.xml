@@ -42,7 +42,7 @@
                 android:id="@+id/head_refresh_view_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="努力加载中！"
+                android:text="@string/refreshing"
                 android:textColor="#999"
                 android:textSize="12sp" />
 
@@ -50,9 +50,9 @@
                 android:id="@+id/head_refresh_view_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="最近更新"
+                android:text="@string/recent_update"
                 android:textColor="#aaaaaa"
-                android:textSize="10sp"
+                android:textSize="@dimen/text_size_10"
                 android:visibility="gone" />
         </LinearLayout>
     </LinearLayout>

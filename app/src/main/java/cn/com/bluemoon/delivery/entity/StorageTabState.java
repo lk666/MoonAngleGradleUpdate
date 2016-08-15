@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.storage.StockFragment;
-import cn.com.bluemoon.delivery.storage.WarehouseFragment;
+import cn.com.bluemoon.delivery.module.storage.StockFragment;
+import cn.com.bluemoon.delivery.module.storage.WarehouseFragment;
 
 /**
  * Created by allenli on 2016/3/22.

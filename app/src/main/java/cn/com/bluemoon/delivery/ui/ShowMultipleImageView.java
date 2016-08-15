@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.ui;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
@@ -19,7 +20,6 @@ import cn.com.bluemoon.delivery.R;
  */
 public class ShowMultipleImageView extends Activity {
     private KJBitmap kjBitmap = new KJBitmap();
-    private ViewPager viewPager;
     private int currentPage=0;
     private String[] images;
 
@@ -54,6 +54,7 @@ public class ShowMultipleImageView extends Activity {
 
     };
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,11 +62,11 @@ public class ShowMultipleImageView extends Activity {
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         images = (String[]) getIntent().getSerializableExtra("bitmaps");
         int position = getIntent().getIntExtra("position", 0);
-        viewPager = (ViewPager) findViewById(R.id.viewpager1);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager.setAdapter(adapter);
         final TextView txtView = (TextView) findViewById(R.id.txt_page);
         viewPager.setCurrentItem(position);
-        txtView.setText((position+1) + "/"+images.length);
+        txtView.setText(String.format("%d/%d", position + 1, images.length));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrollStateChanged(int arg0) {
@@ -76,7 +77,7 @@ public class ShowMultipleImageView extends Activity {
             @Override
             public void onPageSelected(int position) {
                 currentPage=position;
-                txtView.setText(currentPage+1 + "/"+ images.length);
+                txtView.setText(String.format("%d/%d", currentPage + 1, images.length));
             }
 
         });

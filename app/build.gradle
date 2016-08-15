@@ -23,8 +23,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 17
-        versionName "4.2.0"
+        versionCode 18
+        versionName "4.2.1"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
     }
@@ -32,6 +32,11 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
+            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
+            buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://tmallapi.bluemoon.com.cn/%s\""
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
@@ -45,6 +50,11 @@ android {
         }
         release {
             buildConfigField("boolean", "RELEASE", "true")
+            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
+            buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://mallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -94,7 +104,7 @@ android {
 }
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.*'])
+    compile fileTree(include: ['*.*'], dir: 'libs')
     compile project(':BlueMoonSDK')
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'junit:junit:4.12'

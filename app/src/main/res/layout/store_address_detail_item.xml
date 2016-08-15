@@ -64,7 +64,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
-        ></View>
+        />
 
     <LinearLayout
         android:id="@+id/layout_line"
@@ -121,5 +121,5 @@
     </LinearLayout>
     <View
         style="@style/line_solid_style_bold"
-        ></View>
+        />
 </LinearLayout>

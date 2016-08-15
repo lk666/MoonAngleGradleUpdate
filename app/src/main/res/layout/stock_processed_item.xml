@@ -88,5 +88,5 @@
         </LinearLayout>
     </LinearLayout>
 
-    <View style="@style/line_solid_style_bold"></View>
+    <View style="@style/line_solid_style_bold"/>
 </LinearLayout>

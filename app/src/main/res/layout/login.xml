@@ -26,7 +26,7 @@
             android:src="@mipmap/logo" />
 
         <cn.com.bluemoon.lib.view.ClearEditText
-            android:id="@+id/login_user_edit"
+            android:id="@+id/et_user_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -38,12 +38,13 @@
             android:hint="@string/username"
             android:longClickable="false"
             android:inputType="number|text"
+            android:digits="@string/key_limit_number_letter"
             android:singleLine="true"
             android:textColor="#000"
             android:textSize="@dimen/text_size_large_18" />
 
         <cn.com.bluemoon.lib.view.ClearEditText
-            android:id="@+id/login_passwd_edit"
+            android:id="@+id/et_user_psw"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="10dp"
@@ -61,7 +62,7 @@
             android:textSize="@dimen/text_size_large_18" />
         
         <Button
-            android:id="@+id/login_btn"
+            android:id="@+id/btn_login"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:textColor="@color/view_bg"
@@ -78,7 +79,7 @@
             android:orientation="vertical"
             android:gravity="end">
             <TextView
-            android:id="@+id/forget_psw_btn"
+            android:id="@+id/txt_forget_psw"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:clickable="true"
@@ -87,7 +88,7 @@
             android:paddingLeft="20dp"
             android:paddingRight="5dp"
             android:layout_marginBottom="30dp"
-            android:text="忘记密码？"
+            android:text="@string/forget_pwd"
             android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_large_16" />
         </LinearLayout>

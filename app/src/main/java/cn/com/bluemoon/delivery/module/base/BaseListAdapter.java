@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.base;
 
 import android.content.Context;
+import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,17 +9,18 @@ import android.widget.BaseAdapter;
 
 import java.util.List;
 
+import cn.com.bluemoon.delivery.R;
+
 /**
  * 基础列表adapter
  * Created by lk on 2016/6/14.
  */
 public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnClickListener {
 
-    protected static final int KEY_POSITON = 0xFFF11222;
-
     protected List<T> list;
     protected Context context;
     protected OnListItemClickListener listener;
+    private View mConvertView;
 
     public BaseListAdapter(Context context, OnListItemClickListener listener) {
         this.context = context;
@@ -54,6 +56,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
             isNew = true;
             convertView = LayoutInflater.from(context).inflate(getLayoutId(), null);
         }
+        mConvertView = convertView;
 
         setView(position, convertView, parent, isNew);
 
@@ -65,7 +68,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
      */
     protected void setClickEvent(boolean isNew, int position, View... vs) {
         for (View v : vs) {
-            v.setTag(KEY_POSITON, position);
+            v.setTag(R.id.tag_position, position);
             if (isNew) {
                 v.setOnClickListener(this);
             }
@@ -74,7 +77,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
 
     @Override
     public void onClick(View view) {
-        final Object object = view.getTag(KEY_POSITON);
+        final Object object = view.getTag(R.id.tag_position);
         if (object != null && object instanceof Integer) {
             final int position = (Integer) object;
             if (position < getCount()) {
@@ -83,6 +86,24 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
                 }
             }
         }
+    }
+
+    /**
+     * ViewHolder 复用控件
+     */
+    @SuppressWarnings("unchecked")
+    public <V extends View> V getViewById(int id) {
+        SparseArray<View> viewHolder = (SparseArray<View>) mConvertView.getTag();
+        if (viewHolder == null) {
+            viewHolder = new SparseArray<>();
+            mConvertView.setTag(viewHolder);
+        }
+        View childView = viewHolder.get(id);
+        if (childView == null) {
+            childView = mConvertView.findViewById(id);
+            viewHolder.put(id, childView);
+        }
+        return (V) childView;
     }
 
     /**
@@ -95,9 +116,6 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
     /**
      * getView的剩余操作
      *
-     * @param position
-     * @param convertView
-     * @param parent
      * @param isNew       是否新建的convertView，即非复用控件
      */
     protected abstract void setView(int position, View convertView, ViewGroup parent, boolean

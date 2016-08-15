@@ -178,10 +178,17 @@ public class UploadClothesInfo implements Serializable {
 
     @Override
     public boolean equals(Object o) {
-        UploadClothesInfo obj = (UploadClothesInfo) o;
-        if (obj != null) {
-            return obj.getClothesCode().equals(getClothesCode());
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UploadClothesInfo that = (UploadClothesInfo) o;
+
+        return clothesCode.equals(that.clothesCode);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return clothesCode.hashCode();
     }
 }

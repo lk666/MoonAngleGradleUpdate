@@ -22,13 +22,14 @@ import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import cn.com.bluemoon.delivery.account.ChangePswActivity;
-import cn.com.bluemoon.delivery.account.LoginActivity;
-import cn.com.bluemoon.delivery.account.SettingActivity;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultUser;
 import cn.com.bluemoon.delivery.app.api.model.User;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.account.ChangePswActivity;
+import cn.com.bluemoon.delivery.module.account.LoginActivity;
+import cn.com.bluemoon.delivery.module.account.SettingActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -36,39 +37,37 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 
 /**
+ *
  * Created by liangjiangli on 2016/5/5.
  */
-public class MenuFragment extends Fragment implements View.OnClickListener{
+public class MenuFragment extends Fragment implements View.OnClickListener {
 
     private String TAG = "MenuFragment";
     private TextView txtUserid;
     private TextView txtUsername;
     private TextView txtPhone;
-    private LinearLayout layoutChangePwd;
-    private LinearLayout layoutExit;
-    private LinearLayout layoutSetting;
-    private LinearLayout layoutEmpty;
     public static User user;
     private MainActivity mContext;
-    private ImageView imgQcode;
 
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.mContext = (MainActivity) activity;
-    };
+    }
+
+    ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.main_left_fragment, container, false);
-        imgQcode = (ImageView) view.findViewById(R.id.img_qcode);
-        txtUserid = (TextView)view.findViewById(R.id.txt_userid);
-        txtUsername = (TextView)view.findViewById(R.id.txt_username);
-        txtPhone = (TextView)view.findViewById(R.id.txt_phone);
-        layoutChangePwd = (LinearLayout) view.findViewById(R.id.layout_changepwd);
-        layoutExit = (LinearLayout) view.findViewById(R.id.layout_exit);
-        layoutSetting = (LinearLayout) view.findViewById(R.id.layout_setting);
-        layoutEmpty = (LinearLayout) view.findViewById(R.id.layout_empty);
+        ImageView imgQcode = (ImageView) view.findViewById(R.id.img_qcode);
+        txtUserid = (TextView) view.findViewById(R.id.txt_userid);
+        txtUsername = (TextView) view.findViewById(R.id.txt_username);
+        txtPhone = (TextView) view.findViewById(R.id.txt_phone);
+        LinearLayout layoutChangePwd = (LinearLayout) view.findViewById(R.id.layout_changepwd);
+        LinearLayout layoutExit = (LinearLayout) view.findViewById(R.id.layout_exit);
+        LinearLayout layoutSetting = (LinearLayout) view.findViewById(R.id.layout_setting);
+        LinearLayout layoutEmpty = (LinearLayout) view.findViewById(R.id.layout_empty);
 
         View line = view.findViewById(R.id.view_line);
         line.getBackground().setAlpha(255 * 3 / 10);
@@ -85,21 +84,23 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         setUserInfo();
         return view;
     }
+
     public void setUserInfo() {
-        txtUserid.setText(ClientStateManager.getUserName(mContext));
+        txtUserid.setText(ClientStateManager.getUserName());
         if (user != null) {
             txtUserid.setText(user.getAccount());
             txtUsername.setText(user.getRealName());
             txtPhone.setText(user.getMobileNo());
         } else {
             String token = ClientStateManager.getLoginToken(mContext);
-            if(!StringUtil.isEmpty(token)){
+            if (!StringUtil.isEmpty(token)) {
                 DeliveryApi.getUserInfo(token, userInfoHandler);
             }
         }
 
     }
-    private void loginout(){
+
+    private void loginout() {
         PublicUtil.showToast(mContext, getString(R.string.loginout_success));
         Intent i = new Intent();
         i.setClass(mContext, LoginActivity.class);
@@ -111,17 +112,17 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(TAG,"getVerifyCode result = " + responseString);
+            LogUtils.d(TAG, "getVerifyCode result = " + responseString);
             try {
-                ResultUser userResult = JSON.parseObject(responseString,ResultUser.class);
-                if(userResult.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
+                ResultUser userResult = JSON.parseObject(responseString, ResultUser.class);
+                if (userResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     user = userResult.getUser();
-                    if (user != null){
+                    if (user != null) {
                         txtUserid.setText(user.getAccount());
                         txtUsername.setText(user.getRealName());
                         txtPhone.setText(user.getMobileNo());
                     }
-                }else{
+                } else {
                     PublicUtil.showErrorMsg(mContext, userResult);
                 }
             } catch (Exception e) {
@@ -142,14 +143,15 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(TAG,"logout result = " + responseString);
+            LogUtils.d(TAG, "logout result = " + responseString);
             try {
-                ResultBase baseResult = JSON.parseObject(responseString,ResultUser.class);
-                if(baseResult.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS
-                        ||baseResult.getResponseCode()==Constants.RESPONSE_RESULT_TOKEN_EXPIRED
-                        ||baseResult.getResponseCode()==Constants.RESPONSE_RESULT_TOKEN_NOT_EXIST){
+                ResultBase baseResult = JSON.parseObject(responseString, ResultUser.class);
+                if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS
+                        || baseResult.getResponseCode() == Constants.RESPONSE_RESULT_TOKEN_EXPIRED
+                        || baseResult.getResponseCode() == Constants
+                        .RESPONSE_RESULT_TOKEN_NOT_EXIST) {
                     loginout();
-                }else{
+                } else {
                     PublicUtil.showErrorMsg(mContext, baseResult);
                 }
             } catch (Exception e) {
@@ -177,13 +179,13 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
         return result;
     }
 
-    private void close(){
+    private void close() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
                 mContext.CloseMenu();
             }
-        },500);
+        }, 500);
     }
 
     @Override
@@ -196,19 +198,19 @@ public class MenuFragment extends Fragment implements View.OnClickListener{
                 close();
                 break;
             case R.id.layout_exit:
-                if(StringUtils.isEmpty(token)){
+                if (StringUtils.isEmpty(token)) {
                     loginout();
-                }else{
+                } else {
                     DeliveryApi.logout(token, loginoutHandler);
                 }
                 break;
-            case  R.id.layout_setting:
+            case R.id.layout_setting:
                 Intent settingIntent = new Intent(mContext,
                         SettingActivity.class);
                 startActivity(settingIntent);
                 close();
                 break;
-            case  R.id.img_qcode:
+            case R.id.img_qcode:
                 mContext.openQcode();
                 break;
             case R.id.layout_empty:

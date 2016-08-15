@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.common;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -57,7 +58,6 @@ public class WebViewActivity extends Activity implements OnClickListener{
 	private Button btnRefresh;
 	private View viewNowify;
 	private String scanCallbackName;
-	private RelativeLayout layout_title;
 	private TextView txtTitle;
 	private ImageView imgBack;
 	private ProgressBar pro;
@@ -75,6 +75,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 	 * TODO 
 	 * @see Activity#onCreate(Bundle)
 	 */
+	@SuppressLint("SetJavaScriptEnabled")
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		  
@@ -91,7 +92,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 		aty = this;
 		progressDialog = new CommonProgressDialog(this);
 		pro = (ProgressBar) findViewById(R.id.pro_web);
-		layout_title = (RelativeLayout) findViewById(R.id.layout_title);
+		RelativeLayout layout_title = (RelativeLayout) findViewById(R.id.layout_title);
 		txtTitle = (TextView) findViewById(R.id.txt_title);
 		imgBack = (ImageView) findViewById(R.id.img_back);
 		moonWebView = (WebView) findViewById(R.id.common_webview);

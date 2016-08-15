@@ -69,5 +69,5 @@
             android:textSize="@dimen/text_size_14" />
     </LinearLayout>
 
-    <View android:id="@+id/view_line" style="@style/line_dotted_style"></View>
+    <View android:id="@+id/view_line" style="@style/line_dotted_style"/>
 </LinearLayout>
