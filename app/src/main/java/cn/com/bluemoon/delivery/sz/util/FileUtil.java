@@ -27,6 +27,8 @@ public class FileUtil {
 
     public static String TAG = FileUtil.class.getSimpleName();
 
+    public static final String notifycationCountFileName = "notificationCount.json";
+
     private static String readFromFile(File targetFile){
         String readedStr="";
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
@@ -161,5 +163,53 @@ public class FileUtil {
         }
 
         return  false;
+    }
+
+    public static String getMainMsgCountPath(String userNo){
+        String foldername =  Constants.PATH_SCHEDUAL;
+        File folder = new File(foldername);
+        if (folder == null || !folder.exists()) {
+            folder.mkdir();
+        }
+
+        foldername = Constants.PATH_SCHEDUAL + File.separator + userNo;
+        folder = new File(foldername);
+        if (folder == null || !folder.exists()) {
+            folder.mkdir();
+        }
+        String path = foldername+File.separator+notifycationCountFileName;
+        return path;
+    }
+
+    public static String getMainMsgCount(String userNo){
+        String path = getMainMsgCountPath(userNo);
+        File file = new File(path);
+        String json = readFromFile(file);
+        return  json;
+    }
+
+    public static void setMainMsgCount(String userNo,String jsonContent){
+        String path = getMainMsgCountPath(userNo);
+        File file = new File(path);
+        savedToSD(file,jsonContent);
+    }
+
+    public static void deleteMainMsgCount(String userNo){
+        String path = getMainMsgCountPath(userNo);
+        File file = new File(path);
+        file.delete();
+    }
+
+    public static boolean isUpdateMsgMainTypeCount(String userNo){
+        String path = Constants.PATH_SCHEDUAL + File.separator + userNo+File.separator+notifycationCountFileName;
+        File file = new File(path);
+        if(!file.exists()){
+            return true;
+        }
+        long lastModified = file.lastModified();
+        if(System.currentTimeMillis() - lastModified > Constants.UPDATE_TIME){
+            return true;
+        }
+        return false;
     }
 }

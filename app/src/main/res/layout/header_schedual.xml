@@ -5,7 +5,6 @@
     android:orientation="vertical"
     android:background="@color/white">
 
-
     <LinearLayout
         android:id="@+id/sub_no_llt"
         android:layout_width="wrap_content"

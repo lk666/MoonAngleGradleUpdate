@@ -36,7 +36,7 @@
                 android:layout_height="wrap_content"
                 android:text="日程"
                 android:textSize="16sp"
-                android:textColor="#ffffff"
+                android:textColor="#ffffffff"
                 android:button="@null"
                 android:background="@android:color/transparent"
                 android:padding="10dp"/>
@@ -47,7 +47,7 @@
                 android:layout_height="wrap_content"
                 android:text="会议"
                 android:textSize="16sp"
-                android:textColor="#ffffff"
+                android:textColor="#ffffffff"
                 android:button="@null"
                 android:background="@android:color/transparent"
                 android:padding="10dp"/>
@@ -88,7 +88,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
         android:scaleType="center"
-        android:src="@mipmap/user_top_nav" />
+        android:src="@mipmap/shezhi2" />
 
     <cn.com.bluemoon.lib.view.ImageViewForClick
         android:id="@+id/img_right2"
@@ -98,8 +98,7 @@
         android:layout_centerVertical="true"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:layout_marginRight="10dp"
         android:scaleType="center"
-        android:src="@mipmap/collect_white" />
+        android:src="@mipmap/xinxi2" />
 
 </RelativeLayout>

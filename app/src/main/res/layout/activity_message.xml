@@ -4,15 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="@color/white">
+    android:background="@drawable/bg_white">
 
     <LinearLayout
-        android:id="@+id/search_llt"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:orientation="horizontal"
-        android:background="#8f8f8f">
+        android:background="@color/page_bg_ed">
         <LinearLayout
+            android:id="@+id/search_llt"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="horizontal"
@@ -27,15 +27,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
-                android:text="搜索"
+                android:text="@string/sz_search"
                 android:textColor="#888888"
                 android:textSize="12sp"/>
         </LinearLayout>
 
     </LinearLayout>
-
-    <!--<include layout="@layout/item_wait_msg"/>-->
-    <include layout="@layout/item_message"/>
 
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"

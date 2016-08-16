@@ -828,5 +828,13 @@
     <!--sz meeting-->
     <string name="sz_meeting_schedual_add_meeting">安排会议</string>
     <string name="sz_meeting_wait_schedual_msg">待办日程消息</string>
+    <string name="sz_main_wait_msg_remind">待办提醒</string>
+    <string name="sz_main_meeting_msg_remind">会议提醒</string>
+    <string name="sz_main_advice_msg_remind">建议提醒</string>
+    <string name="sz_main_conflict_msg_remind">任务冲突提醒</string>
+    <string name="sz_main_delegation_msg_remind">委托人消息提醒</string>
+
+    <string name="sz_search_meeting">搜索会议，他人会议</string>
+    <string name="sz_search">搜索</string>
 
 </resources>

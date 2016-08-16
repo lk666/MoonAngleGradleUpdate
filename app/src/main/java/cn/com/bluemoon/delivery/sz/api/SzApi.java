@@ -12,6 +12,7 @@ import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 
 /**
  * Created by dujiande on 2016/8/11.
@@ -59,4 +60,14 @@ public class SzApi {
         return entity;
     }
 
+    public static void msgMainType(String optStaffNum,
+                                  AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<String,Object>();
+        params.put("msgId",optStaffNum);
+        params.put("msgType",null);
+        params.put("staffNum",optStaffNum);
+        params.put("token", ClientStateManager.getLoginToken());
+        String url = HOST+"msgMainType";
+        client.post(AppContext.getInstance(), url, getEntity(params),"application/json", handler);
+    }
 }
