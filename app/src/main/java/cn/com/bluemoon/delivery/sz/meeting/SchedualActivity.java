@@ -32,13 +32,17 @@ import org.kymjs.kjframe.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 
+import butterknife.Bind;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
+import cn.com.bluemoon.delivery.sz.util.FileUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.delivery.sz.adapter.ScheduleAdapter;
-import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.api.response.UserSchDayResponse;
-import cn.com.bluemoon.delivery.sz.bean.SchedualBean;
+import cn.com.bluemoon.delivery.sz.bean.SchedualCommonBean;
 import cn.com.bluemoon.delivery.sz.util.AssetUtil;
 import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
@@ -65,6 +69,9 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	@BindView(id=R.id.schedual_listview)
 	private ListView listView;
 
+	private LinearLayout subNoLlt;
+	private TextView subNoTv;
+
 	private ViewPager viewPager;
 
 	private ImageViewForClick backBtn,msgBtn,setBtn;
@@ -78,6 +85,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
 	private WheelView yearWv,monthWv;
 	private String currentNo;
+	private Boolean isMySelf;
+	private String currentDate;
 
 
 	enum SildeDirection {
@@ -96,6 +105,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	public void initWidget() {
 		// TODO Auto-generated method stub
 		super.initWidget();
+
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(aty);
 
@@ -103,16 +113,28 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		listView.addHeaderView(headerView);
 		dateTv = (TextView) headerView.findViewById(R.id.tv_date);
 		viewPager = (ViewPager)headerView.findViewById(R.id.vp_calendar);
+		subNoLlt = (LinearLayout)headerView.findViewById(R.id.sub_no_llt);
+		subNoTv = (TextView)headerView.findViewById(R.id.sub_no_tv);
 
-		ArrayList<SchedualBean> initdate = new ArrayList<SchedualBean>();
-		SchedualBean temp = new SchedualBean();
-		temp.setScheduleType(2);
+		currentNo = getIntent().getStringExtra("staffNo");
+		if(StringUtil.isEmptyString(currentNo)){
+			currentNo = ClientStateManager.getUserName();
+			isMySelf = true;
+			subNoLlt.setVisibility(View.GONE);
+		}else{
+			isMySelf = false;
+			subNoLlt.setVisibility(View.VISIBLE);
+		}
+
+		ArrayList<SchedualCommonBean> initdate = new ArrayList<SchedualCommonBean>();
+		SchedualCommonBean temp = new SchedualCommonBean();
+		temp.setAdjust("2");
 		initdate.add(temp);
 		scheduleAdapter = new ScheduleAdapter(this,initdate);
 		listView.setAdapter(scheduleAdapter);
 		//test();
-		currentNo = ClientStateManager.getUserName();
-		getuserSchDay(new CustomDate().toString(),currentNo);
+		currentDate = new CustomDate().toString();
+		getuserSchDay(currentDate,currentNo);
 
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
@@ -130,6 +152,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 				showDateDialog();
 			}
 		});
+
+
 	}
 
 	private void adjustViewPagerHeight(int rowNum){
@@ -162,11 +186,23 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		String token = ClientStateManager.getLoginToken(aty);
 		String userNo = ClientStateManager.getUserName();
 		if(!StringUtils.isEmpty(token)){
-			int scheduleType = -1;
+			String scheduleType = "-1";
 			if(meetingRbtn.isChecked()){
-				scheduleType = 1;
+				scheduleType = "1";
 			}
-			SzApi.userSchDay(userNo,scheduleDay,scheduleType,staffNum,token,userSchDayHandler);
+			//先去SD卡读缓存
+			String cacheSchedual = FileUtil.getSchedual(staffNum,scheduleDay,scheduleType);
+			if(!StringUtil.isEmptyString(cacheSchedual)){
+				updateSchedualList(cacheSchedual,false);
+			}
+			SchedualCommonBean itemBean = null;
+			if(scheduleAdapter.getCount() > 0){
+				itemBean = (SchedualCommonBean)scheduleAdapter.getItem(0);
+			}
+			//判读是否要更新
+			if(FileUtil.isUpdateSchedual(staffNum,scheduleDay,scheduleType,itemBean)){
+				SzApi.userSchDay(userNo,scheduleDay,scheduleType,staffNum,token,userSchDayHandler);
+			}
 		}
 
 	}
@@ -186,17 +222,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		@Override
 		public void onSuccess(int statusCode, Header[] headers, String responseString) {
 			LogUtils.d(TAG,"userSchDayHandler = " + responseString);
-			try {
-				UserSchDayResponse response = JSON.parseObject(responseString,UserSchDayResponse.class);
-				if(response.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
-					scheduleAdapter.refresh(response.getData());
-				}else{
-					PublicUtil.showToast(response.getResponseMsg());
-				}
-			} catch (Exception e) {
-				LogUtils.e(TAG, e.getMessage());
-				//PublicUtil.showToastServerBusy(aty);
-			}
+			updateSchedualList(responseString,true);
 		}
 
 		@Override
@@ -207,6 +233,30 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 			PublicUtil.showToast("API 错误："+statusCode);
 		}
 	};
+
+	private void updateSchedualList(String responseString,boolean isUpdate){
+		String scheduleType = "-1";
+		if(meetingRbtn.isChecked()){
+			scheduleType = "1";
+		}
+		try {
+			UserSchDayResponse response = JSON.parseObject(responseString,UserSchDayResponse.class);
+			if(response.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
+
+				//是否更新缓存
+				if(isUpdate){
+					FileUtil.setSchedual(currentNo,currentDate,scheduleType,responseString);
+				}
+				scheduleAdapter.refresh(response.getData());
+			}else{
+				PublicUtil.showToast(response.getResponseMsg());
+			}
+		} catch (Exception e) {
+			LogUtils.e(TAG, e.getMessage());
+			FileUtil.deleteSchedual(currentNo,currentDate,scheduleType,responseString);
+			//PublicUtil.showToastServerBusy(aty);
+		}
+	}
 
 	private void setViewPager() {
 		viewPager.setAdapter(adapter);
@@ -271,8 +321,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	@Override
 	public void clickDate(CustomDate date) {
 		dateTv.setText(date.getYear()+"年"+date.getMonth()+"月");
-
-		getuserSchDay(date.toString(),currentNo);
+		currentDate = date.toString();
+		getuserSchDay(currentDate,currentNo);
 		//PublicUtil.showToast(date.getYear()+"年"+date.getMonth()+"月"+date.getDay()+"日");
 	}
 

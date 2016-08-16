@@ -827,6 +827,6 @@
 
     <!--sz meeting-->
     <string name="sz_meeting_schedual_add_meeting">安排会议</string>
-
+    <string name="sz_meeting_wait_schedual_msg">待办日程消息</string>
 
 </resources>

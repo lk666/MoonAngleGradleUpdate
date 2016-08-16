@@ -3,11 +3,13 @@ package cn.com.bluemoon.delivery.sz.sqlite;
 import android.content.ContentValues;
 import android.content.Context;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.sz.vo.PushMsgVo;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
@@ -41,96 +43,112 @@ public class MsgDBUtil {
     }
 
     /**
-     * 插入营销推送消息
-     * @param yunBaMsgVo
+     * 插入或更新最新的日程ID信息
+     * @param pushMsgVo
      * @return
      */
-//    public long insertBeaconMsg( final YunBaMsgVo yunBaMsgVo) {
-//        long rowId = -1;
-//        SQLiteDatabase db = null;
-//        if(yunBaMsgVo == null){
-//            return rowId;
-//        }
-//        try {
-//            ContentValues values =  new ContentValues();
-//            values.put("title",yunBaMsgVo.getTitle());
-//            values.put("locid",yunBaMsgVo.getLocid());
-//            values.put("alert",yunBaMsgVo.getAlert());
-//            values.put("shopid",yunBaMsgVo.getShopid());
-//            values.put("content",yunBaMsgVo.getContent());
-//            values.put("button",yunBaMsgVo.getButton());
-//            values.put("img_url",yunBaMsgVo.getImg_url());
-//            values.put("insert_time", System.currentTimeMillis());
-//            values.put("button_url",yunBaMsgVo.getButton_url());
-//            values.put("has_look",yunBaMsgVo.isHasLook() ? 1 : 0);
-//            db = helper.getWritableDatabase();
-//            rowId = db.insert(TableOpenHelper.MSG_TBL, null, values);
-//        } catch (Exception e){
-//            e.printStackTrace();
-//        } finally {
-//            if(null != db)
-//                db.close();
-//        }
-//        return rowId;
-//    }
+    public long insertPushMsg( final PushMsgVo pushMsgVo) {
+        long rowId = -1;
+        SQLiteDatabase db = null;
+        if(pushMsgVo == null){
+            return rowId;
+        }
+        String lastSchedualId = queryLastSchedualId(pushMsgVo);
 
+        if(lastSchedualId.equals("0")){
+            try {
+                ContentValues values =  new ContentValues();
+                values.put("b_date",pushMsgVo.getbDate());
+                values.put("type",pushMsgVo.getType());
+                values.put("target_no",pushMsgVo.getTargetNo());
+                values.put("schedual_id",pushMsgVo.getSchedualId());
+                db = helper.getWritableDatabase();
+                rowId = db.insert(TableOpenHelper.MSG_TBL, null, values);
+            } catch (Exception e){
+                e.printStackTrace();
+            } finally {
+                if(null != db)
+                    db.close();
+            }
+        }else{
+            long lastId = Long.parseLong(lastSchedualId);
+            long currentId = Long.parseLong(pushMsgVo.getSchedualId());
+            if(currentId > lastId){
+                try {
+                    ContentValues values =  new ContentValues();
+                    values.put("b_date",pushMsgVo.getbDate());
+                    values.put("type",pushMsgVo.getType());
+                    values.put("target_no",pushMsgVo.getTargetNo());
+                    values.put("schedual_id",pushMsgVo.getSchedualId());
+                    db = helper.getWritableDatabase();
+                    rowId = db.update(TableOpenHelper.MSG_TBL, values,"b_date=? and type=? and target_no=?",
+                            new String[]{pushMsgVo.getbDate(), pushMsgVo.getType(), pushMsgVo.getTargetNo()});
+                } catch (Exception e){
+                    e.printStackTrace();
+                } finally {
+                    if(null != db)
+                        db.close();
+                }
+            }
+        }
+
+        return rowId;
+    }
 
 
     /**
-     * 获取前20条营销推送消息
+     * 查询数据库保存的日程ID
+     * @param pushMsgVo
      * @return
      */
-//    public ArrayList<YunBaMsgVo> queryBeaconMsg(){
-//        ArrayList<YunBaMsgVo> beaconMsgList = null;
-//        YunBaMsgVo yunBaMsgVo = null;
-//        SQLiteDatabase db = null;
-//        Cursor cursor = null;
-//        if (null != helper) {
-//            try {
-//                db = helper.getReadableDatabase();
-//                cursor = db.query(TableOpenHelper.MSG_TBL, null,
-//                        null, null, null, null,"insert_time desc","20");
-//                if (cursor != null && cursor.getCount() > 0) {
-//                    beaconMsgList = new ArrayList<YunBaMsgVo>();
-//                    while (cursor.moveToNext()) {
-//                        yunBaMsgVo = new YunBaMsgVo();
-//                        yunBaMsgVo.setId(cursor.getInt(cursor.getColumnIndex("_id")));
-//                        yunBaMsgVo.setTitle(cursor.getString(cursor.getColumnIndex("title")));
-//                        beaconMsgList.add(yunBaMsgVo);
-//                    }
-//                }
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            } finally {
-//
-//                if (null != cursor) {
-//                    cursor.close();
-//                }
-//
-//                if (null != db) {
-//                    db.close();
-//                }
-//            }
-//
-//        }
-//        return beaconMsgList;
-//    }
+    public String queryLastSchedualId(PushMsgVo pushMsgVo){
+        SQLiteDatabase db = null;
+        Cursor cursor = null;
+        String lastSchedualId = "0";
+        if (null != helper) {
+            try {
+                db = helper.getReadableDatabase();
+                cursor = db.query(TableOpenHelper.MSG_TBL, new String[]{"schedual_id"},
+                        "b_date=? and type=? and target_no=?",
+                        new String[]{pushMsgVo.getbDate(), pushMsgVo.getType(), pushMsgVo.getTargetNo()}, null, null, null);
+
+
+                if (cursor != null && cursor.getCount() > 0) {
+                    if (cursor.moveToFirst()) {
+                        lastSchedualId = cursor.getString(cursor.getColumnIndex("schedual_id"));
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+
+                if (null != cursor) {
+                    cursor.close();
+                }
+
+                if (null != db) {
+                    db.close();
+                }
+            }
+        }
+        return lastSchedualId;
+    }
 
     /**
      * 更新已读状态
      */
-    public void updateBeaconMsgRead(int id){
-        SQLiteDatabase db = null;
-        String sql = null;
-        try {
-            db= helper.getWritableDatabase();
-            sql = "update "+TableOpenHelper.MSG_TBL+" set has_look=1 where _id = "+ id;
-            db.execSQL(sql);
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally{
-            if(null != db)
-                db.close();
-        }
-    }
+//    public void updateBeaconMsgRead(int id){
+//        SQLiteDatabase db = null;
+//        String sql = null;
+//        try {
+//            db= helper.getWritableDatabase();
+//            sql = "update "+TableOpenHelper.MSG_TBL+" set has_look=1 where _id = "+ id;
+//            db.execSQL(sql);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        } finally{
+//            if(null != db)
+//                db.close();
+//        }
+//    }
 }

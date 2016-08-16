@@ -56,6 +56,11 @@
             android:theme="@style/App.Base.Theme">
         </activity>
         <activity
+            android:name=".sz.meeting.MsgWaitSchedualActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"

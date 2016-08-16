@@ -14,12 +14,10 @@ public class TableOpenHelper {
             "create table if not exists "
                     + MSG_TBL
                     + "("
-                    + " userid text primary key, "//用户ID
-                    + " username text, "//用户姓名
-                    + " is_payment integer, "//是否已绑定支付方式 0:未绑定 1:绑定
-                    + " insert_time long , "//时间戳
-                    + " lasttime text, "//最后登录时间
-                    + " idcard text "//身份证号
+                    + " b_date text, "//日期
+                    + " type text, "//类型
+                    + " target_no text , "//目标用户编号
+                    + " schedual_id text "//百度推送最新的日程ID
                     + " )";
 
     /**

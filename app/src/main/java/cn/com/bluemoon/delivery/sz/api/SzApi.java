@@ -34,7 +34,7 @@ public class SzApi {
         staffNum	员工编号	string
         token	token身份检验码	string	必填
      */
-    public static void userSchDay(String optStaffNum,String scheduleDay,int scheduleType,
+    public static void userSchDay(String optStaffNum,String scheduleDay,String scheduleType,
                                   String staffNum,
                                   String token,
                                    AsyncHttpResponseHandler handler) {

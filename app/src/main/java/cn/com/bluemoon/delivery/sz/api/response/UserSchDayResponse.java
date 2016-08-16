@@ -2,19 +2,19 @@ package cn.com.bluemoon.delivery.sz.api.response;
 
 import java.util.ArrayList;
 
-import cn.com.bluemoon.delivery.sz.bean.SchedualBean;
+import cn.com.bluemoon.delivery.sz.bean.SchedualCommonBean;
 
 /**
  * Created by dujiande on 2016/8/11.
  */
 public class UserSchDayResponse extends BaseResponse {
-    private ArrayList<SchedualBean>  data;
+    private ArrayList<SchedualCommonBean>  data;
 
-    public ArrayList<SchedualBean> getData() {
+    public ArrayList<SchedualCommonBean> getData() {
         return data;
     }
 
-    public void setData(ArrayList<SchedualBean> data) {
+    public void setData(ArrayList<SchedualCommonBean> data) {
         this.data = data;
     }
 }

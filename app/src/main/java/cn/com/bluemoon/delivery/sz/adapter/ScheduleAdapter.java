@@ -16,23 +16,23 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 
-import cn.com.bluemoon.delivery.sz.bean.SchedualBean;
+import cn.com.bluemoon.delivery.sz.bean.SchedualCommonBean;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
 
 
 public class ScheduleAdapter extends BaseAdapter {
 
-	private List<SchedualBean> list;
+	private List<SchedualCommonBean> list;
 	private Context context;
 
 
-	public ScheduleAdapter(Context context , List<SchedualBean> list) {
+	public ScheduleAdapter(Context context , List<SchedualCommonBean> list) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.list = list;
 	}
 
-	public void refresh( List<SchedualBean> list){
+	public void refresh( List<SchedualCommonBean> list){
 		this.list = list;
 		notifyDataSetChanged();
 	}
@@ -46,7 +46,10 @@ public class ScheduleAdapter extends BaseAdapter {
 	@Override
 	public Object getItem(int position) {
 		// TODO Auto-generated method stub
-		return position;
+		if(list!= null && !list.isEmpty()){
+			return list.get(position);
+		}
+		return null;
 	}
 
 	@Override
@@ -74,21 +77,21 @@ public class ScheduleAdapter extends BaseAdapter {
 		else {
 			holder = (ViewSchedualBeanHolder) convertView.getTag();
 		}
-		SchedualBean schedualBean = list.get(position);
-		if(schedualBean.getScheduleType() == 0){
+		SchedualCommonBean schedualBean = list.get(position);
+		if(schedualBean.getAdjust().equals("0")){
 			holder.imgStatus.setVisibility(View.VISIBLE);
 			holder.imgStatus.setBackgroundResource(R.drawable.bg_circle_blue_shape);
 
 			holder.txtStatus.setText("可调整");
 			holder.txtDate.setText(DateUtil.showPeriodTime(schedualBean.getbTime(),schedualBean.geteTime()));
-			holder.txtContent.setText(schedualBean.getScheduleTitle());
-		}else if(schedualBean.getScheduleType() == 1){
+			holder.txtContent.setText(schedualBean.getTitle());
+		}else if(schedualBean.getAdjust().equals("1")){
 			holder.imgStatus.setVisibility(View.VISIBLE);
 			holder.imgStatus.setBackgroundResource(R.drawable.bg_circle_red_shape);
 
 			holder.txtStatus.setText("不可调整");
 			holder.txtDate.setText(DateUtil.showPeriodTime(schedualBean.getbTime(),schedualBean.geteTime()));
-			holder.txtContent.setText(schedualBean.getScheduleTitle());
+			holder.txtContent.setText(schedualBean.getTitle());
 		}else{
 			holder.imgStatus.setVisibility(View.INVISIBLE);
 			holder.txtStatus.setText("无日程安排");

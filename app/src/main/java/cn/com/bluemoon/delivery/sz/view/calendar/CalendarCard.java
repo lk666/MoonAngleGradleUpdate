@@ -80,7 +80,7 @@ public class CalendarCard extends View {
 		mTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mCirclePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mCirclePaint.setStyle(Paint.Style.FILL);
-		mCirclePaint.setColor(Color.parseColor("#F24949")); // 红色圆形
+		mCirclePaint.setColor(Color.parseColor("#FF7500")); // 红色圆形
 		touchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
 		initDate();
@@ -291,7 +291,7 @@ public class CalendarCard extends View {
 						(float) ((j + 0.5) * mCellSpace), mCellSpace / 3,mCirclePaint);
 				break;
 			case CURRENT_MONTH_DAY: // 当前月日期
-				mTextPaint.setColor(Color.BLACK);
+				mTextPaint.setColor(Color.parseColor("#454544"));
 				break;
 			case PAST_MONTH_DAY: // 过去一个月
 			case NEXT_MONTH_DAY: // 下一个月

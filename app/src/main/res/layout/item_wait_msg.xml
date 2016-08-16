@@ -35,7 +35,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:text="这是标题"
-            android:textColor="@color/text_red"
+            android:textColor="@color/sz_font_yellow"
             android:textSize="15sp"/>
 
         <cn.com.bluemoon.delivery.sz.view.MySettingItemView
