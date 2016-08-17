@@ -95,7 +95,7 @@ public class MessageActivity extends KJActivity {
 	}
 
 	public void getData(boolean isRefresh){
-		MessageCountController.getInstance().getMsgMainTypeCount(aty,isRefresh, new RequestListener() {
+		MessageCountController.getInstance().getMsgMainTypeCount(aty,true,isRefresh, new RequestListener() {
 			@Override
 			public void getCacheCallBack(String dataString) {
 				updateMsgMainTypeCount(dataString,false);

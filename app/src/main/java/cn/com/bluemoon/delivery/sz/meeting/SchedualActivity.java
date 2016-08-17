@@ -33,11 +33,14 @@ import java.util.ArrayList;
 import java.util.Calendar;
 
 import butterknife.Bind;
+import cn.com.bluemoon.delivery.app.api.model.message.Message;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.api.response.MsgMainTypeResponse;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.FileUtil;
+import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.delivery.sz.adapter.ScheduleAdapter;
@@ -76,6 +79,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 
 	private ImageViewForClick backBtn,msgBtn,setBtn;
 	private RadioButton meetingRbtn;
+	private TextView numTv;
 
 	private CommonProgressDialog progressDialog;
 	private int mCurrentIndex = 498;
@@ -338,7 +342,12 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		super.widgetClick(v);
 		switch (v.getId()) {
 			case R.id.img_add:
-				PublicUtil.showToast("you click add btn");
+				if(meetingRbtn.isChecked()){
+					Intent intent = new Intent(aty,SchedualAddMeetingActivity.class);
+					startActivity(intent);
+				}else{
+					PublicUtil.showToast("正在开发中。");
+				}
 				break;
 		}
 	}
@@ -362,8 +371,11 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		msgBtn = (ImageViewForClick) actionBar.getCustomView().findViewById(R.id.img_right2);
 		setBtn = (ImageViewForClick) actionBar.getCustomView().findViewById(R.id.img_right);
 		meetingRbtn = (RadioButton) actionBar.getCustomView().findViewById(R.id.rbtn2);
+		numTv = (TextView)actionBar.getCustomView().findViewById(R.id.num_tv);
 		final View line1 = actionBar.getCustomView().findViewById(R.id.line1);
 		final View line2 = actionBar.getCustomView().findViewById(R.id.line2);
+
+		ViewUtil.setTipsNum(numTv,0);
 
 		backBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -402,6 +414,48 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 
 
 
+	}
+
+	/**
+	 * 请求未读信息
+	 */
+	private void requestMsgNum() {
+		MessageCountController.getInstance().getMsgMainTypeCount(aty,false, false, new RequestListener() {
+			@Override
+			public void getCacheCallBack(String dataString) {
+				updateMsgMainTypeCount(dataString,false);
+			}
+
+			@Override
+			public void getHttpCallBack(String dataString) {
+				updateMsgMainTypeCount(dataString,true);
+			}
+
+			@Override
+			public void stopLoad() {
+
+			}
+		});
+	}
+
+	private void updateMsgMainTypeCount(String responseString,boolean isUpdate){
+		try {
+			MsgMainTypeResponse response = JSON.parseObject(responseString,MsgMainTypeResponse.class);
+			if(response.getResponseCode()== cn.com.bluemoon.delivery.sz.util.Constants.RESPONSE_RESULT_SUCCESS){
+				//是否更新缓存
+				if(isUpdate){
+					FileUtil.setMainMsgCount(ClientStateManager.getUserName(),responseString);
+				}
+				MessageCountController.getInstance().mergeMsgCount(response.getMainTypeNews());
+				int num = MessageCountController.getInstance().caculateUnReadMsg();
+				ViewUtil.setTipsNum(numTv,num);
+			}else{
+				PublicUtil.showToast(response.getResponseMsg());
+			}
+		} catch (Exception e) {
+			LogUtils.e(TAG, e.getMessage());
+			FileUtil.deleteMainMsgCount(ClientStateManager.getUserName());
+		}
 	}
 
 	/**
@@ -493,6 +547,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	public void onResume() {
 		super.onResume();
 		MobclickAgent.onPageStart(TAG);
+		MessageCountController.getInstance().initMsgCount();
+		requestMsgNum();
 	}
 	public void onPause() {
 		super.onPause();

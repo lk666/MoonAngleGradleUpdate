@@ -101,4 +101,24 @@
         android:scaleType="center"
         android:src="@mipmap/xinxi2" />
 
+    <RelativeLayout
+        android:layout_width="20dp"
+        android:layout_height="40dp"
+        android:layout_toLeftOf="@id/img_right"
+        android:layout_centerVertical="true">
+        <TextView
+            android:gravity="center"
+            android:id="@+id/num_tv"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:text="20"
+            android:textColor="#ffffff"
+            android:textSize="12sp"
+            android:background="@drawable/bg_circle_red_shape"
+            android:layout_alignParentRight="true"/>
+
+    </RelativeLayout>
+
+
+
 </RelativeLayout>

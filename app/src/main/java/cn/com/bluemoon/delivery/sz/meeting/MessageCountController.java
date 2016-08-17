@@ -19,6 +19,7 @@ import cn.com.bluemoon.delivery.sz.api.response.UserSchDayResponse;
 import cn.com.bluemoon.delivery.sz.bean.MainMsgCountBean;
 import cn.com.bluemoon.delivery.sz.bean.SchedualCommonBean;
 import cn.com.bluemoon.delivery.sz.util.AssetUtil;
+import cn.com.bluemoon.delivery.sz.util.AsyncHttpClientUtil;
 import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -80,7 +81,22 @@ public class MessageCountController {
         }
     }
 
-    public void getMsgMainTypeCount(Context context,boolean isRefresh,final RequestListener requestListener) {
+    /**
+     * 计算所有的未读信息数量
+     * @return
+     */
+    public int caculateUnReadMsg(){
+        int total = 0;
+        if(msgCountBeanArrayList != null && !msgCountBeanArrayList.isEmpty()){
+            for(MainMsgCountBean mainItem : msgCountBeanArrayList){
+                total += mainItem.getMsgCounts();
+            }
+        }
+        return total;
+    }
+
+    public void getMsgMainTypeCount(final Context context, final boolean showloading, final boolean isRefresh,
+                                    final RequestListener requestListener) {
         String token = ClientStateManager.getLoginToken(context);
         String staffNum = ClientStateManager.getUserName();
         final CommonProgressDialog progressDialog = new CommonProgressDialog(context);
@@ -96,18 +112,24 @@ public class MessageCountController {
 
                     public void onStart(){
                         super.onStart();
-                        progressDialog.show();
+                        if(showloading){
+                            progressDialog.show();
+                        }
+
                     }
 
                     public void onFinish(){
                         super.onFinish();
-                        progressDialog.dismiss();
-                        requestListener.stopLoad();
+                        if(showloading){
+                            progressDialog.dismiss();
+                            requestListener.stopLoad();
+                        }
+
                     }
 
                     @Override
                     public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                        LogUtils.d(TAG,"userSchDayHandler = " + responseString);
+                        LogUtils.d(TAG,responseString);
                         requestListener.getHttpCallBack(responseString);
                     }
 
@@ -115,8 +137,7 @@ public class MessageCountController {
                     public void onFailure(int statusCode, Header[] headers, String responseString,
                                           Throwable throwable) {
                         LogUtils.e(TAG, throwable.getMessage());
-                        //PublicUtil.showToastServerOvertime(aty);
-                        PublicUtil.showToast("API 错误："+statusCode);
+                        AsyncHttpClientUtil.onFailure(context,statusCode);
                     }
                 });
 
