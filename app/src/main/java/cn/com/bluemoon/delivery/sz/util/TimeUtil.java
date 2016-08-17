@@ -85,6 +85,53 @@ public class TimeUtil {
 		return result;
 	}
 
+	public static String getSendMsgTime(long timesamp) {
+		String result = "";
+		SimpleDateFormat yearsdf = new SimpleDateFormat("yyyy");
+		SimpleDateFormat monthsdf = new SimpleDateFormat("MM");
+		SimpleDateFormat sdf = new SimpleDateFormat("dd");
+		long currentSamp = System.currentTimeMillis();
+		Date today = new Date(currentSamp);
+		Date otherDay = new Date(timesamp);
+		String todayYearStr = yearsdf.format(today);
+		String otherYearStr = yearsdf.format(otherDay);
+		String todayMonthStr = monthsdf.format(today);
+		String otherMonthStr = monthsdf.format(otherDay);
+		if(todayYearStr.equals(otherYearStr)){//同一年
+			int temp = 0;
+			if(todayMonthStr.equals(otherMonthStr)){//同一个月份
+				temp = Integer.parseInt(sdf.format(today))
+						- Integer.parseInt(sdf.format(otherDay));
+			}else{//不同月份计算相差天数
+				Calendar todayCalendar = Calendar.getInstance();
+				Calendar otherCalendar = Calendar.getInstance();
+				todayCalendar.setTimeInMillis(currentSamp);
+				otherCalendar.setTimeInMillis(timesamp);
+				temp =  todayCalendar.get(Calendar.DAY_OF_YEAR) - otherCalendar.get(Calendar.DAY_OF_YEAR);
+			}
+			switch (temp) {
+				case 0:
+					result =  getHourAndMin(timesamp);
+					break;
+				case 1:
+				case 2:
+				case 3:
+				case 4:
+				case 5:
+				case 6:
+					result = getTime(timesamp);
+					break;
+
+				default:
+					result = getTime(timesamp);
+					break;
+			}
+		}else{
+			result = getYearTime(timesamp);
+		}
+		return result;
+	}
+
 	/**
 	 * 计算两个日期之间相差的天数
 	 * @param smdate 较小的时间

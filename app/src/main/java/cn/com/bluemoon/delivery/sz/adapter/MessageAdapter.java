@@ -8,7 +8,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.sql.Time;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -27,22 +26,22 @@ public class MessageAdapter extends BaseAdapter {
 
 	private List<MainMsgCountBean> list;
 	private Context context;
-	private HashMap<String,String> typeHashmap;
-	private HashMap<String,Integer> imgHashmap;
+	private HashMap<Integer,String> typeHashmap;
+	private HashMap<Integer,Integer> imgHashmap;
 
 
 	public MessageAdapter(Context context , List<MainMsgCountBean> list) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.list = list;
-		typeHashmap = new HashMap<String,String>();
+		typeHashmap = new HashMap<Integer,String>();
 		typeHashmap.put(Constants.MAIN_MSG_WAIT_REMIND,context.getString(R.string.sz_main_wait_msg_remind));
 		typeHashmap.put(Constants.MAIN_MSG_MEETING_REMIND,context.getString(R.string.sz_main_meeting_msg_remind));
 		typeHashmap.put(Constants.MAIN_MSG_ADVICE_REMIND,context.getString(R.string.sz_main_advice_msg_remind));
 		typeHashmap.put(Constants.MAIN_MSG_CONFLICT_REMIND,context.getString(R.string.sz_main_conflict_msg_remind));
 		typeHashmap.put(Constants.MAIN_MSG_DELEGATION_REMIND,context.getString(R.string.sz_main_delegation_msg_remind));
 
-		imgHashmap = new HashMap<String,Integer>();
+		imgHashmap = new HashMap<Integer,Integer>();
 		imgHashmap.put(Constants.MAIN_MSG_WAIT_REMIND,R.mipmap.msg_wait);
 		imgHashmap.put(Constants.MAIN_MSG_MEETING_REMIND,R.mipmap.msg_meeting);
 		imgHashmap.put(Constants.MAIN_MSG_ADVICE_REMIND,R.mipmap.msg_advice);
@@ -82,7 +81,7 @@ public class MessageAdapter extends BaseAdapter {
 		if(convertView==null) {
 			holder = new ViewMainMsgCountBeanHolder();
 			LayoutInflater inflater = LayoutInflater.from(context);
-			convertView = inflater.inflate(R.layout.item_message, null);
+			convertView = inflater.inflate(R.layout.item_meeting_message, null);
 			
 			holder.typeIv = (ImageView) convertView.findViewById(R.id.type_iv);
 			holder.typeTv = (TextView) convertView.findViewById(R.id.type_tv);

@@ -11,7 +11,7 @@ public class MainMsgCountBean implements Serializable {
     private String msgInfo;
     private String msgTime;
     private int msgCounts;
-    private String msgType;
+    private int msgType;
 
     public long getMsgId() {
         return msgId;
@@ -45,11 +45,11 @@ public class MainMsgCountBean implements Serializable {
         this.msgCounts = msgCounts;
     }
 
-    public String getMsgType() {
+    public int getMsgType() {
         return msgType;
     }
 
-    public void setMsgType(String msgType) {
+    public void setMsgType(int msgType) {
         this.msgType = msgType;
     }
 }

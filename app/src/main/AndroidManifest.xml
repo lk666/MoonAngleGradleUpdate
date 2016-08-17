@@ -39,23 +39,25 @@
             android:label="@string/app_name"
             android:theme="@style/AnimStartStyle">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN"/> -->
-
-
-            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-            <!-- </intent-filter> -->
+             <intent-filter>
+             <action android:name="android.intent.action.MAIN"/>
+             <category android:name="android.intent.category.LAUNCHER"/>
+             </intent-filter>
         </activity>
         <activity
             android:name=".sz.meeting.SchedualActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
+
+        <activity
+            android:name=".sz.meeting.MessageConflictActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+
+        </activity>
+
         <activity
             android:name=".sz.meeting.SchedualAddMeetingActivity"
             android:screenOrientation="portrait"
@@ -86,7 +88,7 @@
             android:theme="@style/App.Base.Theme">
         </activity>
         <activity
-            android:name=".sz.meeting.MsgWaitSchedualActivity"
+            android:name=".sz.meeting.MessageListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
         </activity>

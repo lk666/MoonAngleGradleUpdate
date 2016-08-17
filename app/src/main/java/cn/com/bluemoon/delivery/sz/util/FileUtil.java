@@ -29,6 +29,7 @@ public class FileUtil {
 
     public static final String notifycationCountFileName = "notificationCount.json";
 
+
     private static String readFromFile(File targetFile){
         String readedStr="";
         if (Environment.MEDIA_MOUNTED.equals(Environment.getExternalStorageState())) {
@@ -70,7 +71,7 @@ public class FileUtil {
                     osw.write(stringToWrite);
                     osw.close();
                 }else{
-                    osw = new OutputStreamWriter(new FileOutputStream(targetFile,true),"utf-8");
+                    osw = new OutputStreamWriter(new FileOutputStream(targetFile,false),"utf-8");
                     osw.write(stringToWrite);
                     osw.flush();
                     osw.close();
@@ -211,5 +212,40 @@ public class FileUtil {
             return true;
         }
         return false;
+    }
+
+    public static String getSubMsgPath(String userNo,int msgType){
+        String foldername =  Constants.PATH_SCHEDUAL;
+        File folder = new File(foldername);
+        if (folder == null || !folder.exists()) {
+            folder.mkdir();
+        }
+
+        foldername = Constants.PATH_SCHEDUAL + File.separator + userNo;
+        folder = new File(foldername);
+        if (folder == null || !folder.exists()) {
+            folder.mkdir();
+        }
+        String path = foldername+File.separator+"subMsg_"+msgType+".json";
+        return path;
+    }
+
+    public static String getSubMsg(String userNo,int msgType){
+        String path = getSubMsgPath(userNo,msgType);
+        File file = new File(path);
+        String json = readFromFile(file);
+        return  json;
+    }
+
+    public static void setSubMsg(String userNo,int msgType,String jsonContent){
+        String path = getSubMsgPath(userNo,msgType);
+        File file = new File(path);
+        savedToSD(file,jsonContent);
+    }
+
+    public static void deleteSubMsg(String userNo,int msgType){
+        String path = getSubMsgPath(userNo,msgType);
+        File file = new File(path);
+        file.delete();
     }
 }

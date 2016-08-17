@@ -43,7 +43,7 @@ public class SzApi {
         params.put("optStaffNum",optStaffNum);
         params.put("scheduleDay",scheduleDay);
         params.put("scheduleType",scheduleType);
-        params.put("staffNum",staffNum);
+        params.put("uid",staffNum);
         params.put("token",token);
         String url = HOST+"userSchDay";
         client.post(AppContext.getInstance(), url, getEntity(params),"application/json", handler);
@@ -63,11 +63,20 @@ public class SzApi {
     public static void msgMainType(String optStaffNum,
                                   AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<String,Object>();
-        params.put("msgId",optStaffNum);
         params.put("msgType",null);
-        params.put("staffNum",optStaffNum);
+        params.put("uid",optStaffNum);
         params.put("token", ClientStateManager.getLoginToken());
         String url = HOST+"msgMainType";
+        client.post(AppContext.getInstance(), url, getEntity(params),"application/json", handler);
+    }
+
+    public static void userMsgList(String uid,int msgType,
+                                   AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<String,Object>();
+        params.put("msgType",msgType);
+        params.put("uid",uid);
+        params.put("token", ClientStateManager.getLoginToken());
+        String url = HOST+"userMsgList";
         client.post(AppContext.getInstance(), url, getEntity(params),"application/json", handler);
     }
 }

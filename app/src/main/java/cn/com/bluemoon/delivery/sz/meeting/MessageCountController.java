@@ -70,7 +70,7 @@ public class MessageCountController {
         if(datelist != null && !datelist.isEmpty()){
             for(MainMsgCountBean item : datelist){
                 for(MainMsgCountBean mainItem : msgCountBeanArrayList){
-                    if(mainItem.getMsgType().equals(item)){
+                    if(mainItem.getMsgType() == item.getMsgType()){
                         mainItem.setMsgCounts(item.getMsgCounts());
                         mainItem.setMsgId(item.getMsgId());
                         mainItem.setMsgInfo(item.getMsgInfo());

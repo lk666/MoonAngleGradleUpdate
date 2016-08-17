@@ -1,48 +1,36 @@
 package cn.com.bluemoon.delivery.sz.meeting;
 
+import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 import org.kymjs.kjframe.KJActivity;
 import org.kymjs.kjframe.ui.BindView;
-import org.kymjs.kjframe.utils.StringUtils;
 
-
-import java.util.ArrayList;
 
 import cn.com.bluemoon.delivery.R;
 
-import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-
-import cn.com.bluemoon.delivery.app.api.model.message.Message;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.adapter.MessageAdapter;
 import cn.com.bluemoon.delivery.sz.api.response.MsgMainTypeResponse;
-import cn.com.bluemoon.delivery.sz.api.response.UserSchDayResponse;
 import cn.com.bluemoon.delivery.sz.bean.MainMsgCountBean;
-import cn.com.bluemoon.delivery.sz.util.AssetUtil;
+import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.FileUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-import cn.com.bluemoon.lib.view.ClearEditText;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class MessageActivity extends KJActivity {
@@ -62,7 +50,7 @@ public class MessageActivity extends KJActivity {
 	public void setRootView() {
 		// TODO Auto-generated method stub
 		initCustomActionBar();
-		setContentView(R.layout.activity_message);
+		setContentView(R.layout.activity_meeting_message);
 	}
 
 	@Override
@@ -87,10 +75,22 @@ public class MessageActivity extends KJActivity {
 			}
 
 		});
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
+				//PublicUtil.showToast("index:"+index);
+				int readIndex = index - 1;
+				MainMsgCountBean itemData = (MainMsgCountBean) adapter.getItem(readIndex);
+				Intent intent = new Intent(aty,MessageListActivity.class);
+				intent.putExtra("msgType",itemData.getMsgType());
+				intent.putExtra("hasNews",itemData.getMsgCounts() > 0 ? true : false);
+				startActivity(intent);
+			}
+		});
 		MessageCountController.getInstance().initMsgCount();
 		adapter = new MessageAdapter(aty,MessageCountController.getInstance().getMsgCountBeanArrayList());
 		listView.setAdapter(adapter);
-		getData(false);
+
 
 	}
 
@@ -182,7 +182,8 @@ public class MessageActivity extends KJActivity {
 	
 	public void onResume() {
 	    super.onResume();
-	    MobclickAgent.onPageStart(TAG); 
+	    MobclickAgent.onPageStart(TAG);
+		getData(false);
 	}
 	public void onPause() {
 	    super.onPause();
