@@ -19,6 +19,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.bean.MainMsgCountBean;
 import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.TimeUtil;
+import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 
@@ -97,16 +98,7 @@ public class MessageAdapter extends BaseAdapter {
 		}
 		MainMsgCountBean mainMsgCountBean = list.get(position);
 
-		if(mainMsgCountBean.getMsgCounts() > 0 && mainMsgCountBean.getMsgCounts() < 100){
-			holder.numTv.setVisibility(View.VISIBLE);
-			holder.numTv.setText(""+mainMsgCountBean.getMsgCounts());
-		}else if(mainMsgCountBean.getMsgCounts() >= 100){
-			holder.numTv.setVisibility(View.VISIBLE);
-			holder.numTv.setText("99+");
-		}else{
-			holder.numTv.setVisibility(View.INVISIBLE);
-		}
-
+		ViewUtil.setTipsNum(holder.numTv,mainMsgCountBean.getMsgCounts());
 
 		holder.contentTv.setText(mainMsgCountBean.getMsgInfo());
 		String msgTime = mainMsgCountBean.getMsgTime();
