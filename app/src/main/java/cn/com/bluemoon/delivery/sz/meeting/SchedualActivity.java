@@ -400,8 +400,6 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 			}
 		});
 
-
-
 	}
 
 	/**

@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
 
+import cn.com.bluemoon.delivery.sz.util.CrashHandler;
+
 public class BaseApplication extends Application {
 
 	private static String LAST_REFRESH_TIME = "last_refresh_time.pref";
@@ -28,6 +30,8 @@ public class BaseApplication extends Application {
 		super.onCreate();
 		_context = getApplicationContext();
 		_resource = _context.getResources();
+		CrashHandler crashHandler = CrashHandler.getInstance();
+		crashHandler.init(getApplicationContext());
 	}
 
 	public static synchronized BaseApplication context() {

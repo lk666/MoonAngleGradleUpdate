@@ -29,7 +29,9 @@ import cn.com.bluemoon.delivery.R;
 
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
+import cn.com.bluemoon.delivery.sz.util.UIUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 
 /**
@@ -38,28 +40,20 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
  * */
 public class SchedualAddMeetingActivity extends KJActivity {
 
-	@BindView(id= R.id.tv_meetingTheme)
+	@BindView(id=R.id.tv_meetingTheme,click = true)
 	private TextView tv_meetingTheme;
-	@BindView(id=R.id.et_meetingTheme)
-	private EditText et_meetingTheme;
 
-	@BindView(id=R.id.tv_meetingTime)
+	@BindView(id=R.id.tv_meetingTime,click = true)
 	private TextView tv_meetingTime;
-	@BindView(id=R.id.et_meetingTime)
-	private EditText et_meetingTime;
-
-	@BindView(id=R.id.tv_meetinger)
-	private TextView tv_meetinger;
-	@BindView(id=R.id.iv_meetinger,click =true)
-	private ImageView iv_meetinger;
 
 	@BindView(id=R.id.tv_meetingerContent)
 	private TextView tv_meetingerContent;
+	@BindView(id=R.id.iv_meetinger,click =true)
+	private ImageView iv_meetinger;
+
 
 	@BindView(id=R.id.tv_meetingAddress)
 	private TextView tv_meetingAddress;
-	@BindView(id=R.id.et_meetingAddress)
-	private EditText et_meetingAddress;
 
 	@BindView(id=R.id.tv_meetingMore)
 	private TextView tv_meetingMore;
@@ -69,8 +63,6 @@ public class SchedualAddMeetingActivity extends KJActivity {
 	@BindView(id=R.id.ll_meetingMore,click = true)
 	private LinearLayout ll_meetingMore;
 
-	@BindView(id=R.id.tv_meetingContentTip)
-	private TextView tv_meetingContentTip;
 	@BindView(id=R.id.tv_meetingContent,click = true)
 	private TextView tv_meetingContent;
 
@@ -105,13 +97,11 @@ public class SchedualAddMeetingActivity extends KJActivity {
 	private RadioButton rb_adjust;
 	@BindView(id=R.id.rb_unadjust)
 	private RadioButton rb_unadjust;
-
 	private Context contxt;
-
 
 	@Override
 	public void setRootView() {
-		setContentView(R.layout.activity_schedual_add_meeting);
+		setContentView(R.layout.activity_meeting_schedual_add);
 		contxt=SchedualAddMeetingActivity.this;
 		EventBus.getDefault().register(this);
 	}
@@ -124,8 +114,13 @@ public class SchedualAddMeetingActivity extends KJActivity {
 		if (cb_meetingMore.isChecked())
 				ll_meetingMore.setVisibility(View.VISIBLE);
 		else
-				ll_meetingMore.setVisibility(View.INVISIBLE);
+				ll_meetingMore.setVisibility(View.GONE);
 
+//		131]dp======1.5/240
+		DisplayMetrics dm=getResources().getDisplayMetrics();
+		LogUtil.d("dp======"+dm.density+"/"+dm.densityDpi);
+
+		LogUtil.d("px-to-dp======"+UIUtil.px2dip(contxt,100));
 
 	cb_meetingMore.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 		@Override
@@ -133,21 +128,33 @@ public class SchedualAddMeetingActivity extends KJActivity {
 			if (isChecked){
 				ll_meetingMore.setVisibility(View.VISIBLE);
 			}else{
-				ll_meetingMore.setVisibility(View.INVISIBLE);
+				ll_meetingMore.setVisibility(View.GONE);
 			}
 		}
 	});
 	}
 
-
 	@Override
 	public void widgetClick(View v) {
+		Bundle mbBundle=new Bundle();
 		super.widgetClick(v);
 		switch (v.getId()){
 			case R.id.tv_meetingContent:
-				Bundle mbBundle=new Bundle();
+				mbBundle.putString("input_Key","input_MeetingContent");
 				mbBundle.putString("inputContent",tv_meetingContent.getText().toString());
 				PageJumps.PageJumps(contxt,InputUtilActivity.class,mbBundle);
+				break;
+			case R.id.tv_meetingTheme:
+				mbBundle.putString("input_Key","input_MeetingTheme");
+				mbBundle.putString("inputContent",tv_meetingTheme.getText().toString());
+				PageJumps.PageJumps(contxt,InputUtilActivity.class,mbBundle);
+				break;
+			case R.id.iv_meetinger:
+				PageJumps.PageJumps(contxt,MeetingerChooseActivity.class,null);
+				break;
+			case R.id.tv_meetingTime://时间选择器
+				PageJumps.PageJumps(contxt,TimeChooseActivity.class,null);
+
 				break;
 			default:
 				break;
@@ -158,20 +165,14 @@ public class SchedualAddMeetingActivity extends KJActivity {
 	public void showPopWindow(TextView tv){
 
 		DisplayMetrics dm=getResources().getDisplayMetrics();
-
 		View view = LayoutInflater.from(contxt).inflate(R.layout.pop_meeting_input,null);
 			view.measure(View.MeasureSpec.UNSPECIFIED, View.MeasureSpec.UNSPECIFIED);
-
 //		view.setLayoutParams(new LinearLayout.LayoutParams((int) (dm.widthPixels*0.8),
 //				LinearLayout.LayoutParams.WRAP_CONTENT));
-
 //		实例
-
 		EditText et_popContent= (EditText) view.findViewById(R.id.et_popContent);
-
 		popupWindow=new PopupWindow(view,
 				ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.WRAP_CONTENT);
-
 		popupWindow.setFocusable(true);
 		popupWindow.setOutsideTouchable(true);
 		popupWindow.setBackgroundDrawable(new BitmapDrawable());//为空
@@ -196,9 +197,7 @@ public class SchedualAddMeetingActivity extends KJActivity {
 		});
 
 		int[] location=new int[2];
-
 		tv_meetingMore.getLocationOnScreen(location);
-
 
 //		dm.widthPixels
 // 在底部显示
@@ -212,7 +211,6 @@ public class SchedualAddMeetingActivity extends KJActivity {
 		Log.v("pop 位置信息 view",dm.widthPixels+"："+view.getMeasuredWidth()+":"+view.getMeasuredHeight());
 //		30:413
 		Log.v("pop 位置 ",location[0]+"："+location[1]+":"+view.getWidth());
-
 	}
 
 	private void closePopupWindow(PopupWindow popupWindow) {
@@ -228,27 +226,22 @@ public class SchedualAddMeetingActivity extends KJActivity {
 	}
 
 	private void initCustomActionBar() {
-
 		CommonActionBar commonActionBar=new CommonActionBar(getActionBar(),new IActionBarListener() {
-
 			@Override
 			public void onBtnRight(View v) {
 				// TODO Auto-generated method stu
 			}
-
 			@Override
 			public void onBtnLeft(View v) {
 				// TODO Auto-generated method stub
 				finish();
 			}
-
 			@Override
 			public void setTitle(TextView v) {
 				// TODO Auto-generated method stub
 				v.setText(R.string.sz_meeting_schedual_add_meeting);
 			}
 		});
-
 		TextView tv_right=commonActionBar.getTvRightView();
 		tv_right.setVisibility(View.VISIBLE);
 		tv_right.setText("确定");
@@ -257,8 +250,24 @@ public class SchedualAddMeetingActivity extends KJActivity {
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void getEventMessageBean(EventMessageBean messageBean){
-		if (messageBean.getEventMsgAction().equals("MeetingContent"))
-			tv_meetingContent.setText(messageBean.getEventMsgContent());
+		String strContent="";
+		if (messageBean.getEventMsgAction().equals("input_MeetingContent")){
+			strContent=messageBean.getEventMsgContent();
+			if (!strContent.startsWith("会议内容"))
+				tv_meetingContent.setText("会议内容："+strContent);
+			else
+				tv_meetingContent.setText(strContent);
+
+		}else if(messageBean.getEventMsgAction().equals("input_MeetingTheme")){
+			strContent=messageBean.getEventMsgContent();
+			if (!strContent.startsWith("主题"))
+				tv_meetingTheme.setText("主题："+strContent);
+			else
+				tv_meetingTheme.setText(strContent);
+
+		}else{
+
+		}
 	}
 
 

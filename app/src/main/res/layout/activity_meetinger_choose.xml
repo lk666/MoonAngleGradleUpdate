@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".sz.meeting.MeetingerChooseActivity">
+
+
+    <HorizontalScrollView
+        android:id="@+id/hs_chooseMeetinger"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:minHeight="50dp">
+
+        <LinearLayout
+            android:id="@+id/ll_chooseUser"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+
+        </LinearLayout>
+
+    </HorizontalScrollView>
+
+    <ListView
+        android:layout_below="@+id/hs_chooseMeetinger"
+        android:id="@+id/lv_meetinger"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        >
+
+
+    </ListView>
+
+
+</RelativeLayout>

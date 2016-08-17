@@ -236,14 +236,6 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
-    <!--sz jinagyh-->
-    <!--<style name="dialogActivity" parent="@android:style/Theme.Dialog">-->
-        <!--<item name="android:windowFrame">@null</item>-->
-        <!--<item name="android:windowIsFloating">false</item>-->
-        <!--<item name="android:windowIsTranslucent">true</item>-->
-        <!--<item name="android:windowNoTitle">true</item>-->
-        <!--<item name="android:windowBackground">@color/trangray7</item>-->
-    <!--</style>-->
 
     <!--灰色13提示字体-->
     <style name="txt_hint_13">

@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
+
 /**
  * Numeric Wheel adapter.
  */
@@ -96,6 +98,8 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
                 value = minValue + index;
             }
 //            int value = minValue + index;
+            LogUtil.v("NumericWheelAdapter＝＝＝＝>"+value);//底部最后一个
+
             return format != null ? String.format(format, value) : Integer.toString(value);
         }
         return null;
@@ -105,7 +109,7 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
     public int getItemsCount() {
         return maxValue - minValue + 1;
     }
-    
+
     @Override
     public View getItem(int index, View convertView, ViewGroup parent) {
         if (index >= 0 && index < getItemsCount()) {
@@ -119,6 +123,7 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
                     text = "";
                 }
                 textView.setText(text+label);
+                LogUtil.v("NumericWheelAdapter＝＝getItem＝＝>"+(text+label));
                 textView.setPadding(0,3,0,3);
                 if (itemResourceId == TEXT_VIEW_ITEM_RESOURCE) {
                     configureTextView(textView);

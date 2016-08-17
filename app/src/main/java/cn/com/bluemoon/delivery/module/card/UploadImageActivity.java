@@ -104,7 +104,8 @@ public class UploadImageActivity extends Activity{
                         }
                         if (needUploadList.size() > 1) {
                             progressDialog.show();
-                            DeliveryApi.uploadImg(ClientStateManager.getLoginToken(UploadImageActivity.this), FileUtil.getBytes(needUploadList.get(0).getBitmap()), uploadImageHandler);
+                            DeliveryApi.uploadImg(ClientStateManager.getLoginToken(UploadImageActivity.this),
+                                    FileUtil.getBytes(needUploadList.get(0).getBitmap()), uploadImageHandler);
                         } else {
                             uploadControl = false;
                             if (isDeleteImg) {
@@ -255,7 +256,8 @@ public class UploadImageActivity extends Activity{
                 if(result.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
                     needUploadList.remove(0);
                     if (needUploadList.size() > 1) {
-                        DeliveryApi.uploadImg(ClientStateManager.getLoginToken(UploadImageActivity.this), FileUtil.getBytes(needUploadList.get(0).getBitmap()), uploadImageHandler);
+                        DeliveryApi.uploadImg(ClientStateManager.getLoginToken(UploadImageActivity.this),
+                                FileUtil.getBytes(needUploadList.get(0).getBitmap()), uploadImageHandler);
                     } else {
                         uploadControl = false;
                         if(progressDialog!=null){
