@@ -1,6 +1,5 @@
 package cn.com.bluemoon.delivery.sz.meeting;
 
-import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.SeekBar;
@@ -17,9 +16,9 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class SzMsgCommissionActivity extends KJActivity {
+public class SzMsgWaitActivity extends KJActivity {
 
-	private String TAG = SzMsgCommissionActivity.class.getSimpleName();
+	private String TAG = SzMsgWaitActivity.class.getSimpleName();
 
 	private CommonProgressDialog progressDialog;
 

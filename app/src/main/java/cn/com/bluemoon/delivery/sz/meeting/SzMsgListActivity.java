@@ -85,37 +85,10 @@ public class SzMsgListActivity extends KJActivity {
 			}
 
 		});
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> adapterView, View view, int index, long l) {
-				int readIndex = index - 1;
-				MsgListItemBean itemData = (MsgListItemBean) adapter.getItem(readIndex);
-				Intent intent;
-				switch (msgType){
-					case Constants.MAIN_MSG_WAIT_REMIND:
-						break;
-					case Constants.MAIN_MSG_MEETING_REMIND:
-						break;
-					case Constants.MAIN_MSG_ADVICE_REMIND:
-						intent = new Intent(aty,SzMsgAdviceReplyActivity.class);
-						startActivity(intent);
-						break;
-					case Constants.MAIN_MSG_CONFLICT_REMIND:
-						intent = new Intent(aty,SzMsgConflictActivity.class);
-						startActivity(intent);
-						break;
-					case Constants.MAIN_MSG_DELEGATION_REMIND:
-						break;
-					default:
-						PublicUtil.showToast("无该信息类型");
-						break;
-				}
-			}
-		});
 
 
 		datalist = new ArrayList<MsgListItemBean>();
-		adapter = new MessageListAdapter(aty,datalist);
+		adapter = new MessageListAdapter(aty,datalist,msgType);
 		listView.setAdapter(adapter);
 		//获取历史的信息
 		getHistoryMsg();
