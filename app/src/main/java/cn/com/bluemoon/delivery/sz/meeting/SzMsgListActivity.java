@@ -4,12 +4,10 @@ import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
@@ -23,12 +21,9 @@ import java.util.ArrayList;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.sz.adapter.MessageAdapter;
 import cn.com.bluemoon.delivery.sz.adapter.MessageListAdapter;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
-import cn.com.bluemoon.delivery.sz.api.response.MsgMainTypeResponse;
 import cn.com.bluemoon.delivery.sz.api.response.UserMsgListResponse;
-import cn.com.bluemoon.delivery.sz.bean.MainMsgCountBean;
 import cn.com.bluemoon.delivery.sz.bean.MsgListItemBean;
 import cn.com.bluemoon.delivery.sz.util.AsyncHttpClientUtil;
 import cn.com.bluemoon.delivery.sz.util.Constants;
@@ -42,9 +37,9 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class MessageListActivity extends KJActivity {
+public class SzMsgListActivity extends KJActivity {
 
-	private String TAG = MessageListActivity.class.getSimpleName();
+	private String TAG = SzMsgListActivity.class.getSimpleName();
 
 	private CommonProgressDialog progressDialog;
 	@BindView(id=R.id.listview_main)
@@ -63,7 +58,7 @@ public class MessageListActivity extends KJActivity {
 	public void setRootView() {
 		// TODO Auto-generated method stub
 		initCustomActionBar();
-		setContentView(R.layout.activity_meeting_message_list);
+		setContentView(R.layout.activity_sz_message_list);
 	}
 
 	@Override
@@ -104,7 +99,7 @@ public class MessageListActivity extends KJActivity {
 					case Constants.MAIN_MSG_ADVICE_REMIND:
 						break;
 					case Constants.MAIN_MSG_CONFLICT_REMIND:
-						intent = new Intent(aty,MessageConflictActivity.class);
+						intent = new Intent(aty,SzMsgConflictActivity.class);
 						startActivity(intent);
 						break;
 					case Constants.MAIN_MSG_DELEGATION_REMIND:

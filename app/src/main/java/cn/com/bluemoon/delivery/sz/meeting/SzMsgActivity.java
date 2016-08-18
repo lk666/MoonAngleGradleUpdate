@@ -22,7 +22,6 @@ import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.adapter.MessageAdapter;
 import cn.com.bluemoon.delivery.sz.api.response.MsgMainTypeResponse;
 import cn.com.bluemoon.delivery.sz.bean.MainMsgCountBean;
-import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.FileUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -33,9 +32,9 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class MessageActivity extends KJActivity {
+public class SzMsgActivity extends KJActivity {
 
-	private String TAG = MessageActivity.class.getSimpleName();
+	private String TAG = SzMsgActivity.class.getSimpleName();
 
 	private CommonProgressDialog progressDialog;
 	@BindView(id=R.id.listview_main)
@@ -50,7 +49,7 @@ public class MessageActivity extends KJActivity {
 	public void setRootView() {
 		// TODO Auto-generated method stub
 		initCustomActionBar();
-		setContentView(R.layout.activity_meeting_message);
+		setContentView(R.layout.activity_sz_message);
 	}
 
 	@Override
@@ -81,21 +80,21 @@ public class MessageActivity extends KJActivity {
 				//PublicUtil.showToast("index:"+index);
 				int readIndex = index - 1;
 				MainMsgCountBean itemData = (MainMsgCountBean) adapter.getItem(readIndex);
-				Intent intent = new Intent(aty,MessageListActivity.class);
+				Intent intent = new Intent(aty,SzMsgListActivity.class);
 				intent.putExtra("msgType",itemData.getMsgType());
 				intent.putExtra("hasNews",itemData.getMsgCounts() > 0 ? true : false);
 				startActivity(intent);
 			}
 		});
-		MessageCountController.getInstance().initMsgCount();
-		adapter = new MessageAdapter(aty,MessageCountController.getInstance().getMsgCountBeanArrayList());
+		SzMsgCountController.getInstance().initMsgCount();
+		adapter = new MessageAdapter(aty, SzMsgCountController.getInstance().getMsgCountBeanArrayList());
 		listView.setAdapter(adapter);
 
 
 	}
 
 	public void getData(boolean isRefresh){
-		MessageCountController.getInstance().getMsgMainTypeCount(aty,true,isRefresh, new RequestListener() {
+		SzMsgCountController.getInstance().getMsgMainTypeCount(aty,true,isRefresh, new RequestListener() {
 			@Override
 			public void getCacheCallBack(String dataString) {
 				updateMsgMainTypeCount(dataString,false);
@@ -121,8 +120,8 @@ public class MessageActivity extends KJActivity {
 				if(isUpdate){
 					FileUtil.setMainMsgCount(ClientStateManager.getUserName(),responseString);
 				}
-				MessageCountController.getInstance().mergeMsgCount(response.getMainTypeNews());
-				adapter.refresh(MessageCountController.getInstance().getMsgCountBeanArrayList());
+				SzMsgCountController.getInstance().mergeMsgCount(response.getMainTypeNews());
+				adapter.refresh(SzMsgCountController.getInstance().getMsgCountBeanArrayList());
 			}else{
 
 				PublicUtil.showToast(response.getResponseMsg());

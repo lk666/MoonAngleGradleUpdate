@@ -58,8 +58,10 @@
     <color name="login_button_normal">#169fff</color>
     <color name="login_button_pressed">#1073b9</color>
     <!-- 深圳 -->
-    <color name="sz_alert_color">#FF7500</color>
-    <color name="sz_font_yellow">#FF863E</color>
+    <color name="sz_alert_color">#FF8027</color>
+    <color name="sz_font_yellow">#FF8027</color>
     <color name="sz_font_normal">#464646</color>
+    <color name="sz_font_gray">#A0A0A0</color>
     <color name="sz_line">#f5f5f5</color>
+    <color name="sz_blue">#4d1fb8ff</color>
 </resources>

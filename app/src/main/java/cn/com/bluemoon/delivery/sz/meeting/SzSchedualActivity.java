@@ -32,13 +32,10 @@ import org.kymjs.kjframe.utils.StringUtils;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import butterknife.Bind;
-import cn.com.bluemoon.delivery.app.api.model.message.Message;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.api.response.MsgMainTypeResponse;
-import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.FileUtil;
 import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -61,8 +58,8 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.ImageViewForClick;
 
-public class SchedualActivity extends KJActivity implements CalendarCard.OnCellClickListener {
-	private String TAG = SchedualActivity.class.getSimpleName();
+public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCellClickListener {
+	private String TAG = SzSchedualActivity.class.getSimpleName();
 
 
 	private TextView dateTv;
@@ -101,7 +98,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	public void setRootView() {
 		// TODO Auto-generated method stub
 		initCustomActionBar();
-		setContentView(R.layout.activity_schedual);
+		setContentView(R.layout.activity_sz_schedual);
 
 	}
 
@@ -387,7 +384,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		msgBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				Intent intent = new Intent(aty,MessageActivity.class);
+				Intent intent = new Intent(aty,SzMsgActivity.class);
 				startActivity(intent);
 			}
 		});
@@ -395,7 +392,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		setBtn.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View view) {
-				PageJumps.PageJumps(SchedualActivity.this,SchedualAddMeetingActivity.class,null);
+				PageJumps.PageJumps(SzSchedualActivity.this,SchedualAddMeetingActivity.class,null);
 			}
 		});
 
@@ -418,7 +415,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	 * 请求未读信息
 	 */
 	private void requestMsgNum() {
-		MessageCountController.getInstance().getMsgMainTypeCount(aty,false, false, new RequestListener() {
+		SzMsgCountController.getInstance().getMsgMainTypeCount(aty,false, false, new RequestListener() {
 			@Override
 			public void getCacheCallBack(String dataString) {
 				updateMsgMainTypeCount(dataString,false);
@@ -444,8 +441,8 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 				if(isUpdate){
 					FileUtil.setMainMsgCount(ClientStateManager.getUserName(),responseString);
 				}
-				MessageCountController.getInstance().mergeMsgCount(response.getMainTypeNews());
-				int num = MessageCountController.getInstance().caculateUnReadMsg();
+				SzMsgCountController.getInstance().mergeMsgCount(response.getMainTypeNews());
+				int num = SzMsgCountController.getInstance().caculateUnReadMsg();
 				ViewUtil.setTipsNum(numTv,num);
 			}else{
 				PublicUtil.showToast(response.getResponseMsg());
@@ -494,9 +491,6 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		ok.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-//				String str = (yearWv.getCurrentItem()+1990) + "-"+ (monthWv.getCurrentItem()+1)+"-"+(dayWv.getCurrentItem()+1);
-//				PublicUtil.showToast(SchedualActivity.this,str);
 				CustomDate tempDate = new CustomDate(yearWv.getCurrentItem()+1990,monthWv.getCurrentItem()+1,1);
 				updateCalendarView(tempDate);
 				dialog.cancel();
@@ -505,7 +499,6 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 		cancel.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				dialog.cancel();
 			}
 		});
@@ -545,7 +538,7 @@ public class SchedualActivity extends KJActivity implements CalendarCard.OnCellC
 	public void onResume() {
 		super.onResume();
 		MobclickAgent.onPageStart(TAG);
-		MessageCountController.getInstance().initMsgCount();
+		SzMsgCountController.getInstance().initMsgCount();
 		requestMsgNum();
 	}
 	public void onPause() {

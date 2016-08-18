@@ -15,31 +15,27 @@ import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.api.response.MsgMainTypeResponse;
-import cn.com.bluemoon.delivery.sz.api.response.UserSchDayResponse;
 import cn.com.bluemoon.delivery.sz.bean.MainMsgCountBean;
-import cn.com.bluemoon.delivery.sz.bean.SchedualCommonBean;
 import cn.com.bluemoon.delivery.sz.util.AssetUtil;
 import cn.com.bluemoon.delivery.sz.util.AsyncHttpClientUtil;
-import cn.com.bluemoon.delivery.sz.util.Constants;
 import cn.com.bluemoon.delivery.sz.util.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 /**
  * Created by dujiande on 2016/8/16.
  */
-public class MessageCountController {
-    private String TAG = MessageCountController.class.getSimpleName();
+public class SzMsgCountController {
+    private String TAG = SzMsgCountController.class.getSimpleName();
 
-    private static MessageCountController ourInstance = new MessageCountController();
+    private static SzMsgCountController ourInstance = new SzMsgCountController();
 
-    public static MessageCountController getInstance() {
+    public static SzMsgCountController getInstance() {
         return ourInstance;
     }
 
-    private MessageCountController() {
+    private SzMsgCountController() {
     }
 
     private ArrayList<MainMsgCountBean> msgCountBeanArrayList;

@@ -58,7 +58,7 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
-import cn.com.bluemoon.delivery.sz.meeting.SchedualActivity;
+import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -763,7 +763,7 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                 //click empty
             } else if ("scheduleSys".equals(userRight.getMenuCode())) {
-                intent = new Intent(main, SchedualActivity.class);
+                intent = new Intent(main, SzSchedualActivity.class);
                 startActivity(intent);
             }else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
