@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="oval"
+    android:useLevel="false">
+
+    <solid android:color="@color/sz_siderbar_blue"/>
+    <stroke
+        android:width="0dp"
+        android:color="@color/white"/>
+    <size android:width="@dimen/sz_seekbar_thumb_normal"
+    android:height="@dimen/sz_seekbar_thumb_normal"/>
+</shape>

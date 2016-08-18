@@ -72,9 +72,9 @@ public class MessageListAdapter extends BaseAdapter {
 
 			holder.datetimeTv = (TextView) convertView.findViewById(R.id.time_tv);
 			holder.titleTv = (TextView) convertView.findViewById(R.id.content_tv);
-			holder.line1Miv = (MySettingItemView) convertView.findViewById(R.id.line1_miv);
-			holder.line2Miv = (MySettingItemView) convertView.findViewById(R.id.line1_miv);
-			holder.line3Miv = (MySettingItemView) convertView.findViewById(R.id.line1_miv);
+			holder.line1Miv = (TextView) convertView.findViewById(R.id.line1_miv);
+			holder.line2Miv = (TextView) convertView.findViewById(R.id.line1_miv);
+			holder.line3Miv = (TextView) convertView.findViewById(R.id.line1_miv);
 
 			convertView.setTag(holder);
 			
@@ -99,9 +99,9 @@ public class MessageListAdapter extends BaseAdapter {
 	class ViewMsgListItemBeanHolder {
 		TextView datetimeTv;
 		TextView titleTv;
-		MySettingItemView line1Miv;
-		MySettingItemView line2Miv;
-		MySettingItemView line3Miv;
+		TextView line1Miv;
+		TextView line2Miv;
+		TextView line3Miv;
 	}
 
 }

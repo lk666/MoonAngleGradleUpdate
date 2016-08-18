@@ -19,4 +19,21 @@ public class ViewUtil {
             textView.setVisibility(View.INVISIBLE);
         }
     }
+
+    public static String createHtmlStr(String meet1,String meet2){
+        String html = "";
+        String meet1Html = getYellowFont(meet1);
+        String meet2Html = getYellowFont(meet2);
+        html = meet1Html+getBlackFont("与")+meet2Html+getBlackFont("时间安排有冲突，请根据实际情况进行调整");
+
+        return html;
+    }
+
+    public static String getYellowFont(String text){
+        return "<font color=\"#FF863E\">" + text + "</font> ";
+    }
+
+    public static String getBlackFont(String text){
+        return "<font color=\"#464646\">" + text + "</font> ";
+    }
 }

@@ -38,30 +38,34 @@
             android:name=".AppStartActivity"
             android:label="@string/app_name"
             android:theme="@style/AnimStartStyle">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
+
         </activity>
         <activity
             android:name=".sz.meeting.SzSchedualActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
-
         </activity>
 
         <activity
             android:name=".sz.meeting.SzMsgConflictActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
-
         </activity>
 
         <activity
             android:name=".sz.meeting.SzMsgAdviceReplyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
+        </activity>
 
+        <activity
+            android:name=".sz.meeting.SzMsgCommissionActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
         </activity>
 
         <activity

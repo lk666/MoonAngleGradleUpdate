@@ -2,7 +2,6 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:smiv="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@color/page_bg_ed">
 
@@ -26,13 +25,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_margin="17dp"
-        android:padding="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
         android:background="@drawable/bg_corner_white">
 
         <TextView
             android:id="@+id/content_tv"
-            android:layout_marginTop="10dp"
-            android:paddingLeft="15dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
@@ -40,38 +40,30 @@
             android:textColor="@color/sz_font_yellow"
             android:textSize="15sp"/>
 
-        <cn.com.bluemoon.delivery.sz.view.MySettingItemView
+
+        <TextView
             android:id="@+id/line1_miv"
             android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_height="30dp"
-            smiv:setMyHintTxt = "时间："
-            smiv:setMyContentTxt = ""
-            smiv:setMyContentColor="#888888"
-            smiv:setMyHintColor="#888888"
-            smiv:setMyRightVisible="false"/>
+            android:layout_height="wrap_content"
+            android:text="时间："
+            style="@style/sz_txt"
+            android:layout_marginTop="10dp"/>
 
-        <cn.com.bluemoon.delivery.sz.view.MySettingItemView
+        <TextView
             android:id="@+id/line2_miv"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            smiv:setMyHintTxt = "任务描述："
-            smiv:setMyContentTxt = ""
-            smiv:setMyContentColor="#888888"
-            smiv:setMyHintColor="#888888"
-            smiv:setMyRightVisible="false"/>
+            android:layout_height="wrap_content"
+            android:text="任务描述："
+            style="@style/sz_txt"
+            android:layout_marginTop="10dp"/>
 
-        <cn.com.bluemoon.delivery.sz.view.MySettingItemView
+        <TextView
             android:id="@+id/line3_miv"
-            android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            smiv:setMyHintTxt = "组织者："
-            smiv:setMyContentTxt = ""
-            smiv:setMyContentColor="#888888"
-            smiv:setMyHintColor="#888888"
-            smiv:setMyRightVisible="false"/>
+            android:layout_height="wrap_content"
+            android:text="组织者："
+            style="@style/sz_txt"
+            android:layout_marginTop="10dp"/>
 
     </LinearLayout>
 

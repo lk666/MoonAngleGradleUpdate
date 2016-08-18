@@ -47,5 +47,7 @@
 
 
 
-    <dimen name="setting_item_height">30dp</dimen>
+    <dimen name="sz_seekbar_thumb_normal">25dp</dimen>
+    <dimen name="sz_seekbar_thumb_press">40dp</dimen>
+    <dimen name="setting_item_height">50dp</dimen>
 </resources>

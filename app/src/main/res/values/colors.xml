@@ -62,6 +62,8 @@
     <color name="sz_font_yellow">#FF8027</color>
     <color name="sz_font_normal">#464646</color>
     <color name="sz_font_gray">#A0A0A0</color>
+    <color name="sz_font_blue">#00C9FB</color>
     <color name="sz_line">#f5f5f5</color>
     <color name="sz_blue">#4d1fb8ff</color>
+    <color name="sz_siderbar_blue">#1fb8fe</color>
 </resources>

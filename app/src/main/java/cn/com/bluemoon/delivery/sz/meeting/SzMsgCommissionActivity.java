@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.sz.meeting;
 import android.text.Html;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.SeekBar;
 import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
@@ -12,25 +13,28 @@ import org.kymjs.kjframe.ui.BindView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class SzMsgConflictActivity extends KJActivity {
+public class SzMsgCommissionActivity extends KJActivity {
 
-	private String TAG = SzMsgConflictActivity.class.getSimpleName();
+	private String TAG = SzMsgCommissionActivity.class.getSimpleName();
 
 	private CommonProgressDialog progressDialog;
 
-	@BindView(id=R.id.conflict_tv)
-	TextView conflictTv;
+	@BindView(id=R.id.valueTv)
+	TextView valueTv;
+	@BindView(id=R.id.seekBar)
+	SeekBar seekBar;
+	@BindView(id=R.id.meeting_detail_tv)
+	TextView meetingDetailTv;
+
 	@Override
 	public void setRootView() {
 		// TODO Auto-generated method stub
 		initCustomActionBar();
-		setContentView(R.layout.activity_sz_msg_conflict);
+		setContentView(R.layout.activity_sz_msg_commission);
 	}
 
 	@Override
@@ -39,9 +43,27 @@ public class SzMsgConflictActivity extends KJActivity {
 		super.initWidget();
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(aty);
-		String htmlStr = ViewUtil.createHtmlStr("动员会议","界面设计日程工作");
-		conflictTv.setText(Html.fromHtml(htmlStr));
+
+		seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			@Override
+			public void onProgressChanged(SeekBar seekBar, int progress,boolean fromUser) {
+				valueTv.setText(progress+"");
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
+
+			}
+		});
 	}
+
+
+
 
 	@Override
 	public void widgetClick(View v) {
@@ -79,7 +101,7 @@ public class SzMsgConflictActivity extends KJActivity {
 			@Override
 			public void setTitle(TextView v) {
 				// TODO Auto-generated method stub
-				v.setText("时间安排冲突");
+				v.setText("代办任务提醒");
 			}
 		});
 		

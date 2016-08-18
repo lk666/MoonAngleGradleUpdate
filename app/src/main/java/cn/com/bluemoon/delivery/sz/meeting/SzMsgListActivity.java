@@ -97,6 +97,8 @@ public class SzMsgListActivity extends KJActivity {
 					case Constants.MAIN_MSG_MEETING_REMIND:
 						break;
 					case Constants.MAIN_MSG_ADVICE_REMIND:
+						intent = new Intent(aty,SzMsgAdviceReplyActivity.class);
+						startActivity(intent);
 						break;
 					case Constants.MAIN_MSG_CONFLICT_REMIND:
 						intent = new Intent(aty,SzMsgConflictActivity.class);
