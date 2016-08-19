@@ -53,10 +53,10 @@ import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
@@ -362,6 +362,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         return R.string.title_create_collect_order;
     }
 
+     AlertDialog finishDialog;
     private void showFinishDialog(String collectCode) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_create_wash_order_finish,
@@ -386,13 +387,14 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                finishDialog.dismiss();
                 finish();
             }
         });
 
         dialog.setView(view);
         dialog.setCancelable(false);
-        dialog.show();
+        finishDialog = dialog.show();
     }
 
     @OnClick({R.id.tv_province_city_country, R.id.tv_street_village, R.id.tv_collect_brcode,

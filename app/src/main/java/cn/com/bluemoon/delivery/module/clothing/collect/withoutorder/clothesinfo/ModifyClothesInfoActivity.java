@@ -457,7 +457,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                     tmpUploadClothesInfo.setHasFlaw(sbFalw.isChecked() ? 1 : 0);
                     tmpUploadClothesInfo.setHasStain(sbStain.isChecked() ? 1 : 0);
                     tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
-                    tmpUploadClothesInfo.setTypeCode(etBackup.getText().toString());
+                    tmpUploadClothesInfo.setTypeCode(selectedTypeView.getTypeInfo().getTypeCode());
                     tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
                     tmpUploadClothesInfo.setTypeName(selectedTypeView.getTypeInfo().getTypeName());
                     tmpUploadClothesInfo.setClothesName(selectedNameView.getType().getClothesName
