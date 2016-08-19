@@ -516,6 +516,7 @@ class RightContentAdapter extends BaseAdapter {
 			viewholder.view= (TextView) convertView.findViewById(R.id.tv_01);
 
 			totalWidth=meetingView.getTotalWidth();
+
 			viewholder.view.setWidth(totalWidth);
 
 			Log.d("ListView 宽度",totalWidth+"");
