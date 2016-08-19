@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -18,6 +19,8 @@ public class LongClickDialog extends Dialog {
 
 
     private Activity mActivity;
+    public TextView deleteTv;
+
 
     public LongClickDialog(Context context) {
          super(context);
@@ -39,14 +42,7 @@ public class LongClickDialog extends Dialog {
          View view;
          view = inflater.inflate(R.layout.dialog_msg_longclick, null);
          setContentView(view);
-
-         view.findViewById(R.id.delete_tv).setOnClickListener(new View.OnClickListener() {
-             @Override
-             public void onClick(View view) {
-                 PublicUtil.showToast("you click delete btn");
-                 cancel();
-             }
-         });
+         deleteTv = (TextView)  view.findViewById(R.id.delete_tv);
      }
 
 

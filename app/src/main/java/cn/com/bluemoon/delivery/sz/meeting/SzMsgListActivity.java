@@ -107,6 +107,7 @@ public class SzMsgListActivity extends KJActivity {
 				UserMsgListResponse responseTemp = JSON.parseObject(cache,UserMsgListResponse.class);
 				response = responseTemp;
 				adapter.refresh(response.getData());
+				adapter.setResponse(response);
 			}
 		}catch (Exception e){
 			e.printStackTrace();
@@ -161,6 +162,7 @@ public class SzMsgListActivity extends KJActivity {
 				String jsonStr = JSON.toJSONString(response);
 				FileUtil.setSubMsg(ClientStateManager.getUserName(),msgType,jsonStr);
 				adapter.refresh(response.getData());
+				adapter.setResponse(response);
 			}else{
 				PublicUtil.showToast(responseTemp.getResponseMsg());
 			}

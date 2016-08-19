@@ -52,8 +52,10 @@ public class WheelView extends View {
 	 *
 	 *  */
 	// TODO 设置透明度
-	private int[] SHADOWS_COLORS = new int[] { 0xefffffff,
-			0xcfffffff, 0x3fffffff };
+//	private int[] SHADOWS_COLORS = new int[] { 0xefffffff,
+//			0xcfffffff, 0x3fffffff };
+	private int[] SHADOWS_COLORS = new int[]{0xefffffff, 0xcfffffff,
+			0x00ffffff};
 
 	/** Top and bottom items offset (to hide that) */
 	private static final int ITEM_OFFSET_PERCENT = 0;
@@ -678,7 +680,7 @@ public class WheelView extends View {
 		// 设置线宽
 		paint.setStrokeWidth((float) 1);
 		// 绘制上边直线
-//		canvas.drawLine(0, center - offset, getWidth(), center - offset, paint);
+		canvas.drawLine(0, center - offset, getWidth(), center - offset, paint);
 		// 绘制下边直线
 		canvas.drawLine(0, center + offset, getWidth(), center + offset, paint);
 	}

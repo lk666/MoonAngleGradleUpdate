@@ -22,32 +22,34 @@
         <RelativeLayout
                 android:layout_width="fill_parent"
                 android:layout_height="40dp"
-                android:background="#fff"
+                android:background="#F3F2F1"
                 android:orientation="horizontal">
 
             <Button
                     android:id="@+id/cancel"
                     android:layout_width="120dp"
                     android:layout_height="fill_parent"
-                    android:background="@drawable/dialog_btn_right_selector"
+                    android:background="@android:color/transparent"
                     android:text="取消"
-                    android:textColor="#5C5D5C"/>
+                    android:textSize="14sp"
+                    android:textColor="@color/sz_font_normal"/>
             <Button
                     android:id="@+id/set"
                     android:layout_width="120dp"
                     android:layout_height="fill_parent"
-                    android:background="@drawable/dialog_btn_left_selector"
+                    android:background="@android:color/transparent"
                     android:text="确定"
+                    android:textSize="14sp"
                     android:layout_alignParentRight="true"
-                    android:textColor="#1298FF"/>
+                    android:textColor="@color/sz_font_blue"/>
         </RelativeLayout>
 
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:background="#fff"
-                android:paddingBottom="20dp"
-                android:paddingTop="10dp"
+                android:paddingBottom="5dp"
+                android:paddingTop="5dp"
                 android:orientation="horizontal">
 
             <cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView
@@ -66,6 +68,14 @@
                     android:layout_marginBottom="10dip"
                     android:layout_marginTop="10dip"
                     android:layout_weight="1"/>
+
+            <cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView
+                android:id="@+id/day"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dip"
+                android:layout_marginTop="10dip"
+                android:layout_weight="1"/>
 
 
         </LinearLayout>

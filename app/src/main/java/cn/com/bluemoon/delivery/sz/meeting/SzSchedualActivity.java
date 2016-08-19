@@ -38,6 +38,7 @@ import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.api.response.MsgMainTypeResponse;
 import cn.com.bluemoon.delivery.sz.util.FileUtil;
 import cn.com.bluemoon.delivery.sz.util.ViewUtil;
+import cn.com.bluemoon.delivery.sz.view.datepicker.SzDatepickerDialog;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.delivery.sz.adapter.ScheduleAdapter;
@@ -84,10 +85,10 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 	private CalendarViewAdapter<CalendarCard> adapter;
 	private ScheduleAdapter scheduleAdapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
-	private WheelView yearWv,monthWv;
 	private String currentNo;
 	private Boolean isMySelf;
 	private String currentDate;
+	private SzDatepickerDialog szDatepickerDialog;
 
 
 	enum SildeDirection {
@@ -109,6 +110,13 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(aty);
+		szDatepickerDialog = new SzDatepickerDialog(this);
+		szDatepickerDialog.setDateConfirmListeren(new SzDatepickerDialog.DateConfirmListeren() {
+			@Override
+			public void getDateTime(CustomDate tempDate) {
+				updateCalendarView(tempDate);
+			}
+		});
 
 		View headerView = LayoutInflater.from(this).inflate( R.layout.header_schedual, null);
 		listView.addHeaderView(headerView);
@@ -153,7 +161,6 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 				showDateDialog();
 			}
 		});
-
 
 	}
 
@@ -314,8 +321,10 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 
 	private void updateCalendarView(CustomDate date){
 		mShowViews = adapter.getAllItems();
+		mShowViews[mCurrentIndex % mShowViews.length].mSelectDate = date;
 		mShowViews[mCurrentIndex % mShowViews.length].setShowDate(date);
 		mDirection = SildeDirection.NO_SILDE;
+		clickDate(date);
 	}
 
 
@@ -324,7 +333,6 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 		dateTv.setText(date.getYear()+"年"+date.getMonth()+"月");
 		currentDate = date.toString();
 		getuserSchDay(currentDate,currentNo);
-		//PublicUtil.showToast(date.getYear()+"年"+date.getMonth()+"月"+date.getDay()+"日");
 	}
 
 	@Override
@@ -457,82 +465,7 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 	 * 显示日期
 	 */
 	private void showDateDialog() {
-		final AlertDialog dialog = new AlertDialog.Builder(this)
-				.create();
-		dialog.show();
-		Window window = dialog.getWindow();
-		// 设置布局
-		window.setContentView(R.layout.datapick);
-		// 设置宽高
-		window.setLayout(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
-		// 设置弹出的动画效果
-		window.setWindowAnimations(R.style.AnimBottom);
-
-
-		Calendar c = Calendar.getInstance();
-		int curYear = c.get(Calendar.YEAR);
-		int curMonth = c.get(Calendar.MONTH) + 1;//通过Calendar算出的月数要+1
-		int curDate = c.get(Calendar.DATE);
-		yearWv = (WheelView) window.findViewById(R.id.year);
-		initYear(curYear);
-		monthWv = (WheelView) window.findViewById(R.id.month);
-		initMonth();
-
-		yearWv.setCurrentItem(curYear - 1990);
-		monthWv.setCurrentItem(curMonth - 1);
-
-		yearWv.setVisibleItems(5);
-		monthWv.setVisibleItems(5);
-
-
-		// 设置监听
-		Button ok = (Button) window.findViewById(R.id.set);
-		Button cancel = (Button) window.findViewById(R.id.cancel);
-		ok.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				CustomDate tempDate = new CustomDate(yearWv.getCurrentItem()+1990,monthWv.getCurrentItem()+1,1);
-				updateCalendarView(tempDate);
-				dialog.cancel();
-			}
-		});
-		cancel.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				dialog.cancel();
-			}
-		});
-		LinearLayout cancelLayout = (LinearLayout) window.findViewById(R.id.view_none);
-		cancelLayout.setOnTouchListener(new View.OnTouchListener() {
-			@Override
-			public boolean onTouch(View view, MotionEvent motionEvent) {
-				dialog.cancel();
-				return false;
-			}
-		});
-
-	}
-
-	/**
-	 * 初始化年  年份不同 另起adapter
-	 */
-	private void initYear(int curYear) {
-		NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,1990, curYear+10);
-		numericWheelAdapter.setLabel(" 年");
-		//		numericWheelAdapter.setTextSize(15);  设置字体大小
-		yearWv.setViewAdapter(numericWheelAdapter);
-		yearWv.setCyclic(false);
-	}
-
-	/**
-	 * 初始化月
-	 */
-	private void initMonth() {
-		NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,1, 12, "%02d");
-		numericWheelAdapter.setLabel(" 月");
-		//		numericWheelAdapter.setTextSize(15);  设置字体大小
-		monthWv.setViewAdapter(numericWheelAdapter);
-		monthWv.setCyclic(false);
+		szDatepickerDialog.showDateDialog();
 	}
 
 	public void onResume() {

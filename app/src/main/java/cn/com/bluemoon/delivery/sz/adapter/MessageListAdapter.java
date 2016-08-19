@@ -10,18 +10,24 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.sz.api.response.UserMsgListResponse;
 import cn.com.bluemoon.delivery.sz.bean.MsgListItemBean;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgAdviceReplyActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgConflictActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgWaitActivity;
 import cn.com.bluemoon.delivery.sz.util.Constants;
+import cn.com.bluemoon.delivery.sz.util.FileUtil;
 import cn.com.bluemoon.delivery.sz.util.TimeUtil;
 import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.LongClickDialog;
@@ -32,20 +38,28 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class MessageListAdapter extends BaseAdapter {
 
-	private List<MsgListItemBean> list;
+	private ArrayList<MsgListItemBean> list;
 	private Context context;
 	private int msgType;
+	private UserMsgListResponse response = null;
 
 
+	public UserMsgListResponse getResponse() {
+		return response;
+	}
 
-	public MessageListAdapter(Context context , List<MsgListItemBean> list,int msgType) {
+	public void setResponse(UserMsgListResponse response) {
+		this.response = response;
+	}
+
+	public MessageListAdapter(Context context , ArrayList<MsgListItemBean> list, int msgType) {
 		// TODO Auto-generated constructor stub
 		this.context = context;
 		this.list = list;
 		this.msgType = msgType;
 	}
 
-	public void refresh( List<MsgListItemBean> list){
+	public void refresh( ArrayList<MsgListItemBean> list){
 		this.list = list;
 		notifyDataSetChanged();
 	}
@@ -121,11 +135,20 @@ public class MessageListAdapter extends BaseAdapter {
 		return convertView;
 	}
 
-	private void longClickDeal(int position) {
-		//PublicUtil.showToast("llongClickDealo"+position);
-		MsgListItemBean msgListItemBean = list.get(position);
-		LongClickDialog dialog = new LongClickDialog(context);
+	private void longClickDeal(final int position) {
+		final LongClickDialog dialog = new LongClickDialog(context);
 		dialog.show();
+		dialog.deleteTv.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View view) {
+				dialog.cancel();
+				list.remove(position);
+				notifyDataSetChanged();
+
+				String jsonStr = JSON.toJSONString(response);
+				FileUtil.setSubMsg(ClientStateManager.getUserName(),msgType,jsonStr);
+			}
+		});
 	}
 
 	private void clickDeal(int position) {

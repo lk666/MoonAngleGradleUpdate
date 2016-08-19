@@ -77,7 +77,7 @@
                     android:id="@+id/valueTv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="100"
+                    android:text="0"
                     style="@style/sz_txt"
                     android:layout_centerVertical="true"/>
                 <SeekBar
