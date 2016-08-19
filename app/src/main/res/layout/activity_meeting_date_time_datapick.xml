@@ -15,7 +15,7 @@
     <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:background="#00000000"
+            android:background="@color/white"
             android:gravity="center"
             android:orientation="vertical">
 
@@ -54,15 +54,14 @@
             android:gravity="center"
             android:textSize="14sp"
             android:paddingTop="@dimen/space_17"
-            android:paddingBottom="@dimen/space_17"
             android:textColor="@color/black"/>
 
         <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:background="#fff"
-                android:paddingBottom="20dp"
-                android:paddingTop="10dp"
+                android:background="@color/white"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
                 android:orientation="horizontal">
 
             <cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView
@@ -100,7 +99,7 @@
                     android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginBottom="10dip"
-                    android:layout_marginTop="10dip"
+                    android:layout_marginTop="17dip"
                     android:layout_marginRight="5dip"
                     android:layout_weight="1"/>
 
@@ -111,9 +110,22 @@
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:background="#fff"
-            android:paddingBottom="20dp"
-            android:paddingTop="10dp"
             android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:background="@color/gray_deep"
+                />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:text="时长"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:paddingTop="@dimen/space_10"
+                android:textColor="@color/black"/>
 
             <cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView
                 android:id="@+id/wv_date_time_lenght"

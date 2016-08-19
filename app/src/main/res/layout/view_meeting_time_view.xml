@@ -39,7 +39,16 @@
                     android:layout_height="match_parent"
                     android:gravity="center"
                     android:textColor="@color/black"
+                    android:layout_marginLeft="5dp"
                     android:textSize="14sp"/>
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:src="@drawable/indicator_arrow"
+                    />
 
             </LinearLayout>
 
@@ -184,7 +193,7 @@
 
                 <cn.com.bluemoon.delivery.sz.view.MeetingTimeView.MoveView
                     android:id="@+id/view_timeBar"
-                    android:layout_width="50dp"
+                    android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="@dimen/activity_meeting_times_titelWidth"
                     android:background="#201fb8ff"

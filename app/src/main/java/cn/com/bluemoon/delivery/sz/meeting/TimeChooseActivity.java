@@ -25,6 +25,7 @@ import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.view.MeetingTimeView.AsyncMeetingView;
+import cn.com.bluemoon.delivery.sz.view.datepicker.adapter.ArrayWheelAdapter;
 import cn.com.bluemoon.delivery.sz.view.datepicker.adapter.NumericWheelAdapter;
 import cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -35,7 +36,11 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
  * */
 public class TimeChooseActivity extends KJActivity {
 
+	private int itemWidth =0;
+
 	private Context context;
+
+	private String defualTimeLenght="30 分";
 
 	private List<String> ls_userNames=null;
 	private List<MeetingUserInfo> ls_meetingUserInfos=null;
@@ -51,6 +56,16 @@ public class TimeChooseActivity extends KJActivity {
 
 	private Calendar c = Calendar.getInstance(Locale.CHINA);
 
+	private String[] minutes=new String[12];//用于装载五分钟自增的分钟数
+
+	String[] timeLenghts=new String[]{"0 分","5 分","10 分","15 分","20 分","25 分","30 分","35 分",
+			"40 分","45 分","50 分","55 分","60 分",
+			"1.15 小时","1.30 小时","1.45 小时","2.00 小时",
+			"2.30 小时","3.00 小时","3.30 小时","4.00 小时",
+			"4.30 小时","5.00 小时","5.30 小时","6.00 小时",
+			"6.30 小时","7.00 小时","7.30 小时","8.00 小时",
+	};
+
 	@Override
 	public void setRootView() {
 		setFinishOnTouchOutside(false);//外围点击不消失
@@ -61,16 +76,31 @@ public class TimeChooseActivity extends KJActivity {
 	public void initWidget() {
 		super.initWidget();
 		context=TimeChooseActivity.this;
+		itemWidth = (int) getResources().getDimension(R.dimen.activity_meeting_times_titelWidth);
 
 		initCustomActionBar();
 		initLeftData();
 		initMeetintUserInfo();
 
+		for (int i=0;i<minutes.length;i++){
+			minutes[i]= String.valueOf(i*5)+" 分";
+//			LogUtil.i("五分钟制----------》："+minutes[i]);
+		}
+
 		meetingView= (AsyncMeetingView) findViewById(R.id.meetingView);
 		meetingView.setRightContentAdapter(new RightContentAdapter(context,meetingView,ls_meetingUserInfos));
 		meetingView.setLeftNameAdapter(new LeftNameAdapter(context,ls_userNames));
 
+		meetingView.setMeetingViewBarTimeLenght(defualTimeLenght);//默认为30分钟
 
+		String[] timeLenghts=defualTimeLenght.split(" ");
+
+		int timeLenghtUnit= getTranTimeLenghtToWidth(timeLenghts);
+		LogUtil.i("时长转换成相应的宽度："+timeLenghtUnit);
+
+		if (timeLenghtUnit!=0){
+			meetingView.setTimeBarParams(timeLenghtUnit,itemWidth);
+		}
 
 
 		meetingView.setMeetingViewBarTimeOnListener(new View.OnClickListener() {
@@ -79,6 +109,7 @@ public class TimeChooseActivity extends KJActivity {
 
 			String date=meetingView.getMeetingViewBarDate();
 			String dateTime=meetingView.getMeetingViewBarTime();
+			String timeLenght=meetingView.getMeetingViewBarTimeLenght();
 
 				if (!TextUtils.isEmpty(date) && !TextUtils.isEmpty(dateTime)){
 					date=date.replace("年","-").replace("月","-").replace("日","");
@@ -91,7 +122,9 @@ public class TimeChooseActivity extends KJActivity {
 					int curHour = Integer.parseInt(dateTime.split(":")[0]);
 					int curMin = Integer.parseInt(dateTime.split(":")[1]);
 
-					showDateAndTime(curYear,curMonth,curDay,curHour,curMin);
+					LogUtil.i("获取到的时间长度单位"+timeLenght);
+
+					showDateAndTime(curYear,curMonth,curDay,curHour,curMin,timeLenght);
 
 				}
 
@@ -159,8 +192,8 @@ public class TimeChooseActivity extends KJActivity {
 	/**
 	 * 显示全部日期
 	 */
-	private void showDateAndTime(int curYear,int curMonth,int curDay,int curHour,int curMin){
-
+	private void showDateAndTime(int curYear, int curMonth, int curDay,
+								 final int curHour, final int curMin, String timeLenghtUnit){
 
 		LogUtil.v("当前年月日"+curYear+"/"+curMonth+"/"+curDay+"/"+curHour+"/"+curMin);
 
@@ -187,14 +220,31 @@ public class TimeChooseActivity extends KJActivity {
 		initMins();
 
 		timeLenght = (WheelView) window.findViewById(R.id.wv_date_time_lenght);
-//		initTimeLenght();
+		initTimeLenght();
 
 		// 设置当前时间
 		year.setCurrentItem(curYear-1990);//当前年月日2016/8/16
 		month.setCurrentItem(curMonth-1);
 		day.setCurrentItem(curDay-1);//自有规则
-		hour.setCurrentItem(curHour-1);
-		mins.setCurrentItem(curMin-1);
+		hour.setCurrentItem(curHour);
+
+		/**得到相应的分钟角标*/
+		int curMinIndex=0;
+		for (int i=0;i<minutes.length;i++){
+			if (minutes[i].equals(curMin+" 分")){
+				curMinIndex=i;
+			}
+		}
+		mins.setCurrentItem(curMinIndex);
+
+		/**得到相应的角标*/
+		int lenghtIndex=0;
+		for (int i=0;i<timeLenghts.length;i++){
+			if (timeLenghts[i].equals(timeLenghtUnit)){
+				lenghtIndex=i;
+			}
+		}
+		timeLenght.setCurrentItem(lenghtIndex);//为指定角标
 
 		year.setVisibleItems(6);
 		month.setVisibleItems(6);
@@ -211,16 +261,29 @@ public class TimeChooseActivity extends KJActivity {
 				// TODO Auto-generated method stub
 
 				String date = (1990+year.getCurrentItem())+ "年"+ (month.getCurrentItem()+1)+"月"+(day.getCurrentItem()+1+"日");
-				String time = (hour.getCurrentItem()+1)+ ":"+ (mins.getCurrentItem() + 1);
+				String curTime = (hour.getCurrentItem())+ ":"+ (minutes[mins.getCurrentItem()]);//分钟得到的是数组的角标
+				curTime=curTime.replace("分","").trim();//去掉分钟及空格
 
+				String timeLenghtValue=timeLenghts[timeLenght.getCurrentItem()];
 				LogUtil.d("选取确定的时间date："+date);
-				LogUtil.d("选取确定的时间time："+time);
-
-				meetingView.setMeetingViewBarDate(date);
-				meetingView.setMeetingViewBarTime(time);
+				LogUtil.d("选取确定的时间time："+curTime);
+				LogUtil.d("选取确定的时间timeLenghtValue："+timeLenghtValue);
 
 
-//				Toast.makeText(TimeChooseActivity.this, date + time, Toast.LENGTH_LONG).show();
+				meetingView.setMeetingViewBarDate(date);//日期
+				meetingView.setMeetingViewBarTime(curHour+":"+curMin,curTime,true);//起始时间 及返回结果值移动
+				meetingView.setMeetingViewBarTimeLenght(timeLenghtValue);//时长
+
+//				时长转换成相应的宽度
+				String[] timeLenghts=timeLenghtValue.split(" ");
+
+				int timeLenghtUnit=getTranTimeLenghtToWidth(timeLenghts);
+				LogUtil.i("时长转换成相应的宽度："+timeLenghtUnit);
+
+//				调整TimeBar宽度
+				if (timeLenghtUnit!=0){
+					meetingView.setTimeBarParams(timeLenghtUnit,itemWidth);
+				}
 
 				dialog.cancel();
 			}
@@ -242,6 +305,18 @@ public class TimeChooseActivity extends KJActivity {
 		});
 	}
 
+
+	public int getTranTimeLenghtToWidth(String[] timeLenghts){
+		int timeLenghtUnit=0;
+		if ("分".equals(timeLenghts[1])){
+			timeLenghtUnit=(int)(Float.parseFloat(timeLenghts[0])/(float) 60*itemWidth);
+
+		}else if ("小时".equals(timeLenghts[1])){//1.30
+			timeLenghtUnit=(int)(Float.parseFloat(timeLenghts[0])*itemWidth);
+		}
+
+		return timeLenghtUnit;
+	}
 
 
 
@@ -282,7 +357,7 @@ public class TimeChooseActivity extends KJActivity {
 	 * 初始化时
 	 */
 	private void initHour() {
-		NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,1, 23, "%02d");
+		NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,0, 23, "%02d");
 		numericWheelAdapter.setLabel(" 时");
 		//		numericWheelAdapter.setTextSize(15);  设置字体大小
 		hour.setViewAdapter(numericWheelAdapter);
@@ -293,11 +368,17 @@ public class TimeChooseActivity extends KJActivity {
 	 * 初始化分
 	 */
 	private void initMins() {
-		NumericWheelAdapter numericWheelAdapter = new NumericWheelAdapter(this,1, 59, "%02d");
-		numericWheelAdapter.setLabel(" 分");
-//		numericWheelAdapter.setTextSize(15);  设置字体大小
-		mins.setViewAdapter(numericWheelAdapter);
+		ArrayWheelAdapter arrayWheelAdapter=new ArrayWheelAdapter(this,minutes);
+		mins.setViewAdapter(arrayWheelAdapter);
 		mins.setCyclic(true);
+	}
+	/**
+	 * 初始化时长
+	 */
+	private void initTimeLenght() {
+		ArrayWheelAdapter arrayWheelAdapter=new ArrayWheelAdapter(this,timeLenghts);
+		timeLenght.setViewAdapter(arrayWheelAdapter);
+		timeLenght.setCyclic(true);
 	}
 
 
@@ -448,7 +529,7 @@ class RightContentAdapter extends BaseAdapter {
 //		MeetingUserInfo meetingUserInfo=listUserInfos.get(position);
 
 //			viewholder.view.setText(meetingUserInfo.getTxt1());
-//			传递时间段到内部
+//			传递时间段到内部 进行时间块的填充
 
 		return convertView;
 	}

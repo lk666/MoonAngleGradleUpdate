@@ -98,7 +98,6 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
                 value = minValue + index;
             }
 //            int value = minValue + index;
-            LogUtil.v("NumericWheelAdapter＝＝＝＝>"+value);//底部最后一个
 
             return format != null ? String.format(format, value) : Integer.toString(value);
         }
@@ -123,7 +122,6 @@ public class NumericWheelAdapter extends AbstractWheelTextAdapter {
                     text = "";
                 }
                 textView.setText(text+label);
-                LogUtil.v("NumericWheelAdapter＝＝getItem＝＝>"+(text+label));
                 textView.setPadding(0,3,0,3);
                 if (itemResourceId == TEXT_VIEW_ITEM_RESOURCE) {
                     configureTextView(textView);

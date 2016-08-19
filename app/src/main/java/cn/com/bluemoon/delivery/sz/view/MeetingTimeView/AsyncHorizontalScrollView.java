@@ -2,9 +2,10 @@ package cn.com.bluemoon.delivery.sz.view.MeetingTimeView;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.View;
 import android.widget.HorizontalScrollView;
+
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 
 /**
  * Created by jiangyuehua on 16/7/24.
@@ -30,15 +31,13 @@ public class AsyncHorizontalScrollView extends HorizontalScrollView {
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		super.onScrollChanged(l, t, oldl, oldt);
+		LogUtil.v("滑动值："+l+"===="+t);
 		if (mView!=null){
-//			if (l%5==0){
 				mView.scrollTo(l,t);
-				Log.v("滑动值：",l+"===="+t);
 				scrollChangedX=l;
-				if (onScrollChangedListener!=null){
-					onScrollChangedListener.onScrollChangedListener(l,t);
-				}
-//			}
+		}
+		if (onScrollChangedListener!=null){
+			onScrollChangedListener.onScrollChangedListener(l,t);
 		}
 
 	}

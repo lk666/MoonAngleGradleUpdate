@@ -164,6 +164,7 @@ public class MoveView extends View {
 		return true;
 	}
 
+
 	private void setParentScrollAble(boolean flag) {
 		parentScrollView.requestDisallowInterceptTouchEvent(!flag);
 	}
