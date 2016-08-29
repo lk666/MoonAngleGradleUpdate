@@ -121,7 +121,7 @@ public class WorkDiaryActivity extends Activity {
             }
             if (tag) {
                 Product wd = new Product();
-                wd.setSalesNum(1);
+                wd.setSalesNum(0);
                 wd.setProductCode(product.getProductCode());
                 wd.setProductName(product.getProductName());
                 if (workDiaryList == null || workDiaryList.size() == 0) {

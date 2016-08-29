@@ -54,9 +54,9 @@ public class ChangePswActivity extends KJActivity {
 		super.initWidget();
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(aty);
-		curPsw.setMaxLength(16);
-		newPsw.setMaxLength(16);
-		conPsw.setMaxLength(16);
+		curPsw.setMaxLength(18);
+		newPsw.setMaxLength(18);
+		conPsw.setMaxLength(18);
 	}
 
 
@@ -112,14 +112,14 @@ public class ChangePswActivity extends KJActivity {
 			PublicUtil.showToast(aty, getString(R.string.cur_psw_hint));
 			return;
 		}
-		if(cuPsw.length()<6)
+		if(cuPsw.length()<8)
 		{
 			PublicUtil.showToast(aty, getString(R.string.cur_psw_fail));
 			return;
 		}
-		if(nePsw.length()<6)
+		if(nePsw.length()<8)
 		{
-			PublicUtil.showToast(aty, getString(R.string.new_psw_hint));
+			PublicUtil.showToast(aty, getString(R.string.new_psw_tips));
 			return;
 		}
 		if(!coPsw.equals(nePsw))

@@ -136,13 +136,14 @@
     <string name="cur_psw_hint">请输入当前密码</string>
     <string name="cur_psw_fail">当前密码输入错误</string>
     <string name="new_psw">新密码</string>
-    <string name="new_psw_hint">请输入6—16位新密码</string>
+    <string name="new_psw_hint">请输入8-18位数字+字母密码</string>
+    <string name="new_psw_tips">请输入8-18位密码</string>
     <string name="confirm_psw">确认密码</string>
     <string name="confirm_psw_hint">请输入确认密码</string>
     <string name="reset_success">密码重置成功</string>
     <string name="register_right_code">请输入正确验证码！</string>
     <string name="register_not_empty">请确认输入内容不能为空！</string>
-    <string name="register_right_pwd">请确认密码不能小于6位数！</string>
+    <string name="register_right_pwd">请确认密码不能小于8位数！</string>
     <string name="register_same_pwd">请确认新密码与确认密码要一致！</string>
     <string name="register_get_phone_fail">没有获取到正确号码</string>
     <string name="register_check_again">重新验证</string>

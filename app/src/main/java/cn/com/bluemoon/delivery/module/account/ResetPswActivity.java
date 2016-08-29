@@ -67,8 +67,8 @@ public class ResetPswActivity extends KJActivity {
 		// TODO Auto-generated method stub
 		super.initWidget();
 		ActivityManager.getInstance().pushOneActivity(aty);
-		edPassword.setMaxLength(16);
-		edPassword.setMaxLength(16);
+		edPassword.setMaxLength(18);
+		edCoPassword.setMaxLength(18);
 		progressDialog = new CommonProgressDialog(this);
 	}
 
