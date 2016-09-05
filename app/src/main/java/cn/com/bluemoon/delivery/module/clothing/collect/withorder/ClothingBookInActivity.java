@@ -121,7 +121,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     private static final String EXTRA_CLOTHES_CODE = "EXTRA_CLOTHES_CODE";
 
     /**
-     * 衣物编码
+     * 原衣物编码
      */
     private String clothesCode;
 

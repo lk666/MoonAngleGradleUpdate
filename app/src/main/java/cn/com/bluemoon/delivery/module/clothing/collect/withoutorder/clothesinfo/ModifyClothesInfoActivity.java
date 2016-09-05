@@ -31,6 +31,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesType;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ClothesTypeInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeInfos;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultClothesTypeList;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ModifyUploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -448,7 +449,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
             // 确定按钮
             case R.id.btn_ok:
                 if (checkBtnOK()) {
-                    UploadClothesInfo tmpUploadClothesInfo = new UploadClothesInfo();
+                    ModifyUploadClothesInfo tmpUploadClothesInfo = new ModifyUploadClothesInfo();
                     tmpUploadClothesInfo.setClothesCode(tvNumber.getText().toString());
                     tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
                     tmpUploadClothesInfo.setClothesnameCode(selectedNameView.getType()
@@ -464,6 +465,8 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                             ());
 
                     tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
+                    tmpUploadClothesInfo.setInitClothesCode(extraUploadClothesInfo.getClothesCode
+                            ());
 
                     Intent i = new Intent();
                     i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);

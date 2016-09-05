@@ -38,6 +38,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultQueryActivityLimitNum;
 import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCreateCollectInfo;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ModifyUploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.SelectAddressByDepthActivity;
@@ -362,7 +363,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
         return R.string.title_create_collect_order;
     }
 
-     AlertDialog finishDialog;
+    AlertDialog finishDialog;
+
     private void showFinishDialog(String collectCode) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(this);
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_create_wash_order_finish,
@@ -508,7 +510,6 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 REQUEST_CODE_MODIFY_CLOTHES_INFO);
     }
 
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -577,9 +578,19 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             case REQUEST_CODE_MODIFY_CLOTHES_INFO:
                 // 保存成功
                 if (resultCode == RESULT_OK) {
-                    UploadClothesInfo info = (UploadClothesInfo) data.getSerializableExtra
-                            (ModifyClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
-                    clothesInfo.remove(info);
+                    ModifyUploadClothesInfo info = (ModifyUploadClothesInfo) data
+                            .getSerializableExtra(
+                                    ModifyClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
+
+                    int count = clothesInfo.size();
+                    for (int i = 0; i < count; i++) {
+                        UploadClothesInfo item = clothesInfo.get(i);
+                        if (item.getClothesCode().equals(info.getInitClothesCode())) {
+                            clothesInfo.remove(i);
+                            break;
+                        }
+                    }
+
                     clothesInfo.add(info);
                     clothesInfoAdapter.setList(clothesInfo);
                     clothesInfoAdapter.notifyDataSetChanged();
@@ -591,12 +602,15 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                     String deleteClothesCode = data.getStringExtra(ModifyClothesInfoActivity
                             .RESULT_DELETE_CLOTHES_CODE);
                     if (deleteClothesCode != null) {
-                        for (UploadClothesInfo info : clothesInfo) {
-                            if (deleteClothesCode.equals(info.getClothesCode())) {
-                                clothesInfo.remove(info);
+                        int count = clothesInfo.size();
+                        for (int i = 0; i < count; i++) {
+                            UploadClothesInfo item = clothesInfo.get(i);
+                            if (deleteClothesCode.equals(item.getClothesCode())) {
+                                clothesInfo.remove(i);
                                 break;
                             }
                         }
+
                         clothesInfoAdapter.setList(clothesInfo);
                         clothesInfoAdapter.notifyDataSetChanged();
                         setActualReceive();
