@@ -317,7 +317,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         } else if (extraMode.equals(MODE_MODIFY)) {
             btnDelete.setVisibility(View.VISIBLE);
             vDivBtn.setVisibility(View.VISIBLE);
-
+            tvNumber.setEnabled(false);
             LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) vDivLeft.getLayoutParams();
             lp.setMargins(getResources().getDimensionPixelSize(R.dimen.div_btn_clothes_book_in),
                     0, 0, 0);
