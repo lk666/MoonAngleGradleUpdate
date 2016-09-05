@@ -42,6 +42,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.clothing.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
+import cn.com.bluemoon.delivery.module.clothing.collect.SavedClothingPic;
 import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
@@ -210,6 +211,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
     Button btnOk;
     @Bind(R.id.v_div_btn_right)
     View vDivRight;
+
+    /**
+     * 修改衣物信息时，已保存的图片
+     */
+    private int savedImg = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -410,7 +416,17 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
         etBackup.setText(result.getRemark());
 
         clothesImg = new ArrayList<>();
-        clothesImg.addAll(result.getClothesImg());
+
+        List<ClothingPic> pics = result.getClothesImg();
+        if (pics != null) {
+            int count = result.getClothesImg().size();
+            for (int i = 0; i < count; i++) {
+                SavedClothingPic scp = new SavedClothingPic(pics.get(i));
+                clothesImg.add(scp);
+            }
+        }
+
+        savedImg = clothesImg.size();
 
         addAddImage();
 
@@ -724,7 +740,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                 FileUtil.getBytes(bm), uploadImageHandler);
     }
 
-
     /**
      * 上传图片返回
      */
@@ -832,6 +847,14 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                             PublicUtil.showToast(getString(R.string.create_collect_can_not_delete));
                             return;
                         }
+
+                        // 修改时，至少保留一张已保存的图片
+                        if (extraMode.equals(MODE_MODIFY) && savedImg < 2 && pic instanceof
+                                SavedClothingPic) {
+                            PublicUtil.showToast(getString(R.string.modify_collect_can_not_delete));
+                            return;
+                        }
+
                         showProgressDialog();
                         delImgPos = position;
                         DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
@@ -867,8 +890,8 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                             .getImgId())) {
                         addAddImage();
                     }
-
                     clothingAdapter.notifyDataSetChanged();
+                    savedImg--;
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
