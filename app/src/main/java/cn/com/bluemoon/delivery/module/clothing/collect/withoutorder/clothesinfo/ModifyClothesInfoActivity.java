@@ -39,6 +39,7 @@ import cn.com.bluemoon.delivery.module.clothing.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesNameView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothesTypeInfoView;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
+import cn.com.bluemoon.delivery.module.clothing.collect.SavedClothingPic;
 import cn.com.bluemoon.delivery.module.clothing.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -124,6 +125,11 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
 
 
     private TakePhotoPopView takePhotoPop;
+
+    /**
+     * 修改衣物信息时，已保存的图片
+     */
+    private int savedImg = 0;
 
     /**
      * 活动编号
@@ -385,7 +391,17 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         etBackup.setText(extraUploadClothesInfo.getRemark());
 
         clothesImg = new ArrayList<>();
-        clothesImg.addAll(extraUploadClothesInfo.getClothingPics());
+
+        List<ClothingPic> pics = extraUploadClothesInfo.getClothingPics();
+        if (pics != null) {
+            int count = pics.size();
+            for (int i = 0; i < count; i++) {
+                SavedClothingPic scp = new SavedClothingPic(pics.get(i));
+                clothesImg.add(scp);
+            }
+        }
+
+        savedImg = clothesImg.size();
 
         addAddImage();
 
@@ -673,6 +689,13 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                             PublicUtil.showToast(getString(R.string.create_collect_can_not_delete));
                             return;
                         }
+
+                        // 修改时，至少保留一张已保存的图片
+                        if (savedImg < 2 && pic instanceof SavedClothingPic) {
+                            PublicUtil.showToast(getString(R.string.modify_collect_can_not_delete));
+                            return;
+                        }
+
                         showProgressDialog();
                         delImgPos = position;
                         DeliveryApi.delImg(pic.getImgId(), ClientStateManager.getLoginToken
@@ -680,6 +703,11 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                                 new IHttpResponseHandler() {
                                     @Override
                                     public void onResponseSuccess(String responseString) {
+                                        ClothingPic pic = clothesImg.get(delImgPos);
+                                        if (pic instanceof SavedClothingPic) {
+                                            savedImg--;
+                                        }
+
                                         clothesImg.remove(delImgPos);
                                         if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get
                                                 (clothesImg.size() - 1).getImgId())) {

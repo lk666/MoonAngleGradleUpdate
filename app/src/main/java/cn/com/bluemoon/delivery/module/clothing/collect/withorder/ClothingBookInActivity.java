@@ -419,7 +419,7 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
 
         List<ClothingPic> pics = result.getClothesImg();
         if (pics != null) {
-            int count = result.getClothesImg().size();
+            int count = pics.size();
             for (int i = 0; i < count; i++) {
                 SavedClothingPic scp = new SavedClothingPic(pics.get(i));
                 clothesImg.add(scp);
@@ -884,6 +884,11 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
             try {
                 ResultBase result = JSON.parseObject(responseString, ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    ClothingPic pic = clothesImg.get(delImgPos);
+                    if (extraMode.equals(MODE_MODIFY) && pic instanceof SavedClothingPic) {
+                        savedImg--;
+                    }
+
                     clothesImg.remove(delImgPos);
 
                     if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get(clothesImg.size() - 1)
@@ -891,7 +896,6 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
                         addAddImage();
                     }
                     clothingAdapter.notifyDataSetChanged();
-                    savedImg--;
                 } else {
                     PublicUtil.showErrorMsg(ClothingBookInActivity.this, result);
                 }
