@@ -114,7 +114,7 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 		szDatepickerDialog.setDateConfirmListeren(new SzDatepickerDialog.DateConfirmListeren() {
 			@Override
 			public void getDateTime(CustomDate tempDate) {
-				updateCalendarView(tempDate);
+				updateCalendarView2(tempDate);
 			}
 		});
 
@@ -319,11 +319,13 @@ public class SzSchedualActivity extends KJActivity implements CalendarCard.OnCel
 		adjustViewPagerHeight(currentRowNum);
 	}
 
-	private void updateCalendarView(CustomDate date){
+	private void updateCalendarView2(CustomDate date){
 		mShowViews = adapter.getAllItems();
-		mShowViews[mCurrentIndex % mShowViews.length].mSelectDate = date;
+		CalendarCard.mSelectDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay());
 		mShowViews[mCurrentIndex % mShowViews.length].setShowDate(date);
 		mDirection = SildeDirection.NO_SILDE;
+		int currentRowNum = mShowViews[mCurrentIndex % mShowViews.length].getCurrentRowNum();
+		adjustViewPagerHeight(currentRowNum);
 		clickDate(date);
 	}
 
