@@ -392,28 +392,29 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY) {
+            // 利用返回新增的clothescode
+            // 保存成功
+            if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
+                if (TextUtils.isEmpty(collectCode)) {
+                    collectCode = data.getStringExtra(ClothingBookInActivity
+                            .RESULT_COLLECT_CODE);
+                }
+                checkInfo(collectCode);
+            }
+            // 删除成功，或其他情况（包括未操作，因为删除已保存图片再点击后退也需要刷新），直接刷新数据
+            else {
+                getData();
+            }
+            return;
+        }
+
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
 
         switch (requestCode) {
-            case REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY:
-
-                // 利用返回新增的clothescode
-                // 保存成功
-                if (resultCode == ClothingBookInActivity.RESULT_CODE_SAVE_CLOTHES_SUCCESS) {
-                    if (TextUtils.isEmpty(collectCode)) {
-                        collectCode = data.getStringExtra(ClothingBookInActivity
-                                .RESULT_COLLECT_CODE);
-                    }
-                    checkInfo(collectCode);
-                }
-                // 删除成功，不需要发送修改信息
-                else if (resultCode == ClothingBookInActivity.RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
-                    getData();
-                }
-                break;
-
             case Constants.REQUEST_SCAN:
                 // 扫码返回
                 if (resultCode == Activity.RESULT_OK) {
