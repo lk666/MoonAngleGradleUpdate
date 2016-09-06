@@ -616,6 +616,25 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                         setActualReceive();
                     }
                 }
+
+                //  删除过衣物图片，并直接退出
+               else if (resultCode == ModifyClothesInfoActivity.RESULT_CODE_DELETE_CLOTHES_IMG) {
+                    ModifyUploadClothesInfo info = (ModifyUploadClothesInfo) data
+                            .getSerializableExtra(
+                                    ModifyClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
+                    int count = clothesInfo.size();
+                    for (int i = 0; i < count; i++) {
+                        UploadClothesInfo item = clothesInfo.get(i);
+                        if (item.getClothesCode().equals(info.getInitClothesCode())) {
+                            item.setImgPath(info.getImgPath());
+                            item.setClothingPics(info.getClothingPics());
+                            break;
+                        }
+                    }
+
+                    clothesInfoAdapter.notifyDataSetChanged();
+                    setActualReceive();
+                }
                 break;
 
             case Constants.REQUEST_SCAN:

@@ -62,6 +62,10 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
      */
     public static final String RESULT_UPLOAD_CLOTHES_INFO = "RESULT_UPLOAD_CLOTHES_INFO";
     /**
+     * 删除过衣物图片，并直接退出
+     */
+    public static final int RESULT_CODE_DELETE_CLOTHES_IMG = 0x77;
+    /**
      * 删除的衣物数据编号
      */
     public static final String RESULT_DELETE_CLOTHES_CODE = "RESULT_DELETE_CLOTHES_CODE";
@@ -443,6 +447,25 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
         }
     }
 
+    /**
+     * 是否删除了图片后就直接退出了
+     */
+    private boolean isDeleteImg = false;
+
+    @Override
+    public void finish() {
+        if (isDeleteImg) {
+            ModifyUploadClothesInfo tmpUploadClothesInfo = new ModifyUploadClothesInfo();
+            tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
+            tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
+            tmpUploadClothesInfo.setInitClothesCode(extraUploadClothesInfo.getClothesCode());
+            Intent i = new Intent();
+            i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
+            setResult(RESULT_CODE_DELETE_CLOTHES_IMG, i);
+        }
+        super.finish();
+    }
+
     @OnClick({R.id.btn_ok, R.id.btn_delete, R.id.tv_number})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -471,6 +494,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                     Intent i = new Intent();
                     i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
                     setResult(RESULT_OK, i);
+                    isDeleteImg = false;
                     finish();
                 }
                 break;
@@ -489,6 +513,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                                 i.putExtra(RESULT_DELETE_CLOTHES_CODE,
                                         extraUploadClothesInfo.getClothesCode());
                                 setResult(RESULT_CODE_DELETE_CLOTHES_SUCCESS, i);
+                                isDeleteImg = false;
                                 finish();
                             }
 
@@ -660,6 +685,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                                                 (clothesImg.size() - 1).getImgId())) {
                                             addAddImage();
                                         }
+                                        isDeleteImg = true;
                                         clothingAdapter.notifyDataSetChanged();
                                     }
                                 }));
