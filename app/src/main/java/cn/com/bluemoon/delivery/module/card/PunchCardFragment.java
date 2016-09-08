@@ -109,8 +109,8 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v == btnScan) {
-			PublicUtil.openScanCard(mContext, PunchCardFragment.this,
-					getString(R.string.btn_san_punch_card_text),Constants.REQUEST_SCAN);
+			PublicUtil.openScanView(mContext, PunchCardFragment.this,
+					getString(R.string.btn_san_punch_card_text), Constants.REQUEST_SCAN);
 		} else if(v == btnInput) {
 			Intent intent = new Intent(mContext,PunchCardOndutyActivity.class);
 			startActivityForResult(intent, 1);

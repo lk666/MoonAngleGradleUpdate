@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:scan="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/title_background"
+    android:fitsSystemWindows="true">
+
+    <SurfaceView
+        android:id="@+id/preview_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <cn.com.bluemoon.lib.qrcode.view.ViewfinderView
+        android:id="@+id/viewfinder_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        scan:marginTop="150dp"
+        scan:rectWidth="220dp"
+        scan:rectHeight="220dp"
+        />
+
+    <TextView
+        android:id="@+id/txt_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/white_bg"
+        android:textSize="@dimen/text_size_17"
+        android:background="@color/tiket_content_bg"
+        android:padding="10dp"
+        android:visibility="gone"
+        />
+    <TextView
+        android:id="@+id/txt_count"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/txt_name"
+        android:textColor="@color/tiket_content_color"
+        android:textSize="@dimen/text_size_15"
+        android:background="@color/tiket_content_bg"
+        android:paddingLeft="10dp"
+        android:paddingBottom="10dp"
+        android:visibility="gone"
+        />
+
+    <Button
+        android:id="@+id/btn_input"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:paddingRight="18dp"
+        android:paddingLeft="18dp"
+        android:layout_marginTop="400dp"
+        android:layout_centerHorizontal="true"
+        android:drawableLeft="@mipmap/scan_number"
+        android:drawablePadding="15dp"
+        android:background="@drawable/btn_blue_shape"
+        android:textColor="@color/white_bg"
+        android:textSize="@dimen/text_size_15"
+        />
+
+</RelativeLayout>

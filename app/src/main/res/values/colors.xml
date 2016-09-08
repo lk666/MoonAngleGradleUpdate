@@ -51,5 +51,7 @@
     <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
     <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
 
-    <!-- 洗衣服务分割线颜色 -->
+    <!-- 科技馆检票 -->
+    <color name="tiket_content_bg">#99011930</color>
+    <color name="tiket_content_color">#d9d9d9</color>
 </resources>

@@ -845,4 +845,9 @@
 
     <string name="current_no_some_data">暂无%s数据</string>
     <string name="modify_collect_can_not_delete">请至少保留一张已保存的图片</string>
+
+    <string name="code_title">扫一扫</string>
+    <string name="code_qr">二维码</string>
+    <string name="code_bar">条形码</string>
+    <string name="code_content">请将二维码或条形码至于框内</string>
 </resources>

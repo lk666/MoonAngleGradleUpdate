@@ -36,6 +36,9 @@ import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.common.ScanActivity;
+import cn.com.bluemoon.delivery.common.ScanCodeActivity;
+import cn.com.bluemoon.delivery.common.ScanInputActivity;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
@@ -93,15 +96,6 @@ public class PublicUtil extends LibPublicUtil {
         showToast(R.string.request_server_overtime);
     }
 
-    private static void initScanConfigure(Activity aty) {
-        Configure.TITLE_BG_COLOR = aty.getResources().getColor(R.color.title_background);
-        Configure.TITLE_TXT_COLOR = aty.getResources().getColor(R.color.white);
-        Configure.BTN_TXT_COLOR = aty.getResources().getColor(R.color.white);
-        Configure.MENU_VISIBILITY = View.GONE;
-        Configure.TICKET_TITLE_VISIBILITY = View.GONE;
-    }
-
-
     /**
      * 打开签收扫描界面
      *
@@ -109,13 +103,8 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openScanOrder(Activity aty, Fragment fragment, String title,
                                      String btnString, int requestCode, int resultCode) {
-        initScanConfigure(aty);
-        Configure.TITLE_TXT = title;
-        Configure.BTN_CLICK_TXT = btnString;
-        Configure.BUTTON_VISIBILITY = View.VISIBLE;
-        BarcodeUtil.openScan(aty, fragment, requestCode, resultCode);
+        ScanInputActivity.actStart(aty,fragment,title,btnString,requestCode,resultCode);
     }
-
 
     /**
      * 打开新扫描界面
@@ -124,13 +113,8 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openNewScanOrder(Activity aty, Fragment fragment, String title,
                                         String btnString, int requestCode, int resultCode) {
-        initScanConfigure(aty);
-        Configure.TITLE_TXT = title;
-        Configure.BTN_CLICK_TXT = btnString;
-        Configure.BUTTON_VISIBILITY = View.VISIBLE;
-        BarcodeUtil.openNewScan(aty, fragment, requestCode, resultCode);
+        ScanCodeActivity.actStart(aty,fragment,title,btnString,requestCode,resultCode);
     }
-
 
     /**
      * 打开扫描界面
@@ -139,37 +123,22 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openNewScan(Activity aty, String title,
                                    String btnString, int requestCode, int resultCode) {
-        initScanConfigure(aty);
-        Configure.TITLE_TXT = title;
-        Configure.BTN_CLICK_TXT = btnString;
-        Configure.BUTTON_VISIBILITY = View.VISIBLE;
-        BarcodeUtil.openNewScan(aty, requestCode, resultCode);
+        openNewScanOrder(aty,null,title,btnString,requestCode,resultCode);
     }
 
     public static void openScanTicket(Activity aty, String ticketName,
                                       String ticketCount, int requestCode, int resultCode) {
-        initScanConfigure(aty);
-        Configure.TICKET_COUNT_TIME = ticketCount;
-        Configure.TICKET_COUNT_NAME = ticketName;
-        Configure.TITLE_TXT = aty.getString(R.string.ticket_check_title);
-        Configure.BTN_CLICK_TXT = aty.getString(R.string.ticket_code_btn_text);
-        Configure.TICKET_TITLE_VISIBILITY = View.VISIBLE;
-        Configure.BUTTON_VISIBILITY = View.VISIBLE;
-        BarcodeUtil.openScan(aty, requestCode, resultCode);
-        /*Configure.IS_KEEP_OPEN = true;
-		Intent it_open = new Intent(aty,ScanActivity.class);
-		it_open.putExtra("resultCode", resultCode);
-		aty.startActivityForResult(it_open, requestCode);*/
+        ScanInputActivity.actStart(aty,null,
+                aty.getString(R.string.ticket_check_title),
+                aty.getString(R.string.ticket_code_btn_text),
+                ticketName,ticketCount,requestCode,resultCode);
     }
 
     /**
-     * 打开打卡扫描界面
+     * 打开默认的扫描界面
      */
-    public static void openScanCard(Activity aty, Fragment fragment, String title, int requestCode) {
-        initScanConfigure(aty);
-        Configure.BUTTON_VISIBILITY = View.GONE;
-        Configure.TITLE_TXT = title;
-        BarcodeUtil.openScan(aty, fragment, requestCode);
+    public static void openScanView(Activity aty, Fragment fragment, String title, int requestCode) {
+        ScanActivity.actStart(aty,fragment,title,requestCode);
     }
 
     public static String genApiSign(String[] params) {
@@ -208,7 +177,6 @@ public class PublicUtil extends LibPublicUtil {
     /**
      * xml转化为map格式
      *
-     * @param params
      * @return
      */
     public static Map<String, String> decodeXml(String content) {
