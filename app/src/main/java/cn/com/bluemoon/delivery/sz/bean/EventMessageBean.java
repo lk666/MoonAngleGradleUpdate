@@ -7,6 +7,7 @@ public class EventMessageBean {
 
 	String eventMsgAction;
 	String eventMsgContent;
+	String reMark;
 
 	public EventMessageBean() {
 		super();
@@ -15,6 +16,14 @@ public class EventMessageBean {
 	public EventMessageBean(String eventMsgAction,String eventMsgContent) {
 		this.eventMsgAction = eventMsgAction;
 		this.eventMsgContent = eventMsgContent;
+	}
+
+	public String getReMark() {
+		return reMark;
+	}
+
+	public void setReMark(String reMark) {
+		this.reMark = reMark;
 	}
 
 	public String getEventMsgAction() {
@@ -31,5 +40,14 @@ public class EventMessageBean {
 
 	public void setEventMsgContent(String eventMsgContent) {
 		this.eventMsgContent = eventMsgContent;
+	}
+
+	@Override
+	public String toString() {
+		return "EventMessageBean{" +
+				"eventMsgAction='" + eventMsgAction + '\'' +
+				", eventMsgContent='" + eventMsgContent + '\'' +
+				", reMark='" + reMark + '\'' +
+				'}';
 	}
 }
