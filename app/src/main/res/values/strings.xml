@@ -839,4 +839,10 @@
     <string name="sz_search_meeting">搜索会议，他人会议</string>
     <string name="sz_search">搜索</string>
 
+
+    <!--sz task-->
+    <string name="sz_task_add_task">添加工作</string>
+
+
+
 </resources>

@@ -25,6 +25,7 @@ public class CalendarCard extends View {
 	private static final int TOTAL_ROW = 6; // 6行
 
 	private Paint mCirclePaint; // 绘制圆形的画笔
+	private String mCircleColor="";
 	private Paint mTextPaint; // 绘制文本的画笔
 	private int mViewWidth; // 视图的宽度
 	private int mViewHeight; // 视图的高度
@@ -40,6 +41,8 @@ public class CalendarCard extends View {
 	private Cell mClickCell;
 	private float mDownX;
 	private float mDownY;
+
+
 
 	private int currentRowNum = 6;
 
@@ -353,4 +356,8 @@ public class CalendarCard extends View {
 		invalidate();
 	}
 
+	public void setmCircleColor(String mCircleColor) {
+		this.mCircleColor = mCircleColor;
+		mCirclePaint.setColor(Color.parseColor(mCircleColor));
+	}
 }
