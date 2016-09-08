@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_ed"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/rl_user_data"
+        layout="@layout/sz_user_data_view" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:background="@color/gray" />
+
+    <cn.com.bluemoon.delivery.sz.view.ChildListView
+        android:id="@+id/user_task_lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="10dp"
+        android:scrollbars="none" />
+
+</LinearLayout>

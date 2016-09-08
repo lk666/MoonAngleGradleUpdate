@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_ed"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:minHeight="45dp"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/rg_evaluate"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/rb_left"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/sz_task_evaluate_tab_selector"
+                    android:button="@null"
+                    android:checked="true"
+                    android:gravity="center"
+                    android:text="@string/sz_to_evaluate"
+                    android:textColor="@color/text_blue"
+                    android:textSize="@dimen/text_size_15" />
+
+                <!--<View-->
+                <!--android:layout_width="1px"-->
+                <!--android:layout_height="35dp"-->
+                <!--android:background="@color/gray_line" />-->
+
+                <RadioButton
+                    android:id="@+id/rb_right"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/sz_task_evaluate_tab_selector"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="@string/sz_have_evaluated"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_15" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <cn.com.bluemoon.delivery.sz.view.NoScrollViewPager
+            android:id="@+id/evalueate_status_vp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="12dp"
+            android:layout_weight="1"
+            android:background="@color/white"></cn.com.bluemoon.delivery.sz.view.NoScrollViewPager>
+    </LinearLayout>
+</LinearLayout>
