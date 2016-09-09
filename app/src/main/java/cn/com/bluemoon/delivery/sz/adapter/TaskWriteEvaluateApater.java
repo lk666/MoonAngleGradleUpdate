@@ -24,12 +24,12 @@ import cn.com.bluemoon.delivery.R;
  * Date       2016/9/8
  * Desc       ${TODO}
  */
-public class WriteEvaluateApater extends BaseAdapter {
+public class TaskWriteEvaluateApater extends BaseAdapter {
     private List<Object> datas = new ArrayList<>();
     private LayoutInflater inflater;
     private Context cxt;
 
-    public WriteEvaluateApater(Context cxt, List<Object> datas) {
+    public TaskWriteEvaluateApater(Context cxt, List<Object> datas) {
         this.cxt = cxt;
         this.datas = datas;
         if (inflater == null && cxt != null) {

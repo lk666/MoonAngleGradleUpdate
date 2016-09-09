@@ -18,15 +18,15 @@ import cn.com.bluemoon.delivery.R;
 /**
  * Created by Wan.N
  * Date       2016/9/8
- * Desc       ${TODO}
+ * Desc      任务详情adapter
  */
-public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
+public class TaskDetailAdapter extends BaseAdapter {
 
     private List<Object> datas = new ArrayList<>();
     private LayoutInflater inflater;
     private Context cxt;
 
-    public TaskOrEvaluateDetailAdapter(Context cxt, List<Object> datas) {
+    public TaskDetailAdapter(Context cxt, List<Object> datas) {
         this.cxt = cxt;
         this.datas = datas;
         if (inflater == null && cxt != null) {
@@ -65,6 +65,11 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         ///*************************************显示数据************************************************/
+        //根据需要，以下控件不需要显示
+        viewHolder.getTaskAvailabelLl().setVisibility(View.GONE);
+        viewHolder.getTaskQualityLl().setVisibility(View.GONE);
+        viewHolder.getTaskEvaluateContentLl().setVisibility(View.GONE);
+        //
 
         return convertView;
     }

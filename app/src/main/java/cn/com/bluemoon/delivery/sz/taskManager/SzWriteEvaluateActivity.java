@@ -1,10 +1,10 @@
 package cn.com.bluemoon.delivery.sz.taskManager;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -18,8 +18,7 @@ import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.sz.adapter.TaskEvaluateStatusAdapter;
-import cn.com.bluemoon.delivery.sz.adapter.WriteEvaluateApater;
+import cn.com.bluemoon.delivery.sz.adapter.TaskWriteEvaluateApater;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
@@ -37,7 +36,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     @Bind(R.id.rl_user_data)
     LinearLayout rl_user_data;//用户资料区域
 
-     @Bind(R.id.user_avatar_iv)
+    @Bind(R.id.user_avatar_iv)
     RoundImageView user_avatar_iv;//用户头像
 
     @Bind(R.id.user_name_tv)
@@ -109,7 +108,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         list.add(new Object());
         list.add(new Object());
         list.add(new Object());
-        WriteEvaluateApater adapter = new WriteEvaluateApater(this, list);
+        TaskWriteEvaluateApater adapter = new TaskWriteEvaluateApater(this, list);
         user_task_lv.setAdapter(adapter);
 
         initListener();
@@ -177,6 +176,10 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 toast("btn_advice");
+                //TODO 测试用  需删除
+//                Intent intent = new Intent(SzWriteEvaluateActivity.this, NotificationDetailActivity.class);
+//                startActivity(intent);
+
             }
         });
         btn_sure.setOnClickListener(new View.OnClickListener() {

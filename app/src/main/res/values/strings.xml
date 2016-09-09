@@ -867,6 +867,8 @@
     <string name="sz_task_sure">确定</string>
     <string name="sz_update_task_labe">修改任务</string>
     <string name="sz_write_task_evaluate_label">写评价</string>
+    <string name="sz_task_advice_content">建议内容</string>
+    <string name="sz_task_notification_detail">通知详情</string>
 
 
 </resources>
