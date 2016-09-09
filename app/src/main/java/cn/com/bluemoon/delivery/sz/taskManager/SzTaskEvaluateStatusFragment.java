@@ -50,7 +50,7 @@ public class SzTaskEvaluateStatusFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.sz_fragment_task_evaluate_status, null);
-        ButterKnife.bind(this,view);
+        ButterKnife.bind(this, view);
         return view;
     }
 
@@ -61,7 +61,6 @@ public class SzTaskEvaluateStatusFragment extends Fragment {
         initView();
         initData();
     }
-
 
 
     public void initView() {
@@ -111,6 +110,7 @@ public class SzTaskEvaluateStatusFragment extends Fragment {
                 Intent intent = null;
                 if (activityType == ACTIVITY_TYPE_TO_EVALUATE) {
                     intent = new Intent(getActivity(), SzWriteEvaluateActivity.class);
+                    intent.putExtra(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE);
                 } else if (activityType == ACTIVITY_TYPE_HAVE_EVALUATED) {
                     intent = new Intent(getActivity(), SzTaskOrEvaluateDetailActivity.class);
                     intent.putExtra(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE, SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE_EVALUATE_DETAIL);

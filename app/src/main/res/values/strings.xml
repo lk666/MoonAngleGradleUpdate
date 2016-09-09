@@ -869,6 +869,20 @@
     <string name="sz_write_task_evaluate_label">写评价</string>
     <string name="sz_task_advice_content">建议内容</string>
     <string name="sz_task_notification_detail">通知详情</string>
+    <string name="sz_task_quality_score_label">质量评分</string>
+    <string name="sz_task_quality_score_0">0分</string>
+    <string name="sz_task_quality_score_1">1分</string>
+    <string name="sz_task_quality_score_2">2分</string>
+    <string name="sz_task_quality_score_3">3分</string>
+    <string name="sz_task_quality_score_4">4分</string>
+    <string name="sz_task_quality_score_5">5分</string>
+    <string name="sz_task_quality_score_6">6分</string>
+    <string name="sz_task_quality_score_7">7分</string>
+    <string name="sz_task_quality_score_8">8分</string>
+    <string name="sz_task_quality_score_9">9分</string>
+    <string name="sz_task_quality_score_10">10分</string>
+    <string name="sz_update_task_evaluate_label">修改评价</string>
+    <string name="sz_update_evaluate_dialog_title">是否确认修改此评价</string>
 
 
 </resources>

@@ -2,36 +2,30 @@ package cn.com.bluemoon.delivery.sz.taskManager;
 
 import android.content.Intent;
 import android.graphics.Rect;
-import android.view.LayoutInflater;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewTreeObserver;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
 
-import java.io.LineNumberReader;
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
-import cn.com.bluemoon.delivery.sz.view.ChildListView;
+import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * Created by Wan.N
@@ -156,7 +150,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                 if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
                     SzTaskOrEvaluateDetailActivity.this.toast(R.string.sz_update_task_labe);
                 } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-                    SzTaskOrEvaluateDetailActivity.this.toast(R.string.sz_update_evaluete_label);
+                    Bundle bundle = new Bundle();
+                    bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
+                    PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this, SzWriteEvaluateActivity.class, bundle);
                 } else {
 
                 }
@@ -165,7 +161,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         user_task_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SzTaskOrEvaluateDetailActivity.this.toast("test");
+
             }
         });
     }

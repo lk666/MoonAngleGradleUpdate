@@ -1,7 +1,10 @@
 package cn.com.bluemoon.delivery.sz.taskManager;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
+import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -11,6 +14,9 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,10 +25,13 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskWriteEvaluateApater;
+import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
+import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.dialog.AngelAlertDialog;
 
 /**
  * Created by Wan.N
@@ -30,6 +39,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
  * Desc      写评价页面
  */
 public class SzWriteEvaluateActivity extends BaseActivity {
+
     @Bind(R.id.rootview)
     RelativeLayout rootview;
 
@@ -71,9 +81,21 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     //    @Bind(R.id.btn_sure)
     LinearLayout btn_sure;//确认按钮
 
+    private Context context;
+    public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
+    public static final int ACTIVITY_TYPE_WRTTE_EVALUATE = 0;//给未评价的任务写评价
+    public static final int ACTIVITY_TYPE_UPDATE_EVALUATE = 1;//给已评价过的任务修改评价
+    private int activityType = -1;//记录需要展示的类型（0;给未评价的任务写评价  1;给已评价过的任务修改评价）
+
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
+        context = SzWriteEvaluateActivity.this;
+        Intent intent = getIntent();
+        if (intent.hasExtra(ACTIVITY_TYPE)) {
+            activityType = intent.getIntExtra(ACTIVITY_TYPE, -1);
+        }
+        LogUtil.i("activityType:" + activityType);
     }
 
     @Override
@@ -83,15 +105,51 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.sz_write_task_evaluate_label);
+        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+            return getString(R.string.sz_write_task_evaluate_label);
+        } else if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
+            return getString(R.string.sz_update_task_evaluate_label);
+        } else {
+            return "";
+        }
+
     }
+
+    private CommonActionBar titleBar;
 
     @Override
     protected void setActionBar(CommonActionBar titleBar) {
         super.setActionBar(titleBar);
         if (titleBar != null) {
+            this.titleBar = titleBar;
+            if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+                titleBar.getTvRightView().setVisibility(View.GONE);
+            } else if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
+                titleBar.getTvRightView().setText(R.string.sz_task_sure);
+                titleBar.getTvRightView().setVisibility(View.VISIBLE);
+            } else {
 
+            }
         }
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        super.onActionBarBtnRightClick();
+        AngelAlertDialog.Builder build = new AngelAlertDialog.Builder(this);
+        build.setMessage(R.string.sz_update_evaluate_dialog_title);
+        build.setCancelable(true);
+        build.setDismissable(true);
+        build.setNegativeButton(R.string.dialog_cancel, null);
+        build.setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO 提交更新后的评价信息
+                toast("提交修改后的评价信息");
+            }
+        });
+        build.show();
+
     }
 
     @Override
@@ -117,7 +175,21 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
-        layoutBottomBtnArea();
+        updateView();
+    }
+
+    private void updateView() {
+        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+            layoutBottomBtnArea();
+        }
+//        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+//            titleBar.getTvRightView().setVisibility(View.GONE);
+//        } else if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
+//            titleBar.getTvRightView().setText(R.string.sz_task_sure);
+//            titleBar.getTvRightView().setVisibility(View.VISIBLE);
+//        } else {
+//
+//        }
     }
 
     private void layoutBottomBtnArea() {
@@ -171,21 +243,40 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         return totalHeight;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEventAdviceMsg(EventMessageBean messageBean) {
+        if (messageBean != null) {
+            LogUtil.i("eventbus返会数据--messageBean" + messageBean.toString());
+        }
+    }
+
+
     private void initListener() {
         btn_advice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toast("btn_advice");
                 //TODO 测试用  需删除
-//                Intent intent = new Intent(SzWriteEvaluateActivity.this, NotificationDetailActivity.class);
-//                startActivity(intent);
-
+                Bundle bundle = new Bundle();
+                bundle.putInt("intentNum", 666);
+                bundle.putInt("maxTextLenght", 666);
+                PageJumps.PageJumps(context, InputToolsActivity.class, bundle);
             }
         });
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toast("btn_sure");
+                new AngelAlertDialog.Builder(SzWriteEvaluateActivity.this).
+                        setMessage(R.string.sz_update_evaluate_dialog_title).
+                        setCancelable(true).
+                        setDismissable(true).
+                        setNegativeButton(R.string.dialog_cancel, null).
+                        setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //TODO 提交评价信息
+                                finish();
+                            }
+                        }).show();
             }
         });
     }

@@ -306,7 +306,7 @@
         <item name="android:textSize">@dimen/text_size_11</item>
     </style>
 
-    <style name="MyDialogStyleTop" parent="android:Theme.Dialog" >
+    <style name="MyDialogStyleTop" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
         <item name="android:windowIsTranslucent">true</item><!--半透明-->
@@ -345,4 +345,33 @@
         <item name="android:textSize">14sp</item>
     </style>
 
+    <!--任务质量评分界面1-->
+    <style name="sz_task_quality_score_itemview_rl">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+    <!--任务质量评分界面2-->
+    <style name="sz_task_quality_score_itemview_left_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/text_grep</item>
+        <item name="android:textSize">@dimen/text_size_17</item>
+    </style>
+    <!--任务质量评分界面3-->
+    <style name="sz_task_quality_score_itemview_right_cb">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@drawable/sz_task_complete_state_bg_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:enabled">false</item>
+        <item name="android:focusable">false</item>
+    </style>
 </resources>
