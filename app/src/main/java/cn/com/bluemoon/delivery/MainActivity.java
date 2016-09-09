@@ -142,10 +142,10 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-//             PublicUtil.openScanView(main, null, null, 0);
+             PublicUtil.openScanView(main, null, null, 0);
 //                PublicUtil.openScanTicket(main,"dlsafdsfds","23432432",0,4);
 //                PublicUtil.openNewScan(main,"123","3243242",0,4);
-                PublicUtil.openNewScanOrder(main,null,"123","3243242",0,4);
+//                PublicUtil.openNewScanOrder(main,null,"123","3243242",0,4);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
