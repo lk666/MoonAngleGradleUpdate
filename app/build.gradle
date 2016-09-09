@@ -1,8 +1,8 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
-def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
+//def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
+//def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
 def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HHmmss")
     df.setTimeZone(TimeZone.getDefault())
     return df.format(new Date()) }
@@ -25,7 +25,7 @@ android {
         targetSdkVersion 21
         versionCode 18
         versionName "4.2.1"
-        buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
+        buildConfigField("String", "BUILD_CODE", "\"${/*gitNum*/}\"")
 
     }
 
@@ -42,7 +42,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
-                        def fileName = "月亮天使_${buildTime()}_测试版_${defaultConfig.versionName}(${gitNum}).apk"
+                        def fileName = "月亮天使_${/**buildTime()*/}_测试版_${defaultConfig.versionName}(${/*gitNum*/}).apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
@@ -62,7 +62,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('release.apk')) {
-                        def fileName = "月亮天使_${buildTime()}_正式版_${defaultConfig.versionName}(${gitNum}).apk"
+                        def fileName = "月亮天使_${/*buildTime()*/}_正式版_${defaultConfig.versionName}(${/*gitNum*/}).apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }

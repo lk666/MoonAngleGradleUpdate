@@ -482,6 +482,17 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop"/>
 
+        <activity
+            android:name=".sz.taskManager.SzTaskOrEvaluateDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".sz.taskManager.SzWriteEvaluateActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+
         <service android:name=".module.card.LocationSvc"/>
 
         <!-- push应用定义消息receiver声明 -->

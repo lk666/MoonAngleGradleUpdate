@@ -2,6 +2,8 @@ package cn.com.bluemoon.delivery.sz.taskManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
@@ -28,7 +31,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Date       2016/9/7
  * Desc      待评价/已评价界面（共用）
  */
-public class SzTaskEvaluateStatusFragment extends BaseFragment {
+public class SzTaskEvaluateStatusFragment extends Fragment {
     @Bind(R.id.evaluate_data_lv)
     PullToRefreshListView evaluate_data_lv;
 
@@ -37,19 +40,30 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     public static final int ACTIVITY_TYPE_HAVE_EVALUATED = 1;//已评价
     private int activityType = -1;//记录需要展示的类型（0;待评价  1;已评价）
 
-    @Override
-    protected void onBeforeCreateView() {
+    protected void initIntent() {
         Bundle bundle = getArguments();
         activityType = bundle.getInt(ACTIVITY_TYPE, -1);
         LogUtil.i("evaluateType:" + activityType);
     }
 
+    @Nullable
     @Override
-    protected int getLayoutId() {
-        return R.layout.sz_fragment_task_evaluate_status;
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        View view = inflater.inflate(R.layout.sz_fragment_task_evaluate_status, null);
+        ButterKnife.bind(this,view);
+        return view;
     }
 
     @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        initIntent();
+        initView();
+        initData();
+    }
+
+
+
     public void initView() {
         //TODO 模拟数据
         List<Object> list = new ArrayList<>();
@@ -84,7 +98,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         listView.setLayoutParams(params);
     }
 
-    @Override
     public void initData() {
 
     }
@@ -110,9 +123,4 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         });
     }
 
-
-    @Override
-    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
-    }
 }

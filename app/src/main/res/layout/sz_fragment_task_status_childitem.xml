@@ -15,7 +15,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:text="任务1"
+            android:text="@string/sz_task_label"
             android:textColor="@color/gray"
             android:textSize="14sp" />
 
@@ -27,7 +27,7 @@
             android:layout_centerVertical="true"
             android:ellipsize="end"
             android:singleLine="true"
-            android:text="任务概述"
+            android:text="@string/sz_task_desc_label"
             android:textColor="@color/gray"
             android:textSize="14sp" />
     </RelativeLayout>

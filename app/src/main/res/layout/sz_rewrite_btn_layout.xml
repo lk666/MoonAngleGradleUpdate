@@ -24,7 +24,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="9dp"
-            android:text="修改评价"
+            android:text="@string/sz_update_evaluete_label"
             android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
     </LinearLayout>

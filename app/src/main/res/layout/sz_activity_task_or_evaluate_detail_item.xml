@@ -19,9 +19,9 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="任   务"
+            android:text="@string/sz_task_label"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -31,7 +31,7 @@
             android:gravity="center"
             android:text=":"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/task_detail_content"
@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
     </LinearLayout>
 
     <LinearLayout
@@ -52,9 +52,9 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="工作输出"
+            android:text="@string/sz_task_output_label"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -64,7 +64,7 @@
             android:gravity="center"
             android:text=":"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/task_output_tv"
@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
     </LinearLayout>
 
     <LinearLayout
@@ -85,9 +85,9 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="起始时间"
+            android:text="@string/sz_task_start_time_label"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -97,7 +97,7 @@
             android:gravity="center"
             android:text=":"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/task_start_end_time_tv"
@@ -105,7 +105,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
     </LinearLayout>
 
     <LinearLayout
@@ -118,9 +118,9 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="进展状态"
+            android:text="@string/sz_task_complete_state_label"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -130,7 +130,7 @@
             android:gravity="center"
             android:text=":"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/task_complete_state_tv"
@@ -138,7 +138,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
     </LinearLayout>
 
     <LinearLayout
@@ -152,9 +152,9 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="业绩有效"
+            android:text="@string/sz_do_task_complete_state_label"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -164,7 +164,7 @@
             android:gravity="center"
             android:text=":"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/task_avalilabel_tv"
@@ -172,7 +172,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
     </LinearLayout>
 
     <LinearLayout
@@ -186,9 +186,9 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="质量评分"
+            android:text="@string/sz_do_task_quality_score_label"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -198,7 +198,7 @@
             android:gravity="center"
             android:text=":"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/task_quality_tv"
@@ -206,7 +206,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
     </LinearLayout>
 
     <LinearLayout
@@ -220,9 +220,9 @@
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="评价内容"
+            android:text="@string/sz_do_task_evaluate_content_label"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -232,7 +232,7 @@
             android:gravity="center"
             android:text=":"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
 
         <TextView
             android:id="@+id/task_evaluate_tv"
@@ -240,7 +240,7 @@
             android:layout_height="wrap_content"
             android:gravity="center"
             android:textColor="@color/gray"
-            android:textSize="12sp" />
+            android:textSize="@dimen/text_size_12" />
     </LinearLayout>
 
 

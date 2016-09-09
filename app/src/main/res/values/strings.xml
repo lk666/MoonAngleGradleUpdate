@@ -843,6 +843,30 @@
     <!--sz task-->
     <string name="sz_task_add_task">添加工作</string>
 
+    <!--sz task_evaluate-->
+    <string name="sz_to_evaluate">待评价</string>
+    <string name="sz_have_evaluated">已评价</string>
+    <string name="sz_task_output_label">工作输出</string>
+    <string name="sz_task_label">任务</string>
+    <string name="sz_task_start_time_label">起始时间</string>
+    <string name="sz_task_complete_state_label">进展状态</string>
+    <string name="sz_task_completing_label">进行中</string>
+    <string name="sz_task_completed_label">已完成</string>
+    <string name="sz_task_pause_label">已暂停</string>
+    <string name="sz_do_task_complete_state_label">进展状态</string>
+    <string name="sz_do_task_avaliabel_label">业绩有效</string>
+    <string name="sz_do_task_avaliabel_label2">有效</string>
+    <string name="sz_do_task_avaliabel_time_label">有效工时</string>
+    <string name="sz_do_task_quality_score_label">质量评分</string>
+    <string name="sz_do_task_quality_score_label2">十分制</string>
+    <string name="sz_do_task_evaluate_content_label">评价内容</string>
+    <string name="sz_do_task_evaluate_content_label2">请填写评价内容（选填）</string>
+    <string name="sz_task_desc_label">任务概述</string>
+    <string name="sz_update_evaluete_label">修改评价</string>
+    <string name="sz_task_adavice_label">驳回</string>
+    <string name="sz_task_sure">确定</string>
+    <string name="sz_update_task_labe">修改任务</string>
+    <string name="sz_write_task_evaluate_label">写评价</string>
 
 
 </resources>

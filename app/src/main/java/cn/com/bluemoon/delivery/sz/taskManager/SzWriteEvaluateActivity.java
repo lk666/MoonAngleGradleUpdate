@@ -28,7 +28,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 /**
  * Created by Wan.N
  * Date       2016/9/8
- * Desc       ${TODO}
+ * Desc      写评价页面
  */
 public class SzWriteEvaluateActivity extends BaseActivity {
     @Bind(R.id.rootview)
@@ -84,7 +84,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return "写评价";
+        return getString(R.string.sz_write_task_evaluate_label);
     }
 
     @Override

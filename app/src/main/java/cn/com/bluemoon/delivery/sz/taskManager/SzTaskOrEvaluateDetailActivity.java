@@ -130,9 +130,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         user_score_icon.setVisibility(View.GONE);
         //
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            btn_bottom.setText("修改任务");
+            btn_bottom.setText(R.string.sz_update_task_labe);
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-            btn_bottom.setText("修改评价");
+            btn_bottom.setText(R.string.sz_update_evaluete_label);
         } else {
             btn_bottom.setText("");
         }
@@ -154,9 +154,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-                    SzTaskOrEvaluateDetailActivity.this.toast("修改任务");
+                    SzTaskOrEvaluateDetailActivity.this.toast(R.string.sz_update_task_labe);
                 } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-                    SzTaskOrEvaluateDetailActivity.this.toast("修改评价");
+                    SzTaskOrEvaluateDetailActivity.this.toast(R.string.sz_update_evaluete_label);
                 } else {
 
                 }

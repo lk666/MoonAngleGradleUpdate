@@ -30,7 +30,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
-                android:text="驳回"
+                android:text="@string/sz_task_adavice_label"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16" />
         </LinearLayout>
@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="9dp"
-                android:text="确定"
+                android:text="@string/sz_task_sure"
                 android:textColor="@color/white"
                 android:textSize="@dimen/text_size_16" />
         </LinearLayout>
