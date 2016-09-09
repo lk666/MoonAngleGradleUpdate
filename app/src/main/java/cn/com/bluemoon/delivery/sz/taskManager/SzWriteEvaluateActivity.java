@@ -104,11 +104,11 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         List<Object> list = new ArrayList<>();
         list.add(new Object());
         list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
+        list.add(new Object());
+        list.add(new Object());
+        list.add(new Object());
+        list.add(new Object());
+        list.add(new Object());
         WriteEvaluateApater adapter = new WriteEvaluateApater(this, list);
         user_task_lv.setAdapter(adapter);
 
