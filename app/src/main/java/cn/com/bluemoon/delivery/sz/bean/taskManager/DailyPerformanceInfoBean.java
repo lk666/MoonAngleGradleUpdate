@@ -33,6 +33,7 @@ public class DailyPerformanceInfoBean implements Serializable {
      * work_date          工作日期 string
      * work_day_id        任务日计划ID
      */
+
     private List<AsignJobBean> asignJobs;
     private String createtime;
     private String day_score;
