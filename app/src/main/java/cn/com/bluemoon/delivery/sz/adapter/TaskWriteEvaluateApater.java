@@ -115,12 +115,12 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
 //                v.requestFocus();
 //            }
 //        });
-        viewHolder.getTaskAvaliabelTimeEt().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                LogUtil.i("onFocusChange:" + hasFocus);
-            }
-        });
+//        viewHolder.getTaskAvaliabelTimeEt().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                LogUtil.i("onFocusChange:" + hasFocus);
+//            }
+//        });
         viewHolder.getTaskAvaliabelTimeEt().addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -137,10 +137,12 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 if (!TextUtils.isEmpty(s.toString())) {
                     if (Integer.valueOf(s.toString()) >= 1440) {
                         new CommonAlertDialog.Builder(cxt).setMessage("有效工时不能超过1440分钟").show();
+                        s.clear();
                     }
                 }
             }
         });
+
         viewHolder.getTaskQualityEvaluateRl().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
