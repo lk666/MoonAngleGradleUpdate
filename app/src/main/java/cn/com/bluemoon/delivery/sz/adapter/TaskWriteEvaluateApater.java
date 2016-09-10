@@ -74,7 +74,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
-        final MyViewHolder viewHolder;
+        MyViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.sz_activity_write_evaluate_item, null);
             viewHolder = new MyViewHolder(convertView);
@@ -137,7 +137,6 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 if (!TextUtils.isEmpty(s.toString())) {
                     if (Integer.valueOf(s.toString()) >= 1440) {
                         new CommonAlertDialog.Builder(cxt).setMessage("有效工时不能超过1440分钟").show();
-                        viewHolder.getTaskAvaliabelTimeEt().clearFocus();
                     }
                 }
             }
