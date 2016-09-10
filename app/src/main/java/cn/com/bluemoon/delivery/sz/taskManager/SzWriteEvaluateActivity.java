@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -146,6 +147,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             public void onClick(DialogInterface dialog, int which) {
                 //TODO 提交更新后的评价信息
                 toast("提交修改后的评价信息");
+                finish();
             }
         });
         build.show();
@@ -154,6 +156,9 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        //
+        EventBus.getDefault().register(this);
+        //需要填充的按钮布局
         btnAreaLl = (LinearLayout) inflateView(R.layout.sz_write_evaluate_bottom_btn_layout);
         btn_advice = (LinearLayout) btnAreaLl.findViewById(R.id.btn_advice);
         btn_sure = (LinearLayout) btnAreaLl.findViewById(R.id.btn_sure);
@@ -245,11 +250,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventAdviceMsg(EventMessageBean messageBean) {
-        if (messageBean != null) {
+        if (messageBean != null && String.valueOf(toInputActivityNum).equalsIgnoreCase(messageBean.getEventMsgAction())) {
             LogUtil.i("eventbus返会数据--messageBean" + messageBean.toString());
+            //TODO 需要将驳回的建议内容一并提交服务器
         }
     }
 
+    private int toInputActivityNum = 0x10;
 
     private void initListener() {
         btn_advice.setOnClickListener(new View.OnClickListener() {
@@ -257,7 +264,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             public void onClick(View v) {
                 //TODO 测试用  需删除
                 Bundle bundle = new Bundle();
-                bundle.putInt("intentNum", 666);
+                bundle.putInt("intentNum", toInputActivityNum);
                 bundle.putInt("maxTextLenght", 666);
                 PageJumps.PageJumps(context, InputToolsActivity.class, bundle);
             }

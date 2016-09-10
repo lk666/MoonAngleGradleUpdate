@@ -482,7 +482,7 @@
             android:name=".sz.taskManager.SzWriteEvaluateActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name=".sz.taskManager.NotificationDetailActivity"
