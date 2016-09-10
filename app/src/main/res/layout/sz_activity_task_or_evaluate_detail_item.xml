@@ -4,10 +4,7 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    android:paddingBottom="@dimen/space_11"
-    android:paddingLeft="@dimen/space_13"
-    android:paddingRight="@dimen/space_15"
-    android:paddingTop="@dimen/space_10">
+    android:padding="@dimen/space_12">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,12 +13,8 @@
 
         <TextView
             android:id="@+id/task_rank_num_tv"
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/sz_task_label"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_task_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -35,11 +28,9 @@
 
         <TextView
             android:id="@+id/task_detail_content"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_right"
+            android:maxLines="3"
+            android:minLines="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -49,12 +40,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/sz_task_output_label"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_task_output_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -68,11 +55,9 @@
 
         <TextView
             android:id="@+id/task_output_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_right"
+            android:maxLines="3"
+            android:minLines="1" />
     </LinearLayout>
 
     <LinearLayout
@@ -82,12 +67,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/sz_task_start_time_label"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_task_start_time_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -101,11 +82,7 @@
 
         <TextView
             android:id="@+id/task_start_end_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_right" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,12 +92,8 @@
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/sz_task_complete_state_label"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_task_complete_state_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -134,27 +107,19 @@
 
         <TextView
             android:id="@+id/task_complete_state_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_right" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_task_availabel"
-        android:layout_marginTop="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/sz_do_task_avaliabel_label"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_do_task_avaliabel_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -168,27 +133,19 @@
 
         <TextView
             android:id="@+id/task_avalilabel_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_right" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_task_quality"
         android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/sz_do_task_quality_score_label"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_do_task_quality_score_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -202,27 +159,19 @@
 
         <TextView
             android:id="@+id/task_quality_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_right" />
     </LinearLayout>
 
     <LinearLayout
         android:id="@+id/ll_task_evaluate_content"
         android:layout_width="match_parent"
-        android:layout_marginTop="8dp"
         android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="50dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/sz_do_task_evaluate_content_label"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_do_task_evaluate_content_label" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -236,12 +185,7 @@
 
         <TextView
             android:id="@+id/task_evaluate_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:textColor="@color/gray"
-            android:textSize="@dimen/text_size_12" />
+            style="@style/sz_task_or_evaluate_detail_item_right" />
     </LinearLayout>
-
 
 </LinearLayout>

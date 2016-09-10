@@ -91,9 +91,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     protected String getTitleString() {
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            return "任务详情";
+            return getString(R.string.sz_task_detail_label);
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-            return "评价详情";
+            return getString(R.string.sz_evaluate_detail_label);
         } else {
             return super.getTitleString();
         }
@@ -116,7 +116,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_rewrite_btn_layout);
+        sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_task_or_evaluate_detail_btn_layout);
         ll_bottom_btn_area = (LinearLayout) sz_rewrite_btn_layout.findViewById(R.id.ll_bottom_btn_area);
         btn_bottom = (TextView) sz_rewrite_btn_layout.findViewById(R.id.btn_bottom);
         //

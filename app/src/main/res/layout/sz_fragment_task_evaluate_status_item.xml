@@ -14,6 +14,8 @@
         android:layout_height="1px"
         android:background="@color/gray" />
 
+    <include layout="@layout/sz_gray_divider_view" />
+
     <cn.com.bluemoon.delivery.sz.view.ChildListView
         android:id="@+id/user_task_lv"
         android:layout_width="match_parent"

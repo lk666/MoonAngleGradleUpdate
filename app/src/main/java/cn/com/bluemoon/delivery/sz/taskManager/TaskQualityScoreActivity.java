@@ -1,8 +1,11 @@
 package cn.com.bluemoon.delivery.sz.taskManager;
 
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.RelativeLayout;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +14,7 @@ import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 
 /**
@@ -77,6 +81,18 @@ public class TaskQualityScoreActivity extends BaseActivity implements View.OnCli
 
     private List<CheckBox> socreCbs = new ArrayList<>();//存放布局中所有checkbox
     private int score = 10;
+
+    private int actionNameType = -1;
+    private String viewPosition = "";
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        if (getIntent() != null) {
+            actionNameType = getIntent().getIntExtra("actionType", -1);
+            viewPosition = getIntent().getStringExtra("viewPosition");
+        }
+    }
 
     @Override
     protected int getLayoutId() {
@@ -172,6 +188,16 @@ public class TaskQualityScoreActivity extends BaseActivity implements View.OnCli
                 break;
         }
         updateCheckState(chooseIndex);
+        postScoreResult();
+    }
+
+    private void postScoreResult() {
+        EventMessageBean messageBean = new EventMessageBean();
+        messageBean.setEventMsgAction(actionNameType + "");
+        messageBean.setEventMsgContent(score + "");
+        messageBean.setReMark(viewPosition);
+        EventBus.getDefault().post(messageBean);
+        finish();
     }
 
     private void updateCheckState(int chooseIndex) {

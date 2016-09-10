@@ -374,4 +374,22 @@
         <item name="android:enabled">false</item>
         <item name="android:focusable">false</item>
     </style>
+    <!--任务详情/评价详情中itemview中左视图-->
+    <style name="sz_task_or_evaluate_detail_item_left">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <!--任务详情/评价详情中itemview中右视图-->
+    <style name="sz_task_or_evaluate_detail_item_right">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
 </resources>

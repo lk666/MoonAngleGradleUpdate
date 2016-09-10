@@ -5,9 +5,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -30,9 +33,12 @@ import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
+import cn.com.bluemoon.delivery.sz.util.UtilTools;
+import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AngelAlertDialog;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * Created by Wan.N
@@ -74,6 +80,16 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     @Bind(R.id.user_task_lv)
     ListView user_task_lv;
 
+    /**
+     * 用于eventbus数据传送识别的actionname
+     * EVENT_ACTION_TYPE_ADVICE  ：驳回原因（建议）
+     * EVENT_ACTION_TYPE_EVALUATE_CONTENT  ：评价内容
+     * EVENT_ACTION_TYPE_QUALITY_SCORE  ：质量评分
+     */
+    public static int EVENT_ACTION_TYPE_ADVICE = 0x10;
+    public static int EVENT_ACTION_TYPE_EVALUATE_CONTENT = 0x12;
+    public static int EVENT_ACTION_TYPE_QUALITY_SCORE = 0x13;
+
     private LinearLayout btnAreaLl;
 
     //    @Bind(R.id.btn_advice)
@@ -87,6 +103,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     public static final int ACTIVITY_TYPE_WRTTE_EVALUATE = 0;//给未评价的任务写评价
     public static final int ACTIVITY_TYPE_UPDATE_EVALUATE = 1;//给已评价过的任务修改评价
     private int activityType = -1;//记录需要展示的类型（0;给未评价的任务写评价  1;给已评价过的任务修改评价）
+    private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -154,6 +171,9 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     }
 
+    private List<Object> datalist = new ArrayList<>();
+    private TaskWriteEvaluateApater evaluateadapter;
+
     @Override
     public void initView() {
         //
@@ -163,16 +183,11 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         btn_advice = (LinearLayout) btnAreaLl.findViewById(R.id.btn_advice);
         btn_sure = (LinearLayout) btnAreaLl.findViewById(R.id.btn_sure);
         //TODO 模拟数据
-        List<Object> list = new ArrayList<>();
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        TaskWriteEvaluateApater adapter = new TaskWriteEvaluateApater(this, list);
-        user_task_lv.setAdapter(adapter);
+        datalist.add(new Object());
+        datalist.add(new Object());
+        datalist.add(new Object());
+        evaluateadapter = new TaskWriteEvaluateApater(this, datalist);
+        user_task_lv.setAdapter(evaluateadapter);
 
         initListener();
     }
@@ -184,8 +199,9 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     }
 
     private void updateView() {
-        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE && isFirstLayoutBtns) {
             layoutBottomBtnArea();
+            isFirstLayoutBtns = false;
         }
 //        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
 //            titleBar.getTvRightView().setVisibility(View.GONE);
@@ -250,22 +266,41 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getEventAdviceMsg(EventMessageBean messageBean) {
-        if (messageBean != null && String.valueOf(toInputActivityNum).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+        if (messageBean != null) {
             LogUtil.i("eventbus返会数据--messageBean" + messageBean.toString());
-            //TODO 需要将驳回的建议内容一并提交服务器
+            if (String.valueOf(EVENT_ACTION_TYPE_ADVICE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+                //TODO 需要将驳回的建议内容一并提交服务器
+
+            } else if (String.valueOf(EVENT_ACTION_TYPE_EVALUATE_CONTENT).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+                //TODO 需要将填写的评价内容刷新显示到页面
+                String position = messageBean.getReMark();//填写评价内容的itemview的position
+                LogUtil.i("填写了" + position + "的评价内容" + "--" + messageBean.getEventMsgContent());
+                evaluateadapter.notifyDataSetChanged();
+            } else if (String.valueOf(EVENT_ACTION_TYPE_QUALITY_SCORE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+                //TODO 需要将评分结果刷新显示到页面
+                String score = messageBean.getEventMsgContent();
+                String position = messageBean.getReMark();//评分的itemview的position
+                LogUtil.i("评分结果：position:" + position + "--score" + score);
+            } else {
+
+            }
         }
     }
 
-    private int toInputActivityNum = 0x10;
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 
     private void initListener() {
         btn_advice.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //TODO 测试用  需删除
+                //填写建议信息
                 Bundle bundle = new Bundle();
-                bundle.putInt("intentNum", toInputActivityNum);
-                bundle.putInt("maxTextLenght", 666);
+                bundle.putInt("intentNum", EVENT_ACTION_TYPE_ADVICE);
+                bundle.putInt("maxTextLenght", 500);
                 PageJumps.PageJumps(context, InputToolsActivity.class, bundle);
             }
         });
@@ -288,6 +323,48 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         });
     }
 
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev) {
+        if (ev.getAction() == MotionEvent.ACTION_DOWN) {
+            View v = getCurrentFocus();
+            if (isShouldHideInput(v, ev)) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                if (imm != null) {
+                    imm.hideSoftInputFromWindow(v.getWindowToken(),  InputMethodManager.HIDE_NOT_ALWAYS);
+                }
+                v.clearFocus();
+//                v.setFocusable(false);
+            }
+            return super.dispatchTouchEvent(ev);
+        }
+        // 必不可少，否则所有的组件都不会有TouchEvent了
+        if (getWindow().superDispatchTouchEvent(ev)) {
+            return true;
+        }
+        return onTouchEvent(ev);
+    }
+
+    public boolean isShouldHideInput(View v, MotionEvent event) {
+        if (v != null && (v instanceof EditText)) {
+            int[] leftTop = {0, 0};
+            //获取输入框当前的location位置
+            v.getLocationInWindow(leftTop);
+            int left = leftTop[0];
+            int top = leftTop[1];
+            int bottom = top + v.getHeight();
+            int right = left + v.getWidth();
+            if (event.getX() > left && event.getX() < right
+                    && event.getY() > top && event.getY() < bottom) {
+                // 点击的是输入框区域，保留点击EditText的事件
+                return false;
+            } else {
+                return true;
+            }
+        }
+        return false;
+    }
+
     @Override
     public void initData() {
 
@@ -297,4 +374,5 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
     }
+
 }

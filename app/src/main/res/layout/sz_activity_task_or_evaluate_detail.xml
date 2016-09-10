@@ -18,28 +18,28 @@
         android:background="@color/gray" />
 
     <!--<LinearLayout-->
-        <!--android:id="@+id/ll_bottom_btn_area"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="49dp"-->
-        <!--android:layout_alignParentBottom="true"-->
-        <!--android:background="@color/btn_blue"-->
-        <!--android:descendantFocusability="beforeDescendants"-->
-        <!--android:gravity="center"-->
-        <!--android:orientation="horizontal">-->
+    <!--android:id="@+id/ll_bottom_btn_area"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="49dp"-->
+    <!--android:layout_alignParentBottom="true"-->
+    <!--android:background="@color/btn_blue"-->
+    <!--android:descendantFocusability="beforeDescendants"-->
+    <!--android:gravity="center"-->
+    <!--android:orientation="horizontal">-->
 
-        <!--<TextView-->
-            <!--android:layout_width="26dp"-->
-            <!--android:layout_height="26dp"-->
-            <!--android:background="@mipmap/sz_rewrite_icon" />-->
+    <!--<TextView-->
+    <!--android:layout_width="26dp"-->
+    <!--android:layout_height="26dp"-->
+    <!--android:background="@mipmap/sz_rewrite_icon" />-->
 
-        <!--<TextView-->
-            <!--android:id="@+id/btn_bottom"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_marginLeft="9dp"-->
-            <!--android:text="修改评价"-->
-            <!--android:textColor="@color/white"-->
-            <!--android:textSize="@dimen/text_size_16" />-->
+    <!--<TextView-->
+    <!--android:id="@+id/btn_bottom"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginLeft="9dp"-->
+    <!--android:text="修改评价"-->
+    <!--android:textColor="@color/white"-->
+    <!--android:textSize="@dimen/text_size_16" />-->
     <!--</LinearLayout>-->
 
     <ListView
@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_divider"
+        android:layout_marginTop="@dimen/space_10"
         android:dividerHeight="10dp"
         android:scrollbars="none" />
 

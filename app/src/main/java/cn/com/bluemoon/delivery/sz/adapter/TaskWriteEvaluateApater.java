@@ -1,12 +1,17 @@
 package cn.com.bluemoon.delivery.sz.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
@@ -18,11 +23,17 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.sz.taskManager.InputToolsActivity;
+import cn.com.bluemoon.delivery.sz.taskManager.SzWriteEvaluateActivity;
+import cn.com.bluemoon.delivery.sz.taskManager.TaskQualityScoreActivity;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
+import cn.com.bluemoon.delivery.sz.util.PageJumps;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * Created by Wan.N
  * Date       2016/9/8
- * Desc       ${TODO}
+ * Desc      写评价/修改评价的适配器
  */
 public class TaskWriteEvaluateApater extends BaseAdapter {
     private List<Object> datas = new ArrayList<>();
@@ -62,8 +73,8 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        MyViewHolder viewHolder = null;
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        final MyViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.sz_activity_write_evaluate_item, null);
             viewHolder = new MyViewHolder(convertView);
@@ -95,22 +106,60 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
 
             }
         });
-        viewHolder.getTaskEvaluateContentRl().setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
+//        viewHolder.getTaskAvaliabelTimeEt().setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                LogUtil.i("onClick");
+////                v.setFocusable(true);
+//                v.requestFocus();
+//            }
+//        });
+        viewHolder.getTaskAvaliabelTimeEt().setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                LogUtil.i("onFocusChange:" + hasFocus);
+            }
+        });
+        viewHolder.getTaskAvaliabelTimeEt().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (!TextUtils.isEmpty(s.toString())) {
+                    if (Integer.valueOf(s.toString()) >= 1440) {
+                        new CommonAlertDialog.Builder(cxt).setMessage("有效工时不能超过1440分钟").show();
+                        viewHolder.getTaskAvaliabelTimeEt().clearFocus();
+                    }
+                }
             }
         });
         viewHolder.getTaskQualityEvaluateRl().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Bundle bundle = new Bundle();
+                bundle.putInt("actionType", SzWriteEvaluateActivity.EVENT_ACTION_TYPE_QUALITY_SCORE);
+                bundle.putString("viewPosition", position + "");
+                PageJumps.PageJumps(cxt, TaskQualityScoreActivity.class, bundle);
             }
         });
         viewHolder.getTaskEvaluateContentRl().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                Bundle bundle = new Bundle();
+                bundle.putInt("intentNum", SzWriteEvaluateActivity.EVENT_ACTION_TYPE_EVALUATE_CONTENT);
+                bundle.putInt("maxTextLenght", 500);
+                bundle.putString("inputContent", "");
+                bundle.putString("viewName", position + "");
+                PageJumps.PageJumps(cxt, InputToolsActivity.class, bundle);
             }
         });
         return convertView;
@@ -119,6 +168,9 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
     class MyViewHolder {
         @Bind(R.id.task_rank_num_tv)
         TextView taskRankNumTv;
+
+        @Bind(R.id.task_detail_content)
+        TextView taskContentTv;
 
         @Bind(R.id.task_output_tv)
         TextView taskOutputTv;
@@ -147,8 +199,8 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         @Bind(R.id.do_task_avalilabel_time_rl)
         RelativeLayout taskAvaliabelTimeRl;
 
-        @Bind(R.id.do_task_avalilabel_time_tv)
-        TextView taskAvaliabelTimeTv;
+        @Bind(R.id.do_task_avalilabel_time_et)
+        EditText taskAvaliabelTimeEt;
 
         @Bind(R.id.do_quality_evaluate_rl)
         RelativeLayout taskQualityEvaluateRl;
@@ -162,6 +214,10 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
 
         public TextView getTaskRankNumTv() {
             return taskRankNumTv;
+        }
+
+        public TextView getTaskContentTv() {
+            return taskContentTv;
         }
 
         public TextView getTaskOutputTv() {
@@ -200,8 +256,8 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             return taskAvaliabelTimeRl;
         }
 
-        public TextView getTaskAvaliabelTimTvl() {
-            return taskAvaliabelTimeTv;
+        public EditText getTaskAvaliabelTimeEt() {
+            return taskAvaliabelTimeEt;
         }
 
         public RelativeLayout getTaskQualityEvaluateRl() {

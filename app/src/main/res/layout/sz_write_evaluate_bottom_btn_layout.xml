@@ -17,7 +17,7 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="@color/btn_blue"
+            android:background="@drawable/sz_task_btn_blue_bg_selector"
             android:descendantFocusability="beforeDescendants"
             android:gravity="center">
 

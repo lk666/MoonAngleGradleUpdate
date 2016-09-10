@@ -21,12 +21,8 @@
 
             <TextView
                 android:id="@+id/task_rank_num_tv"
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/sz_task_label"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_12" />
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:text="@string/sz_task_label" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -40,11 +36,9 @@
 
             <TextView
                 android:id="@+id/task_detail_content"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_12" />
+                style="@style/sz_task_or_evaluate_detail_item_right"
+                android:maxLines="3"
+                android:minLines="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -54,12 +48,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/sz_task_output_label"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_12" />
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:text="@string/sz_task_output_label" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -73,11 +63,7 @@
 
             <TextView
                 android:id="@+id/task_output_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_12" />
+                style="@style/sz_task_or_evaluate_detail_item_right" />
         </LinearLayout>
 
         <LinearLayout
@@ -87,12 +73,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/sz_task_start_time_label"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_12" />
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:text="@string/sz_task_start_time_label" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -106,11 +88,7 @@
 
             <TextView
                 android:id="@+id/task_start_end_time_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_12" />
+                style="@style/sz_task_or_evaluate_detail_item_right" />
         </LinearLayout>
 
         <LinearLayout
@@ -120,12 +98,8 @@
             android:orientation="horizontal">
 
             <TextView
-                android:layout_width="50dp"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/sz_task_complete_state_label"
-                android:textColor="@color/gray"
-                android:textSize="@dimen/text_size_12" />
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:text="@string/sz_task_complete_state_label" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -137,14 +111,14 @@
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_12" />
 
-            <TextView
-                android:id="@+id/task_complete_state_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/sz_task_completing_label"
-                android:textColor="@color/bar_blue"
-                android:textSize="@dimen/text_size_12" />
+            <!--<TextView-->
+            <!--android:id="@+id/task_complete_state_tv"-->
+            <!--android:text="@string/sz_task_completing_label"-->
+            <!--android:textColor="@color/bar_blue"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="@dimen/text_size_12" />-->
 
             <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -156,14 +130,11 @@
             <!--android:textColor="@color/bar_blue"-->
             <!--android:textSize="@dimen/text_size_12" />-->
 
-            <!--<TextView-->
-            <!--android:id="@+id/task_state_completed_tv"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:gravity="center"-->
-            <!--android:text="@string/sz_task_completed_label"-->
-            <!--android:textColor="@color/gray"-->
-            <!--android:textSize="@dimen/text_size_12" />-->
+            <TextView
+                android:id="@+id/task_complete_state_tv"
+                style="@style/sz_task_or_evaluate_detail_item_right"
+                android:text="@string/sz_task_completed_label"
+                android:textColor="@color/gray" />
 
             <!--<TextView-->
             <!--android:layout_width="wrap_content"-->
@@ -307,7 +278,9 @@
         <RelativeLayout
             android:id="@+id/do_task_avalilabel_time_rl"
             android:layout_width="match_parent"
-            android:layout_height="44dp">
+            android:layout_height="44dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true">
 
             <TextView
                 android:layout_width="65dp"
@@ -318,23 +291,39 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/task_availabel_time_right_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:background="@mipmap/icon_right" />
+                android:src="@mipmap/icon_right" />
 
             <TextView
-                android:id="@+id/do_task_avalilabel_time_tv"
+                android:id="@+id/min_label_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/task_availabel_time_right_icon"
                 android:gravity="center"
-                android:text=""
+                android:text="分钟"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_12" />
+
+            <EditText
+                android:id="@+id/do_task_avalilabel_time_et"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/min_label_tv"
+                android:background="@null"
+                android:gravity="right|center_vertical"
+                android:inputType="number"
+                android:maxLength="4"
+                android:minWidth="50dp"
+                android:paddingRight="6dp"
+                android:text="120"
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_12" />
 
@@ -359,14 +348,14 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/quality_evaluate_right_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:background="@mipmap/icon_right" />
+                android:src="@mipmap/icon_right" />
 
             <TextView
                 android:id="@+id/do_quality_evaluate_tv"
@@ -400,14 +389,14 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <TextView
+            <ImageView
                 android:id="@+id/evaluate_content_right_icon"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
-                android:background="@mipmap/icon_right" />
+                android:src="@mipmap/icon_right" />
 
             <TextView
                 android:id="@+id/do_evaluate_content_tv"

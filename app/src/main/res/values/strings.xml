@@ -883,6 +883,8 @@
     <string name="sz_task_quality_score_10">10分</string>
     <string name="sz_update_task_evaluate_label">修改评价</string>
     <string name="sz_update_evaluate_dialog_title">是否确认修改此评价</string>
+    <string name="sz_task_detail_label">任务详情</string>
+    <string name="sz_evaluate_detail_label">评价详情</string>
 
 
 </resources>
