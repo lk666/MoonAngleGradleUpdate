@@ -116,6 +116,10 @@ public class SzApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /**
+     * desc  提交评价接口
+     *
+     * */
     public static void submitDayJobsRating(){
 
     }
