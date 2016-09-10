@@ -4,25 +4,35 @@ import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.Fragment;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.umeng.analytics.MobclickAgent;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.sz.adapter.ScheduleAdapter;
-import cn.com.bluemoon.delivery.sz.bean.SchedualCommonBean;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.ResultToken;
+import cn.com.bluemoon.delivery.module.base.BaseFragment;
+import cn.com.bluemoon.delivery.sz.adapter.TaskDateStatusAdapter;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyperformanceinfoResultBean;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
 import cn.com.bluemoon.delivery.sz.taskManager.AddTaskActivity;
+import cn.com.bluemoon.delivery.sz.taskManager.SzTaskOrEvaluateDetailActivity;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
@@ -35,24 +45,79 @@ import cn.com.bluemoon.lib.view.TextViewForClick;
 /**
  * Created by jiangyuehua on 16/9/8.
  */
-public class TaskRecordFragment extends Fragment implements CalendarCard.OnCellClickListener,View.OnClickListener {
+public class TaskRecordFragment extends BaseFragment
+		implements CalendarCard.OnCellClickListener,View.OnClickListener {
 
 	private Context context=null;
 	private TextView dateTv;
 
-	private TextViewForClick tv_addTask;
 	private ListView lv_taskRecord;
+	private LinearLayout ll_task_listView;
 
 	/**header头部内容*/
 	private ViewPager vp_calendar;
 	private int mCurrentIndex = 498;
 	private CalendarCard[] mShowViews;
 	private CalendarViewAdapter<CalendarCard> adapter;
-	private ScheduleAdapter scheduleAdapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
 	private String currentDate;
 
 	private View headerView=null;
+	private View footerView=null;
+	private LinearLayout ll_task_footer=null;
+	private TextViewForClick tv_addTask=null;//外面添加按钮
+	private TextViewForClick tv_footer_addTask=null;//多列表数据时 以addfooter 的形式来展示
+
+	/*******通过日期获取的列表的adapter******/
+	private TaskDateStatusAdapter taskDateStatusAdapter=null;
+	private List<DailyPerformanceInfoBean> dailyPerformanceInfoBeanArrayList = new ArrayList<>();
+	private List<AsignJobBean> asignJobs=null;
+
+
+	@Override
+	protected int getLayoutId() {
+		return R.layout.activity_sz_task_record_fragment;
+	}
+
+	@Override
+	public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+		super.onViewCreated(view, savedInstanceState);
+	}
+
+	@Override
+	public void initView() {
+		context=getActivity();
+
+		lv_taskRecord= (ListView)getMainView().findViewById(R.id.lv_taskRecord);
+		ll_task_listView= (LinearLayout) getMainView().findViewById(R.id.ll_task_listView);
+		tv_addTask= (TextViewForClick) getMainView().findViewById(R.id.tv_addTask);
+		tv_addTask.setOnClickListener(this);
+		initCalendarView();
+		initFooterView();
+		initAdapterView();
+	}
+
+	@Override
+	public void initData() {
+
+	}
+
+	@Override
+	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+
+		DailyperformanceinfoResultBean resultBean=
+				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
+
+		String monthlyPer=resultBean.getMonthlyPer();
+
+		DailyPerformanceInfoBean infoBean=resultBean.getJobsdata();
+		dailyPerformanceInfoBeanArrayList.add(infoBean);
+//		任务内容
+		asignJobs=infoBean.getAsignJobs();
+
+	}
+
+
 	enum SildeDirection {
 		RIGHT, LEFT, NO_SILDE;
 	}
@@ -71,47 +136,18 @@ public class TaskRecordFragment extends Fragment implements CalendarCard.OnCellC
 	};
 
 
-	@Override
-	public View onCreateView(LayoutInflater inflater,
-							 ViewGroup container, Bundle savedInstanceState) {
-		 View convertView=inflater.inflate(R.layout.activity_sz_task_record_fragment,null);
-		return convertView;
-	}
 
-	@Override
-	public void onViewCreated(View view, Bundle savedInstanceState) {
-		super.onViewCreated(view, savedInstanceState);
-		context=getActivity();
-		initView(view);
-	}
 
-	private void initView(View view) {
-		// TODO Auto-generated method stub
 
-//		ActivityManager.getInstance().pushOneActivity(this);//通知
-
-		lv_taskRecord= (ListView) view.findViewById(R.id.lv_taskRecord);
-		tv_addTask= (TextViewForClick) view.findViewById(R.id.tv_addTask);
-		tv_addTask.setOnClickListener(this);
-
+	public void initCalendarView(){
 		LayoutInflater inflater =  (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		headerView = inflater.inflate(R.layout.sz_header_task,null);
-
 		vp_calendar= (ViewPager) headerView.findViewById(R.id.vp_calendar);
 		dateTv = (TextView) headerView.findViewById(R.id.tv_date);
-
 		lv_taskRecord.addHeaderView(headerView);
 
 		currentDate = new CustomDate().toString();
 		LogUtil.i("当前的日期---------->："+currentDate);
-
-		ArrayList<SchedualCommonBean> initdate = new ArrayList<SchedualCommonBean>();
-		SchedualCommonBean temp = new SchedualCommonBean();
-		temp.setAdjust("2");
-		initdate.add(temp);
-
-		scheduleAdapter = new ScheduleAdapter(getActivity(),initdate);
-		lv_taskRecord.setAdapter(scheduleAdapter);
 
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
@@ -119,14 +155,73 @@ public class TaskRecordFragment extends Fragment implements CalendarCard.OnCellC
 			views[i].setmCircleColor("#ff1fb8ff");//+getResources().getColor(R.color.title_background)
 		}
 		adjustViewPagerHeight(views[1].getCurrentRowNum());
-
 		adapter = new CalendarViewAdapter<CalendarCard>(views);
 		setViewPager();
-
 		dateTv.setText(DateUtil.getYear()+"年"+ DateUtil.getMonth()+"月");
+	}
+
+	public void initFooterView(){
+		LayoutInflater inflater =  (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		footerView = inflater.inflate(R.layout.activity_sz_task_record_add_footer,null);
+		ll_task_footer= (LinearLayout) footerView.findViewById(R.id.ll_task_footer);
+		tv_footer_addTask= (TextViewForClick) footerView.findViewById(R.id.tv_footer_addTask);
+		tv_footer_addTask.setOnClickListener(this);
+		lv_taskRecord.addFooterView(footerView);
+	}
 
 
-	}private void adjustViewPagerHeight(int rowNum){
+	public void initAdapterView() {
+		//TODO 模拟数据
+
+		DailyPerformanceInfoBean infoBean=new DailyPerformanceInfoBean();
+
+		List<AsignJobBean> asignJobBeanList=new ArrayList<>();
+		for (int i=0;i<3;i++){
+			AsignJobBean asignJobBean=new AsignJobBean();
+			asignJobBean.setProduce_cont("工作输出的内容。。。。");
+			asignJobBean.setTask_cont("任务："+i);
+			asignJobBeanList.add(asignJobBean);
+		}
+		infoBean.setAsignJobs(asignJobBeanList);
+		infoBean.setCreatetime("2016-09-10");
+		infoBean.setDay_valid_min("120");
+		infoBean.setDay_score("9");
+
+		dailyPerformanceInfoBeanArrayList.add(infoBean);
+
+		taskDateStatusAdapter = new TaskDateStatusAdapter(getActivity(), dailyPerformanceInfoBeanArrayList);
+		lv_taskRecord.setAdapter(taskDateStatusAdapter);
+		initListener();
+
+//		if (asignJobs.size()>3){
+//			setLinearLayoutWeight(ll_task_listView,0f);
+//		}else{//采用addFooterView的形式来展示
+//			setLinearLayoutWeight(ll_task_listView,1.0f);
+//			ll_task_footer.setVisibility(View.GONE);
+//		}
+
+	}
+
+
+	private void initListener() {
+		lv_taskRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				Bundle mBundle=new Bundle();
+				mBundle.putInt(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE,0);
+				PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);
+//				PublicUtil.showToast(""+position);
+
+
+			}
+		});
+	}
+
+
+
+
+	private void adjustViewPagerHeight(int rowNum){
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		int width = wm.getDefaultDisplay().getWidth();
 		int cellspace = width / 7;
@@ -196,6 +291,18 @@ public class TaskRecordFragment extends Fragment implements CalendarCard.OnCellC
 		currentDate=date.toString();
 //		getuserSchDay(currentDate,currentNo);
 		PublicUtil.showToast(currentDate);
+
+		getData(currentDate);
+
+	}
+
+	private void getData(String date){
+		if (TextUtils.isEmpty(date)) {
+			PublicUtil.showToast("日期不可为空！");
+			return;
+		}
+		showWaitDialog();
+		SzApi.getJobsListAndMonthlyPerformanceApi(date,0,getNewHandler(0, ResultToken.class));
 	}
 
 	@Override
@@ -208,6 +315,7 @@ public class TaskRecordFragment extends Fragment implements CalendarCard.OnCellC
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.tv_addTask:
+			case R.id.tv_footer_addTask:
 				Bundle mBundle=new Bundle();
 				mBundle.putString("currentDate",currentDate);
 				PageJumps.PageJumps(context, AddTaskActivity.class,mBundle);
@@ -217,7 +325,13 @@ public class TaskRecordFragment extends Fragment implements CalendarCard.OnCellC
 		}
 	}
 
-
+	/**无数据内容时放置固定底部  两条数据以上的跟随在后面，添加按钮放在中间*/
+	public void setLinearLayoutWeight(LinearLayout linearLayoutWeight,float weight){
+		LinearLayout.LayoutParams layoutParams=
+				new LinearLayout.LayoutParams(
+						LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,weight);
+		linearLayoutWeight.setLayoutParams(layoutParams);
+	}
 
 	public void onResume() {
 		super.onResume();

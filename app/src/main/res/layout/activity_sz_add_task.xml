@@ -52,7 +52,7 @@
                 android:id="@+id/ttv_appraiser"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:rt_gravityStyle="left"
+                app:rt_gravityStyle="right"
                 app:rt_line_lenght="4"
                 app:rt_max_lenght="50"
                 app:text_left="评价人："

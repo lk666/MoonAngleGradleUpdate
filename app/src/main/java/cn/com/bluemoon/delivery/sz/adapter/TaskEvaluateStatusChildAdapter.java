@@ -5,17 +5,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.sz.view.RoundImageView;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 
 /**
  * Created by Wan.N
@@ -23,11 +21,11 @@ import cn.com.bluemoon.delivery.sz.view.RoundImageView;
  * Desc      待评价与已评价的子listview(任务序号+任务概述)数据adapter
  */
 public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
-    private List<Object> datas = new ArrayList<>();
+    private List<AsignJobBean> datas = new ArrayList<>();
     private LayoutInflater inflater;
     private Context cxt;
 
-    public TaskEvaluateStatusChildAdapter(Context cxt, List<Object> datas) {
+    public TaskEvaluateStatusChildAdapter(Context cxt, List<AsignJobBean> datas) {
         this.cxt = cxt;
         this.datas = datas;
         if (inflater == null && cxt != null) {
@@ -35,7 +33,7 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
         }
     }
 
-    public void updateAdapter(List<Object> datas) {
+    public void updateAdapter(List<AsignJobBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -71,6 +69,13 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
         } else {
             viewHolder.getDivider().setVisibility(View.GONE);
         }
+
+        /**@author jiangyh */
+//        任务记录首页item 展示
+        AsignJobBean asignJobBean=datas.get(position);
+
+        viewHolder.getTaskRankNumTv().setText(asignJobBean.getTask_cont());
+
         return convertView;
     }
 

@@ -143,6 +143,7 @@
                 android:id="@+id/rg_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
                 android:orientation="horizontal">
                 <RadioButton
                     android:id="@+id/rb_finish"
@@ -152,6 +153,12 @@
                     android:text="已完成"
                     android:textColor="@color/task_item_right_text_color"
                     android:textSize="@dimen/text_size_14"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+
+
                     />
                 <RadioButton
                     android:id="@+id/rb_working"
@@ -160,6 +167,12 @@
                     android:text="进行中"
                     android:textColor="@color/task_item_right_text_color"
                     android:textSize="@dimen/text_size_14"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+
                     />
                 <RadioButton
                     android:id="@+id/rb_pause"
@@ -168,6 +181,12 @@
                     android:text="已暂停"
                     android:textColor="@color/task_item_right_text_color"
                     android:textSize="@dimen/text_size_14"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+
                     />
             </RadioGroup>
         </LinearLayout>

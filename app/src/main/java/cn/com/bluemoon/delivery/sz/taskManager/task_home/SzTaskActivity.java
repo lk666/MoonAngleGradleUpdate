@@ -4,7 +4,6 @@ import android.app.ActionBar;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -20,13 +19,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SchedualAddMeetingActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.lib.view.ImageViewForClick;
 
-public class SzTaskActivity extends FragmentActivity {
+public class SzTaskActivity extends BaseTabActivity {
 
 	private Context context=null;
 	private ViewPager vpager_taskItem;

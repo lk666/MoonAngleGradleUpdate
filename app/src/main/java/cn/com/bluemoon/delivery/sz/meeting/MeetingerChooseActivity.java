@@ -38,8 +38,6 @@ public class MeetingerChooseActivity extends KJActivity {
 /**	装载选取后的参会人员集合*/
 	private List<UserInfoDetailsBean> userCheckedBeanList=new ArrayList<UserInfoDetailsBean>();
 
-
-
 	private MeetingerChooseAdapter meetingerChooseAdapter=null;
 
 	private Context context;

@@ -38,7 +38,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
-import cn.com.bluemoon.delivery.sz.bean.task.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.TaskTextView;
@@ -48,8 +48,8 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
+/**添加任务页面*/
 public class AddTaskActivity extends BaseActivity{
-
 
     @Bind(R.id.tv_dete) TextView tv_dete;
     @Bind(R.id.ttv_appraiser) TaskTextView ttv_appraiser;
@@ -96,12 +96,33 @@ public class AddTaskActivity extends BaseActivity{
         ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
         itemTag++;
 
+        ttv_appraiser.setOnRightTextOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Bundle mBundle=new Bundle();
+                mBundle.putString(AppraiseChooserActivity.APPRAISE_NAME,
+                        ttv_appraiser.getTv_rightContent().getText().toString());
+                mBundle.putInt(AppraiseChooserActivity.APPRAISE_NAME_ACTION,
+                        AppraiseChooserActivity.APPRAISE_NAME_ACTION_CONTENT);
+                PageJumps.PageJumps(context,AppraiseChooserActivity.class,mBundle);
+            }
+        });
+
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getInputEventMessagBean(EventMessageBean messageBean){
+//        任务项相应的Item的角标
         int tag=Integer.parseInt(messageBean.getEventMsgAction());
+        if (tag==AppraiseChooserActivity.APPRAISE_NAME_ACTION_CONTENT){
+//            为评价人的回传
+            ttv_appraiser.setText_right(messageBean.getEventMsgContent());
+
+        }else{
             inputContentItem(messageBean,tag);
+        }
+
         LogUtil.i("传递过来的值："+messageBean.toString());
 
     }
@@ -116,6 +137,7 @@ public class AddTaskActivity extends BaseActivity{
         }else if(messageBean.getReMark().equals("ttv_workOutput")){
             taskViewHolder.ttv_workOutput.setText_right(messageBean.getEventMsgContent());
         }
+
     }
 
     Handler mHandler=new Handler(){
@@ -192,6 +214,8 @@ public class AddTaskActivity extends BaseActivity{
                 });
                 break;
             case R.id.tv_dete:
+
+
                 break;
         }
     }

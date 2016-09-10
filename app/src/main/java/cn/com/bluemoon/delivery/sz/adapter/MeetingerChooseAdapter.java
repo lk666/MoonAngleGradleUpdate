@@ -65,7 +65,7 @@ public class MeetingerChooseAdapter extends BaseAdapter {
 		UserInfoViewHolder userInfoViewHolder=null;
 
 		if (view == null) {
-			view = inflater.inflate(R.layout.activity_meetinger_choose_item,null);
+			view = inflater.inflate(R.layout.activity_sz_choose_item,null);
 			userInfoViewHolder = new UserInfoViewHolder(view);
 			view.setTag(userInfoViewHolder);
 		} else {
