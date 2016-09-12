@@ -34,14 +34,22 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
     public TaskOrEvaluateDetailAdapter(Context cxt,int showType, List<AsignJobBean> datas) {
         this.cxt = cxt;
         this.showType = showType;
-        this.datas = datas;
+        if (datas == null) {
+            this.datas.clear();
+        } else {
+            this.datas = datas;
+        }
         if (inflater == null && cxt != null) {
             inflater = LayoutInflater.from(cxt);
         }
     }
 
     public void updateAdapter(List<AsignJobBean> datas) {
-        this.datas = datas;
+        if (datas == null) {
+            this.datas.clear();
+        } else {
+            this.datas = datas;
+        }
         notifyDataSetChanged();
     }
 
@@ -106,7 +114,7 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         @Bind(R.id.task_output_tv)
         TextView taskOutputTv;
 
-        @Bind(R.id.task_start_end_time_tv)
+        @Bind(R.id.task_starttime_tv)
         TextView taskStartEndtimeTv;
 
         @Bind(R.id.task_complete_state_tv)

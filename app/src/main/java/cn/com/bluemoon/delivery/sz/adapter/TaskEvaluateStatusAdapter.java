@@ -19,7 +19,9 @@ import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
+import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
 /**
  * Created by Wan.N
@@ -81,28 +83,23 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         viewHolder.getUserTaskLv().setDividerHeight(0);
         viewHolder.getUserTaskLv().setDivider(null);
         ///*************************************显示数据************************************************/
+        //显示被评价人的头像和名字
         UserInfoBean user = itemBean.getUser();
         if (user != null) {
-            user.getUAvatar();
+            ImageLoaderUtil.displayImage(user.getUAvatar(), viewHolder.getUserAvatarIv(), R.mipmap.sz_default_user_icon,
+                    R.mipmap.sz_default_user_icon);
+            viewHolder.getUserNameTv().setText(user.getUName());
         }
-        //TODO 模拟数据
-//        List<DailyPerformanceInfoBean> list = new ArrayList<>();
-//        list.add(new DailyPerformanceInfoBean());
-//        list.add(new DailyPerformanceInfoBean());
-//        list.add(new DailyPerformanceInfoBean());
-
-        List<AsignJobBean> asignJobBeanList = new ArrayList<>();
-//        for (int i=0;i<3;i++){
-//            AsignJobBean asignJobBean=new AsignJobBean();
-//            asignJobBean.setProduce_cont("工作输出的内容。。。。");
-//            asignJobBean.setTask_cont("任务："+i);
-//            asignJobBeanList.add(asignJobBean);
-//        }
-
-        TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(mCxt, asignJobBeanList);
+        //工作日期
+        viewHolder.getUserDateTv().setText(itemBean.getWork_date());
+        //有效工作时间（单位：分钟）
+        viewHolder.getUserAvaliabelTimeTv().setText(itemBean.getDay_valid_min());
+        //得分
+        viewHolder.getUserScoreTv().setText(itemBean.getDay_score());
+        //任务列表
+        TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(mCxt, itemBean.getAsignJobs());
         viewHolder.getUserTaskLv().setAdapter(adapter);
         setListViewHeight(viewHolder.getUserTaskLv());
-
         ///*************************************设置监听器************************************************/
         return convertView;
     }

@@ -81,7 +81,7 @@
             android:textSize="@dimen/text_size_12" />
 
         <TextView
-            android:id="@+id/task_start_end_time_tv"
+            android:id="@+id/task_starttime_tv"
             style="@style/sz_task_or_evaluate_detail_item_right" />
     </LinearLayout>
 

@@ -80,6 +80,8 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     //    @Bind(R.id.btn_bottom)
     TextView btn_bottom;//底部按钮
 
+    public static final String ACTIVITY_EXTAR_DATA = "ACTIVITY_EXTAR_DATA";//外部activity携带数据过来的key
+
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
