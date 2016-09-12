@@ -241,7 +241,6 @@ public class TaskRecordFragment extends BaseFragment
 			setLinearLayoutWeight(ll_task_listView,1.0f);
 			ll_task_footer.setVisibility(View.GONE);
 		}
-
 	}
 
 

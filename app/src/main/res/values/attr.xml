@@ -30,9 +30,15 @@
         <attr name="tv_height" format="dimension" />
         <attr name="text_right" format="string" />
         <attr name="text_left" format="string" />
+        <attr name="text_right_hint" format="string" />
+        <attr name="text_left_hint" format="string" />
         <attr name="rt_gravityStyle" format="enum">
             <enum name="left" value="0"></enum>
             <enum name="right" value="1"></enum>
+        </attr>
+        <attr name="hideArrow" format="enum">
+            <enum name="gone" value="0"></enum>
+            <enum name="visible" value="1"></enum>
         </attr>
     </declare-styleable>
 

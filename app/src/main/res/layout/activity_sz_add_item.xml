@@ -16,10 +16,11 @@
         app:rt_line_lenght="4"
         app:rt_max_lenght="50"
         app:text_left="任务"
-        app:text_right="张三"
+        app:text_right=""
         app:text_size_left="14sp"
         app:text_size_right="14sp"
         android:layout_marginTop="12dp"
+        app:text_right_hint="填写工作任务"
         />
 
     <View
@@ -37,9 +38,10 @@
         app:rt_line_lenght="3"
         app:rt_max_lenght="200"
         app:text_left="工作输出"
-        app:text_right="123"
+        app:text_right=""
         app:text_size_left="14sp"
         app:text_size_right="14sp"
+        app:text_right_hint="填写工作完成情况"
         />
 
 

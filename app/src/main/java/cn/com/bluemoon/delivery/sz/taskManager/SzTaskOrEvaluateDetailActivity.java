@@ -14,7 +14,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -144,12 +143,13 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                     getIntent().getSerializableExtra(ACTIVITY_BEAN_TAYE);
 
             //TODO 模拟数据
-            List<AsignJobBean> asignJobBeanList = dailyPerformanceInfoBean.getAsignJobs();
-            user_date_tv.setText(dailyPerformanceInfoBean.getCreatetime());
-            user_avaliabel_time_tv.setText(dailyPerformanceInfoBean.getDay_valid_min());
+            if (dailyPerformanceInfoBean!=null){
+                List<AsignJobBean> asignJobBeanList = dailyPerformanceInfoBean.getAsignJobs();
+                user_date_tv.setText(dailyPerformanceInfoBean.getCreatetime());
+                user_avaliabel_time_tv.setText(dailyPerformanceInfoBean.getDay_valid_min());
 
-            adapter = new TaskOrEvaluateDetailAdapter(this, activityType, asignJobBeanList);
-
+                adapter = new TaskOrEvaluateDetailAdapter(this, activityType, asignJobBeanList);
+            }
 
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
             btn_bottom.setText(R.string.sz_update_evaluete_label);

@@ -8,6 +8,7 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -24,6 +25,7 @@ public class TaskTextView extends LinearLayout {
 	private Context context;
 	private RelativeLayout rl_taskItem;
 	private TextView tv_leftName,tv_rightContent;
+	private ImageView iv_arrow;
 
 	private int rt_line_lenght=0;
 	private int rt_max_lenght=0;
@@ -31,8 +33,15 @@ public class TaskTextView extends LinearLayout {
 	private int text_size_right=0;
 	private int tv_height=0;
 	private int rt_gravityStyle=0;
+	private int hideArrow=1;//1:为显示 0为隐藏
+
+
 	private String text_right="";
 	private String text_left="";
+	private String text_right_hint="";
+	private String text_left_hint="";
+
+
 	private OnClickListener onClickListener=null;
 
 	private int parentWidthMeasureSpec;
@@ -57,8 +66,13 @@ public class TaskTextView extends LinearLayout {
 		rt_line_lenght=typedArray.getInt(R.styleable.TaskTextView_rt_line_lenght,1);
 		rt_max_lenght=typedArray.getInt(R.styleable.TaskTextView_rt_max_lenght,0);
 		rt_gravityStyle=typedArray.getInt(R.styleable.TaskTextView_rt_gravityStyle,0);
+		hideArrow=typedArray.getInt(R.styleable.TaskTextView_hideArrow,1);
+
 		text_right=typedArray.getString(R.styleable.TaskTextView_text_right);
 		text_left=typedArray.getString(R.styleable.TaskTextView_text_left);
+
+		text_right_hint=typedArray.getString(R.styleable.TaskTextView_text_right_hint);
+		text_left_hint=typedArray.getString(R.styleable.TaskTextView_text_left_hint);
 
 		text_size_left=typedArray.getDimensionPixelSize(R.styleable.TaskTextView_text_size_left,
 				(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 14, getResources().getDisplayMetrics()));
@@ -77,10 +91,15 @@ public class TaskTextView extends LinearLayout {
 		if (tv_height!=0)
 			setTastItem(rl_taskItem);
 
+
 		tv_leftName= (TextView) findViewById(R.id.tv_leftName);
 		tv_rightContent= (TextView) findViewById(R.id.tv_rightContent);
+		iv_arrow= (ImageView) findViewById(R.id.iv_arrow);
 		tv_leftName.setTextSize(UIUtil.px2dip(context,text_size_left));
 		tv_rightContent.setTextSize(UIUtil.px2dip(context,text_size_right));
+		tv_leftName.setHint(text_left_hint);
+		tv_rightContent.setHint(text_right_hint);
+
 		tv_leftName.setText(text_left);
 		tv_rightContent.setText(text_right);
 		tv_rightContent.setFilters(new InputFilter[] { new InputFilter.LengthFilter(rt_max_lenght)});
@@ -90,6 +109,11 @@ public class TaskTextView extends LinearLayout {
 			tv_rightContent.setGravity(Gravity.LEFT);
 		else
 			tv_rightContent.setGravity(Gravity.RIGHT);
+
+		if (hideArrow==0)
+			iv_arrow.setVisibility(GONE);
+		else
+			iv_arrow.setVisibility(VISIBLE);
 
 
 	}

@@ -56,7 +56,7 @@
                 app:rt_line_lenght="4"
                 app:rt_max_lenght="50"
                 app:text_left="评价人："
-                app:text_right="张三"
+                app:text_right=""
                 app:text_size_left="14sp"
                 app:text_size_right="14sp"
                 />
@@ -76,9 +76,10 @@
                 app:rt_line_lenght="3"
                 app:rt_max_lenght="200"
                 app:text_left="工作实际总用时："
-                app:text_right="123"
+                app:text_right=""
                 app:text_size_left="14sp"
                 app:text_size_right="14sp"
+                app:hideArrow="gone"
                 />
 
             <View
