@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.sz.taskManager;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
@@ -13,7 +14,6 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -21,6 +21,8 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
@@ -33,6 +35,9 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
  * Desc       评价详情/任务详情
  */
 public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
+
+    private Context context;
+
     @Bind(R.id.rootview)
     RelativeLayout rootview;
 
@@ -79,6 +84,11 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
     private int activityType = -1;//记录需要展示的类型（0;任务详情  1;评价详情）
 
+    public static final String ACTIVITY_BEAN_TAYE="ACTIVITY_TYPE_BEAN";
+    public DailyPerformanceInfoBean dailyPerformanceInfoBean=null;
+
+    public TaskOrEvaluateDetailAdapter adapter=null;
+
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -116,30 +126,39 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        context=SzTaskOrEvaluateDetailActivity.this;
         sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_task_or_evaluate_detail_btn_layout);
         ll_bottom_btn_area = (LinearLayout) sz_rewrite_btn_layout.findViewById(R.id.ll_bottom_btn_area);
         btn_bottom = (TextView) sz_rewrite_btn_layout.findViewById(R.id.btn_bottom);
         //
         user_score_tv.setVisibility(View.GONE);
         user_score_icon.setVisibility(View.GONE);
-        //
+
+
+        /**工作任务
+         * @author jiangyh*/
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
             btn_bottom.setText(R.string.sz_update_task_labe);
+            dailyPerformanceInfoBean= (DailyPerformanceInfoBean)
+                    getIntent().getSerializableExtra(ACTIVITY_BEAN_TAYE);
+
+        //TODO 模拟数据
+          List<AsignJobBean> asignJobBeanList= dailyPerformanceInfoBean.getAsignJobs();
+            user_date_tv.setText(dailyPerformanceInfoBean.getCreatetime());
+            user_avaliabel_time_tv.setText(dailyPerformanceInfoBean.getDay_valid_min());
+
+         adapter = new TaskOrEvaluateDetailAdapter(this,activityType, asignJobBeanList);
+
+
+
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
             btn_bottom.setText(R.string.sz_update_evaluete_label);
         } else {
             btn_bottom.setText("");
         }
-        //TODO 模拟数据
-        List<Object> list = new ArrayList<>();
-        list.add(new Object());
-        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
-        TaskOrEvaluateDetailAdapter adapter = new TaskOrEvaluateDetailAdapter(this,activityType, list);
+
         user_task_lv.setAdapter(adapter);
+
         initListener();
     }
 
@@ -147,8 +166,17 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         ll_bottom_btn_area.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                /**@author jiangyh 修改工作任务*/
                 if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-                    SzTaskOrEvaluateDetailActivity.this.toast(R.string.sz_update_task_labe);
+                    //todo
+                    if (dailyPerformanceInfoBean!=null){
+                        Bundle mBundle=new Bundle();
+                        mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
+                                AddTaskActivity.TASKOPERATETYPE_MODIFY);
+                        mBundle.putSerializable(AddTaskActivity.DATABEAN,dailyPerformanceInfoBean);
+                        PageJumps.PageJumps(context,AddTaskActivity.class,mBundle);
+
+                    }
                 } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
                     Bundle bundle = new Bundle();
                     bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
@@ -162,6 +190,10 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SzTaskOrEvaluateDetailActivity.this.toast("test");
+
+
+
+
             }
         });
     }

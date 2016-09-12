@@ -14,6 +14,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 
 /**
  * Created by Wan.N
@@ -22,7 +23,7 @@ import cn.com.bluemoon.delivery.R;
  */
 public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
 
-    private List<Object> datas = new ArrayList<>();
+    private List<AsignJobBean> datas = new ArrayList<>();
     private LayoutInflater inflater;
     private Context cxt;
     /**0：//任务详情 1：任务评价详情*/
@@ -30,7 +31,7 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
     public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
 
-    public TaskOrEvaluateDetailAdapter(Context cxt,int showType, List<Object> datas) {
+    public TaskOrEvaluateDetailAdapter(Context cxt,int showType, List<AsignJobBean> datas) {
         this.cxt = cxt;
         this.showType = showType;
         this.datas = datas;
@@ -39,7 +40,7 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         }
     }
 
-    public void updateAdapter(List<Object> datas) {
+    public void updateAdapter(List<AsignJobBean> datas) {
         this.datas = datas;
         notifyDataSetChanged();
     }
@@ -77,6 +78,13 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
             viewHolder.getTaskAvailabelLl().setVisibility(View.GONE);
             viewHolder.getTaskQualityLl().setVisibility(View.GONE);
             viewHolder.getTaskEvaluateContentLl().setVisibility(View.GONE);
+
+            AsignJobBean asignJobBean=datas.get(position);
+            viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
+            viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
+            viewHolder.getTaskStartEndtimeTv().setText(asignJobBean.getCreatetime());
+            viewHolder.getTaskStartEndtimeTv().setText(asignJobBean.getEnd_time());
+            viewHolder.getTaskCompleteStateTv().setText(asignJobBean.getState());
 
         }else{
 

@@ -27,6 +27,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.sz.adapter.TaskDateStatusAdapter;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyperformanceinfoResultBean;
@@ -180,8 +181,16 @@ public class TaskRecordFragment extends BaseFragment
 			AsignJobBean asignJobBean=new AsignJobBean();
 			asignJobBean.setProduce_cont("工作输出的内容。。。。");
 			asignJobBean.setTask_cont("任务："+i);
+			asignJobBean.setCreatetime("8:0"+i);
+			asignJobBean.setEnd_time("9:00"+i);
+			asignJobBean.setState(i+"");
 			asignJobBeanList.add(asignJobBean);
 		}
+		ReviewerBean reviewerBean=new ReviewerBean();
+		reviewerBean.setuID("00001");
+		reviewerBean.setuName("张三三");
+		infoBean.setReviewer(reviewerBean);
+
 		infoBean.setAsignJobs(asignJobBeanList);
 		infoBean.setCreatetime("2016-09-10");
 		infoBean.setDay_valid_min("120");
@@ -193,23 +202,28 @@ public class TaskRecordFragment extends BaseFragment
 		lv_taskRecord.setAdapter(taskDateStatusAdapter);
 		initListener();
 
-//		if (asignJobs.size()>3){
-//			setLinearLayoutWeight(ll_task_listView,0f);
-//		}else{//采用addFooterView的形式来展示
-//			setLinearLayoutWeight(ll_task_listView,1.0f);
-//			ll_task_footer.setVisibility(View.GONE);
-//		}
+		if (asignJobBeanList.size()>3){
+			setLinearLayoutWeight(ll_task_listView,0f);
+		}else{//采用addFooterView的形式来展示
+			setLinearLayoutWeight(ll_task_listView,1.0f);
+			ll_task_footer.setVisibility(View.GONE);
+		}
 
 	}
 
 
 	private void initListener() {
 		lv_taskRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				DailyPerformanceInfoBean dailyPerformanceInfoBean =
+						(DailyPerformanceInfoBean) parent.getAdapter().getItem(position);
+
 				Bundle mBundle=new Bundle();
 				mBundle.putInt(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE,0);
+				mBundle.putSerializable(SzTaskOrEvaluateDetailActivity.ACTIVITY_BEAN_TAYE,
+						dailyPerformanceInfoBean);
+
 				PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);
 //				PublicUtil.showToast(""+position);
 
@@ -316,9 +330,12 @@ public class TaskRecordFragment extends BaseFragment
 		switch (v.getId()){
 			case R.id.tv_addTask:
 			case R.id.tv_footer_addTask:
+
 				Bundle mBundle=new Bundle();
-				mBundle.putString("currentDate",currentDate);
-				PageJumps.PageJumps(context, AddTaskActivity.class,mBundle);
+				mBundle.putString(AddTaskActivity.CURRENTDATA,currentDate);
+				mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
+						AddTaskActivity.TASKOPERATETYPE_ADD);
+				PageJumps.PageJumps(context,AddTaskActivity.class,mBundle);
 				break;
 			default:
 				break;
