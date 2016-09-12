@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.sz.bean.taskManager;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
 import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 
 /**
@@ -19,17 +18,9 @@ public class DailyPerformanceInfoBean implements Serializable {
      * day_valid_min      日实际有效工时（min） string
      * model              模块 string
      * reviewer           评价人 <个人信息结构> object
-     * uAvatar            头像Url string
-     * uID                用户ID string
-     * uName              用户姓名 string
      * time_utilization   日时间有效利用率（百分比） string
      * updatetime         更新时间 string
      * user               <个人信息结构> object
-     * uAvatar            头像Url string
-     * uDept              部门 string
-     * uDeptID            部门ID string
-     * uID                用户ID string
-     * uName              用户姓名 string
      * work_date          工作日期 string
      * work_day_id        任务日计划ID
      */
@@ -42,7 +33,7 @@ public class DailyPerformanceInfoBean implements Serializable {
     private ReviewerBean reviewer;
     private String time_utilization;
     private String updatetime;
-    private List<UserInfoDetailsBean> user;
+    private UserInfoBean user;
     private String work_date;
     private String work_day_id;
 
@@ -113,11 +104,11 @@ public class DailyPerformanceInfoBean implements Serializable {
         this.updatetime = updatetime;
     }
 
-    public List<UserInfoDetailsBean> getUser() {
+    public UserInfoBean getUser() {
         return user;
     }
 
-    public void setUser(List<UserInfoDetailsBean> user) {
+    public void setUser(UserInfoBean user) {
         this.user = user;
     }
 

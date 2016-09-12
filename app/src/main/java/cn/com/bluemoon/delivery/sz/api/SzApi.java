@@ -87,7 +87,6 @@ public class SzApi {
         client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
     }
 
-
     /****************************************
      * 任务管理系统api
      **************************************/

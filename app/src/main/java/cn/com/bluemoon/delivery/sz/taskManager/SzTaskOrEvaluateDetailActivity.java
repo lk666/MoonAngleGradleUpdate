@@ -14,6 +14,7 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -84,10 +85,10 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
     private int activityType = -1;//记录需要展示的类型（0;任务详情  1;评价详情）
 
-    public static final String ACTIVITY_BEAN_TAYE="ACTIVITY_TYPE_BEAN";
-    public DailyPerformanceInfoBean dailyPerformanceInfoBean=null;
+    public static final String ACTIVITY_BEAN_TAYE = "ACTIVITY_TYPE_BEAN";
+    public DailyPerformanceInfoBean dailyPerformanceInfoBean = null;
 
-    public TaskOrEvaluateDetailAdapter adapter=null;
+    public TaskOrEvaluateDetailAdapter adapter = null;
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -101,9 +102,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     protected String getTitleString() {
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            return "任务详情";
+            return getString(R.string.sz_task_detail_label);
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-            return "评价详情";
+            return getString(R.string.sz_evaluate_detail_label);
         } else {
             return super.getTitleString();
         }
@@ -126,7 +127,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        context=SzTaskOrEvaluateDetailActivity.this;
+        context = SzTaskOrEvaluateDetailActivity.this;
         sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_task_or_evaluate_detail_btn_layout);
         ll_bottom_btn_area = (LinearLayout) sz_rewrite_btn_layout.findViewById(R.id.ll_bottom_btn_area);
         btn_bottom = (TextView) sz_rewrite_btn_layout.findViewById(R.id.btn_bottom);
@@ -139,16 +140,15 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
          * @author jiangyh*/
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
             btn_bottom.setText(R.string.sz_update_task_labe);
-            dailyPerformanceInfoBean= (DailyPerformanceInfoBean)
+            dailyPerformanceInfoBean = (DailyPerformanceInfoBean)
                     getIntent().getSerializableExtra(ACTIVITY_BEAN_TAYE);
 
-        //TODO 模拟数据
-          List<AsignJobBean> asignJobBeanList= dailyPerformanceInfoBean.getAsignJobs();
+            //TODO 模拟数据
+            List<AsignJobBean> asignJobBeanList = dailyPerformanceInfoBean.getAsignJobs();
             user_date_tv.setText(dailyPerformanceInfoBean.getCreatetime());
             user_avaliabel_time_tv.setText(dailyPerformanceInfoBean.getDay_valid_min());
 
-         adapter = new TaskOrEvaluateDetailAdapter(this,activityType, asignJobBeanList);
-
+            adapter = new TaskOrEvaluateDetailAdapter(this, activityType, asignJobBeanList);
 
 
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
@@ -169,12 +169,12 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                 /**@author jiangyh 修改工作任务*/
                 if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
                     //todo
-                    if (dailyPerformanceInfoBean!=null){
-                        Bundle mBundle=new Bundle();
+                    if (dailyPerformanceInfoBean != null) {
+                        Bundle mBundle = new Bundle();
                         mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
                                 AddTaskActivity.TASKOPERATETYPE_MODIFY);
-                        mBundle.putSerializable(AddTaskActivity.DATABEAN,dailyPerformanceInfoBean);
-                        PageJumps.PageJumps(context,AddTaskActivity.class,mBundle);
+                        mBundle.putSerializable(AddTaskActivity.DATABEAN, dailyPerformanceInfoBean);
+                        PageJumps.PageJumps(context, AddTaskActivity.class, mBundle);
 
                     }
                 } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
@@ -190,8 +190,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 SzTaskOrEvaluateDetailActivity.this.toast("test");
-
-
 
 
             }

@@ -15,7 +15,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 
 /**
@@ -24,31 +27,39 @@ import cn.com.bluemoon.delivery.sz.view.RoundImageView;
  * Desc      可根据待评价与已评价的数据模型结构来评估是否可共用此adapter
  */
 public class TaskEvaluateStatusAdapter extends BaseAdapter {
-    private List<Object> datas = new ArrayList<>();
+    private List<DailyPerformanceInfoBean> mDatas = new ArrayList<>();
     private LayoutInflater inflater;
-    private Context cxt;
+    private Context mCxt;
 
-    public TaskEvaluateStatusAdapter(Context cxt, List<Object> datas) {
-        this.cxt = cxt;
-        this.datas = datas;
+    public TaskEvaluateStatusAdapter(Context cxt, List<DailyPerformanceInfoBean> datas) {
+        this.mCxt = cxt;
         if (inflater == null && cxt != null) {
-            inflater = LayoutInflater.from(cxt);
+            inflater = LayoutInflater.from(mCxt);
+        }
+        if (datas == null) {
+            mDatas.clear();
+        } else {
+            this.mDatas = datas;
         }
     }
 
-    public void updateAdapter(List<Object> datas) {
-        this.datas = datas;
+    public void updateAdapter(List<DailyPerformanceInfoBean> datas) {
+        if (datas == null) {
+            mDatas.clear();
+        } else {
+            this.mDatas = datas;
+        }
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return datas.size();
+        return mDatas.size();
     }
 
     @Override
-    public Object getItem(int position) {
-        return datas.get(position);
+    public DailyPerformanceInfoBean getItem(int position) {
+        return mDatas.get(position);
     }
 
     @Override
@@ -58,6 +69,7 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
+        DailyPerformanceInfoBean itemBean = mDatas.get(position);
         MyViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.sz_fragment_task_evaluate_status_item, null);
@@ -69,21 +81,25 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         viewHolder.getUserTaskLv().setDividerHeight(0);
         viewHolder.getUserTaskLv().setDivider(null);
         ///*************************************显示数据************************************************/
-        //TODO 模拟数据
-//        List<Object> list = new ArrayList<>();
-//        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
-
-        List<AsignJobBean> asignJobBeanList=new ArrayList<>();
-        for (int i=0;i<3;i++){
-            AsignJobBean asignJobBean=new AsignJobBean();
-            asignJobBean.setProduce_cont("工作输出的内容。。。。");
-            asignJobBean.setTask_cont("任务："+i);
-            asignJobBeanList.add(asignJobBean);
+        UserInfoBean user = itemBean.getUser();
+        if (user != null) {
+            user.getUAvatar();
         }
+        //TODO 模拟数据
+//        List<DailyPerformanceInfoBean> list = new ArrayList<>();
+//        list.add(new DailyPerformanceInfoBean());
+//        list.add(new DailyPerformanceInfoBean());
+//        list.add(new DailyPerformanceInfoBean());
 
-        TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(cxt, asignJobBeanList);
+        List<AsignJobBean> asignJobBeanList = new ArrayList<>();
+//        for (int i=0;i<3;i++){
+//            AsignJobBean asignJobBean=new AsignJobBean();
+//            asignJobBean.setProduce_cont("工作输出的内容。。。。");
+//            asignJobBean.setTask_cont("任务："+i);
+//            asignJobBeanList.add(asignJobBean);
+//        }
+
+        TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(mCxt, asignJobBeanList);
         viewHolder.getUserTaskLv().setAdapter(adapter);
         setListViewHeight(viewHolder.getUserTaskLv());
 
