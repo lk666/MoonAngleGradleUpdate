@@ -80,8 +80,8 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void initData() {
         curPage = 1;
-        loadData();
-//        loadData2();
+//        loadData();
+        loadData2();
     }
 
     //TODO 模拟数据

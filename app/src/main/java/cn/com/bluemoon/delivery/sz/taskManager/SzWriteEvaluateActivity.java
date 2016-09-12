@@ -49,7 +49,7 @@ import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 /**
  * Created by Wan.N
  * Date       2016/9/8
- * Desc      写评价页面
+ * Desc      写评价/修改评价页面
  */
 public class SzWriteEvaluateActivity extends BaseActivity {
 
@@ -115,6 +115,9 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     private DailyPerformanceInfoBean evaluateInfo;//记录传入的绩效数据
     private CommonActionBar titleBar;
 
+    private TaskWriteEvaluateApater evaluateadapter;
+    private List<AsignJobBean> asignJobs = new ArrayList<>();
+
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -172,16 +175,14 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         build.setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO 提交更新后的评价信息
-                toast("提交修改后的评价信息");
-                finish();
+                // 提交更新后的评价信息
+//                toast("提交修改后的评价信息");
+                submitEvaluate();
             }
         });
         build.show();
 
     }
-
-    private TaskWriteEvaluateApater evaluateadapter;
 
     @Override
     public void initView() {
@@ -225,8 +226,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             }
         }
     }
-
-    private List<AsignJobBean> asignJobs = new ArrayList<>();
 
     private void layoutBottomBtnArea() {
         rootview.removeView(btnAreaLl);

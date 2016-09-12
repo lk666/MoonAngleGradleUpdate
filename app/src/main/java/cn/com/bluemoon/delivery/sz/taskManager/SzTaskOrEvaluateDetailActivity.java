@@ -88,9 +88,11 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     private int activityType = -1;//记录需要展示的类型（0;任务详情  1;评价详情）
 
     public static final String ACTIVITY_BEAN_TAYE = "ACTIVITY_TYPE_BEAN";
-    public DailyPerformanceInfoBean dailyPerformanceInfoBean = null;
 
-    public TaskOrEvaluateDetailAdapter adapter = null;
+    private TaskOrEvaluateDetailAdapter adapter = null;
+    private DailyPerformanceInfoBean evaluateInfo;//记录传入的绩效数据
+
+    private List<AsignJobBean> asignJobBeanList = new ArrayList<>();
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -99,6 +101,10 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         if (intent.hasExtra(ACTIVITY_TYPE)) {
             activityType = intent.getIntExtra(ACTIVITY_TYPE, -1);
         }
+        if (intent.hasExtra(ACTIVITY_EXTAR_DATA)) {
+            evaluateInfo = (DailyPerformanceInfoBean) intent.getSerializableExtra(ACTIVITY_EXTAR_DATA);
+        }
+        LogUtil.i("activityType:" + activityType + "--evaluateInfo：" + evaluateInfo.toString());
     }
 
     @Override
@@ -137,30 +143,8 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         user_score_tv.setVisibility(View.GONE);
         user_score_icon.setVisibility(View.GONE);
 
-
-        /**工作任务
-         * @author jiangyh*/
-        if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            btn_bottom.setText(R.string.sz_update_task_labe);
-            dailyPerformanceInfoBean = (DailyPerformanceInfoBean)
-                    getIntent().getSerializableExtra(ACTIVITY_BEAN_TAYE);
-
-            //TODO 模拟数据
-            List<AsignJobBean> asignJobBeanList = dailyPerformanceInfoBean.getAsignJobs();
-            user_date_tv.setText(dailyPerformanceInfoBean.getCreatetime());
-            user_avaliabel_time_tv.setText(dailyPerformanceInfoBean.getDay_valid_min());
-
-            adapter = new TaskOrEvaluateDetailAdapter(this, activityType, asignJobBeanList);
-
-
-        } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-            btn_bottom.setText(R.string.sz_update_evaluete_label);
-        } else {
-            btn_bottom.setText("");
-        }
-
+        adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
-
         initListener();
     }
 
@@ -170,18 +154,19 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             public void onClick(View v) {
                 /**@author jiangyh 修改工作任务*/
                 if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-                    //todo
-                    if (dailyPerformanceInfoBean != null) {
+                    //
+                    if (evaluateInfo != null) {
                         Bundle mBundle = new Bundle();
                         mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
                                 AddTaskActivity.TASKOPERATETYPE_MODIFY);
-                        mBundle.putSerializable(AddTaskActivity.DATABEAN, dailyPerformanceInfoBean);
+                        mBundle.putSerializable(AddTaskActivity.DATABEAN, evaluateInfo);
                         PageJumps.PageJumps(context, AddTaskActivity.class, mBundle);
 
                     }
                 } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
                     Bundle bundle = new Bundle();
                     bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
+                    bundle.putSerializable(SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, evaluateInfo);
                     PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this, SzWriteEvaluateActivity.class, bundle);
                 } else {
 
@@ -212,6 +197,18 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     public void onResume() {
         super.onResume();
+        updateView();
+
+    }
+
+    private void updateView() {
+        if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
+            btn_bottom.setText(R.string.sz_update_task_labe);
+        } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
+            btn_bottom.setText(R.string.sz_update_evaluete_label);
+        } else {
+            btn_bottom.setText("");
+        }
         layoutBottomBtnArea();
     }
 
