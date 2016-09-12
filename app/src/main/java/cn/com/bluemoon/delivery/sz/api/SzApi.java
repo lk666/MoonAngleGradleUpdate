@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
@@ -23,8 +24,9 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
  */
 public class SzApi {
 
-    private static final String HOST = "http://192.168.236.1:9002/mockjsdata/15/";
+    private static final String HOST = "http://192.168.237.2";
     public static AsyncHttpClient client;
+    public static final String appType="moonAngel";
 
     static {
         client = new AsyncHttpClient();
@@ -85,6 +87,7 @@ public class SzApi {
         client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
     }
 
+
     /****************************************
      * 任务管理系统api
      **************************************/
@@ -111,7 +114,8 @@ public class SzApi {
         params.put("submitData", submitData);
         params.put("type", type);
 
-        String url = HOST + "submitDayJobsApi";
+        params.put("appType", appType);
+        String url = HOST +String.format("/wktask-app/work/submitDayJobsApi%s", ApiClientHelper.getParamUrl());
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -132,6 +136,7 @@ public class SzApi {
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("rateData", rateData);
         params.put("work_day_id", work_day_id);
+        params.put("appType", appType);
 
         String url = HOST + "submitDayJobsRatingApi";
         String jsonString = JSONObject.toJSONString(params);
@@ -147,6 +152,7 @@ public class SzApi {
         HashMap<String, Object> params = new HashMap<>();
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("queryStr", queryStr);
+        params.put("appType", appType);
 
         String url = HOST + "search";
         String jsonString = JSONObject.toJSONString(params);
@@ -165,6 +171,7 @@ public class SzApi {
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("currentPage", currentPage);
         params.put("pageSize", pageSize);
+        params.put("appType", appType);
         params.put("type", type);
 
         String url = HOST + "getRateJobsListApi";
@@ -172,22 +179,6 @@ public class SzApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
-    /**
-     * desc 获得单日工作任务列表&月度绩效积分组合接口
-     * <p/>
-     * date 获取数据日期(GMT) string
-     * type 0:全部 1:任务列表 2:月度绩效 string
-     */
-    public static void getWorkDetails(String date, String type, AsyncHttpResponseHandler handler) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.putAll(SzApiClientHelper.getParamUrl());
-        params.put("date", date);
-        params.put("type", type);
-
-        String url = HOST + "getWorkDetailsApi";
-        String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-    }
 
     /**
      * desc 获得建议详情接口
@@ -198,6 +189,7 @@ public class SzApi {
         HashMap<String, Object> params = new HashMap<>();
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("nID", nID);
+        params.put("appType", appType);
 
         String url = HOST + "getSuggestDetailApi";
         String jsonString = JSONObject.toJSONString(params);
@@ -215,6 +207,7 @@ public class SzApi {
         HashMap<String, Object> params = new HashMap<>();
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("account", account);
+        params.put("appType", appType);
 
         String url = HOST + "getuserinfo";
         String jsonString = JSONObject.toJSONString(params);
@@ -241,6 +234,7 @@ public class SzApi {
         params.put("user_name", user_name);
         params.put("work_date", work_date);
         params.put("work_day_id", work_day_id);
+        params.put("appType", appType);
 
         String url = HOST + "submitRejectApi";
         String jsonString = JSONObject.toJSONString(params);
@@ -248,21 +242,22 @@ public class SzApi {
     }
 
 
-    /********************Task api @author jiangyh*****************************/
     /**
      * 获得单日工作任务列表&月度绩效积分组合接口
-     *
      * @param date
      * @param type 0:全部 1:任务列表 2:月度绩效
      */
-    public static void getJobsListAndMonthlyPerformanceApi(String date, int type,
+    public static void getWorkDetailsApi(String date, int type,
                                                            AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("date", date);
         params.put("type", type);
+        params.put("appType", appType);
         params.put("token", ClientStateManager.getLoginToken());
-        String url = HOST + "userMsgList";
-        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = HOST +
+                String.format("/app/work/getWorkDetailsApi%s", ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 

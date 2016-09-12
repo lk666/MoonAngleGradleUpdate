@@ -843,6 +843,7 @@
     <!--sz task-->
     <string name="sz_task_add_task">添加工作</string>
     <string name="sz_task_add_task_appraise_choose">人员选择</string>
+    <string name="sz_task_delete_dialog_hint">确定要删除 %s 任务项？</string>
 
     <!--sz task_evaluate-->
     <string name="sz_to_evaluate">待评价</string>

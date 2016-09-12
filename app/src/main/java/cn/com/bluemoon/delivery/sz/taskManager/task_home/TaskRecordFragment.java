@@ -18,7 +18,11 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.umeng.analytics.MobclickAgent;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -176,16 +180,45 @@ public class TaskRecordFragment extends BaseFragment
 
 		DailyPerformanceInfoBean infoBean=new DailyPerformanceInfoBean();
 
+
+
 		List<AsignJobBean> asignJobBeanList=new ArrayList<>();
-		for (int i=0;i<3;i++){
-			AsignJobBean asignJobBean=new AsignJobBean();
-			asignJobBean.setProduce_cont("工作输出的内容。。。。");
-			asignJobBean.setTask_cont("任务："+i);
-			asignJobBean.setCreatetime("8:0"+i);
-			asignJobBean.setEnd_time("9:00"+i);
-			asignJobBean.setState(i+"");
-			asignJobBeanList.add(asignJobBean);
-		}
+		AsignJobBean asignJobBean=new AsignJobBean();
+		asignJobBean.setBegin_time("08:00");
+		asignJobBean.setEnd_time("09:00");
+		asignJobBean.setProduce_cont("工作输出的内容。。。。");
+		asignJobBean.setTask_cont("任务1：");
+		asignJobBean.setState("0");
+		asignJobBeanList.add(asignJobBean);
+		AsignJobBean asignJobBean2=new AsignJobBean();
+		asignJobBean2.setBegin_time("09:01");
+		asignJobBean2.setEnd_time("10:00");
+		asignJobBean2.setProduce_cont("工作输出的内容。。。。");
+		asignJobBean2.setTask_cont("任务2：");
+		asignJobBean2.setState("1");
+		asignJobBeanList.add(asignJobBean2);
+		AsignJobBean asignJobBean3=new AsignJobBean();
+		asignJobBean3.setBegin_time("10:00");
+		asignJobBean3.setEnd_time("10:30");
+		asignJobBean3.setProduce_cont("工作输出的内容。。。。");
+		asignJobBean3.setTask_cont("任务3：");
+		asignJobBean3.setState("2");
+		asignJobBeanList.add(asignJobBean3);
+		AsignJobBean asignJobBean4=new AsignJobBean();
+		asignJobBean4.setBegin_time("10:31");
+		asignJobBean4.setEnd_time("15:00");
+		asignJobBean4.setProduce_cont("工作输出的内容。。。。");
+		asignJobBean4.setTask_cont("任务4：");
+		asignJobBean4.setState("2");
+		asignJobBeanList.add(asignJobBean4);
+		AsignJobBean asignJobBean5=new AsignJobBean();
+		asignJobBean5.setBegin_time("16:00");
+		asignJobBean5.setEnd_time("17:00");
+		asignJobBean5.setProduce_cont("工作输出的内容。。。。");
+		asignJobBean5.setTask_cont("任务5：");
+		asignJobBean5.setState("0");
+		asignJobBeanList.add(asignJobBean5);
+
 		ReviewerBean reviewerBean=new ReviewerBean();
 		reviewerBean.setuID("00001");
 		reviewerBean.setuName("张三三");
@@ -304,9 +337,18 @@ public class TaskRecordFragment extends BaseFragment
 //		mHandler.sendEmptyMessage(1);
 		currentDate=date.toString();
 //		getuserSchDay(currentDate,currentNo);
-		PublicUtil.showToast(currentDate);
 
-		getData(currentDate);
+		try {
+			DateFormat dm= new SimpleDateFormat("yyyy-MM-dd");
+			long times=dm.parse(date.toString()).getTime();
+			getData(times+"");
+			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
+
+			PublicUtil.showToast(dm.format(new Date(times)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+
 
 	}
 
@@ -316,7 +358,7 @@ public class TaskRecordFragment extends BaseFragment
 			return;
 		}
 		showWaitDialog();
-		SzApi.getJobsListAndMonthlyPerformanceApi(date,0,getNewHandler(0, ResultToken.class));
+		SzApi.getWorkDetailsApi(date,0,getNewHandler(0, ResultToken.class));
 	}
 
 	@Override

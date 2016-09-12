@@ -4,9 +4,11 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -24,7 +26,10 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.kymjs.kjframe.utils.StringUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -49,6 +54,7 @@ import cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**添加任务页面*/
 public class AddTaskActivity extends BaseActivity{
@@ -80,6 +86,7 @@ public class AddTaskActivity extends BaseActivity{
     private final int itemSize=10;
     private int itemTag=0;
 
+    private   SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
     @Override
     protected int getLayoutId() {
@@ -89,7 +96,7 @@ public class AddTaskActivity extends BaseActivity{
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         context=AddTaskActivity.this;
-        currentDate=getIntent().getStringExtra("currentDate");
+        currentDate=getIntent().getStringExtra(CURRENTDATA);
         taskOperateType=getIntent().getIntExtra("TASKOPERATETYPE",0);
 
 
@@ -152,6 +159,7 @@ public class AddTaskActivity extends BaseActivity{
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             initViewForBean(asignJobBean,itemTag);
             itemTag++;
+            setItemName();
         }
     }
 
@@ -161,7 +169,7 @@ public class AddTaskActivity extends BaseActivity{
         TaskViewHolder taskViewHolder=new TaskViewHolder(view);
         taskViewHolder.ttv_taskName.setText_right(asignJobBean.getTask_cont());
         taskViewHolder.ttv_workOutput.setText_right(asignJobBean.getProduce_cont());
-        taskViewHolder.tv_dateStart.setText(asignJobBean.getCreatetime());
+        taskViewHolder.tv_dateStart.setText(asignJobBean.getBegin_time());
         taskViewHolder.tv_dateEnd.setText(asignJobBean.getEnd_time());
         String taskStatus=asignJobBean.getState();
         switch (taskStatus){
@@ -228,7 +236,26 @@ public class AddTaskActivity extends BaseActivity{
                 getActionBar(), new IActionBarListener() {
             @Override
             public void onBtnRight(View v) {
-                getAllTastContent();
+                List<AsignJobBean> asignJobBeanList=getAllTastContent();
+
+                boolean isOverLapBoolean=false;
+                for (int i = 0; i < asignJobBeanList.size(); i++) {
+                    for (int j = i+1; j < asignJobBeanList.size(); j++) {
+                        isOverLapBoolean=isOverlap(
+                                asignJobBeanList.get(i).getBegin_time(),
+                                asignJobBeanList.get(i).getEnd_time(),
+                                asignJobBeanList.get(j).getBegin_time(),
+                                asignJobBeanList.get(j).getEnd_time());
+
+//                            LogUtil.i("时间交集1111：-----》" +isOverLapBoolean);
+                        if (isOverLapBoolean==true){
+                            LogUtil.i("时间交集：-----》" +isOverLapBoolean);
+                            return;
+                        }
+
+                    }
+                }
+
             }
             @Override
             public void onBtnLeft(View v) {
@@ -288,9 +315,70 @@ public class AddTaskActivity extends BaseActivity{
         }
     }
 
+
+
+    private  boolean isOverlap(String startdate1, String enddate1,String startdate2, String enddate2) {
+        Date leftStartDate = null;
+        Date leftEndDate = null;
+        Date rightStartDate = null;
+        Date rightEndDate = null;
+        try {
+            leftStartDate = format.parse(startdate1);
+            leftEndDate = format.parse(enddate1);
+            rightStartDate = format.parse(startdate2);
+            rightEndDate = format.parse(enddate2);
+
+            LogUtil.i("leftStartDate:"+leftStartDate);
+            LogUtil.i("leftEndDate:"+leftEndDate);
+            LogUtil.i("rightStartDate:"+rightStartDate);
+            LogUtil.i("rightEndDate:"+rightEndDate);
+
+//            leftStartDate:Thu Jan 01 08:30:00 GMT+08:00 1970
+//            leftEndDate:Thu Jan 01 09:30:00 GMT+08:00 1970
+//            rightStartDate:Thu Jan 01 08:20:00 GMT+08:00 1970
+//            rightEndDate:Thu Jan 01 10:00:00 GMT+08:00 1970
+
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return
+                ((leftStartDate.getTime() >= rightStartDate.getTime())
+                        && leftStartDate.getTime() < rightEndDate.getTime())
+                        ||
+                        ((leftStartDate.getTime() > rightStartDate.getTime())
+                                && leftStartDate.getTime() <= rightEndDate.getTime())
+                        ||
+                        ((rightStartDate.getTime() >= leftStartDate.getTime())
+                                && rightStartDate.getTime() < leftEndDate.getTime())
+                        ||
+                        ((rightStartDate.getTime() > leftStartDate.getTime())
+                                && rightStartDate.getTime() <= leftEndDate.getTime());
+
+    }
+
+
+
+    /**新添任务*/
     public View initTaskItemView(final int Tag){
+        /**第二项时间为第一项时间的结束时间加1*/
+        String prevDataStart = "",prevDataEnd="";
+        if (Tag>0){
+            TaskViewHolder taskViewHolder=
+                    new TaskViewHolder(initTaskItemView(Tag-1));//前一栏时间
+             prevDataStart= taskViewHolder.tv_dateStart.getText().toString();
+             prevDataEnd= taskViewHolder.tv_dateEnd.getText().toString();
+
+        }
+
         final View view= LayoutInflater.from(context).inflate(R.layout.activity_sz_add_item,null);
         final TaskViewHolder taskViewHolder=new TaskViewHolder(view);
+
+        if (!TextUtils.isEmpty(prevDataStart)){
+            taskViewHolder.tv_dateStart.setText(prevDataStart);
+            taskViewHolder.tv_dateEnd.setText(prevDataEnd);
+
+        }
         taskViewHolder.ttv_taskName.setOnRightTextOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -351,19 +439,42 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 if (itemTag>1){
-                    showDeleteAnimator(view);
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                             //                添加动画
-                            ll_task_item_conent.removeView(view);
-                            itemTag--;
-                            setItemName();
-                                if (itemTag<10) {
-                                    tv_addTask.setVisibility(View.VISIBLE);
+
+                    CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(context);
+                    dialog.setTitle(R.string.app_name);
+                    dialog.setMessage(getString(R.string.sz_task_delete_dialog_hint,
+                            taskViewHolder.ttv_taskName.getTv_rightContent().getText().toString()));
+                    dialog.setPositiveButton(R.string.btn_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    showDeleteAnimator(view);
+                                    mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //                添加动画
+                                            ll_task_item_conent.removeView(view);
+                                            itemTag--;
+                                            setItemName();
+                                            if (itemTag<10) {
+                                                tv_addTask.setVisibility(View.VISIBLE);
+                                            }
+                                        }
+                                    },400);
+                                    dialog.dismiss();
                                 }
-                        }
-                    },400);
+                            });
+                    dialog.setNegativeButton(R.string.btn_cancel,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.show();
 
                 }else{
                     PublicUtil.showToast("至少有一项任务！");
@@ -498,6 +609,7 @@ public class AddTaskActivity extends BaseActivity{
     
     /**遍历所有的item 得到所有的数据*/
     public List<AsignJobBean> getAllTastContent(){
+
         List<AsignJobBean> asignJobBeanList=new ArrayList<AsignJobBean>();
         for (int i = 0; i < itemTag; i++) {
             AsignJobBean asignJobBean=new AsignJobBean();
