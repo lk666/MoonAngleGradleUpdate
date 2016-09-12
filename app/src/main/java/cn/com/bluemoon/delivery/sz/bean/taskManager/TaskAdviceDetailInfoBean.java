@@ -3,8 +3,6 @@ package cn.com.bluemoon.delivery.sz.bean.taskManager;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.com.bluemoon.delivery.sz.bean.task.AsignJobBean;
-
 /**
  * Created by Wan.N
  * Date       2016/9/9

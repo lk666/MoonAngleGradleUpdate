@@ -91,9 +91,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     protected String getTitleString() {
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            return getString(R.string.sz_task_detail_label);
+            return "任务详情";
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-            return getString(R.string.sz_evaluate_detail_label);
+            return "评价详情";
         } else {
             return super.getTitleString();
         }
@@ -138,7 +138,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 //        list.add(new Object());
 //        list.add(new Object());
 //        list.add(new Object());
-        TaskOrEvaluateDetailAdapter adapter = new TaskOrEvaluateDetailAdapter(this, list);
+        TaskOrEvaluateDetailAdapter adapter = new TaskOrEvaluateDetailAdapter(this,activityType, list);
         user_task_lv.setAdapter(adapter);
         initListener();
     }
@@ -161,7 +161,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         user_task_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
+                SzTaskOrEvaluateDetailActivity.this.toast("test");
             }
         });
     }

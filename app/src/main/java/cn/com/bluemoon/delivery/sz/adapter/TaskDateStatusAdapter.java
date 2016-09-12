@@ -16,39 +16,40 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 
 /**
- * Created by Wan.N
+ * Created by jiangyh
  * Date       2016/9/8
- * Desc      可根据待评价与已评价的数据模型结构来评估是否可共用此adapter
+ * Desc     首页通过时期获取到的List列表
  */
-public class TaskEvaluateStatusAdapter extends BaseAdapter {
-    private List<Object> datas = new ArrayList<>();
+public class TaskDateStatusAdapter extends BaseAdapter {
+    private List<DailyPerformanceInfoBean> infoBeans = new ArrayList<>();
     private LayoutInflater inflater;
     private Context cxt;
 
-    public TaskEvaluateStatusAdapter(Context cxt, List<Object> datas) {
+    public TaskDateStatusAdapter(Context cxt, List<DailyPerformanceInfoBean> infoBeans) {
         this.cxt = cxt;
-        this.datas = datas;
+        this.infoBeans = infoBeans;
         if (inflater == null && cxt != null) {
             inflater = LayoutInflater.from(cxt);
         }
     }
 
-    public void updateAdapter(List<Object> datas) {
-        this.datas = datas;
+    public void updateAdapter(List<DailyPerformanceInfoBean> infoBeans) {
+        this.infoBeans = infoBeans;
         notifyDataSetChanged();
     }
 
     @Override
     public int getCount() {
-        return datas.size();
+        return infoBeans.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return datas.get(position);
+        return infoBeans.get(position);
     }
 
     @Override
@@ -69,21 +70,26 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         viewHolder.getUserTaskLv().setDividerHeight(0);
         viewHolder.getUserTaskLv().setDivider(null);
         ///*************************************显示数据************************************************/
-        //TODO 模拟数据
-//        List<Object> list = new ArrayList<>();
-//        list.add(new Object());
-//        list.add(new Object());
-//        list.add(new Object());
 
-        List<AsignJobBean> asignJobBeanList=new ArrayList<>();
-        for (int i=0;i<3;i++){
-            AsignJobBean asignJobBean=new AsignJobBean();
-            asignJobBean.setProduce_cont("工作输出的内容。。。。");
-            asignJobBean.setTask_cont("任务："+i);
-            asignJobBeanList.add(asignJobBean);
-        }
+        DailyPerformanceInfoBean dailyPerformanceInfoBean=infoBeans.get(position);
 
-        TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(cxt, asignJobBeanList);
+        /**@author jiangyh */
+
+//        infoBean.setAsignJobs(asignJobBeanList);
+//        infoBean.setCreatetime("2016-09-10");
+//        infoBean.setDay_valid_min("120");
+//        infoBean.setDay_score("9");
+
+        viewHolder.getUserDateTv().setText(dailyPerformanceInfoBean.getCreatetime());
+        viewHolder.getUserScoreTv().setText(dailyPerformanceInfoBean.getDay_score());
+        viewHolder.getUserAvaliabelTimeTv().setText(dailyPerformanceInfoBean.getDay_valid_min());
+
+
+        List<AsignJobBean> asignJobs=dailyPerformanceInfoBean.getAsignJobs();
+
+
+
+        TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(cxt, asignJobs);
         viewHolder.getUserTaskLv().setAdapter(adapter);
         setListViewHeight(viewHolder.getUserTaskLv());
 

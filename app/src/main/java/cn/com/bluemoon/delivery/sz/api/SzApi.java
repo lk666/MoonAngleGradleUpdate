@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.RateDataInfoBean;
@@ -246,4 +245,25 @@ public class SzApi {
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
+
+
+
+    /********************Task api @author jiangyh*****************************/
+    /**获得单日工作任务列表&月度绩效积分组合接口
+     * @param date
+     @param type 0:全部 1:任务列表 2:月度绩效
+     */
+    public static void getJobsListAndMonthlyPerformanceApi(String date,int type,
+                                   AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<String,Object>();
+        params.put("date",date);
+        params.put("type",type);
+        params.put("token", ClientStateManager.getLoginToken());
+        String url = HOST+"userMsgList";
+        client.post(AppContext.getInstance(), url, getEntity(params),"application/json", handler);
+    }
+
+
+
+
 }

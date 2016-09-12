@@ -1,13 +1,9 @@
 package cn.com.bluemoon.delivery.sz.taskManager.task_home;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
@@ -15,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
@@ -27,7 +22,7 @@ import cn.com.bluemoon.delivery.sz.view.NoScrollViewPager;
  * Date       2016/9/7 10:04
  * Desc     任务评价fragment
  */
-public class TaskAppraiseFragment extends Fragment {
+public class TaskAppraiseFragment extends BaseFragment {
 
     @Bind(R.id.rg_evaluate)
     RadioGroup rg_evaluate;
@@ -45,26 +40,28 @@ public class TaskAppraiseFragment extends Fragment {
     private SzTaskEvaluateStatusFragment toEvaluateFragment;
     private SzTaskEvaluateStatusFragment haveEvaluatedFragment;
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sz_fragment_task_evaluate, null);
-        ButterKnife.bind(this,view);
-        return view;
+    protected int getLayoutId() {
+        return R.layout.sz_fragment_task_evaluate;
     }
 
-
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void initView() {
         initViewPage();
         initListener();
         initData();
     }
 
-    private void initData() {
+    @Override
+    public void initData() {
+
     }
 
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+
+    }
     private void initViewPage() {
         evalueate_status_vp.setCanScroll(false);
         evalueteStatusList.clear();
@@ -114,4 +111,6 @@ public class TaskAppraiseFragment extends Fragment {
             }
         });
     }
+
+
 }

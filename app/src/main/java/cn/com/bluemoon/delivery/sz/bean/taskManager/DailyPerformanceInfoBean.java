@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
-import cn.com.bluemoon.delivery.sz.bean.task.AsignJobBean;
 
 /**
  * Created by Wan.N

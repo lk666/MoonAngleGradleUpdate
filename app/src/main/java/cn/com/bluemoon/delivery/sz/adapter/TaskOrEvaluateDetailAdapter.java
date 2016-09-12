@@ -25,9 +25,14 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
     private List<Object> datas = new ArrayList<>();
     private LayoutInflater inflater;
     private Context cxt;
+    /**0：//任务详情 1：任务评价详情*/
+    private int showType=0;
+    public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
+    public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
 
-    public TaskOrEvaluateDetailAdapter(Context cxt, List<Object> datas) {
+    public TaskOrEvaluateDetailAdapter(Context cxt,int showType, List<Object> datas) {
         this.cxt = cxt;
+        this.showType = showType;
         this.datas = datas;
         if (inflater == null && cxt != null) {
             inflater = LayoutInflater.from(cxt);
@@ -65,6 +70,20 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         ///*************************************显示数据************************************************/
+
+        /**任务详情 @author jiangyh*/
+        if (showType==ACTIVITY_TYPE_TASK_DETAIL){
+//            业绩以下没有 taskAvailabelLl ,ll_task_quality, ll_task_evaluate_content
+            viewHolder.getTaskAvailabelLl().setVisibility(View.GONE);
+            viewHolder.getTaskQualityLl().setVisibility(View.GONE);
+            viewHolder.getTaskEvaluateContentLl().setVisibility(View.GONE);
+
+        }else{
+
+
+
+        }
+
 
         return convertView;
     }
