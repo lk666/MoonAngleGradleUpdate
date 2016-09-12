@@ -31,7 +31,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Date       2016/9/7
  * Desc      待评价/已评价界面（共用）
  */
-public class SzTaskEvaluateStatusFragment extends Fragment {
+public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Bind(R.id.evaluate_data_lv)
     PullToRefreshListView evaluate_data_lv;
 
@@ -46,23 +46,18 @@ public class SzTaskEvaluateStatusFragment extends Fragment {
         LogUtil.i("evaluateType:" + activityType);
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sz_fragment_task_evaluate_status, null);
-        ButterKnife.bind(this, view);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    protected void onBeforeCreateView() {
+        super.onBeforeCreateView();
         initIntent();
-        initView();
-        initData();
     }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.sz_fragment_task_evaluate_status;
+    }
 
+    @Override
     public void initView() {
         //TODO 模拟数据
         List<Object> list = new ArrayList<>();
@@ -97,6 +92,7 @@ public class SzTaskEvaluateStatusFragment extends Fragment {
         listView.setLayoutParams(params);
     }
 
+    @Override
     public void initData() {
 
     }
@@ -123,4 +119,8 @@ public class SzTaskEvaluateStatusFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+
+    }
 }
