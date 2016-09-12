@@ -2,13 +2,11 @@ package cn.com.bluemoon.delivery.sz.taskManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -16,14 +14,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.sz.adapter.TaskEvaluateStatusAdapter;
-import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
-import cn.com.bluemoon.delivery.sz.view.ChildListView;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 /**
@@ -35,21 +34,30 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Bind(R.id.evaluate_data_lv)
     PullToRefreshListView evaluate_data_lv;
 
+    private static final int LOAD_DATA_SUCCESS = 0x01;
+    private static final int LOAD_DATA_FAIL = 0x02;
+    private static final int LOAD_DATA_ERROR = 0x03;
+
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     public static final int ACTIVITY_TYPE_TO_EVALUATE = 0;//待评价
     public static final int ACTIVITY_TYPE_HAVE_EVALUATED = 1;//已评价
-    private int activityType = -1;//记录需要展示的类型（0;待评价  1;已评价）
+    private int activityType = 0;//记录需要展示的类型（0;待评价  1;已评价）
 
-    protected void initIntent() {
-        Bundle bundle = getArguments();
-        activityType = bundle.getInt(ACTIVITY_TYPE, -1);
-        LogUtil.i("evaluateType:" + activityType);
-    }
+    private int curPage = 1;//评价的请求页数，默认为1
+
+    private List<DailyPerformanceInfoBean> mEvaluateDatas = new ArrayList<>();//存放已评价/未评价的数据集合
+    private TaskEvaluateStatusAdapter mDataAapter;
 
     @Override
     protected void onBeforeCreateView() {
         super.onBeforeCreateView();
         initIntent();
+    }
+
+    protected void initIntent() {
+        Bundle bundle = getArguments();
+        activityType = bundle.getInt(ACTIVITY_TYPE, -1);
+        LogUtil.i("evaluateType:" + activityType);
     }
 
     @Override
@@ -59,48 +67,40 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
 
     @Override
     public void initView() {
-        //TODO 模拟数据
-        List<Object> list = new ArrayList<>();
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        TaskEvaluateStatusAdapter adapter = new TaskEvaluateStatusAdapter(getActivity(), list);
-        evaluate_data_lv.setAdapter(adapter);
+        mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas);
+        evaluate_data_lv.setMode(PullToRefreshBase.Mode.BOTH);
+        evaluate_data_lv.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.sz_listview_loding_label));
+        evaluate_data_lv.setAdapter(mDataAapter);
         initListener();
-    }
-
-    /**
-     * 设置Listview的高度
-     */
-    public void setListViewHeight(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
-            return;
-        }
-        int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
-        }
-        ViewGroup.LayoutParams params = listView.getLayoutParams();
-        params.height = totalHeight + (listView.getDividerHeight() * (listAdapter.getCount() - 1));
-        listView.setLayoutParams(params);
     }
 
     @Override
     public void initData() {
+        curPage = 1;
+        loadData();
+    }
 
+    private void loadData() {
+        curPage++;
+        //请求后台数据
+        LogUtil.i("loadData--curPage:" + curPage + "--activityType:" + activityType);
+        SzApi.getRateJobsList(curPage + "", 10 + "", activityType + "", getNewHandler(0, ResultGetTaskEvaluateList.class));
     }
 
     private void initListener() {
+        evaluate_data_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+            @Override
+            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
+                mHandle.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        loadData();
+                    }
+                }, 800);
+            }
+        });
+
         evaluate_data_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = null;
@@ -119,8 +119,66 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         });
     }
 
+    private Handler mHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case LOAD_DATA_SUCCESS:
+                    evaluate_data_lv.onRefreshComplete();
+                    LogUtil.i("LOAD_DATA_SUCCESS");
+                    updateData();
+                    break;
+                case LOAD_DATA_FAIL:
+                    curPage--;
+                    evaluate_data_lv.onRefreshComplete();
+                    LogUtil.i("LOAD_DATA_FAIL");
+                    break;
+                case LOAD_DATA_ERROR:
+                    curPage--;
+                    evaluate_data_lv.onRefreshComplete();
+                    LogUtil.i("LOAD_DATA_ERROR");
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
+        LogUtil.i("jsonString--" + jsonString);
+        if (result != null && result.isSuccess && result.getResponseCode() == 100) {
+            ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
+            mEvaluateDatas.clear();
+            mEvaluateDatas = ResultGetTaskEvaluateList.getData();
+            mHandle.sendEmptyMessage(LOAD_DATA_SUCCESS);
+        } else {
+            mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
+        }
     }
+
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        mHandle.sendEmptyMessage(LOAD_DATA_ERROR);
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
+    }
+
+    /**
+     * 刷新数据
+     */
+    private void updateData() {
+        if (mDataAapter == null) {
+            mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas);
+        } else {
+            mDataAapter.notifyDataSetChanged();
+        }
+    }
+
 }
