@@ -6,6 +6,7 @@
     android:fitsSystemWindows="true">
 
     <LinearLayout
+        android:id="@+id/layout_phone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#fefefe"
@@ -17,18 +18,19 @@
             android:layout_marginBottom="5dp"
             android:layout_marginLeft="50dp"
             android:layout_marginTop="15dp"
-            android:text="@string/login_old_psw"
+            android:text="@string/login_name"
             android:textColor="@color/text_black_light"
             android:textSize="@dimen/text_size_12" />
 
         <cn.com.bluemoon.lib.view.ClearEditText
-            android:id="@+id/ed_old_psw"
+            android:id="@+id/ed_userid"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:background="@drawable/edittext_border_blue_white"
+            android:digits="@string/key_limit_number_letter"
             android:ellipsize="start"
-            android:hint="@string/login_old_psw_hint"
-            android:inputType="textPassword"
+            android:hint="@string/login_name_hint"
+            android:inputType="number|text"
             android:textCursorDrawable="@null"
             android:longClickable="false"
             android:padding="10dp"
@@ -38,6 +40,82 @@
             android:textColor="@color/text_black"
             android:textColorHint="@color/text_grep"
             android:textSize="@dimen/text_size_15" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="50dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/login_phone"
+            android:textColor="@color/text_black_light"
+            android:textSize="@dimen/text_size_12" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/edittext_border_blue_white"
+            android:orientation="vertical"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="40dp"
+            >
+
+            <cn.com.bluemoon.lib.view.ClearEditText
+                android:id="@+id/ed_phone"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:background="@null"
+                android:ellipsize="start"
+                android:hint="@string/login_phone_hint"
+                android:inputType="number"
+                android:textCursorDrawable="@null"
+                android:longClickable="false"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:textColor="@color/text_black"
+                android:textColorHint="@color/text_grep"
+                android:textSize="@dimen/text_size_15" />
+
+            <View style="@style/line_solid_style"
+                android:layout_marginLeft="5dp"
+                android:layout_marginRight="5dp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+                <cn.com.bluemoon.lib.view.ClearEditText
+                    android:id="@+id/ed_code"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="@null"
+                    android:ellipsize="start"
+                    android:hint="@string/login_code_hint"
+                    android:inputType="number"
+                    android:textCursorDrawable="@null"
+                    android:longClickable="false"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/text_black"
+                    android:textColorHint="@color/text_grep"
+                    android:textSize="@dimen/text_size_15" />
+                <Button
+                    android:id="@+id/btn_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="35dp"
+                    android:minWidth="80dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp"
+                    android:background="@drawable/btn_blue_shape"
+                    android:textColor="@color/view_bg"
+                    android:text="@string/login_get_code"
+                    android:textSize="@dimen/text_size_12" >
+                </Button>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -59,15 +137,15 @@
             >
 
             <cn.com.bluemoon.lib.view.ClearEditText
-                android:id="@+id/ed_new_psw"
+                android:id="@+id/ed_psw"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@null"
                 android:ellipsize="start"
                 android:hint="@string/login_new_psw_hint"
                 android:inputType="textPassword"
-                android:textCursorDrawable="@null"
                 android:longClickable="false"
+                android:textCursorDrawable="@null"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/text_black"
@@ -79,15 +157,15 @@
                 android:layout_marginRight="5dp"/>
 
             <cn.com.bluemoon.lib.view.ClearEditText
-                android:id="@+id/ed_new_con_psw"
+                android:id="@+id/ed_con_psw"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:background="@null"
                 android:ellipsize="start"
                 android:hint="@string/login_new_psw_hint2"
                 android:inputType="textPassword"
-                android:textCursorDrawable="@null"
                 android:longClickable="false"
+                android:textCursorDrawable="@null"
                 android:padding="10dp"
                 android:singleLine="true"
                 android:textColor="@color/text_black"

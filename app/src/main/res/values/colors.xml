@@ -6,6 +6,7 @@
     <color name="title_background">#ff1fb8ff</color> <!-- 顶部标题栏 蓝色 -->
     <color name="page_bg_f2">#f2f2f2</color> <!-- 页面带灰色背景 -->
     <color name="page_bg_ed">#ededed</color> <!-- 页面带灰色背景 -->
+    <color name="page_bg_fb">#fbfbfb</color> <!-- 页面带灰色背景 -->
     <color name="item_bg_f5">#f5f5f5</color> <!-- 页面带灰色背景 -->
     <color name="transparent">#0000</color><!-- 透明 -->
     <color name="line_dotted_bg">#ebebeb</color><!-- 分割线 虚线  颜色 -->

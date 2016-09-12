@@ -4,8 +4,13 @@
     <style name="TranslucentTheme" parent="android:Theme.Holo">
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
-        <item name="android:actionBarSize">50dip</item>
     </style>
+
+    <style name="TranslucentTheme2" parent="android:Theme.Holo.Light.NoActionBar">
+        <item name="android:windowTranslucentStatus">true</item>
+        <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
     <style name="Anim_style2" parent="android:Theme.Black.NoTitleBar">
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
         <item name="android:actionBarSize">50dip</item>

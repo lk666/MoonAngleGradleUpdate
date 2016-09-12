@@ -47,7 +47,7 @@ public class AppStartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         main = this;
-        setContentView(R.layout.appstart);
+        setContentView(R.layout.activity_start);
         init();
         LocationService locationService = ((AppContext) getApplication()).locationService;
         locationService.start();

@@ -53,13 +53,8 @@
             android:name=".module.account.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Anim_style2"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity
-            android:name=".module.usermvptest.view.UserActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:theme="@style/TranslucentTheme2"
+            android:windowSoftInputMode="adjustPan"/>
         <activity
             android:name=".module.account.SettingInfoActivity"
             android:screenOrientation="portrait"
@@ -71,11 +66,7 @@
         <activity
             android:name=".module.account.ResetPswActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-        <activity
-            android:name=".module.account.InputPhoneActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/TranslucentTheme"/>
         <activity
             android:name=".module.account.ChangePswActivity"
             android:screenOrientation="portrait"
