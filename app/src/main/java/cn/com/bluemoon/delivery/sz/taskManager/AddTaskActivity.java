@@ -38,7 +38,9 @@ import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
+import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.TaskTextView;
@@ -59,6 +61,18 @@ public class AddTaskActivity extends BaseActivity{
     @Bind(R.id.scrollviwe_task)
     ScrollView scrollviwe_task;
 
+
+    public static final String TASKOPERATETYPE="TASKOPERATETYPE";
+    public static final int TASKOPERATETYPE_ADD=0;
+    public static final int TASKOPERATETYPE_MODIFY=1;
+    private   int taskOperateType=1;
+
+    public static final String DATABEAN="DATABEAN";
+    private DailyPerformanceInfoBean dailyPerformanceInfoBean=null;
+
+    public static final String CURRENTDATA="CURRENTDATA";
+    private String currentDate="";
+
     private WheelView hour;
     private WheelView mins;
 
@@ -66,7 +80,6 @@ public class AddTaskActivity extends BaseActivity{
     private final int itemSize=10;
     private int itemTag=0;
 
-    private String currentDate="";
 
     @Override
     protected int getLayoutId() {
@@ -77,7 +90,9 @@ public class AddTaskActivity extends BaseActivity{
         super.onBeforeSetContentLayout();
         context=AddTaskActivity.this;
         currentDate=getIntent().getStringExtra("currentDate");
-//        orderCode = getIntent().getStringExtra("orderCode");
+        taskOperateType=getIntent().getIntExtra("TASKOPERATETYPE",0);
+
+
     }
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
@@ -91,15 +106,35 @@ public class AddTaskActivity extends BaseActivity{
     public void initView() {
         EventBus.getDefault().register(this);
         initCustomActionBar();
-        tv_dete.setText(currentDate);
 
-        ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
-        itemTag++;
+        if (taskOperateType==TASKOPERATETYPE_ADD){//默认最少添加一项
+            tv_dete.setText(currentDate);
+            ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
+            itemTag++;
+
+        }else if(taskOperateType==TASKOPERATETYPE_MODIFY) {//修改
+            try {
+                dailyPerformanceInfoBean=
+                        (DailyPerformanceInfoBean) getIntent().getSerializableExtra(DATABEAN);
+                currentDate=dailyPerformanceInfoBean.getCreatetime();
+                tv_dete.setText(currentDate);
+
+                ReviewerBean reviewerBean=dailyPerformanceInfoBean.getReviewer();
+                ttv_appraiser.setText_right(reviewerBean.getuName());
+                ttv_totalTime.setText_right(dailyPerformanceInfoBean.getDay_valid_min());
+
+                List<AsignJobBean>  asignJobBeanList =dailyPerformanceInfoBean.getAsignJobs();
+                initSetViewContentList(asignJobBeanList);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
+        }
 
         ttv_appraiser.setOnRightTextOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Bundle mBundle=new Bundle();
                 mBundle.putString(AppraiseChooserActivity.APPRAISE_NAME,
                         ttv_appraiser.getTv_rightContent().getText().toString());
@@ -110,6 +145,42 @@ public class AddTaskActivity extends BaseActivity{
         });
 
     }
+
+    /**遍历所有的item 设置Item 的数据内容*/
+    private void initSetViewContentList(List<AsignJobBean> asignJobBeanList) {
+        for (AsignJobBean asignJobBean: asignJobBeanList) {
+            ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
+            initViewForBean(asignJobBean,itemTag);
+            itemTag++;
+        }
+    }
+
+    /**根据实体 直充内容*/
+    private void initViewForBean(AsignJobBean asignJobBean,int itemTag){
+        View view =ll_task_item_conent.getChildAt(itemTag);
+        TaskViewHolder taskViewHolder=new TaskViewHolder(view);
+        taskViewHolder.ttv_taskName.setText_right(asignJobBean.getTask_cont());
+        taskViewHolder.ttv_workOutput.setText_right(asignJobBean.getProduce_cont());
+        taskViewHolder.tv_dateStart.setText(asignJobBean.getCreatetime());
+        taskViewHolder.tv_dateEnd.setText(asignJobBean.getEnd_time());
+        String taskStatus=asignJobBean.getState();
+        switch (taskStatus){
+            case "0":
+                taskViewHolder.rg_status.check(taskViewHolder.rb_finish.getId());
+                break;
+            case "1":
+                taskViewHolder.rg_status.check(taskViewHolder.rb_working.getId());
+                break;
+            case "2":
+                taskViewHolder.rg_status.check(taskViewHolder.rb_pause.getId());
+                break;
+            default:
+                break;
+        }
+
+
+    }
+
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getInputEventMessagBean(EventMessageBean messageBean){
@@ -122,11 +193,9 @@ public class AddTaskActivity extends BaseActivity{
         }else{
             inputContentItem(messageBean,tag);
         }
-
         LogUtil.i("传递过来的值："+messageBean.toString());
 
     }
-
 
     /**弹出输入页面返回的新内容*/
     public void inputContentItem(EventMessageBean messageBean,int itemTag){
@@ -160,7 +229,6 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onBtnRight(View v) {
                 getAllTastContent();
-
             }
             @Override
             public void onBtnLeft(View v) {
@@ -458,6 +526,7 @@ public class AddTaskActivity extends BaseActivity{
         return asignJobBeanList;
         
     }
+
 
 
     class TaskViewHolder{

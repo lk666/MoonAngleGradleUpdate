@@ -88,7 +88,6 @@ public class TaskDateStatusAdapter extends BaseAdapter {
         List<AsignJobBean> asignJobs=dailyPerformanceInfoBean.getAsignJobs();
 
 
-
         TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(cxt, asignJobs);
         viewHolder.getUserTaskLv().setAdapter(adapter);
         setListViewHeight(viewHolder.getUserTaskLv());

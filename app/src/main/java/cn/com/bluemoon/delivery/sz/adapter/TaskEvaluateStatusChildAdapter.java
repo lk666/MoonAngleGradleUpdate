@@ -75,6 +75,7 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
         AsignJobBean asignJobBean=datas.get(position);
 
         viewHolder.getTaskRankNumTv().setText(asignJobBean.getTask_cont());
+        viewHolder.getTaskContent().setText(asignJobBean.getProduce_cont());
 
         return convertView;
     }

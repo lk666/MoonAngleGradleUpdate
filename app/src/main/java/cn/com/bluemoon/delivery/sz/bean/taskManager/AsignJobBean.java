@@ -1,9 +1,11 @@
 package cn.com.bluemoon.delivery.sz.bean.taskManager;
 
+import java.io.Serializable;
+
 /**
  * Created by jiangyuehua on 16/9/8.
  */
-public class AsignJobBean {
+public class AsignJobBean implements Serializable {
 
 	/**
 	 * begin_time : 开始时间

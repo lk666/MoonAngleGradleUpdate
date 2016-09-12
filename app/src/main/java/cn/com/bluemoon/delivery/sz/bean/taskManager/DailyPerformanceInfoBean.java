@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
+import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 
 /**
  * Created by Wan.N
@@ -38,7 +39,7 @@ public class DailyPerformanceInfoBean implements Serializable {
     private String day_score;
     private String day_valid_min;
     private String model;
-    private List<UserInfoDetailsBean> reviewer;
+    private ReviewerBean reviewer;
     private String time_utilization;
     private String updatetime;
     private List<UserInfoDetailsBean> user;
@@ -88,11 +89,11 @@ public class DailyPerformanceInfoBean implements Serializable {
         this.model = model;
     }
 
-    public List<UserInfoDetailsBean> getReviewer() {
+    public ReviewerBean getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(List<UserInfoDetailsBean> reviewer) {
+    public void setReviewer(ReviewerBean reviewer) {
         this.reviewer = reviewer;
     }
 
