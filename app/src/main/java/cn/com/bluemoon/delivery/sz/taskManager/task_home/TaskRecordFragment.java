@@ -221,7 +221,7 @@ public class TaskRecordFragment extends BaseFragment
 
 				Bundle mBundle=new Bundle();
 				mBundle.putInt(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE,0);
-				mBundle.putSerializable(SzTaskOrEvaluateDetailActivity.ACTIVITY_BEAN_TAYE,
+				mBundle.putSerializable(SzTaskOrEvaluateDetailActivity.ACTIVITY_EXTAR_DATA,
 						dailyPerformanceInfoBean);
 
 				PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);

@@ -62,6 +62,7 @@ public class TaskAppraiseFragment extends BaseFragment {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
     }
+
     private void initViewPage() {
         evalueate_status_vp.setCanScroll(false);
         evalueteStatusList.clear();
@@ -100,12 +101,8 @@ public class TaskAppraiseFragment extends BaseFragment {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.rb_left) {
-                    rb_left.setTextColor(getResources().getColor(R.color.text_blue));
-                    rb_right.setTextColor(getResources().getColor(R.color.gray));
                     evalueate_status_vp.setCurrentItem(0);
                 } else if (checkedId == R.id.rb_right) {
-                    rb_left.setTextColor(getResources().getColor(R.color.gray));
-                    rb_right.setTextColor(getResources().getColor(R.color.text_blue));
                     evalueate_status_vp.setCurrentItem(1);
                 }
             }
