@@ -1,49 +1,268 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="15dp"
         android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_border_blue_alarm"
+        android:orientation="vertical"
+        android:padding="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp">
+
+            <TextView
+                android:id="@+id/txt_alarm_time_desc"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:text="提醒时间"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_15" />
+
+            <include
+                android:id="@+id/sb_open"
+                layout="@layout/widget_switch_button_yes_no"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/txt_alarm_time_desc"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/txt_alarm_time_desc"
+                android:layout_marginRight="15dp"
+
+                />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            android:background="@color/white_bg"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"></View>
+
+            <cn.com.bluemoon.delivery.ui.selectordialog.SimpleWheelView
+                android:id="@+id/wheel_hour"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white_bg"
+                app:isLoop="true"
+                app:itemNumber="3"
+                app:normalTextSize="@dimen/text_size_15"
+                app:selectedTextSize="@dimen/text_size_30"
+                app:unitHeight="40dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:gravity="center_vertical"
+                android:includeFontPadding="false"
+                android:text=":"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_30" />
+
+            <cn.com.bluemoon.delivery.ui.selectordialog.SimpleWheelView
+                android:id="@+id/wheel_minute"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@color/white_bg"
+                android:includeFontPadding="false"
+                app:isLoop="true"
+                app:itemNumber="3"
+                app:normalTextSize="@dimen/text_size_15"
+                app:selectedTextSize="@dimen/text_size_30"
+                app:unitHeight="40dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"></View>
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/btn_border_blue_alarm"
+        android:orientation="vertical"
+        android:padding="1dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:text="重复"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_15" />
+
+            <ImageView
+                android:layout_width="14dp"
+                android:layout_height="14dp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周一"
+                    android:textColor="@color/text_black" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周二"
+                    android:textColor="@color/text_black" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周三"
+                    android:textColor="@color/text_black" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周四"
+                    android:textColor="@color/text_black" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周五"
+                    android:textColor="@color/text_black" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="10dp">
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周六"
+                    android:textColor="@color/text_black" />
+
+                <RadioButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:button="@null"
+                    android:gravity="center"
+                    android:text="周日"
+                    android:textColor="@color/text_black" />
+
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="1dp"
+                    android:layout_weight="3" />
+
+            </LinearLayout>
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
+        android:paddingLeft="10dp"
+        android:paddingTop="15dp"
+        android:paddingRight="10dp"
+        android:paddingBottom="14dp"
         android:background="@drawable/btn_border_blue_alarm"
         android:orientation="vertical">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="45dp">
-
         <TextView
-            android:id="@+id/txt_alarm_time_desc"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="提醒时间"/>
-
-
-        <include
-            android:id="@+id/sb_open"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@id/txt_alarm_time_desc"
-            android:layout_alignBottom="@id/txt_alarm_time_desc"
-            android:layout_alignParentRight="true"
-            layout="@layout/widget_switch_button_yes_no"
+            style="@style/txt_title_15"
+            android:text="提醒标题" />
 
-            />
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            style="@style/txt_content_15"
+            android:hint="嗨，给该条提醒取个标题吧！"
 
-    </RelativeLayout>
+            android:height="44dp"/>
 
-    <TimePicker
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/time_picker" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="提醒内容" />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="别忘了设定提醒的内容哦！" />
 
     </LinearLayout>
+
 </LinearLayout>

@@ -1,9 +1,7 @@
 import java.text.SimpleDateFormat
-
 apply plugin: 'com.android.application'
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
-def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HHmmss")
+def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
     df.setTimeZone(TimeZone.getDefault())
     return df.format(new Date()) }
 android {
@@ -50,7 +48,7 @@ android {
         }
         release {
             buildConfigField("boolean", "RELEASE", "true")
-            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/5/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""
