@@ -338,13 +338,11 @@
             android:name=".module.jobrecord.PromoteDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.jobrecord.PromoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
-
         <activity
             android:name=".module.jobrecord.AddPromoteActivity"
             android:screenOrientation="portrait"
@@ -394,7 +392,6 @@
             android:name=".module.team.CommonSelectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.team.SearchGroupActivity"
             android:screenOrientation="portrait"
@@ -488,6 +485,12 @@
         <meta-data
             android:name="UMENG_CHANNEL"
             android:value="bluemoon"/>
+
+        <activity
+            android:name=".ui.selectordialog.SampleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
     </application>
 
 </manifest>
