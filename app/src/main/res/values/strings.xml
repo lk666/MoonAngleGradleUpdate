@@ -29,6 +29,17 @@
 
     <string name="refreshing">努力加载中！</string>
 
+    <!-- common -->
+    <string name="monday">星期一</string>
+    <string name="tuesday">星期二</string>
+    <string name="wednesday">星期三</string>
+    <string name="thursday">星期四</string>
+    <string name="friday">星期五</string>
+    <string name="saturday">星期六</string>
+    <string name="sunday">星期天</string>
+
+
+
     <!-- main tab -->
     <string name="main_tab_qrcode">我的二维码</string>
     <string name="main_tab_card">打卡</string>
@@ -456,8 +467,11 @@
     <!--打卡-->
     <string name="btn_san_punch_card_text">扫码打卡</string>
     <string name="btn_input_punch_card_text">手动打卡</string>
+    <string name="btn_input_punch_reset">今日休息</string>
     <string name="tab_bottom_punch_card_text">打卡</string>
     <string name="tab_bottom_punch_record_text">打卡记录</string>
+    <string name="tab_bottom_punch_alarm_setting">提醒设置</string>
+    <string name="tab_title_punch_alarm_modify">编辑提醒</string>
     <string name="puncard_info">打卡信息</string>
     <string name="card_get_location_tips">打开“定位服务”来允许“月亮天使”确定您的位置。</string>
     <string name="card_input_type_all_tab">编码打卡，无编码打卡</string>
