@@ -148,14 +148,14 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
          * @author jiangyh*/
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
             btn_bottom.setText(R.string.sz_update_task_labe);
-            dailyPerformanceInfoBean = (DailyPerformanceInfoBean)
+            evaluateInfo = (DailyPerformanceInfoBean)
                     getIntent().getSerializableExtra(ACTIVITY_BEAN_TAYE);
 
             //TODO 模拟数据
-            if (dailyPerformanceInfoBean!=null){
-                List<AsignJobBean> asignJobBeanList = dailyPerformanceInfoBean.getAsignJobs();
-                user_date_tv.setText(dailyPerformanceInfoBean.getCreatetime());
-                user_avaliabel_time_tv.setText(dailyPerformanceInfoBean.getDay_valid_min());
+            if (evaluateInfo!=null){
+                List<AsignJobBean> asignJobBeanList = evaluateInfo.getAsignJobs();
+                user_date_tv.setText(evaluateInfo.getCreatetime());
+                user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
 
                 adapter = new TaskOrEvaluateDetailAdapter(this, activityType, asignJobBeanList);
             }

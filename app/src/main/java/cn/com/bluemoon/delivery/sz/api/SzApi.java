@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.sz.api;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
 
 import org.apache.http.entity.ByteArrayEntity;
 
@@ -12,14 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.sz.api.response.ApiHttpClientSz;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.RateDataInfoBean;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
@@ -27,18 +25,26 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
  */
 public class SzApi {
 
-    private static final String HOST = "http://192.168.237.2";
-    public static AsyncHttpClient client;
+    public static final String HOST = "http://192.168.237.2/%s";
+
+    public static AsyncHttpClient client = null;
+
     public static String CLIENT = "android";
     private static String FORMAT = "json";
     private static String APP_TYPE = "moonAngel";
 
     private static boolean isDebug = true;
 
+
     static {
         client = new AsyncHttpClient();
+        PersistentCookieStore myCookieStore = new PersistentCookieStore(AppContext.getInstance());
+        client.setCookieStore(myCookieStore);
         client.setConnectTimeout(20000);
         client.setResponseTimeout(20000);
+
+        ApiHttpClientSz.setHttpClient(client);
+        ApiHttpClientSz.setCookie(ApiHttpClient.getCookie(AppContext.getInstance()));
     }
 
     /*  获取用户单日日程列表 */
@@ -120,12 +126,12 @@ public class SzApi {
         params.put("submitData", submitData);
         params.put("type", type);
 
-        String url = HOST + "submitDayJobsApi";
+        String url = "submitDayJobsApi";
         if (isDebug) {
             url = "http://192.168.237.2/wktask-app/work/submitDayJobsApi";
         }
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -145,12 +151,12 @@ public class SzApi {
         params.put("rateData", rateData);
         params.put("work_day_id", work_day_id);
 
-        String url = HOST + "submitDayJobsRatingApi";
+        String url = "submitDayJobsRatingApi";
         if (isDebug) {
             url = "http://192.168.237.2/wktask-app/work/submitDayJobsRatingApi";
         }
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -162,13 +168,12 @@ public class SzApi {
         HashMap<String, Object> params = new HashMap<>();
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("queryStr", queryStr);
-
-        String url = HOST + "search";
-        if (isDebug) {
-            url = "http://192.168.237.2/wktask-app/user/search";
-        }
-        String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        String url ="app/user/search";
+//        if (isDebug) {
+//            url = "http://192.168.237.2/wktask-app/user/search";
+//        }
+        client.post(AppContext.getInstance(), "http://192.168.237.2/app/user/search",
+                getEntity(params), "application/json", handler);
     }
 
     /**
@@ -185,12 +190,12 @@ public class SzApi {
         params.put("pageSize", pageSize);
         params.put("type", type);
 
-        String url = HOST + "getRateJobsListApi";
+        String url = "getRateJobsListApi";
         if (isDebug) {
             url = "http://192.168.237.2/wktask-app/work/getRateJobsListApi";
         }
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -204,9 +209,9 @@ public class SzApi {
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("nID", nID);
 
-        String url = HOST + "getSuggestDetailApi";
+        String url ="getSuggestDetailApi";
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -215,18 +220,20 @@ public class SzApi {
      * account 用户ID string
      * appType [必填] app的类型 string [必填] app的类型: 培训平台:trainingSys 日程会议管理: scheduleSys 工作任务管理:moonAngel
      * token 用户token string
+     *
+     * /app/work/getuserinfo
      */
     public static void getUserAndSuperiorInfo(String account, AsyncHttpResponseHandler handler) {
         HashMap<String, Object> params = new HashMap<>();
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("account", account);
 
-        String url = HOST + "getuserinfo";
+        String url ="/app/work/getuserinfo";
         if (isDebug) {
-            url = "http://192.168.237.2/wktask-app/work/getuserinfo";
+            url = "http://192.168.237.2/app/work/getuserinfo";
         }
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
@@ -250,12 +257,12 @@ public class SzApi {
         params.put("work_date", work_date);
         params.put("work_day_id", work_day_id);
 
-        String url = HOST + "submitRejectApi";
+        String url ="submitRejectApi";
         if (isDebug) {
             url = "http://192.168.237.2/wktask-app/work/submitRejectApi";
         }
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
 
@@ -270,38 +277,31 @@ public class SzApi {
         params.put("date", date);
         params.put("type", type+"");
         params.put("token", ClientStateManager.getLoginToken());
-        params.putAll(getParamUrl());
+        params.putAll(SzApiClientHelper.getParamUrl());
 
         String jsonString = JSONObject.toJSONString(params);
 
-        String url = HOST +"/app/work/getWorkDetailsApi";
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        String url ="app/work/getWorkDetailsApi";
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
-
-
-
-
-    public static synchronized Map<String, String>  getParamUrl() {
-
-        String timeStamp = DateUtil.getCurrentTimeStamp();
+    /**
+     * url:http://localhost:8080/app/work/getuserinfo
+     * 获得单日工作任务列表&月度绩效积分组合接口
+     * @param account 账号
+     */
+    public static void getuserinfo(String account,AsyncHttpResponseHandler handler) {
         Map<String, String> params = new HashMap<String, String>();
-
-        String[] arrays = { Constants.PRIVATE_KEY ,CLIENT,
-                AppContext.getInstance().getAppId(),FORMAT,timeStamp,
-                AppContext.getInstance().getPackageInfo().versionName,
-                Constants.PRIVATE_KEY };
-
-        String sign = PublicUtil.genApiSign(arrays);
-        params.put("platform", CLIENT);
-        params.put("deviceId", AppContext.getInstance().getAppId());
-        params.put("version", AppContext.getInstance().getPackageInfo().versionName);
-        params.put("appType", APP_TYPE);
-        params.put("lng", ClientStateManager.getLongitude(AppContext.getInstance().getApplicationContext()));
-        params.put("lat", ClientStateManager.getLatitude(AppContext.getInstance().getApplicationContext()));
-        params.put("hig", ClientStateManager.getAltitude(AppContext.getInstance().getApplicationContext()));
-        return params;
+        params.put("account", account);
+        params.put("token", ClientStateManager.getLoginToken());
+        params.putAll(SzApiClientHelper.getParamUrl());
+        String jsonString = JSONObject.toJSONString(params);
+        String url ="app/work/getuserinfo";
+        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
     }
+
+
+
 
 
 }

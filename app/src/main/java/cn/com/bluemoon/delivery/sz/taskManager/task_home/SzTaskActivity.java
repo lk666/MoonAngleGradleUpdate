@@ -19,9 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SchedualAddMeetingActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.lib.view.ImageViewForClick;
@@ -41,6 +44,37 @@ public class SzTaskActivity extends BaseTabActivity {
         context = SzTaskActivity.this;
 
         initWidget();
+
+            LogUtil.i("/account--->"+ ClientStateManager.getUserName());
+
+//        if (!TextUtils.isEmpty(ClientStateManager.getUserName())){
+//            getUserinfo(ClientStateManager.getUserName());
+//        }
+//
+//
+//        searchByKeyword("国");
+
+
+    }
+
+
+
+
+//    private void searchByKeyword(String queryStr){
+//        if (!StringUtils.isEmpty(queryStr)) {
+//            showWaitDialog();
+//            SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
+//        }
+//    }
+//    private void getUserinfo(String account){
+//        if (!StringUtils.isEmpty(account)) {
+//            showWaitDialog();
+//            SzApi.getuserinfo(account, getNewHandler(0, ResultToken.class));
+//        }
+//    }
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
+        LogUtil.i("requestCode:"+requestCode+"/jsonString:"+jsonString);
     }
 
 
@@ -131,6 +165,9 @@ public class SzTaskActivity extends BaseTabActivity {
             }
         });
     }
+
+
+
 
     public void onResume() {
         super.onResume();

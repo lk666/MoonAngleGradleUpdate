@@ -16,13 +16,15 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.kymjs.kjframe.utils.StringUtils;
+
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -110,6 +112,8 @@ public class TaskRecordFragment extends BaseFragment
 	@Override
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
+		LogUtil.i("requestCode:---->"+requestCode+"/jsonString:"+jsonString);
+
 		DailyperformanceinfoResultBean resultBean=
 				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
 
@@ -122,6 +126,11 @@ public class TaskRecordFragment extends BaseFragment
 
 	}
 
+	@Override
+	public void onFailureResponse(int requestCode, Throwable t) {
+		LogUtil.i("requestCode:"+requestCode);
+		super.onFailureResponse(requestCode, t);
+	}
 
 	enum SildeDirection {
 		RIGHT, LEFT, NO_SILDE;
@@ -179,8 +188,6 @@ public class TaskRecordFragment extends BaseFragment
 		//TODO 模拟数据
 
 		DailyPerformanceInfoBean infoBean=new DailyPerformanceInfoBean();
-
-
 
 		List<AsignJobBean> asignJobBeanList=new ArrayList<>();
 		AsignJobBean asignJobBean=new AsignJobBean();
@@ -337,18 +344,63 @@ public class TaskRecordFragment extends BaseFragment
 		currentDate=date.toString();
 //		getuserSchDay(currentDate,currentNo);
 
-		try {
-			DateFormat dm= new SimpleDateFormat("yyyy-MM-dd");
-			long times=dm.parse(date.toString()).getTime();
-			getData(times+"");
-			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
+//		try {
+//			DateFormat dm= new SimpleDateFormat("yyyy-MM-dd");
+//			long times=dm.parse(date.toString()).getTime();
+////			getData(times+"");
+//			getData(currentDate);
+//			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
+//
+//			PublicUtil.showToast(dm.format(new Date(times)));
+//		} catch (ParseException e) {
+//			e.printStackTrace();
+//		}
+		searchByKeyword("国");
 
-			PublicUtil.showToast(dm.format(new Date(times)));
-		} catch (ParseException e) {
-			e.printStackTrace();
+
+//		SzApi.searchByKeyword("国",userSchDayHandler);
+
+
+
+	}
+
+
+
+
+
+	///另一种方式请求
+	AsyncHttpResponseHandler userSchDayHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+
+		public void onStart(){
+			super.onStart();
 		}
 
+		public void onFinish(){
+			super.onFinish();
+		}
 
+		@Override
+		public void onSuccess(int statusCode, Header[] headers, String responseString) {
+			LogUtil.i("onSuccess responseString====="+responseString);
+		}
+
+		@Override
+		public void onFailure(int statusCode, Header[] headers, String responseString,
+							  Throwable throwable) {
+			PublicUtil.showToast("API 错误："+statusCode);
+			LogUtil.i("onFailure ====="+responseString);
+		}
+	};
+
+
+
+
+
+	private void searchByKeyword(String queryStr){
+		if (!StringUtils.isEmpty(queryStr)) {
+			showWaitDialog();
+			SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
+		}
 	}
 
 	private void getData(String date){

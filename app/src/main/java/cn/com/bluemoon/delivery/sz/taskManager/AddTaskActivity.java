@@ -43,6 +43,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
@@ -87,7 +88,9 @@ public class AddTaskActivity extends BaseActivity{
     private final int itemSize=10;
     private int itemTag=0;
 
-    private   SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+    private SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+
+    private final int USERSUPERIORINFO=1;
 
     @Override
     protected int getLayoutId() {
@@ -100,7 +103,6 @@ public class AddTaskActivity extends BaseActivity{
         currentDate=getIntent().getStringExtra(CURRENTDATA);
         taskOperateType=getIntent().getIntExtra("TASKOPERATETYPE",0);
 
-
     }
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
@@ -108,6 +110,11 @@ public class AddTaskActivity extends BaseActivity{
 //        ClientStateManager.setUserName(getUserName());
 //        MobclickAgent.onProfileSignIn(getUserName());
 //        toMainActivity();
+        switch (requestCode){
+            case 1://
+                break;
+
+        }
     }
 
     @Override
@@ -292,6 +299,14 @@ public class AddTaskActivity extends BaseActivity{
         }
         showWaitDialog();
         DeliveryApi.ssoLogin(name, psw, getNewHandler(0, ResultToken.class));
+    }
+
+
+    private void getUserAndSuperiorInfo(String account){
+        if (!StringUtils.isEmpty(account)) {
+            showWaitDialog();
+            SzApi.getUserAndSuperiorInfo(account, getNewHandler(USERSUPERIORINFO, ResultToken.class));
+        }
     }
 
 
