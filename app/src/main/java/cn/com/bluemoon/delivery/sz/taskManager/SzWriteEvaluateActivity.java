@@ -378,7 +378,9 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             default:
                 break;
         }
+
     }
+
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
@@ -400,12 +402,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     public void onFailureResponse(int requestCode, Throwable t) {
         super.onFailureResponse(requestCode, t);
         LogUtil.i("onFailureResponse--result--" + t.getMessage());
+        mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
         switch (requestCode) {
             case REQUEST_CODE_SUBMIT_DAY_JOBS_RATING:
                 mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
                 break;
             case REQUEST_CODE_SUBMIT_REJECT:
-                mHandle.sendEmptyMessage(SUBMIT_REJECT_FAIL);
+                mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
                 break;
             default:
                 break;

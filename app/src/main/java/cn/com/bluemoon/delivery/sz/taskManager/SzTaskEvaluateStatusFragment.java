@@ -114,7 +114,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     private void loadData() {
         //请求后台数据
         LogUtil.i("loadData--curPage:" + curPage + "--activityType:" + activityType);
-        SzApi.getRateJobsList(curPage + "", 10 + "", activityType + "", getNewHandler(0, ResultGetTaskEvaluateList.class));
+        SzApi.getRateJobsList(curPage + "", 20 + "", activityType + "", getNewHandler(0, ResultGetTaskEvaluateList.class));
     }
 
     private void initListener() {
@@ -192,7 +192,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
-        LogUtil.i("onErrorResponse--result--" + result.getResponseMsg());
+        LogUtil.i("onErrorResponse--ResponseCode:" + result.getResponseCode() + "--ResponseMsg:" + result.getResponseMsg() + "--isSuccess:" + result.isSuccess + "--result:" + result.toString());
         mHandle.sendEmptyMessage(LOAD_DATA_ERROR);
     }
 

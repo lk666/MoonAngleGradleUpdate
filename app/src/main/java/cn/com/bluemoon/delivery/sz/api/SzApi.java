@@ -16,6 +16,7 @@ import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.RateDataInfoBean;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
@@ -92,7 +93,7 @@ public class SzApi {
      **************************************/
     /**
      * desc:满足 新增 和 修改 任务数据
-     * <p>
+     * <p/>
      * submitData 工作任务数据 <单日绩效数据> object asignJobs 里至少保留一条数据
      * token 用户token string
      * type 0:新增 1:修改 string
@@ -123,7 +124,7 @@ public class SzApi {
 
     /**
      * desc  提交评价接口
-     * <p>
+     * <p/>
      * rateData 评价数据[] array<object>
      * work_day_id 任务日计划ID string
      */
@@ -148,7 +149,7 @@ public class SzApi {
 
     /**
      * desc 获取模糊查询员工联系人接口
-     * <p>
+     * <p/>
      * queryStr 模糊查询关键字 string
      */
     public static void searchByKeyword(String queryStr, AsyncHttpResponseHandler handler) {
@@ -166,29 +167,32 @@ public class SzApi {
 
     /**
      * desc 获得任务评价列表
-     * <p>
+     * <p/>
      * currentPage 当前页(从1开始) string
      * pageSize 每页数量 string
      * type 0:待评价 1:已评价
      */
     public static void getRateJobsList(String currentPage, String pageSize, String type, AsyncHttpResponseHandler handler) {
         HashMap<String, Object> params = new HashMap<>();
-        params.putAll(SzApiClientHelper.getParamUrl());
+//        params.putAll(SzApiClientHelper.getParamUrl());
         params.put("currentPage", currentPage);
         params.put("pageSize", pageSize);
         params.put("type", type);
-
+        params.put("token", ClientStateManager.getLoginToken());
         String url = HOST + "getRateJobsListApi";
         if (isDebug) {
-            url = "http://192.168.237.2/wktask-app/work/getRateJobsListApi";
+//            url = "http://192.168.236.1:9002/mockjsdata/26/getRateJobsListApi";
+            url = "http://192.168.237.2/app/work/getRateJobsListApi";
         }
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        LogUtil.i("url:" + url + "--paramsJson:" + jsonString);
+//        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
     }
 
     /**
      * desc 获得单日工作任务列表&月度绩效积分组合接口
-     * <p>
+     * <p/>
      * date 获取数据日期(GMT) string
      * type 0:全部 1:任务列表 2:月度绩效 string
      */
@@ -203,12 +207,13 @@ public class SzApi {
             url = "http://192.168.237.2/app/work/getWorkDetailsApi";
         }
         String jsonString = JSONObject.toJSONString(params);
+        LogUtil.i("url:" + url + "--paramsJson:" + jsonString);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**
      * desc 获得建议详情接口
-     * <p>
+     * <p/>
      * nID 通知ID string
      */
     public static void getSuggestDetail(String nID, AsyncHttpResponseHandler handler) {
@@ -223,7 +228,7 @@ public class SzApi {
 
     /**
      * desc 通过员工工号查询员工信息及直接上级信息
-     * <p>
+     * <p/>
      * account 用户ID string
      * appType [必填] app的类型 string [必填] app的类型: 培训平台:trainingSys 日程会议管理: scheduleSys 工作任务管理:moonAngel
      * token 用户token string
@@ -243,7 +248,7 @@ public class SzApi {
 
     /**
      * desc 驳回接口
-     * <p>
+     * <p/>
      * r_user_id 任务执行者编号（接收建议的人员编号） string
      * rejectBody 驳回内容 string
      * user_id 建议者ID string
