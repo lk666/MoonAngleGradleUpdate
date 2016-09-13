@@ -4,9 +4,11 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -19,12 +21,21 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.kymjs.kjframe.utils.StringUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -37,6 +48,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
@@ -49,6 +61,7 @@ import cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**添加任务页面*/
 public class AddTaskActivity extends BaseActivity{
@@ -80,6 +93,9 @@ public class AddTaskActivity extends BaseActivity{
     private final int itemSize=10;
     private int itemTag=0;
 
+    private SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+
+    private final int USERSUPERIORINFO=1;
 
     @Override
     protected int getLayoutId() {
@@ -89,9 +105,8 @@ public class AddTaskActivity extends BaseActivity{
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         context=AddTaskActivity.this;
-        currentDate=getIntent().getStringExtra("currentDate");
+        currentDate=getIntent().getStringExtra(CURRENTDATA);
         taskOperateType=getIntent().getIntExtra("TASKOPERATETYPE",0);
-
 
     }
     @Override
@@ -100,6 +115,11 @@ public class AddTaskActivity extends BaseActivity{
 //        ClientStateManager.setUserName(getUserName());
 //        MobclickAgent.onProfileSignIn(getUserName());
 //        toMainActivity();
+        switch (requestCode){
+            case 1://
+                break;
+
+        }
     }
 
     @Override
@@ -107,10 +127,13 @@ public class AddTaskActivity extends BaseActivity{
         EventBus.getDefault().register(this);
         initCustomActionBar();
 
-        if (taskOperateType==TASKOPERATETYPE_ADD){//默认最少添加一项
+        if (taskOperateType==TASKOPERATETYPE_ADD){//默认初始 最少添加一项
             tv_dete.setText(currentDate);
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             itemTag++;
+            ttv_totalTime.setText_right(String.valueOf(getAlltaskTimes()+"分钟"));
+
+
 
         }else if(taskOperateType==TASKOPERATETYPE_MODIFY) {//修改
             try {
@@ -152,6 +175,8 @@ public class AddTaskActivity extends BaseActivity{
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             initViewForBean(asignJobBean,itemTag);
             itemTag++;
+            setItemName();
+            ttv_totalTime.setText_right(String.valueOf(getAlltaskTimes()+"分钟"));
         }
     }
 
@@ -161,7 +186,7 @@ public class AddTaskActivity extends BaseActivity{
         TaskViewHolder taskViewHolder=new TaskViewHolder(view);
         taskViewHolder.ttv_taskName.setText_right(asignJobBean.getTask_cont());
         taskViewHolder.ttv_workOutput.setText_right(asignJobBean.getProduce_cont());
-        taskViewHolder.tv_dateStart.setText(asignJobBean.getCreatetime());
+        taskViewHolder.tv_dateStart.setText(asignJobBean.getBegin_time());
         taskViewHolder.tv_dateEnd.setText(asignJobBean.getEnd_time());
         String taskStatus=asignJobBean.getState();
         switch (taskStatus){
@@ -228,7 +253,25 @@ public class AddTaskActivity extends BaseActivity{
                 getActionBar(), new IActionBarListener() {
             @Override
             public void onBtnRight(View v) {
-                getAllTastContent();
+                List<AsignJobBean> asignJobBeanList=getAllTaskContent();
+                if (asignJobBeanList!=null && !asignJobBeanList.isEmpty()){
+                    boolean isOverLapBoolean=false;
+                    for (int i = 0; i < asignJobBeanList.size(); i++) {
+                        for (int j = i+1; j < asignJobBeanList.size(); j++) {
+                            isOverLapBoolean=isOverlap(
+                                    asignJobBeanList.get(i).getBegin_time(),
+                                    asignJobBeanList.get(i).getEnd_time(),
+                                    asignJobBeanList.get(j).getBegin_time(),
+                                    asignJobBeanList.get(j).getEnd_time());
+    //                            LogUtil.i("时间交集1111：-----》" +isOverLapBoolean);
+
+                            if (isOverLapBoolean==true){
+                                LogUtil.i("时间交集：-----》" +isOverLapBoolean);
+                                return;
+                            }
+                        }
+                    }
+                }
             }
             @Override
             public void onBtnLeft(View v) {
@@ -250,6 +293,8 @@ public class AddTaskActivity extends BaseActivity{
     @Override
     public void initData() {
 
+        searchByKeyword("国");
+
     }
 
 
@@ -264,13 +309,55 @@ public class AddTaskActivity extends BaseActivity{
     }
 
 
+    private void getUserAndSuperiorInfo(String account){
+        if (!StringUtils.isEmpty(account)) {
+            showWaitDialog();
+            SzApi.getUserAndSuperiorInfo(account, getNewHandler(USERSUPERIORINFO, ResultToken.class));
+        }
+    }
+
+
+    private void searchByKeyword(String queryStr){
+        if (!StringUtils.isEmpty(queryStr)) {
+            showWaitDialog();
+            SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
+        }
+    }
+
+    ///另一种方式请求
+    AsyncHttpResponseHandler userSchDayHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+
+        public void onStart(){
+            super.onStart();
+        }
+
+        public void onFinish(){
+            super.onFinish();
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtil.i("onSuccess responseString====="+responseString);
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            PublicUtil.showToast("API 错误："+statusCode);
+            LogUtil.i("onFailure ====="+responseString);
+        }
+    };
+
+
     @OnClick({R.id.tv_addTask, R.id.tv_dete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_addTask:
                 ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
                 itemTag++;
+//                initNextItemTimes(itemTag);
                 setItemName();
+                ttv_totalTime.setText_right(String.valueOf(getAlltaskTimes())+"分钟");
                 if (itemTag==itemSize) {
                     tv_addTask.setVisibility(View.GONE);
                 }
@@ -288,9 +375,80 @@ public class AddTaskActivity extends BaseActivity{
         }
     }
 
+
+
+    private  boolean isOverlap(String startdate1, String enddate1,String startdate2, String enddate2) {
+        Date leftStartDate = null;
+        Date leftEndDate = null;
+        Date rightStartDate = null;
+        Date rightEndDate = null;
+        try {
+            leftStartDate = format.parse(startdate1);
+            leftEndDate = format.parse(enddate1);
+            rightStartDate = format.parse(startdate2);
+            rightEndDate = format.parse(enddate2);
+
+            LogUtil.i("leftStartDate:"+leftStartDate);
+            LogUtil.i("leftEndDate:"+leftEndDate);
+            LogUtil.i("rightStartDate:"+rightStartDate);
+            LogUtil.i("rightEndDate:"+rightEndDate);
+
+//            leftStartDate:Thu Jan 01 08:30:00 GMT+08:00 1970
+//            leftEndDate:Thu Jan 01 09:30:00 GMT+08:00 1970
+//            rightStartDate:Thu Jan 01 08:20:00 GMT+08:00 1970
+//            rightEndDate:Thu Jan 01 10:00:00 GMT+08:00 1970
+
+        } catch (ParseException e) {
+            return false;
+        }
+
+        return
+                ((leftStartDate.getTime() >= rightStartDate.getTime())
+                        && leftStartDate.getTime() < rightEndDate.getTime())
+                        ||
+                        ((leftStartDate.getTime() > rightStartDate.getTime())
+                                && leftStartDate.getTime() <= rightEndDate.getTime())
+                        ||
+                        ((rightStartDate.getTime() >= leftStartDate.getTime())
+                                && rightStartDate.getTime() < leftEndDate.getTime())
+                        ||
+                        ((rightStartDate.getTime() > leftStartDate.getTime())
+                                && rightStartDate.getTime() <= leftEndDate.getTime());
+
+    }
+
+
+
+    /**新添任务*/
     public View initTaskItemView(final int Tag){
+        /**第二项时间为第一项时间的结束时间加1*/
+        String prevDataStart = "",prevDataEnd="";
+        int currTag=itemTag-1;
+        LogUtil.i("currTag："+currTag+"/itemTag："+itemTag);
+        if (currTag>=0){
+            TaskViewHolder taskViewHolder=
+                    new TaskViewHolder(ll_task_item_conent.getChildAt(currTag));//前一栏时间
+            prevDataStart= taskViewHolder.tv_dateStart.getText().toString();
+            prevDataEnd= taskViewHolder.tv_dateEnd.getText().toString();
+            try {
+                DateFormat dm= new SimpleDateFormat("HH:mm");
+                long endTimes= dm.parse(prevDataEnd).getTime();
+                endTimes=endTimes+1000*60;
+                LogUtil.i("times:"+endTimes);
+                prevDataStart=dm.format(new Date(endTimes));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+        }
+
         final View view= LayoutInflater.from(context).inflate(R.layout.activity_sz_add_item,null);
         final TaskViewHolder taskViewHolder=new TaskViewHolder(view);
+
+        if (!TextUtils.isEmpty(prevDataStart)){
+            taskViewHolder.tv_dateStart.setText(prevDataStart);
+            taskViewHolder.tv_dateEnd.setText(prevDataStart);
+        }
+
         taskViewHolder.ttv_taskName.setOnRightTextOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -328,22 +486,30 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 String time=taskViewHolder.tv_dateStart.getText().toString();
-                String[] times=time.split(":");
-                int currHour=Integer.parseInt(times[0]);
-                int currMin=Integer.parseInt(times[1]);
+                int currHour=8,currMin=0;
+                if (!TextUtils.isEmpty(time)){
+                    String[] times=time.split(":");
+                     currHour=Integer.parseInt(times[0]);
+                     currMin=Integer.parseInt(times[1]);
+                }
 
-                showTimeDialog(taskViewHolder.tv_dateStart,currHour,currMin,"开始时间");
+                String endTimes=taskViewHolder.tv_dateEnd.getText().toString();
+                showTimeDialog(taskViewHolder,endTimes,currHour,currMin,"开始时间");
             }
         });
         taskViewHolder.tv_dateEnd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String time=taskViewHolder.tv_dateEnd.getText().toString();
-                String[] times=time.split(":");
-                int currHour=Integer.parseInt(times[0]);
-                int currMin=Integer.parseInt(times[1]);
-
-                showTimeDialog(taskViewHolder.tv_dateEnd,currHour,currMin,"结束时间");
+                int currHour=8,currMin=0;
+                if (!TextUtils.isEmpty(time)) {
+                    String[] times = time.split(":");
+                     currHour = Integer.parseInt(times[0]);
+                     currMin = Integer.parseInt(times[1]);
+                }
+                //传入开始时间，进行时间比较
+                String startTimes=taskViewHolder.tv_dateStart.getText().toString();
+                showTimeDialogEnd(taskViewHolder,startTimes,currHour,currMin,"结束时间");
             }
         });
 
@@ -351,19 +517,44 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 if (itemTag>1){
-                    showDeleteAnimator(view);
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                             //                添加动画
-                            ll_task_item_conent.removeView(view);
-                            itemTag--;
-                            setItemName();
-                                if (itemTag<10) {
-                                    tv_addTask.setVisibility(View.VISIBLE);
+
+                    CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(context);
+                    dialog.setTitle(R.string.app_name);
+                    dialog.setMessage(getString(R.string.sz_task_delete_dialog_hint,
+                            taskViewHolder.ttv_taskName.getTv_leftName().getText().toString()+":"+
+                            taskViewHolder.ttv_taskName.getTv_rightContent().getText().toString()));
+                    dialog.setPositiveButton(R.string.btn_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    showDeleteAnimator(view);
+                                    mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //                添加动画
+                                            ll_task_item_conent.removeView(view);
+                                            itemTag--;
+                                            setItemName();
+                                            ttv_totalTime.setText_right(String.valueOf(getAlltaskTimes()+"分钟"));
+                                            if (itemTag<10) {
+                                                tv_addTask.setVisibility(View.VISIBLE);
+                                            }
+                                        }
+                                    },400);
+                                    dialog.dismiss();
                                 }
-                        }
-                    },400);
+                            });
+                    dialog.setNegativeButton(R.string.btn_cancel,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+
+                                    dialog.dismiss();
+                                }
+                            });
+                    dialog.show();
 
                 }else{
                     PublicUtil.showToast("至少有一项任务！");
@@ -415,9 +606,15 @@ public class AddTaskActivity extends BaseActivity{
     }
 
     /**
-     * 显示时间
+     * 显示时间 开始时间
+     * @param taskViewHolder 赋值控件
+     * @param endTimes 结束时间 当开始时间大于结事时间时。把结束时间设为跟开始一样
+     * @param currHour 传递过来的当前小时
+     * @param currMin 传递过来的当前分钟
+     * @param timeTilte 标题
      */
-    private void showTimeDialog(final TextView textView,int currHour,int currMin,String timeTilte){
+    private void showTimeDialog(final TaskViewHolder taskViewHolder,final String endTimes,
+                                int currHour,int currMin,String timeTilte){
         final AlertDialog dialog = new AlertDialog.Builder(AddTaskActivity.this)
                 .create();
         dialog.show();
@@ -461,9 +658,117 @@ public class AddTaskActivity extends BaseActivity{
                     finalMins="0"+finalMins;
                 }
 
-                LogUtil.i("选取后的时间："+finalHours+":"+finalMins);
-                textView.setText(finalHours+":"+finalMins);
+                try {
+                    String finalTimes=finalHours+":"+finalMins;
+//                进行时间的比较，结束时间不可小于开始时间
+                    long start = format.parse(finalTimes).getTime();
+                    long end = format.parse(endTimes).getTime();
+
+                    if (end<start){
+//                        PublicUtil.showToast("结束时间不可小于开始时间！");
+                        taskViewHolder.tv_dateEnd.setText(finalTimes);
+                    }
+                        LogUtil.i("选取后的时间："+finalTimes);
+                        taskViewHolder.tv_dateStart.setText(finalTimes);
+                        /**计算总时长*/
+                        ttv_totalTime.setText_right(String.valueOf(getAlltaskTimes()+"分钟"));
+                    dialog.cancel();
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
                 dialog.cancel();
+            }
+        });
+        LinearLayout cancelLayout = (LinearLayout) window.findViewById(R.id.view_none);
+        cancelLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                dialog.cancel();
+                return false;
+            }
+        });
+    }
+    /**
+     * 显示时间 结束时间
+     * @param taskViewHolder 赋值控件
+     * @param startTimes 开始时间
+     * @param currHour 传递过来的当前小时
+     * @param currMin 传递过来的当前分钟
+     * @param timeTilte 标题
+     */
+    private void showTimeDialogEnd(final TaskViewHolder taskViewHolder,final String startTimes,
+                                   int currHour,int currMin,String timeTilte){
+        final AlertDialog dialog = new AlertDialog.Builder(AddTaskActivity.this)
+                .create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        // 设置布局
+        window.setContentView(R.layout.activity_task_time_datapick);
+        // 设置宽高
+        window.setLayout(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置弹出的动画效果
+        window.setWindowAnimations(R.style.AnimBottom);
+
+        hour = (WheelView) window.findViewById(R.id.wv_date_time_hour);
+        initHour();
+        mins = (WheelView) window.findViewById(R.id.wv_date_time_min);
+        initMins();
+        // 设置当前时间
+
+        LogUtil.i("当前时间："+currHour+":"+currMin);
+        hour.setCurrentItem(currHour);
+        mins.setCurrentItem(currMin);
+        hour.setVisibleItems(7);
+        mins.setVisibleItems(7);
+
+        // 设置监听
+        Button btn_commit = (Button) window.findViewById(R.id.btn_commit);
+        Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
+        TextView tv_timeTilte = (TextView) window.findViewById(R.id.tv_timeTilte);
+        tv_timeTilte.setText(timeTilte);
+        btn_commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                int finalHour=hour.getCurrentItem();
+                int finalMin=mins.getCurrentItem();
+                String finalHours=""+finalHour;
+                String finalMins=""+finalMin;
+                if (finalHour<10){
+                    finalHours="0"+finalHours;
+                }
+                if (finalMin<10){
+                    finalMins="0"+finalMins;
+                }
+
+
+                try {
+                    String finalTimes=finalHours+":"+finalMins;
+//                进行时间的比较，结束时间不可小于开始时间
+                    long start = format.parse(startTimes).getTime();
+                    long end = format.parse(finalTimes).getTime();
+
+                    if (end<start){
+                        PublicUtil.showToast("结束时间不可小于开始时间！");
+
+                    }else{
+                        LogUtil.i("选取后的时间："+finalTimes);
+                        taskViewHolder.tv_dateEnd.setText(finalTimes);
+                        /**计算总时长*/
+                        ttv_totalTime.setText_right(String.valueOf(getAlltaskTimes()+"分钟"));
+                        dialog.cancel();
+                    }
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+
+
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -495,19 +800,59 @@ public class AddTaskActivity extends BaseActivity{
             }
         }
     }
+
+    /**遍历所有的item 算出总的时长*/
+    public long getAlltaskTimes(){
+        long timeTotal=0;
+        for (int i = 0; i < itemTag; i++) {
+            View view =ll_task_item_conent.getChildAt(i);
+            if (view!=null) {
+                TaskViewHolder taskViewHolder=new TaskViewHolder(view);
+                String timeStart=taskViewHolder.tv_dateStart.getText().toString();
+                String timeEnd=taskViewHolder.tv_dateEnd.getText().toString();
+
+                try {
+                    long start = format.parse(timeStart).getTime();
+                    long end = format.parse(timeEnd).getTime();
+                    long minute =(end-start)/(1000*60);
+                    LogUtil.i("相差分钟数为----》："+minute);
+                    timeTotal+=minute;
+
+                } catch (ParseException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return timeTotal;
+    }
+
     
     /**遍历所有的item 得到所有的数据*/
-    public List<AsignJobBean> getAllTastContent(){
+    public List<AsignJobBean> getAllTaskContent(){
+
         List<AsignJobBean> asignJobBeanList=new ArrayList<AsignJobBean>();
         for (int i = 0; i < itemTag; i++) {
             AsignJobBean asignJobBean=new AsignJobBean();
             View view =ll_task_item_conent.getChildAt(i);
             if (view!=null) {
                 TaskViewHolder taskViewHolder=new TaskViewHolder(view);
-                asignJobBean.setTask_cont(
-                        taskViewHolder.ttv_taskName.getTv_rightContent().getText().toString());
-                asignJobBean.setProduce_cont(
-                        taskViewHolder.ttv_workOutput.getTv_rightContent().getText().toString());
+
+                String taskContent= taskViewHolder.ttv_taskName.getTv_rightContent().getText().toString();
+                if (TextUtils.isEmpty(taskContent)){
+                    PublicUtil.showToast(String.format("请输入< %s >的任务内容！",
+                            taskViewHolder.ttv_taskName.getTv_leftName().getText().toString()));
+                    return null;
+                }
+                asignJobBean.setTask_cont(taskContent);
+
+                String produce_cont=taskViewHolder.ttv_workOutput.getTv_rightContent().getText().toString();
+                if (TextUtils.isEmpty(taskContent)){
+                    PublicUtil.showToast(String.format("请输入< %s >的工作输出内容！",
+                            taskViewHolder.ttv_workOutput.getTv_leftName().getText().toString()));
+                    return null;
+                }
+                asignJobBean.setProduce_cont(produce_cont);
+
                 asignJobBean.setBegin_time(taskViewHolder.tv_dateStart.getText().toString());
                 asignJobBean.setEnd_time(taskViewHolder.tv_dateEnd.getText().toString());
                 int checkedStatus=0;

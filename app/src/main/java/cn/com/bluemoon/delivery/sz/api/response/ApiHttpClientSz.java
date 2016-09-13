@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.app.api;
+package cn.com.bluemoon.delivery.sz.api.response;
 
 import android.content.Context;
 
@@ -14,9 +14,11 @@ import java.util.Locale;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
+import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 
-public class ApiHttpClient {
+public class ApiHttpClientSz {
 
 //	public static String BuildConfig.HOST;
 //	public static String BuildConfig.API_URL;
@@ -39,7 +41,7 @@ public class ApiHttpClient {
 
     public static AsyncHttpClient client;
 
-    public ApiHttpClient() {
+    public ApiHttpClientSz() {
     }
 
     public static AsyncHttpClient getHttpClient() {
@@ -63,8 +65,8 @@ public class ApiHttpClient {
     }
 
     public static String getAbsoluteApiUrl(String partUrl) {
-        String url = String.format(BuildConfig.API_URL, partUrl);
-        // LogUtils.d("BASE_CLIENT", "request:" + url);
+        String url = String.format(SzApi.HOST, partUrl);
+         LogUtils.d("FINAL-BASE_CLIENT", "request:" + url);
         return url;
     }
 
@@ -111,32 +113,11 @@ public class ApiHttpClient {
                     .append(partUrl).append("----->").append(jsonString)
                     .toString());
         }
-        client.post(context, getAbsoluteApiUrl(partUrl), entity,
-                "application/json", handler);
+        client.post(context, getAbsoluteApiUrl(partUrl), entity,"application/json", handler);
 
         log(new StringBuilder("POST ").append(partUrl).append("----->")
                 .append(jsonString).toString());
     }
-    public static void post_sz(Context context, String partUrl, String jsonString,
-                            AsyncHttpResponseHandler handler) {
-
-        ByteArrayEntity entity = null;
-        try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-
-            // TODO Auto-generated catch block
-            log(new StringBuilder("POST UnsupportedEncodingException ")
-                    .append(partUrl).append("----->").append(jsonString)
-                    .toString());
-        }
-        client.post(context, partUrl, entity,
-                "application/json", handler);
-
-        log(new StringBuilder("POST ").append(partUrl).append("----->")
-                .append(jsonString).toString());
-    }
-
 
     public static void post(String partUrl, int requestCode, AsyncHttpResponseHandler handler) {
         client.post(getAbsoluteApiUrl(partUrl), requestCode, handler);
@@ -146,9 +127,9 @@ public class ApiHttpClient {
     public static void post(String partUrl, RequestParams params, int requestCode,
                             AsyncHttpResponseHandler handler) {
 
-        client.post(getAbsoluteApiUrl(partUrl), params, requestCode, handler);
         log(new StringBuilder("POST ").append(partUrl).append("&")
                 .append(params).toString());
+        client.post(getAbsoluteApiUrl(partUrl), params, requestCode, handler);
     }
 
     public static void post(Context context, String partUrl, String jsonString, int requestCode,

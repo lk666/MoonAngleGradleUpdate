@@ -23,19 +23,29 @@
     <TextView
         android:id="@+id/tv_rightContent"
         android:layout_toRightOf="@+id/tv_leftName"
+        android:layout_toLeftOf="@+id/iv_arrow"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:drawablePadding="5dp"
         android:layout_marginLeft="5dp"
-        android:drawableRight="@mipmap/icon_right"
         android:textColor="@color/task_item_right_text_color"
         android:text="1234"
         android:ems="8"
+        android:layout_marginRight="5dp"
         android:ellipsize="end"
-
         />
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_right"
+        android:layout_alignParentRight="true"
+
+        android:layout_centerVertical="true"
+        />
+
+
 </RelativeLayout>
 
 
