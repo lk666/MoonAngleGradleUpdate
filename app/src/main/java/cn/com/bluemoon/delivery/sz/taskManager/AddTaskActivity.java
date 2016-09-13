@@ -21,6 +21,11 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -288,6 +293,8 @@ public class AddTaskActivity extends BaseActivity{
     @Override
     public void initData() {
 
+        searchByKeyword("国");
+
     }
 
 
@@ -308,6 +315,38 @@ public class AddTaskActivity extends BaseActivity{
             SzApi.getUserAndSuperiorInfo(account, getNewHandler(USERSUPERIORINFO, ResultToken.class));
         }
     }
+
+
+    private void searchByKeyword(String queryStr){
+        if (!StringUtils.isEmpty(queryStr)) {
+            showWaitDialog();
+            SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
+        }
+    }
+
+    ///另一种方式请求
+    AsyncHttpResponseHandler userSchDayHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+
+        public void onStart(){
+            super.onStart();
+        }
+
+        public void onFinish(){
+            super.onFinish();
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtil.i("onSuccess responseString====="+responseString);
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            PublicUtil.showToast("API 错误："+statusCode);
+            LogUtil.i("onFailure ====="+responseString);
+        }
+    };
 
 
     @OnClick({R.id.tv_addTask, R.id.tv_dete})

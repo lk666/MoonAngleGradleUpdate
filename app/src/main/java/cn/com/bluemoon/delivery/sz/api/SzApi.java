@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.sz.api;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 
 import org.apache.http.entity.ByteArrayEntity;
 
@@ -13,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.sz.api.response.ApiHttpClientSz;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
@@ -38,13 +36,9 @@ public class SzApi {
 
     static {
         client = new AsyncHttpClient();
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(AppContext.getInstance());
-        client.setCookieStore(myCookieStore);
         client.setConnectTimeout(20000);
         client.setResponseTimeout(20000);
 
-        ApiHttpClientSz.setHttpClient(client);
-        ApiHttpClientSz.setCookie(ApiHttpClient.getCookie(AppContext.getInstance()));
     }
 
     /*  获取用户单日日程列表 */
@@ -172,7 +166,7 @@ public class SzApi {
 //        if (isDebug) {
 //            url = "http://192.168.237.2/wktask-app/user/search";
 //        }
-        client.post(AppContext.getInstance(), "http://192.168.237.2/app/user/search",
+        client.post(AppContext.getInstance(), String.format(HOST,url),
                 getEntity(params), "application/json", handler);
     }
 
@@ -195,7 +189,8 @@ public class SzApi {
             url = "http://192.168.237.2/wktask-app/work/getRateJobsListApi";
         }
         String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
+        client.post(AppContext.getInstance(), String.format(HOST,url),
+                getEntity(params),"application/json", handler);
     }
 
 
@@ -273,16 +268,15 @@ public class SzApi {
      */
     public static void getWorkDetailsApi(String date, int type,
                                                            AsyncHttpResponseHandler handler) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, Object> params = new HashMap<String, Object>();
         params.put("date", date);
         params.put("type", type+"");
         params.put("token", ClientStateManager.getLoginToken());
         params.putAll(SzApiClientHelper.getParamUrl());
 
-        String jsonString = JSONObject.toJSONString(params);
-
         String url ="app/work/getWorkDetailsApi";
-        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
+        client.post(AppContext.getInstance(), String.format(HOST,url),
+                getEntity(params), "application/json", handler);
     }
 
     /**
@@ -291,13 +285,15 @@ public class SzApi {
      * @param account 账号
      */
     public static void getuserinfo(String account,AsyncHttpResponseHandler handler) {
-        Map<String, String> params = new HashMap<String, String>();
+        Map<String, Object> params = new HashMap<String, Object>();
         params.put("account", account);
         params.put("token", ClientStateManager.getLoginToken());
         params.putAll(SzApiClientHelper.getParamUrl());
         String jsonString = JSONObject.toJSONString(params);
         String url ="app/work/getuserinfo";
-        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
+//        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
+        client.post(AppContext.getInstance(), String.format(HOST,url),
+                getEntity(params), "application/json", handler);
     }
 
 

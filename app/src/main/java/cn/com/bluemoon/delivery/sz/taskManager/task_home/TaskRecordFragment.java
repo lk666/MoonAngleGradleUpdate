@@ -24,7 +24,11 @@ import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 import org.kymjs.kjframe.utils.StringUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -344,27 +348,23 @@ public class TaskRecordFragment extends BaseFragment
 		currentDate=date.toString();
 //		getuserSchDay(currentDate,currentNo);
 
-//		try {
-//			DateFormat dm= new SimpleDateFormat("yyyy-MM-dd");
-//			long times=dm.parse(date.toString()).getTime();
-////			getData(times+"");
-//			getData(currentDate);
-//			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
-//
-//			PublicUtil.showToast(dm.format(new Date(times)));
-//		} catch (ParseException e) {
-//			e.printStackTrace();
-//		}
-		searchByKeyword("国");
+		try {
+			DateFormat dm= new SimpleDateFormat("yyyy-MM-dd");
+			long times=dm.parse(date.toString()).getTime();
+//			getData(times+"");
+			getData(times+"");
+			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
 
+			PublicUtil.showToast(dm.format(new Date(times)));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+//		searchByKeyword("国");
 
 //		SzApi.searchByKeyword("国",userSchDayHandler);
 
 
-
 	}
-
-
 
 
 

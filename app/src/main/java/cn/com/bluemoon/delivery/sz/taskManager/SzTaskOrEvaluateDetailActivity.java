@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -149,7 +148,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
             btn_bottom.setText(R.string.sz_update_task_labe);
             evaluateInfo = (DailyPerformanceInfoBean)
-                    getIntent().getSerializableExtra(ACTIVITY_BEAN_TAYE);
+                    getIntent().getSerializableExtra(ACTIVITY_EXTAR_DATA);
 
             //TODO 模拟数据
             if (evaluateInfo!=null){
