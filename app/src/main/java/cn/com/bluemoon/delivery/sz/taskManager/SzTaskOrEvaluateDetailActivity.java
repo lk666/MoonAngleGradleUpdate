@@ -33,7 +33,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 /**
  * Created by Wan.N
  * Date       2016/9/7
- * Desc       评价详情/任务详情
+ * Desc       评价详情/任务详情页面（二者共用）
  */
 public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
@@ -87,7 +87,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
     private int activityType = -1;//记录需要展示的类型（0;任务详情  1;评价详情）
 
-    public static final String ACTIVITY_BEAN_TAYE = "ACTIVITY_TYPE_BEAN";
+    private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
 
     private TaskOrEvaluateDetailAdapter adapter = null;
     private DailyPerformanceInfoBean evaluateInfo;//记录传入的绩效数据
@@ -196,14 +196,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                 }
             }
         });
-        user_task_lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                SzTaskOrEvaluateDetailActivity.this.toast("test");
-
-
-            }
-        });
     }
 
 
@@ -213,15 +205,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
-    }
-
-    @Override
     public void onResume() {
         super.onResume();
         updateView();
-
     }
 
     private void updateView() {
@@ -232,7 +218,10 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         } else {
             btn_bottom.setText("");
         }
-        layoutBottomBtnArea();
+        if (isFirstLayoutBtns) {
+            layoutBottomBtnArea();
+            isFirstLayoutBtns = false;
+        }
     }
 
     private void layoutBottomBtnArea() {
@@ -285,5 +274,10 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             totalHeight += listItem.getMeasuredHeight();
         }
         return totalHeight;
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+
     }
 }

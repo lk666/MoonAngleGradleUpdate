@@ -49,6 +49,7 @@
         android:layout_below="@+id/top_divider"
         android:layout_marginTop="@dimen/space_10"
         android:dividerHeight="10dp"
+        android:listSelector="@android:color/transparent"
         android:scrollbars="none" />
 
 </RelativeLayout>

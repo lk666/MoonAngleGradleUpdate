@@ -198,6 +198,42 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         initListener();
     }
 
+
+    private void initListener() {
+        btn_advice.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //填写建议信息
+                Bundle bundle = new Bundle();
+                bundle.putInt("intentNum", EVENT_ACTION_TYPE_ADVICE);
+                bundle.putInt("maxTextLenght", 500);
+                PageJumps.PageJumps(context, InputToolsActivity.class, bundle);
+            }
+        });
+        btn_sure.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                new AngelAlertDialog.Builder(SzWriteEvaluateActivity.this).
+                        setMessage(R.string.sz_update_evaluate_dialog_title).
+                        setCancelable(true).
+                        setDismissable(true).
+                        setNegativeButton(R.string.dialog_cancel, null).
+                        setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // 提交评价信息
+                                submitEvaluate();
+                            }
+                        }).show();
+            }
+        });
+    }
+
+    @Override
+    public void initData() {
+
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -224,6 +260,155 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             } else {
                 evaluateadapter.updateAdapter(asignJobs);
             }
+        }
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getEventAdviceMsg(EventMessageBean messageBean) {
+        if (messageBean != null) {
+            LogUtil.i("eventbus返会数据--messageBean" + messageBean.toString());
+            if (String.valueOf(EVENT_ACTION_TYPE_ADVICE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+                asignJobs = evaluateadapter.getDatas();
+                String rejectContent = messageBean.getEventMsgContent();
+                //TODO 需要将驳回的建议内容一并提交服务器
+                LogUtil.i("驳回的内容：" + rejectContent);
+                SzApi.submitReject(evaluateInfo.getUser().getUID(), rejectContent, evaluateInfo.getReviewer().getuID(), evaluateInfo.getReviewer().getuName(),
+                        evaluateInfo.getWork_date(), evaluateInfo.getWork_day_id(), getNewHandler(REQUEST_CODE_SUBMIT_REJECT, ResultBase.class));
+
+            } else if (String.valueOf(EVENT_ACTION_TYPE_EVALUATE_CONTENT).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+                //将填写的评价内容刷新显示到页面
+                String position = messageBean.getReMark();//填写评价内容的itemview的position
+                String reviewContent = messageBean.getEventMsgContent();//填写的评价内容
+                LogUtil.i("填写了" + position + "的评价内容" + "--" + reviewContent);
+                asignJobs = evaluateadapter.getDatas();
+                asignJobs.get(Integer.valueOf(position)).setReview_cont(reviewContent);
+                evaluateadapter.updateAdapter(asignJobs);
+            } else if (String.valueOf(EVENT_ACTION_TYPE_QUALITY_SCORE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+                // 将评分结果刷新显示到页面
+                String score = messageBean.getEventMsgContent();
+                String position = messageBean.getReMark();//评分的itemview的position
+                LogUtil.i("评分结果：position:" + position + "--score:" + score);
+                asignJobs = evaluateadapter.getDatas();
+                asignJobs.get(Integer.valueOf(position)).setScore(score);
+                evaluateadapter.updateAdapter(asignJobs);
+            } else {
+
+            }
+        }
+    }
+
+
+    private void submitEvaluate() {
+        List<AsignJobBean> asignJobBeanList = evaluateadapter.getDatas();
+        List<RateDataInfoBean> rateDataInfoBeanList = new ArrayList<>();
+        RateDataInfoBean rateDataInfoBean;
+        for (AsignJobBean asignJobBean : asignJobBeanList) {
+            rateDataInfoBean = new RateDataInfoBean();
+            rateDataInfoBean.setReview_cont(asignJobBean.getReview_cont());
+            rateDataInfoBean.setValid_min(asignJobBean.getValid_min());
+            rateDataInfoBean.setIs_valid(asignJobBean.getIs_valid());
+            rateDataInfoBean.setState(asignJobBean.getState());
+            rateDataInfoBean.setQuality_score(asignJobBean.getQuality_score());
+            rateDataInfoBean.setUsage_time(asignJobBean.getUsage_time());
+            rateDataInfoBean.setWork_task_id(asignJobBean.getWork_task_id());
+            rateDataInfoBeanList.add(rateDataInfoBean);
+        }
+
+        SzApi.submitDayJobsRating(rateDataInfoBeanList, evaluateInfo.getWork_day_id(), getNewHandler(REQUEST_CODE_SUBMIT_DAY_JOBS_RATING, ResultBase.class));
+    }
+
+    private static final int REQUEST_CODE_SUBMIT_DAY_JOBS_RATING = 0x01;//提交评价
+    private static final int REQUEST_CODE_SUBMIT_REJECT = 0x02;//提交驳回建议
+
+    private static final int SUBMIT_EVALUATE_SUCCESS = 0x01;
+    private static final int SUBMIT_EVALUATE_FAIL = 0x02;
+    private static final int SUBMIT_EVALUATE_ERROR = 0x03;
+    private static final int SUBMIT_REJECT_SUCCESS = 0x04;
+    private static final int SUBMIT_REJECT_FAIL = 0x05;
+    private static final int SUBMIT_REJECT_ERROR = 0x06;
+
+    private Handler mHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SUBMIT_EVALUATE_SUCCESS:
+                    LogUtil.i("SUBMIT_EVALUATE_SUCCESS");
+                    finish();
+                    break;
+                case SUBMIT_EVALUATE_FAIL:
+                    LogUtil.i("SUBMIT_EVALUATE_FAIL");
+                    break;
+                case SUBMIT_EVALUATE_ERROR:
+                    LogUtil.i("SUBMIT_EVALUATE_ERROR");
+                    break;
+                case SUBMIT_REJECT_SUCCESS:
+                    LogUtil.i("SUBMIT_REJECT_SUCCESS");
+                    finish();
+                    break;
+                case SUBMIT_REJECT_FAIL:
+                    LogUtil.i("SUBMIT_REJECT_FAIL");
+                    break;
+                case SUBMIT_REJECT_ERROR:
+                    LogUtil.i("SUBMIT_REJECT_ERROR");
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
+        switch (requestCode) {
+            case REQUEST_CODE_SUBMIT_DAY_JOBS_RATING:
+                if (result != null && result.isSuccess && result.getResponseCode() == 100) {
+                    mHandle.sendEmptyMessage(SUBMIT_EVALUATE_SUCCESS);
+                } else {
+                    mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
+                }
+                break;
+            case REQUEST_CODE_SUBMIT_REJECT:
+                if (result != null && result.isSuccess && result.getResponseCode() == 100) {
+                    mHandle.sendEmptyMessage(SUBMIT_REJECT_SUCCESS);
+                } else {
+                    mHandle.sendEmptyMessage(SUBMIT_REJECT_FAIL);
+                }
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        LogUtil.i("onErrorResponse--result--" + result.getResponseMsg());
+        switch (requestCode) {
+            case REQUEST_CODE_SUBMIT_DAY_JOBS_RATING:
+                mHandle.sendEmptyMessage(SUBMIT_EVALUATE_ERROR);
+                break;
+            case REQUEST_CODE_SUBMIT_REJECT:
+                mHandle.sendEmptyMessage(SUBMIT_REJECT_ERROR);
+                break;
+            default:
+                break;
+        }
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        LogUtil.i("onFailureResponse--result--" + t.getMessage());
+        switch (requestCode) {
+            case REQUEST_CODE_SUBMIT_DAY_JOBS_RATING:
+                mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
+                break;
+            case REQUEST_CODE_SUBMIT_REJECT:
+                mHandle.sendEmptyMessage(SUBMIT_REJECT_FAIL);
+                break;
+            default:
+                break;
         }
     }
 
@@ -278,93 +463,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         return totalHeight;
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getEventAdviceMsg(EventMessageBean messageBean) {
-        if (messageBean != null) {
-            LogUtil.i("eventbus返会数据--messageBean" + messageBean.toString());
-            if (String.valueOf(EVENT_ACTION_TYPE_ADVICE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
-                asignJobs = evaluateadapter.getDatas();
-                //TODO 需要将驳回的建议内容一并提交服务器
-                LogUtil.i("提交的数据集合asignJobs：" + asignJobs.toString());
-
-            } else if (String.valueOf(EVENT_ACTION_TYPE_EVALUATE_CONTENT).equalsIgnoreCase(messageBean.getEventMsgAction())) {
-                //将填写的评价内容刷新显示到页面
-                String position = messageBean.getReMark();//填写评价内容的itemview的position
-                String reviewContent = messageBean.getEventMsgContent();//填写的评价内容
-                LogUtil.i("填写了" + position + "的评价内容" + "--" + reviewContent);
-                asignJobs = evaluateadapter.getDatas();
-                asignJobs.get(Integer.valueOf(position)).setReview_cont(reviewContent);
-                evaluateadapter.updateAdapter(asignJobs);
-            } else if (String.valueOf(EVENT_ACTION_TYPE_QUALITY_SCORE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
-                // 将评分结果刷新显示到页面
-                String score = messageBean.getEventMsgContent();
-                String position = messageBean.getReMark();//评分的itemview的position
-                LogUtil.i("评分结果：position:" + position + "--score:" + score);
-                asignJobs = evaluateadapter.getDatas();
-                asignJobs.get(Integer.valueOf(position)).setScore(score);
-                evaluateadapter.updateAdapter(asignJobs);
-            } else {
-
-            }
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        EventBus.getDefault().unregister(this);
-    }
-
-    private void initListener() {
-        btn_advice.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //填写建议信息
-                Bundle bundle = new Bundle();
-                bundle.putInt("intentNum", EVENT_ACTION_TYPE_ADVICE);
-                bundle.putInt("maxTextLenght", 500);
-                PageJumps.PageJumps(context, InputToolsActivity.class, bundle);
-            }
-        });
-        btn_sure.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AngelAlertDialog.Builder(SzWriteEvaluateActivity.this).
-                        setMessage(R.string.sz_update_evaluate_dialog_title).
-                        setCancelable(true).
-                        setDismissable(true).
-                        setNegativeButton(R.string.dialog_cancel, null).
-                        setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                // 提交评价信息
-                                submitEvaluate();
-                            }
-                        }).show();
-            }
-        });
-    }
-
-    private void submitEvaluate() {
-        List<AsignJobBean> asignJobBeanList = evaluateadapter.getDatas();
-        List<RateDataInfoBean> rateDataInfoBeanList = new ArrayList<>();
-        RateDataInfoBean rateDataInfoBean;
-        for (AsignJobBean asignJobBean : asignJobBeanList) {
-            rateDataInfoBean = new RateDataInfoBean();
-            rateDataInfoBean.setReview_cont(asignJobBean.getReview_cont());
-            rateDataInfoBean.setValid_min(asignJobBean.getValid_min());
-            rateDataInfoBean.setIs_valid(asignJobBean.getIs_valid());
-            rateDataInfoBean.setState(asignJobBean.getState());
-            rateDataInfoBean.setQuality_score(asignJobBean.getQuality_score());
-            rateDataInfoBean.setUsage_time(asignJobBean.getUsage_time());
-            rateDataInfoBean.setWork_task_id(asignJobBean.getWork_task_id());
-            rateDataInfoBeanList.add(rateDataInfoBean);
-        }
-
-        SzApi.submitDayJobsRating(rateDataInfoBeanList, evaluateInfo.getWork_day_id(), getNewHandler(0, ResultBase.class));
-    }
-
-
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
         if (ev.getAction() == MotionEvent.ACTION_DOWN) {
@@ -407,58 +505,8 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     }
 
     @Override
-    public void initData() {
-
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
-
-    private static final int SUBMIT_EVALUATE_SUCCESS = 0x01;
-    private static final int SUBMIT_EVALUATE_FAIL = 0x02;
-    private static final int SUBMIT_EVALUATE_ERROR = 0x03;
-
-    private Handler mHandle = new Handler() {
-        @Override
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case SUBMIT_EVALUATE_SUCCESS:
-                    LogUtil.i("");
-                    finish();
-                    break;
-                case SUBMIT_EVALUATE_FAIL:
-                    LogUtil.i("");
-                    break;
-                case SUBMIT_EVALUATE_ERROR:
-                    LogUtil.i("");
-                    break;
-                default:
-                    break;
-            }
-        }
-    };
-
-    @Override
-    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
-        if (result != null && result.isSuccess && result.getResponseCode() == 100) {
-            mHandle.sendEmptyMessage(SUBMIT_EVALUATE_SUCCESS);
-        } else {
-            mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
-        }
-    }
-
-
-    @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        LogUtil.i("onErrorResponse--result--" + result.getResponseMsg());
-        mHandle.sendEmptyMessage(SUBMIT_EVALUATE_ERROR);
-    }
-
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
-        LogUtil.i("onFailureResponse--result--" + t.getMessage());
-        mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
-    }
-
-
 }
