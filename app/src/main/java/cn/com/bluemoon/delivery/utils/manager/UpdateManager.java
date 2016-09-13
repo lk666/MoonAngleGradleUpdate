@@ -32,6 +32,7 @@ public class UpdateManager {
     private static final String TAG = "UpdateManager";
     private static final int DOWNLOAD = 1;
     private static final int DOWNLOAD_FINISH = 2;
+    private static final int DOWNLOAD_ERROR = 3;
     private static final String NAME_START = "MoonAngel";
     private static final String NAME_END = ".apk";
     private String mSavePath;
@@ -58,6 +59,12 @@ public class UpdateManager {
                     mDownloadDialog.dismiss();
                     installApk();
                     break;
+                case DOWNLOAD_ERROR:
+                    mDownloadDialog.dismiss();
+                    if (callback != null) {
+                        callback.onFailUpdate();
+                    }
+                    break;
                 default:
                     break;
             }
@@ -75,13 +82,13 @@ public class UpdateManager {
 
 
     public void showDownloadDialog() {
+
         try {
             final LayoutInflater inflater = LayoutInflater.from(mContext);
             View v = inflater.inflate(R.layout.update_progress, null);
             mProgress = (ProgressBar) v.findViewById(R.id.progress_update);
             txtTime = (TextView) v.findViewById(R.id.txt_time);
             mProgress.setProgress(0);
-
             CommonAlertDialog.Builder builder = new CommonAlertDialog.Builder(
                     mContext);
             builder.setTitle(R.string.new_version_updating);
@@ -102,9 +109,7 @@ public class UpdateManager {
             new downloadApkThread().start();
         } catch (Exception e) {
             e.printStackTrace();
-            if (callback != null) {
-                callback.onFailUpdate();
-            }
+            mHandler.sendEmptyMessage(DOWNLOAD_ERROR);
         }
 
     }
@@ -138,7 +143,7 @@ public class UpdateManager {
                     }
                     File file = new File(mSavePath);
                     if (!file.exists()) {
-                        file.mkdir();
+                        file.mkdirs();
                     }
                     File apkFile = new File(mSavePath, mSaveName);
                     FileOutputStream fos = new FileOutputStream(apkFile);

@@ -1,11 +1,12 @@
 package cn.com.bluemoon.delivery.module.account;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -13,7 +14,6 @@ import org.kymjs.kjframe.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -22,21 +22,25 @@ import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.ClearEditText;
-import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
-public class LoginActivity extends BaseActivity{
+public class LoginActivity extends BaseActivity {
 
     @Bind(R.id.et_user_name)
     ClearEditText etUserName;
     @Bind(R.id.et_user_psw)
     ClearEditText etUserPsw;
+    @Bind(R.id.txt_toast)
+    TextView txtToast;
+    @Bind(R.id.btn_login)
+    Button btnLogin;
     private String jumpCode;
 
     @Override
     protected int getLayoutId() {
-        return R.layout.login;
+        return R.layout.activity_login;
     }
 
     @Override
@@ -45,6 +49,12 @@ public class LoginActivity extends BaseActivity{
         ClientStateManager.setUserName(getUserName());
         MobclickAgent.onProfileSignIn(getUserName());
         toMainActivity();
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        txtToast.setText(result.getResponseMsg());
+        ViewUtil.showSubmitAmin(btnLogin, txtToast);
     }
 
     @Override
@@ -89,9 +99,10 @@ public class LoginActivity extends BaseActivity{
         etUserName.updateCleanable(0, false);
     }
 
-    private void login(String name,String psw){
+    private void login(String name, String psw) {
         if (StringUtils.isEmpty(name) || StringUtils.isEmpty(psw)) {
-            LibViewUtil.toast(AppContext.getInstance(), AppContext.getInstance().getString(R.string.register_not_empty));
+            txtToast.setText(R.string.login_not_empty);
+            ViewUtil.showSubmitAmin(btnLogin, txtToast);
             return;
         }
         showWaitDialog();
@@ -107,13 +118,10 @@ public class LoginActivity extends BaseActivity{
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
-                login(getUserName(),getUserPsw());
+                login(getUserName(), getUserPsw());
                 break;
             case R.id.txt_forget_psw:
-                Intent intent = new Intent();
-                intent.setClass(this, InputPhoneActivity.class);
-                intent.putExtra("id", getUserName());
-                startActivityForResult(intent, 0);
+                ResetPswActivity.actStart(this, getUserName());
                 break;
         }
     }
@@ -122,45 +130,22 @@ public class LoginActivity extends BaseActivity{
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            new CommonAlertDialog.Builder(this)
-                    .setTitle(R.string.app_name)
-                    .setMessage(R.string.exit_app_msg)
-                    .setPositiveButton(R.string.btn_ok,
-                            new DialogInterface.OnClickListener() {
-
-                                @Override
-                                public void onClick(DialogInterface dialog,
-                                                    int which) {
-                                    // TODO Auto-generated method stub
-                                    LoginActivity.this.finish();
-                                }
-                            }).setNegativeButton(R.string.btn_cancel, null)
-                    .show();
+            DialogUtil.getExitDialog(this).show();
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        switch (resultCode) {
-            case RESULT_OK:
-                setUserName(ClientStateManager.getUserName());
-                break;
-        }
-    }
-
-    public static void actStart(Context context,String jumpCode) {
+    public static void actStart(Context context, String jumpCode) {
         Intent intent = new Intent(context, LoginActivity.class);
-        if(!TextUtils.isEmpty(jumpCode)){
-            intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        if (!TextUtils.isEmpty(jumpCode)) {
+            intent.putExtra(Constants.KEY_JUMP, jumpCode);
         }
         context.startActivity(intent);
     }
 
     public static void actStart(Context context) {
-        actStart(context,null);
+        actStart(context, null);
     }
 
 }

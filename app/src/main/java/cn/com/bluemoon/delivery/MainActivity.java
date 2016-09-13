@@ -108,7 +108,7 @@ public class MainActivity extends SlidingActivity {
         PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
                 PushUtils.getMetaValue(this, "api_key"));
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
         main = this;
         initMenu();
         if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
@@ -401,22 +401,7 @@ public class MainActivity extends SlidingActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(main);
-            dialog.setTitle(R.string.app_name);
-            dialog.setMessage(R.string.exit_app_dialog_msg);
-            dialog.setPositiveButton(R.string.btn_ok,
-                    new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            finish();
-                            manager.finishAllActivity();
-                            MobclickAgent.onProfileSignOff();
-                        }
-                    });
-            dialog.setNegativeButton(R.string.btn_cancel, null);
-            dialog.show();
+            DialogUtil.getExitDialog(this).show();
             return true;
         }
         return super.onKeyDown(keyCode, event);

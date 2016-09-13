@@ -67,7 +67,6 @@ public class Constants {
      * account
      *******************/
 
-    public static final int MODE_PERSON = 0x07;
     public static final int MODE_GENERAL = 0x08;
     public static final int MODE_CHECK = 0x09;
 
