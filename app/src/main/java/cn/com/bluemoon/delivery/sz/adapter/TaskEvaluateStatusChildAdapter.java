@@ -27,14 +27,22 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
 
     public TaskEvaluateStatusChildAdapter(Context cxt, List<AsignJobBean> datas) {
         this.cxt = cxt;
-        this.datas = datas;
+        if (datas == null) {
+            this.datas.clear();
+        } else {
+            this.datas = datas;
+        }
         if (inflater == null && cxt != null) {
             inflater = LayoutInflater.from(cxt);
         }
     }
 
     public void updateAdapter(List<AsignJobBean> datas) {
-        this.datas = datas;
+        if (datas == null) {
+            this.datas.clear();
+        } else {
+            this.datas = datas;
+        }
         notifyDataSetChanged();
     }
 
@@ -72,7 +80,7 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
 
         /**@author jiangyh */
 //        任务记录首页item 展示
-        AsignJobBean asignJobBean=datas.get(position);
+        AsignJobBean asignJobBean = datas.get(position);
 
         viewHolder.getTaskRankNumTv().setText(asignJobBean.getTask_cont());
         viewHolder.getTaskContent().setText(asignJobBean.getProduce_cont());

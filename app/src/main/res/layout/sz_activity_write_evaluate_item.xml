@@ -87,7 +87,18 @@
                 android:textSize="@dimen/text_size_12" />
 
             <TextView
-                android:id="@+id/task_start_end_time_tv"
+                android:id="@+id/task_starttime_tv"
+                style="@style/sz_task_or_evaluate_detail_item_right" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/task_endtime_tv"
                 style="@style/sz_task_or_evaluate_detail_item_right" />
         </LinearLayout>
 
@@ -358,7 +369,7 @@
                 android:src="@mipmap/icon_right" />
 
             <TextView
-                android:id="@+id/do_quality_evaluate_tv"
+                android:id="@+id/do_quality_evaluate_socre_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -404,7 +415,9 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/evaluate_content_right_icon"
+                android:ellipsize="end"
                 android:gravity="center"
+                android:maxWidth="200dp"
                 android:text="@string/sz_do_task_evaluate_content_label2"
                 android:textColor="@color/gray_deep"
                 android:textSize="@dimen/text_size_12" />

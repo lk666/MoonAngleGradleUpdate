@@ -80,8 +80,20 @@
             android:textColor="@color/gray"
             android:textSize="@dimen/text_size_12" />
 
+
         <TextView
-            android:id="@+id/task_start_end_time_tv"
+            android:id="@+id/task_starttime_tv"
+            style="@style/sz_task_or_evaluate_detail_item_right" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="2dp"
+            android:layout_marginRight="2dp"
+            android:text="-" />
+
+        <TextView
+            android:id="@+id/task_endtime_tv"
             style="@style/sz_task_or_evaluate_detail_item_right" />
     </LinearLayout>
 

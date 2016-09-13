@@ -21,10 +21,10 @@
     <ListView
         android:id="@+id/user_task_lv"
         android:layout_width="match_parent"
-        android:descendantFocusability="afterDescendants"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_divider"
         android:background="@color/page_bg_ed"
+        android:descendantFocusability="afterDescendants"
         android:dividerHeight="10dp"
         android:scrollbars="none" />
 

@@ -12,6 +12,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
@@ -19,8 +20,10 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.sz.adapter.TaskEvaluateStatusAdapter;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -77,11 +80,38 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void initData() {
         curPage = 1;
-        loadData();
+//        loadData();
+        loadData2();
+    }
+
+    //TODO 模拟数据
+    private void loadData2() {
+        DailyPerformanceInfoBean dailyPerformanceInfoBean = new DailyPerformanceInfoBean();
+        UserInfoBean userInfoBean = new UserInfoBean();
+        userInfoBean.setUAvatar("https://ps.ssl.qhimg.com/dr/_110_100/t0102672bd8a6bd290e.jpg#1473665509#1473665509");
+        userInfoBean.setUName("去去去");
+        dailyPerformanceInfoBean.setUser(userInfoBean);
+        dailyPerformanceInfoBean.setDay_score("200");
+        dailyPerformanceInfoBean.setDay_valid_min("279");
+        dailyPerformanceInfoBean.setWork_date("2016-09-09");
+        AsignJobBean asignJobBean = new AsignJobBean();
+        asignJobBean.setProduce_cont("asdf今天天气好热");
+        asignJobBean.setTask_cont("今天天气好热");
+        List<AsignJobBean> asignJobBeanList = new ArrayList<>();
+        asignJobBeanList.add(asignJobBean);
+        asignJobBeanList.add(asignJobBean);
+        asignJobBeanList.add(asignJobBean);
+        asignJobBeanList.add(asignJobBean);
+        dailyPerformanceInfoBean.setAsignJobs(asignJobBeanList);
+
+        mEvaluateDatas.add(dailyPerformanceInfoBean);
+        mEvaluateDatas.add(dailyPerformanceInfoBean);
+        mEvaluateDatas.add(dailyPerformanceInfoBean);
+        updateData();
+
     }
 
     private void loadData() {
-        curPage++;
         //请求后台数据
         LogUtil.i("loadData--curPage:" + curPage + "--activityType:" + activityType);
         SzApi.getRateJobsList(curPage + "", 10 + "", activityType + "", getNewHandler(0, ResultGetTaskEvaluateList.class));
@@ -104,6 +134,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Intent intent = null;
+                DailyPerformanceInfoBean itemInfo = mDataAapter.getItem(position);
                 if (activityType == ACTIVITY_TYPE_TO_EVALUATE) {
                     intent = new Intent(getActivity(), SzWriteEvaluateActivity.class);
                     intent.putExtra(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE);
@@ -112,6 +143,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
                     intent.putExtra(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE, SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE_EVALUATE_DETAIL);
                 } else {
                 }
+                intent.putExtra(SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, itemInfo);
                 if (intent != null) {
                     getActivity().startActivity(intent);
                 }
@@ -127,14 +159,13 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
                     evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_SUCCESS");
                     updateData();
+                    curPage++;
                     break;
                 case LOAD_DATA_FAIL:
-                    curPage--;
                     evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_FAIL");
                     break;
                 case LOAD_DATA_ERROR:
-                    curPage--;
                     evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_ERROR");
                     break;
@@ -146,7 +177,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        LogUtil.i("jsonString--" + jsonString);
+        LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
         if (result != null && result.isSuccess && result.getResponseCode() == 100) {
             ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
             mEvaluateDatas.clear();
@@ -161,12 +192,14 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
+        LogUtil.i("onErrorResponse--result--" + result.getResponseMsg());
         mHandle.sendEmptyMessage(LOAD_DATA_ERROR);
     }
 
     @Override
     public void onFailureResponse(int requestCode, Throwable t) {
         super.onFailureResponse(requestCode, t);
+        LogUtil.i("onFailureResponse--result--" + t.getMessage());
         mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
     }
 
@@ -176,8 +209,9 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     private void updateData() {
         if (mDataAapter == null) {
             mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas);
+            evaluate_data_lv.setAdapter(mDataAapter);
         } else {
-            mDataAapter.notifyDataSetChanged();
+            mDataAapter.updateAdapter(mEvaluateDatas);
         }
     }
 

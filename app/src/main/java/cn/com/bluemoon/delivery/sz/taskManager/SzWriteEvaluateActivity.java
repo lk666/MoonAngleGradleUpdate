@@ -5,6 +5,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,21 +31,25 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskWriteEvaluateApater;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.RateDataInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
-import cn.com.bluemoon.delivery.sz.util.UtilTools;
-import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AngelAlertDialog;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
 /**
  * Created by Wan.N
  * Date       2016/9/8
- * Desc      写评价页面
+ * Desc      写评价/修改评价页面
  */
 public class SzWriteEvaluateActivity extends BaseActivity {
 
@@ -99,11 +105,18 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     LinearLayout btn_sure;//确认按钮
 
     private Context context;
+    public static final String ACTIVITY_EXTAR_DATA = "ACTIVITY_EXTAR_DATA";//外部activity携带数据过来的key
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     public static final int ACTIVITY_TYPE_WRTTE_EVALUATE = 0;//给未评价的任务写评价
     public static final int ACTIVITY_TYPE_UPDATE_EVALUATE = 1;//给已评价过的任务修改评价
     private int activityType = -1;//记录需要展示的类型（0;给未评价的任务写评价  1;给已评价过的任务修改评价）
     private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
+
+    private DailyPerformanceInfoBean evaluateInfo;//记录传入的绩效数据
+    private CommonActionBar titleBar;
+
+    private TaskWriteEvaluateApater evaluateadapter;
+    private List<AsignJobBean> asignJobs = new ArrayList<>();
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -113,7 +126,10 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         if (intent.hasExtra(ACTIVITY_TYPE)) {
             activityType = intent.getIntExtra(ACTIVITY_TYPE, -1);
         }
-        LogUtil.i("activityType:" + activityType);
+        if (intent.hasExtra(ACTIVITY_EXTAR_DATA)) {
+            evaluateInfo = (DailyPerformanceInfoBean) intent.getSerializableExtra(ACTIVITY_EXTAR_DATA);
+        }
+        LogUtil.i("activityType:" + activityType + "--evaluateInfo：" + evaluateInfo.toString());
     }
 
     @Override
@@ -130,10 +146,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         } else {
             return "";
         }
-
     }
-
-    private CommonActionBar titleBar;
 
     @Override
     protected void setActionBar(CommonActionBar titleBar) {
@@ -162,31 +175,24 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         build.setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO 提交更新后的评价信息
-                toast("提交修改后的评价信息");
-                finish();
+                // 提交更新后的评价信息
+//                toast("提交修改后的评价信息");
+                submitEvaluate();
             }
         });
         build.show();
 
     }
 
-    private List<Object> datalist = new ArrayList<>();
-    private TaskWriteEvaluateApater evaluateadapter;
-
     @Override
     public void initView() {
-        //
         EventBus.getDefault().register(this);
         //需要填充的按钮布局
         btnAreaLl = (LinearLayout) inflateView(R.layout.sz_write_evaluate_bottom_btn_layout);
         btn_advice = (LinearLayout) btnAreaLl.findViewById(R.id.btn_advice);
         btn_sure = (LinearLayout) btnAreaLl.findViewById(R.id.btn_sure);
-        //TODO 模拟数据
-        datalist.add(new Object());
-        datalist.add(new Object());
-        datalist.add(new Object());
-        evaluateadapter = new TaskWriteEvaluateApater(this, datalist);
+
+        evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
         user_task_lv.setAdapter(evaluateadapter);
 
         initListener();
@@ -203,14 +209,22 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             layoutBottomBtnArea();
             isFirstLayoutBtns = false;
         }
-//        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
-//            titleBar.getTvRightView().setVisibility(View.GONE);
-//        } else if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
-//            titleBar.getTvRightView().setText(R.string.sz_task_sure);
-//            titleBar.getTvRightView().setVisibility(View.VISIBLE);
-//        } else {
-//
-//        }
+        //
+        if (evaluateInfo != null) {
+            UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
+            if (evaluateInfo != null) {
+                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,
+                        R.mipmap.sz_default_user_icon);
+                user_name_tv.setText(evaluateInfoUser.getUName());
+            }
+            asignJobs = evaluateInfo.getAsignJobs();
+            if (evaluateadapter == null) {
+                evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
+                user_task_lv.setAdapter(evaluateadapter);
+            } else {
+                evaluateadapter.updateAdapter(asignJobs);
+            }
+        }
     }
 
     private void layoutBottomBtnArea() {
@@ -269,18 +283,26 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         if (messageBean != null) {
             LogUtil.i("eventbus返会数据--messageBean" + messageBean.toString());
             if (String.valueOf(EVENT_ACTION_TYPE_ADVICE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
+                asignJobs = evaluateadapter.getDatas();
                 //TODO 需要将驳回的建议内容一并提交服务器
+                LogUtil.i("提交的数据集合asignJobs：" + asignJobs.toString());
 
             } else if (String.valueOf(EVENT_ACTION_TYPE_EVALUATE_CONTENT).equalsIgnoreCase(messageBean.getEventMsgAction())) {
-                //TODO 需要将填写的评价内容刷新显示到页面
+                //将填写的评价内容刷新显示到页面
                 String position = messageBean.getReMark();//填写评价内容的itemview的position
-                LogUtil.i("填写了" + position + "的评价内容" + "--" + messageBean.getEventMsgContent());
-                evaluateadapter.notifyDataSetChanged();
+                String reviewContent = messageBean.getEventMsgContent();//填写的评价内容
+                LogUtil.i("填写了" + position + "的评价内容" + "--" + reviewContent);
+                asignJobs = evaluateadapter.getDatas();
+                asignJobs.get(Integer.valueOf(position)).setReview_cont(reviewContent);
+                evaluateadapter.updateAdapter(asignJobs);
             } else if (String.valueOf(EVENT_ACTION_TYPE_QUALITY_SCORE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
-                //TODO 需要将评分结果刷新显示到页面
+                // 将评分结果刷新显示到页面
                 String score = messageBean.getEventMsgContent();
                 String position = messageBean.getReMark();//评分的itemview的position
-                LogUtil.i("评分结果：position:" + position + "--score" + score);
+                LogUtil.i("评分结果：position:" + position + "--score:" + score);
+                asignJobs = evaluateadapter.getDatas();
+                asignJobs.get(Integer.valueOf(position)).setScore(score);
+                evaluateadapter.updateAdapter(asignJobs);
             } else {
 
             }
@@ -315,12 +337,31 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                         setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                //TODO 提交评价信息
-                                finish();
+                                // 提交评价信息
+                                submitEvaluate();
                             }
                         }).show();
             }
         });
+    }
+
+    private void submitEvaluate() {
+        List<AsignJobBean> asignJobBeanList = evaluateadapter.getDatas();
+        List<RateDataInfoBean> rateDataInfoBeanList = new ArrayList<>();
+        RateDataInfoBean rateDataInfoBean;
+        for (AsignJobBean asignJobBean : asignJobBeanList) {
+            rateDataInfoBean = new RateDataInfoBean();
+            rateDataInfoBean.setReview_cont(asignJobBean.getReview_cont());
+            rateDataInfoBean.setValid_min(asignJobBean.getValid_min());
+            rateDataInfoBean.setIs_valid(asignJobBean.getIs_valid());
+            rateDataInfoBean.setState(asignJobBean.getState());
+            rateDataInfoBean.setQuality_score(asignJobBean.getQuality_score());
+            rateDataInfoBean.setUsage_time(asignJobBean.getUsage_time());
+            rateDataInfoBean.setWork_task_id(asignJobBean.getWork_task_id());
+            rateDataInfoBeanList.add(rateDataInfoBean);
+        }
+
+        SzApi.submitDayJobsRating(rateDataInfoBeanList, evaluateInfo.getWork_day_id(), getNewHandler(0, ResultBase.class));
     }
 
 
@@ -331,7 +372,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             if (isShouldHideInput(v, ev)) {
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 if (imm != null) {
-                    imm.hideSoftInputFromWindow(v.getWindowToken(),  InputMethodManager.HIDE_NOT_ALWAYS);
+                    imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
                 v.clearFocus();
 //                v.setFocusable(false);
@@ -370,9 +411,54 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     }
 
+    private static final int SUBMIT_EVALUATE_SUCCESS = 0x01;
+    private static final int SUBMIT_EVALUATE_FAIL = 0x02;
+    private static final int SUBMIT_EVALUATE_ERROR = 0x03;
+
+    private Handler mHandle = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+                case SUBMIT_EVALUATE_SUCCESS:
+                    LogUtil.i("");
+                    finish();
+                    break;
+                case SUBMIT_EVALUATE_FAIL:
+                    LogUtil.i("");
+                    break;
+                case SUBMIT_EVALUATE_ERROR:
+                    LogUtil.i("");
+                    break;
+                default:
+                    break;
+            }
+        }
+    };
+
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
+        LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
+        if (result != null && result.isSuccess && result.getResponseCode() == 100) {
+            mHandle.sendEmptyMessage(SUBMIT_EVALUATE_SUCCESS);
+        } else {
+            mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
+        }
     }
+
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        LogUtil.i("onErrorResponse--result--" + result.getResponseMsg());
+        mHandle.sendEmptyMessage(SUBMIT_EVALUATE_ERROR);
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        LogUtil.i("onFailureResponse--result--" + t.getMessage());
+        mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
+    }
+
 
 }

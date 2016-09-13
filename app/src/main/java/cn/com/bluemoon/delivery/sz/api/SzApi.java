@@ -33,6 +33,8 @@ public class SzApi {
     private static String FORMAT = "json";
     private static String APP_TYPE = "moonAngel";
 
+    private static boolean isDebug = true;
+
     static {
         client = new AsyncHttpClient();
         client.setConnectTimeout(20000);
@@ -118,7 +120,10 @@ public class SzApi {
         params.put("submitData", submitData);
         params.put("type", type);
 
-        String url = HOST +String.format("/wktask-app/work/submitDayJobsApi%s", ApiClientHelper.getParamUrl());
+        String url = HOST + "submitDayJobsApi";
+        if (isDebug) {
+            url = "http://192.168.237.2/wktask-app/work/submitDayJobsApi";
+        }
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -141,6 +146,9 @@ public class SzApi {
         params.put("work_day_id", work_day_id);
 
         String url = HOST + "submitDayJobsRatingApi";
+        if (isDebug) {
+            url = "http://192.168.237.2/wktask-app/work/submitDayJobsRatingApi";
+        }
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -156,6 +164,9 @@ public class SzApi {
         params.put("queryStr", queryStr);
 
         String url = HOST + "search";
+        if (isDebug) {
+            url = "http://192.168.237.2/wktask-app/user/search";
+        }
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -175,6 +186,9 @@ public class SzApi {
         params.put("type", type);
 
         String url = HOST + "getRateJobsListApi";
+        if (isDebug) {
+            url = "http://192.168.237.2/wktask-app/work/getRateJobsListApi";
+        }
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -208,6 +222,9 @@ public class SzApi {
         params.put("account", account);
 
         String url = HOST + "getuserinfo";
+        if (isDebug) {
+            url = "http://192.168.237.2/wktask-app/work/getuserinfo";
+        }
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -234,6 +251,9 @@ public class SzApi {
         params.put("work_day_id", work_day_id);
 
         String url = HOST + "submitRejectApi";
+        if (isDebug) {
+            url = "http://192.168.237.2/wktask-app/work/submitRejectApi";
+        }
         String jsonString = JSONObject.toJSONString(params);
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
