@@ -220,6 +220,11 @@
             android:name=".module.card.SearchProductActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+
+        <activity
+            android:name=".module.card.AlarmModifyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".common.WebViewActivity"
             android:screenOrientation="portrait"
