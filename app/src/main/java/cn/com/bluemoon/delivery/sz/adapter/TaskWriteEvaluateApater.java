@@ -27,6 +27,7 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.taskManager.InputToolsActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.SzWriteEvaluateActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.TaskQualityScoreActivity;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -84,7 +85,8 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final AsignJobBean asignJobBean = datas.get(position);
-        MyViewHolder viewHolder;
+        LogUtil.i("getView:" + position + "--getIs_valid:" + asignJobBean.getIs_valid() + "--getState:" + asignJobBean.getState() + "--getValid_min:" + asignJobBean.getValid_min());
+        final MyViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.sz_activity_write_evaluate_item, null);
             viewHolder = new MyViewHolder(convertView);
@@ -92,42 +94,60 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         } else {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
+        viewHolder.getTaskStateRg().setOnCheckedChangeListener(null);
+        viewHolder.getTaskAvaliabelCb().setOnCheckedChangeListener(null);
+        for (MyTextWatcher mTextWatcher : mListeners) {
+            LogUtil.e("removeTextChangedListener--" + position);
+            viewHolder.getTaskAvaliabelTimeEt().removeTextChangedListener(mTextWatcher);
+        }
+        if (mTextWatcher != null) {
+            mTextWatcher = null;
+        }
+        viewHolder.getTaskQualityEvaluateRl().setOnClickListener(null);
+        viewHolder.getTaskEvaluateContentRl().setOnClickListener(null);
         ///*************************************显示数据************************************************/
         viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
         viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
         viewHolder.getTaskStartTimeTv().setText(asignJobBean.getBegin_time());
         viewHolder.getTaskEndTimeTv().setText(asignJobBean.getEnd_time());
+
         String completeState = asignJobBean.getState();
         if ("0".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_not_start_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
-
             viewHolder.getTaskPauseRb().setChecked(true);
         } else if ("1".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completing_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.btn_blue));
-
             viewHolder.getTaskCompletingRb().setChecked(true);
         } else if ("2".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completed_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
-
             viewHolder.getTaskCompletedRb().setChecked(true);
         } else if ("3".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_pause_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
-
             viewHolder.getTaskPauseRb().setChecked(true);
+        } else {
+            viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completed_label);
+            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
+            viewHolder.getTaskCompletedRb().setChecked(true);
         }
 
         String is_valid = asignJobBean.getIs_valid();
         if ("0".equalsIgnoreCase(is_valid)) {
             viewHolder.getTaskAvaliabelCb().setChecked(true);
-        } else {
+        } else if ("1".equalsIgnoreCase(is_valid)) {
             viewHolder.getTaskAvaliabelCb().setChecked(false);
+        } else {
+            viewHolder.getTaskAvaliabelCb().setChecked(true);
         }
 
-        viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getValid_min());
+        if (TextUtils.isEmpty(asignJobBean.getValid_min())) {
+            viewHolder.getTaskAvaliabelTimeEt().setText("0");
+        } else {
+            viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getValid_min());
+        }
 
         if (!TextUtils.isEmpty(asignJobBean.getScore())) {
             viewHolder.getTaskQualityEvaluateScoreTv().setText(asignJobBean.getScore());
@@ -147,13 +167,20 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.do_task_state_completed_rb) {
                     datas.get(position).setState("2");
+                    viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completed_label);
+                    viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
                 } else if (checkedId == R.id.do_task_state_completing_rb) {
                     datas.get(position).setState("1");
+                    viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completing_label);
+                    viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.btn_blue));
                 } else if (checkedId == R.id.do_task_pause_state_rb) {
                     datas.get(position).setState("3");
+                    viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_pause_label);
+                    viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
                 } else {
 
                 }
+                LogUtil.e("修改" + position + "进展状态：" + datas.get(position).getState());
             }
         });
         viewHolder.getTaskAvaliabelCb().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -164,48 +191,14 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 } else {
                     datas.get(position).setIs_valid("1");
                 }
+                LogUtil.e("修改" + position + "有效性：" + datas.get(position).getIs_valid());
             }
         });
-
-//        viewHolder.getTaskAvaliabelTimeEt().setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                LogUtil.i("onClick");
-////                v.setFocusable(true);
-//                v.requestFocus();
-//            }
-//        });
-//        viewHolder.getTaskAvaliabelTimeEt().setOnFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View v, boolean hasFocus) {
-//                LogUtil.i("onFocusChange:" + hasFocus);
-//            }
-//        });
-        viewHolder.getTaskAvaliabelTimeEt().addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (!TextUtils.isEmpty(s.toString())) {
-                    if (Integer.valueOf(s.toString()) >= 1440) {
-                        new CommonAlertDialog.Builder(cxt).setMessage(cxt.getString(R.string.sz_valid_time_warning_label)).show();
-                        s.clear();
-                    } else {
-                        datas.get(position).setValid_min(s.toString());
-                    }
-                } else {
-                    datas.get(position).setValid_min("0");
-                }
-            }
-        });
+        if (mTextWatcher == null) {
+            mTextWatcher = new MyTextWatcher(position, viewHolder.getTaskAvaliabelTimeEt());
+        }
+        viewHolder.getTaskAvaliabelTimeEt().addTextChangedListener(mTextWatcher);
+        mListeners.add(mTextWatcher);
 
         viewHolder.getTaskQualityEvaluateRl().setOnClickListener(new View.OnClickListener() {
             @Override
@@ -228,6 +221,48 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             }
         });
         return convertView;
+    }
+
+    private List<MyTextWatcher> mListeners = new ArrayList<>();
+
+    private MyTextWatcher mTextWatcher;
+
+    class MyTextWatcher implements TextWatcher {
+        private int position;
+        private EditText editText;
+
+        public MyTextWatcher(int position, EditText editText) {
+            this.position = position;
+            this.editText = editText;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            if (!TextUtils.isEmpty(s.toString())) {
+                if (Integer.valueOf(s.toString()) >= 1440) {
+                    new CommonAlertDialog.Builder(cxt).setMessage(cxt.getString(R.string.sz_valid_time_warning_label)).show();
+                    datas.get(position).setValid_min("0");
+                    editText.setText("0");
+                } else {
+                    datas.get(position).setValid_min(s.toString());
+                }
+            } else {
+                datas.get(position).setValid_min("0");
+                LogUtil.e("修改" + position + "有效工时：0");
+            }
+            LogUtil.e("修改" + position + "有效工时：" + datas.get(position).getValid_min());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+
     }
 
     class MyViewHolder {

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -142,31 +143,8 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         user_score_tv.setVisibility(View.GONE);
         user_score_icon.setVisibility(View.GONE);
 
-
-        /**工作任务
-         * @author jiangyh*/
-        if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            btn_bottom.setText(R.string.sz_update_task_labe);
-            evaluateInfo = (DailyPerformanceInfoBean)
-                    getIntent().getSerializableExtra(ACTIVITY_EXTAR_DATA);
-
-            //TODO 模拟数据
-            if (evaluateInfo!=null){
-                List<AsignJobBean> asignJobBeanList = evaluateInfo.getAsignJobs();
-                user_date_tv.setText(evaluateInfo.getCreatetime());
-                user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
-
-                adapter = new TaskOrEvaluateDetailAdapter(this, activityType, asignJobBeanList);
-            }
-
-        } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-            btn_bottom.setText(R.string.sz_update_evaluete_label);
-        } else {
-            btn_bottom.setText("");
-        }
-
+        adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
-
         initListener();
     }
 

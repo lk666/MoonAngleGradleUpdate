@@ -81,7 +81,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     public void initData() {
         curPage = 1;
         loadData();
-//        loadData2();
     }
 
     //TODO 模拟数据
@@ -89,26 +88,43 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         DailyPerformanceInfoBean dailyPerformanceInfoBean = new DailyPerformanceInfoBean();
         UserInfoBean userInfoBean = new UserInfoBean();
         userInfoBean.setUAvatar("https://ps.ssl.qhimg.com/dr/_110_100/t0102672bd8a6bd290e.jpg#1473665509#1473665509");
-        userInfoBean.setUName("去去去");
+        userInfoBean.setUName("111");
         dailyPerformanceInfoBean.setUser(userInfoBean);
         dailyPerformanceInfoBean.setDay_score("200");
         dailyPerformanceInfoBean.setDay_valid_min("279");
         dailyPerformanceInfoBean.setWork_date("2016-09-09");
+
         AsignJobBean asignJobBean = new AsignJobBean();
-        asignJobBean.setProduce_cont("asdf今天天气好热");
-        asignJobBean.setTask_cont("今天天气好热");
+        asignJobBean.setProduce_cont("asdf今天天气好热11");
+        asignJobBean.setTask_cont("今天天气好热11");
+
+        AsignJobBean asignJobBean2 = new AsignJobBean();
+        asignJobBean2.setProduce_cont("asdf今天天气好热22");
+        asignJobBean2.setTask_cont("今天天气好热22");
+
+        AsignJobBean asignJobBean3 = new AsignJobBean();
+        asignJobBean3.setProduce_cont("asdf今天天气好热33");
+        asignJobBean3.setTask_cont("今天天气好热33");
+
+        AsignJobBean asignJobBean4 = new AsignJobBean();
+        asignJobBean4.setProduce_cont("asdf今天天气好热44");
+        asignJobBean4.setTask_cont("今天天气好热44");
+
+        AsignJobBean asignJobBean5 = new AsignJobBean();
+        asignJobBean5.setProduce_cont("asdf今天天气好热55");
+        asignJobBean5.setTask_cont("今天天气好热55");
+
         List<AsignJobBean> asignJobBeanList = new ArrayList<>();
         asignJobBeanList.add(asignJobBean);
-        asignJobBeanList.add(asignJobBean);
-        asignJobBeanList.add(asignJobBean);
-        asignJobBeanList.add(asignJobBean);
+        asignJobBeanList.add(asignJobBean2);
+        asignJobBeanList.add(asignJobBean3);
+        asignJobBeanList.add(asignJobBean4);
+        asignJobBeanList.add(asignJobBean5);
         dailyPerformanceInfoBean.setAsignJobs(asignJobBeanList);
 
         mEvaluateDatas.add(dailyPerformanceInfoBean);
         mEvaluateDatas.add(dailyPerformanceInfoBean);
         mEvaluateDatas.add(dailyPerformanceInfoBean);
-        updateData();
-
     }
 
     private void loadData() {
@@ -158,6 +174,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
                 case LOAD_DATA_SUCCESS:
                     evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_SUCCESS");
+                    loadData2();
                     updateData();
                     curPage++;
                     break;
@@ -178,7 +195,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
-        if (result != null && result.isSuccess && result.getResponseCode() == 100) {
+        if (result != null && result.isSuccess) {
             ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
             mEvaluateDatas.clear();
             mEvaluateDatas = ResultGetTaskEvaluateList.getData();

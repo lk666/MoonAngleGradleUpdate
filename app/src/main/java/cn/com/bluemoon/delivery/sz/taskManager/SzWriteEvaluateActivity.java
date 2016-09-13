@@ -41,10 +41,14 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
+import cn.com.bluemoon.delivery.sz.util.UtilTools;
+import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AngelAlertDialog;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * Created by Wan.N
@@ -153,14 +157,14 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         super.setActionBar(titleBar);
         if (titleBar != null) {
             this.titleBar = titleBar;
-            if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
-                titleBar.getTvRightView().setVisibility(View.GONE);
-            } else if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
-                titleBar.getTvRightView().setText(R.string.sz_task_sure);
-                titleBar.getTvRightView().setVisibility(View.VISIBLE);
-            } else {
-
-            }
+//            if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+//                titleBar.getTvRightView().setVisibility(View.GONE);
+//            } else if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
+//                titleBar.getTvRightView().setText(R.string.sz_task_sure);
+//                titleBar.getTvRightView().setVisibility(View.GONE);
+//            } else {
+//
+//            }
         }
     }
 
@@ -213,10 +217,8 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AngelAlertDialog.Builder(SzWriteEvaluateActivity.this).
+                new CommonAlertDialog.Builder(SzWriteEvaluateActivity.this).
                         setMessage(R.string.sz_update_evaluate_dialog_title).
-                        setCancelable(true).
-                        setDismissable(true).
                         setNegativeButton(R.string.dialog_cancel, null).
                         setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
                             @Override
@@ -241,11 +243,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     }
 
     private void updateView() {
-        if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE && isFirstLayoutBtns) {
-            layoutBottomBtnArea();
-            isFirstLayoutBtns = false;
-        }
-        //
         if (evaluateInfo != null) {
             UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
             if (evaluateInfo != null) {
@@ -261,6 +258,11 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                 evaluateadapter.updateAdapter(asignJobs);
             }
         }
+
+        if (isFirstLayoutBtns) {
+            layoutBottomBtnArea();
+            isFirstLayoutBtns = false;
+        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
@@ -270,11 +272,11 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             if (String.valueOf(EVENT_ACTION_TYPE_ADVICE).equalsIgnoreCase(messageBean.getEventMsgAction())) {
                 asignJobs = evaluateadapter.getDatas();
                 String rejectContent = messageBean.getEventMsgContent();
-                //TODO 需要将驳回的建议内容一并提交服务器
                 LogUtil.i("驳回的内容：" + rejectContent);
-                SzApi.submitReject(evaluateInfo.getUser().getUID(), rejectContent, evaluateInfo.getReviewer().getuID(), evaluateInfo.getReviewer().getuName(),
-                        evaluateInfo.getWork_date(), evaluateInfo.getWork_day_id(), getNewHandler(REQUEST_CODE_SUBMIT_REJECT, ResultBase.class));
 
+                //将驳回的建议内容提交至服务器（驳回接口取消了）
+//                SzApi.submitReject(evaluateInfo.getUser().getUID(), rejectContent, evaluateInfo.getReviewer().getuID(), evaluateInfo.getReviewer().getuName(),
+//               evaluateInfo.getWork_date(), evaluateInfo.getWork_day_id(), getNewHandler(REQUEST_CODE_SUBMIT_REJECT, ResultBase.class));
             } else if (String.valueOf(EVENT_ACTION_TYPE_EVALUATE_CONTENT).equalsIgnoreCase(messageBean.getEventMsgAction())) {
                 //将填写的评价内容刷新显示到页面
                 String position = messageBean.getReMark();//填写评价内容的itemview的position
@@ -297,9 +299,9 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         }
     }
 
-
     private void submitEvaluate() {
         List<AsignJobBean> asignJobBeanList = evaluateadapter.getDatas();
+        LogUtil.i("提交的评价数据 asignJobBeanList:" + asignJobBeanList);
         List<RateDataInfoBean> rateDataInfoBeanList = new ArrayList<>();
         RateDataInfoBean rateDataInfoBean;
         for (AsignJobBean asignJobBean : asignJobBeanList) {
@@ -313,7 +315,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             rateDataInfoBean.setWork_task_id(asignJobBean.getWork_task_id());
             rateDataInfoBeanList.add(rateDataInfoBean);
         }
-
         SzApi.submitDayJobsRating(rateDataInfoBeanList, evaluateInfo.getWork_day_id(), getNewHandler(REQUEST_CODE_SUBMIT_DAY_JOBS_RATING, ResultBase.class));
     }
 

@@ -252,6 +252,7 @@ public class TaskRecordFragment extends BaseFragment
 			setLinearLayoutWeight(ll_task_listView,1.0f);
 			ll_task_footer.setVisibility(View.GONE);
 		}
+
 	}
 
 
@@ -359,7 +360,7 @@ public class TaskRecordFragment extends BaseFragment
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-//		searchByKeyword("国");
+		searchByKeyword("国");
 
 //		SzApi.searchByKeyword("国",userSchDayHandler);
 

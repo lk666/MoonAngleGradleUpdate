@@ -91,6 +91,10 @@ public class TaskQualityScoreActivity extends BaseActivity implements View.OnCli
         if (getIntent() != null) {
             actionNameType = getIntent().getIntExtra("actionType", -1);
             viewPosition = getIntent().getStringExtra("viewPosition");
+            String scoreStr = getIntent().getStringExtra("score");
+            if (!TextUtils.isEmpty(scoreStr)) {
+                score = Integer.valueOf(scoreStr);
+            }
         }
     }
 
@@ -103,6 +107,7 @@ public class TaskQualityScoreActivity extends BaseActivity implements View.OnCli
     public void initView() {
         collectCheckBox();
         initListener();
+        updateCheckState(10 - score);
     }
 
     private void collectCheckBox() {
