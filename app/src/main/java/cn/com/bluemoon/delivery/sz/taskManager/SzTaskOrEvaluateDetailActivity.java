@@ -91,7 +91,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
 
     private TaskOrEvaluateDetailAdapter adapter = null;
-    private DailyPerformanceInfoBean evaluateInfo;//记录传入的绩效数据
+    private DailyPerformanceInfoBean evaluateInfo=null;//记录传入的绩效数据
 
     private List<AsignJobBean> asignJobBeanList = new ArrayList<>();
 
@@ -104,8 +104,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         }
         if (intent.hasExtra(ACTIVITY_EXTAR_DATA)) {
             evaluateInfo = (DailyPerformanceInfoBean) intent.getSerializableExtra(ACTIVITY_EXTAR_DATA);
+        LogUtil.i("--evaluateInfo：" + evaluateInfo.toString());
         }
-        LogUtil.i("activityType:" + activityType + "--evaluateInfo：" + evaluateInfo.toString());
+        LogUtil.i("activityType:" + activityType);
     }
 
     @Override

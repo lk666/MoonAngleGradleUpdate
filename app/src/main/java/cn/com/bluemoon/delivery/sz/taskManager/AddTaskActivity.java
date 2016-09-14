@@ -30,6 +30,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -332,8 +333,36 @@ public class AddTaskActivity extends BaseActivity{
     }
 
     public View initTaskItemView(final int Tag){
+
+        /**获得上一个任务的时间 默认加1分钟*/
+
+        String nextTime="";
+        if (itemTag>=1){
+            TaskViewHolder taskViewHolder=
+                    new TaskViewHolder(ll_task_item_conent.getChildAt(itemTag-1));
+            String preStartTime=taskViewHolder.tv_dateStart.getText().toString();
+            String preEndTime=taskViewHolder.tv_dateEnd.getText().toString();
+
+            long preST=tranDateToTime(preStartTime);
+            long preET=tranDateToTime(preEndTime);
+
+            long nextST=preET+(1000*60);
+            nextTime=tranTimeToDate(nextST+"");
+
+        }
+
+
         final View view= LayoutInflater.from(context).inflate(R.layout.activity_sz_add_item,null);
         final TaskViewHolder taskViewHolder=new TaskViewHolder(view);
+
+        if (Tag!=0){
+            taskViewHolder.tv_dateStart.setText(nextTime);
+            taskViewHolder.tv_dateEnd.setText(nextTime);
+
+        }
+
+
+
         taskViewHolder.ttv_taskName.setOnRightTextOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -374,8 +403,9 @@ public class AddTaskActivity extends BaseActivity{
                 String[] times=time.split(":");
                 int currHour=Integer.parseInt(times[0]);
                 int currMin=Integer.parseInt(times[1]);
+                String endTimes=taskViewHolder.tv_dateEnd.getText().toString();
 
-                showTimeDialog(taskViewHolder.tv_dateStart,currHour,currMin,"开始时间");
+                showTimeDialogStart(taskViewHolder,endTimes,currHour,currMin,"开始时间");
             }
         });
         taskViewHolder.tv_dateEnd.setOnClickListener(new View.OnClickListener() {
@@ -386,7 +416,9 @@ public class AddTaskActivity extends BaseActivity{
                 int currHour=Integer.parseInt(times[0]);
                 int currMin=Integer.parseInt(times[1]);
 
-                showTimeDialog(taskViewHolder.tv_dateEnd,currHour,currMin,"结束时间");
+                String startTimes=taskViewHolder.tv_dateStart.getText().toString();
+
+                showTimeDialogEnd(taskViewHolder,startTimes,currHour,currMin,"结束时间");
             }
         });
 
@@ -459,9 +491,11 @@ public class AddTaskActivity extends BaseActivity{
     }
 
     /**
-     * 显示时间
+     * 显示时间 start
+     * 开始时间如果大于结束时间 结束时间默认跟开始时间一样
      */
-    private void showTimeDialog(final TextView textView,int currHour,int currMin,String timeTilte){
+    private void showTimeDialogStart(final TaskViewHolder taskViewHolder, final String endTimes,
+                                     int currHour, int currMin, String timeTilte){
         final AlertDialog dialog = new AlertDialog.Builder(AddTaskActivity.this)
                 .create();
         dialog.show();
@@ -505,10 +539,99 @@ public class AddTaskActivity extends BaseActivity{
                     finalMins="0"+finalMins;
                 }
 
+//                当结束时间小于开始时间时
+                String finalStartT=finalHours+":"+finalMins;
+                long start=tranDateToTime(finalStartT);
+                long end=tranDateToTime(endTimes);
+
+                if (end<start){
+                    taskViewHolder.tv_dateEnd.setText(finalStartT);
+                }
+
+                LogUtil.i("选取后的时间："+finalStartT);
+                taskViewHolder.tv_dateStart.setText(finalStartT);
                 getAllTaskTimes();
-                LogUtil.i("选取后的时间："+finalHours+":"+finalMins);
-                textView.setText(finalHours+":"+finalMins);
                 dialog.cancel();
+            }
+        });
+        btn_cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                dialog.cancel();
+            }
+        });
+        LinearLayout cancelLayout = (LinearLayout) window.findViewById(R.id.view_none);
+        cancelLayout.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                dialog.cancel();
+                return false;
+            }
+        });
+    }
+    /**
+     * 显示时间 end
+     * 结束时间不可小于开始时间
+     */
+    private void showTimeDialogEnd(final TaskViewHolder taskViewHolder, final String startTims, int currHour, int currMin, String timeTilte){
+        final AlertDialog dialog = new AlertDialog.Builder(AddTaskActivity.this)
+                .create();
+        dialog.show();
+        Window window = dialog.getWindow();
+        // 设置布局
+        window.setContentView(R.layout.activity_task_time_datapick);
+        // 设置宽高
+        window.setLayout(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        // 设置弹出的动画效果
+        window.setWindowAnimations(R.style.AnimBottom);
+
+        hour = (WheelView) window.findViewById(R.id.wv_date_time_hour);
+        initHour();
+        mins = (WheelView) window.findViewById(R.id.wv_date_time_min);
+        initMins();
+        // 设置当前时间
+
+        LogUtil.i("当前时间："+currHour+":"+currMin);
+        hour.setCurrentItem(currHour);
+        mins.setCurrentItem(currMin);
+        hour.setVisibleItems(7);
+        mins.setVisibleItems(7);
+
+        // 设置监听
+        Button btn_commit = (Button) window.findViewById(R.id.btn_commit);
+        Button btn_cancel = (Button) window.findViewById(R.id.btn_cancel);
+        TextView tv_timeTilte = (TextView) window.findViewById(R.id.tv_timeTilte);
+        tv_timeTilte.setText(timeTilte);
+        btn_commit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                int finalHour=hour.getCurrentItem();
+                int finalMin=mins.getCurrentItem();
+                String finalHours=""+finalHour;
+                String finalMins=""+finalMin;
+                if (finalHour<10){
+                    finalHours="0"+finalHours;
+                }
+                if (finalMin<10){
+                    finalMins="0"+finalMins;
+                }
+                //当结束时间小于开始时间时，提示不可选
+                String finalEndT=finalHours+":"+finalMins;
+                long start=tranDateToTime(startTims);
+                long end=tranDateToTime(finalEndT);
+                if (end<start){
+                    PublicUtil.showToast("结束时间不可小于开始时间！");
+                }else{
+                    LogUtil.i("选取后的时间："+finalEndT);
+                    taskViewHolder.tv_dateEnd.setText(finalEndT);
+                    getAllTaskTimes();
+                    dialog.cancel();
+
+                }
+
+
             }
         });
         btn_cancel.setOnClickListener(new View.OnClickListener() {
@@ -591,7 +714,13 @@ public class AddTaskActivity extends BaseActivity{
         }
             ttv_totalTime.setText_right(mins+"分钟");
     }
+    /**毫秒转日期*/
+    public  String tranTimeToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(new Date(Long.valueOf(time)));
+    }
 
+    /**日期转毫秒*/
     public long tranDateToTime(String date){
         long times=0;
         try {

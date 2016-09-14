@@ -332,6 +332,7 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 
+	/**日期转毫秒*/
 	public long tranDateToTime(String date){
 		long times=0;
 		try {
@@ -344,6 +345,7 @@ public class TaskRecordFragment extends BaseFragment
 		return times;
 	}
 
+	/**毫秒转日期*/
 	public  String tranTimeToDate(String time) {
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		return sdf.format(new Date(Long.valueOf(time)));
