@@ -1,38 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/title_background"
     android:fitsSystemWindows="true"
-    android:orientation="vertical" >
+    android:background="@color/title_background"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/layout_title"
-        android:layout_width="match_parent"
-        android:layout_height="160dp"
-        android:layout_centerHorizontal="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center"
-        android:background="@color/title_background"
-        android:orientation="vertical" >
 
     <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="fitCenter"
+        android:id="@+id/img_title"
+        android:layout_width="match_parent"
+        android:layout_height="150dp"
+        android:scaleType="center"
         android:src="@mipmap/logo" />
 
-    </LinearLayout>
+    <cn.com.bluemoon.delivery.ui.TopArcLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/img_title"
+        app:viewBg="@color/view_bg"
+        app:startColor="#1ca6e5"
+        app:endColor="@color/title_background"
+        app:strokeThiness="8dp"
+        app:radius="1000dp"
+        >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_centerHorizontal="true"
         android:focusableInTouchMode="true"
-        android:layout_below="@id/layout_title"
-        android:background="#fefefe"
         android:gravity="center"
-        android:paddingTop="20dp"
+        android:paddingTop="30dp"
         android:orientation="vertical" >
 
         <TextView
@@ -89,29 +89,24 @@
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_16" />
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/txt_forget_psw"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingTop="10dp"
+            android:paddingBottom="20dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="5dp"
+            android:layout_gravity="right"
+            android:layout_marginRight="40dp"
+            android:text="@string/forget_pwd"
+            android:textColor="@color/text_blue"
+            android:textSize="@dimen/text_size_16" />
+
+        <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
-            android:orientation="vertical"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            >
-            <TextView
-                android:id="@+id/txt_forget_psw"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:clickable="true"
-                android:paddingTop="10dp"
-                android:paddingBottom="20dp"
-                android:paddingLeft="20dp"
-                android:paddingRight="5dp"
-                android:text="@string/forget_pwd"
-                android:layout_gravity="end"
-                android:textColor="@color/text_blue"
-                android:textSize="@dimen/text_size_16" />
-
-        </LinearLayout>
+            android:layout_weight="1"/>
 
         <TextView
             android:id="@+id/txt_toast"
@@ -139,5 +134,7 @@
              />
 
     </LinearLayout>
+
+    </cn.com.bluemoon.delivery.ui.TopArcLayout>
 
 </RelativeLayout>

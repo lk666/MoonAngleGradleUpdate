@@ -22,6 +22,8 @@
     <color name="slide_menu2">#0d4362</color><!-- 侧滑背景 -->
     <color name="slide_menu_text_color">#7ea1b4</color><!-- 侧滑文字 -->
 
+    <color name="blue_deep">#1ca6e5</color><!--渐变深蓝色-->
+
 
 
     <!-- 文字颜色规范 -->

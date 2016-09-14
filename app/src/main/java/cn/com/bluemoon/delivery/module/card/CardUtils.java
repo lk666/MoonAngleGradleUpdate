@@ -90,17 +90,6 @@ public class CardUtils {
         return strBuffer.toString();
     }
 
-    public static String getWorkPlaceItem(Workplace workplace){
-        if(workplace==null){
-            return "";
-        }
-        StringBuffer strBuffer = new StringBuffer();
-        strBuffer.append(workplace.getWorkplaceCode());
-        if(!StringUtils.isEmpty(workplace.getWorkplaceName()))
-            strBuffer.append("-").append(workplace.getWorkplaceName());
-        return strBuffer.toString();
-    }
-
     public static String getWorkPlaceAddress(Workplace workplace){
         if(workplace==null){
             return "";

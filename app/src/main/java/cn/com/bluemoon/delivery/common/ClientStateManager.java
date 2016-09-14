@@ -111,11 +111,11 @@ public class ClientStateManager {
         return true;
     }
 
-    public static List<Workplace> getCardSearchHistory(Context ctx) {
+    public static List<Workplace> getCardSearchHistory() {
 
         List<Workplace> list = null;
         try {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
             String str = pref.getString(CARD_SEARCH_HISTORY, "");
             if (!StringUtils.isEmpty(str)) {
                 ResultWorkPlaceList resultWorkPlaceList = JSON.parseObject(str, ResultWorkPlaceList.class);
@@ -132,12 +132,12 @@ public class ClientStateManager {
         return list;
     }
 
-    public static boolean setCardSearhHistory(Context ctx, List<Workplace> list) {
+    public static boolean setCardSearhHistory(List<Workplace> list) {
         try {
             Map<String, Object> params = new HashMap<>();
             params.put("workplaceList", list);
             String jsonString = JSONObject.toJSONString(params);
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(ctx);
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
             pref.edit().putString(CARD_SEARCH_HISTORY, jsonString).commit();
         } catch (Exception e) {
             return false;
