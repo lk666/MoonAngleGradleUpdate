@@ -45,8 +45,6 @@ import cn.com.bluemoon.delivery.module.card.CardTabActivity;
 import cn.com.bluemoon.delivery.module.order.OrderDetailActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
-import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;

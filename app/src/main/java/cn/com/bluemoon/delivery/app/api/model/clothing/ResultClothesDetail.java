@@ -5,7 +5,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingPic;
+import cn.com.bluemoon.delivery.module.wash.collect.ClothingPic;
 
 /**
  * {@link cn.com.bluemoon.delivery.app.api.DeliveryApi#getCollectInfoDetailsItem(String, String, AsyncHttpResponseHandler)}

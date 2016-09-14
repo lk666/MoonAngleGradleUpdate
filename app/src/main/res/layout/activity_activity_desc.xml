@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/page_bg_f2"
-    tools:context=".module.clothing.collect.withoutorder.ActivityDescActivity">
+    tools:context=".module.wash.collect.withoutorder.ActivityDescActivity">
 
     <TextView
         android:id="@+id/tv_title"

@@ -262,70 +262,70 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.clothing.collect.ClothingTabActivity"
+            android:name=".module.wash.collect.ClothingTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.clothing.collect.withorder.WithOrderCollectBookInActivity"
+            android:name=".module.wash.collect.withorder.WithOrderCollectBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withorder.ClothingDeliverActivity"
+            android:name=".module.wash.collect.withorder.ClothingDeliverActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.ClothesDetailActivity"
+            android:name=".module.wash.collect.ClothesDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.clothing.collect.withorder.ClothingDeliverConfirmActivity"
+            android:name=".module.wash.collect.withorder.ClothingDeliverConfirmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.ClothingRecordDetailActivity"
+            android:name=".module.wash.collect.ClothingRecordDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withoutorder.ActivityDetailActivity"
+            android:name=".module.wash.collect.withoutorder.ActivityDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withorder.ClothingBookInActivity"
+            android:name=".module.wash.collect.withorder.ClothingBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withorder.ManualInputCodeActivity"
+            android:name=".module.wash.collect.withorder.ManualInputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withorder.WithOrderOuterDetailActivity"
+            android:name=".module.wash.collect.withorder.WithOrderOuterDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withoutorder.ActivityDescActivity"
+            android:name=".module.wash.collect.withoutorder.ActivityDescActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withoutorder.CreateCollectOrderActivity"
+            android:name=".module.wash.collect.withoutorder.CreateCollectOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
+            android:name=".module.wash.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".module.clothing.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
+            android:name=".module.wash.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
