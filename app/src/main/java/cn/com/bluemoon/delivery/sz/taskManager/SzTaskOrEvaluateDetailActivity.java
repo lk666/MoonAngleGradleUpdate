@@ -14,6 +14,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +28,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
@@ -135,6 +140,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
         context = SzTaskOrEvaluateDetailActivity.this;
         sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_task_or_evaluate_detail_btn_layout);
         ll_bottom_btn_area = (LinearLayout) sz_rewrite_btn_layout.findViewById(R.id.ll_bottom_btn_area);
@@ -146,6 +152,19 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
         initListener();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvaluateStateChanged(EventDailyPerformanceBean bean) {
+        LogUtil.i("被修改的评价bean:" + bean.toString());
+        if (bean != null && bean.getDailyPerformanceInfoBean() != null) {
+            if (bean.getType() == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_TO_EVALUATE) {
+                //如果是未评价的被评价了，则从未评价区移至已评价区
+            } else if (bean.getType() == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_HAVE_EVALUATED) {
+                //如果是已评价的被修改了评价，就将此数据在已评价区更新
+                finish();
+            }
+        }
     }
 
     private void initListener() {
@@ -256,5 +275,11 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

@@ -888,12 +888,15 @@
     <string name="sz_update_evaluate_dialog_title">是否确认修改此评价</string>
     <string name="sz_task_detail_label">任务详情</string>
     <string name="sz_evaluate_detail_label">评价详情</string>
-    <string name="sz_listview_loding_label">正在加载中...</string>
+    <string name="sz_listview_loding_label">正在加载，请稍后…</string>
     <string name="sz_minute_label">分钟</string>
     <string name="sz_valid_time_warning_label">有效工时不能超过1440分钟</string>
     <string name="sz_task_is_valid_label">有效</string>
     <string name="sz_task_not_valid_label">无效</string>
     <string name="sz_task_quality_score_unit">分</string>
+    <string name="sz_evaluate_overtime_tip">评价超过1星期，已不能修改评价内容！</string>
+    <string name="sz_evaluate_submit_fail_label">评价提交失败，请重新提交！</string>
+    <string name="sz_evaluate_update_fail_label">评价修改提交失败，请重新提交！</string>
 
 
 </resources>

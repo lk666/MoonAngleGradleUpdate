@@ -129,6 +129,22 @@ public class DailyPerformanceInfoBean implements Serializable {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        DailyPerformanceInfoBean that = (DailyPerformanceInfoBean) o;
+
+        return work_day_id != null ? work_day_id.equals(that.work_day_id) : that.work_day_id == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        return work_day_id != null ? work_day_id.hashCode() : 0;
+    }
+
+    @Override
     public String toString() {
         return "DailyPerformanceInfoBean{" +
                 "asignJobs=" + asignJobs +

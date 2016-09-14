@@ -19,6 +19,7 @@ import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
@@ -41,7 +42,8 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         if (datas == null) {
             mDatas.clear();
         } else {
-            this.mDatas = datas;
+            this.mDatas.clear();
+            this.mDatas.addAll(datas);
         }
     }
 
@@ -49,9 +51,10 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         if (datas == null) {
             mDatas.clear();
         } else {
-            this.mDatas = datas;
+            this.mDatas.clear();
+            this.mDatas.addAll(datas);
         }
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -100,7 +103,6 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(mCxt, itemBean.getAsignJobs());
         viewHolder.getUserTaskLv().setAdapter(adapter);
         setListViewHeight(viewHolder.getUserTaskLv());
-        ///*************************************设置监听器************************************************/
         return convertView;
     }
 

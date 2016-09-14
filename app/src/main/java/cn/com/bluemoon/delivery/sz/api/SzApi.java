@@ -138,9 +138,9 @@ public class SzApi {
      */
     public static void submitDayJobsRating(List<RateDataInfoBean> rateData, String work_day_id,
                                            AsyncHttpResponseHandler handler) {
-        if (rateData == null || StringUtil.isEmpty(work_day_id)) {
-            return;
-        }
+//        if (rateData == null || StringUtil.isEmpty(work_day_id)) {
+//            return;
+//        }
 
         HashMap<String, Object> params = new HashMap<>();
         params.putAll(SzApiClientHelper.getParamUrl());
