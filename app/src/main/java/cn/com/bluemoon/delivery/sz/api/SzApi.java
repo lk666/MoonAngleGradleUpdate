@@ -15,7 +15,6 @@ import java.util.Map;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.sz.api.response.ApiHttpClientSz;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.RateDataInfoBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
@@ -107,7 +106,7 @@ public class SzApi {
      * token 用户token string
      * type 0:新增 1:修改 string
      */
-    public static void submitDayJobs(DailyPerformanceInfoBean submitData, String type,
+    public static void submitDayJobsApi(DailyPerformanceInfoBean submitData, String type,
                                      AsyncHttpResponseHandler handler) {
         if (submitData == null || StringUtil.isEmpty(type)) {
             return;
@@ -123,12 +122,10 @@ public class SzApi {
         params.put("submitData", submitData);
         params.put("type", type);
 
-        String url = HOST + "submitDayJobsApi";
-        if (isDebug) {
-            url = "http://192.168.237.2/wktask-app/work/submitDayJobsApi";
-        }
-        String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
+        String url = "app/work/submitDayJobsApi";
+        requestLog(params,url);
+        client.post(AppContext.getInstance(), String.format(HOST, url),
+                        getEntity(params), "application/json", handler);
     }
 
     /**

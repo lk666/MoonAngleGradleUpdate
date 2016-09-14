@@ -109,8 +109,6 @@ public class TaskRecordFragment extends BaseFragment
 
 	}
 
-
-
 	enum SildeDirection {
 		RIGHT, LEFT, NO_SILDE;
 	}
@@ -129,9 +127,6 @@ public class TaskRecordFragment extends BaseFragment
 	};
 
 
-
-
-
 	public void initCalendarView(){
 		LayoutInflater inflater =  (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		headerView = inflater.inflate(R.layout.sz_header_task,null);
@@ -141,6 +136,10 @@ public class TaskRecordFragment extends BaseFragment
 
 		currentDate = new CustomDate().toString();
 		LogUtil.i("当前的日期---------->："+currentDate);
+		//*/获取当天的数据
+		getData(tranDateToTime(chooseDate)+"");
+
+
 
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
@@ -157,6 +156,7 @@ public class TaskRecordFragment extends BaseFragment
 		LayoutInflater inflater =  (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		footerView = inflater.inflate(R.layout.activity_sz_task_record_add_footer,null);
 		ll_task_footer= (LinearLayout) footerView.findViewById(R.id.ll_task_footer);
+		ll_task_footer.setVisibility(View.GONE);
 		tv_footer_addTask= (TextViewForClick) footerView.findViewById(R.id.tv_footer_addTask);
 		tv_footer_addTask.setOnClickListener(this);
 		lv_taskRecord.addFooterView(footerView);
@@ -332,11 +332,22 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 
+	/**毫秒转日期*/
+	public  String tranTimeToDate(String time) {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		return sdf.format(new Date(Long.valueOf(time)));
+	}
+
+	public  String tranTimeToDate(String time,String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(new Date(Long.valueOf(time)));
+	}
+
 	/**日期转毫秒*/
 	public long tranDateToTime(String date){
 		long times=0;
 		try {
-			DateFormat dm= new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat dm= new SimpleDateFormat("HH:mm");
 			times=dm.parse(date.toString()).getTime();
 			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
 		} catch (ParseException e) {
@@ -345,13 +356,30 @@ public class TaskRecordFragment extends BaseFragment
 		return times;
 	}
 
-	/**毫秒转日期*/
-	public  String tranTimeToDate(String time) {
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		return sdf.format(new Date(Long.valueOf(time)));
+	/**日期转毫秒*/
+	public long tranDateToTime(String date,String format){
+		long times=0;
+		try {
+			DateFormat dm= new SimpleDateFormat(format);
+			times=dm.parse(date.toString()).getTime();
+			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return times;
 	}
 
 
+	@Override
+	public void onSuccessException(int requestCode, Throwable t) {
+		LogUtil.e("onSuccessException requestCode:"+requestCode);
+		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+			dailyPerformanceInfoBeanArrayList.clear();
+		}
+		taskDateStatusAdapter.notifyDataSetChanged();
+		PublicUtil.showToast("无任务数据！");
+
+	}
 
 	@Override
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
@@ -376,10 +404,16 @@ public class TaskRecordFragment extends BaseFragment
 
 	}
 
+
+	@Override
+	public void onErrorResponse(int requestCode, ResultBase result) {
+		LogUtil.e("onErrorResponse requestCode:"+requestCode);
+
+	}
+
 	@Override
 	public void onFailureResponse(int requestCode, Throwable t) {
-		LogUtil.i("requestCode:"+requestCode);
-		super.onFailureResponse(requestCode, t);
+		LogUtil.e("onFailureResponse requestCode:"+requestCode);
 		showAddTv();
 
 	}
