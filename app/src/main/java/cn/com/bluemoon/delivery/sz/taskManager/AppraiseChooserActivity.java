@@ -30,6 +30,7 @@ import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoListBean;
+import cn.com.bluemoon.delivery.sz.util.CacheServerResponse;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 
@@ -69,7 +70,8 @@ public class AppraiseChooserActivity extends BaseActivity {
 		context=AppraiseChooserActivity.this;
 		initCustomActionBar();
 
-//		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
 //		et_search_appraiser.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
 //		et_search_appraiser.requestFocus();
 //		imm.showSoftInput(et_search_appraiser, 0);
@@ -87,14 +89,26 @@ public class AppraiseChooserActivity extends BaseActivity {
 			}
 		});
 
+		initAdapter();
 
 	}
 
 	@Override
 	public void initData() {
 		APPRAISE_NAME_CONTENT=getIntent().getStringExtra(APPRAISE_NAME);
-		initAdapter();
+
+		UserInfoListBean userInfoListBean=
+				(UserInfoListBean) CacheServerResponse.readObject(context,"UserInfoListBean");
+
+		if (userInfoListBean!=null){
+			List<UserInfoBean> userInfoBeanList=userInfoListBean.getData();
+			appreaiseList.addAll(userInfoBeanList);
+			appraiseChooseAdapter.notifyDataSetChanged();
+		}
 	}
+
+
+
 
 	/**查询人员接口*/
 	private void searchByKeyword(String queryStr){
@@ -116,12 +130,12 @@ public class AppraiseChooserActivity extends BaseActivity {
 			}
 			appreaiseList.addAll(userInfoBeen);
 			appraiseChooseAdapter.notifyDataSetChanged();
+			imm.hideSoftInputFromWindow(et_search_appraiser.getWindowToken(), 0);
 		}
 
 	}
 
 	private void initAdapter() {
-
 		//TODO
 //		对比角标 选中上一次选 中的人员
 		appraiseChooseAdapter=new TaskAppraiseChooseAdapter(context,appreaiseList);

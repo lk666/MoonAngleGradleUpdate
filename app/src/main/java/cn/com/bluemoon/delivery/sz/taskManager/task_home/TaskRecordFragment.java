@@ -251,7 +251,7 @@ public class TaskRecordFragment extends BaseFragment
 	private void adjustViewPagerHeight(int rowNum){
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		int width = wm.getDefaultDisplay().getWidth();
-		int cellspace = width / 7;
+		int cellspace = width / 6;
 		int height = cellspace * rowNum;
 		vp_calendar.setLayoutParams(new LinearLayout.LayoutParams(width,height));
 	}
@@ -315,10 +315,10 @@ public class TaskRecordFragment extends BaseFragment
 	public void clickDate(CustomDate date) {
 //		mHandler.sendEmptyMessage(1);
 		currentDate=date.toString();
-			getData(tranDateToTime(currentDate)+"");
+			getData(String.valueOf(
+					tranDateToTime(currentDate,"yyyy-MM-dd")));
 //		searchByKeyword("国");
-
-		LogUtil.i(tranTimeToDate(tranDateToTime(currentDate)+""));
+		LogUtil.i(tranTimeToDate(tranDateToTime(currentDate,"yyyy-MM-dd")+""));
 
 	}
 
@@ -378,7 +378,7 @@ public class TaskRecordFragment extends BaseFragment
 		}
 		taskDateStatusAdapter.notifyDataSetChanged();
 		PublicUtil.showToast("无任务数据！");
-
+//		super.onSuccessException(requestCode, t);
 	}
 
 	@Override
