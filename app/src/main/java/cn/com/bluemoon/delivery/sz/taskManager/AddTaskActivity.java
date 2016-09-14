@@ -19,6 +19,8 @@ import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -35,12 +37,15 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
-import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoAndReViewInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.TaskTextView;
@@ -80,6 +85,13 @@ public class AddTaskActivity extends BaseActivity{
     private final int itemSize=10;
     private int itemTag=0;
 
+    private UserInfoBean sup=null;//上级
+    private UserInfoBean user=null;//自身实体
+
+    private static final int REQUESTUSERINFO=0;
+    private static final int REQUEST_COMMIT=1;
+
+
 
     @Override
     protected int getLayoutId() {
@@ -96,10 +108,28 @@ public class AddTaskActivity extends BaseActivity{
     }
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-//        ClientStateManager.setLoginToken(((ResultToken) result).getToken());
-//        ClientStateManager.setUserName(getUserName());
-//        MobclickAgent.onProfileSignIn(getUserName());
-//        toMainActivity();
+
+        switch (requestCode){
+            case REQUESTUSERINFO:
+                LogUtil.i("上级查询＝requestCode:"+requestCode+"/"+jsonString);
+
+                UserInfoAndReViewInfoBean userInfoAndReViewInfoBean=
+                        JSON.parseObject(jsonString,UserInfoAndReViewInfoBean.class);
+                sup=userInfoAndReViewInfoBean.getSup();
+                user=userInfoAndReViewInfoBean.getUser();
+                LogUtil.i("上级："+sup.toString());
+                LogUtil.i("自身："+user.toString());
+
+                if (sup!=null){
+                    ttv_appraiser.setText_right(sup.getUName()+"("+sup.getUID()+")");
+                }
+
+                break;
+            case REQUEST_COMMIT:
+                LogUtil.i("提交任务＝requestCode:"+requestCode+"/"+jsonString);
+                break;
+        }
+
     }
 
     @Override
@@ -119,8 +149,8 @@ public class AddTaskActivity extends BaseActivity{
                 currentDate=dailyPerformanceInfoBean.getCreatetime();
                 tv_dete.setText(currentDate);
 
-                ReviewerBean reviewerBean=dailyPerformanceInfoBean.getReviewer();
-                ttv_appraiser.setText_right(reviewerBean.getuName());
+                UserInfoBean reviewerBean=dailyPerformanceInfoBean.getReviewer();
+                ttv_appraiser.setText_right(reviewerBean.getUName());
                 ttv_totalTime.setText_right(dailyPerformanceInfoBean.getDay_valid_min());
 
                 List<AsignJobBean>  asignJobBeanList =dailyPerformanceInfoBean.getAsignJobs();
@@ -177,19 +207,16 @@ public class AddTaskActivity extends BaseActivity{
             default:
                 break;
         }
-
-
     }
-
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getInputEventMessagBean(EventMessageBean messageBean){
 //        任务项相应的Item的角标
         int tag=Integer.parseInt(messageBean.getEventMsgAction());
         if (tag==AppraiseChooserActivity.APPRAISE_NAME_ACTION_CONTENT){
-//            为评价人的回传
-            ttv_appraiser.setText_right(messageBean.getEventMsgContent());
-
+//            为评价人的回传实体
+            sup=JSON.parseObject(messageBean.getEventMsgContent(),UserInfoBean.class);
+            ttv_appraiser.setText_right(sup.getUName()+"("+sup.getUID()+")");
         }else{
             inputContentItem(messageBean,tag);
         }
@@ -249,7 +276,15 @@ public class AddTaskActivity extends BaseActivity{
 
     @Override
     public void initData() {
+        getuserinfo(ClientStateManager.getUserName());
 
+    }
+
+    /**查询人员接口*/
+    private void getuserinfo(String account){
+        if (!StringUtils.isEmpty(account)) {
+            SzApi.getuserinfo(account, getNewHandler(REQUESTUSERINFO, ResultToken.class));
+        }
     }
 
 

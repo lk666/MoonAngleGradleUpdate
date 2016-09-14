@@ -196,26 +196,6 @@ public class SzApi {
         client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
     }
 
-    /**
-     * desc 获得单日工作任务列表&月度绩效积分组合接口
-     * <p/>
-     * date 获取数据日期(GMT) string
-     * type 0:全部 1:任务列表 2:月度绩效 string
-     */
-    public static void getWorkDetails(String date, String type, AsyncHttpResponseHandler handler) {
-        HashMap<String, Object> params = new HashMap<>();
-        params.putAll(SzApiClientHelper.getParamUrl());
-        params.put("date", date);
-        params.put("type", type);
-
-        String url = HOST + "getWorkDetailsApi";
-        if (isDebug) {
-            url = "http://192.168.237.2/app/work/getWorkDetailsApi";
-        }
-        String jsonString = JSONObject.toJSONString(params);
-        LogUtil.i("url:" + url + "--paramsJson:" + jsonString);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-    }
 
     /**
      * desc 获得建议详情接口
@@ -238,18 +218,15 @@ public class SzApi {
      * account 用户ID string
      * appType [必填] app的类型 string [必填] app的类型: 培训平台:trainingSys 日程会议管理: scheduleSys 工作任务管理:moonAngel
      * token 用户token string
+     *
      */
-    public static void getUserAndSuperiorInfo(String account, AsyncHttpResponseHandler handler) {
+    public static void getuserinfo(String account, AsyncHttpResponseHandler handler) {
         HashMap<String, Object> params = new HashMap<>();
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("account", account);
-
-        String url = HOST + "getuserinfo";
-        if (isDebug) {
-            url = "http://192.168.237.2/wktask-app/work/getuserinfo";
-        }
-        String jsonString = JSONObject.toJSONString(params);
-        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+        String url = "app/work/getuserinfo";
+        client.post(AppContext.getInstance(), String.format(HOST, url),
+                getEntity(params), "application/json", handler);
     }
 
     /**
@@ -302,23 +279,6 @@ public class SzApi {
                 getEntity(params), "application/json", handler);
     }
 
-    /**
-     * url:http://localhost:8080/app/work/getuserinfo
-     * 获得单日工作任务列表&月度绩效积分组合接口
-     *
-     * @param account 账号
-     */
-    public static void getuserinfo(String account, AsyncHttpResponseHandler handler) {
-        Map<String, Object> params = new HashMap<String, Object>();
-        params.put("account", account);
-        params.put("token", ClientStateManager.getLoginToken());
-        params.putAll(SzApiClientHelper.getParamUrl());
-        String jsonString = JSONObject.toJSONString(params);
-        String url = "app/work/getuserinfo";
-//        ApiHttpClientSz.post(AppContext.getInstance(), url, jsonString, handler);
-        client.post(AppContext.getInstance(), String.format(HOST, url),
-                getEntity(params), "application/json", handler);
-    }
 
 
 }

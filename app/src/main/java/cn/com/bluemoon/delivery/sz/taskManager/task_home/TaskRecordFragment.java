@@ -22,13 +22,11 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.utils.StringUtils;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -37,10 +35,10 @@ import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.sz.adapter.TaskDateStatusAdapter;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
-import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyperformanceinfoResultBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
 import cn.com.bluemoon.delivery.sz.taskManager.AddTaskActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.SzTaskOrEvaluateDetailActivity;
@@ -124,7 +122,12 @@ public class TaskRecordFragment extends BaseFragment
 		String monthlyPer=resultBean.getMonthlyPer();
 
 		DailyPerformanceInfoBean infoBean=resultBean.getJobsdata();
+
+		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+			dailyPerformanceInfoBeanArrayList.clear();
+		}
 		dailyPerformanceInfoBeanArrayList.add(infoBean);
+
 //		任务内容
 		asignJobs=infoBean.getAsignJobs();
 
@@ -230,9 +233,9 @@ public class TaskRecordFragment extends BaseFragment
 		asignJobBean5.setState("0");
 		asignJobBeanList.add(asignJobBean5);
 
-		ReviewerBean reviewerBean=new ReviewerBean();
-		reviewerBean.setuID("00001");
-		reviewerBean.setuName("张三三");
+		UserInfoBean reviewerBean=new UserInfoBean();
+		reviewerBean.setUID("00001");
+		reviewerBean.setUName("张三三");
 		infoBean.setReviewer(reviewerBean);
 
 		infoBean.setAsignJobs(asignJobBeanList);
@@ -344,27 +347,24 @@ public class TaskRecordFragment extends BaseFragment
 
 	@Override
 	public void clickDate(CustomDate date) {
-//		dateTv.setText(date.getYear()+"年"+date.getMonth()+"月"+date.getDay()+"日");//子线程中无法更新UI
 //		mHandler.sendEmptyMessage(1);
 		currentDate=date.toString();
-//		getuserSchDay(currentDate,currentNo);
+			getData(tranDateToTime(currentDate)+"");
+//		searchByKeyword("国");
 
+	}
+
+
+	public long tranDateToTime(String date){
+		long times=0;
 		try {
 			DateFormat dm= new SimpleDateFormat("yyyy-MM-dd");
-			long times=dm.parse(date.toString()).getTime();
-//			getData(times+"");
-			getData(times+"");
+			times=dm.parse(date.toString()).getTime();
 			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
-
-			PublicUtil.showToast(dm.format(new Date(times)));
 		} catch (ParseException e) {
 			e.printStackTrace();
 		}
-		searchByKeyword("国");
-
-//		SzApi.searchByKeyword("国",userSchDayHandler);
-
-
+		return times;
 	}
 
 
@@ -394,15 +394,6 @@ public class TaskRecordFragment extends BaseFragment
 	};
 
 
-
-
-
-	private void searchByKeyword(String queryStr){
-		if (!StringUtils.isEmpty(queryStr)) {
-			showWaitDialog();
-			SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
-		}
-	}
 
 	private void getData(String date){
 		if (TextUtils.isEmpty(date)) {

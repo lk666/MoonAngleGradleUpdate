@@ -3,8 +3,6 @@ package cn.com.bluemoon.delivery.sz.bean.taskManager;
 import java.io.Serializable;
 import java.util.List;
 
-import cn.com.bluemoon.delivery.sz.bean.ReviewerBean;
-
 /**
  * Created by Wan.N
  * Date       2016/9/9
@@ -30,7 +28,7 @@ public class DailyPerformanceInfoBean implements Serializable {
     private String day_score;
     private String day_valid_min;
     private String model;
-    private ReviewerBean reviewer;
+    private UserInfoBean reviewer;
     private String time_utilization;
     private String updatetime;
     private UserInfoBean user;
@@ -80,11 +78,11 @@ public class DailyPerformanceInfoBean implements Serializable {
         this.model = model;
     }
 
-    public ReviewerBean getReviewer() {
+    public UserInfoBean getReviewer() {
         return reviewer;
     }
 
-    public void setReviewer(ReviewerBean reviewer) {
+    public void setReviewer(UserInfoBean reviewer) {
         this.reviewer = reviewer;
     }
 
