@@ -26,6 +26,9 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.kymjs.kjframe.utils.StringUtils;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -141,6 +144,7 @@ public class AddTaskActivity extends BaseActivity{
             tv_dete.setText(currentDate);
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             itemTag++;
+            getAllTaskTimes();
 
         }else if(taskOperateType==TASKOPERATETYPE_MODIFY) {//修改
             try {
@@ -276,7 +280,10 @@ public class AddTaskActivity extends BaseActivity{
 
     @Override
     public void initData() {
-        getuserinfo(ClientStateManager.getUserName());
+        //添加时才自行搜索上级
+        if (taskOperateType==TASKOPERATETYPE_ADD){
+            getuserinfo(ClientStateManager.getUserName());
+        }
 
     }
 
@@ -306,6 +313,7 @@ public class AddTaskActivity extends BaseActivity{
                 ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
                 itemTag++;
                 setItemName();
+                getAllTaskTimes();
                 if (itemTag==itemSize) {
                     tv_addTask.setVisibility(View.GONE);
                 }
@@ -394,6 +402,7 @@ public class AddTaskActivity extends BaseActivity{
                             ll_task_item_conent.removeView(view);
                             itemTag--;
                             setItemName();
+                            getAllTaskTimes();
                                 if (itemTag<10) {
                                     tv_addTask.setVisibility(View.VISIBLE);
                                 }
@@ -496,6 +505,7 @@ public class AddTaskActivity extends BaseActivity{
                     finalMins="0"+finalMins;
                 }
 
+                getAllTaskTimes();
                 LogUtil.i("选取后的时间："+finalHours+":"+finalMins);
                 textView.setText(finalHours+":"+finalMins);
                 dialog.cancel();
@@ -559,7 +569,39 @@ public class AddTaskActivity extends BaseActivity{
             LogUtil.i("asignJobBean:"+asignJobBean.toString());
         }
         return asignJobBeanList;
+    }
 
+    /**遍历所有的item 得到总时长*/
+    public void getAllTaskTimes(){
+        long mins=0;
+        for (int i = 0; i < itemTag; i++) {
+            TaskViewHolder taskViewHolder=
+                    new TaskViewHolder(ll_task_item_conent.getChildAt(i));
+
+            String start=taskViewHolder.tv_dateStart.getText().toString();
+            String end=taskViewHolder.tv_dateEnd.getText().toString();
+
+            long startTime=tranDateToTime(start);
+            long endTime=tranDateToTime(end);
+
+            long totalTime=(endTime-startTime)/(1000*60);
+
+            mins+=totalTime;
+
+        }
+            ttv_totalTime.setText_right(mins+"分钟");
+    }
+
+    public long tranDateToTime(String date){
+        long times=0;
+        try {
+            DateFormat dm= new SimpleDateFormat("HH:mm");
+            times=dm.parse(date.toString()).getTime();
+            LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return times;
     }
 
 

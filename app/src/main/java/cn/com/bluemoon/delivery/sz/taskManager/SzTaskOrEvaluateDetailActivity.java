@@ -7,14 +7,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -179,6 +180,17 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     public void initData() {
 
+        /**@author jiangyh 任务详情头部信息*/
+        if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
+            user_date_tv.setText(tranTimeToDate(evaluateInfo.getCreatetime()));
+            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
+        }
+
+    }
+
+    public  String tranTimeToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date(Long.valueOf(time)));
     }
 
     @Override

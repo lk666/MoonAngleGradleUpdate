@@ -16,17 +16,13 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -61,7 +57,8 @@ public class TaskRecordFragment extends BaseFragment
 	private TextView dateTv;
 
 	private ListView lv_taskRecord;
-	private LinearLayout ll_task_listView;
+	private LinearLayout ll_task_content;
+	private LinearLayout ll_add_taskView;
 
 	/**header头部内容*/
 	private ViewPager vp_calendar;
@@ -80,7 +77,7 @@ public class TaskRecordFragment extends BaseFragment
 	/*******通过日期获取的列表的adapter******/
 	private TaskDateStatusAdapter taskDateStatusAdapter=null;
 	private List<DailyPerformanceInfoBean> dailyPerformanceInfoBeanArrayList = new ArrayList<>();
-	private List<AsignJobBean> asignJobs=null;
+	private List<AsignJobBean> asignJobs=new ArrayList<>();
 
 
 	@Override
@@ -98,7 +95,8 @@ public class TaskRecordFragment extends BaseFragment
 		context=getActivity();
 
 		lv_taskRecord= (ListView)getMainView().findViewById(R.id.lv_taskRecord);
-		ll_task_listView= (LinearLayout) getMainView().findViewById(R.id.ll_task_listView);
+		ll_task_content= (LinearLayout) getMainView().findViewById(R.id.ll_task_content);
+		ll_add_taskView= (LinearLayout) getMainView().findViewById(R.id.ll_add_taskView);
 		tv_addTask= (TextViewForClick) getMainView().findViewById(R.id.tv_addTask);
 		tv_addTask.setOnClickListener(this);
 		initCalendarView();
@@ -111,33 +109,7 @@ public class TaskRecordFragment extends BaseFragment
 
 	}
 
-	@Override
-	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
-		LogUtil.i("requestCode:---->"+requestCode+"/jsonString:"+jsonString);
-
-		DailyperformanceinfoResultBean resultBean=
-				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
-
-		String monthlyPer=resultBean.getMonthlyPer();
-
-		DailyPerformanceInfoBean infoBean=resultBean.getJobsdata();
-
-		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
-			dailyPerformanceInfoBeanArrayList.clear();
-		}
-		dailyPerformanceInfoBeanArrayList.add(infoBean);
-
-//		任务内容
-		asignJobs=infoBean.getAsignJobs();
-
-	}
-
-	@Override
-	public void onFailureResponse(int requestCode, Throwable t) {
-		LogUtil.i("requestCode:"+requestCode);
-		super.onFailureResponse(requestCode, t);
-	}
 
 	enum SildeDirection {
 		RIGHT, LEFT, NO_SILDE;
@@ -193,9 +165,16 @@ public class TaskRecordFragment extends BaseFragment
 
 	public void initAdapterView() {
 		//TODO 模拟数据
+//		initMockData();
+		taskDateStatusAdapter = new TaskDateStatusAdapter(getActivity(), dailyPerformanceInfoBeanArrayList);
+		lv_taskRecord.setAdapter(taskDateStatusAdapter);
+		initListener();
 
+	}
+
+
+	private void initMockData(){
 		DailyPerformanceInfoBean infoBean=new DailyPerformanceInfoBean();
-
 		List<AsignJobBean> asignJobBeanList=new ArrayList<>();
 		AsignJobBean asignJobBean=new AsignJobBean();
 		asignJobBean.setBegin_time("08:00");
@@ -244,20 +223,7 @@ public class TaskRecordFragment extends BaseFragment
 		infoBean.setDay_score("9");
 
 		dailyPerformanceInfoBeanArrayList.add(infoBean);
-
-		taskDateStatusAdapter = new TaskDateStatusAdapter(getActivity(), dailyPerformanceInfoBeanArrayList);
-		lv_taskRecord.setAdapter(taskDateStatusAdapter);
-		initListener();
-
-		if (asignJobBeanList.size()>3){
-			setLinearLayoutWeight(ll_task_listView,0f);
-		}else{//采用addFooterView的形式来展示
-			setLinearLayoutWeight(ll_task_listView,1.0f);
-			ll_task_footer.setVisibility(View.GONE);
-		}
-
 	}
-
 
 	private void initListener() {
 		lv_taskRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -352,6 +318,17 @@ public class TaskRecordFragment extends BaseFragment
 			getData(tranDateToTime(currentDate)+"");
 //		searchByKeyword("国");
 
+		LogUtil.i(tranTimeToDate(tranDateToTime(currentDate)+""));
+
+	}
+
+	private void getData(String date){
+		if (TextUtils.isEmpty(date)) {
+			PublicUtil.showToast("日期不可为空！");
+			return;
+		}
+		showWaitDialog();
+		SzApi.getWorkDetailsApi(date,0,getNewHandler(0, ResultToken.class));
 	}
 
 
@@ -367,42 +344,59 @@ public class TaskRecordFragment extends BaseFragment
 		return times;
 	}
 
-
-
-	///另一种方式请求
-	AsyncHttpResponseHandler userSchDayHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-		public void onStart(){
-			super.onStart();
-		}
-
-		public void onFinish(){
-			super.onFinish();
-		}
-
-		@Override
-		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			LogUtil.i("onSuccess responseString====="+responseString);
-		}
-
-		@Override
-		public void onFailure(int statusCode, Header[] headers, String responseString,
-							  Throwable throwable) {
-			PublicUtil.showToast("API 错误："+statusCode);
-			LogUtil.i("onFailure ====="+responseString);
-		}
-	};
-
-
-
-	private void getData(String date){
-		if (TextUtils.isEmpty(date)) {
-			PublicUtil.showToast("日期不可为空！");
-			return;
-		}
-		showWaitDialog();
-		SzApi.getWorkDetailsApi(date,0,getNewHandler(0, ResultToken.class));
+	public  String tranTimeToDate(String time) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		return sdf.format(new Date(Long.valueOf(time)));
 	}
+
+
+
+	@Override
+	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+		LogUtil.i("requestCode:---->"+requestCode+"/jsonString:"+jsonString);
+		DailyperformanceinfoResultBean resultBean=
+				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
+		String monthlyPer=resultBean.getMonthlyPer();
+
+		DailyPerformanceInfoBean infoBean=resultBean.getJobsdata();
+
+		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+				dailyPerformanceInfoBeanArrayList.clear();
+			}
+			LogUtil.i("DailyPerformanceInfoBean"+infoBean.getAsignJobs());
+			dailyPerformanceInfoBeanArrayList.add(infoBean);
+			taskDateStatusAdapter.notifyDataSetChanged();
+	//		任务内容
+			asignJobs=infoBean.getAsignJobs();
+
+		showAddTv();
+
+
+	}
+
+	@Override
+	public void onFailureResponse(int requestCode, Throwable t) {
+		LogUtil.i("requestCode:"+requestCode);
+		super.onFailureResponse(requestCode, t);
+		showAddTv();
+
+	}
+
+	public void showAddTv(){
+			if (asignJobs.size()>3){
+				setLinearLayoutWeight(ll_task_content,0f);//占满显示footerview
+				ll_add_taskView.setVisibility(View.GONE);
+				ll_task_footer.setVisibility(View.VISIBLE);
+			}else if(asignJobs.size()>=0 ||asignJobs.size()<=3){
+				//采用addFooterView的形式来展示
+				LogUtil.i("000000000000000");
+				setLinearLayoutWeight(ll_task_content,1.0f);//
+				ll_add_taskView.setVisibility(View.VISIBLE);
+				ll_task_footer.setVisibility(View.GONE);
+			}
+	}
+
+
 
 	@Override
 	public void changeDate(CustomDate date) {

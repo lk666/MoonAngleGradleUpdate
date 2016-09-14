@@ -9,7 +9,9 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -97,8 +99,13 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         }
         viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
         viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
-        viewHolder.getTaskStartTimeTv().setText(asignJobBean.getCreatetime());
-        viewHolder.getTaskEndTimeTv().setText(asignJobBean.getEnd_time());
+
+        viewHolder.getTaskStartTimeTv().setText(
+                tranTimeToDate(asignJobBean.getCreatetime()));
+        viewHolder.getTaskEndTimeTv().setText(
+                tranTimeToDate(asignJobBean.getEnd_time()));
+
+
 
         String completeState = asignJobBean.getState();
         if ("0".equalsIgnoreCase(completeState)) {
@@ -133,6 +140,13 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         }
         viewHolder.getTaskEvaluateTv().setText(asignJobBean.getReview_cont());
         return convertView;
+    }
+
+
+    /**毫秒转日期*/
+    public  String tranTimeToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date(Long.valueOf(time)));
     }
 
     class MyViewHolder {

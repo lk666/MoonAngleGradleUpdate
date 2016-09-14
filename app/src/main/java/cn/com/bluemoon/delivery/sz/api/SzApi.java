@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.sz.api;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -169,6 +170,7 @@ public class SzApi {
 //        if (isDebug) {
 //            url = "http://192.168.237.2/wktask-app/user/search";
 //        }
+        requestLog(params,url);
         client.post(AppContext.getInstance(), String.format(HOST, url),
                 getEntity(params), "application/json", handler);
     }
@@ -225,6 +227,7 @@ public class SzApi {
         params.putAll(SzApiClientHelper.getParamUrl());
         params.put("account", account);
         String url = "app/work/getuserinfo";
+        requestLog(params,url);
         client.post(AppContext.getInstance(), String.format(HOST, url),
                 getEntity(params), "application/json", handler);
     }
@@ -270,13 +273,22 @@ public class SzApi {
                                          AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("date", date);
-        params.put("type", type + "");
+        params.put("type", type );
         params.put("token", ClientStateManager.getLoginToken());
         params.putAll(SzApiClientHelper.getParamUrl());
 
         String url = "app/work/getWorkDetailsApi";
+        requestLog(params,url);
         client.post(AppContext.getInstance(), String.format(HOST, url),
                 getEntity(params), "application/json", handler);
+    }
+
+
+    public static void requestLog(Map<String, Object> params,String url){
+        LogUtil.e("========url========");
+        LogUtil.e(String.format(HOST, url));
+        LogUtil.e("========request========");
+        LogUtil.e(JSON.toJSONString(params));
     }
 
 
