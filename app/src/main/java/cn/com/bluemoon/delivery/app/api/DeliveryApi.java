@@ -37,7 +37,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class DeliveryApi {
 
-    private static final String TOKEN = "token";
+    protected static final String TOKEN = "token";
 
     /**
      * 提交http请求
@@ -46,7 +46,7 @@ public class DeliveryApi {
      * @param subUrl  请求的url子部
      * @param handler 回调
      */
-    private static void postRequest(Map<String, Object> params, String subUrl,
+    protected static void postRequest(Map<String, Object> params, String subUrl,
                                     AsyncHttpResponseHandler handler) {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(subUrl, ApiClientHelper.getParamUrl());
@@ -66,7 +66,7 @@ public class DeliveryApi {
      * @param subUrl  请求的url子部
      * @param handler 回调
      */
-    private static void postMockRequest(Map<String, Object> params, String subUrl,
+    protected static void postMockRequest(Map<String, Object> params, String subUrl,
                                         AsyncHttpResponseHandler handler) {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(subUrl, ApiClientHelper.getParamUrl());
@@ -2633,26 +2633,5 @@ public class DeliveryApi {
         params.put("startDate", startDate);
         params.put("endDate", endDate);
         postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
-    }
-
-    /************************ 洗衣二期——还衣 **************************/
-    // TODO: lk 2016/9/14 暂时全部用的是mock数据
-
-    /**
-     * 4.1获取待封箱列表
-     *
-     * @param token     登录凭证(必填) String
-     * @param waitInbox 待封箱 boolean
-     */
-    public static void queryWaitCloseBoxList(String token, boolean waitInbox,
-                                             AsyncHttpResponseHandler handler) {
-        if (null == token) {
-            return;
-        }
-        Map<String, Object> params = new HashMap<>();
-        params.put("token", token);
-        params.put("waitInbox", waitInbox);
-        postMockRequest(params, "washingService-controller/wash/closeBox/queryWaitCloseBoxList%s" +
-                "", handler);
     }
 }
