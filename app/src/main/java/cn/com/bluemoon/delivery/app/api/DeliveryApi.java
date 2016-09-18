@@ -39,6 +39,46 @@ public class DeliveryApi {
 
     private static final String TOKEN = "token";
 
+    /**
+     * 提交http请求
+     *
+     * @param params  参数列表
+     * @param subUrl  请求的url子部
+     * @param handler 回调
+     */
+    private static void postRequest(Map<String, Object> params, String subUrl,
+                                    AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, handler);
+    }
+
+    /**
+     * 提交mock http请求
+     *
+     * @param params  参数列表
+     * @param subUrl  请求的url子部
+     * @param handler 回调
+     */
+    private static void postMockRequest(Map<String, Object> params, String subUrl,
+                                        AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.postMock(context, url, jsonString, handler);
+    }
+
     /************************
      * 2.1 用户相关
      **********************************/
@@ -1123,7 +1163,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.11 展示图片 */
-	/* 返回： ResultImage */
+    /* 返回： ResultImage */
     public static void getImgList(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -1139,7 +1179,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.13 展示打卡记录 */
-	/* 返回： ResultPunchCardList */
+    /* 返回： ResultPunchCardList */
     public static void getPunchCardList(String token, long timestamp, AsyncHttpResponseHandler
             handler) {
         if (null == token) {
@@ -2595,24 +2635,24 @@ public class DeliveryApi {
         postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
     }
 
+    /************************ 洗衣二期——还衣 **************************/
+    // TODO: lk 2016/9/14 暂时全部用的是mock数据
 
     /**
-     * 提交http请求
+     * 4.1获取待封箱列表
      *
-     * @param params  参数列表
-     * @param subUrl  请求的url子部
-     * @param handler 回调
+     * @param token     登录凭证(必填) String
+     * @param waitInbox 待封箱 boolean
      */
-    private static void postRequest(Map<String, Object> params, String subUrl,
-                                    AsyncHttpResponseHandler handler) {
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
-
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+    public static void queryWaitCloseBoxList(String token, boolean waitInbox,
+                                             AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
         }
-
-        ApiHttpClient.post(context, url, jsonString, handler);
+        Map<String, Object> params = new HashMap<>();
+        params.put("token", token);
+        params.put("waitInbox", waitInbox);
+        postMockRequest(params, "washingService-controller/wash/closeBox/queryWaitCloseBoxList%s" +
+                "", handler);
     }
 }
