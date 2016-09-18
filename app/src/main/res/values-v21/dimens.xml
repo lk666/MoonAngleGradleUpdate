@@ -6,5 +6,7 @@
     <dimen name="linepaddingtxt2">5dp</dimen>
     <dimen name="linepaddingtxt3">13dp</dimen>
     <dimen name="linepaddingtxt4">13dp</dimen>
+    <dimen name="linepaddingtxt5">10dp</dimen>
+    <dimen name="linepaddingtxt6">15dp</dimen>
 
 </resources>

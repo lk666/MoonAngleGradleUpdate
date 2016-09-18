@@ -1,35 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
-    android:orientation="vertical" >
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbars="none">
 
-    <ScrollView
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/page_bg_f2"
-        android:layout_weight="1"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="none" >
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center"
-            android:orientation="vertical" >
+            android:background="@color/page_bg_f2"
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="40dp"
+                android:layout_height="45dp"
                 android:layout_marginTop="10dp"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+                android:paddingRight="10dp">
 
                 <TextView
                     android:id="@+id/txt_orderid"
@@ -38,262 +34,262 @@
                     android:layout_weight="1"
                     android:text=""
                     android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textSize="@dimen/text_size_17"/>
 
                 <TextView
                     android:id="@+id/txt_source"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_black_light"
-                    android:textSize="@dimen/text_size_15" />
+                    android:textColor="@color/text_grep"
+                    android:textSize="@dimen/text_size_12"/>
             </LinearLayout>
 
-            <View style="@style/line_solid_deep_style" />
+            <View style="@style/line_solid_deep_style"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:orientation="vertical"
-                android:padding="10dp" >
+                android:paddingLeft="10dp">
 
                 <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="#fefefe"
-                    android:orientation="vertical" >
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="center_vertical"
-                        android:orientation="horizontal" >
-
-                        <TextView
-                            android:id="@+id/txt_customername"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:drawableLeft="@mipmap/user"
-                            android:drawablePadding="10dp"
-                            android:ellipsize="end"
-                            android:singleLine="true"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_14" />
-
-                        <TextView
-                            android:id="@+id/txt_phone"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="15dp"
-                            android:singleLine="true"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_14" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:orientation="horizontal" >
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginRight="10dp"
-                            android:src="@mipmap/address"/>
-                    <TextView
-                        android:id="@+id/txt_address"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:lineSpacingExtra="5dp"
-                        android:paddingBottom="@dimen/linepaddingtxt"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_size_14" />
-                    </LinearLayout>
-                </LinearLayout>
-
-                <LinearLayout
-                    android:id="@+id/layout_warehouse"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:orientation="vertical" >
-
-                    <View
-                        style="@style/line_dotted_style"
-                        android:layout_marginBottom="10dp"
-                         />
-
-                    <TextView
-                        android:id="@+id/txt_warehouse"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:drawableLeft="@mipmap/warehouse"
-                        android:drawablePadding="10dp"
-                        android:textColor="@color/text_black"
-                        android:textSize="@dimen/text_size_14" />
-                </LinearLayout>
-
-                <View
-                    style="@style/line_dotted_style"
-                    android:layout_marginBottom="10dp" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:gravity="center_vertical"
-                    android:orientation="horizontal" >
+                    android:orientation="horizontal"
+                    android:paddingTop="15dp">
 
-                    <ImageView
+                    <TextView
+                        android:id="@+id/txt_customername"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:drawableLeft="@mipmap/user"
+                        android:drawablePadding="10dp"
+                        android:ellipsize="end"
+                        android:singleLine="true"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_15"/>
+
+                    <TextView
+                        android:id="@+id/txt_phone"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginRight="10dp"
-                        android:src="@mipmap/time" />
+                        android:layout_marginLeft="15dp"
+                        android:singleLine="true"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_15"/>
+                </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="vertical" >
+                        android:drawableLeft="@mipmap/address"
+                        android:drawablePadding="10dp"/>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal" >
+                    <TextView
+                        android:id="@+id/txt_address"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:lineSpacingExtra="8dp"
+                        android:paddingBottom="@dimen/linepaddingtxt6"
+                        android:textColor="@color/text_black"
+                        android:textSize="@dimen/text_size_15"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/order_detail_paytime"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_14" />
-
-                            <TextView
-                                android:id="@+id/txt_payOrdertime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_14" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/layout_subscribe"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal"
-                            android:visibility="gone" >
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/order_detail_appointmenttime"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_large_14" />
-
-                            <TextView
-                                android:id="@+id/txt_subscribetime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_14" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/layout_delivery"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal"
-                            android:visibility="gone" >
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/order_detail_deliverytime"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_14" />
-
-                            <TextView
-                                android:id="@+id/txt_deliverytime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_14" />
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:id="@+id/layout_sign"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal"
-                            android:visibility="gone" >
-
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="@string/order_detail_signtime"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_14" />
-
-                            <TextView
-                                android:id="@+id/txt_signtime"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="@color/text_black"
-                                android:textSize="@dimen/text_size_14" />
-                        </LinearLayout>
-                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
-            <View style="@style/line_solid_deep_style" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/line_solid_deep_bg"/>
+
+            <LinearLayout
+                android:id="@+id/layout_warehouse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:drawableLeft="@mipmap/warehouse"
+                    android:drawablePadding="10dp"/>
+
+                <TextView
+                    android:id="@+id/txt_warehouse"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="10dp"
+                    android:paddingTop="15dp"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_15"/>
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="#fefefe"
-                android:orientation="vertical"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingBottom="15dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp" >
+                android:paddingRight="10dp"
+                android:paddingTop="15dp">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/time"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_detail_paytime"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_15"/>
+
+                        <TextView
+                            android:id="@+id/txt_payOrdertime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_15"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_subscribe"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_detail_appointmenttime"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_15"/>
+
+                        <TextView
+                            android:id="@+id/txt_subscribetime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_15"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_delivery"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_detail_deliverytime"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_15"/>
+
+                        <TextView
+                            android:id="@+id/txt_deliverytime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_15"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layout_sign"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/order_detail_signtime"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_14"/>
+
+                        <TextView
+                            android:id="@+id/txt_signtime"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_black"
+                            android:textSize="@dimen/text_size_14"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <View style="@style/line_solid_deep_style"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/page_bg_f2"
+                android:orientation="vertical">
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="10dp"
-                    android:paddingTop="10dp"
+                    android:layout_margin="10dp"
                     android:text="@string/order_detail_detail"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_15" />
-
-                <View style="@style/line_solid_style" />
+                    android:textColor="@color/text_grep"
+                    android:textSize="@dimen/text_size_12"/>
 
                 <ListView
                     android:id="@+id/listview_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@color/white"
                     android:dividerHeight="0dp"
                     android:fadingEdge="none"
                     android:layerType="software"
-                    android:scrollbars="none" />
-
-                <View style="@style/line_solid_style" />
-
-
-                    <TextView
-                        android:id="@+id/txt_totalprice"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:layout_marginTop="10dp"
-                        android:layout_marginBottom="10dp"
-                        android:textColor="@color/text_red"
-                        android:textSize="@dimen/text_size_17" />
+                    android:scrollbars="none"/>
             </LinearLayout>
-
         </LinearLayout>
-    </ScrollView>
 
-</LinearLayout>
+        <TextView
+            android:id="@+id/txt_totalprice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="right"
+            android:padding="10dp"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_15"/>
+
+    </LinearLayout>
+</ScrollView>

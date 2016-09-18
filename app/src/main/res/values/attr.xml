@@ -41,4 +41,11 @@
         <!--背景色-->
         <attr name="viewBg" format="color"/>
     </declare-styleable>
+
+    <declare-styleable name="ArrowTextView">
+        <attr name="arrowRadius" format="dimension" />
+        <attr name="arrowWidth" format="dimension" />
+        <attr name="arrowInWidth" format="dimension" />
+        <attr name="arrowBg" format="color" />
+    </declare-styleable>
 </resources>

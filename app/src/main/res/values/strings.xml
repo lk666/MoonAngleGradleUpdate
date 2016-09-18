@@ -258,6 +258,7 @@
     <string name="order_detail_deliverytime">送货时间：</string>
     <string name="order_detail_signtime">签收时间：</string>
     <string name="order_detail_detail">订单明细</string>
+    <string name="order_package_detail">套装明细:</string>
 
     <!-- 历史订单 -->
     <string name="order_history_totalcount">共%s单</string>
