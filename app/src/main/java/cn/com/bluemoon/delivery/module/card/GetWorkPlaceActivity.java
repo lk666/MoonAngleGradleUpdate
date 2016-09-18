@@ -75,7 +75,7 @@ public class GetWorkPlaceActivity extends BaseActivity implements OnListItemClic
 
             }
         });
-        PublicUtil.setEmptyView(listViewHistory, null, null);
+        PublicUtil.setEmptyView(listViewHistory, getString(R.string.card_search_history),null);
         PublicUtil.setEmptyView(listviewWorkplace, null, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
