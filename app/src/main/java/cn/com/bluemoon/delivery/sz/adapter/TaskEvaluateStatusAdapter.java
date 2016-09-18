@@ -86,8 +86,8 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         //显示被评价人的头像和名字
         UserInfoBean user = itemBean.getUser();
         if (user != null) {
-            ImageLoaderUtil.displayImage(user.getUAvatar(), viewHolder.getUserAvatarIv(), R.mipmap.sz_default_user_icon,
-                    R.mipmap.sz_default_user_icon);
+            ImageLoaderUtil.displayImage(user.getUAvatar(), viewHolder.getUserAvatarIv(), R.mipmap.loading_img_logo,
+                    R.mipmap.loading_img_logo);
             viewHolder.getUserNameTv().setText(user.getUName());
         }
         //工作日期
