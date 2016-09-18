@@ -107,21 +107,19 @@ public class PublicUtil extends LibPublicUtil {
     /**
      * 打开新扫描界面
      *
-     * @param resultCode 大于1的正整数
      */
     public static void openNewScanOrder(Activity aty, Fragment fragment, String title,
-                                        String btnString, int requestCode, int resultCode) {
-        ScanCodeActivity.actStart(aty,fragment,title,btnString,requestCode,resultCode);
+                                        String btnString, int requestCode) {
+        ScanCodeActivity.actStart(aty,fragment,title,null,btnString,requestCode);
     }
 
     /**
      * 打开扫描界面
      *
-     * @param resultCode 大于1的正整数
      */
     public static void openNewScan(Activity aty, String title,
-                                   String btnString, int requestCode, int resultCode) {
-        openNewScanOrder(aty,null,title,btnString,requestCode,resultCode);
+                                   String btnString, int requestCode) {
+        openNewScanOrder(aty,null,title,btnString,requestCode);
     }
 
     public static void openScanTicket(Activity aty, String ticketName,

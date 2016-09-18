@@ -850,4 +850,5 @@
     <string name="code_qr">二维码</string>
     <string name="code_bar">条形码</string>
     <string name="code_content">请将二维码或条形码至于框内</string>
+    <string name="code_scan">请扫描</string>
 </resources>
