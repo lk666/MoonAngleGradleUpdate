@@ -15,11 +15,8 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
-import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
-import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
@@ -41,7 +38,8 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         if (datas == null) {
             mDatas.clear();
         } else {
-            this.mDatas = datas;
+            this.mDatas.clear();
+            this.mDatas.addAll(datas);
         }
     }
 
@@ -49,9 +47,10 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         if (datas == null) {
             mDatas.clear();
         } else {
-            this.mDatas = datas;
+            this.mDatas.clear();
+            this.mDatas.addAll(datas);
         }
-        notifyDataSetChanged();
+        this.notifyDataSetChanged();
     }
 
     @Override
@@ -86,7 +85,7 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         //显示被评价人的头像和名字
         UserInfoBean user = itemBean.getUser();
         if (user != null) {
-            ImageLoaderUtil.displayImage(user.getUAvatar(), viewHolder.getUserAvatarIv(), R.mipmap.sz_default_user_icon,
+            ImageLoaderUtil.displayImage(user.getUAvatar(), viewHolder.getUserAvatarIv(), R.mipmap.sz_default_user_icon, R.mipmap.sz_default_user_icon,
                     R.mipmap.sz_default_user_icon);
             viewHolder.getUserNameTv().setText(user.getUName());
         }
@@ -100,7 +99,6 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(mCxt, itemBean.getAsignJobs());
         viewHolder.getUserTaskLv().setAdapter(adapter);
         setListViewHeight(viewHolder.getUserTaskLv());
-        ///*************************************设置监听器************************************************/
         return convertView;
     }
 

@@ -3,19 +3,19 @@
     android:id="@+id/rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_ed"
+    android:background="@color/white_bg"
     android:orientation="vertical">
 
     <include
         android:id="@+id/rl_user_data"
         layout="@layout/sz_user_data_view" />
 
-    <View
-        android:id="@+id/top_divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_below="@+id/rl_user_data"
-        android:background="@color/gray" />
+    <!-- <View
+         android:id="@+id/top_divider"
+         android:layout_width="match_parent"
+         android:layout_height="10dp"
+         android:layout_below="@+id/rl_user_data"
+         android:background="@color/page_bg_ed" />-->
 
     <!--<LinearLayout-->
     <!--android:id="@+id/ll_bottom_btn_area"-->
@@ -38,7 +38,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_marginLeft="9dp"-->
     <!--android:text="修改评价"-->
-    <!--android:textColor="@color/white"-->
+    <!--android:textColor="@color/white_bg"-->
     <!--android:textSize="@dimen/text_size_16" />-->
     <!--</LinearLayout>-->
 
@@ -46,9 +46,11 @@
         android:id="@+id/user_task_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/top_divider"
-        android:layout_marginTop="@dimen/space_10"
+        android:layout_below="@+id/rl_user_data"
+        android:background="@color/white_bg"
+        android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
+        android:headerDividersEnabled="false"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none" />
 

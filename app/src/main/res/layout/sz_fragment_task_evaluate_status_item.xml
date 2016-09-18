@@ -9,18 +9,14 @@
         android:id="@+id/rl_user_data"
         layout="@layout/sz_user_data_view" />
 
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="@color/gray" />
-
     <include layout="@layout/sz_gray_divider_view" />
 
     <cn.com.bluemoon.delivery.sz.view.ChildListView
         android:id="@+id/user_task_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@color/white_bg"
+        android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
         android:scrollbars="none" />
 

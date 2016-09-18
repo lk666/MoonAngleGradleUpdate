@@ -2,13 +2,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
-    android:paddingLeft="@dimen/space_13"
-    android:paddingRight="@dimen/space_15">
+    android:background="@color/white_bg"
+    android:paddingLeft="@dimen/space_13">
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="45dp">
+        android:layout_height="45dp"
+        android:paddingRight="@dimen/space_15">
 
         <TextView
             android:id="@+id/task_rank_num_tv"
@@ -16,7 +16,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:text="@string/sz_task_label"
-            android:textColor="@color/gray"
+            android:textColor="@color/sz_task_evaluate_text_color"
             android:textSize="@dimen/text_size_14" />
 
         <TextView
@@ -30,15 +30,12 @@
             android:gravity="right|center_vertical"
             android:singleLine="true"
             android:text=""
-            android:textColor="@color/gray"
+            android:textColor="@color/sz_task_evaluate_text_color"
             android:textSize="@dimen/text_size_14" />
     </RelativeLayout>
 
-    <View
+    <include
         android:id="@+id/divider"
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:layout_alignParentBottom="true"
-        android:background="@color/gray" />
+        layout="@layout/sz_gray_divider_view" />
 
 </RelativeLayout>

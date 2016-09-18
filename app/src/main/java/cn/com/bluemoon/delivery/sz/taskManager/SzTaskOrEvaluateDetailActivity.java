@@ -27,7 +27,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
-import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
@@ -96,7 +95,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
 
     private TaskOrEvaluateDetailAdapter adapter = null;
-    private DailyPerformanceInfoBean evaluateInfo=null;//记录传入的绩效数据
+    private DailyPerformanceInfoBean evaluateInfo = null;//记录传入的绩效数据
 
     private List<AsignJobBean> asignJobBeanList = new ArrayList<>();
 
@@ -109,7 +108,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         }
         if (intent.hasExtra(ACTIVITY_EXTAR_DATA)) {
             evaluateInfo = (DailyPerformanceInfoBean) intent.getSerializableExtra(ACTIVITY_EXTAR_DATA);
-        LogUtil.i("--evaluateInfo：" + evaluateInfo.toString());
+            LogUtil.i("--evaluateInfo：" + evaluateInfo.toString());
         }
         LogUtil.i("activityType:" + activityType);
     }
@@ -156,7 +155,27 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
+        //添加头部，用作分割线
+        View header = new View(this);
+        header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        header.setLayoutParams(lp);
+        user_task_lv.addHeaderView(header);
+
         initListener();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onEvaluateStateChanged(EventDailyPerformanceBean bean) {
+        LogUtil.i("被修改的评价bean:" + bean.toString());
+        if (bean != null && bean.getDailyPerformanceInfoBean() != null) {
+            if (bean.getType() == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_TO_EVALUATE) {
+                //如果是未评价的被评价了，则从未评价区移至已评价区
+            } else if (bean.getType() == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_HAVE_EVALUATED) {
+                //如果是已评价的被修改了评价，就将此数据在已评价区更新
+                finish();
+            }
+        }
     }
 
     private void initListener() {
@@ -223,6 +242,18 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             btn_bottom.setText(R.string.sz_update_evaluete_label);
         } else {
             btn_bottom.setText("");
+        }
+        if (evaluateInfo != null) {
+            UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
+            if (evaluateInfo != null) {
+                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,
+                        R.mipmap.sz_default_user_icon, R.mipmap.sz_default_user_icon);
+                user_name_tv.setText(evaluateInfoUser.getUName());
+            }
+            //工作日期
+            user_date_tv.setText(evaluateInfo.getWork_date());
+            //有效工作时间（单位：分钟）
+            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
         }
         if (isFirstLayoutBtns) {
             layoutBottomBtnArea();
@@ -292,4 +323,5 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
-}
+
+

@@ -22,7 +22,6 @@
     <color name="slide_menu_text_color">#7ea1b4</color><!-- 侧滑文字 -->
 
 
-
     <!-- 文字颜色规范 -->
     <color name="text_black">#333333</color><!-- 主体标题文字颜色-黑色-->
     <color name="text_black_light">#666666</color><!-- 正文颜色-浅灰色 -->
@@ -72,4 +71,7 @@
     <color name="task_item_left_text_color">#333333</color>
     <color name="task_item_right_text_color">#888888</color>
 
+    <color name="sz_task_evaluate_text_color">#888888</color>
+    <color name="sz_task_backgroud_color">#888888</color>
+    <color name="sz_divider_gray_background">#F0F0F0</color>
 </resources>

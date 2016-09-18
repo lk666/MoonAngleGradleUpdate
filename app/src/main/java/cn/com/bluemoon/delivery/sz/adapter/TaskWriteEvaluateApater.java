@@ -29,7 +29,6 @@ import cn.com.bluemoon.delivery.sz.taskManager.SzWriteEvaluateActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.TaskQualityScoreActivity;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
@@ -85,7 +84,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final AsignJobBean asignJobBean = datas.get(position);
-        LogUtil.i("getView:" + position + "--getIs_valid:" + asignJobBean.getIs_valid() + "--getState:" + asignJobBean.getState() + "--getValid_min:" + asignJobBean.getValid_min());
+//        LogUtil.i("getView:" + position + "--getIs_valid:" + asignJobBean.getIs_valid() + "--getState:" + asignJobBean.getState() + "--getValid_min:" + asignJobBean.getValid_min());
         final MyViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.sz_activity_write_evaluate_item, null);
@@ -97,7 +96,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         viewHolder.getTaskStateRg().setOnCheckedChangeListener(null);
         viewHolder.getTaskAvaliabelCb().setOnCheckedChangeListener(null);
         for (MyTextWatcher mTextWatcher : mListeners) {
-            LogUtil.e("removeTextChangedListener--" + position);
+//            LogUtil.e("removeTextChangedListener--" + position);
             viewHolder.getTaskAvaliabelTimeEt().removeTextChangedListener(mTextWatcher);
         }
         if (mTextWatcher != null) {
@@ -180,7 +179,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 } else {
 
                 }
-                LogUtil.e("修改" + position + "进展状态：" + datas.get(position).getState());
+//                LogUtil.e("修改" + position + "进展状态：" + datas.get(position).getState());
             }
         });
         viewHolder.getTaskAvaliabelCb().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -191,7 +190,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 } else {
                     datas.get(position).setIs_valid("1");
                 }
-                LogUtil.e("修改" + position + "有效性：" + datas.get(position).getIs_valid());
+//                LogUtil.e("修改" + position + "有效性：" + datas.get(position).getIs_valid());
             }
         });
         if (mTextWatcher == null) {
@@ -214,7 +213,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt("intentNum", SzWriteEvaluateActivity.EVENT_ACTION_TYPE_EVALUATE_CONTENT);
-                bundle.putInt("maxTextLenght", 500);
+                bundle.putInt("maxTextLenght", 200);
                 bundle.putString("inputContent", asignJobBean.getReview_cont());
                 bundle.putString("viewName", position + "");
                 PageJumps.PageJumps(cxt, InputToolsActivity.class, bundle);
@@ -253,9 +252,9 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 }
             } else {
                 datas.get(position).setValid_min("0");
-                LogUtil.e("修改" + position + "有效工时：0");
+//                LogUtil.e("修改" + position + "有效工时：0");
             }
-            LogUtil.e("修改" + position + "有效工时：" + datas.get(position).getValid_min());
+//            LogUtil.e("修改" + position + "有效工时：" + datas.get(position).getValid_min());
         }
 
         @Override
