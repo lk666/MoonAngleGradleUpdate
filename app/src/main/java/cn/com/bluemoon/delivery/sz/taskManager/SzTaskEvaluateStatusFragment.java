@@ -199,6 +199,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
                     intent = new Intent(getActivity(), SzTaskOrEvaluateDetailActivity.class);
                     intent.putExtra(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE, SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE_EVALUATE_DETAIL);
                 } else {
+
                 }
                 intent.putExtra(SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, itemInfo);
                 if (intent != null) {
