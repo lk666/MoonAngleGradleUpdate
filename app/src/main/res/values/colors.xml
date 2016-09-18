@@ -33,6 +33,7 @@
     <color name="text_blue_light">#0a58f1</color><!-- 蓝色文字 -->
     <color name="text_blue_deep">#0058f1</color><!-- 蓝色文字 -->
     <color name="text_set_hint">#bebebe</color><!-- 设置横条右边的提示语颜色 -->
+    <color name="text_set_hint2">#bdbdbd</color>
 
     <!-- 按钮颜色 -->
     <color name="btn_red">#ff6c47</color><!-- 红色 -->

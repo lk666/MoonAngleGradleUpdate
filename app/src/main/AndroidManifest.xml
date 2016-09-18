@@ -400,6 +400,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop"/>
 
+        <activity
+            android:name=".module.wash.returning.manager.ManualSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+
         <service android:name=".module.card.LocationSvc"/>
 
         <!-- push应用定义消息receiver声明 -->
