@@ -249,18 +249,13 @@ public class GetWorkPlaceActivity extends BaseActivity implements OnListItemClic
                     public void onClick(View v) {
                         refreshHistoryItem(list.get(position), false);
                         ViewUtil.hideIM(v);
-                        /*PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("translationX", 0.0f,-500.0f);
-                        PropertyValuesHolder p2 = PropertyValuesHolder.ofFloat("alpha", 1.0f, 0.0f);
-                        ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(convertView, p1, p2);*/
-                        ObjectAnimator animator = ObjectAnimator.ofFloat(convertView, "translationX", 0.0f,-1000.0f);
+                        int x = AppContext.getInstance().getDisplayWidth();
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(convertView, "translationX", 0.0f,-x);
                         animator.start();
                         animator.addListener(new AnimatorListenerAdapter() {
                             @Override
                             public void onAnimationEnd(Animator animation) {
                                 super.onAnimationEnd(animation);
-                                /*PropertyValuesHolder p1 = PropertyValuesHolder.ofFloat("translationX", 0.0f);
-                                PropertyValuesHolder p2 = PropertyValuesHolder.ofFloat("alpha", 1.0f);
-                                ObjectAnimator animator = ObjectAnimator.ofPropertyValuesHolder(convertView, p1, p2);*/
                                 ObjectAnimator animator = ObjectAnimator.ofFloat(convertView, "translationX", 0.0f);
                                 animator.setDuration(10);
                                 animator.start();

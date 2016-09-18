@@ -94,7 +94,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
 
 			//punchCard.setAltitude(location.getAltitude());
 			progressDialog.show();
-			DeliveryApi.confirmAttendance(ClientStateManager.getLoginToken(mContext),
+			DeliveryApi.addPunchCardOut(ClientStateManager.getLoginToken(),
 					punchCard, CardUtils.getWorkTaskString(tagListView.getTagsChecked()), confirmAttendanceHandler);
 		}
 	};
