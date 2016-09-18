@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -157,7 +158,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         //添加头部，用作分割线
         View header = new View(this);
         header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
         header.setLayoutParams(lp);
         user_task_lv.addHeaderView(header);
 

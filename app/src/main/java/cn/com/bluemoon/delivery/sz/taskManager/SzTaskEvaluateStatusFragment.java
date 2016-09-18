@@ -111,8 +111,14 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void initData() {
         curPage = 1;
-        loadData();
 //        loadData2();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        //每次进页面都刷新最新数据来显示
+        loadData();
     }
 
     //TODO 模拟数据
@@ -230,26 +236,33 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
         if (result != null && result.isSuccess) {
-            ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
+            ResultGetTaskEvaluateList resultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
             //将数据进行简单的是时间格式处理
-            if (ResultGetTaskEvaluateList.getData() != null) {
-                List<DailyPerformanceInfoBean> data = ResultGetTaskEvaluateList.getData();
-                for (DailyPerformanceInfoBean dailyPerformanceInfoBean : data) {
-                    dailyPerformanceInfoBean.setCreatetime(tranTimeToDate(dailyPerformanceInfoBean.getCreatetime()));
-                    dailyPerformanceInfoBean.setUpdatetime(tranTimeToDate(dailyPerformanceInfoBean.getUpdatetime()));
-                    dailyPerformanceInfoBean.setWork_date(tranTimeToDate(dailyPerformanceInfoBean.getWork_date()));
-                    for (AsignJobBean asignJobBean : dailyPerformanceInfoBean.getAsignJobs()) {
-                        asignJobBean.setCreatetime(tranTimeToDate(asignJobBean.getCreatetime()));
-                        asignJobBean.setBegin_time(tranTimeToDate2(asignJobBean.getBegin_time()));
-                        asignJobBean.setEnd_time(tranTimeToDate2(asignJobBean.getEnd_time()));
-                    }
-                    mEvaluateDatas.add(dailyPerformanceInfoBean);
-                    LogUtil.i("mEvaluateDatas:" + mEvaluateDatas.toString());
-                }
-            }
+            dealResultData(resultGetTaskEvaluateList);
             mHandle.sendEmptyMessage(LOAD_DATA_SUCCESS);
         } else {
             mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
+        }
+    }
+
+    private void dealResultData(ResultGetTaskEvaluateList resultGetTaskEvaluateList) {
+        if (resultGetTaskEvaluateList.getData() != null) {
+            List<DailyPerformanceInfoBean> data = resultGetTaskEvaluateList.getData();
+            for (DailyPerformanceInfoBean dailyPerformanceInfoBean : data) {
+                if (activityType == ACTIVITY_TYPE_TO_EVALUATE) {
+                    dailyPerformanceInfoBean.setDay_score(getString(R.string.sz_evaluate_not_valid_label));
+                }
+                dailyPerformanceInfoBean.setCreatetime(tranTimeToDate(dailyPerformanceInfoBean.getCreatetime()));
+                dailyPerformanceInfoBean.setUpdatetime(tranTimeToDate(dailyPerformanceInfoBean.getUpdatetime()));
+                dailyPerformanceInfoBean.setWork_date(tranTimeToDate(dailyPerformanceInfoBean.getWork_date()));
+                for (AsignJobBean asignJobBean : dailyPerformanceInfoBean.getAsignJobs()) {
+                    asignJobBean.setCreatetime(tranTimeToDate(asignJobBean.getCreatetime()));
+                    asignJobBean.setBegin_time(tranTimeToDate2(asignJobBean.getBegin_time()));
+                    asignJobBean.setEnd_time(tranTimeToDate2(asignJobBean.getEnd_time()));
+                }
+                mEvaluateDatas.add(dailyPerformanceInfoBean);
+//                LogUtil.i("整理后的数据 mEvaluateDatas:" + mEvaluateDatas.toString());
+            }
         }
     }
 

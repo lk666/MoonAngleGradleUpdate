@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -271,7 +272,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         //添加头部，用作分割线
         View header = new View(this);
         header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
         header.setLayoutParams(lp);
         user_task_lv.addHeaderView(header);
 
@@ -333,7 +334,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         if (evaluateInfo != null) {
             UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
             if (evaluateInfo != null) {
-                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,  R.mipmap.sz_default_user_icon,
+                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon, R.mipmap.sz_default_user_icon,
                         R.mipmap.sz_default_user_icon);
                 user_name_tv.setText(evaluateInfoUser.getUName());
             }

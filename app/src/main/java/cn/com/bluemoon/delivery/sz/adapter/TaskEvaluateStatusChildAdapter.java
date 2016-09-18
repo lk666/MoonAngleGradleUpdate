@@ -52,7 +52,7 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
     }
 
     @Override
-    public Object getItem(int position) {
+    public AsignJobBean getItem(int position) {
         return datas.get(position);
     }
 
@@ -72,18 +72,11 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         ///*************************************显示数据************************************************/
-//        if (position < (datas.size() - 1)) {
-//            viewHolder.getDivider().setVisibility(View.VISIBLE);
-//        } else {
-//            viewHolder.getDivider().setVisibility(View.GONE);
-//        }
-
-        /**@author jiangyh */
 //        任务记录首页item 展示
         AsignJobBean asignJobBean = datas.get(position);
 
-        viewHolder.getTaskRankNumTv().setText(asignJobBean.getTask_cont());
-        viewHolder.getTaskContent().setText(asignJobBean.getProduce_cont());
+        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label) + (position + 1));
+        viewHolder.getTaskContent().setText(asignJobBean.getTask_cont());
 
         return convertView;
     }
