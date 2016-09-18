@@ -7,6 +7,8 @@ public enum MenuCode {
 	my_news,my_inform,knowledge_base,customer_service,empty,
 	receive_clothes_manager,
 	activity_collect_clothes,
-	promote_file,my_team
+	promote_file,my_team,
+	//  TODO: lk 2016/9/14 洗衣服务还衣
+	closebox
 }
 
