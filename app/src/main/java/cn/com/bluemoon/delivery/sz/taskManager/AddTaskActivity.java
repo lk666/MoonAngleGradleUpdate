@@ -49,6 +49,8 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoAndReViewInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoListBean;
+import cn.com.bluemoon.delivery.sz.util.CacheServerResponse;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.TaskTextView;
@@ -96,8 +98,6 @@ public class AddTaskActivity extends BaseActivity{
 
     public static SimpleDateFormat format = new SimpleDateFormat("HH:mm");
 
-
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_sz_add_task;
@@ -126,6 +126,7 @@ public class AddTaskActivity extends BaseActivity{
                 LogUtil.i("自身："+user.toString());
 
                 if (sup!=null){
+                    if (!TextUtils.isEmpty(sup.getUName()) && !TextUtils.isEmpty(sup.getUID()))
                     ttv_appraiser.setText_right(sup.getUName()+"("+sup.getUID()+")");
                 }
 
@@ -154,6 +155,7 @@ public class AddTaskActivity extends BaseActivity{
             tv_dete.setText(currentDate);
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             itemTag++;
+            setItemName();
             getAllTaskTimes();
 
         }else if(taskOperateType==TASKOPERATETYPE_MODIFY) {//修改
@@ -288,13 +290,11 @@ public class AddTaskActivity extends BaseActivity{
         TextView tv_right=titleBar.getTvRightView();
         tv_right.setVisibility(View.VISIBLE);
         tv_right.setText("确定");
-
-
     }
 
     /**提交工作任务*/
     public void submitDayJobsApi(){
-//                时间是否有交集
+//      时间是否有交集
         List<AsignJobBean> asignJobs=getAllTastContent();
         AsignJobBean asignJobBean=null;
         AsignJobBean asignJobBeanNext=null;
@@ -350,14 +350,55 @@ public class AddTaskActivity extends BaseActivity{
 
         LogUtil.w("任务添加实体转换："+JSON.toJSONString(submitData));
 
+        saveReViewData(sup);
+
         showWaitDialog();
         SzApi.submitDayJobsApi(submitData,"0",getNewHandler(REQUEST_COMMIT, ResultToken.class));
-
-
 
     }
 
 
+    /**保存评价员的信息到本地缓存中 最多五十个*/
+    private void saveReViewData(UserInfoBean currUserInfoBean){
+        UserInfoListBean userInfoListBean=null;//本地取出的实例
+
+        List<UserInfoBean> userInfoBeanList=new ArrayList<>();//本的的list
+        List<UserInfoBean> userInfoBeanListTemp=new ArrayList<>();//用于记录存在的信息 用于删除
+        List<UserInfoBean> userInfoBeanListFinal=new ArrayList<>();//中转用后最后的排序
+
+        userInfoListBean=
+                (UserInfoListBean) CacheServerResponse.readObject(context,"UserInfoListBean");
+        if (userInfoListBean!=null){
+            userInfoBeanList=userInfoListBean.getData();
+            //对比是否存在
+            for (UserInfoBean userInfoBean:userInfoBeanList) {
+                LogUtil.e("本地缓存的用户信息："+userInfoBean.toString());
+                if (userInfoBean.getUID().equals(currUserInfoBean.getUID())){
+                    userInfoBeanListTemp.add(userInfoBean);
+                }
+            }
+            userInfoBeanList.removeAll(userInfoBeanListTemp);
+
+            userInfoBeanListFinal.add(currUserInfoBean);
+            userInfoBeanListFinal.addAll(userInfoBeanList);
+
+//            Collections.reverse(userInfoBeanList);
+            for (UserInfoBean userInfoBean:userInfoBeanListFinal) {
+                LogUtil.e("中转 本地缓存的用户信息："+userInfoBean.toString());
+            }
+            userInfoListBean.setData(userInfoBeanListFinal);
+
+
+        }else{
+            userInfoListBean=new UserInfoListBean();
+            userInfoBeanListFinal.add(currUserInfoBean);
+            userInfoListBean.setData(userInfoBeanListFinal);
+            LogUtil.e("第一次本地缓存的用户信息："+currUserInfoBean.toString());
+        }
+            CacheServerResponse.saveObject(context,
+                    "UserInfoListBean", userInfoListBean);
+
+    }
 
 
     private  boolean isOverlap(String startdate1, String enddate1,String startdate2, String enddate2) {
@@ -387,9 +428,6 @@ public class AddTaskActivity extends BaseActivity{
                         ((rightStartDate.getTime() > leftStartDate.getTime())
                                 && rightStartDate.getTime() <= leftEndDate.getTime());
     }
-
-
-
 
         @Override
     public void initData() {

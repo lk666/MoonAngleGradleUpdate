@@ -287,6 +287,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     /**
      * 请求返回非OK
      */
+    @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         PublicUtil.showErrorMsg(aty, result);
     }

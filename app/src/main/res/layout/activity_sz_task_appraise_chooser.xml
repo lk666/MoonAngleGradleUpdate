@@ -33,6 +33,8 @@
                 android:layout_marginLeft="10dp"
                 android:hint="搜索评价人"
                 android:textColor="@color/task_item_left_text_color"
+                android:cursorVisible="true"
+                android:textCursorDrawable="@null"
                 android:background="@null"
                 android:singleLine="true"
                 android:imeOptions="actionSearch"
