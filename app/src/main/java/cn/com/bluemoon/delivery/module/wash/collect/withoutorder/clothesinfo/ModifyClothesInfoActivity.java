@@ -35,13 +35,13 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ModifyUploadCloth
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothesNameView;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothesTypeInfoView;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingPic;
 import cn.com.bluemoon.delivery.module.wash.collect.SavedClothingPic;
 import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
-import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
@@ -80,7 +80,6 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
      */
     private static final int MAX_UPLOAD_IMG = 10;
 
-    private static final int RESULT_CODE_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
 
     /**
@@ -573,7 +572,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
     private void goScanCode() {
         PublicUtil.openNewScan(this, getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
-                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+                Constants.REQUEST_SCAN);
     }
 
 
@@ -592,7 +591,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
                     handleScaneCodeBack(resultStr);
                 }
                 //   跳转到手动输入
-                else if (resultCode == RESULT_CODE_MANUAL) {
+                else if (resultCode == Constants.RESULT_SCAN) {
                     Intent intent = new Intent(this, ManualInputCodeActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_MANUAL);
                 }

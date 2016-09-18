@@ -46,6 +46,7 @@ import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.common.ScanCodeActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
@@ -58,6 +59,7 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -143,9 +145,6 @@ public class MainActivity extends SlidingActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
              PublicUtil.openScanView(main, null, null, 0);
-//                PublicUtil.openScanTicket(main,"dlsafdsfds","23432432",0,4);
-//                PublicUtil.openNewScan(main,"123","3243242",0,4);
-//                PublicUtil.openNewScanOrder(main,null,"123","3243242",0,4);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -455,9 +454,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    /*if(!BuildConfig.RELEASE){
+                    if(!BuildConfig.RELEASE){
                         mockData();
-                    }*/
+                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -484,14 +483,20 @@ public class MainActivity extends SlidingActivity {
     };
 
 
-    /*private void mockData() {
+    private void mockData() {
         UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.my_team.toString());
-        item.setMenuName(getString(R.string.team_title));
+        item.setMenuCode(MenuCode.wash_cabinet.toString());
+        item.setMenuName("入柜管理");
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
-    }*/
+        UserRight item2 = new UserRight();
+        item2.setMenuCode(MenuCode.wash_driver.toString());
+        item2.setMenuName("司机承运");
+        item2.setIconImg(listRight.get(0).getIconImg());
+        item2.setGroupNum(1);
+        listRight.add(item2);
+    }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
@@ -752,7 +757,13 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MyTeamActivity.class);
                 startActivity(intent);
-            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+            } else if(MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())){
+                CabinetScanActivity.actStart(main, null, "扫描衣物编码", "手动输入",null, 0);
+            } else if(MenuCode.wash_driver.toString().equals(userRight.getMenuCode())){
+                ScanCodeActivity.actStart(main, null, null, "手动输入",null, 0);
+            }
+            //此处添加模块判断
+            else if (!TextUtils.isEmpty(userRight.getUrl())) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(main),

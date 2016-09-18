@@ -45,7 +45,6 @@ import cn.com.bluemoon.lib.utils.LibConstants;
  */
 public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
-    private static final int RESULT_CODE_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x33;
     @Bind(R.id.txt_deliver_name)
     TextView txtDeliverName;
@@ -119,7 +118,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         PublicUtil.openNewScan(ClothingDeliverConfirmActivity.this,
                 getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
-                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+                Constants.REQUEST_SCAN);
     }
 
     private void init() {
@@ -223,7 +222,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
                     handleScaneCodeBack(resultStr);
                 }
                 //   跳转到手动输入
-                else if (resultCode == RESULT_CODE_MANUAL) {
+                else if (resultCode == Constants.RESULT_SCAN) {
                     Intent intent = new Intent(this, ManualInputCodeActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_MANUAL);
                 }

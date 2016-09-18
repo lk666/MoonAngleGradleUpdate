@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
 
     <!-- SDK迁移过来 -->
     <string name="xlistview_header_hint_loading">正在刷新...</string>
@@ -855,4 +855,5 @@
 
     <!--wash returning-->
     <string name="manual_sign">手动签名</string>
+    <string name="code_scan">请扫描</string>
 </resources>

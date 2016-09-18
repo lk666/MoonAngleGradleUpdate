@@ -60,6 +60,8 @@ public class Constants {
      ***********************/
     public static final int REQUEST_SCAN = 0x00;
 
+    public static final int RESULT_SCAN = 0x04;
+
     public static final int TAKE_PIC_RESULT = 0x01;
     public static final int CHOSE_PIC_RESULT = 0x02;
 
