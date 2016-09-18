@@ -18,6 +18,10 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -31,6 +35,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.sz.adapter.TaskDateStatusAdapter;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
+import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyperformanceinfoResultBean;
@@ -70,6 +75,7 @@ public class TaskRecordFragment extends BaseFragment
 
 	private View headerView=null;
 	private View footerView=null;
+	private TextView tv_task_point=null;
 	private LinearLayout ll_task_footer=null;
 	private TextViewForClick tv_addTask=null;//外面添加按钮
 	private TextViewForClick tv_footer_addTask=null;//多列表数据时 以addfooter 的形式来展示
@@ -93,6 +99,7 @@ public class TaskRecordFragment extends BaseFragment
 	@Override
 	public void initView() {
 		context=getActivity();
+		EventBus.getDefault().register(this);
 
 		lv_taskRecord= (ListView)getMainView().findViewById(R.id.lv_taskRecord);
 		ll_task_content= (LinearLayout) getMainView().findViewById(R.id.ll_task_content);
@@ -104,6 +111,15 @@ public class TaskRecordFragment extends BaseFragment
 		initAdapterView();
 	}
 
+	@Subscribe(threadMode = ThreadMode.MAIN)
+	public void getModifyTaskSuccess(EventMessageBean messageBean){
+		if (messageBean.getEventMsgAction().equals("0")){
+//			重新获取当前的日期数据
+			getData(String.valueOf(
+					tranDateToTime(currentDate,"yyyy-MM-dd")));
+		}
+	}
+
 	@Override
 	public void initData() {
 
@@ -112,7 +128,6 @@ public class TaskRecordFragment extends BaseFragment
 	enum SildeDirection {
 		RIGHT, LEFT, NO_SILDE;
 	}
-	private String chooseDate="";
 
 	Handler mHandler=new Handler(){
 		@Override
@@ -132,12 +147,13 @@ public class TaskRecordFragment extends BaseFragment
 		headerView = inflater.inflate(R.layout.sz_header_task,null);
 		vp_calendar= (ViewPager) headerView.findViewById(R.id.vp_calendar);
 		dateTv = (TextView) headerView.findViewById(R.id.tv_date);
+		tv_task_point = (TextView) headerView.findViewById(R.id.tv_task_point);
 		lv_taskRecord.addHeaderView(headerView);
 
 		currentDate = new CustomDate().toString();
 		LogUtil.i("当前的日期---------->："+currentDate);
 		//*/获取当天的数据
-		getData(tranDateToTime(chooseDate)+"");
+		getData(String.valueOf(tranDateToTime(currentDate,"yyyy-MM-dd")));
 
 
 
@@ -246,12 +262,10 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 
-
-
 	private void adjustViewPagerHeight(int rowNum){
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
 		int width = wm.getDefaultDisplay().getWidth();
-		int cellspace = width / 6;
+		int cellspace = width / 7;
 		int height = cellspace * rowNum;
 		vp_calendar.setLayoutParams(new LinearLayout.LayoutParams(width,height));
 	}
@@ -387,6 +401,8 @@ public class TaskRecordFragment extends BaseFragment
 		DailyperformanceinfoResultBean resultBean=
 				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
 		String monthlyPer=resultBean.getMonthlyPer();
+		tv_task_point.setText(String.format(
+				getString(R.string.sz_task_monthlyper),monthlyPer));
 
 		DailyPerformanceInfoBean infoBean=resultBean.getJobsdata();
 
@@ -400,8 +416,6 @@ public class TaskRecordFragment extends BaseFragment
 			asignJobs=infoBean.getAsignJobs();
 
 		showAddTv();
-
-
 	}
 
 
@@ -476,4 +490,9 @@ public class TaskRecordFragment extends BaseFragment
 		MobclickAgent.onPageEnd(SzTaskActivity.class.getSimpleName());
 	}
 
+	@Override
+	public void onDestroyView() {
+		super.onDestroyView();
+		EventBus.getDefault().unregister(this);
+	}
 }

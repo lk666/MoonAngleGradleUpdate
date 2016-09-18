@@ -21,10 +21,16 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 
 public class InputToolsActivity extends BaseActivity{
 
+    public static final String MAXTEXTLENGHT="MAXTEXTLENGHT";//修改时为有值
     public int maxTextLenght=0;//最大字数上限
-    public int intentNum=0;//用于标识那一列Item 项中的输入跳转过来
-    public String inputContent="";//修改时为有值
-    public String viewName="";//指定控件接收内容
+    public static final String INTENTITEMTAG="INTENTITEMTAG";//用于标识那一列Item 项中的输入跳转过来
+    public int intentItemTag=0;
+    public static final String INPUTTITELCONTENT="INPUTTITELCONTENT";//修改时为有值
+    public String inputContent="";
+    public static final String VIEWNAME="VIEWNAME";//指定控件接收内容
+    public String viewName="";
+    public static final String INPUTTITEL="INPUTTITEL";//输入内容的标题
+    public  String inputTitel="";
 
     @Bind(R.id.ed_input)
     EditText ed_input;
@@ -44,17 +50,19 @@ public class InputToolsActivity extends BaseActivity{
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
-        intentNum=getIntent().getIntExtra("intentNum",0);
-        maxTextLenght=getIntent().getIntExtra("maxTextLenght",0);
-        inputContent=getIntent().getStringExtra("inputContent");
-        viewName=getIntent().getStringExtra("viewName");
+        intentItemTag=getIntent().getIntExtra(INTENTITEMTAG,0);
+        maxTextLenght=getIntent().getIntExtra(MAXTEXTLENGHT,0);
+        inputContent=getIntent().getStringExtra(INPUTTITELCONTENT);
+        viewName=getIntent().getStringExtra(VIEWNAME);
 
-        LogUtil.i("intentNum:"+intentNum+"/ maxTextLenght"+maxTextLenght+" /inputContent:"+inputContent);
+        inputTitel=getIntent().getStringExtra(INPUTTITEL);
+
+        LogUtil.i("intentNum:"+intentItemTag+"/ maxTextLenght"+maxTextLenght+" /inputContent:"+inputContent);
     }
 
     @Override
     protected String getTitleString() {
-        return "输入标题";
+        return inputTitel;
     }
 
     @Override
@@ -125,7 +133,7 @@ public class InputToolsActivity extends BaseActivity{
                 @Override
                 public void onBtnRight(View v) {
                     EventMessageBean messageBean=new EventMessageBean();
-                    messageBean.setEventMsgAction(intentNum+"");
+                    messageBean.setEventMsgAction(intentItemTag+"");
                     messageBean.setEventMsgContent(ed_input.getText().toString());
                     messageBean.setReMark(viewName);
                     EventBus.getDefault().post(messageBean);

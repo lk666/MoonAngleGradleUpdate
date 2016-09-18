@@ -13,6 +13,10 @@ import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -23,6 +27,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
+import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
@@ -137,13 +142,17 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        EventBus.getDefault().register(this);
         context = SzTaskOrEvaluateDetailActivity.this;
         sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_task_or_evaluate_detail_btn_layout);
         ll_bottom_btn_area = (LinearLayout) sz_rewrite_btn_layout.findViewById(R.id.ll_bottom_btn_area);
         btn_bottom = (TextView) sz_rewrite_btn_layout.findViewById(R.id.btn_bottom);
-        //
-        user_score_tv.setVisibility(View.GONE);
-        user_score_icon.setVisibility(View.GONE);
+        //*/ jiangyh
+        if (activityType==ACTIVITY_TYPE_TASK_DETAIL){
+            user_score_tv.setVisibility(View.GONE);
+            user_score_icon.setVisibility(View.GONE);
+
+        }
 
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
@@ -175,6 +184,13 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                 }
             }
         });
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getModifyTaskSuccess(EventMessageBean messageBean){
+        if (messageBean.getEventMsgAction().equals("0")){
+            PageJumps.finish(context);
+        }
     }
 
 
@@ -269,5 +285,11 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

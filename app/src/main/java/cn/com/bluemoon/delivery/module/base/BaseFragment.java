@@ -148,7 +148,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
                     }
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
-                    PublicUtil.showToastServerBusy();
+//                    PublicUtil.showToastServerBusy();
                     iHttpRespone.onSuccessException(getReqCode(), e);
                 }
             }

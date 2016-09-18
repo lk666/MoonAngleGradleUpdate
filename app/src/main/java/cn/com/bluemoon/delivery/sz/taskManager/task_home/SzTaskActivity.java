@@ -15,12 +15,13 @@ import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SchedualAddMeetingActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
@@ -45,33 +46,10 @@ public class SzTaskActivity extends BaseTabActivity {
 
         initWidget();
 
-            LogUtil.i("/account--->"+ ClientStateManager.getUserName());
-
-//        if (!TextUtils.isEmpty(ClientStateManager.getUserName())){
-//            getUserinfo(ClientStateManager.getUserName());
-//        }
-//
-//
-//        searchByKeyword("国");
-
-
     }
 
 
 
-
-//    private void searchByKeyword(String queryStr){
-//        if (!StringUtils.isEmpty(queryStr)) {
-//            showWaitDialog();
-//            SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
-//        }
-//    }
-//    private void getUserinfo(String account){
-//        if (!StringUtils.isEmpty(account)) {
-//            showWaitDialog();
-//            SzApi.getuserinfo(account, getNewHandler(0, ResultToken.class));
-//        }
-//    }
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
         LogUtil.i("requestCode:"+requestCode+"/jsonString:"+jsonString);
@@ -80,9 +58,12 @@ public class SzTaskActivity extends BaseTabActivity {
 
     public void initWidget() {
         vpager_taskItem = (ViewPager) this.findViewById(R.id.vpager_taskItem);
+        TaskRecordFragment taskRecordFragment=new TaskRecordFragment();
+        TaskAppraiseFragment taskAppraiseFragment=new TaskAppraiseFragment();
+        taskFragmentList.add(taskRecordFragment);
+        taskFragmentList.add(taskAppraiseFragment);
 
-        taskFragmentList.add(new TaskRecordFragment());
-        taskFragmentList.add(new TaskAppraiseFragment());
+//        EventBus.getDefault().register(taskRecordFragment);
 
         FragmentManager fm = getSupportFragmentManager();
         fPagerAdapter = new FragmentPagerAdapter(fm) {
@@ -109,6 +90,13 @@ public class SzTaskActivity extends BaseTabActivity {
         vpager_taskItem.setCurrentItem(0, false);
 
     }
+
+//    @Subscribe(threadMode = ThreadMode.MAIN)
+//    public void getModifyTaskSuccess(EventMessageBean messageBean){
+//        if (messageBean.getEventMsgAction().equals("0")){
+////            PageJumps.finish(context);
+//        }
+//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -181,4 +169,9 @@ public class SzTaskActivity extends BaseTabActivity {
         MobclickAgent.onPageEnd(SzTaskActivity.class.getSimpleName());
     }
 
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }

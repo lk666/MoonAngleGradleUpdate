@@ -4,6 +4,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -58,6 +59,7 @@ import cn.com.bluemoon.delivery.sz.view.datepicker.adapter.NumericWheelAdapter;
 import cn.com.bluemoon.delivery.sz.view.datepicker.widget.WheelView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**添加任务页面*/
 public class AddTaskActivity extends BaseActivity{
@@ -138,6 +140,14 @@ public class AddTaskActivity extends BaseActivity{
 
                 if (resultBase.isSuccess){
                     PublicUtil.showToast("提交任务成功！");
+                    if (sup!=null){//保存评价人到本地
+                        saveReViewData(sup);
+                    }
+                    //发送通知关闭详情页，并重新请求当天的数据
+                    EventMessageBean messageBean=new EventMessageBean();
+                    messageBean.setEventMsgAction("0");
+                    EventBus.getDefault().post(messageBean);
+
                     PageJumps.finish(context);
                 }
 
@@ -163,10 +173,20 @@ public class AddTaskActivity extends BaseActivity{
                 dailyPerformanceInfoBean=
                         (DailyPerformanceInfoBean) getIntent().getSerializableExtra(DATABEAN);
                 currentDate=dailyPerformanceInfoBean.getCreatetime();
-                tv_dete.setText(tranTimeToDate(currentDate,"yyyy-MM-dd"));
+                currentDate=tranTimeToDate(currentDate,"yyyy-MM-dd");
+                tv_dete.setText(currentDate);
+                sup=dailyPerformanceInfoBean.getReviewer();
+                user=dailyPerformanceInfoBean.getUser();
 
                 UserInfoBean reviewerBean=dailyPerformanceInfoBean.getReviewer();
-                ttv_appraiser.setText_right(reviewerBean.getUName());
+                if(reviewerBean!=null){
+                    if (!TextUtils.isEmpty(reviewerBean.getUID())
+                            && !TextUtils.isEmpty(reviewerBean.getUName())){
+                        ttv_appraiser.setText_right(reviewerBean.getUName()+"("+reviewerBean.getUID()+")");
+                    }
+
+                }
+
                 ttv_totalTime.setText_right(dailyPerformanceInfoBean.getDay_valid_min());
 
                 List<AsignJobBean>  asignJobBeanList =dailyPerformanceInfoBean.getAsignJobs();
@@ -202,6 +222,8 @@ public class AddTaskActivity extends BaseActivity{
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             initViewForBean(asignJobBean,itemTag);
             itemTag++;
+            getAllTaskTimes();
+
         }
     }
 
@@ -214,14 +236,15 @@ public class AddTaskActivity extends BaseActivity{
         taskViewHolder.tv_dateStart.setText(asignJobBean.getBegin_time());
         taskViewHolder.tv_dateEnd.setText(asignJobBean.getEnd_time());
         String taskStatus=asignJobBean.getState();
+        /**0未开始，1进行中，2已完成，3暂停*/
         switch (taskStatus){
-            case "0":
+            case "2":
                 taskViewHolder.rg_status.check(taskViewHolder.rb_finish.getId());
                 break;
             case "1":
                 taskViewHolder.rg_status.check(taskViewHolder.rb_working.getId());
                 break;
-            case "2":
+            case "3":
                 taskViewHolder.rg_status.check(taskViewHolder.rb_pause.getId());
                 break;
             default:
@@ -275,7 +298,7 @@ public class AddTaskActivity extends BaseActivity{
                 getActionBar(), new IActionBarListener() {
             @Override
             public void onBtnRight(View v) {
-                submitDayJobsApi();
+                    submitDayJobsApi();
             }
             @Override
             public void onBtnLeft(View v) {
@@ -292,6 +315,28 @@ public class AddTaskActivity extends BaseActivity{
         tv_right.setText("确定");
     }
 
+    private void showGetUserInfoDialog(String content){
+        CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(
+                AddTaskActivity.this);
+        dialog.setMessage(content);
+        dialog.setPositiveButton(R.string.btn_ok,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        showWaitDialog();
+                        getuserinfo(ClientStateManager.getUserName());
+                        dialog.dismiss();
+                    }
+                });
+        dialog.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+    }
+
     /**提交工作任务*/
     public void submitDayJobsApi(){
 //      时间是否有交集
@@ -305,7 +350,6 @@ public class AddTaskActivity extends BaseActivity{
             asignJobBean=asignJobs.get(i);
             String startTime1=asignJobBean.getBegin_time();
             String endTime1=asignJobBean.getEnd_time();
-
 
 //                提示不可为空 名称跟内容
             String taskName=asignJobBean.getTask_cont();
@@ -341,19 +385,57 @@ public class AddTaskActivity extends BaseActivity{
 
         /**网络请求 添加*/
 
-        DailyPerformanceInfoBean submitData=new DailyPerformanceInfoBean();
+        final DailyPerformanceInfoBean submitData=new DailyPerformanceInfoBean();
         submitData.setAsignJobs(asignJobs);
-        submitData.setUser(user);
-        submitData.setReviewer(sup);
+
+        if (user==null){
+            showGetUserInfoDialog("未获得到个人信息内容，请重新获取！");
+        }else{
+            submitData.setUser(user);
+        }
+
+        if (sup==null){
+            PublicUtil.showToast("评价人不可为空！");
+            return;
+        }else{
+            submitData.setReviewer(sup);
+        }
+
 
         submitData.setWork_date(tranDateToTime(currentDate,"yyyy-MM-dd")+"");
 
         LogUtil.w("任务添加实体转换："+JSON.toJSONString(submitData));
 
-        saveReViewData(sup);
+        if (taskOperateType==TASKOPERATETYPE_MODIFY){
+//            日工作id
+            submitData.setWork_day_id(dailyPerformanceInfoBean.getWork_day_id());
 
-        showWaitDialog();
-        SzApi.submitDayJobsApi(submitData,"0",getNewHandler(REQUEST_COMMIT, ResultToken.class));
+            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(
+                    AddTaskActivity.this);
+            dialog.setMessage("确定修改工作任务？");
+            dialog.setPositiveButton(R.string.btn_ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showWaitDialog();
+                            SzApi.submitDayJobsApi(submitData,"1",getNewHandler(REQUEST_COMMIT, ResultToken.class));
+                            dialog.dismiss();
+                        }
+                    });
+            dialog.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }else{
+            showWaitDialog();
+            SzApi.submitDayJobsApi(submitData,"0",getNewHandler(REQUEST_COMMIT, ResultToken.class));
+//            submitDayJobsApi();
+        }
+
+
 
     }
 
@@ -468,16 +550,16 @@ public class AddTaskActivity extends BaseActivity{
                 break;
             case R.id.tv_dete:
 
-
                 break;
         }
     }
 
     public View initTaskItemView(final int Tag){
 
-        /**获得上一个任务的时间 默认加1分钟*/
+        /**获得上一个任务的时间 默认加1分钟 结束时间再加一分钟*/
 
-        String nextTime="";
+        String nextSTime="";
+        String nextETime="";
         if (itemTag>=1){
             TaskViewHolder taskViewHolder=
                     new TaskViewHolder(ll_task_item_conent.getChildAt(itemTag-1));
@@ -488,7 +570,9 @@ public class AddTaskActivity extends BaseActivity{
             long preET=tranDateToTime(preEndTime);
 
             long nextST=preET+(1000*60);
-            nextTime=tranTimeToDate(nextST+"");
+            long nextET=nextST+(1000*60);
+            nextSTime=tranTimeToDate(nextST+"");
+            nextETime=tranTimeToDate(nextET+"");
 
         }
 
@@ -497,12 +581,10 @@ public class AddTaskActivity extends BaseActivity{
         final TaskViewHolder taskViewHolder=new TaskViewHolder(view);
 
         if (Tag!=0){
-            taskViewHolder.tv_dateStart.setText(nextTime);
-            taskViewHolder.tv_dateEnd.setText(nextTime);
+            taskViewHolder.tv_dateStart.setText(nextSTime);
+            taskViewHolder.tv_dateEnd.setText(nextETime);
 
         }
-
-
 
         taskViewHolder.ttv_taskName.setOnRightTextOnClickListener(new View.OnClickListener() {
             @Override
@@ -510,10 +592,12 @@ public class AddTaskActivity extends BaseActivity{
                 Bundle mbBundle=new Bundle();
 //                PublicUtil.showToast("ttv_taskName");
 
-                mbBundle.putInt("intentNum",Tag);
-                mbBundle.putInt("maxTextLenght",50);
-                mbBundle.putString("viewName","ttv_taskName");
-                mbBundle.putString("inputContent",
+                mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
+                mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,50);
+                mbBundle.putString(InputToolsActivity.VIEWNAME,"ttv_taskName");
+                mbBundle.putString(InputToolsActivity.INPUTTITEL,"任务内容");
+
+                mbBundle.putString(InputToolsActivity.INPUTTITELCONTENT,
                         taskViewHolder.ttv_taskName
                                 .getTv_rightContent().getText().toString());
 
@@ -526,10 +610,11 @@ public class AddTaskActivity extends BaseActivity{
                 Bundle mbBundle=new Bundle();
 //                PublicUtil.showToast("ttv_taskName");
 
-                mbBundle.putInt("intentNum",Tag);
-                mbBundle.putInt("maxTextLenght",200);
-                mbBundle.putString("viewName","ttv_workOutput");
-                mbBundle.putString("inputContent",
+                mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
+                mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,200);
+                mbBundle.putString(InputToolsActivity.VIEWNAME,"ttv_workOutput");
+                mbBundle.putString(InputToolsActivity.INPUTTITEL,"工作输出内容");
+                mbBundle.putString(InputToolsActivity.INPUTTITELCONTENT,
                         taskViewHolder.ttv_workOutput
                                 .getTv_rightContent().getText().toString());
 
@@ -567,20 +652,40 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 if (itemTag>1){
-                    showDeleteAnimator(view);
-                    mHandler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                             //                添加动画
-                            ll_task_item_conent.removeView(view);
-                            itemTag--;
-                            setItemName();
-                            getAllTaskTimes();
-                                if (itemTag<10) {
-                                    tv_addTask.setVisibility(View.VISIBLE);
+                    CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(
+                            AddTaskActivity.this);
+                    dialog.setMessage(String.format(getString(R.string.sz_task_delete_dialog_hint),
+                            taskViewHolder.ttv_taskName.getTv_leftName().getText().toString()));
+                    dialog.setPositiveButton(R.string.btn_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    showDeleteAnimator(view);
+                                    mHandler.postDelayed(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            //                添加动画
+                                            ll_task_item_conent.removeView(view);
+                                            itemTag--;
+                                            setItemName();
+                                            getAllTaskTimes();
+                                            if (itemTag<10) {
+                                                tv_addTask.setVisibility(View.VISIBLE);
+                                            }
+                                        }
+                                    },400);
+                                dialog.dismiss();
+
                                 }
+
+                            });
+                    dialog.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
                         }
-                    },400);
+                    });
+                    dialog.show();
 
                 }else{
                     PublicUtil.showToast("至少有一项任务！");
@@ -685,8 +790,10 @@ public class AddTaskActivity extends BaseActivity{
                 long start=tranDateToTime(finalStartT);
                 long end=tranDateToTime(endTimes);
 
-                if (end<start){
-                    taskViewHolder.tv_dateEnd.setText(finalStartT);
+                if (end<=start){//默认加一分钟
+                    long endTime=start+1000*60;
+                    String endFinalTime=tranTimeToDate(String.valueOf(endTime));
+                    taskViewHolder.tv_dateEnd.setText(endFinalTime);
                 }
 
                 LogUtil.i("选取后的时间："+finalStartT);
@@ -762,8 +869,8 @@ public class AddTaskActivity extends BaseActivity{
                 String finalEndT=finalHours+":"+finalMins;
                 long start=tranDateToTime(startTims);
                 long end=tranDateToTime(finalEndT);
-                if (end<start){
-                    PublicUtil.showToast("结束时间不可小于开始时间！");
+                if (end<=start){
+                    PublicUtil.showToast("结束时间不可小于等于开始时间！");
                 }else{
                     LogUtil.i("选取后的时间："+finalEndT);
                     taskViewHolder.tv_dateEnd.setText(finalEndT);
@@ -831,20 +938,37 @@ public class AddTaskActivity extends BaseActivity{
                 long totalTime=(finalEndT-finalStartT)/1000*60;
                 asignJobBean.setUsage_time(String.valueOf(totalTime));
 
-
                 asignJobBean.setBegin_time(String.valueOf(finalStartT));
                 asignJobBean.setEnd_time(String.valueOf(finalEndT));
 
                 asignJobBean.setTask_idx(String.valueOf(i+1));
+                /**0未开始，1进行中，2已完成，3暂停*/
                 int checkedStatus=0;
                 if (taskViewHolder.rg_status.getCheckedRadioButtonId()==R.id.rb_finish){
-                    checkedStatus=0;
+                    checkedStatus=2;
                 }else if(taskViewHolder.rg_status.getCheckedRadioButtonId()==R.id.rb_working){
                     checkedStatus=1;
                 }else if(taskViewHolder.rg_status.getCheckedRadioButtonId()==R.id.rb_pause){
-                    checkedStatus=2;
+                    checkedStatus=3;
                 }
                 asignJobBean.setState(checkedStatus+"");
+
+                /**是修改的情况*/
+            try {
+                if (taskOperateType==TASKOPERATETYPE_MODIFY){
+                    //修改
+                    List<AsignJobBean> modifyAsignJobBeanList=dailyPerformanceInfoBean.getAsignJobs();
+                    AsignJobBean modifyAsignJobBean=modifyAsignJobBeanList.get(i);
+                    if (modifyAsignJobBean!=null){
+                        asignJobBean.setWork_day_id(modifyAsignJobBean.getWork_day_id());
+                        asignJobBean.setWork_task_id(modifyAsignJobBean.getWork_task_id());
+                    }
+                }
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+
+
             }
             asignJobBeanList.add(asignJobBean);
             LogUtil.i("asignJobBean:"+asignJobBean.toString());
@@ -927,4 +1051,10 @@ public class AddTaskActivity extends BaseActivity{
         }
     }
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
 }
