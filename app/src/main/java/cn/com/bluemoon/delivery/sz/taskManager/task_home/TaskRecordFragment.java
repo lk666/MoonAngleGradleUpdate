@@ -2,8 +2,6 @@ package cn.com.bluemoon.delivery.sz.taskManager.task_home;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -22,11 +20,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.DateFormat;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -39,7 +33,6 @@ import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyperformanceinfoResultBean;
-import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
 import cn.com.bluemoon.delivery.sz.taskManager.AddTaskActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.SzTaskOrEvaluateDetailActivity;
@@ -113,10 +106,10 @@ public class TaskRecordFragment extends BaseFragment
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void getModifyTaskSuccess(EventMessageBean messageBean){
-		if (messageBean.getEventMsgAction().equals("0")){
+		if (messageBean.getEventMsgAction().equals("101")){
 //			重新获取当前的日期数据
 			getData(String.valueOf(
-					tranDateToTime(currentDate,"yyyy-MM-dd")));
+					DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
 		}
 	}
 
@@ -129,17 +122,6 @@ public class TaskRecordFragment extends BaseFragment
 		RIGHT, LEFT, NO_SILDE;
 	}
 
-	Handler mHandler=new Handler(){
-		@Override
-		public void handleMessage(Message msg) {
-			super.handleMessage(msg);
-			switch (msg.what){
-				case 1:
-					dateTv.setText("11111111");
-					break;
-			}
-		}
-	};
 
 
 	public void initCalendarView(){
@@ -153,7 +135,7 @@ public class TaskRecordFragment extends BaseFragment
 		currentDate = new CustomDate().toString();
 		LogUtil.i("当前的日期---------->："+currentDate);
 		//*/获取当天的数据
-		getData(String.valueOf(tranDateToTime(currentDate,"yyyy-MM-dd")));
+		getData(String.valueOf(DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
 
 
 
@@ -189,57 +171,6 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 
-	private void initMockData(){
-		DailyPerformanceInfoBean infoBean=new DailyPerformanceInfoBean();
-		List<AsignJobBean> asignJobBeanList=new ArrayList<>();
-		AsignJobBean asignJobBean=new AsignJobBean();
-		asignJobBean.setBegin_time("08:00");
-		asignJobBean.setEnd_time("09:00");
-		asignJobBean.setProduce_cont("工作输出的内容。。。。");
-		asignJobBean.setTask_cont("任务1：");
-		asignJobBean.setState("0");
-		asignJobBeanList.add(asignJobBean);
-		AsignJobBean asignJobBean2=new AsignJobBean();
-		asignJobBean2.setBegin_time("09:01");
-		asignJobBean2.setEnd_time("10:00");
-		asignJobBean2.setProduce_cont("工作输出的内容。。。。");
-		asignJobBean2.setTask_cont("任务2：");
-		asignJobBean2.setState("1");
-		asignJobBeanList.add(asignJobBean2);
-		AsignJobBean asignJobBean3=new AsignJobBean();
-		asignJobBean3.setBegin_time("10:00");
-		asignJobBean3.setEnd_time("10:30");
-		asignJobBean3.setProduce_cont("工作输出的内容。。。。");
-		asignJobBean3.setTask_cont("任务3：");
-		asignJobBean3.setState("2");
-		asignJobBeanList.add(asignJobBean3);
-		AsignJobBean asignJobBean4=new AsignJobBean();
-		asignJobBean4.setBegin_time("10:31");
-		asignJobBean4.setEnd_time("15:00");
-		asignJobBean4.setProduce_cont("工作输出的内容。。。。");
-		asignJobBean4.setTask_cont("任务4：");
-		asignJobBean4.setState("2");
-		asignJobBeanList.add(asignJobBean4);
-		AsignJobBean asignJobBean5=new AsignJobBean();
-		asignJobBean5.setBegin_time("16:00");
-		asignJobBean5.setEnd_time("17:00");
-		asignJobBean5.setProduce_cont("工作输出的内容。。。。");
-		asignJobBean5.setTask_cont("任务5：");
-		asignJobBean5.setState("0");
-		asignJobBeanList.add(asignJobBean5);
-
-		UserInfoBean reviewerBean=new UserInfoBean();
-		reviewerBean.setUID("00001");
-		reviewerBean.setUName("张三三");
-		infoBean.setReviewer(reviewerBean);
-
-		infoBean.setAsignJobs(asignJobBeanList);
-		infoBean.setCreatetime("2016-09-10");
-		infoBean.setDay_valid_min("120");
-		infoBean.setDay_score("9");
-
-		dailyPerformanceInfoBeanArrayList.add(infoBean);
-	}
 
 	private void initListener() {
 		lv_taskRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -327,12 +258,12 @@ public class TaskRecordFragment extends BaseFragment
 
 	@Override
 	public void clickDate(CustomDate date) {
-//		mHandler.sendEmptyMessage(1);
 		currentDate=date.toString();
 			getData(String.valueOf(
-					tranDateToTime(currentDate,"yyyy-MM-dd")));
+					DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
 //		searchByKeyword("国");
-		LogUtil.i(tranTimeToDate(tranDateToTime(currentDate,"yyyy-MM-dd")+""));
+		LogUtil.i(String.valueOf(
+				DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
 
 	}
 
@@ -346,42 +277,6 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 
-	/**毫秒转日期*/
-	public  String tranTimeToDate(String time) {
-		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-		return sdf.format(new Date(Long.valueOf(time)));
-	}
-
-	public  String tranTimeToDate(String time,String format) {
-		SimpleDateFormat sdf = new SimpleDateFormat(format);
-		return sdf.format(new Date(Long.valueOf(time)));
-	}
-
-	/**日期转毫秒*/
-	public long tranDateToTime(String date){
-		long times=0;
-		try {
-			DateFormat dm= new SimpleDateFormat("HH:mm");
-			times=dm.parse(date.toString()).getTime();
-			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return times;
-	}
-
-	/**日期转毫秒*/
-	public long tranDateToTime(String date,String format){
-		long times=0;
-		try {
-			DateFormat dm= new SimpleDateFormat(format);
-			times=dm.parse(date.toString()).getTime();
-			LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
-		} catch (ParseException e) {
-			e.printStackTrace();
-		}
-		return times;
-	}
 
 
 	@Override
@@ -406,14 +301,29 @@ public class TaskRecordFragment extends BaseFragment
 
 		DailyPerformanceInfoBean infoBean=resultBean.getJobsdata();
 
+		//统一时间戳转成日期
+		infoBean.setWork_date(DateUtil.tranTimeToDate(infoBean.getWork_date(),"yyyy-MM-dd"));
+		infoBean.setUpdatetime(DateUtil.tranTimeToDate(infoBean.getUpdatetime(),"yyyy-MM-dd"));
+		infoBean.setCreatetime(DateUtil.tranTimeToDate(infoBean.getCreatetime(),"yyyy-MM-dd"));
+
 		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
 				dailyPerformanceInfoBeanArrayList.clear();
 			}
 			LogUtil.i("DailyPerformanceInfoBean"+infoBean.getAsignJobs());
 			dailyPerformanceInfoBeanArrayList.add(infoBean);
-			taskDateStatusAdapter.notifyDataSetChanged();
 	//		任务内容
 			asignJobs=infoBean.getAsignJobs();
+
+		for (AsignJobBean asignJobBean:asignJobs) {
+			asignJobBean.setBegin_time(DateUtil.tranTimeToDate(asignJobBean.getBegin_time(),"HH:mm"));
+			asignJobBean.setEnd_time(DateUtil.tranTimeToDate(asignJobBean.getEnd_time(),"HH:mm"));
+			asignJobBean.setCreatetime(DateUtil.tranTimeToDate(asignJobBean.getCreatetime(),"yyyy-MM-dd"));
+			LogUtil.e("时间转换后：----------》"+asignJobBean.toString());
+		}
+
+			taskDateStatusAdapter.notifyDataSetChanged();
+
+
 
 		showAddTv();
 	}

@@ -12,9 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -28,9 +26,8 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
+import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
-import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -235,13 +232,18 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
             if (ResultGetTaskEvaluateList.getData() != null) {
                 List<DailyPerformanceInfoBean> data = ResultGetTaskEvaluateList.getData();
                 for (DailyPerformanceInfoBean dailyPerformanceInfoBean : data) {
-                    dailyPerformanceInfoBean.setCreatetime(tranTimeToDate(dailyPerformanceInfoBean.getCreatetime()));
-                    dailyPerformanceInfoBean.setUpdatetime(tranTimeToDate(dailyPerformanceInfoBean.getUpdatetime()));
-                    dailyPerformanceInfoBean.setWork_date(tranTimeToDate(dailyPerformanceInfoBean.getWork_date()));
+                    dailyPerformanceInfoBean.setCreatetime(
+                            DateUtil.tranTimeToDate(dailyPerformanceInfoBean.getCreatetime(),"yyyy-MM-dd"));
+
+                    dailyPerformanceInfoBean.setUpdatetime(
+                            DateUtil.tranTimeToDate(dailyPerformanceInfoBean.getUpdatetime(),"yyyy-MM-dd"));
+                    dailyPerformanceInfoBean.setWork_date(
+                            DateUtil.tranTimeToDate(dailyPerformanceInfoBean.getWork_date(),"yyyy-MM-dd"));
                     for (AsignJobBean asignJobBean : dailyPerformanceInfoBean.getAsignJobs()) {
-                        asignJobBean.setCreatetime(tranTimeToDate(asignJobBean.getCreatetime()));
-                        asignJobBean.setBegin_time(tranTimeToDate2(asignJobBean.getBegin_time()));
-                        asignJobBean.setEnd_time(tranTimeToDate2(asignJobBean.getEnd_time()));
+                        asignJobBean.setCreatetime(
+                                DateUtil.tranTimeToDate(asignJobBean.getCreatetime(),"yyyy-MM-dd"));
+                        asignJobBean.setBegin_time(DateUtil.tranTimeToDate(asignJobBean.getBegin_time()));
+                        asignJobBean.setEnd_time(DateUtil.tranTimeToDate(asignJobBean.getEnd_time()));
                     }
                     mEvaluateDatas.add(dailyPerformanceInfoBean);
                     LogUtil.i("mEvaluateDatas:" + mEvaluateDatas.toString());
@@ -268,20 +270,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
     }
 
-    public String tranTimeToDate(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
-
-    public String tranTimeToDate2(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
-
-    public String tranTimeToDate3(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
 
     /**
      * 刷新数据

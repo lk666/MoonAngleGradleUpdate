@@ -17,23 +17,22 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
-import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
+import cn.com.bluemoon.delivery.sz.util.UIUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
 /**
  * Created by Wan.N
@@ -50,7 +49,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Bind(R.id.rl_user_data)
     LinearLayout rl_user_data;//用户资料区域
 
-    // @Bind(R.id.user_avatar_iv)
+     @Bind(R.id.user_avatar_iv)
     RoundImageView user_avatar_iv;//用户头像
 
     @Bind(R.id.user_name_tv)
@@ -79,10 +78,8 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     LinearLayout sz_rewrite_btn_layout;
 
-    //    @Bind(R.id.ll_bottom_btn_area)
     LinearLayout ll_bottom_btn_area;//底部按钮区域
 
-    //    @Bind(R.id.btn_bottom)
     TextView btn_bottom;//底部按钮
 
     public static final String ACTIVITY_EXTAR_DATA = "ACTIVITY_EXTAR_DATA";//外部activity携带数据过来的key
@@ -97,7 +94,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     private TaskOrEvaluateDetailAdapter adapter = null;
     private DailyPerformanceInfoBean evaluateInfo = null;//记录传入的绩效数据
 
-    private List<AsignJobBean> asignJobBeanList = new ArrayList<>();
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -207,7 +203,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getModifyTaskSuccess(EventMessageBean messageBean){
-        if (messageBean.getEventMsgAction().equals("0")){
+        if (messageBean.getEventMsgAction().equals("101")){
             PageJumps.finish(context);
         }
     }
@@ -216,18 +212,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     public void initData() {
 
-        /**@author jiangyh 任务详情头部信息*/
-        if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            user_date_tv.setText(tranTimeToDate(evaluateInfo.getCreatetime()));
-            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
-        }
 
     }
 
-    public  String tranTimeToDate(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
 
     @Override
     public void onResume() {
@@ -323,5 +310,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+}
 
 

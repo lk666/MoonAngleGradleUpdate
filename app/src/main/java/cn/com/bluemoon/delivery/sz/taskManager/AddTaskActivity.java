@@ -28,7 +28,6 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -52,6 +51,7 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoAndReViewInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoListBean;
 import cn.com.bluemoon.delivery.sz.util.CacheServerResponse;
+import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.TaskTextView;
@@ -145,7 +145,7 @@ public class AddTaskActivity extends BaseActivity{
                     }
                     //发送通知关闭详情页，并重新请求当天的数据
                     EventMessageBean messageBean=new EventMessageBean();
-                    messageBean.setEventMsgAction("0");
+                    messageBean.setEventMsgAction("101");
                     EventBus.getDefault().post(messageBean);
 
                     PageJumps.finish(context);
@@ -172,8 +172,8 @@ public class AddTaskActivity extends BaseActivity{
             try {
                 dailyPerformanceInfoBean=
                         (DailyPerformanceInfoBean) getIntent().getSerializableExtra(DATABEAN);
-                currentDate=dailyPerformanceInfoBean.getCreatetime();
-                currentDate=tranTimeToDate(currentDate,"yyyy-MM-dd");
+                currentDate=dailyPerformanceInfoBean.getWork_date();
+//                currentDate=DateUtil.tranTimeToDate(currentDate,"yyyy-MM-dd");
                 tv_dete.setText(currentDate);
                 sup=dailyPerformanceInfoBean.getReviewer();
                 user=dailyPerformanceInfoBean.getUser();
@@ -215,9 +215,6 @@ public class AddTaskActivity extends BaseActivity{
     /**遍历所有的item 设置Item 的数据内容*/
     private void initSetViewContentList(List<AsignJobBean> asignJobBeanList) {
         for (AsignJobBean asignJobBean: asignJobBeanList) {
-
-            asignJobBean.setBegin_time(tranTimeToDate(asignJobBean.getBegin_time()));
-            asignJobBean.setEnd_time(tranTimeToDate(asignJobBean.getEnd_time()));
 
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             initViewForBean(asignJobBean,itemTag);
@@ -283,12 +280,6 @@ public class AddTaskActivity extends BaseActivity{
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
-            switch (msg.what){
-                case 1:
-                    break;
-                default:
-                    break;
-            }
         }
     };
 
@@ -306,7 +297,14 @@ public class AddTaskActivity extends BaseActivity{
             }
             @Override
             public void setTitle(TextView v) {
-                v.setText(R.string.sz_task_add_task);
+                if (taskOperateType==TASKOPERATETYPE_ADD){
+                    v.setText(R.string.sz_task_add_task);
+                }else if(taskOperateType==TASKOPERATETYPE_MODIFY){
+                    v.setText(R.string.sz_task_modify_task);
+
+                }
+
+
             }
 
         });
@@ -402,7 +400,7 @@ public class AddTaskActivity extends BaseActivity{
         }
 
 
-        submitData.setWork_date(tranDateToTime(currentDate,"yyyy-MM-dd")+"");
+        submitData.setWork_date(DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")+"");
 
         LogUtil.w("任务添加实体转换："+JSON.toJSONString(submitData));
 
@@ -566,13 +564,13 @@ public class AddTaskActivity extends BaseActivity{
             String preStartTime=taskViewHolder.tv_dateStart.getText().toString();
             String preEndTime=taskViewHolder.tv_dateEnd.getText().toString();
 
-            long preST=tranDateToTime(preStartTime);
-            long preET=tranDateToTime(preEndTime);
+            long preST=DateUtil.tranDateToTime(preStartTime);
+            long preET=DateUtil.tranDateToTime(preEndTime);
 
             long nextST=preET+(1000*60);
             long nextET=nextST+(1000*60);
-            nextSTime=tranTimeToDate(nextST+"");
-            nextETime=tranTimeToDate(nextET+"");
+            nextSTime=DateUtil.tranTimeToDate(nextST+"");
+            nextETime=DateUtil.tranTimeToDate(nextET+"");
 
         }
 
@@ -787,12 +785,12 @@ public class AddTaskActivity extends BaseActivity{
 
 //                当结束时间小于开始时间时
                 String finalStartT=finalHours+":"+finalMins;
-                long start=tranDateToTime(finalStartT);
-                long end=tranDateToTime(endTimes);
+                long start=DateUtil.tranDateToTime(finalStartT);
+                long end=DateUtil.tranDateToTime(endTimes);
 
                 if (end<=start){//默认加一分钟
                     long endTime=start+1000*60;
-                    String endFinalTime=tranTimeToDate(String.valueOf(endTime));
+                    String endFinalTime=DateUtil.tranTimeToDate(String.valueOf(endTime));
                     taskViewHolder.tv_dateEnd.setText(endFinalTime);
                 }
 
@@ -822,7 +820,8 @@ public class AddTaskActivity extends BaseActivity{
      * 显示时间 end
      * 结束时间不可小于开始时间
      */
-    private void showTimeDialogEnd(final TaskViewHolder taskViewHolder, final String startTims, int currHour, int currMin, String timeTilte){
+    private void showTimeDialogEnd(final TaskViewHolder taskViewHolder,
+                                   final String startTims, int currHour, int currMin, String timeTilte){
         final AlertDialog dialog = new AlertDialog.Builder(AddTaskActivity.this)
                 .create();
         dialog.show();
@@ -867,8 +866,8 @@ public class AddTaskActivity extends BaseActivity{
                 }
                 //当结束时间小于开始时间时，提示不可选
                 String finalEndT=finalHours+":"+finalMins;
-                long start=tranDateToTime(startTims);
-                long end=tranDateToTime(finalEndT);
+                long start=DateUtil.tranDateToTime(startTims);
+                long end=DateUtil.tranDateToTime(finalEndT);
                 if (end<=start){
                     PublicUtil.showToast("结束时间不可小于等于开始时间！");
                 }else{
@@ -928,8 +927,8 @@ public class AddTaskActivity extends BaseActivity{
                 String finalStartTimes=currentDate+" "+taskViewHolder.tv_dateStart.getText().toString()+":00";
                 String finalEndTimes=currentDate+" "+taskViewHolder.tv_dateEnd.getText().toString()+":00";
 
-                long finalStartT=tranDateToTime(finalStartTimes,"yyyy-MM-dd HH:mm:ss");
-                long finalEndT=tranDateToTime(finalEndTimes,"yyyy-MM-dd HH:mm:ss");
+                long finalStartT=DateUtil.tranDateToTime(finalStartTimes,"yyyy-MM-dd HH:mm:ss");
+                long finalEndT=DateUtil.tranDateToTime(finalEndTimes,"yyyy-MM-dd HH:mm:ss");
 
                 LogUtil.w("年月日时间---转成开始时间戳 "+finalStartT);
                 LogUtil.w("年月日时间---转成结束时间戳 "+finalEndT);
@@ -986,8 +985,8 @@ public class AddTaskActivity extends BaseActivity{
             String start=taskViewHolder.tv_dateStart.getText().toString();
             String end=taskViewHolder.tv_dateEnd.getText().toString();
 
-            long startTime=tranDateToTime(start);
-            long endTime=tranDateToTime(end);
+            long startTime= DateUtil.tranDateToTime(start);
+            long endTime=DateUtil.tranDateToTime(end);
 
             long totalTime=(endTime-startTime)/(1000*60);
 
@@ -995,42 +994,6 @@ public class AddTaskActivity extends BaseActivity{
 
         }
             ttv_totalTime.setText_right(mins+"分钟");
-    }
-    /**毫秒转日期*/
-    public  String tranTimeToDate(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
-
-    public  String tranTimeToDate(String time,String format) {
-        SimpleDateFormat sdf = new SimpleDateFormat(format);
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
-
-    /**日期转毫秒*/
-    public long tranDateToTime(String date){
-        long times=0;
-        try {
-            DateFormat dm= new SimpleDateFormat("HH:mm");
-            times=dm.parse(date.toString()).getTime();
-            LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return times;
-    }
-
-    /**日期转毫秒*/
-    public long tranDateToTime(String date,String format){
-        long times=0;
-        try {
-            DateFormat dm= new SimpleDateFormat(format);
-            times=dm.parse(date.toString()).getTime();
-            LogUtil.i("times:"+times+"/ currentDate:"+currentDate);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return times;
     }
 
 
