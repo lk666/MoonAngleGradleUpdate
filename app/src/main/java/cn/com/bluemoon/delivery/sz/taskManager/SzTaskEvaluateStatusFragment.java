@@ -12,7 +12,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -27,6 +29,8 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
+import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -227,8 +231,21 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
         if (result != null && result.isSuccess) {
             ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
+            //将数据进行简单的是时间格式处理
             if (ResultGetTaskEvaluateList.getData() != null) {
-                mEvaluateDatas.addAll(ResultGetTaskEvaluateList.getData());
+                List<DailyPerformanceInfoBean> data = ResultGetTaskEvaluateList.getData();
+                for (DailyPerformanceInfoBean dailyPerformanceInfoBean : data) {
+                    dailyPerformanceInfoBean.setCreatetime(tranTimeToDate(dailyPerformanceInfoBean.getCreatetime()));
+                    dailyPerformanceInfoBean.setUpdatetime(tranTimeToDate(dailyPerformanceInfoBean.getUpdatetime()));
+                    dailyPerformanceInfoBean.setWork_date(tranTimeToDate(dailyPerformanceInfoBean.getWork_date()));
+                    for (AsignJobBean asignJobBean : dailyPerformanceInfoBean.getAsignJobs()) {
+                        asignJobBean.setCreatetime(tranTimeToDate(asignJobBean.getCreatetime()));
+                        asignJobBean.setBegin_time(tranTimeToDate2(asignJobBean.getBegin_time()));
+                        asignJobBean.setEnd_time(tranTimeToDate2(asignJobBean.getEnd_time()));
+                    }
+                    mEvaluateDatas.add(dailyPerformanceInfoBean);
+                    LogUtil.i("mEvaluateDatas:" + mEvaluateDatas.toString());
+                }
             }
             mHandle.sendEmptyMessage(LOAD_DATA_SUCCESS);
         } else {
@@ -249,6 +266,21 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         super.onFailureResponse(requestCode, t);
         LogUtil.i("onFailureResponse--result--" + t.getMessage());
         mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
+    }
+
+    public String tranTimeToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date(Long.valueOf(time)));
+    }
+
+    public String tranTimeToDate2(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+        return sdf.format(new Date(Long.valueOf(time)));
+    }
+
+    public String tranTimeToDate3(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        return sdf.format(new Date(Long.valueOf(time)));
     }
 
     /**

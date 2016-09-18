@@ -127,4 +127,30 @@ public class ImageLoaderUtil {
 
         mImageLoader.displayImage(requestUrl, view, options);
     }
+
+    /**
+     * @param requestUrl
+     * @param view
+     * @param loadingImgRec 加载中的图片
+     * @param errImgRec     加载失败的图片
+     * @param emptyImgRec   加载空uri的图片
+     */
+    public static void displayImage(String requestUrl, ImageView view, int
+            loadingImgRec, int errImgRec, int emptyImgRec) {
+        if (mImageLoader == null) {
+            mImageLoader = ImageLoader.getInstance();
+        }
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .showImageOnLoading(loadingImgRec)
+                .showImageOnFail(errImgRec)
+                .showImageForEmptyUri(emptyImgRec)
+                .build();
+
+        mImageLoader.displayImage(requestUrl, view, options);
+    }
 }

@@ -3,7 +3,7 @@
     android:id="@+id/rootview"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@color/white_bg"
     android:orientation="vertical">
 
     <include
@@ -38,7 +38,7 @@
     <!--android:layout_height="wrap_content"-->
     <!--android:layout_marginLeft="9dp"-->
     <!--android:text="修改评价"-->
-    <!--android:textColor="@color/white"-->
+    <!--android:textColor="@color/white_bg"-->
     <!--android:textSize="@dimen/text_size_16" />-->
     <!--</LinearLayout>-->
 
@@ -47,9 +47,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/rl_user_data"
-        android:background="@color/white"
+        android:background="@color/white_bg"
         android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
+        android:headerDividersEnabled="false"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none" />
 

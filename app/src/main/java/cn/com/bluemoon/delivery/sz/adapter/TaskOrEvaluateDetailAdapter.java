@@ -101,9 +101,9 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
 
         viewHolder.getTaskStartTimeTv().setText(
-                tranTimeToDate(asignJobBean.getCreatetime()));
+                asignJobBean.getBegin_time());
         viewHolder.getTaskEndTimeTv().setText(
-                tranTimeToDate(asignJobBean.getEnd_time()));
+                asignJobBean.getEnd_time());
 
 
         String completeState = asignJobBean.getState();
@@ -139,18 +139,6 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         }
         viewHolder.getTaskEvaluateTv().setText(asignJobBean.getReview_cont());
         return convertView;
-    }
-
-
-    /**
-     * 毫秒转日期
-     */
-    public String tranTimeToDate(String time) {
-        if (TextUtils.isEmpty(time)) {
-            return "";
-        }
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(new Date(Long.valueOf(time)));
     }
 
     class MyViewHolder {

@@ -18,7 +18,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
-import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
 /**
@@ -86,12 +85,12 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         //显示被评价人的头像和名字
         UserInfoBean user = itemBean.getUser();
         if (user != null) {
-            ImageLoaderUtil.displayImage(user.getUAvatar(), viewHolder.getUserAvatarIv(), R.mipmap.loading_img_logo,
-                    R.mipmap.loading_img_logo);
+            ImageLoaderUtil.displayImage(user.getUAvatar(), viewHolder.getUserAvatarIv(), R.mipmap.sz_default_user_icon, R.mipmap.sz_default_user_icon,
+                    R.mipmap.sz_default_user_icon);
             viewHolder.getUserNameTv().setText(user.getUName());
         }
         //工作日期
-        viewHolder.getUserDateTv().setText(DateUtil.getTime(Long.valueOf(itemBean.getWork_date())));
+        viewHolder.getUserDateTv().setText(itemBean.getWork_date());
         //有效工作时间（单位：分钟）
         viewHolder.getUserAvaliabelTimeTv().setText(itemBean.getDay_valid_min());
         //得分

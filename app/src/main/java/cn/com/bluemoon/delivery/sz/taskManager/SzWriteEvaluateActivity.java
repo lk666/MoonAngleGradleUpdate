@@ -28,6 +28,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -45,6 +46,7 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
+import cn.com.bluemoon.delivery.sz.util.UIUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AngelAlertDialog;
@@ -144,7 +146,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             //如果是已评论的数据，则要判断评论时间，超过一周则不能修改评论
             if (evaluateInfo != null) {
                 if (!TextUtils.isEmpty(evaluateInfo.getUpdatetime())) {
-                    long time = System.currentTimeMillis() - Long.valueOf(evaluateInfo.getUpdatetime());
+                    Calendar c = Calendar.getInstance();
+                    try {
+                        c.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(evaluateInfo.getUpdatetime()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    long time = System.currentTimeMillis() - c.getTimeInMillis();
                     if (time >= 60 * 60 * 24 * 7) {
                         //如果评论超过一周
                         isOverAweekTime = true;
@@ -260,6 +268,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
         user_task_lv.setAdapter(evaluateadapter);
 
+        //添加头部，用作分割线
+        View header = new View(this);
+        header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        header.setLayoutParams(lp);
+        user_task_lv.addHeaderView(header);
+
         initListener();
     }
 
@@ -318,12 +333,12 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         if (evaluateInfo != null) {
             UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
             if (evaluateInfo != null) {
-                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,
+                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,  R.mipmap.sz_default_user_icon,
                         R.mipmap.sz_default_user_icon);
                 user_name_tv.setText(evaluateInfoUser.getUName());
             }
             //工作日期
-            user_date_tv.setText(DateUtil.getTime(Long.valueOf(evaluateInfo.getWork_date())));
+            user_date_tv.setText(evaluateInfo.getWork_date());
             //有效工作时间（单位：分钟）
             user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
             asignJobs = evaluateInfo.getAsignJobs();

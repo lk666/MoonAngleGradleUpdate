@@ -17,9 +17,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -34,9 +32,9 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
+import cn.com.bluemoon.delivery.sz.util.UIUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
 /**
@@ -156,6 +154,13 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         //
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
+        //添加头部，用作分割线
+        View header = new View(this);
+        header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
+        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        header.setLayoutParams(lp);
+        user_task_lv.addHeaderView(header);
+
         initListener();
     }
 
@@ -191,6 +196,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
                     bundle.putSerializable(SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, evaluateInfo);
+                    LogUtil.i("evaluateInfo:" + evaluateInfo.toString());
                     PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this, SzWriteEvaluateActivity.class, bundle);
                 } else {
 
@@ -205,15 +211,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
         /**@author jiangyh 任务详情头部信息*/
         if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            user_date_tv.setText(tranTimeToDate(evaluateInfo.getCreatetime()));
+            user_date_tv.setText(evaluateInfo.getCreatetime());
             user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
         }
-
-    }
-
-    public String tranTimeToDate(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(new Date(Long.valueOf(time)));
     }
 
     @Override
@@ -234,11 +234,11 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
             if (evaluateInfo != null) {
                 ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,
-                        R.mipmap.sz_default_user_icon);
+                        R.mipmap.sz_default_user_icon, R.mipmap.sz_default_user_icon);
                 user_name_tv.setText(evaluateInfoUser.getUName());
             }
             //工作日期
-            user_date_tv.setText(DateUtil.getTime(Long.valueOf(evaluateInfo.getWork_date())));
+            user_date_tv.setText(evaluateInfo.getWork_date());
             //有效工作时间（单位：分钟）
             user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
         }
