@@ -13,6 +13,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 
 /**
@@ -21,9 +22,9 @@ import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 public class TaskAppraiseChooseAdapter extends BaseAdapter{
 	Context context=null;
 
-	List<Object> list=null;
+	List<UserInfoBean> list=null;
 
-	public TaskAppraiseChooseAdapter(Context context,List<Object> list ){
+	public TaskAppraiseChooseAdapter(Context context,List<UserInfoBean> list ){
 		this.context=context;
 		this.list=list;
 
@@ -60,6 +61,9 @@ public class TaskAppraiseChooseAdapter extends BaseAdapter{
 		}else{
 			viewHolder= (ViewHolder) convertView.getTag();
 		}
+
+		UserInfoBean userInfoBean=list.get(position);
+		viewHolder.tv_userName.setText(userInfoBean.getUName()+"("+userInfoBean.getUID()+")");
 
 		if (selectedIndex==position){
 			viewHolder.cb_meetinger.setChecked(true);

@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
-import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -18,7 +17,9 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -29,11 +30,14 @@ import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DisplayUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
 /**
  * Created by Wan.N
@@ -50,7 +54,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Bind(R.id.rl_user_data)
     LinearLayout rl_user_data;//用户资料区域
 
-    // @Bind(R.id.user_avatar_iv)
+    @Bind(R.id.user_avatar_iv)
     RoundImageView user_avatar_iv;//用户头像
 
     @Bind(R.id.user_name_tv)
@@ -95,7 +99,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
 
     private TaskOrEvaluateDetailAdapter adapter = null;
-    private DailyPerformanceInfoBean evaluateInfo;//记录传入的绩效数据
+    private DailyPerformanceInfoBean evaluateInfo = null;//记录传入的绩效数据
 
     private List<AsignJobBean> asignJobBeanList = new ArrayList<>();
 
@@ -108,8 +112,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         }
         if (intent.hasExtra(ACTIVITY_EXTAR_DATA)) {
             evaluateInfo = (DailyPerformanceInfoBean) intent.getSerializableExtra(ACTIVITY_EXTAR_DATA);
+            LogUtil.i("--evaluateInfo：" + evaluateInfo.toString());
         }
-        LogUtil.i("activityType:" + activityType + "--evaluateInfo：" + evaluateInfo.toString());
+        LogUtil.i("activityType:" + activityType);
     }
 
     @Override
@@ -148,7 +153,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         //
         user_score_tv.setVisibility(View.GONE);
         user_score_icon.setVisibility(View.GONE);
-
+        //
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
         initListener();
@@ -198,6 +203,17 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     public void initData() {
 
+        /**@author jiangyh 任务详情头部信息*/
+        if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
+            user_date_tv.setText(tranTimeToDate(evaluateInfo.getCreatetime()));
+            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
+        }
+
+    }
+
+    public String tranTimeToDate(String time) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        return sdf.format(new Date(Long.valueOf(time)));
     }
 
     @Override
@@ -213,6 +229,18 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             btn_bottom.setText(R.string.sz_update_evaluete_label);
         } else {
             btn_bottom.setText("");
+        }
+        if (evaluateInfo != null) {
+            UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
+            if (evaluateInfo != null) {
+                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,
+                        R.mipmap.sz_default_user_icon);
+                user_name_tv.setText(evaluateInfoUser.getUName());
+            }
+            //工作日期
+            user_date_tv.setText(DateUtil.getTime(Long.valueOf(evaluateInfo.getWork_date())));
+            //有效工作时间（单位：分钟）
+            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
         }
         if (isFirstLayoutBtns) {
             layoutBottomBtnArea();

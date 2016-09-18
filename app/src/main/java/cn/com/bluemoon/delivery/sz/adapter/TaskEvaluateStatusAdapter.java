@@ -15,13 +15,10 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.sz.bean.MeetingerChooseBean.UserInfoDetailsBean;
-import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
-import cn.com.bluemoon.delivery.sz.util.LogUtil;
-import cn.com.bluemoon.delivery.sz.util.ViewUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
 /**
@@ -94,7 +91,7 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
             viewHolder.getUserNameTv().setText(user.getUName());
         }
         //工作日期
-        viewHolder.getUserDateTv().setText(itemBean.getWork_date());
+        viewHolder.getUserDateTv().setText(DateUtil.getTime(Long.valueOf(itemBean.getWork_date())));
         //有效工作时间（单位：分钟）
         viewHolder.getUserAvaliabelTimeTv().setText(itemBean.getDay_valid_min());
         //得分

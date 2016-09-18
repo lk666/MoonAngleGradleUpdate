@@ -13,9 +13,9 @@
     <View
         android:id="@+id/top_divider"
         android:layout_width="match_parent"
-        android:layout_height="1px"
+        android:layout_height="10dp"
         android:layout_below="@+id/rl_user_data"
-        android:background="@color/gray" />
+        android:background="@color/page_bg_ed" />
 
     <!--<LinearLayout-->
     <!--android:id="@+id/ll_bottom_btn_area"-->
@@ -47,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_divider"
-        android:layout_marginTop="@dimen/space_10"
+        android:background="@color/white"
+        android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none" />

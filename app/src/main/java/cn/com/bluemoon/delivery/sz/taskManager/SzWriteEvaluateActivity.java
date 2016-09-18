@@ -48,8 +48,11 @@ import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AngelAlertDialog;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+
+import static cn.com.bluemoon.delivery.sz.taskManager.SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE;
 
 /**
  * Created by Wan.N
@@ -153,7 +156,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         } else {
             isOverAweekTime = false;
         }
-
+//        LogUtil.e("isOverAweekTime:" + isOverAweekTime + "--getUpdatetime：" + evaluateInfo.getUpdatetime());
         LogUtil.i("activityType:" + activityType + "--evaluateInfo：" + evaluateInfo.toString());
     }
 
@@ -279,16 +282,22 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                 if (isOverAweekTime) {
                     toast(getString(R.string.sz_evaluate_overtime_tip));
                 } else {
-                    new CommonAlertDialog.Builder(SzWriteEvaluateActivity.this).
-                            setMessage(R.string.sz_update_evaluate_dialog_title).
-                            setNegativeButton(R.string.dialog_cancel, null).
-                            setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // 提交评价信息
-                                    submitEvaluate();
-                                }
-                            }).show();
+                    if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
+                        new CommonAlertDialog.Builder(SzWriteEvaluateActivity.this).
+                                setMessage(R.string.sz_update_evaluate_dialog_title).
+                                setNegativeButton(R.string.dialog_cancel, null).
+                                setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        // 提交评价信息
+                                        submitEvaluate();
+                                    }
+                                }).show();
+                    } else if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+                        // 提交评价信息
+                        submitEvaluate();
+                    }
+
                 }
             }
         });
@@ -313,6 +322,10 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                         R.mipmap.sz_default_user_icon);
                 user_name_tv.setText(evaluateInfoUser.getUName());
             }
+            //工作日期
+            user_date_tv.setText(DateUtil.getTime(Long.valueOf(evaluateInfo.getWork_date())));
+            //有效工作时间（单位：分钟）
+            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
             asignJobs = evaluateInfo.getAsignJobs();
             if (evaluateadapter == null) {
                 evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
@@ -451,14 +464,14 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
         switch (requestCode) {
             case REQUEST_CODE_SUBMIT_DAY_JOBS_RATING:
-                if (result != null && result.isSuccess && result.getResponseCode() == 100) {
+                if (result != null && result.isSuccess) {
                     mHandle.sendEmptyMessage(SUBMIT_EVALUATE_SUCCESS);
                 } else {
                     mHandle.sendEmptyMessage(SUBMIT_EVALUATE_FAIL);
                 }
                 break;
             case REQUEST_CODE_SUBMIT_REJECT:
-                if (result != null && result.isSuccess && result.getResponseCode() == 100) {
+                if (result != null && result.isSuccess) {
                     mHandle.sendEmptyMessage(SUBMIT_REJECT_SUCCESS);
                 } else {
                     mHandle.sendEmptyMessage(SUBMIT_REJECT_FAIL);

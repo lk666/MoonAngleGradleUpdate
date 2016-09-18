@@ -23,8 +23,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/top_divider"
-        android:background="@color/page_bg_ed"
+        android:background="@color/white"
         android:descendantFocusability="afterDescendants"
+        android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
         android:scrollbars="none" />
 

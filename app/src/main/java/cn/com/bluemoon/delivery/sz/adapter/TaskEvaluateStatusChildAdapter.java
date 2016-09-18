@@ -72,11 +72,11 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         ///*************************************显示数据************************************************/
-        if (position < (datas.size() - 1)) {
-            viewHolder.getDivider().setVisibility(View.VISIBLE);
-        } else {
-            viewHolder.getDivider().setVisibility(View.GONE);
-        }
+//        if (position < (datas.size() - 1)) {
+//            viewHolder.getDivider().setVisibility(View.VISIBLE);
+//        } else {
+//            viewHolder.getDivider().setVisibility(View.GONE);
+//        }
 
         /**@author jiangyh */
 //        任务记录首页item 展示

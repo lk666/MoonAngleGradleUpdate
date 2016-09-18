@@ -2,8 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:custom="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:background="@color/white"
     android:layout_height="wrap_content"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -18,13 +18,13 @@
 
         <cn.com.bluemoon.delivery.sz.view.RoundImageView
             android:id="@+id/user_avatar_iv"
-            custom:is_draw_border="false"
             android:layout_width="32dp"
             android:layout_height="32dp"
             android:layout_alignParentLeft="true"
             android:layout_centerVertical="true"
             android:scaleType="centerCrop"
-            android:src="@mipmap/sz_default_user_icon" />
+            android:src="@mipmap/sz_default_user_icon"
+            custom:is_draw_border="false" />
 
         <TextView
             android:id="@+id/user_name_tv"
@@ -34,7 +34,7 @@
             android:layout_marginLeft="9dp"
             android:layout_toRightOf="@+id/user_avatar_iv"
             android:text=""
-            android:textColor="@color/black"
+            android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_15" />
 
         <LinearLayout
@@ -58,7 +58,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="11dp"
                 android:text="2016"
-                android:textColor="@color/gray"
+                android:textColor="@color/sz_task_evaluate_text_color"
                 android:textSize="@dimen/text_size_12" />
 
             <TextView
@@ -74,14 +74,15 @@
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
                 android:text="0"
-                android:textColor="@color/gray"
+                android:textColor="@color/sz_task_evaluate_text_color"
                 android:textSize="@dimen/text_size_12" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="11dp"
                 android:text="@string/sz_minute_label"
-                android:textColor="@color/gray"
+                android:textColor="@color/sz_task_evaluate_text_color"
                 android:textSize="@dimen/text_size_12" />
 
             <TextView
@@ -96,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="@color/gray"
+                android:textColor="@color/sz_task_evaluate_text_color"
                 android:textSize="@dimen/text_size_12" />
 
         </LinearLayout>

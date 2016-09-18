@@ -4,11 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 import org.greenrobot.eventbus.EventBus;
@@ -17,7 +14,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
@@ -33,8 +29,6 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-
-import static cn.com.bluemoon.delivery.sz.taskManager.SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_HAVE_EVALUATED;
 
 /**
  * Created by Wan.N
@@ -233,8 +227,9 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
         if (result != null && result.isSuccess) {
             ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
-            mEvaluateDatas.clear();
-            mEvaluateDatas = ResultGetTaskEvaluateList.getData();
+            if (ResultGetTaskEvaluateList.getData() != null) {
+                mEvaluateDatas.addAll(ResultGetTaskEvaluateList.getData());
+            }
             mHandle.sendEmptyMessage(LOAD_DATA_SUCCESS);
         } else {
             mHandle.sendEmptyMessage(LOAD_DATA_FAIL);

@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
 import org.greenrobot.eventbus.EventBus;
 import org.kymjs.kjframe.utils.StringUtils;
 
@@ -18,17 +20,18 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.adapter.TaskAppraiseChooseAdapter;
+import cn.com.bluemoon.delivery.sz.api.SzApi;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoListBean;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**人员选择（单选）*/
 public class AppraiseChooserActivity extends BaseActivity {
@@ -51,7 +54,7 @@ public class AppraiseChooserActivity extends BaseActivity {
 	private InputMethodManager imm = null;
 
 
-	List<Object> appreaiseList=new ArrayList<>();
+	List<UserInfoBean> appreaiseList=new ArrayList<>();
 	TaskAppraiseChooseAdapter appraiseChooseAdapter=null;
 
 	@Override
@@ -77,6 +80,7 @@ public class AppraiseChooserActivity extends BaseActivity {
 				if (actionId == EditorInfo.IME_ACTION_SEARCH ||
 						(event != null && event.getKeyCode() == KeyEvent.KEYCODE_SEARCH)) {
 					String keyword = et_search_appraiser.getText().toString();
+					searchByKeyword(keyword);
 					return true;
 				}
 				return false;
@@ -93,31 +97,33 @@ public class AppraiseChooserActivity extends BaseActivity {
 	}
 
 	/**查询人员接口*/
-	private void login(String name,String psw){
-		if (StringUtils.isEmpty(name) || StringUtils.isEmpty(psw)) {
-			LibViewUtil.toast(AppContext.getInstance(),
-					AppContext.getInstance().getString(R.string.register_not_empty));
-			return;
+	private void searchByKeyword(String queryStr){
+		if (!StringUtils.isEmpty(queryStr)) {
+			showWaitDialog();
+			SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
 		}
-		showWaitDialog();
-		DeliveryApi.ssoLogin(name, psw, getNewHandler(0, ResultToken.class));
 	}
-
 	/**接口返回的数据*/
 	@Override
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+		LogUtil.i("人员查询："+jsonString);
+
+		UserInfoListBean userInfoListBean= JSON.parseObject(jsonString,UserInfoListBean.class);
+		if (userInfoListBean!=null){
+			List<UserInfoBean> userInfoBeen=userInfoListBean.getData();
+			if (!appreaiseList.isEmpty()){
+				appreaiseList.clear();
+			}
+			appreaiseList.addAll(userInfoBeen);
+			appraiseChooseAdapter.notifyDataSetChanged();
+		}
 
 	}
 
 	private void initAdapter() {
-		appreaiseList.add( new Object());
-		appreaiseList.add( new Object());
-		appreaiseList.add( new Object());
 
 		//TODO
 //		对比角标 选中上一次选 中的人员
-
-
 		appraiseChooseAdapter=new TaskAppraiseChooseAdapter(context,appreaiseList);
 		lv_appraise_chooser.setAdapter(appraiseChooseAdapter);
 
@@ -128,12 +134,11 @@ public class AppraiseChooserActivity extends BaseActivity {
 				appraiseChooseAdapter.setSelectedIndex(position);
 				appraiseChooseAdapter.notifyDataSetChanged();
 
-
-
+				UserInfoBean userInfoBean= (UserInfoBean) parent.getAdapter().getItem(position);
 				EventMessageBean messageBean=new EventMessageBean();
 				messageBean.setEventMsgAction(APPRAISE_NAME_ACTION_CONTENT+"");
-				messageBean.setEventMsgContent(APPRAISE_NAME_CONTENT+"1");
-
+//				反回实体
+				messageBean.setEventMsgContent(JSON.toJSONString(userInfoBean));
 				EventBus.getDefault().post(messageBean);
 
 				finish();

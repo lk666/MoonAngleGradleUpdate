@@ -2,20 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_ed"
     android:orientation="vertical">
 
-    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/evaluate_data_lv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/page_bg_ed"
         android:cacheColorHint="#00000000"
         android:descendantFocusability="beforeDescendants"
+        android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
         android:scrollbars="none"
         ptr:ptrAnimationStyle="flip"
+        ptr:ptrDrawable="@drawable/progressbar_bar_loading"
+        ptr:ptrHeaderBackground="@color/page_bg_f2"
         ptr:ptrHeaderSubTextColor="@color/text_black"
         ptr:ptrHeaderTextColor="@color/text_black"
         ptr:ptrMode="both" />
