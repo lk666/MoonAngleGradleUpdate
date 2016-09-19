@@ -199,14 +199,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         });
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getModifyTaskSuccess(EventMessageBean messageBean) {
-        if (messageBean.getEventMsgAction().equals("101")) {
-            PageJumps.finish(context);
-        }
-    }
-
-
     @Override
     public void initData() {
 

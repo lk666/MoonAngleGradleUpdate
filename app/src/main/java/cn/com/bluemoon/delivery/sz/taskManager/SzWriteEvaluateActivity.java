@@ -392,7 +392,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                 String position = messageBean.getReMark();//评分的itemview的position
                 LogUtil.i("评分结果：position:" + position + "--score:" + score);
                 asignJobs = evaluateadapter.getDatas();
-                asignJobs.get(Integer.valueOf(position)).setScore(score);
+                asignJobs.get(Integer.valueOf(position)).setQuality_score(score);
                 evaluateadapter.updateAdapter(asignJobs);
             } else {
 
@@ -410,7 +410,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             rateDataInfoBean.setReview_cont(asignJobBean.getReview_cont());
             rateDataInfoBean.setValid_min(asignJobBean.getValid_min());
             rateDataInfoBean.setIs_valid(asignJobBean.getIs_valid());
-            rateDataInfoBean.setState(asignJobBean.getState());
+            rateDataInfoBean.setState(asignJobBean.getNewState());
             rateDataInfoBean.setQuality_score(asignJobBean.getQuality_score());
             rateDataInfoBean.setUsage_time(asignJobBean.getUsage_time());
             rateDataInfoBean.setWork_task_id(asignJobBean.getWork_task_id());

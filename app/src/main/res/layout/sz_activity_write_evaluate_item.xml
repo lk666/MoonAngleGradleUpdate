@@ -274,8 +274,8 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginRight="6dp"
-                android:button="@drawable/sz_task_valid_checked_bg_selector"
                 android:layout_toLeftOf="@+id/task_avalilabel_tv"
+                android:button="@drawable/sz_task_valid_checked_bg_selector"
                 android:checked="true" />
         </RelativeLayout>
 
@@ -369,7 +369,7 @@
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/quality_evaluate_right_icon"
                 android:gravity="center"
-                android:text="@string/sz_do_task_quality_score_label2"
+                android:text=""
                 android:textColor="@color/gray"
                 android:textSize="@dimen/text_size_12" />
 
