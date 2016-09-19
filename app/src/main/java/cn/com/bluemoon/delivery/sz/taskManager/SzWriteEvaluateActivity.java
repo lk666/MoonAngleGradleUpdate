@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
@@ -153,7 +154,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                     long time = System.currentTimeMillis() - c.getTimeInMillis();
-                    if (time >= 60 * 60 * 24 * 7) {
+                    if (time >= 1000 * 60 * 60 * 24 * 7) {
                         //如果评论超过一周
                         isOverAweekTime = true;
                     }
@@ -268,10 +269,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
         user_task_lv.setAdapter(evaluateadapter);
 
+        user_score_tv.setVisibility(View.GONE);
+        user_score_icon.setVisibility(View.GONE);
+
         //添加头部，用作分割线
         View header = new View(this);
         header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 0));
         header.setLayoutParams(lp);
         user_task_lv.addHeaderView(header);
 
@@ -333,7 +337,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         if (evaluateInfo != null) {
             UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
             if (evaluateInfo != null) {
-                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,  R.mipmap.sz_default_user_icon,
+                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon, R.mipmap.sz_default_user_icon,
                         R.mipmap.sz_default_user_icon);
                 user_name_tv.setText(evaluateInfoUser.getUName());
             }
@@ -412,7 +416,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             rateDataInfoBean.setWork_task_id(asignJobBean.getWork_task_id());
             rateDataInfoBeanList.add(rateDataInfoBean);
         }
-//        mHandle.sendEmptyMessage(SUBMIT_EVALUATE_SUCCESS);//模拟测试语句
+        showWaitDialog();
         SzApi.submitDayJobsRating(rateDataInfoBeanList, evaluateInfo.getWork_day_id(), getNewHandler(REQUEST_CODE_SUBMIT_DAY_JOBS_RATING, ResultBase.class));
     }
 

@@ -27,7 +27,7 @@
         android:descendantFocusability="afterDescendants"
         android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
-        android:headerDividersEnabled="false"
+        android:headerDividersEnabled="true"
         android:scrollbars="none" />
 
 </RelativeLayout>

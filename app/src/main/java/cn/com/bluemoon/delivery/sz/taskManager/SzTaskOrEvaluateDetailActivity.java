@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
@@ -49,7 +50,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Bind(R.id.rl_user_data)
     LinearLayout rl_user_data;//用户资料区域
 
-     @Bind(R.id.user_avatar_iv)
+    @Bind(R.id.user_avatar_iv)
     RoundImageView user_avatar_iv;//用户头像
 
     @Bind(R.id.user_name_tv)
@@ -142,19 +143,16 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_task_or_evaluate_detail_btn_layout);
         ll_bottom_btn_area = (LinearLayout) sz_rewrite_btn_layout.findViewById(R.id.ll_bottom_btn_area);
         btn_bottom = (TextView) sz_rewrite_btn_layout.findViewById(R.id.btn_bottom);
-        //*/ jiangyh
-        if (activityType==ACTIVITY_TYPE_TASK_DETAIL){
-            user_score_tv.setVisibility(View.GONE);
-            user_score_icon.setVisibility(View.GONE);
 
-        }
+        user_score_tv.setVisibility(View.GONE);
+        user_score_icon.setVisibility(View.GONE);
 
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
         //添加头部，用作分割线
         View header = new View(this);
         header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
-        RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 0));
         header.setLayoutParams(lp);
         user_task_lv.addHeaderView(header);
 
@@ -202,8 +200,8 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
-    public void getModifyTaskSuccess(EventMessageBean messageBean){
-        if (messageBean.getEventMsgAction().equals("101")){
+    public void getModifyTaskSuccess(EventMessageBean messageBean) {
+        if (messageBean.getEventMsgAction().equals("101")) {
             PageJumps.finish(context);
         }
     }

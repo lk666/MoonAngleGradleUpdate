@@ -97,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="@color/sz_task_evaluate_text_color"
+                android:textColor="@color/red"
                 android:textSize="@dimen/text_size_12" />
 
         </LinearLayout>
