@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.Bind;
@@ -37,7 +38,9 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
  * Desc      写评价/修改评价的适配器
  */
 public class TaskWriteEvaluateApater extends BaseAdapter {
+    /*记录每个任务数据实体*/
     private List<AsignJobBean> datas = new ArrayList<>();
+
     private LayoutInflater inflater;
     private Context cxt;
 
@@ -51,6 +54,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         if (inflater == null && cxt != null) {
             inflater = LayoutInflater.from(cxt);
         }
+        dealDatas();
     }
 
     public void updateAdapter(List<AsignJobBean> datas) {
@@ -59,9 +63,23 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         } else {
             this.datas = datas;
         }
+        dealDatas();
         notifyDataSetChanged();
     }
 
+    /**
+     * 简单处理下数据
+     */
+    private void dealDatas() {
+//        将数据实体中的state赋值给newState
+        for (AsignJobBean itemt : datas) {
+            itemt.setNewState(itemt.getState());
+        }
+    }
+
+    /**
+     * 获取任务实体数据（包含修改的有效工时，质量评分等（除了任务状态））
+     */
     public List<AsignJobBean> getDatas() {
         return datas;
     }
@@ -84,7 +102,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final AsignJobBean asignJobBean = datas.get(position);
-//        LogUtil.i("getView:" + position + "--getIs_valid:" + asignJobBean.getIs_valid() + "--getState:" + asignJobBean.getState() + "--getValid_min:" + asignJobBean.getValid_min());
+        LogUtil.i("getView:" + position + "--getIs_valid:" + asignJobBean.getIs_valid() + "--getNewState:" + asignJobBean.getNewState() + "--getValid_min:" + asignJobBean.getValid_min());
         final MyViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.sz_activity_write_evaluate_item, null);
@@ -110,27 +128,35 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
         viewHolder.getTaskStartTimeTv().setText(asignJobBean.getBegin_time());
         viewHolder.getTaskEndTimeTv().setText(asignJobBean.getEnd_time());
-
+        //原始的任务完成状态
         String completeState = asignJobBean.getState();
         if ("0".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_not_start_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
-            viewHolder.getTaskPauseRb().setChecked(true);
         } else if ("1".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completing_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.btn_blue));
-            viewHolder.getTaskCompletingRb().setChecked(true);
         } else if ("2".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completed_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
-            viewHolder.getTaskCompletedRb().setChecked(true);
         } else if ("3".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_pause_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
-            viewHolder.getTaskPauseRb().setChecked(true);
         } else {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completed_label);
             viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
+        }
+        //修改后的任务完成状态
+        String completeNewState = asignJobBean.getNewState();
+        if ("0".equalsIgnoreCase(completeNewState)) {
+            viewHolder.getTaskPauseRb().setChecked(true);
+        } else if ("1".equalsIgnoreCase(completeNewState)) {
+            viewHolder.getTaskCompletingRb().setChecked(true);
+        } else if ("2".equalsIgnoreCase(completeNewState)) {
+            viewHolder.getTaskCompletedRb().setChecked(true);
+        } else if ("3".equalsIgnoreCase(completeNewState)) {
+            viewHolder.getTaskPauseRb().setChecked(true);
+        } else {
             viewHolder.getTaskCompletedRb().setChecked(true);
         }
 
@@ -143,16 +169,16 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             viewHolder.getTaskAvaliabelCb().setChecked(true);
         }
 
-        if (TextUtils.isEmpty(asignJobBean.getValid_min())) {
+        if (TextUtils.isEmpty(asignJobBean.getUsage_time())) {
             viewHolder.getTaskAvaliabelTimeEt().setText("0");
         } else {
-            viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getValid_min());
+            viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getUsage_time());
         }
 
         if (!TextUtils.isEmpty(asignJobBean.getScore())) {
             viewHolder.getTaskQualityEvaluateScoreTv().setText(asignJobBean.getQuality_score() + cxt.getResources().getString(R.string.sz_task_quality_score_unit));
         } else {
-            viewHolder.getTaskQualityEvaluateScoreTv().setText(R.string.sz_do_task_quality_score_label2);
+            viewHolder.getTaskQualityEvaluateScoreTv().setText(10 + cxt.getResources().getString(R.string.sz_task_quality_score_unit));
         }
 
         if (!TextUtils.isEmpty(asignJobBean.getReview_cont())) {
@@ -166,21 +192,15 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 if (checkedId == R.id.do_task_state_completed_rb) {
-                    datas.get(position).setState("2");
-                    viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completed_label);
-                    viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
+                    datas.get(position).setNewState("2");
                 } else if (checkedId == R.id.do_task_state_completing_rb) {
-                    datas.get(position).setState("1");
-                    viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completing_label);
-                    viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.btn_blue));
+                    datas.get(position).setNewState("1");
                 } else if (checkedId == R.id.do_task_pause_state_rb) {
-                    datas.get(position).setState("3");
-                    viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_pause_label);
-                    viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
+                    datas.get(position).setNewState("3");
                 } else {
 
                 }
-//                LogUtil.e("修改" + position + "进展状态：" + datas.get(position).getState());
+                LogUtil.e("修改" + position + "进展状态：" + datas.get(position).getNewState());
             }
         });
         viewHolder.getTaskAvaliabelCb().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -206,6 +226,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 Bundle bundle = new Bundle();
                 bundle.putInt("actionType", SzWriteEvaluateActivity.EVENT_ACTION_TYPE_QUALITY_SCORE);
                 bundle.putString("viewPosition", position + "");
+                bundle.putString("score", datas.get(position).getQuality_score());
                 PageJumps.PageJumps(cxt, TaskQualityScoreActivity.class, bundle);
             }
         });

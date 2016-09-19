@@ -94,6 +94,8 @@ public class TaskQualityScoreActivity extends BaseActivity implements View.OnCli
             String scoreStr = getIntent().getStringExtra("score");
             if (!TextUtils.isEmpty(scoreStr)) {
                 score = Integer.valueOf(scoreStr);
+            } else {
+                score = 10;
             }
         }
     }

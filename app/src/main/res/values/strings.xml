@@ -902,6 +902,7 @@
     <string name="sz_evaluate_submit_fail_label">评价提交失败，请重新提交！</string>
     <string name="sz_evaluate_update_fail_label">评价修改提交失败，请重新提交！</string>
     <string name="sz_evaluate_not_valid_label">未评价</string>
+    <string name="sz_no_more_data_tip">没有更多数据了</string>
 
 
 </resources>

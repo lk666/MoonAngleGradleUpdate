@@ -84,36 +84,45 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     public void onEvaluateStateChanged(EventDailyPerformanceBean bean) {
         LogUtil.i("被修改的评价bean:" + bean.toString());
         if (bean != null && bean.getDailyPerformanceInfoBean() != null) {
-            if (bean.getType() == ACTIVITY_TYPE_TO_EVALUATE) {
-                //如果是未评价的被评价了，则从未评价区移至已评价区
-                if (activityType == ACTIVITY_TYPE_TO_EVALUATE) {
-                    LogUtil.i("移除前:" + mEvaluateDatas.size());
-                    mEvaluateDatas.remove(bean.getDailyPerformanceInfoBean());
-                    LogUtil.i("移除后:" + mEvaluateDatas.size());
-                } else if (activityType == ACTIVITY_TYPE_HAVE_EVALUATED) {
-                    LogUtil.i("添加前:" + mEvaluateDatas.size());
-                    mEvaluateDatas.add(bean.getDailyPerformanceInfoBean());
-                    LogUtil.i("添加后:" + mEvaluateDatas.size());
-                }
-            } else if (bean.getType() == ACTIVITY_TYPE_HAVE_EVALUATED) {
-                //如果是已评价的被修改了评价，就将此数据在已评价区更新
-                int index = mEvaluateDatas.indexOf(bean.getDailyPerformanceInfoBean());
-                mEvaluateDatas.get(index).setAsignJobs(bean.getDailyPerformanceInfoBean().getAsignJobs());
-            }
+//            if (bean.getType() == ACTIVITY_TYPE_TO_EVALUATE) {
+//                //如果是未评价的被评价了，则从未评价区移至已评价区
+//                if (activityType == ACTIVITY_TYPE_TO_EVALUATE) {
+//                    LogUtil.i("移除前:" + mEvaluateDatas.size());
+//                    mEvaluateDatas.remove(bean.getDailyPerformanceInfoBean());
+//                    LogUtil.i("移除后:" + mEvaluateDatas.size());
+//                } else if (activityType == ACTIVITY_TYPE_HAVE_EVALUATED) {
+//                    LogUtil.i("添加前:" + mEvaluateDatas.size());
+//                    mEvaluateDatas.add(bean.getDailyPerformanceInfoBean());
+//                    LogUtil.i("添加后:" + mEvaluateDatas.size());
+//                }
+//            } else if (bean.getType() == ACTIVITY_TYPE_HAVE_EVALUATED) {
+//                //如果是已评价的被修改了评价，就将此数据在已评价区更新
+//                int index = mEvaluateDatas.indexOf(bean.getDailyPerformanceInfoBean());
+//                mEvaluateDatas.get(index).setAsignJobs(bean.getDailyPerformanceInfoBean().getAsignJobs());
+//            }
+//            updateData();
+            isRefresh = true;
+            LogUtil.e("需要刷新数据");
         }
-        updateData();
     }
+
+    private boolean isRefresh = true;
 
     @Override
     public void initData() {
-        curPage = 1;
+//        loadData2();
     }
 
     @Override
     public void onResume() {
         super.onResume();
         //每次进页面都刷新最新数据来显示
-        loadData();
+        if (isRefresh) {
+            isRefresh = false;
+            curPage = 1;
+            mEvaluateDatas.clear();
+            loadData();
+        }
     }
 
     private void loadData() {
@@ -162,9 +171,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LOAD_DATA_SUCCESS:
-                    if (evaluate_data_lv!=null){
-                        evaluate_data_lv.onRefreshComplete();
-                    }
+                    evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_SUCCESS");
                     updateData();
                     curPage++;

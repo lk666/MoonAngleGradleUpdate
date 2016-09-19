@@ -316,6 +316,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }
 
