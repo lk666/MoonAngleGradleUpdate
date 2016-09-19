@@ -96,30 +96,37 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
         }
     }
 
+    /**
+     * 清除顶部显示的内容
+     */
+    final protected void clearTxtCode(){
+        setTxtCode(null);
+    }
+
     @Override
-    protected int getLayoutId() {
+    final protected int getLayoutId() {
         return R.layout.activity_scan_code;
     }
 
     @Override
-    protected String getTitleString() {
+    final protected String getTitleString() {
         return title;
     }
 
     @Override
-    protected void initView() {
+    final protected void initView() {
         super.initView();
         setInputBtn(getIntent().getStringExtra("btnString"));
         setTxtCode(getIntent().getStringExtra("code"));
     }
 
     @Override
-    protected int getSurfaceViewId() {
+    final protected int getSurfaceViewId() {
         return R.id.preview_view;
     }
 
     @Override
-    protected int getViewfinderViewId() {
+    final protected int getViewfinderViewId() {
         return R.id.viewfinder_view;
     }
 

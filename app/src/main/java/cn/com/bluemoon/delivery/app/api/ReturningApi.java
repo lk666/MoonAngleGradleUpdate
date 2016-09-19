@@ -73,6 +73,39 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
+     *2.1扫描衣物
+     * @param backOrderCode 还衣单号 String
+     * @param clothesCode 衣物编码 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanClothes(String clothesCode,String token,AsyncHttpResponseHandler handler){
+        if(null == clothesCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("clothesCode",clothesCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/cabinet/scanClothes%s", handler);
+    }
+
+    /**
+     *2.2扫描分拨柜
+     * @param clothesCode 衣物编码 String
+     * @param cupboardCode 分拨柜号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanCupboard(String clothesCode,String cupboardCode,String token,AsyncHttpResponseHandler handler){
+        if(null == clothesCode||null == cupboardCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("clothesCode",clothesCode);
+        params.put("cupboardCode",cupboardCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/cabinet/scanCupboard%s", handler);
+    }
+
+    /**
      * 4.1获取待封箱列表
      *
      * @param pageFalg  分页时间戳(分页标志) long

@@ -6,12 +6,16 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
+import cn.com.bluemoon.delivery.app.api.ReturningApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.incabinet.ResultCupboard;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 
 
 public class CabinetScanActivity extends BaseScanCodeActivity {
 
-    private String code;
+    private String clothesCode;
+    private String cupboardCode;
 
 
     public static void actStart(Activity context, Fragment fragment, String title, String btnString, String code, int requestCode) {
@@ -27,21 +31,47 @@ public class CabinetScanActivity extends BaseScanCodeActivity {
     protected void onResult(String str, String type, Bitmap barcode) {
         //暂停扫描
         pauseScan();
-        if (TextUtils.isEmpty(code)) {
-            code = str;
-            setTxtCode(str);
-        } else if (!code.equals(str)) {
-            toast("请扫描：" + code);
-        } else {
-            toast(str + "入柜成功");
-            code = null;
+        clothesCode = str;
+        if (TextUtils.isEmpty(cupboardCode)) {
+            showWaitDialog();
+            ReturningApi.scanClothes(clothesCode, getToken(), getNewHandler(0, ResultCupboard.class));
+        } else{
+            showWaitDialog();
+            ReturningApi.scanCupboard(clothesCode,cupboardCode,getToken(),getNewHandler(1,ResultBase.class));
         }
-        //重新调起扫描
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        if(requestCode == 0){
+            ResultCupboard cupboard = (ResultCupboard)result;
+            cupboardCode = cupboard.getCupboardCode();
+            setTxtCode(cupboardCode);
+        }else if(requestCode == 1){
+            toast(result.getResponseMsg());
+            clothesCode = null;
+            cupboardCode = null;
+            clearTxtCode();
+        }
+        //重新启动扫描
         resumeScan();
     }
 
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         super.onSuccessException(requestCode, t);
+        resumeScan();
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        resumeScan();
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        resumeScan();
     }
 }
