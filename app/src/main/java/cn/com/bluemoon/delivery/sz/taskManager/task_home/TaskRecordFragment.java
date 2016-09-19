@@ -73,12 +73,18 @@ public class TaskRecordFragment extends BaseFragment
 	private TextView tv_task_point=null;
 	private LinearLayout ll_task_footer=null;
 	private TextViewForClick tv_addTask=null;//外面添加按钮
-	private TextViewForClick tv_footer_addTask=null;//多列表数据时 以addfooter 的形式来展示
+//	private TextViewForClick tv_footer_addTask=null;//多列表数据时 以addfooter 的形式来展示
 
 	/*******通过日期获取的列表的adapter******/
 	private TaskDateStatusAdapter taskDateStatusAdapter=null;
 	private List<DailyPerformanceInfoBean> dailyPerformanceInfoBeanArrayList = new ArrayList<>();
 	private List<AsignJobBean> asignJobs=new ArrayList<>();
+
+	/**全局联网得到的任务数据*/
+	private DailyPerformanceInfoBean dailyInfoBean=null;
+//	private DailyperformanceinfoResultBean resultBean=null;
+	/**1:添加，0：修改，2：查看*/
+	private int showModleType=-1;
 
 
 	@Override
@@ -100,14 +106,16 @@ public class TaskRecordFragment extends BaseFragment
 		ll_task_content= (LinearLayout) getMainView().findViewById(R.id.ll_task_content);
 		ll_add_taskView= (LinearLayout) getMainView().findViewById(R.id.ll_add_taskView);
 		tv_addTask= (TextViewForClick) getMainView().findViewById(R.id.tv_addTask);
+		ll_add_taskView.setOnClickListener(this);
 		tv_addTask.setOnClickListener(this);
 		initCalendarView();
-		initFooterView();
+//		initFooterView();
 		initAdapterView();
 	}
 
 	@Subscribe(threadMode = ThreadMode.MAIN)
 	public void getModifyTaskSuccess(EventMessageBean messageBean){
+		LogUtil.v("getModifyTaskSuccess"+messageBean.toString());
 		if (messageBean.getEventMsgAction().equals("101")){
 //			重新获取当前的日期数据
 			getData(String.valueOf(
@@ -124,8 +132,6 @@ public class TaskRecordFragment extends BaseFragment
 		RIGHT, LEFT, NO_SILDE;
 	}
 
-
-
 	public void initCalendarView(){
 		LayoutInflater inflater =  (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		headerView = inflater.inflate(R.layout.sz_header_task,null);
@@ -138,8 +144,6 @@ public class TaskRecordFragment extends BaseFragment
 		LogUtil.i("当前的日期---------->："+currentDate);
 		//*/获取当天的数据
 		getData(String.valueOf(DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
-
-
 
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
@@ -157,9 +161,9 @@ public class TaskRecordFragment extends BaseFragment
 		footerView = inflater.inflate(R.layout.activity_sz_task_record_add_footer,null);
 		ll_task_footer= (LinearLayout) footerView.findViewById(R.id.ll_task_footer);
 		ll_task_footer.setVisibility(View.GONE);
-		tv_footer_addTask= (TextViewForClick) footerView.findViewById(R.id.tv_footer_addTask);
-		tv_footer_addTask.setOnClickListener(this);
-		lv_taskRecord.addFooterView(footerView);
+//		tv_footer_addTask= (TextViewForClick) footerView.findViewById(R.id.tv_footer_addTask);
+//		tv_footer_addTask.setOnClickListener(this);
+//		lv_taskRecord.addFooterView(footerView);
 	}
 
 
@@ -169,30 +173,48 @@ public class TaskRecordFragment extends BaseFragment
 		taskDateStatusAdapter = new TaskDateStatusAdapter(getActivity(), dailyPerformanceInfoBeanArrayList);
 		lv_taskRecord.setAdapter(taskDateStatusAdapter);
 		initListener();
-
 	}
-
-
 
 	private void initListener() {
 		lv_taskRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				DailyPerformanceInfoBean dailyPerformanceInfoBean =
-						(DailyPerformanceInfoBean) parent.getAdapter().getItem(position);
-
-				Bundle mBundle=new Bundle();
-				mBundle.putInt(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE,0);
-				mBundle.putSerializable(SzTaskOrEvaluateDetailActivity.ACTIVITY_EXTAR_DATA,
-						dailyPerformanceInfoBean);
-
-				PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);
-//				PublicUtil.showToast(""+position);
-
+//				DailyPerformanceInfoBean dailyPerformanceInfoBean=resultBean.getJobsdata();
+				if (dailyInfoBean!=null){
+					intentDetailActivity(dailyInfoBean);
+				}
 
 			}
 		});
 	}
+
+	private void intentDetailActivity(DailyPerformanceInfoBean dailyPerformanceInfoBean){
+//		任务内容入口处修改时间
+		List<AsignJobBean> asignJobs=dailyPerformanceInfoBean.getAsignJobs();
+		//任务内容转成日期格式
+		for (AsignJobBean asignJobBean:asignJobs) {
+			LogUtil.e("跳转至详情，时间转换后：----------》"+asignJobBean.toString());
+		}
+
+		Bundle mBundle=new Bundle();
+		//*/传不同的值 0：任务修改详情，2任务查看详情
+		if (showModleType==0){
+			mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
+					AddTaskActivity.TASKOPERATETYPE_MODIFY);
+			mBundle.putSerializable(AddTaskActivity.DATABEAN, dailyPerformanceInfoBean);
+			PageJumps.PageJumps(context, AddTaskActivity.class, mBundle);
+		}else{
+			LogUtil.i("跳转的类型showModleType："+showModleType);
+			mBundle.putInt(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE,showModleType);
+			mBundle.putSerializable(SzTaskOrEvaluateDetailActivity.ACTIVITY_EXTAR_DATA,
+					dailyPerformanceInfoBean);
+			PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);
+		}
+
+
+	}
+
+
 
 
 	private void adjustViewPagerHeight(int rowNum){
@@ -261,60 +283,55 @@ public class TaskRecordFragment extends BaseFragment
 	@Override
 	public void clickDate(CustomDate date) {
 		currentDate=date.toString();
-
-		//先看本地是否存在
-		DailyperformanceinfoResultBeanList loacalBeanList=
-				(DailyperformanceinfoResultBeanList) CacheServerResponse.readObject(
-						context,"DailyperformanceinfoResultBeanList");
-		boolean isExist=false;
-		List<DailyPerformanceInfoBean> loacalList=null;
-		if (loacalBeanList!=null){
-			loacalList=loacalBeanList.getDailyPerformanceInfoBeanList();
-			if (loacalBeanList!=null && loacalList!=null){
-				for (DailyPerformanceInfoBean bean:loacalList) {
-					LogUtil.d("先查看本地是否存在："+bean.toString());
-					if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
-							==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
-	//					本地有，用本地的
-						isExist=true;
-						LogUtil.d("先查看本地是否存在isExist："+isExist);
+		try {
+			//先看本地是否存在
+			DailyperformanceinfoResultBeanList loacalBeanList=
+					(DailyperformanceinfoResultBeanList) CacheServerResponse.readObject(
+							context,"DailyperformanceinfoResultBeanList");
+			boolean isExist=false;
+			List<DailyPerformanceInfoBean> loacalList=null;
+			if (loacalBeanList!=null){
+				loacalList=loacalBeanList.getDailyPerformanceInfoBeanList();
+				if (loacalBeanList!=null && loacalList!=null){
+					for (DailyPerformanceInfoBean bean:loacalList) {
+						LogUtil.d("先查看本地是否存在："+bean.toString());
+						if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
+								==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
+		//					本地有，用本地的
+							isExist=true;
+							LogUtil.d("先查看本地是否存在isExist："+isExist);
+						}
 					}
-
-				}
-			}
-		}
-
-		if (isExist==false){
-			getData(String.valueOf(
-					DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
-		LogUtil.i(String.valueOf(
-				DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
-
-		}else{//本地存在，直接刷新
-
-			if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
-				dailyPerformanceInfoBeanArrayList.clear();
-			}
-
-			loacalList=loacalBeanList.getDailyPerformanceInfoBeanList();
-			if (loacalBeanList!=null && loacalList!=null){
-				for (DailyPerformanceInfoBean bean:loacalList) {
-					if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
-							==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
-						dailyPerformanceInfoBeanArrayList.add(bean);
-						taskDateStatusAdapter.notifyDataSetChanged();
-
-					}
-
 				}
 			}
 
+			if (isExist==false){
+				getData(String.valueOf(
+						DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
+				LogUtil.i(currentDate+"/"+String.valueOf(
+						DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
+			}else{//本地存在，直接刷新
+				if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+					dailyPerformanceInfoBeanArrayList.clear();
+					taskDateStatusAdapter.notifyDataSetChanged();
+				}
+				loacalList=loacalBeanList.getDailyPerformanceInfoBeanList();
+				if (loacalBeanList!=null && loacalList!=null){
+					for (DailyPerformanceInfoBean bean:loacalList) {
+						if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
+								==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
 
-
-
+							dailyPerformanceInfoBeanArrayList.add(bean);
+							taskDateStatusAdapter.notifyDataSetChanged();
+							dailyInfoBean=bean;//全局-本地
+							showAddTv(dailyInfoBean);
+						}
+					}
+				}
+			}
+		}catch (Exception e1){
+			e1.printStackTrace();
 		}
-
-
 	}
 
 	private void getData(String date){
@@ -337,64 +354,51 @@ public class TaskRecordFragment extends BaseFragment
 		}
 		taskDateStatusAdapter.notifyDataSetChanged();
 		PublicUtil.showToast("无任务数据！");
-//		super.onSuccessException(requestCode, t);
 	}
 
 	@Override
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-		LogUtil.i("requestCode:---->"+requestCode+"/jsonString:"+jsonString);
+		LogUtil.showMultiLog("requestCode:---->"+requestCode+"/jsonString:"+jsonString);
 		DailyperformanceinfoResultBean resultBean=
 				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
 		String monthlyPer=resultBean.getMonthlyPer();
-		if (!TextUtils.isEmpty(monthlyPer))
-		tv_task_point.setText(String.format(
-				getString(R.string.sz_task_monthlyper),monthlyPer));
-
-		DailyPerformanceInfoBean infoBean=resultBean.getJobsdata();
+		if (!TextUtils.isEmpty(monthlyPer)){
+		tv_task_point.setText(
+				String.format(getString(R.string.sz_task_monthlyper)+"%s",monthlyPer));
+		}
+		dailyInfoBean=resultBean.getJobsdata();
 
 		//统一时间戳转成日期
-		infoBean.setWork_date(DateUtil.tranTimeToDate(infoBean.getWork_date(),"yyyy-MM-dd"));
-		infoBean.setUpdatetime(DateUtil.tranTimeToDate(infoBean.getUpdatetime(),"yyyy-MM-dd"));
-		infoBean.setCreatetime(DateUtil.tranTimeToDate(infoBean.getCreatetime(),"yyyy-MM-dd"));
-
-		List<AsignJobBean> asignJobBeans=infoBean.getAsignJobs();
-		for (AsignJobBean bean:asignJobBeans) {
-			bean.setBegin_time(DateUtil.tranTimeToDate(bean.getBegin_time(),"HH:mm"));
-			bean.setEnd_time(DateUtil.tranTimeToDate(bean.getEnd_time(),"HH:mm"));
-		}
-
+		dailyInfoBean.setWork_date(DateUtil.tranTimeToDate(dailyInfoBean.getWork_date(),"yyyy-MM-dd"));
+		dailyInfoBean.setUpdatetime(DateUtil.tranTimeToDate(dailyInfoBean.getUpdatetime(),"yyyy-MM-dd"));
+		dailyInfoBean.setCreatetime(DateUtil.tranTimeToDate(dailyInfoBean.getCreatetime(),"yyyy-MM-dd"));
 
 		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
 				dailyPerformanceInfoBeanArrayList.clear();
 			}
-			LogUtil.i("DailyPerformanceInfoBean"+infoBean.getAsignJobs());
-			dailyPerformanceInfoBeanArrayList.add(infoBean);
-
-		/**本地缓存*/
-		DailyperformanceinfoResultBeanList dailyperBeanList=new DailyperformanceinfoResultBeanList();
-		dailyperBeanList.setDailyPerformanceInfoBeanList(dailyPerformanceInfoBeanArrayList);
-
-
-
-		saveDailyperLocalBeanList(dailyperBeanList);
+			LogUtil.i("DailyPerformanceInfoBean"+dailyInfoBean.getAsignJobs());
+			dailyPerformanceInfoBeanArrayList.add(dailyInfoBean);
 
 
 	//		任务内容
-			asignJobs=infoBean.getAsignJobs();
-
+			asignJobs=dailyInfoBean.getAsignJobs();
+		//任务内容转成日期格式
 		for (AsignJobBean asignJobBean:asignJobs) {
 			asignJobBean.setBegin_time(DateUtil.tranTimeToDate(asignJobBean.getBegin_time(),"HH:mm"));
 			asignJobBean.setEnd_time(DateUtil.tranTimeToDate(asignJobBean.getEnd_time(),"HH:mm"));
 			asignJobBean.setCreatetime(DateUtil.tranTimeToDate(asignJobBean.getCreatetime(),"yyyy-MM-dd"));
 			LogUtil.e("时间转换后：----------》"+asignJobBean.toString());
 		}
-
 		taskDateStatusAdapter.notifyDataSetChanged();
-
-		showAddTv();
+		/**本地缓存*/
+		DailyperformanceinfoResultBeanList dailyperBeanList=new DailyperformanceinfoResultBeanList();
+		dailyperBeanList.setDailyPerformanceInfoBeanList(dailyPerformanceInfoBeanArrayList);
+		saveDailyperLocalBeanList(dailyperBeanList);
+		showAddTv(dailyInfoBean);
 	}
 
 
+	/**本地缓存*/
 	public void saveDailyperLocalBeanList(DailyperformanceinfoResultBeanList dailyperBeanList){
 		try {
 
@@ -449,24 +453,40 @@ public class TaskRecordFragment extends BaseFragment
 
 		@Override
 	public void onFailureResponse(int requestCode, Throwable t) {
-			super.onFailureResponse(requestCode, t);
+//			super.onFailureResponse(requestCode, t);
+			PublicUtil.showToastServerOvertime();
 		LogUtil.e("onFailureResponse requestCode:"+requestCode);
-		showAddTv();
+		showAddTv(null);
 
 	}
 
-	public void showAddTv(){
-			if (asignJobs.size()>3){
-				setLinearLayoutWeight(ll_task_content,0f);//占满显示footerview
-				ll_add_taskView.setVisibility(View.GONE);
-				ll_task_footer.setVisibility(View.VISIBLE);
-			}else if(asignJobs.size()>=0 ||asignJobs.size()<=3){
-				//采用addFooterView的形式来展示
-				LogUtil.i("000000000000000");
-				setLinearLayoutWeight(ll_task_content,1.0f);//
-				ll_add_taskView.setVisibility(View.VISIBLE);
-				ll_task_footer.setVisibility(View.GONE);
+	@Override
+	public void onErrorResponse(int requestCode, ResultBase result) {
+		super.onErrorResponse(requestCode, result);
+		showAddTv(null);
+	}
+
+	/**showModleType 1:添加，0：修改，2：查看*/
+	public void showAddTv(DailyPerformanceInfoBean infoBean){
+		if (infoBean==null){
+			if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+				dailyPerformanceInfoBeanArrayList.clear();
 			}
+			taskDateStatusAdapter.notifyDataSetChanged();
+//			设置添加的内容
+			tv_addTask.setText(getString(R.string.sz_task_add_task));
+			showModleType=1;
+		}else{
+			LogUtil.e("infoBean  isupdate："+infoBean.isupdate);
+
+			if (infoBean.isupdate==true){//可修改
+				showModleType=0;
+				tv_addTask.setText(getString(R.string.sz_task_modify_task));
+			}else if (infoBean.isupdate==false){//只可查看
+				tv_addTask.setText(getString(R.string.sz_task_look_task));
+				showModleType=2;
+			}
+		}
 	}
 
 
@@ -481,13 +501,27 @@ public class TaskRecordFragment extends BaseFragment
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.tv_addTask:
-			case R.id.tv_footer_addTask:
+			case R.id.ll_add_taskView:
 
-				Bundle mBundle=new Bundle();
-				mBundle.putString(AddTaskActivity.CURRENTDATA,currentDate);
-				mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
-						AddTaskActivity.TASKOPERATETYPE_ADD);
-				PageJumps.PageJumps(context,AddTaskActivity.class,mBundle);
+				if (showModleType==1){
+					Bundle mBundle=new Bundle();
+					mBundle.putString(AddTaskActivity.CURRENTDATA,currentDate);
+					mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
+							AddTaskActivity.TASKOPERATETYPE_ADD);
+					PageJumps.PageJumps(context,AddTaskActivity.class,mBundle);
+
+				}else if(showModleType==0){//修改
+					if (dailyInfoBean!=null){
+						intentDetailActivity(dailyInfoBean);
+					}
+
+				}else if(showModleType==2){//查看
+					if (dailyInfoBean!=null){
+						intentDetailActivity(dailyInfoBean);
+					}
+
+				}
+
 				break;
 			default:
 				break;

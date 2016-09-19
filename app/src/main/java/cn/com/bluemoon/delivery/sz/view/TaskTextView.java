@@ -178,4 +178,9 @@ public class TaskTextView extends LinearLayout {
 		tv_rightContent.setOnClickListener(onClickListener);
 	}
 
+	public void setText_right_hint(String text_right_hint) {
+		this.text_right_hint = text_right_hint;
+		tv_rightContent.setHint(text_right_hint);
+
+	}
 }

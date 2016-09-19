@@ -25,7 +25,6 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
-import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -163,7 +162,9 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LOAD_DATA_SUCCESS:
-                    evaluate_data_lv.onRefreshComplete();
+                    if (evaluate_data_lv!=null){
+                        evaluate_data_lv.onRefreshComplete();
+                    }
                     LogUtil.i("LOAD_DATA_SUCCESS");
                     updateData();
                     curPage++;

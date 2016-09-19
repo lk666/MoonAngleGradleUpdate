@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -17,6 +18,7 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
+import cn.com.bluemoon.delivery.sz.util.UIUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 
 /**
@@ -71,10 +73,16 @@ public class TaskDateStatusAdapter extends BaseAdapter {
         viewHolder.getUserTaskLv().setDivider(null);
         ///*************************************显示数据************************************************/
 
+        //设置MarginTop
+		LinearLayout.LayoutParams ral= (LinearLayout.LayoutParams) viewHolder.getRlUserDdata().getLayoutParams();
+        ral.setMargins(0, UIUtil.dip2px(cxt,13f),0,0);
+        viewHolder.getRlUserDdata().setLayoutParams(ral);
+
         DailyPerformanceInfoBean dailyPerformanceInfoBean=infoBeans.get(position);
 
         /**@author jiangyh */
         viewHolder.getUserDateTv().setText(dailyPerformanceInfoBean.getWork_date());
+		viewHolder.getUserNameTv().setText(dailyPerformanceInfoBean.getUser().getUName());
 
         viewHolder.getUserScoreTv().setText(dailyPerformanceInfoBean.getDay_score());
         viewHolder.getUserAvaliabelTimeTv().setText(dailyPerformanceInfoBean.getDay_valid_min());
@@ -111,6 +119,9 @@ public class TaskDateStatusAdapter extends BaseAdapter {
         @Bind(R.id.user_task_lv)
         ListView user_task_lv;
 
+        @Bind(R.id.rl_user_data)
+		LinearLayout rl_user_data;
+
         public MyViewHolder(View view) {
             ButterKnife.bind(this, view);
         }
@@ -137,6 +148,10 @@ public class TaskDateStatusAdapter extends BaseAdapter {
 
         public ListView getUserTaskLv() {
             return user_task_lv;
+        }
+
+        public LinearLayout getRlUserDdata() {
+            return rl_user_data;
         }
     }
 

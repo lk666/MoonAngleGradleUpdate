@@ -96,8 +96,6 @@ public class SzTaskActivity extends BaseTabActivity {
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
-            //清除按日期查询到的本地数据
-            CacheServerResponse.clearFileCache(context, "DailyperformanceinfoResultBeanList");
             this.finish();
         }
         return false;
@@ -123,8 +121,6 @@ public class SzTaskActivity extends BaseTabActivity {
         backBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //清除按日期查询到的本地数据
-                CacheServerResponse.clearFileCache(context, "DailyperformanceinfoResultBeanList");
                 finish();
             }
         });
@@ -172,5 +168,7 @@ public class SzTaskActivity extends BaseTabActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        //清除按日期查询到的本地数据
+        CacheServerResponse.clearFileCache(context, "DailyperformanceinfoResultBeanList");
     }
 }
