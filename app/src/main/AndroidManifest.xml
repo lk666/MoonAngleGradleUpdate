@@ -486,9 +486,14 @@
             android:name="UMENG_CHANNEL"
             android:value="bluemoon"/>
 
-        <activity android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
-        android:theme="@style/App.Base.Theme"
-        android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.incabinet.CabinetScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
     </application>
 
 </manifest>

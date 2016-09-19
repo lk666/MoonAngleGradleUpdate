@@ -499,12 +499,12 @@ public class MainActivity extends SlidingActivity {
         item.setGroupNum(1);
         listRight.add(item);
 
-        UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.wash_cabinet.toString());
-        item.setMenuName("入柜管理");
-        item.setIconImg(listRight.get(0).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
+        UserRight item1 = new UserRight();
+        item1.setMenuCode(MenuCode.wash_cabinet.toString());
+        item1.setMenuName("入柜管理");
+        item1.setIconImg(listRight.get(0).getIconImg());
+        item1.setGroupNum(1);
+        listRight.add(item1);
 
         UserRight item2 = new UserRight();
         item2.setMenuCode(MenuCode.wash_driver.toString());
