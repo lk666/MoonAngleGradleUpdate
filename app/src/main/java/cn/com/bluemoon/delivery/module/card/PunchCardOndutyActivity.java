@@ -114,7 +114,7 @@ public class PunchCardOndutyActivity extends Activity {
                 btnPunchCard.setClickable(true);
                 return;
             }
-            DeliveryApi.confirmAttendance(ClientStateManager.getLoginToken(main), punchCard, workTask,confirmAttendanceHandler);
+            DeliveryApi.addPunchCardIn(ClientStateManager.getLoginToken(), punchCard, workTask,confirmAttendanceHandler);
         }
     };
 

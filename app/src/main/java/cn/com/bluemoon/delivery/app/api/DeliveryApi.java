@@ -1043,9 +1043,9 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
-    /*2.9.3保存更新打卡信息 */
+    /*2.9.3.1上班打卡 */
     /* 返回： ResultBase */
-    public static void confirmAttendance(String token, PunchCard punchCard, String workTask,
+    public static void addPunchCardIn(String token, PunchCard punchCard, String workTask,
                                          AsyncHttpResponseHandler handler) {
 
         if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
@@ -1067,7 +1067,36 @@ public class DeliveryApi {
         params.put("workTask", workTask);
 
         String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/attendance/confirmAttendance%s",
+        String url = String.format("bluemoon-control/attendance/addPunchCardIn%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*2.9.3.2下班打卡 */
+    /* 返回： ResultBase */
+    public static void addPunchCardOut(String token, PunchCard punchCard, String workTask,
+                                         AsyncHttpResponseHandler handler) {
+
+        if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
+            return;
+        }
+
+        if (punchCard.getLongitude() == Constants.DEFAUL_LOCATION) {
+            punchCard.setLongitude(Constants.UNKNOW_LONGITUDE);
+        }
+        if (punchCard.getLatitude() == Constants.DEFAUL_LOCATION) {
+            punchCard.setLatitude(Constants.UNKNOW_LATITUDE);
+        }
+        if (punchCard.getAltitude() == Constants.DEFAUL_LOCATION) {
+            punchCard.setAltitude(Constants.UNKNOW_LONGITUDE);
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("punchCard", punchCard);
+        params.put("workTask", workTask);
+
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/attendance/addPunchCardOut%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }

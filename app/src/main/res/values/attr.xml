@@ -28,4 +28,24 @@
         <!--ExtraTextNumberWheelView专用，选中时显示的特定后缀-->
         <attr name="extra" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="TopArcLayout">
+        <!--圆弧形渐变区高度-->
+        <attr name="strokeThiness" format="dimension"/>
+        <!--圆弧形半径-->
+        <attr name="radius" format="dimension"/>
+        <!--圆弧形渐变区顶部颜色，即渐变结束色-->
+        <attr name="endColor" format="color"/>
+        <!--圆弧形渐变区底部颜色，即渐变开始色-->
+        <attr name="startColor" format="color"/>
+        <!--背景色-->
+        <attr name="viewBg" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ArrowTextView">
+        <attr name="arrowRadius" format="dimension" />
+        <attr name="arrowWidth" format="dimension" />
+        <attr name="arrowInWidth" format="dimension" />
+        <attr name="arrowBg" format="color" />
+    </declare-styleable>
 </resources>

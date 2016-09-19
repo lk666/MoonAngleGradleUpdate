@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.app.api.model;  
 
 import java.io.Serializable;
+import java.util.List;
 
 public class Product implements Serializable{
 
@@ -11,6 +12,7 @@ public class Product implements Serializable{
 	private String shopProName;
 	private String productCode;
 	private String img;
+	private List<Package> packageDetails;
 	/**  
 	 * orderId.  
 	 *  
@@ -136,6 +138,14 @@ public class Product implements Serializable{
 	 */
 	public void setImg(String img) {
 		this.img = img;
+	}
+
+	public List<Package> getPackageDetails() {
+		return packageDetails;
+	}
+
+	public void setPackageDetails(List<Package> packageDetails) {
+		this.packageDetails = packageDetails;
 	}
 
 }

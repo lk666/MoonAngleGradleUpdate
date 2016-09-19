@@ -30,7 +30,6 @@
             android:digits="@string/key_limit_number_letter"
             android:ellipsize="start"
             android:hint="@string/login_name_hint"
-            android:inputType="number|text"
             android:textCursorDrawable="@null"
             android:longClickable="false"
             android:padding="10dp"

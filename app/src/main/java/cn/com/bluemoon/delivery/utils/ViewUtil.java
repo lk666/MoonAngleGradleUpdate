@@ -66,6 +66,7 @@ public class ViewUtil extends LibViewUtil {
         float translationX = view.getResources().getDimensionPixelOffset(R.dimen.translation_x);
         ObjectAnimator.ofFloat(view, "translationX", 0.0f, -translationX, translationX, 0.0f).setDuration(400).start();
     }
+
     /**
      * 提交按钮动画方法
      * @param btnView 提交按钮

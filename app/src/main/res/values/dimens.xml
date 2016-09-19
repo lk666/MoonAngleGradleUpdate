@@ -30,6 +30,8 @@
     <dimen name="linepaddingtxt2">0dp</dimen>
     <dimen name="linepaddingtxt3">5dp</dimen>
     <dimen name="linepaddingtxt4">5dp</dimen>
+    <dimen name="linepaddingtxt5">2dp</dimen>
+    <dimen name="linepaddingtxt6">7dp</dimen>
 
     <dimen name="shadow_width">15dp</dimen>
 

@@ -440,9 +440,7 @@ public class PublicUtil extends LibPublicUtil {
         if (content != null) {
             emptyView.setContentText(content);
         }
-        if (listener != null) {
-            emptyView.setEmptyListener(listener);
-        }
+        emptyView.setEmptyListener(listener);
         return emptyView;
     }
 

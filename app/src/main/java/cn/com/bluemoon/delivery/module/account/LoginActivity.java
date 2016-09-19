@@ -71,7 +71,7 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        etUserName.setMaxLength(9);
+
     }
 
     @Override
