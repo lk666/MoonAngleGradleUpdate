@@ -17,6 +17,7 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
+import cn.com.bluemoon.delivery.sz.taskManager.SzTaskEvaluateStatusFragment;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 
@@ -29,9 +30,13 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
     private List<DailyPerformanceInfoBean> mDatas = new ArrayList<>();
     private LayoutInflater inflater;
     private Context mCxt;
+    private int activityType = 0;//记录需要展示的类型（0;待评价  1;已评价）
 
-    public TaskEvaluateStatusAdapter(Context cxt, List<DailyPerformanceInfoBean> datas) {
+    public TaskEvaluateStatusAdapter(Context cxt, List<DailyPerformanceInfoBean> datas, int dataType) {
         this.mCxt = cxt;
+        if (dataType == 0 || dataType == 1) {
+            this.activityType = dataType;
+        }
         if (inflater == null && cxt != null) {
             inflater = LayoutInflater.from(mCxt);
         }
@@ -94,7 +99,15 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         //有效工作时间（单位：分钟）
         viewHolder.getUserAvaliabelTimeTv().setText(itemBean.getDay_valid_min());
         //得分
-        viewHolder.getUserScoreTv().setText(itemBean.getDay_score());
+        if (activityType == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_HAVE_EVALUATED) {
+            //已评价
+            viewHolder.getUserScoreTv().setText(itemBean.getDay_score() + mCxt.getString(R.string.sz_task_quality_score_unit));
+            viewHolder.getUserScoreTv().setTextColor(mCxt.getResources().getColor(R.color.red));
+        } else if (activityType == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_TO_EVALUATE) {
+            //未评价
+            viewHolder.getUserScoreTv().setText(mCxt.getString(R.string.sz_evaluate_not_valid_label));
+            viewHolder.getUserScoreTv().setTextColor(mCxt.getResources().getColor(R.color.sz_task_evaluate_text_color));
+        }
         //任务列表
         TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(mCxt, itemBean.getAsignJobs());
         viewHolder.getUserTaskLv().setAdapter(adapter);

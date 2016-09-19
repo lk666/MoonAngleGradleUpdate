@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.sz.util;
 import android.annotation.SuppressLint;
 import android.util.Log;
 
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -146,6 +147,45 @@ public class DateUtil {
 			e.printStackTrace();
 		}
 		return timeStr;
+	}
+
+
+
+	/**毫秒转日期*/
+	public static String tranTimeToDate(String time) {
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		return sdf.format(new Date(Long.valueOf(time)));
+	}
+
+	public static String tranTimeToDate(String time, String format) {
+		SimpleDateFormat sdf = new SimpleDateFormat(format);
+		return sdf.format(new Date(Long.valueOf(time)));
+	}
+
+	/**日期转毫秒*/
+	public static long tranDateToTime(String date){
+		long times=0;
+		try {
+			DateFormat dm= new SimpleDateFormat("HH:mm");
+			times=dm.parse(date.toString()).getTime();
+			LogUtil.i("times:"+times);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return times;
+	}
+
+	/**日期转毫秒*/
+	public static long tranDateToTime(String date,String format){
+		long times=0;
+		try {
+			DateFormat dm= new SimpleDateFormat(format);
+			times=dm.parse(date.toString()).getTime();
+			LogUtil.i("times:"+times);
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return times;
 	}
 
 

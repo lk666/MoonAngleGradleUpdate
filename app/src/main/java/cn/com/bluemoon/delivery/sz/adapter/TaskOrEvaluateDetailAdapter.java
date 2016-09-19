@@ -110,11 +110,13 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         String completeState = asignJobBean.getState();
         if ("0".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_not_start_label);
-            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
+            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
+//            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
 
         } else if ("1".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completing_label);
-            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.btn_blue));
+            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
+//            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.btn_blue));
 
         } else if ("2".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_completed_label);
@@ -122,7 +124,8 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
 
         } else if ("3".equalsIgnoreCase(completeState)) {
             viewHolder.getTaskCompleteStateTv().setText(R.string.sz_task_pause_label);
-            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
+            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.gray));
+//            viewHolder.getTaskCompleteStateTv().setTextColor(cxt.getResources().getColor(R.color.red));
 
         }
 
@@ -134,7 +137,7 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         }
 
         if (!TextUtils.isEmpty(asignJobBean.getScore())) {
-            viewHolder.getTaskQualityTv().setText(asignJobBean.getScore() + cxt.getString(R.string.sz_task_quality_score_unit));
+            viewHolder.getTaskQualityTv().setText(asignJobBean.getQuality_score() + cxt.getString(R.string.sz_task_quality_score_unit));
         } else {
             viewHolder.getTaskQualityTv().setText("0" + cxt.getString(R.string.sz_task_quality_score_unit));
         }

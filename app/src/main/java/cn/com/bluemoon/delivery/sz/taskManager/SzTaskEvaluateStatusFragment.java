@@ -12,9 +12,7 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -28,9 +26,8 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
+import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
-import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -77,7 +74,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void initView() {
         EventBus.getDefault().register(this);
-        mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas);
+        mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas, activityType);
         evaluate_data_lv.setMode(PullToRefreshBase.Mode.BOTH);
         evaluate_data_lv.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.sz_listview_loding_label));
         evaluate_data_lv.setAdapter(mDataAapter);
@@ -111,7 +108,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void initData() {
         curPage = 1;
-//        loadData2();
     }
 
     @Override
@@ -119,52 +115,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         super.onResume();
         //每次进页面都刷新最新数据来显示
         loadData();
-    }
-
-    //TODO 模拟数据
-    private void loadData2() {
-        DailyPerformanceInfoBean dailyPerformanceInfoBean = new DailyPerformanceInfoBean();
-        UserInfoBean userInfoBean = new UserInfoBean();
-        userInfoBean.setUAvatar("https://ps.ssl.qhimg.com/dr/_110_100/t0102672bd8a6bd290e.jpg#1473665509#1473665509");
-        userInfoBean.setUName("111");
-        dailyPerformanceInfoBean.setUser(userInfoBean);
-        dailyPerformanceInfoBean.setDay_score("200");
-        dailyPerformanceInfoBean.setDay_valid_min("279");
-        dailyPerformanceInfoBean.setWork_date("2016-09-09");
-
-        AsignJobBean asignJobBean = new AsignJobBean();
-        asignJobBean.setProduce_cont("asdf今天天气好热11");
-        asignJobBean.setTask_cont("今天天气好热11");
-
-        AsignJobBean asignJobBean2 = new AsignJobBean();
-        asignJobBean2.setProduce_cont("asdf今天天气好热22");
-        asignJobBean2.setTask_cont("今天天气好热22");
-
-        AsignJobBean asignJobBean3 = new AsignJobBean();
-        asignJobBean3.setProduce_cont("asdf今天天气好热33");
-        asignJobBean3.setTask_cont("今天天气好热33");
-
-        AsignJobBean asignJobBean4 = new AsignJobBean();
-        asignJobBean4.setProduce_cont("asdf今天天气好热44");
-        asignJobBean4.setTask_cont("今天天气好热44");
-
-        AsignJobBean asignJobBean5 = new AsignJobBean();
-        asignJobBean5.setProduce_cont("asdf今天天气好热55");
-        asignJobBean5.setTask_cont("今天天气好热55");
-
-        List<AsignJobBean> asignJobBeanList = new ArrayList<>();
-        asignJobBeanList.add(asignJobBean);
-        asignJobBeanList.add(asignJobBean2);
-        asignJobBeanList.add(asignJobBean3);
-        asignJobBeanList.add(asignJobBean4);
-        asignJobBeanList.add(asignJobBean5);
-        dailyPerformanceInfoBean.setAsignJobs(asignJobBeanList);
-
-        mEvaluateDatas.add(dailyPerformanceInfoBean);
-        mEvaluateDatas.add(dailyPerformanceInfoBean);
-        mEvaluateDatas.add(dailyPerformanceInfoBean);
-
-        updateData();
     }
 
     private void loadData() {
@@ -199,7 +149,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
                     intent = new Intent(getActivity(), SzTaskOrEvaluateDetailActivity.class);
                     intent.putExtra(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE, SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE_EVALUATE_DETAIL);
                 } else {
-
                 }
                 intent.putExtra(SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, itemInfo);
                 if (intent != null) {
@@ -237,33 +186,30 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
         if (result != null && result.isSuccess) {
-            ResultGetTaskEvaluateList resultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
+            ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
             //将数据进行简单的是时间格式处理
-            dealResultData(resultGetTaskEvaluateList);
+            if (ResultGetTaskEvaluateList.getData() != null) {
+                List<DailyPerformanceInfoBean> data = ResultGetTaskEvaluateList.getData();
+                for (DailyPerformanceInfoBean dailyPerformanceInfoBean : data) {
+                    dailyPerformanceInfoBean.setCreatetime(
+                            DateUtil.tranTimeToDate(dailyPerformanceInfoBean.getCreatetime(), "HH:mm"));
+                    dailyPerformanceInfoBean.setUpdatetime(
+                            DateUtil.tranTimeToDate(dailyPerformanceInfoBean.getUpdatetime(), "yyyy-MM-dd"));
+                    dailyPerformanceInfoBean.setWork_date(
+                            DateUtil.tranTimeToDate(dailyPerformanceInfoBean.getWork_date(), "MM-dd"));
+                    for (AsignJobBean asignJobBean : dailyPerformanceInfoBean.getAsignJobs()) {
+                        asignJobBean.setCreatetime(
+                                DateUtil.tranTimeToDate(asignJobBean.getCreatetime(), "HH:mm"));
+                        asignJobBean.setBegin_time(DateUtil.tranTimeToDate(asignJobBean.getBegin_time()));
+                        asignJobBean.setEnd_time(DateUtil.tranTimeToDate(asignJobBean.getEnd_time()));
+                    }
+                    mEvaluateDatas.add(dailyPerformanceInfoBean);
+                    LogUtil.i("mEvaluateDatas:" + mEvaluateDatas.toString());
+                }
+            }
             mHandle.sendEmptyMessage(LOAD_DATA_SUCCESS);
         } else {
             mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
-        }
-    }
-
-    private void dealResultData(ResultGetTaskEvaluateList resultGetTaskEvaluateList) {
-        if (resultGetTaskEvaluateList.getData() != null) {
-            List<DailyPerformanceInfoBean> data = resultGetTaskEvaluateList.getData();
-            for (DailyPerformanceInfoBean dailyPerformanceInfoBean : data) {
-                if (activityType == ACTIVITY_TYPE_TO_EVALUATE) {
-                    dailyPerformanceInfoBean.setDay_score(getString(R.string.sz_evaluate_not_valid_label));
-                }
-                dailyPerformanceInfoBean.setCreatetime(tranTimeToDate(dailyPerformanceInfoBean.getCreatetime()));
-                dailyPerformanceInfoBean.setUpdatetime(tranTimeToDate(dailyPerformanceInfoBean.getUpdatetime()));
-                dailyPerformanceInfoBean.setWork_date(tranTimeToDate(dailyPerformanceInfoBean.getWork_date()));
-                for (AsignJobBean asignJobBean : dailyPerformanceInfoBean.getAsignJobs()) {
-                    asignJobBean.setCreatetime(tranTimeToDate(asignJobBean.getCreatetime()));
-                    asignJobBean.setBegin_time(tranTimeToDate2(asignJobBean.getBegin_time()));
-                    asignJobBean.setEnd_time(tranTimeToDate2(asignJobBean.getEnd_time()));
-                }
-                mEvaluateDatas.add(dailyPerformanceInfoBean);
-//                LogUtil.i("整理后的数据 mEvaluateDatas:" + mEvaluateDatas.toString());
-            }
         }
     }
 
@@ -282,27 +228,13 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         mHandle.sendEmptyMessage(LOAD_DATA_FAIL);
     }
 
-    public String tranTimeToDate(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
-
-    public String tranTimeToDate2(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
-
-    public String tranTimeToDate3(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        return sdf.format(new Date(Long.valueOf(time)));
-    }
 
     /**
      * 刷新数据
      */
     private void updateData() {
         if (mDataAapter == null) {
-            mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas);
+            mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas, activityType);
             evaluate_data_lv.setAdapter(mDataAapter);
         } else {
             mDataAapter.updateAdapter(mEvaluateDatas);

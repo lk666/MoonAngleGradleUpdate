@@ -11,6 +11,8 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskDetailAdapter;
+import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 
 /**
  * Created by Wan.N
@@ -36,12 +38,12 @@ public class NotificationDetailActivity extends BaseActivity {
                 "这几天天气真不错这几天天气真不错这几天天气真不错这几天天气真不错这几天天气真不错" +
                 "这几天天气真不错这几天天气真不错这几天天气真不错这几天天气真不错");
         //TODO 模拟数据
-        List<Object> list = new ArrayList<>();
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        list.add(new Object());
-        TaskDetailAdapter adapter = new TaskDetailAdapter(this, list);
+        List<AsignJobBean> list = new ArrayList<>();
+        list.add(new AsignJobBean());
+        list.add(new AsignJobBean());
+        list.add(new AsignJobBean());
+        list.add(new AsignJobBean());
+        TaskOrEvaluateDetailAdapter adapter = new TaskOrEvaluateDetailAdapter(this,TaskOrEvaluateDetailAdapter.ACTIVITY_TYPE_EVALUATE_DETAIL, list);
         taskListLv.setAdapter(adapter);
     }
 

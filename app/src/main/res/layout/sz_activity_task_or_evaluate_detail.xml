@@ -50,7 +50,7 @@
         android:background="@color/white_bg"
         android:divider="@color/page_bg_ed"
         android:dividerHeight="10dp"
-        android:headerDividersEnabled="false"
+        android:headerDividersEnabled="true"
         android:listSelector="@android:color/transparent"
         android:scrollbars="none" />
 

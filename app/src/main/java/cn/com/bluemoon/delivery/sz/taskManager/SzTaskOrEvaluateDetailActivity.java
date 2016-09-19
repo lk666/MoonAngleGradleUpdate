@@ -18,15 +18,12 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.sz.adapter.TaskOrEvaluateDetailAdapter;
-import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
@@ -82,10 +79,8 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     LinearLayout sz_rewrite_btn_layout;
 
-    //    @Bind(R.id.ll_bottom_btn_area)
     LinearLayout ll_bottom_btn_area;//底部按钮区域
 
-    //    @Bind(R.id.btn_bottom)
     TextView btn_bottom;//底部按钮
 
     public static final String ACTIVITY_EXTAR_DATA = "ACTIVITY_EXTAR_DATA";//外部activity携带数据过来的key
@@ -100,7 +95,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     private TaskOrEvaluateDetailAdapter adapter = null;
     private DailyPerformanceInfoBean evaluateInfo = null;//记录传入的绩效数据
 
-    private List<AsignJobBean> asignJobBeanList = new ArrayList<>();
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -149,16 +143,16 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         sz_rewrite_btn_layout = (LinearLayout) inflateView(R.layout.sz_task_or_evaluate_detail_btn_layout);
         ll_bottom_btn_area = (LinearLayout) sz_rewrite_btn_layout.findViewById(R.id.ll_bottom_btn_area);
         btn_bottom = (TextView) sz_rewrite_btn_layout.findViewById(R.id.btn_bottom);
-        //
+
         user_score_tv.setVisibility(View.GONE);
         user_score_icon.setVisibility(View.GONE);
-        //
+
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
         user_task_lv.setAdapter(adapter);
         //添加头部，用作分割线
         View header = new View(this);
         header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
-        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 0));
         header.setLayoutParams(lp);
         user_task_lv.addHeaderView(header);
 
@@ -197,7 +191,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                     Bundle bundle = new Bundle();
                     bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
                     bundle.putSerializable(SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, evaluateInfo);
-                    LogUtil.i("evaluateInfo:" + evaluateInfo.toString());
                     PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this, SzWriteEvaluateActivity.class, bundle);
                 } else {
 
@@ -206,16 +199,20 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getModifyTaskSuccess(EventMessageBean messageBean) {
+        if (messageBean.getEventMsgAction().equals("101")) {
+            PageJumps.finish(context);
+        }
+    }
+
 
     @Override
     public void initData() {
 
-        /**@author jiangyh 任务详情头部信息*/
-        if (activityType == ACTIVITY_TYPE_TASK_DETAIL) {
-            user_date_tv.setText(evaluateInfo.getCreatetime());
-            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
-        }
+
     }
+
 
     @Override
     public void onResume() {
@@ -307,8 +304,10 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     }
 
     @Override
-    public void onDestroy() {
+    protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
 }
+
+

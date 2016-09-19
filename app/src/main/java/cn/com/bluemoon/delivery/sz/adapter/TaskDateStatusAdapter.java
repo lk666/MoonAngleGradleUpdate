@@ -9,9 +9,7 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -76,8 +74,8 @@ public class TaskDateStatusAdapter extends BaseAdapter {
         DailyPerformanceInfoBean dailyPerformanceInfoBean=infoBeans.get(position);
 
         /**@author jiangyh */
-        viewHolder.getUserDateTv().setText(
-                tranTimeToDate(dailyPerformanceInfoBean.getCreatetime()));
+        viewHolder.getUserDateTv().setText(dailyPerformanceInfoBean.getWork_date());
+
         viewHolder.getUserScoreTv().setText(dailyPerformanceInfoBean.getDay_score());
         viewHolder.getUserAvaliabelTimeTv().setText(dailyPerformanceInfoBean.getDay_valid_min());
 
@@ -91,11 +89,6 @@ public class TaskDateStatusAdapter extends BaseAdapter {
 
         ///*************************************设置监听器************************************************/
         return convertView;
-    }
-    /**毫秒转日期*/
-    public  String tranTimeToDate(String time) {
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-        return sdf.format(new Date(Long.valueOf(time)));
     }
 
 

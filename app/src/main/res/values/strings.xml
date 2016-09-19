@@ -842,8 +842,10 @@
 
     <!--sz task-->
     <string name="sz_task_add_task">添加工作</string>
+    <string name="sz_task_modify_task">修改工作</string>
     <string name="sz_task_add_task_appraise_choose">人员选择</string>
     <string name="sz_task_delete_dialog_hint">确定要删除 %s 任务项？</string>
+    <string name="sz_task_monthlyper">月绩效积分：%s</string>
 
     <!--sz task_evaluate-->
     <string name="sz_to_evaluate">待评价</string>
@@ -897,7 +899,7 @@
     <string name="sz_evaluate_overtime_tip">评价超过1星期，已不能修改评价内容！</string>
     <string name="sz_evaluate_submit_fail_label">评价提交失败，请重新提交！</string>
     <string name="sz_evaluate_update_fail_label">评价修改提交失败，请重新提交！</string>
-    <string name="sz_evaluate_not_valid_label">未验证</string>
+    <string name="sz_evaluate_not_valid_label">未评价</string>
 
 
 </resources>

@@ -154,7 +154,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                         e.printStackTrace();
                     }
                     long time = System.currentTimeMillis() - c.getTimeInMillis();
-                    if (time >= 60 * 60 * 24 * 7) {
+                    if (time >= 1000 * 60 * 60 * 24 * 7) {
                         //如果评论超过一周
                         isOverAweekTime = true;
                     }
@@ -269,10 +269,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
         user_task_lv.setAdapter(evaluateadapter);
 
+        user_score_tv.setVisibility(View.GONE);
+        user_score_icon.setVisibility(View.GONE);
+
         //添加头部，用作分割线
         View header = new View(this);
         header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
-        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 10));
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 0));
         header.setLayoutParams(lp);
         user_task_lv.addHeaderView(header);
 

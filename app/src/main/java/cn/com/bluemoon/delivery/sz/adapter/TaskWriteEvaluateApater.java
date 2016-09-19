@@ -150,7 +150,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         }
 
         if (!TextUtils.isEmpty(asignJobBean.getScore())) {
-            viewHolder.getTaskQualityEvaluateScoreTv().setText(asignJobBean.getScore());
+            viewHolder.getTaskQualityEvaluateScoreTv().setText(asignJobBean.getQuality_score() + cxt.getResources().getString(R.string.sz_task_quality_score_unit));
         } else {
             viewHolder.getTaskQualityEvaluateScoreTv().setText(R.string.sz_do_task_quality_score_label2);
         }

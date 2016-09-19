@@ -23,11 +23,11 @@
 
             />
         <TextView
-            android:id="@+id/sub_no_tv"
+            android:id="@+id/tv_task_point"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:text="月绩效积分："
+            android:text="@string/sz_task_monthlyper"
             android:textSize="@dimen/text_size_14"
             android:layout_alignParentRight="true"
             android:textColor="@color/task_item_left_text_color"
