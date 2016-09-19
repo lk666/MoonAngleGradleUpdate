@@ -82,7 +82,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:minWidth="60dp"
-                android:text="8:00"
+                android:text="8:30"
                 android:textColor="@color/task_item_right_text_color"
                 android:textSize="@dimen/text_size_14"/>
 
@@ -101,7 +101,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:minWidth="60dp"
-                android:text="9:00"
+                android:text="9:30"
                 android:textColor="@color/task_item_right_text_color"
                 android:textSize="@dimen/text_size_14"/>
 

@@ -211,8 +211,6 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Override
     public void initData() {
-
-
     }
 
 

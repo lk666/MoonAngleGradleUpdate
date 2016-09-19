@@ -33,9 +33,11 @@ import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyperformanceinfoResultBean;
+import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyperformanceinfoResultBeanList;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
 import cn.com.bluemoon.delivery.sz.taskManager.AddTaskActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.SzTaskOrEvaluateDetailActivity;
+import cn.com.bluemoon.delivery.sz.util.CacheServerResponse;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
@@ -259,11 +261,59 @@ public class TaskRecordFragment extends BaseFragment
 	@Override
 	public void clickDate(CustomDate date) {
 		currentDate=date.toString();
+
+		//先看本地是否存在
+		DailyperformanceinfoResultBeanList loacalBeanList=
+				(DailyperformanceinfoResultBeanList) CacheServerResponse.readObject(
+						context,"DailyperformanceinfoResultBeanList");
+		boolean isExist=false;
+		List<DailyPerformanceInfoBean> loacalList=null;
+		if (loacalBeanList!=null){
+			loacalList=loacalBeanList.getDailyPerformanceInfoBeanList();
+			if (loacalBeanList!=null && loacalList!=null){
+				for (DailyPerformanceInfoBean bean:loacalList) {
+					LogUtil.d("先查看本地是否存在："+bean.toString());
+					if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
+							==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
+	//					本地有，用本地的
+						isExist=true;
+						LogUtil.d("先查看本地是否存在isExist："+isExist);
+					}
+
+				}
+			}
+		}
+
+		if (isExist==false){
 			getData(String.valueOf(
 					DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
-//		searchByKeyword("国");
 		LogUtil.i(String.valueOf(
 				DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
+
+		}else{//本地存在，直接刷新
+
+			if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+				dailyPerformanceInfoBeanArrayList.clear();
+			}
+
+			loacalList=loacalBeanList.getDailyPerformanceInfoBeanList();
+			if (loacalBeanList!=null && loacalList!=null){
+				for (DailyPerformanceInfoBean bean:loacalList) {
+					if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
+							==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
+						dailyPerformanceInfoBeanArrayList.add(bean);
+						taskDateStatusAdapter.notifyDataSetChanged();
+
+					}
+
+				}
+			}
+
+
+
+
+		}
+
 
 	}
 
@@ -296,6 +346,7 @@ public class TaskRecordFragment extends BaseFragment
 		DailyperformanceinfoResultBean resultBean=
 				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
 		String monthlyPer=resultBean.getMonthlyPer();
+		if (!TextUtils.isEmpty(monthlyPer))
 		tv_task_point.setText(String.format(
 				getString(R.string.sz_task_monthlyper),monthlyPer));
 
@@ -306,11 +357,28 @@ public class TaskRecordFragment extends BaseFragment
 		infoBean.setUpdatetime(DateUtil.tranTimeToDate(infoBean.getUpdatetime(),"yyyy-MM-dd"));
 		infoBean.setCreatetime(DateUtil.tranTimeToDate(infoBean.getCreatetime(),"yyyy-MM-dd"));
 
+		List<AsignJobBean> asignJobBeans=infoBean.getAsignJobs();
+		for (AsignJobBean bean:asignJobBeans) {
+			bean.setBegin_time(DateUtil.tranTimeToDate(bean.getBegin_time(),"HH:mm"));
+			bean.setEnd_time(DateUtil.tranTimeToDate(bean.getEnd_time(),"HH:mm"));
+		}
+
+
 		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
 				dailyPerformanceInfoBeanArrayList.clear();
 			}
 			LogUtil.i("DailyPerformanceInfoBean"+infoBean.getAsignJobs());
 			dailyPerformanceInfoBeanArrayList.add(infoBean);
+
+		/**本地缓存*/
+		DailyperformanceinfoResultBeanList dailyperBeanList=new DailyperformanceinfoResultBeanList();
+		dailyperBeanList.setDailyPerformanceInfoBeanList(dailyPerformanceInfoBeanArrayList);
+
+
+
+		saveDailyperLocalBeanList(dailyperBeanList);
+
+
 	//		任务内容
 			asignJobs=infoBean.getAsignJobs();
 
@@ -321,22 +389,67 @@ public class TaskRecordFragment extends BaseFragment
 			LogUtil.e("时间转换后：----------》"+asignJobBean.toString());
 		}
 
-			taskDateStatusAdapter.notifyDataSetChanged();
-
-
+		taskDateStatusAdapter.notifyDataSetChanged();
 
 		showAddTv();
 	}
 
 
-	@Override
-	public void onErrorResponse(int requestCode, ResultBase result) {
-		LogUtil.e("onErrorResponse requestCode:"+requestCode);
+	public void saveDailyperLocalBeanList(DailyperformanceinfoResultBeanList dailyperBeanList){
+		try {
 
+			//先读取本地是否存在，覆盖然后重新录入
+			DailyperformanceinfoResultBeanList loacalBeanList=
+					(DailyperformanceinfoResultBeanList) CacheServerResponse.readObject(
+							context,"DailyperformanceinfoResultBeanList");
+
+			if (loacalBeanList!=null){
+				//本地实体
+				List<DailyPerformanceInfoBean> dailyPerLocalBeanList=loacalBeanList.getDailyPerformanceInfoBeanList();
+				//本地实体输出
+				for (DailyPerformanceInfoBean bean:dailyPerLocalBeanList) {
+					LogUtil.e("本地实体输出====>"+bean.toString());
+				}
+
+				//当前实体 只有一个
+				List<DailyPerformanceInfoBean> dailyPerCurrBeanList=dailyperBeanList.getDailyPerformanceInfoBeanList();
+				DailyPerformanceInfoBean dailyPerformanceInfoBean=dailyPerCurrBeanList.get(0);
+
+				List<DailyPerformanceInfoBean> dailyPerDeleteTempBeanList=new ArrayList<>();
+
+				int size=dailyPerLocalBeanList.size();
+				for (int i=0;i<size;i++){
+					DailyPerformanceInfoBean dailyLocalBean=dailyPerLocalBeanList.get(i);
+					if (dailyLocalBean.getWork_date().equals(dailyPerformanceInfoBean.getWork_date())){
+						dailyPerDeleteTempBeanList.add(dailyLocalBean);
+					}
+
+				}
+				//删除本地有的
+				dailyPerLocalBeanList.removeAll(dailyPerDeleteTempBeanList);
+				//添加当前最新的
+				dailyPerLocalBeanList.addAll(dailyPerCurrBeanList);
+				loacalBeanList.setDailyPerformanceInfoBeanList(dailyPerLocalBeanList);
+
+				CacheServerResponse.saveObject(context,
+						"DailyperformanceinfoResultBeanList", loacalBeanList);
+			}else{
+
+				CacheServerResponse.saveObject(context,
+						"DailyperformanceinfoResultBeanList", dailyperBeanList);
+
+			}
+
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 
-	@Override
+
+		@Override
 	public void onFailureResponse(int requestCode, Throwable t) {
+			super.onFailureResponse(requestCode, t);
 		LogUtil.e("onFailureResponse requestCode:"+requestCode);
 		showAddTv();
 
