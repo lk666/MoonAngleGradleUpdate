@@ -30,6 +30,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.module.card.alarm.Remind;
 import cn.com.bluemoon.delivery.module.inventory.ImageUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DES;
@@ -38,8 +39,6 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 public class DeliveryApi {
 
     private static final String TOKEN = "token";
-
-
 
     /**
      * 提交http请求
@@ -80,7 +79,6 @@ public class DeliveryApi {
 
         ApiHttpClient.postMock(context, url, jsonString, handler);
     }
-
 
 
     /************************
@@ -1167,7 +1165,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.11 展示图片 */
-	/* 返回： ResultImage */
+    /* 返回： ResultImage */
     public static void getImgList(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -2573,13 +2571,61 @@ public class DeliveryApi {
  /*2.0_新增提醒接口*/
     /* 返回： ResultRemind */
     public static void getRemindList(String token,
-                                           AsyncHttpResponseHandler handler) {
+                                     AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        postMockRequest(params, "bluemoon-control/attendance/getRemindList%s", handler);
+        postRequest(params, "bluemoon-control/attendance/getRemindList%s", handler);
     }
+
+    public static void addRemind(String token, Remind remind,
+                                 AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remind", remind);
+        postRequest(params, "bluemoon-control/attendance/addRemind%s", handler);
+    }
+
+
+    public static void updateRemind(String token, Remind remind,
+                                    AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remind", remind);
+        postRequest(params, "bluemoon-control/attendance/updateRemind%s", handler);
+    }
+
+    public static void removeRemind(String token, long remindId,
+                                    AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remindId", remindId);
+        postRequest(params, "bluemoon-control/attendance/removeRemind%s", handler);
+    }
+
+
+    public static void turnRemindOnOrOff(String token, long remindId, boolean turnOn,
+                                         AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remindId", remindId);
+        params.put("status", turnOn ? "on" : "off");
+        postRequest(params, "bluemoon-control/attendance/turnRemindOnOrOff%s", handler);
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.utils;
 
+import android.net.Uri;
 import android.os.Environment;
 
 import java.util.HashMap;
@@ -40,6 +41,14 @@ public class Constants {
     public final static String DES_KEY = "19490101";
 
     public final static String DES = "DES";
+
+    public static final Uri ALARM_CONTENT_URI =
+            Uri.parse("content://cn.com.bluemoon.delivery/alarm");
+
+
+    public static final String[] ALARM_QUERY_COLUMNS = {
+            "remindId", "hour", "minute", "remindWeek", "remindTime",
+            "isClose", "remindTitle", "remindContent" };
 
     /************************
      * location

@@ -10,6 +10,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
+import cn.com.bluemoon.delivery.module.card.alarm.AlarmSettingFragment;
 
 public class CardTabActivity extends BaseTabActivity {
 

@@ -1,7 +1,7 @@
 package cn.com.bluemoon.delivery.entity;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.module.card.AlarmSettingFragment;
+import cn.com.bluemoon.delivery.module.card.alarm.AlarmSettingFragment;
 import cn.com.bluemoon.delivery.module.card.PunchCardFragment;
 import cn.com.bluemoon.delivery.module.card.RecordCardFragment;
 
