@@ -416,7 +416,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             rateDataInfoBean.setWork_task_id(asignJobBean.getWork_task_id());
             rateDataInfoBeanList.add(rateDataInfoBean);
         }
-//        mHandle.sendEmptyMessage(SUBMIT_EVALUATE_SUCCESS);//模拟测试语句
+        showWaitDialog();
         SzApi.submitDayJobsRating(rateDataInfoBeanList, evaluateInfo.getWork_day_id(), getNewHandler(REQUEST_CODE_SUBMIT_DAY_JOBS_RATING, ResultBase.class));
     }
 
