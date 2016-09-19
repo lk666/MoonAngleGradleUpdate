@@ -1,54 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
+    android:background="@color/white_bg"
     android:orientation="vertical">
-
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_border_blue_alarm"
-        android:orientation="vertical"
-        android:padding="5dp">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="45dp">
-
-            <TextView
-                android:id="@+id/txt_alarm_time_desc"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:gravity="center"
-                android:text="提醒时间"
-                android:textColor="@color/text_black"
-                android:textSize="@dimen/text_size_15" />
-
-            <include
-                android:id="@+id/sb_open"
-                layout="@layout/widget_switch_button_yes_no"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignBottom="@id/txt_alarm_time_desc"
-                android:layout_alignParentRight="true"
-                android:layout_alignTop="@id/txt_alarm_time_desc"
-                android:layout_marginRight="15dp"
-
-                />
-
-        </RelativeLayout>
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="120dp"
-            android:background="@color/white_bg"
+            android:layout_height="150dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="15dp"
             android:orientation="horizontal">
 
             <View
@@ -61,12 +28,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white_bg"
                 app:isLoop="true"
-                app:itemNumber="3"
+                app:itemNumber="5"
                 app:normalTextSize="@dimen/text_size_15"
                 app:selectedTextSize="@dimen/text_size_30"
-                app:unitHeight="40dp" />
+                app:unitHeight="30dp" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -85,13 +51,12 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:background="@color/white_bg"
                 android:includeFontPadding="false"
                 app:isLoop="true"
-                app:itemNumber="3"
+                app:itemNumber="5"
                 app:normalTextSize="@dimen/text_size_15"
                 app:selectedTextSize="@dimen/text_size_30"
-                app:unitHeight="40dp" />
+                app:unitHeight="30dp" />
 
             <View
                 android:layout_width="0dp"
@@ -99,170 +64,136 @@
                 android:layout_weight="2"></View>
         </LinearLayout>
 
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/btn_border_blue_alarm"
-        android:orientation="vertical"
-        android:padding="1dp">
+        <View style="@style/line_solid_style"></View>
 
         <RelativeLayout
+            android:id="@+id/layout_repeat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="10dp"
             android:paddingRight="10dp">
 
             <TextView
+                android:id="@+id/txt_repeat"
                 android:layout_width="wrap_content"
-                android:layout_height="45dp"
+                android:layout_height="50dp"
                 android:gravity="center_vertical"
-                android:text="重复"
+                android:text="@string/alarm_repeat_txt"
                 android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_15" />
 
+            <TextView
+                android:id="@+id/txt_repeat_content"
+                android:layout_toRightOf="@id/txt_repeat"
+                android:layout_width="match_parent"
+                android:paddingRight="20dp"
+                android:layout_height="50dp"
+                android:gravity="center_vertical|right"
+                android:textColor="@color/text_black_light"
+                android:textSize="@dimen/text_size_15" />
+
+
             <ImageView
-                android:layout_width="14dp"
-                android:layout_height="14dp" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignBottom="@id/txt_repeat"
+                android:layout_alignParentRight="true"
+                android:layout_alignTop="@id/txt_repeat"
+                android:src="@mipmap/icon_right" />
 
         </RelativeLayout>
+
+        <View style="@style/line_solid_style"></View>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
 
-            <LinearLayout
-                android:layout_width="match_parent"
+            <TextView
+                style="@style/txt_title_15"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:text="@string/alarm_topic_txt" />
 
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周一"
-                    android:textColor="@color/text_black" />
-
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周二"
-                    android:textColor="@color/text_black" />
-
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周三"
-                    android:textColor="@color/text_black" />
-
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周四"
-                    android:textColor="@color/text_black" />
-
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周五"
-                    android:textColor="@color/text_black" />
-
-            </LinearLayout>
-
-            <LinearLayout
+            <EditText
+                android:id="@+id/ed_title"
+                style="@style/txt_content_15"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="10dp">
+                android:layout_height="50dp"
+                android:layout_marginLeft="50dp"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:singleLine="true"
+                android:gravity="center_vertical"
+                android:hint="@string/alarm_topic_txt_hint"
+                android:maxLength="10" />
 
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周六"
-                    android:textColor="@color/text_black" />
-
-                <RadioButton
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:button="@null"
-                    android:gravity="center"
-                    android:text="周日"
-                    android:textColor="@color/text_black" />
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="1dp"
-                    android:layout_weight="3" />
-
-            </LinearLayout>
         </LinearLayout>
 
+        <View style="@style/line_solid_style"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp">
+
+            <TextView
+                style="@style/txt_title_15"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:gravity="center"
+                android:text="@string/alarm_content_txt" />
+
+            <EditText
+                android:id="@+id/ed_content"
+                style="@style/txt_content_15"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="50dp"
+                android:background="@null"
+                android:cursorVisible="true"
+                android:hint="@string/alarm_content_text_hint"
+
+                android:maxLines="2" />
+        </LinearLayout>
+
+
+        <View style="@style/line_solid_style"></View>
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="15dp"
+        android:layout_alignParentBottom="true"
         android:layout_marginLeft="15dp"
         android:layout_marginRight="15dp"
-        android:layout_marginTop="10dp"
-        android:paddingLeft="10dp"
-        android:paddingTop="15dp"
-        android:paddingRight="10dp"
-        android:paddingBottom="14dp"
-        android:background="@drawable/btn_border_blue_alarm"
+        android:layout_marginBottom="15dp"
+        android:gravity="center"
         android:orientation="vertical">
 
         <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            style="@style/txt_title_15"
-            android:text="提醒标题" />
-
-        <EditText
+            android:id="@+id/text_error_msg"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            style="@style/txt_content_15"
-            android:hint="嗨，给该条提醒取个标题吧！"
-
-            android:height="44dp"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="提醒内容" />
-
-        <EditText
+            android:layout_height="50dp"
+            android:gravity="center"
+            android:textColor="@color/text_red"
+            android:textSize="@dimen/text_size_15" />
+        <Button
+            android:id="@+id/btn_save"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="别忘了设定提醒的内容哦！" />
+            android:layout_height="44dp"
 
+            android:background="@drawable/btn_red_shape_large"
+            android:text="@string/btn_save_with_space"
+            android:textColor="@color/white" />
     </LinearLayout>
 
-</LinearLayout>
+
+</RelativeLayout>

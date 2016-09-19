@@ -30,7 +30,7 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
-            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/5/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""

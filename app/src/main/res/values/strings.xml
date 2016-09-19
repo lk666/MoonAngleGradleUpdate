@@ -527,6 +527,17 @@
     <string name="card_search_history">历史记录</string>
     <string name="card_btn_cancle">取 消</string>
     <string name="card_btn_search">确 定</string>
+    <string name="alarm_title_repeat">重复</string>
+    <string name="day_concat">、</string>
+    <string name="every_day">每天</string>
+    <string name="never">未选择</string>
+    <string name="alarm_topic_txt">标题</string>
+    <string name="alarm_topic_txt_hint">嗨，给该条提醒取个标题吧！</string>
+    <string name="alarm_content_txt">内容</string>
+    <string name="alarm_content_text_hint">别忘了设定提醒的内容哦!</string>
+
+    <string name="alarm_repeat_txt">重复</string>
+
 
     <!-- coupons -->
     <string name="coupons_tab_push">卡券推送</string>

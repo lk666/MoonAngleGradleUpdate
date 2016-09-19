@@ -34,7 +34,7 @@
     <color name="text_blue_light">#0a58f1</color><!-- 蓝色文字 -->
     <color name="text_blue_deep">#0058f1</color><!-- 蓝色文字 -->
     <color name="text_set_hint">#bebebe</color><!-- 设置横条右边的提示语颜色 -->
-
+    <color name="text_back_white">#f8f8f8</color><!--幽灵白 -->
     <!-- 按钮颜色 -->
     <color name="btn_red">#ff6c47</color><!-- 红色 -->
     <color name="btn_red_pressed">#e56140</color><!-- 点击红色 -->

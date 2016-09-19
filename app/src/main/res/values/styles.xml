@@ -322,4 +322,23 @@
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
     </style>
 
+    <style name="btn_date_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_date_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_date_color_selector</item>
+
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/btn_date_selector"
+        android:button="@null"
+        android:gravity="center"
+        android:textColor="@color/text_date_color_selector"
+
+    </style>
+
 </resources>

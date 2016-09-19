@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!-- pressed -->
+    <item android:state_checked="true" android:drawable="@mipmap/icon_fold">
+
+        <rotate
+            android:interpolator="@android:anim/accelerate_interpolator"
+            android:fromDegrees="0"
+            android:toDegrees="180"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:duration="2000">
+        </rotate>
+    </item>
+    <item android:drawable="@mipmap/icon_fold" >
+        <rotate
+            android:interpolator="@android:anim/accelerate_interpolator"
+            android:fromDegrees="180"
+            android:toDegrees="0"
+            android:pivotX="50%"
+            android:pivotY="50%"
+            android:duration="2000">
+        </rotate>
+    </item>
+
+</selector>
