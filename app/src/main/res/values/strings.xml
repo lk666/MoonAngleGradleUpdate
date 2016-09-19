@@ -1,4 +1,4 @@
-<resources>
+﻿<resources>
 
     <!-- SDK迁移过来 -->
     <string name="xlistview_header_hint_loading">正在刷新...</string>
@@ -837,6 +837,8 @@
     <string name="default_book_count">1</string>
     <string name="forget_pwd">忘记密码？</string>
     <string name="reset">重置</string>
+    <string name="back">返回</string>
+    <string name="finish">完成</string>
     <string name="order_detail_default_diff_num">0</string>
     <string name="date_to">—</string>
     <string name="total_receive_boxes_num" formatted="false">共收%s箱(%s支)</string>
@@ -850,6 +852,10 @@
     <string name="code_qr">二维码</string>
     <string name="code_bar">条形码</string>
     <string name="code_content">请将二维码或条形码至于框内</string>
+
+    <!--wash returning-->
+    <string name="manual_sign">手动签名</string>
+    <string name="code_scan">请扫描</string>
 
     <!--待封箱-->
     <string name="close_box_title">待封箱</string>

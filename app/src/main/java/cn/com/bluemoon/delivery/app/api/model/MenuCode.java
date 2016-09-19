@@ -9,6 +9,7 @@ public enum MenuCode {
 	activity_collect_clothes,
 	promote_file,my_team,
 	//  TODO: lk 2016/9/14 洗衣服务还衣
-	closebox
+	closebox,
+	wash_cabinet,wash_driver
 }
 

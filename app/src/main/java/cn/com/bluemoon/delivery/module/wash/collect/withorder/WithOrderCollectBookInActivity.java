@@ -59,7 +59,6 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
     /**
      * 扫描二维码跳转到手动输入的返回码
      */
-    private static final int RESULT_CODE_TO_MANUAL = 0x23;
     private static final int REQUEST_CODE_MANUAL = 0x43;
 
     private final static int REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY = 0x13;
@@ -345,8 +344,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      */
     private void goScanCode() {
         PublicUtil.openNewScan(this, getString(R.string.coupons_scan_code_title),
-                getString(R.string.with_order_collect_manual_input_code_btn),
-                Constants.REQUEST_SCAN, RESULT_CODE_TO_MANUAL);
+                getString(R.string.with_order_collect_manual_input_code_btn),Constants.REQUEST_SCAN);
     }
 
     /**
@@ -422,7 +420,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
                     handleScaneCodeBack(resultStr);
                 }
                 //   跳转到手动输入
-                else if (resultCode == RESULT_CODE_TO_MANUAL) {
+                else if (resultCode == Constants.RESULT_SCAN) {
                     Intent intent = new Intent(this, ManualInputCodeActivity.class);
                     startActivityForResult(intent, REQUEST_CODE_MANUAL);
                 }

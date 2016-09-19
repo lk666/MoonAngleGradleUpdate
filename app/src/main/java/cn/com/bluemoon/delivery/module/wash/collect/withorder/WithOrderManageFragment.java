@@ -215,7 +215,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         PublicUtil.openNewScanOrder(main, WithOrderManageFragment.this,
                 getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
-                Constants.REQUEST_SCAN, RESULT_CODE_MANUAL);
+                Constants.REQUEST_SCAN);
 
 
     }
@@ -240,7 +240,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     handleScaneCodeBack(resultStr);
                 }
                 //   跳转到手动输入
-                else if (resultCode == RESULT_CODE_MANUAL) {
+                else if (resultCode == Constants.RESULT_SCAN) {
                     Intent intent = new Intent(getActivity(), ManualInputCodeActivity.class);
                     WithOrderManageFragment.this.startActivityForResult(intent,
                             REQUEST_CODE_MANUAL);
