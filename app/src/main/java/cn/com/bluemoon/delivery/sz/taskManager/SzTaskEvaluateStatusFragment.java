@@ -250,7 +250,7 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
             ResultGetTaskEvaluateList resultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
             //将数据进行简单的是时间格式处理
             if (resultGetTaskEvaluateList.getData() != null) {
-                if (resultGetTaskEvaluateList.getData().size() == 0) {
+                if (resultGetTaskEvaluateList.getData().size() == 0 && curPage > 1) {
                     toast(getString(R.string.sz_no_more_data_tip));
                     curPage--;
                 }
@@ -272,8 +272,10 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
                     LogUtil.i("mEvaluateDatas:" + mEvaluateDatas.toString());
                 }
             } else {
-                toast(getString(R.string.sz_no_more_data_tip));
-                curPage--;
+                if (curPage > 1) {
+                    toast(getString(R.string.sz_no_more_data_tip));
+                    curPage--;
+                }
             }
             mHandle.sendEmptyMessage(LOAD_DATA_SUCCESS);
         } else {
