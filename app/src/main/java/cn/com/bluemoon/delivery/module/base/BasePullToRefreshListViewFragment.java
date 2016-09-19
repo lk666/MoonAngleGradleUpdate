@@ -79,6 +79,7 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
         this.list.clear();
         this.list.addAll(list);
         adapter.notifyDataSetChanged();
+        this.ptrlv.getRefreshableView().scrollTo(0, 0);
     }
 
     @Override

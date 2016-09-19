@@ -1,8 +1,5 @@
 package cn.com.bluemoon.delivery.app.api;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.HashMap;
@@ -10,8 +7,6 @@ import java.util.Map;
 import java.util.UUID;
 
 import Decoder.BASE64Encoder;
-import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 
 /**
  * 还衣API
@@ -25,26 +20,29 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *1.1功能角标统计查询
+     * 1.1功能角标统计查询
+     *
      * @param token 登录凭证(必填) String
-     * @param type 角标类型 String
+     * @param type  角标类型 String
      */
-    public static void queryCornerNum(String token,String type,AsyncHttpResponseHandler handler){
-        if(null == token||null == type) {
+    public static void queryCornerNum(String token, String type, AsyncHttpResponseHandler handler) {
+        if (null == token || null == type) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put(TOKEN,token);
-        params.put("type",type);
+        params.put(TOKEN, token);
+        params.put("type", type);
         postRequest(params, "washingService-controller/wash/queryCornerNum%s", handler);
     }
 
     /**
-     *1.2上传异常图片（签名图片）
-     * @param file 文件流
+     * 1.2上传异常图片（签名图片）
+     *
+     * @param file  文件流
      * @param token 登录凭证(必填) String
      */
-    public static void uploadExceptionImage(byte[] file,String token,AsyncHttpResponseHandler handler){
+    public static void uploadExceptionImage(byte[] file, String token, AsyncHttpResponseHandler
+            handler) {
         if (null == token || null == file) {
             return;
         }
@@ -60,15 +58,16 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *1.3获取打包区域列表
+     * 1.3获取打包区域列表
+     *
      * @param token 登录凭证(必填) String
      */
-    public static void queryAreaList(String token,AsyncHttpResponseHandler handler){
-        if(null == token) {
+    public static void queryAreaList(String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put(TOKEN,token);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/queryAreaList%s", handler);
     }
 

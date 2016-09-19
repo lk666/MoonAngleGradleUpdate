@@ -58,6 +58,7 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -455,9 +456,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    /*if(!BuildConfig.RELEASE){
+                    if(!BuildConfig.RELEASE){
                         mockData();
-                    }*/
+                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -484,14 +485,21 @@ public class MainActivity extends SlidingActivity {
     };
 
 
-    /*private void mockData() {
+    private void mockData() {
+//        UserRight item = new UserRight();
+//        item.setMenuCode(MenuCode.my_team.toString());
+//        item.setMenuName(getString(R.string.team_title));
+//        item.setIconImg(listRight.get(0).getIconImg());
+//        item.setGroupNum(1);
+//        listRight.add(item);
+
         UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.my_team.toString());
-        item.setMenuName(getString(R.string.team_title));
+        item.setMenuCode(MenuCode.closebox.toString());
+        item.setMenuName(getString(R.string.close_box_title));
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
-    }*/
+    }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
@@ -757,7 +765,14 @@ public class MainActivity extends SlidingActivity {
                                 + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(main),
                         userRight.getMenuName(), false);
-            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+            }
+
+            // TODO: lk 2016/9/14 洗衣服务还衣
+            else if  (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
+                CloseBoxTabActivity.actionStart(main);
+            }
+
+            else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                 //click empty
             } else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));

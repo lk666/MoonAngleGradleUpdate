@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:background="@color/white_bg"
+              android:background="@color/view_bg"
               android:orientation="vertical">
 
     <LinearLayout
@@ -59,7 +59,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/btn_red_shape_large"
             android:gravity="center"
-            android:textColor="@color/white_bg"
+            android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_13"/>
 
         <TextView
