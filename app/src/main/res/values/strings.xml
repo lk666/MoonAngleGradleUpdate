@@ -13,7 +13,7 @@
     <string name="qrcode_code_txt">QRCODE</string>
     <string name="empty_hint3">暂无%s数据</string>
 
-
+    <string name="btn_send_space">发 送</string>
     <string name="required_filed">*</string>
     <string name="btn_delete">删除</string>
     <string name="btn_close">关闭</string>
