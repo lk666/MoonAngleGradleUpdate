@@ -14,6 +14,8 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.common.InputCodeActivity;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
@@ -49,16 +51,10 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
             context.startActivityForResult(intent, requestCode);
         }
     }
-
-    /**
-     * 手动输入的点击事件处理
-     */
-    protected abstract void onBtnClick(View view);
-
+    /*必须重写*/
     /**
      * 返回结果事件重写
      * 注：如果需要连续扫描：
-     * 必须在返回结果时调用pauseScan方法暂停扫描，
      * 处理完数据需要继续扫描时再调用resumeScan方法调起扫描；
      * @param str  返回的扫描内容
      * @param type 二维码类型
@@ -66,6 +62,22 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
      */
     @Override
     protected abstract void onResult(String str, String type, Bitmap barcode);
+
+    /*可重写*/
+    /**
+     * 手动输入的点击事件处理,默认返回resultCode == Constants.RESULT_SCAN
+     */
+    protected void onBtnClick(View view){
+        InputCodeActivity.actStart(this,0,InputCodeActivity.class);
+    }
+
+    /**
+     * 手动输入返回输入内容
+     * @param code
+     */
+    protected void onResultCode(String code){
+        onResult(code,null,null);
+    }
 
 
     /*公共方法*/
@@ -140,4 +152,12 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
         onBtnClick(btnInput);
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0&& resultCode == RESULT_OK&&data!=null){
+            onResultCode(data.getStringExtra(Constants.RESULT_CODE));
+        }
+    }
 }

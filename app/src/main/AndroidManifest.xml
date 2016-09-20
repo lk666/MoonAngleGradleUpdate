@@ -494,6 +494,14 @@
             android:name=".module.wash.returning.incabinet.CabinetScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.collect.ClothScanCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".common.InputCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
     </application>
 
 </manifest>

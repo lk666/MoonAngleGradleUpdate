@@ -570,7 +570,7 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
      * 打开扫码界面
      */
     private void goScanCode() {
-        PublicUtil.openNewScan(this, getString(R.string.coupons_scan_code_title),
+        PublicUtil.openClothScan(this, getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
                 Constants.REQUEST_SCAN);
     }

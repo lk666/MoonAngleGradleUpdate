@@ -16,7 +16,7 @@
         android:id="@+id/viewfinder_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        scan:marginTop="130dp"
+        scan:marginTop="120dp"
         scan:rectWidth="200dp"
         scan:rectHeight="200dp"
         scan:content_text="@string/code_content"
@@ -57,7 +57,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="350dp"
+        android:layout_marginTop="340dp"
         android:orientation="horizontal">
 
         <LinearLayout
