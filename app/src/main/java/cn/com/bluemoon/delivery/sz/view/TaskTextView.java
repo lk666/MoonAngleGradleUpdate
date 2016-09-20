@@ -119,6 +119,14 @@ public class TaskTextView extends LinearLayout {
 	}
 
 
+	public void setRtGravityStyle(int rt_gravityStyle) {
+		this.rt_gravityStyle = rt_gravityStyle;
+		if (rt_gravityStyle==0)
+			tv_rightContent.setGravity(Gravity.LEFT);
+		else
+			tv_rightContent.setGravity(Gravity.RIGHT);
+	}
+
 	private void setTastItem(View view){
 		LinearLayout.LayoutParams rl=new LinearLayout.LayoutParams(
 				LinearLayout.LayoutParams.MATCH_PARENT,tv_height);
