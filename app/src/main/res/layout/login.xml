@@ -37,7 +37,6 @@
             android:gravity="center_vertical|left"
             android:hint="@string/username"
             android:longClickable="false"
-            android:inputType="number|text"
             android:digits="@string/key_limit_number_letter"
             android:singleLine="true"
             android:textColor="#000"

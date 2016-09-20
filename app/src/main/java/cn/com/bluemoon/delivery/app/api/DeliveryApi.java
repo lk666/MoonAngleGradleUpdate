@@ -913,6 +913,27 @@ public class DeliveryApi {
     }
 
 
+
+    /*发送代签收验证码 */
+    /* 返回： Result */
+    public static void resendReceiveCode(String token, String orderId, AsyncHttpResponseHandler
+            handler) {
+
+        if (StringUtil.isEmpty(token) || StringUtil.isEmpty(orderId)) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("orderId", orderId);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/order/resendReceiveCode%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+
     /* 正常品/不良品 库存详情查询 */
     /* 返回： ResultProductDetail */
     public static void queryStockDetail(String token, String storeCode, ProductType productType,
