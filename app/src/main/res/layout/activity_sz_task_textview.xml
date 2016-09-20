@@ -4,7 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/white_bg"
     android:minHeight="44dp"
     android:paddingLeft="12dp"
     android:paddingRight="12dp">
@@ -29,9 +29,11 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:textColor="@color/task_item_right_text_color"
-        android:text="1234"
+        android:text=""
         android:ems="8"
         android:layout_marginRight="5dp"
+        android:textColorHint="@color/task_item_hint_color"
+        android:hint="123"
         android:ellipsize="end"
         />
 

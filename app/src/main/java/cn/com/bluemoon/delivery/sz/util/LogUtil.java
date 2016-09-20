@@ -85,4 +85,31 @@ public class LogUtil{
 		Log.wtf(className, createLog(message));
 	}
 
+
+	public static void showMultiLog(String str) {
+		try {
+			str = str.trim();
+			int index = 0;
+			int maxLength = 4000;
+			String sub = "";
+			while (index <= str.length()) {
+				// java的字符不允许指定超过总的长度end
+				if (index>=0){
+					if (str.length() <= index + maxLength) {
+						sub = str.substring(index);
+					} else{
+						sub = str.substring(index, index+maxLength);
+					}
+				}
+				index += maxLength;
+				LogUtil.e("多行数据----->"+sub.trim());
+			}
+
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+	}
+
 }
+
+

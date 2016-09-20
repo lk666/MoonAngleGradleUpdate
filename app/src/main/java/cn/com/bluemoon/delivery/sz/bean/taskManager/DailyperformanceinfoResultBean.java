@@ -17,6 +17,8 @@ public class DailyperformanceinfoResultBean extends ResultBase implements Serial
 
 	DailyPerformanceInfoBean jobsdata=null;
 	String monthlyPer=null;
+	/**当天以前的时间不可修改*/
+
 
 	public DailyPerformanceInfoBean getJobsdata() {
 		return jobsdata;

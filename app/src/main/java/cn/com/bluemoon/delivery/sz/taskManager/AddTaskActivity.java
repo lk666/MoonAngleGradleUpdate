@@ -130,6 +130,8 @@ public class AddTaskActivity extends BaseActivity{
                 if (sup!=null){
                     if (!TextUtils.isEmpty(sup.getUName()) && !TextUtils.isEmpty(sup.getUID()))
                     ttv_appraiser.setText_right(sup.getUName()+"("+sup.getUID()+")");
+                }else{
+                    ttv_appraiser.setText_right_hint(getString(R.string.sz_task_ttv_appraiser));
                 }
 
                 break;
@@ -139,14 +141,18 @@ public class AddTaskActivity extends BaseActivity{
                 ResultBase resultBase=JSON.parseObject(jsonString,ResultBase.class);
 
                 if (resultBase.isSuccess){
+
                     PublicUtil.showToast("提交任务成功！");
                     if (sup!=null){//保存评价人到本地
                         saveReViewData(sup);
                     }
+//                    mHandler.sendEmptyMessage(0);
                     //发送通知关闭详情页，并重新请求当天的数据
                     EventMessageBean messageBean=new EventMessageBean();
                     messageBean.setEventMsgAction("101");
                     EventBus.getDefault().post(messageBean);
+
+                    ll_task_item_conent.removeAllViews();
 
                     PageJumps.finish(context);
                 }
@@ -280,6 +286,12 @@ public class AddTaskActivity extends BaseActivity{
         @Override
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
+            switch (msg.what){
+                case 0:
+                    break;
+                default:
+                    break;
+            }
         }
     };
 
@@ -554,7 +566,7 @@ public class AddTaskActivity extends BaseActivity{
 
     public View initTaskItemView(final int Tag){
 
-        /**获得上一个任务的时间 默认加1分钟 结束时间再加一分钟*/
+        /**获得上一个任务的时间 默认加1分钟 结束时间再加一小时*/
 
         String nextSTime="";
         String nextETime="";
@@ -568,7 +580,7 @@ public class AddTaskActivity extends BaseActivity{
             long preET=DateUtil.tranDateToTime(preEndTime);
 
             long nextST=preET+(1000*60);
-            long nextET=nextST+(1000*60);
+            long nextET=nextST+(1000*60*60);
             nextSTime=DateUtil.tranTimeToDate(nextST+"");
             nextETime=DateUtil.tranTimeToDate(nextET+"");
 

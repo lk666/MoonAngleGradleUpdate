@@ -9,9 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import butterknife.Bind;
@@ -35,6 +33,7 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
     private int showType = 0;
     public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
+    public static final int ACTIVITY_TYPE__DETAIL = 2;//任务详情查看全部
 
     public TaskOrEvaluateDetailAdapter(Context cxt, int showType, List<AsignJobBean> datas) {
         this.cxt = cxt;

@@ -25,7 +25,6 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.DailyPerformanceInfoBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.EventDailyPerformanceBean;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.ResultGetTaskEvaluateList;
-import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoBean;
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -132,52 +131,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         SzApi.getRateJobsList(curPage + "", 20 + "", activityType + "", getNewHandler(0, ResultGetTaskEvaluateList.class));
     }
 
-    //TODO 模拟数据
-    private void loadData2() {
-        DailyPerformanceInfoBean dailyPerformanceInfoBean = new DailyPerformanceInfoBean();
-        UserInfoBean userInfoBean = new UserInfoBean();
-        userInfoBean.setUAvatar("https://ps.ssl.qhimg.com/dr/_110_100/t0102672bd8a6bd290e.jpg#1473665509#1473665509");
-        userInfoBean.setUName("111");
-        dailyPerformanceInfoBean.setUser(userInfoBean);
-        dailyPerformanceInfoBean.setDay_score("200");
-        dailyPerformanceInfoBean.setDay_valid_min("279");
-        dailyPerformanceInfoBean.setWork_date("2016-09-09");
-
-        AsignJobBean asignJobBean = new AsignJobBean();
-        asignJobBean.setProduce_cont("asdf今天天气好热11");
-        asignJobBean.setTask_cont("今天天气好热11");
-
-        AsignJobBean asignJobBean2 = new AsignJobBean();
-        asignJobBean2.setProduce_cont("asdf今天天气好热22");
-        asignJobBean2.setTask_cont("今天天气好热22");
-
-        AsignJobBean asignJobBean3 = new AsignJobBean();
-        asignJobBean3.setProduce_cont("asdf今天天气好热33");
-        asignJobBean3.setTask_cont("今天天气好热33");
-
-        AsignJobBean asignJobBean4 = new AsignJobBean();
-        asignJobBean4.setProduce_cont("asdf今天天气好热44");
-        asignJobBean4.setTask_cont("今天天气好热44");
-
-        AsignJobBean asignJobBean5 = new AsignJobBean();
-        asignJobBean5.setProduce_cont("asdf今天天气好热55");
-        asignJobBean5.setTask_cont("今天天气好热55");
-
-        List<AsignJobBean> asignJobBeanList = new ArrayList<>();
-        asignJobBeanList.add(asignJobBean);
-        asignJobBeanList.add(asignJobBean2);
-        asignJobBeanList.add(asignJobBean3);
-        asignJobBeanList.add(asignJobBean4);
-        asignJobBeanList.add(asignJobBean5);
-        dailyPerformanceInfoBean.setAsignJobs(asignJobBeanList);
-
-        mEvaluateDatas.add(dailyPerformanceInfoBean);
-        mEvaluateDatas.add(dailyPerformanceInfoBean);
-        mEvaluateDatas.add(dailyPerformanceInfoBean);
-
-        updateData();
-    }
-
     private void initListener() {
         evaluate_data_lv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
@@ -218,23 +171,17 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case LOAD_DATA_SUCCESS:
-                    if (evaluate_data_lv != null) {
-                        evaluate_data_lv.onRefreshComplete();
-                    }
+                    evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_SUCCESS");
                     updateData();
                     curPage++;
                     break;
                 case LOAD_DATA_FAIL:
-                    if (evaluate_data_lv != null) {
-                        evaluate_data_lv.onRefreshComplete();
-                    }
+                    evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_FAIL");
                     break;
                 case LOAD_DATA_ERROR:
-                    if (evaluate_data_lv != null) {
-                        evaluate_data_lv.onRefreshComplete();
-                    }
+                    evaluate_data_lv.onRefreshComplete();
                     LogUtil.i("LOAD_DATA_ERROR");
                     break;
                 default:
@@ -246,15 +193,11 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         LogUtil.i("onSuccessResponse--jsonString--" + jsonString);
-        if (result != null && result.isSuccess && result.getResponseCode() == 0) {
-            ResultGetTaskEvaluateList resultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
+        if (result != null && result.isSuccess) {
+            ResultGetTaskEvaluateList ResultGetTaskEvaluateList = (ResultGetTaskEvaluateList) result;
             //将数据进行简单的是时间格式处理
-            if (resultGetTaskEvaluateList.getData() != null) {
-                if (resultGetTaskEvaluateList.getData().size() == 0 && curPage > 1) {
-                    toast(getString(R.string.sz_no_more_data_tip));
-                    curPage--;
-                }
-                List<DailyPerformanceInfoBean> data = resultGetTaskEvaluateList.getData();
+            if (ResultGetTaskEvaluateList.getData() != null) {
+                List<DailyPerformanceInfoBean> data = ResultGetTaskEvaluateList.getData();
                 for (DailyPerformanceInfoBean dailyPerformanceInfoBean : data) {
                     dailyPerformanceInfoBean.setCreatetime(
                             DateUtil.tranTimeToDate(dailyPerformanceInfoBean.getCreatetime(), "HH:mm"));
@@ -270,11 +213,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
                     }
                     mEvaluateDatas.add(dailyPerformanceInfoBean);
                     LogUtil.i("mEvaluateDatas:" + mEvaluateDatas.toString());
-                }
-            } else {
-                if (curPage > 1) {
-                    toast(getString(R.string.sz_no_more_data_tip));
-                    curPage--;
                 }
             }
             mHandle.sendEmptyMessage(LOAD_DATA_SUCCESS);
@@ -303,7 +241,6 @@ public class SzTaskEvaluateStatusFragment extends BaseFragment {
      * 刷新数据
      */
     private void updateData() {
-
         if (mDataAapter == null) {
             mDataAapter = new TaskEvaluateStatusAdapter(getActivity(), mEvaluateDatas, activityType);
             evaluate_data_lv.setAdapter(mDataAapter);

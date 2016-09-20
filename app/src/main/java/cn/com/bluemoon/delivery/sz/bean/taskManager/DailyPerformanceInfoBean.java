@@ -28,6 +28,7 @@ public class DailyPerformanceInfoBean implements Serializable {
     private String day_score;
     private String day_valid_min;
     private String model;
+    public boolean isupdate;
     private UserInfoBean reviewer;
     private String time_utilization;
     private String updatetime;

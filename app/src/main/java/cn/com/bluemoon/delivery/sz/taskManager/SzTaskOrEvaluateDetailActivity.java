@@ -88,6 +88,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
+    public static final int ACTIVITY_TYPE_DETAIL = 2;//任务评价详情
     private int activityType = -1;//记录需要展示的类型（0;任务详情  1;评价详情）
 
     private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
@@ -116,7 +117,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             return getString(R.string.sz_task_detail_label);
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
             return getString(R.string.sz_evaluate_detail_label);
-        } else {
+        } else if (activityType == ACTIVITY_TYPE_DETAIL){
+            return getString(R.string.sz_task_detail_label);
+        } else{
             return super.getTitleString();
         }
     }
@@ -189,9 +192,12 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                     }
                 } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
                     Bundle bundle = new Bundle();
-                    bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE, SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
-                    bundle.putSerializable(SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, evaluateInfo);
-                    PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this, SzWriteEvaluateActivity.class, bundle);
+                    bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE,
+                            SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
+                    bundle.putSerializable(
+                            SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, evaluateInfo);
+                    PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this,
+                            SzWriteEvaluateActivity.class, bundle);
                 } else {
 
                 }
@@ -199,10 +205,17 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         });
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void getModifyTaskSuccess(EventMessageBean messageBean) {
+        LogUtil.v("getModifyTaskSuccess"+messageBean.toString());
+        if (messageBean.getEventMsgAction().equals("101")) {
+            PageJumps.finish(context);
+        }
+    }
+
+
     @Override
     public void initData() {
-
-
     }
 
 
@@ -217,13 +230,16 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             btn_bottom.setText(R.string.sz_update_task_labe);
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
             btn_bottom.setText(R.string.sz_update_evaluete_label);
-        } else {
+        } else if (activityType == ACTIVITY_TYPE_DETAIL) {
+            ll_bottom_btn_area.setVisibility(View.GONE);
+        }else{
             btn_bottom.setText("");
         }
         if (evaluateInfo != null) {
             UserInfoBean evaluateInfoUser = evaluateInfo.getUser();
             if (evaluateInfo != null) {
-                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(), user_avatar_iv, R.mipmap.sz_default_user_icon,
+                ImageLoaderUtil.displayImage(evaluateInfoUser.getUAvatar(),
+                        user_avatar_iv, R.mipmap.sz_default_user_icon,
                         R.mipmap.sz_default_user_icon, R.mipmap.sz_default_user_icon);
                 user_name_tv.setText(evaluateInfoUser.getUName());
             }
@@ -246,7 +262,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         int screenheight = wm.getDefaultDisplay().getHeight();
         LogUtil.i("width:" + screenwidth + "--height:" + screenheight + "--totalHeight:" + totalHeight);
         if (totalHeight < screenheight) {
-            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
+                    ViewGroup.LayoutParams.MATCH_PARENT,
+                    ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
             sz_rewrite_btn_layout.setLayoutParams(lp);
             rootview.addView(sz_rewrite_btn_layout);

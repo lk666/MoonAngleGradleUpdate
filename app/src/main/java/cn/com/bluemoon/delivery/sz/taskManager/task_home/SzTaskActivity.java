@@ -25,6 +25,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SchedualAddMeetingActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzMsgCountController;
+import cn.com.bluemoon.delivery.sz.util.CacheServerResponse;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.sz.util.PageJumps;
 import cn.com.bluemoon.delivery.sz.util.ViewUtil;
@@ -91,12 +92,6 @@ public class SzTaskActivity extends BaseTabActivity {
 
     }
 
-//    @Subscribe(threadMode = ThreadMode.MAIN)
-//    public void getModifyTaskSuccess(EventMessageBean messageBean){
-//        if (messageBean.getEventMsgAction().equals("0")){
-////            PageJumps.finish(context);
-//        }
-//    }
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -173,5 +168,7 @@ public class SzTaskActivity extends BaseTabActivity {
     protected void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+        //清除按日期查询到的本地数据
+        CacheServerResponse.clearFileCache(context, "DailyperformanceinfoResultBeanList");
     }
 }
