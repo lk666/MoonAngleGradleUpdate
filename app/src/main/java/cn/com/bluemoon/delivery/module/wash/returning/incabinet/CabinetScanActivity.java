@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.View;
 
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -23,16 +22,9 @@ public class CabinetScanActivity extends BaseScanCodeActivity {
     }
 
     @Override
-    protected void onBtnClick(View view) {
-        toast("跳转到手动输入");
-    }
-
-    @Override
     protected void onResult(String str, String type, Bitmap barcode) {
-        //暂停扫描
-        pauseScan();
-        clothesCode = str;
         if (TextUtils.isEmpty(cupboardCode)) {
+            clothesCode = str;
             showWaitDialog();
             ReturningApi.scanClothes(clothesCode, getToken(), getNewHandler(0, ResultCupboard.class));
         } else{
