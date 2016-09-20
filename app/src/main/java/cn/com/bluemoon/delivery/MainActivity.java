@@ -60,7 +60,11 @@ import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
+<<<<<<< HEAD
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
+=======
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
+>>>>>>> ab29d57ac7c1a8b66bac53c97b148503cf8315df
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -485,12 +489,27 @@ public class MainActivity extends SlidingActivity {
 
 
     private void mockData() {
+//        UserRight item = new UserRight();
+//        item.setMenuCode(MenuCode.my_team.toString());
+//        item.setMenuName(getString(R.string.team_title));
+//        item.setIconImg(listRight.get(0).getIconImg());
+//        item.setGroupNum(1);
+//        listRight.add(item);
+
         UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.wash_cabinet.toString());
-        item.setMenuName("入柜管理");
+        item.setMenuCode(MenuCode.closebox.toString());
+        item.setMenuName(getString(R.string.close_box_title));
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
+
+        UserRight item1 = new UserRight();
+        item1.setMenuCode(MenuCode.wash_cabinet.toString());
+        item1.setMenuName("入柜管理");
+        item1.setIconImg(listRight.get(0).getIconImg());
+        item1.setGroupNum(1);
+        listRight.add(item1);
+
         UserRight item2 = new UserRight();
         item2.setMenuCode(MenuCode.wash_driver.toString());
         item2.setMenuName("司机承运");
@@ -770,7 +789,10 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MyTeamActivity.class);
                 startActivity(intent);
-            } else if(MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())){
+            }
+
+            // TODO: lk 2016/9/14 洗衣服务还衣
+            else if(MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())){
                 CabinetScanActivity.actStart(main, null, "扫描衣物编码", "手动输入",null, 0);
             } else if(MenuCode.wash_driver.toString().equals(userRight.getMenuCode())){
                 ScanCodeActivity.actStart(main, null, null, "手动输入",null, 0);
@@ -779,13 +801,19 @@ public class MainActivity extends SlidingActivity {
             } else if(MenuCode.return_manger.toString().equals(userRight.getMenuCode())){
                 ReturnMangerTabActivity.actionStart(this);
             }
+            else if  (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
+                CloseBoxTabActivity.actionStart(main);
+            }
+
             //此处添加模块判断
             else if (!TextUtils.isEmpty(userRight.getUrl())) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(main),
                         userRight.getMenuName(), false);
-            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+            }
+
+            else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                 //click empty
             } else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));

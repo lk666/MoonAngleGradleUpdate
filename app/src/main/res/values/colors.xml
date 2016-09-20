@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="white_bg">#fffefefe</color><!--白色背景，暂时解决纯白色在Holo下变半透明黑的问题 -->
-    <color name="view_bg">#ffffff</color>
+    <color name="view_bg">#fefefe</color><!--白色背景，暂时解决纯白色在Holo下变半透明黑的问题 -->
     <color name="title_background">#ff1fb8ff</color> <!-- 顶部标题栏 蓝色 -->
     <color name="page_bg_f2">#f2f2f2</color> <!-- 页面带灰色背景 -->
     <color name="page_bg_ed">#ededed</color> <!-- 页面带灰色背景 -->
@@ -50,6 +49,7 @@
     <!-- 点击灰色 -->
 
     <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
+    <color name="transparent_65">#65000000</color><!-- 黑色透明40% -->
     <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
 
     <!-- 科技馆检票 -->

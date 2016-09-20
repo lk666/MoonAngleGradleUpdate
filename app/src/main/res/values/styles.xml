@@ -119,7 +119,7 @@
 
     <style name="btn_red4" parent="btn_red">
         <item name="android:background">@drawable/btn_red_shape4</item>
-        <item name="android:textColor">@color/white_bg</item>
+        <item name="android:textColor">@color/view_bg</item>
     </style>
 
     <style name="btn_red_large">

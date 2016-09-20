@@ -20,7 +20,7 @@
         scan:rectWidth="200dp"
         scan:rectHeight="200dp"
         scan:content_text="@string/code_content"
-        scan:content_color="@color/white_bg"
+        scan:content_color="@color/view_bg"
         />
 
     <RelativeLayout
@@ -42,12 +42,11 @@
             android:id="@+id/txt_code"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="G325435"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="40dp"
             android:textColor="@color/text_red"
-            android:textSize="@dimen/text_size_30"
+            android:textSize="@dimen/text_size_27"
             android:layout_centerHorizontal="true"
             />
     </RelativeLayout>
@@ -68,13 +67,13 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_qr" />
 
             <TextView
-                android:layout_width="44dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="@string/code_qr"
@@ -90,8 +89,8 @@
             android:orientation="vertical">
 
             <ImageView
-                android:layout_width="44dp"
-                android:layout_height="44dp"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/icon_bar_code" />
 
@@ -115,7 +114,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_red_shape"
-        android:textColor="@color/white_bg"
+        android:textColor="@color/view_bg"
         android:textSize="@dimen/text_size_17"
         android:visibility="gone"
         />
