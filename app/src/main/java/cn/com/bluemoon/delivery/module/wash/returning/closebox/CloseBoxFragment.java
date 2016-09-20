@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.wash.returning.closebox;
 
 import android.content.Context;
-import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,7 +46,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     /**
      * 分页标识
      */
-    private long pageFalg = 0;
+    private long pageFlag = 0;
 
     @Override
     protected String getTitleString() {
@@ -71,15 +70,13 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        WaitCloseBoxilterWindow popupWindow = new WaitCloseBoxilterWindow(getActivity(),
-                waitInbox, new WaitCloseBoxilterWindow.FilterListener() {
+        WaitCloseBoxFilterWindow popupWindow = new WaitCloseBoxFilterWindow(getActivity(),
+                waitInbox, new WaitCloseBoxFilterWindow.FilterListener() {
 
             @Override
             public void onOkClick(boolean flag) {
-                if (waitInbox != flag) {
-                    waitInbox = flag;
-                    initData();
-                }
+                waitInbox = flag;
+                initData();
             }
         });
         popupWindow.showPopwindow(viewPopStart);
@@ -101,6 +98,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         waitInboxCount = 0;
         totalCount = 0;
         setHeadCOntent(0, true, 0);
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     /**
@@ -120,7 +118,6 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
-        ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
         // ptrlv.getRefreshableView().setHeaderDividersEnabled(false); 无效
         // ptrlv.getRefreshableView().setFooterDividersEnabled(false);
     }
@@ -132,7 +129,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-        pageFalg = 0;
+        pageFlag = 0;
         ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox, getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
     }
@@ -142,7 +139,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
         waitInboxCount = resultObj.getWaitInboxCount();
         totalCount = resultObj.getInboxSum();
-        pageFalg = resultObj.getPageFalg();
+        pageFlag = resultObj.getPageFlag();
         return resultObj.getInboxList();
     }
 
@@ -167,6 +164,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         // 列表数据刷新，如可在此处设置head等
         setHeadViewVisibility(View.VISIBLE);
         setHeadCOntent(totalCount, waitInbox, waitInboxCount);
+        getBaseTabActivity().setAmount(0, waitInboxCount);
     }
 
     @Override
@@ -189,10 +187,10 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
             BoxItem item = (BoxItem) getItem(position);
 
-            TextView tvBoxCode = getViewById(R.id.tv_box_code);
+            TextView tvBoxCode = getViewById(R.id.tv_box_tag_code);
             Button btnCloseBox = getViewById(R.id.btn_close_box);
-            TextView tvTotal = getViewById(R.id.tv_total);
-            TextView tvFinish = getViewById(R.id.tv_finish);
+            TextView tvTotal = getViewById(R.id.tv_back_order_num);
+            TextView tvFinish = getViewById(R.id.tv_clothes_num);
 
             tvBoxCode.setText(item.getBoxCode());
             tvTotal.setText(String.valueOf(item.getBackOrderNum()));
@@ -219,7 +217,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitCloseBoxList(pageFalg, getToken(), waitInbox, getNewHandler
+        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox, getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
     }
 
@@ -233,7 +231,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
         waitInboxCount = resultObj.getWaitInboxCount();
         totalCount = resultObj.getInboxSum();
-        pageFalg = resultObj.getPageFalg();
+        pageFlag = resultObj.getPageFlag();
         return resultObj.getInboxList();
     }
 }
