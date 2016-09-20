@@ -168,8 +168,7 @@ public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
     public void onItemClick(Object obj, View view, int position) {
         TagItem item = (TagItem) obj;
         if (null != item) {
-            // TODO: lk 2016/9/18 跳转
-            toast("跳转");
+            CloseBoxDetailActivity.actionStart(getContext(), item.getTagCode());
         }
     }
 
