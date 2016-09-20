@@ -233,10 +233,10 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             @Override
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
-                bundle.putInt("intentNum", SzWriteEvaluateActivity.EVENT_ACTION_TYPE_EVALUATE_CONTENT);
-                bundle.putInt("maxTextLenght", 200);
-                bundle.putString("inputContent", asignJobBean.getReview_cont());
-                bundle.putString("viewName", position + "");
+                bundle.putInt(InputToolsActivity.INTENTITEMTAG, SzWriteEvaluateActivity.EVENT_ACTION_TYPE_EVALUATE_CONTENT);
+                bundle.putInt(InputToolsActivity.MAXTEXTLENGHT, 200);
+                bundle.putString(InputToolsActivity.INPUTTITELCONTENT, asignJobBean.getReview_cont());
+                bundle.putString(InputToolsActivity.VIEWNAME, position + "");
                 PageJumps.PageJumps(cxt, InputToolsActivity.class, bundle);
             }
         });

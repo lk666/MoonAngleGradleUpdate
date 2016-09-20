@@ -1,10 +1,12 @@
 package cn.com.bluemoon.delivery.sz.taskManager;
 
+import android.content.Context;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -158,4 +160,14 @@ public class InputToolsActivity extends BaseActivity{
 
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (getCurrentFocus() != null) {
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            if (imm.isActive()) {
+                imm.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+            }
+        }
+    }
 }
