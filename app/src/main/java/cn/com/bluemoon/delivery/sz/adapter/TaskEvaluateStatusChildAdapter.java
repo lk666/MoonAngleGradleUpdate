@@ -72,6 +72,11 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
             viewHolder = (MyViewHolder) convertView.getTag();
         }
         ///*************************************显示数据************************************************/
+        if (position == 0) {
+            viewHolder.getDivider().setVisibility(View.GONE);
+        } else {
+            viewHolder.getDivider().setVisibility(View.VISIBLE);
+        }
 //        任务记录首页item 展示
         AsignJobBean asignJobBean = datas.get(position);
 

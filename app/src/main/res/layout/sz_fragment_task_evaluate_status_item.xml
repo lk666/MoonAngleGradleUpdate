@@ -16,9 +16,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white_bg"
-        android:divider="@color/page_bg_ed"
+        android:divider="@color/sz_gray_background"
         android:dividerHeight="10dp"
-        android:layout_marginBottom="@dimen/space_13"
         android:scrollbars="none" />
 
 </LinearLayout>
