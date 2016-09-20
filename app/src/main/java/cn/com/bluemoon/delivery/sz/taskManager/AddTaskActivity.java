@@ -213,12 +213,11 @@ public class AddTaskActivity extends BaseActivity{
     /**遍历所有的item 设置Item 的数据内容*/
     private void initSetViewContentList(List<AsignJobBean> asignJobBeanList) {
         for (AsignJobBean asignJobBean: asignJobBeanList) {
-
             ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
             initViewForBean(asignJobBean,itemTag);
             itemTag++;
             getAllTaskTimes();
-
+            setItemName();
         }
     }
 
@@ -227,7 +226,9 @@ public class AddTaskActivity extends BaseActivity{
         View view =ll_task_item_conent.getChildAt(itemTag);
         TaskViewHolder taskViewHolder=new TaskViewHolder(view);
         taskViewHolder.ttv_taskName.setText_right(asignJobBean.getTask_cont());
+        taskViewHolder.ttv_taskName.setRtGravityStyle(0);//左对齐
         taskViewHolder.ttv_workOutput.setText_right(asignJobBean.getProduce_cont());
+        taskViewHolder.ttv_workOutput.setRtGravityStyle(0);//左对齐
         taskViewHolder.tv_dateStart.setText(asignJobBean.getBegin_time());
         taskViewHolder.tv_dateEnd.setText(asignJobBean.getEnd_time());
         String taskStatus=asignJobBean.getState();
@@ -268,8 +269,10 @@ public class AddTaskActivity extends BaseActivity{
         TaskViewHolder taskViewHolder=new TaskViewHolder(view);
         if (messageBean.getReMark().equals("ttv_taskName")){//对应的控件名称
             taskViewHolder.ttv_taskName.setText_right(messageBean.getEventMsgContent());
+            taskViewHolder.ttv_taskName.setRtGravityStyle(0);
         }else if(messageBean.getReMark().equals("ttv_workOutput")){
             taskViewHolder.ttv_workOutput.setText_right(messageBean.getEventMsgContent());
+            taskViewHolder.ttv_workOutput.setRtGravityStyle(0);
         }
 
     }
