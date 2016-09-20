@@ -28,12 +28,11 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
     private LayoutInflater inflater;
     private Context cxt;
     /**
-     * 0：//任务详情 1：任务评价详情
+     * 0：任务详情 1：评价详情
      */
     private int showType = 0;
     public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
-    public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
-    public static final int ACTIVITY_TYPE__DETAIL = 2;//任务详情查看全部
+    public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//评价详情
 
     public TaskOrEvaluateDetailAdapter(Context cxt, int showType, List<AsignJobBean> datas) {
         this.cxt = cxt;

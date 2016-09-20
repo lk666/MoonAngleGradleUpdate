@@ -88,7 +88,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//任务评价详情
-    public static final int ACTIVITY_TYPE_DETAIL = 2;//任务评价详情
+    public static final int ACTIVITY_TYPE_DETAIL = 2;//任务查看详情
     private int activityType = -1;//记录需要展示的类型（0;任务详情  1;评价详情）
 
     private boolean isFirstLayoutBtns = true;//是否是第一次摆放按钮布局（避免重复添加布局）
