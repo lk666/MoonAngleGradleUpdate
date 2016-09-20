@@ -37,4 +37,6 @@
 
     <!--分割线高度-->
     <dimen name="div_height">0.5dp</dimen>
+    <!--分割线高度-->
+    <dimen name="div_height_8">8dp</dimen>
 </resources>

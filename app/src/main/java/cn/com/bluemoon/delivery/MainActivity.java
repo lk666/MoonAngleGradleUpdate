@@ -60,6 +60,7 @@ import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -496,6 +497,18 @@ public class MainActivity extends SlidingActivity {
         item2.setIconImg(listRight.get(0).getIconImg());
         item2.setGroupNum(1);
         listRight.add(item2);
+        item = new UserRight();
+        item.setMenuCode(MenuCode.express_sealing.toString());
+        item.setMenuName("快递封箱");
+        item.setIconImg(listRight.get(2).getIconImg());
+        item.setGroupNum(1);
+        listRight.add(item);
+        item = new UserRight();
+        item.setMenuCode(MenuCode.return_manger.toString());
+        item.setMenuName("还衣管理");
+        item.setIconImg(listRight.get(2).getIconImg());
+        item.setGroupNum(1);
+        listRight.add(item);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -761,6 +774,10 @@ public class MainActivity extends SlidingActivity {
                 CabinetScanActivity.actStart(main, null, "扫描衣物编码", "手动输入",null, 0);
             } else if(MenuCode.wash_driver.toString().equals(userRight.getMenuCode())){
                 ScanCodeActivity.actStart(main, null, null, "手动输入",null, 0);
+            } else if(MenuCode.express_sealing.toString().equals(userRight.getMenuCode())){
+                //TODO
+            } else if(MenuCode.return_manger.toString().equals(userRight.getMenuCode())){
+                ReturnMangerTabActivity.actionStart(this);
             }
             //此处添加模块判断
             else if (!TextUtils.isEmpty(userRight.getUrl())) {
