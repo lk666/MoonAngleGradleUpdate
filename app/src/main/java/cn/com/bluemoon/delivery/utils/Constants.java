@@ -50,6 +50,13 @@ public class Constants {
             "remindId", "hour", "minute", "remindWeek", "remindTime",
             "isClose", "remindTitle", "remindContent" };
 
+
+
+    public static final String DEFAULT_SORT_ORDER =
+              "hour, minute ASC";
+
+    public static final String WHERE_ENABLE =  " isClose = 0";
+
     /************************
      * location
      ***************************/

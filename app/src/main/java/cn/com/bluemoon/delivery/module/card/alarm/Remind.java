@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.module.card.alarm;
 
+import android.database.Cursor;
+
 import java.io.Serializable;
 
 /**
@@ -30,13 +32,24 @@ public class Remind implements Serializable {
     }
 
     private long remindTime;
-    private String  remindTitle;
+    private String remindTitle;
     private String remindContent;
-    private int  remindWeek;
+    private int remindWeek;
 
-    public Remind(){
-        this.remindId=-1;
-        this.isClose=false;
+    public Remind(Cursor c) {
+        remindId = c.getLong(0);
+        hour = c.getInt(1);
+        minute = c.getInt(2);
+        remindWeek = c.getInt(3);
+        remindTime = c.getLong(4);
+        isClose = c.getInt(5) == 1;
+        remindTitle = c.getString(6);
+        remindContent = c.getString(7);
+    }
+
+    public Remind() {
+        this.remindId = -1;
+        this.isClose = false;
         this.setRemindTitle("");
         this.setRemindContent("");
         this.setRemindTime(0);

@@ -2,28 +2,21 @@ package cn.com.bluemoon.delivery.module.card.alarm;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.content.ContentResolver;
+import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
 import android.text.format.DateFormat;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-
 import java.util.Calendar;
-import java.util.List;
 
-import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.card.ResultRemind;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 
 /**
  * Created by allenli on 2016/9/18.
@@ -45,6 +38,32 @@ public class Reminds {
     // Shared with DigitalClock
     final static String M24 = "kk:mm";
 
+
+
+
+
+
+    public static long addAlarm(Context context, Remind alarm) {
+        ContentValues values = createContentValues(alarm);
+        Uri uri = context.getContentResolver().insert(
+                Constants.ALARM_CONTENT_URI, values);
+
+        long timeInMillis = calculateAlarm(alarm);
+        setNextAlert(context);
+        return timeInMillis;
+    }
+
+
+    public static void deleteAlarm(Context context, long alarmId) {
+        if (alarmId == -1) return;
+        ContentResolver contentResolver = context.getContentResolver();
+        Uri uri = ContentUris.withAppendedId(Constants.ALARM_CONTENT_URI, alarmId);
+        contentResolver.delete(uri, "", null);
+
+        setNextAlert(context);
+    }
+
+
 //    /**
 //     * Removes an existing Alarm.  If this alarm is snoozing, disables
 //     * snooze.  Sets next alert.
@@ -61,6 +80,38 @@ public class Reminds {
 //
 
     /**
+     * Queries all alarms
+     *
+     * @return cursor over all alarms
+     */
+    public static Cursor getAlarmsCursor(ContentResolver contentResolver) {
+        return contentResolver.query(
+                Constants.ALARM_CONTENT_URI, Constants.ALARM_QUERY_COLUMNS,
+                null, null, Constants.DEFAULT_SORT_ORDER);
+    }
+
+    // Private method to get a more limited set of alarms from the database.
+    private static Cursor getFilteredAlarmsCursor(
+            ContentResolver contentResolver) {
+        return contentResolver.query(Constants.ALARM_CONTENT_URI, Constants.ALARM_QUERY_COLUMNS, Constants.WHERE_ENABLE,
+                null, null);
+    }
+
+
+    private static ContentValues createContentValues(Remind alarm) {
+        ContentValues values = new ContentValues(8);
+        values.put("remindId", alarm.getRemindId());
+        values.put("isClose", alarm.isClose ? 1 : 0);
+        values.put("hour", alarm.getHour());
+        values.put("minute", alarm.getMinute());
+        values.put("remindTime", alarm.getRemindTime());
+        values.put("remindWeek", alarm.getRemindWeek());
+        values.put("remindTitle", alarm.getRemindTitle());
+        values.put("remindContent", alarm.getRemindContent());
+        return values;
+    }
+
+    /**
      * A convenience method to set an alarm in the Alarms
      * content provider.
      *
@@ -68,8 +119,28 @@ public class Reminds {
      */
     public static long setAlarm(Context context, Remind alarm) {
 
+
+        ContentValues values = createContentValues(alarm);
+        ContentResolver resolver = context.getContentResolver();
+        resolver.update(
+                ContentUris.withAppendedId(Constants.ALARM_CONTENT_URI, alarm.getRemindId()),
+                values, null, null);
+
         long timeInMillis = calculateAlarm(alarm);
-        setNextAlert();
+
+//        if (!alarm.isClose) {
+//            // Disable the snooze if we just changed the snoozed alarm. This
+//            // only does work if the snoozed alarm is the same as the given
+//            // alarm.
+//            // TODO: disableSnoozeAlert should have a better name.
+//            disableSnoozeAlert(context, alarm.id);
+//
+//            // Disable the snooze if this alarm fires before the snoozed alarm.
+//            // This works on every alarm since the user most likely intends to
+//            // have the modified alarm fire next.
+//            clearSnoozeIfNeeded(context, timeInMillis);
+//        }
+        setNextAlert(context);
 
         return timeInMillis;
     }
@@ -81,60 +152,68 @@ public class Reminds {
 //     * @param enabled        corresponds to the ENABLED column
 //     */
 //
-    public static void enableAlarm(
-            final Remind alarm, boolean enabled) {
-        setNextAlert();
+    public static void enableAlarm(final Context context,
+                                   final Remind alarm, boolean enabled) {
+        setNextAlert(context);
     }
 
-    public static Remind calculateNextAlert(List<Remind> reminds) {
+    public static Remind calculateNextAlert(Context context) {
         Remind alarm = null;
         long minTime = Long.MAX_VALUE;
         long now = System.currentTimeMillis();
-
-        for (Remind remind : reminds
-                ) {
-            if (remind.getRemindTime() == 0) {
-                remind.setRemindTime(calculateAlarm(remind));
-            } else if (remind.getRemindTime() < now) {
-//                enableAlarmInternal(context, a, false);
-                continue;
+        Cursor cursor = getFilteredAlarmsCursor(context.getContentResolver());
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                do {
+                    Remind a = new Remind(cursor);
+                    // A time of 0 indicates this is a repeating alarm, so
+                    // calculate the time to get the next alert.
+                    if (a.getRemindTime() == 0) {
+                        a.setRemindTime(calculateAlarm(a));
+                    } else if (a.getRemindTime() < now) {
+                        LogUtils.v("calculateNextAlert", "Disabling expired alarm set for ");
+                        // Expired alarm, disable it and move along.
+                        //enableAlarmInternal(context, a, false);
+                        continue;
+                    }
+                    if (a.getRemindTime() < minTime) {
+                        minTime = a.getRemindTime();
+                        alarm = a;
+                    }
+                } while (cursor.moveToNext());
             }
-            if (remind.getRemindTime() < minTime) {
-                minTime = remind.getRemindTime();
-                alarm = remind;
-            }
-
+            cursor.close();
         }
         return alarm;
     }
 
 
-   static AsyncHttpResponseHandler remindHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            try {
-                ResultRemind resultRemind = JSON.parseObject(responseString,ResultRemind.class);
-                if(resultRemind.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
-                    Remind alarm = calculateNextAlert(resultRemind.getRemindList());
-                    if (alarm != null) {
-                        enableAlert(AppContext.getInstance(), alarm, alarm.getRemindTime());
-                    } else {
-                        disableAlert(AppContext.getInstance());
-                    }
-                }
-            } catch (Exception e) {
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            PublicUtil.showToastServerOvertime();
-        }
-
-    };
+//   static AsyncHttpResponseHandler remindHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+//
+//        @Override
+//        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+//            try {
+//                ResultRemind resultRemind = JSON.parseObject(responseString,ResultRemind.class);
+//                if(resultRemind.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
+//                    Remind alarm = calculateNextAlert(resultRemind.getRemindList());
+//                    if (alarm != null) {
+//                        enableAlert(AppContext.getInstance(), alarm, alarm.getRemindTime());
+//                    } else {
+//                        disableAlert(AppContext.getInstance());
+//                    }
+//                }
+//            } catch (Exception e) {
+//                PublicUtil.showToastServerBusy();
+//            }
+//        }
+//
+//        @Override
+//        public void onFailure(int statusCode, Header[] headers, String responseString,
+//                              Throwable throwable) {
+//            PublicUtil.showToastServerOvertime();
+//        }
+//
+//    };
 
 
     //
@@ -154,9 +233,14 @@ public class Reminds {
 //     * the user changes alarm settings.  Activates snooze if set,
 //     * otherwise loads all alarms, activates next alert.
 //     */
-    public static void setNextAlert() {
-        DeliveryApi.getRemindList(ClientStateManager.getLoginToken(),remindHandler);
-
+    public static void setNextAlert(Context context) {
+        // DeliveryApi.getRemindList(ClientStateManager.getLoginToken(),remindHandler);
+        Remind alarm = calculateNextAlert(context);
+        if (alarm != null) {
+            enableAlert(context, alarm, alarm.getRemindTime());
+        } else {
+            disableAlert(context);
+        }
     }
 
     //

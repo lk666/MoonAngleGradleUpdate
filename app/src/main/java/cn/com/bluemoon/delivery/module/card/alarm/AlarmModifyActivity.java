@@ -13,6 +13,8 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -199,8 +201,17 @@ public class AlarmModifyActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        if(requestCode==0){
+            ResultRemindId resultRemindId = JSON.parseObject(jsonString,ResultRemindId.class);
+            remind.setRemindId(resultRemindId.getRemindId());
+            Reminds.addAlarm(this,remind);
+        }else if(requestCode==1){
+            Reminds.setAlarm(this,remind);
+        }else if(requestCode==2){
+            Reminds.deleteAlarm(this,remind.getRemindId());
+        }
         setResult(RESULT_OK);
-        Reminds.setNextAlert();
+
         this.finish();
     }
 
@@ -219,9 +230,9 @@ public class AlarmModifyActivity extends BaseActivity {
         long timeStamp = Reminds.calculateAlarm(remind);
         remind.setRemindTime(timeStamp);
         if (remind.getRemindId() == -1) {
-            DeliveryApi.addRemind(getToken(), remind, getNewHandler(0, ResultBase.class));
+            DeliveryApi.addRemind(getToken(), remind, getNewHandler(0, ResultRemindId.class));
         } else {
-            DeliveryApi.updateRemind(getToken(), remind, getNewHandler(0, ResultBase.class));
+            DeliveryApi.updateRemind(getToken(), remind, getNewHandler(1, ResultBase.class));
         }
     }
 
@@ -262,7 +273,7 @@ public class AlarmModifyActivity extends BaseActivity {
             finish();
         } else {
             hideWaitDialog();
-            DeliveryApi.removeRemind(getToken(), remind.getRemindId(), getNewHandler(0, ResultBase.class));
+            DeliveryApi.removeRemind(getToken(), remind.getRemindId(), getNewHandler(2, ResultBase.class));
         }
     }
 }

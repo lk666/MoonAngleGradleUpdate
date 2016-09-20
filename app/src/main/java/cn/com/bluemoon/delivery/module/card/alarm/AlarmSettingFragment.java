@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.card.alarm;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -23,6 +25,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * Created by allenli on 2016/9/7.
@@ -41,9 +44,37 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         actionBar.getTvRightView().setVisibility(View.VISIBLE);
     }
 
+
     @Override
     protected void onActionBarBtnRightClick() {
         AlarmModifyActivity.startAction(this);
+    }
+
+
+    @Override
+    public void initData() {
+
+        RemindAdapter adapter = getNewAdapter();
+
+        List<Remind> list =new ArrayList<>();
+        Cursor mCursor = Reminds.getAlarmsCursor(getActivity().getContentResolver());
+
+        if (mCursor != null) {
+            if (mCursor.moveToFirst()) {
+                do {
+                    Remind a = new Remind(mCursor);
+                    list.add(a);
+                } while (mCursor.moveToNext());
+            }
+            mCursor.close();
+        }
+        adapter.setList(list);
+        ptrlv.setAdapter(adapter);
+       if(list.size()>0){
+           LibViewUtil.setViewVisibility(ptrlv, View.VISIBLE);
+       }else{
+           showEmptyView();
+       }
     }
 
 
@@ -101,7 +132,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.PULL_FROM_END;
+        return PullToRefreshBase.Mode.DISABLED;
     }
 
     @Override
@@ -122,8 +153,13 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-        DeliveryApi.getRemindList(getToken(), getNewHandler(requestCode, ResultRemind.class));
+       // DeliveryApi.getRemindList(getToken(), getNewHandler(requestCode, ResultRemind.class));
+        hideWaitDialog();
+
+
     }
+
+
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
@@ -139,7 +175,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
-            getData();
+           initData();
         }
     }
 
