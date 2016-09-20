@@ -15,8 +15,10 @@ import android.text.format.DateFormat;
 
 import java.util.Calendar;
 
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.lib.utils.LibPublicUtil;
 
 /**
  * Created by allenli on 2016/9/18.
@@ -39,16 +41,17 @@ public class Reminds {
     final static String M24 = "kk:mm";
 
 
-
-
-
-
     public static long addAlarm(Context context, Remind alarm) {
+
+        long timeInMillis = calculateAlarm(alarm);
+        alarm.setRemindTime(timeInMillis);
         ContentValues values = createContentValues(alarm);
         Uri uri = context.getContentResolver().insert(
                 Constants.ALARM_CONTENT_URI, values);
 
-        long timeInMillis = calculateAlarm(alarm);
+        if (!alarm.isClose) {
+            popAlarmSetToast(context, timeInMillis);
+        }
         setNextAlert(context);
         return timeInMillis;
     }
@@ -63,21 +66,6 @@ public class Reminds {
         setNextAlert(context);
     }
 
-
-//    /**
-//     * Removes an existing Alarm.  If this alarm is snoozing, disables
-//     * snooze.  Sets next alert.
-//     */
-//    public static void deleteAlarm(Context context, int alarmId) {
-//        if (alarmId == -1) return;
-//
-//        /* If alarm is snoozing, lose it */
-//        disableSnoozeAlert(context, alarmId);
-//
-//        setNextAlert(context);
-//    }
-//
-//
 
     /**
      * Queries all alarms
@@ -118,31 +106,42 @@ public class Reminds {
      * @return Time when the alarm will fire.
      */
     public static long setAlarm(Context context, Remind alarm) {
-
-
+        long timeInMillis = calculateAlarm(alarm);
+        alarm.setRemindTime(timeInMillis);
         ContentValues values = createContentValues(alarm);
         ContentResolver resolver = context.getContentResolver();
         resolver.update(
                 ContentUris.withAppendedId(Constants.ALARM_CONTENT_URI, alarm.getRemindId()),
                 values, null, null);
 
-        long timeInMillis = calculateAlarm(alarm);
-
-//        if (!alarm.isClose) {
-//            // Disable the snooze if we just changed the snoozed alarm. This
-//            // only does work if the snoozed alarm is the same as the given
-//            // alarm.
-//            // TODO: disableSnoozeAlert should have a better name.
-//            disableSnoozeAlert(context, alarm.id);
-//
-//            // Disable the snooze if this alarm fires before the snoozed alarm.
-//            // This works on every alarm since the user most likely intends to
-//            // have the modified alarm fire next.
-//            clearSnoozeIfNeeded(context, timeInMillis);
-//        }
+        if (!alarm.isClose) {
+            popAlarmSetToast(context, alarm.getHour(), alarm.getMinute(), alarm.getRemindWeek());
+        }
         setNextAlert(context);
-
         return timeInMillis;
+    }
+
+     static void popAlarmSetToast(Context context, int hour, int minute,
+                                        int days) {
+        popAlarmSetToast(context,
+                Reminds.calculateAlarm(hour, minute, new DaysOfWeek(days))
+                        .getTimeInMillis());
+    }
+
+     static void popAlarmSetToast(Context context, long timeInMillis) {
+        LibPublicUtil.showToast(context, formatToast(context, timeInMillis));
+    }
+
+
+    private static String formatToast(Context context, long timeInMillis) {
+        long delta = timeInMillis - System.currentTimeMillis();
+        long hours = delta / (1000 * 60 * 60);
+        long minutes = delta / (1000 * 60) % 60;
+        long days = hours / 24;
+        hours = hours % 24;
+
+        String formats = context.getResources().getString(R.string.alarm_toast);
+        return String.format(formats, days, hours, minutes);
     }
 
     //    /**
@@ -187,48 +186,7 @@ public class Reminds {
         return alarm;
     }
 
-
-//   static AsyncHttpResponseHandler remindHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-//
-//        @Override
-//        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//            try {
-//                ResultRemind resultRemind = JSON.parseObject(responseString,ResultRemind.class);
-//                if(resultRemind.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
-//                    Remind alarm = calculateNextAlert(resultRemind.getRemindList());
-//                    if (alarm != null) {
-//                        enableAlert(AppContext.getInstance(), alarm, alarm.getRemindTime());
-//                    } else {
-//                        disableAlert(AppContext.getInstance());
-//                    }
-//                }
-//            } catch (Exception e) {
-//                PublicUtil.showToastServerBusy();
-//            }
-//        }
-//
-//        @Override
-//        public void onFailure(int statusCode, Header[] headers, String responseString,
-//                              Throwable throwable) {
-//            PublicUtil.showToastServerOvertime();
-//        }
-//
-//    };
-
-
-    //
-//    /**
-//     * Disables non-repeating alarms that have passed.  Called at
-//     * boot.
-//     */
-//    public static void disableExpiredAlarms(final Context context, Remind alarm) {
-//
-//        enableAlarmInternal(context, alarm, false);
-//
-//    }
-
-    //
-//    /**
+    //    /**
 //     * Called at system startup, on time/timezone change, and whenever
 //     * the user changes alarm settings.  Activates snooze if set,
 //     * otherwise loads all alarms, activates next alert.
@@ -460,4 +418,6 @@ public class Reminds {
     static boolean get24HourMode(final Context context) {
         return android.text.format.DateFormat.is24HourFormat(context);
     }
+
+
 }

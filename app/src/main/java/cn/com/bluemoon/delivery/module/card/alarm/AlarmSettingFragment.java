@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -56,7 +55,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
         RemindAdapter adapter = getNewAdapter();
 
-        List<Remind> list =new ArrayList<>();
+        List<Remind> list = new ArrayList<>();
         Cursor mCursor = Reminds.getAlarmsCursor(getActivity().getContentResolver());
 
         if (mCursor != null) {
@@ -70,11 +69,11 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         }
         adapter.setList(list);
         ptrlv.setAdapter(adapter);
-       if(list.size()>0){
-           LibViewUtil.setViewVisibility(ptrlv, View.VISIBLE);
-       }else{
-           showEmptyView();
-       }
+        if (list.size() > 0) {
+            LibViewUtil.setViewVisibility(ptrlv, View.VISIBLE);
+        } else {
+            showEmptyView();
+        }
     }
 
 
@@ -103,14 +102,10 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             txtAlamTitle.setText(remind.getRemindTitle());
             txtAlarmContent.setText(remind.getRemindContent());
             sbOpen.setChecked(!remind.isClose);
+
             layoutAlarm.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    Calendar c = Calendar.getInstance();
-                    c.setTimeInMillis(remind.getRemindTime());
-                    remind.setHour(c.get(Calendar.HOUR_OF_DAY));
-                    remind.setMinute(c.get(Calendar.MINUTE));
                     AlarmModifyActivity.startAction(AlarmSettingFragment.this, remind);
                 }
             });
@@ -118,6 +113,8 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             sbOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    remind.isClose = isChecked;
+                    Reminds.setAlarm(getActivity(),remind);
                     DeliveryApi.turnRemindOnOrOff(getToken(), remind.getRemindId(), isChecked, getNewHandler(999, ResultBase.class));
                 }
             });
@@ -153,12 +150,9 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-       // DeliveryApi.getRemindList(getToken(), getNewHandler(requestCode, ResultRemind.class));
-        hideWaitDialog();
-
-
+        // DeliveryApi.getRemindList(getToken(), getNewHandler(requestCode, ResultRemind.class));
+              hideWaitDialog();
     }
-
 
 
     @Override
@@ -175,7 +169,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == getActivity().RESULT_OK) {
-           initData();
+            initData();
         }
     }
 
@@ -186,4 +180,8 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         }
         super.onSuccessResponse(requestCode, jsonString, result);
     }
+
+
+
+
 }

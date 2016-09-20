@@ -539,6 +539,7 @@
 
     <string name="alarm_repeat_txt">重复</string>
 
+    <string name="alarm_toast">已将此提醒设置为从现在起%1$d天%2$d小时%3$d分钟后再提醒。</string>
 
     <!-- coupons -->
     <string name="coupons_tab_push">卡券推送</string>
