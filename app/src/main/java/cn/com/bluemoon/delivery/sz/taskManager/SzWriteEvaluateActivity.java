@@ -97,6 +97,10 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     @Bind(R.id.user_task_lv)
     ListView user_task_lv;
 
+    private LinearLayout btnAreaLl;//底部按钮布局
+    private LinearLayout btn_advice;//驳回按钮
+    private LinearLayout btn_sure;//确认按钮
+
     /**
      * 用于eventbus数据传送识别的actionname
      * EVENT_ACTION_TYPE_ADVICE  ：驳回原因（建议）
@@ -107,15 +111,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     public static int EVENT_ACTION_TYPE_EVALUATE_CONTENT = 0x12;
     public static int EVENT_ACTION_TYPE_QUALITY_SCORE = 0x13;
 
-    private LinearLayout btnAreaLl;
-
-    //    @Bind(R.id.btn_advice)
-    LinearLayout btn_advice;//驳回按钮
-
-    //    @Bind(R.id.btn_sure)
-    LinearLayout btn_sure;//确认按钮
-
-    private Context context;
     public static final String ACTIVITY_EXTAR_DATA = "ACTIVITY_EXTAR_DATA";//外部activity携带数据过来的key
     public static final String ACTIVITY_TYPE = "ACTIVITY_TYPE";
     public static final int ACTIVITY_TYPE_WRTTE_EVALUATE = 0;//给未评价的任务写评价
@@ -125,11 +120,11 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
     private DailyPerformanceInfoBean evaluateInfo;//记录传入的绩效数据
     private CommonActionBar titleBar;
-
+    private Context context;
     private TaskWriteEvaluateApater evaluateadapter;
     private List<AsignJobBean> asignJobs = new ArrayList<>();
 
-    private boolean isOverAweekTime = false;
+    private boolean isOverAweekTime = false;//记录评价数据距离现在是否超过一周
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -250,7 +245,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 // 提交更新后的评价信息
-//                toast("提交修改后的评价信息");
                 submitEvaluate();
             }
         });
@@ -281,7 +275,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
 
         initListener();
     }
-
 
     private void initListener() {
         btn_advice.setOnClickListener(new View.OnClickListener() {
@@ -597,7 +590,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                     imm.hideSoftInputFromWindow(v.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
                 }
                 v.clearFocus();
-//                v.setFocusable(false);
             }
             return super.dispatchTouchEvent(ev);
         }

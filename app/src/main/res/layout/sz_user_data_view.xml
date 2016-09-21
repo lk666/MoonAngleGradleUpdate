@@ -73,6 +73,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginRight="2dp"
+                android:maxLength="6"
                 android:text="0"
                 android:textColor="@color/sz_task_evaluate_text_color"
                 android:textSize="@dimen/text_size_12" />
@@ -96,6 +97,9 @@
                 android:id="@+id/user_score_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxWidth="100dp"
+                android:singleLine="true"
                 android:text="0"
                 android:textColor="@color/red"
                 android:textSize="@dimen/text_size_12" />
