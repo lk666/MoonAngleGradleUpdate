@@ -13,6 +13,7 @@ public class DailyPerformanceInfoBean implements Serializable {
      * asignJobs          工作任务列表<员工工作任务详情> array<object>
      * createtime         创建时间 string
      * day_score          日绩效积分 string
+     * day_usage_time      日实际用时（min） string
      * day_valid_min      日实际有效工时（min） string
      * model              模块 string
      * reviewer           评价人 <个人信息结构> object
@@ -26,6 +27,7 @@ public class DailyPerformanceInfoBean implements Serializable {
     private List<AsignJobBean> asignJobs;
     private String createtime;
     private String day_score;
+    private String day_usage_time;
     private String day_valid_min;
     private String model;
     public boolean isupdate;
@@ -61,6 +63,14 @@ public class DailyPerformanceInfoBean implements Serializable {
 
     public void setDay_score(String day_score) {
         this.day_score = day_score;
+    }
+
+    public String getDay_usage_time() {
+        return day_usage_time;
+    }
+
+    public void setDay_usage_time(String day_usage_time) {
+        this.day_usage_time = day_usage_time;
     }
 
     public String getDay_valid_min() {

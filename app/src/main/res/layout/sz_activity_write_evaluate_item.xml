@@ -23,7 +23,7 @@
                 android:id="@+id/task_rank_num_tv"
                 style="@style/sz_task_or_evaluate_detail_item_left"
                 android:gravity="left|center_vertical"
-                android:text="@string/sz_task_label2" />
+                android:text="@string/sz_task_label" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -276,7 +276,7 @@
                 android:layout_marginRight="6dp"
                 android:layout_toLeftOf="@+id/task_avalilabel_tv"
                 android:button="@drawable/sz_task_valid_checked_bg_selector"
-                android:checked="true" />
+                android:checked="false" />
         </RelativeLayout>
 
         <include layout="@layout/sz_gray_divider_view" />
@@ -298,21 +298,21 @@
                 android:textColor="@color/black"
                 android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/task_availabel_time_right_icon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginLeft="10dp"
-                android:src="@mipmap/icon_right" />
+            <!--  <ImageView
+                  android:id="@+id/task_availabel_time_right_icon"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:layout_marginLeft="10dp"
+                  android:src="@mipmap/icon_right" />-->
 
             <TextView
                 android:id="@+id/min_label_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:layout_toLeftOf="@+id/task_availabel_time_right_icon"
                 android:gravity="center"
                 android:text="@string/sz_minute_label"
                 android:textColor="@color/gray"
@@ -326,6 +326,8 @@
                 android:layout_toLeftOf="@+id/min_label_tv"
                 android:background="@null"
                 android:gravity="right|center_vertical"
+                android:imeActionLabel="@string/dialog_confirm"
+                android:imeOptions="actionDone"
                 android:inputType="number"
                 android:maxLength="4"
                 android:minWidth="50dp"
@@ -409,6 +411,7 @@
                 android:layout_toLeftOf="@+id/evaluate_content_right_icon"
                 android:ellipsize="end"
                 android:gravity="center"
+                android:maxLines="3"
                 android:maxWidth="200dp"
                 android:text="@string/sz_do_task_evaluate_content_label2"
                 android:textColor="@color/gray_deep"

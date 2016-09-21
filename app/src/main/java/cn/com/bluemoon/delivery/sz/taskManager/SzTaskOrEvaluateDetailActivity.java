@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Rect;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -17,6 +18,10 @@ import android.widget.TextView;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
@@ -96,6 +101,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     private TaskOrEvaluateDetailAdapter adapter = null;
     private DailyPerformanceInfoBean evaluateInfo = null;//记录传入的绩效数据
 
+    private boolean isOverAweekTime = false;//记录评价数据距离现在是否超过一周
 
     @Override
     protected void onBeforeSetContentLayout() {
@@ -108,6 +114,30 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             evaluateInfo = (DailyPerformanceInfoBean) intent.getSerializableExtra(ACTIVITY_EXTAR_DATA);
             LogUtil.i("--evaluateInfo：" + evaluateInfo.toString());
         }
+        if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
+            //如果是已评论的数据，则要判断评论时间，超过一周则不能修改评论
+            if (evaluateInfo != null) {
+                if (!TextUtils.isEmpty(evaluateInfo.getUpdatetime())) {
+                    Calendar c = Calendar.getInstance();
+                    try {
+                        c.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(evaluateInfo.getUpdatetime()));
+                    } catch (ParseException e) {
+                        e.printStackTrace();
+                    }
+                    long time = System.currentTimeMillis() - c.getTimeInMillis();
+                    if (time >= 1000 * 60 * 60 * 24 * 7) {
+                        //如果评论超过一周
+                        isOverAweekTime = true;
+                    }
+                } else {
+                    isOverAweekTime = false;
+                }
+            }else{
+                isOverAweekTime = false;
+            }
+        } else {
+            isOverAweekTime = false;
+        }
         LogUtil.i("activityType:" + activityType);
     }
 
@@ -117,9 +147,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             return getString(R.string.sz_task_detail_label);
         } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
             return getString(R.string.sz_evaluate_detail_label);
-        } else if (activityType == ACTIVITY_TYPE_DETAIL){
+        } else if (activityType == ACTIVITY_TYPE_DETAIL) {
             return getString(R.string.sz_task_detail_label);
-        } else{
+        } else {
             return super.getTitleString();
         }
     }
@@ -191,13 +221,17 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
                     }
                 } else if (activityType == ACTIVITY_TYPE_EVALUATE_DETAIL) {
-                    Bundle bundle = new Bundle();
-                    bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE,
-                            SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
-                    bundle.putSerializable(
-                            SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, evaluateInfo);
-                    PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this,
-                            SzWriteEvaluateActivity.class, bundle);
+                    if (isOverAweekTime) {
+                        toast(getString(R.string.sz_evaluate_overtime_tip));
+                    } else {
+                        Bundle bundle = new Bundle();
+                        bundle.putInt(SzWriteEvaluateActivity.ACTIVITY_TYPE,
+                                SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE);
+                        bundle.putSerializable(
+                                SzWriteEvaluateActivity.ACTIVITY_EXTAR_DATA, evaluateInfo);
+                        PageJumps.PageJumps(SzTaskOrEvaluateDetailActivity.this,
+                                SzWriteEvaluateActivity.class, bundle);
+                    }
                 } else {
 
                 }
@@ -207,7 +241,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void getModifyTaskSuccess(EventMessageBean messageBean) {
-        LogUtil.v("getModifyTaskSuccess"+messageBean.toString());
+        LogUtil.v("getModifyTaskSuccess" + messageBean.toString());
         if (messageBean.getEventMsgAction().equals("101")) {
             PageJumps.finish(context);
         }
@@ -232,7 +266,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             btn_bottom.setText(R.string.sz_update_evaluete_label);
         } else if (activityType == ACTIVITY_TYPE_DETAIL) {
             ll_bottom_btn_area.setVisibility(View.GONE);
-        }else{
+        } else {
             btn_bottom.setText("");
         }
         if (evaluateInfo != null) {
@@ -251,6 +285,12 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         if (isFirstLayoutBtns) {
             layoutBottomBtnArea();
             isFirstLayoutBtns = false;
+        }
+
+        if (isOverAweekTime) {
+            ll_bottom_btn_area.setBackgroundResource(R.drawable.sz_task_btn_blue_bg_disable);
+        } else {
+            ll_bottom_btn_area.setBackgroundResource(R.drawable.sz_task_btn_blue_bg_selector);
         }
     }
 
