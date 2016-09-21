@@ -501,8 +501,18 @@
             android:name=".common.InputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-        <activity android:name=".module.wash.returning.closebox.CloseBoxDetailActivity">
-        </activity>
+        <activity
+            android:name=".module.wash.returning.closebox.CloseBoxDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.closebox.ScanBoxCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.closebox.ClothesBoxBackOrderListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
     </application>
 
 </manifest>

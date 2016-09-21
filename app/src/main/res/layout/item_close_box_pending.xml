@@ -67,7 +67,7 @@
         android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:layout_alignTop="@+id/tv_back_order_num_title"
-        android:layout_marginLeft="25dp"
+        android:layout_marginLeft="5dp"
         android:layout_toRightOf="@+id/tv_back_order_num"
         android:ellipsize="end"
         android:gravity="center_vertical"
