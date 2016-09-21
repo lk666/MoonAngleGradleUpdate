@@ -93,15 +93,14 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="butterknife-7.0.1" level="project" />
     <orderEntry type="library" exported="" name="kjframe" level="project" />
-    <orderEntry type="library" exported="" name="umeng-analytics-v5.6.4" level="project" />
-    <orderEntry type="library" exported="" name="httpcore-4.4.2" level="project" />
-    <orderEntry type="library" exported="" name="fastjson-1.2.6" level="project" />
-    <orderEntry type="library" exported="" name="sun.misc.BASE64Decoder" level="project" />
-    <orderEntry type="library" exported="" name="hamcrest-core-1.3" level="project" />
     <orderEntry type="library" exported="" name="pushservice-4.6.0.66" level="project" />
-    <orderEntry type="library" exported="" name="BaiduLBS_Android" level="project" />
+    <orderEntry type="library" exported="" name="hamcrest-core-1.3" level="project" />
+    <orderEntry type="library" exported="" name="httpcore-4.4.2" level="project" />
+    <orderEntry type="library" exported="" name="umeng-analytics-v5.6.4" level="project" />
     <orderEntry type="library" exported="" name="junit-4.12" level="project" />
+    <orderEntry type="library" exported="" name="sun.misc.BASE64Decoder" level="project" />
+    <orderEntry type="library" exported="" name="BaiduLBS_Android" level="project" />
+    <orderEntry type="library" exported="" name="fastjson-1.2.6" level="project" />
     <orderEntry type="module" module-name="BlueMoonSDK" exported="" />
-    <orderEntry type="library" exported="" name="android-android-21" level="project" />
   </component>
 </module>

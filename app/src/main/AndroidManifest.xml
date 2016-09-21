@@ -496,6 +496,12 @@
             android:value="bluemoon"/>
 
         <activity
+            android:name=".ui.selectordialog.SampleActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateAlwaysHidden"/>
+
+        <activity
             android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>

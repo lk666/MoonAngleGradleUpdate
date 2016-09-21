@@ -1,9 +1,8 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
-def gitSha = 'git rev-parse --short HEAD'.execute([], project.rootDir).text.trim()
 def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
-def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HHmmss")
+def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
     df.setTimeZone(TimeZone.getDefault())
     return df.format(new Date()) }
 android {
@@ -23,8 +22,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 19
-        versionName "4.2.2"
+        versionCode 20
+        versionName "4.2.4"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
     }

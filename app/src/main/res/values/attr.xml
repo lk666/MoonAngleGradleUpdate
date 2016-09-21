@@ -12,4 +12,20 @@
         <attr name="margin_left" format="dimension" />
         <attr name="margin_right" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="SimpleWheelView">
+        <attr name="unitHeight" format="dimension" />
+        <attr name="itemNumber" format="integer"/>
+
+        <attr name="normalTextColor" format="color" />
+        <attr name="normalTextSize" format="dimension" />
+        <attr name="selectedTextColor" format="color" />
+        <attr name="selectedTextSize" format="dimension" />
+
+        <attr name="isEnable" format="boolean"/>
+        <attr name="isLoop" format="boolean"/>
+
+        <!--ExtraTextNumberWheelView专用，选中时显示的特定后缀-->
+        <attr name="extra" format="string"/>
+    </declare-styleable>
 </resources>

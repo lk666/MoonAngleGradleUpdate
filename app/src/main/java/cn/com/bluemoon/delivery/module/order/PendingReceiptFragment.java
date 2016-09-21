@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.order;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -48,6 +49,7 @@ import cn.com.bluemoon.lib.swipe.menu.SwipeMenuListView.OnMenuItemClickListener;
 import cn.com.bluemoon.lib.swipe.refresh.DTBaseAdapter;
 import cn.com.bluemoon.lib.swipe.refresh.DTListViewListener;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 @SuppressWarnings("rawtypes")
@@ -387,6 +389,8 @@ public class PendingReceiptFragment extends Fragment implements
 			Button btnAction = ViewHolder.get(convertView, 
 					R.id.delivery_action);
 
+			Button btnSms = ViewHolder.get(convertView,R.id.delivery_sms);
+
 			txtCustomerName.setText(OrdersUtils.formatLongString(
 					order.getCustomerName(), txtCustomerName));
 			txtPayTime.setText(String.format(
@@ -430,6 +434,13 @@ public class PendingReceiptFragment extends Fragment implements
 				@Override
 				public void onClick(View v) {
 					PublicUtil.showCallPhoneDialog(getActivity(), order.getMobilePhone());
+				}
+			});
+
+			btnSms.setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					showCallPhoneOrSendSMSDialog(order.getOrderId());
 				}
 			});
 
@@ -518,5 +529,57 @@ public class PendingReceiptFragment extends Fragment implements
 			PublicUtil.showToastServerOvertime(mContext);
 		}
 	};
+
+
+	public void showCallPhoneOrSendSMSDialog(final String orderId) {
+		CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(getActivity());
+		dialog.setMessage(getString(R.string.pending_order_receive_sign_sms_desc));
+		dialog.setPositiveButton(R.string.btn_cancel_space,null);
+		dialog.setNegativeButton(R.string.btn_send_space, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				sendSMS(orderId);
+			}
+		});
+		dialog.show();
+	}
+
+	public void sendSMS(String orderId){
+		progressDialog.show();
+        DeliveryApi.resendReceiveCode(ClientStateManager.getLoginToken(),orderId,sendMessageHandler);
+	}
+
+
+	AsyncHttpResponseHandler sendMessageHandler = new TextHttpResponseHandler(
+			HTTP.UTF_8) {
+
+		@Override
+		public void onSuccess(int statusCode, Header[] headers,
+							  String responseString) {
+
+			progressDialog.dismiss();
+			try {
+				ResultBase result = JSON.parseObject(responseString,
+						ResultOrderVo.class);
+				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+					PublicUtil.showToast(mContext, result.getResponseMsg());
+				} else {
+					PublicUtil.showMessageNoTitle(mContext, result.getResponseMsg());
+				}
+			} catch (Exception e) {
+				PublicUtil.showToastServerBusy(mContext);
+			}
+		}
+
+		@Override
+		public void onFailure(int statusCode, Header[] headers,
+							  String responseString, Throwable throwable) {
+			progressDialog.dismiss();
+			PublicUtil.showToastServerOvertime(mContext);
+		}
+	};
+
+
+
 
 }

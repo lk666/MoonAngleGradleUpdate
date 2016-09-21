@@ -13,7 +13,7 @@
     <string name="qrcode_code_txt">QRCODE</string>
     <string name="empty_hint3">暂无%s数据</string>
 
-
+    <string name="btn_send_space">发 送</string>
     <string name="required_filed">*</string>
     <string name="btn_delete">删除</string>
     <string name="btn_close">关闭</string>
@@ -202,8 +202,9 @@
     <string name="pending_order_edit_appointment">修改预约</string>
     <string name="pending_order_receive_content">请填写退货说明</string>
     <string name="pending_order_receive_sign_title">签  收</string>
+    <string name="pending_order_receive_sign_sms_title">发送验证码</string>
     <string name="pending_order_receive_sign_scan_btn">输入收货验证码</string>
-
+    <string name="pending_order_receive_sign_sms_desc">亲，顾客没有收到验证码吗？如果没收到，请确认重发</string>
     <!-- 扫码 -->
     <string name="scan_code_input_number">请输入收货验证数字码</string>
     <string name="scan_code_btn">扫描收货验证码</string>
