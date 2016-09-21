@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.sz.taskManager.task_home;
 
 import android.content.Context;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
@@ -179,9 +180,16 @@ public class TaskRecordFragment extends BaseFragment
 		lv_taskRecord.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//				DailyPerformanceInfoBean dailyPerformanceInfoBean=resultBean.getJobsdata();
 				if (dailyInfoBean!=null){
-					intentDetailActivity(dailyInfoBean);
+//					intentDetailActivity(dailyInfoBean);
+
+					Bundle mBundle=new Bundle();
+					LogUtil.i("跳转的类型showModleType："+showModleType);
+					mBundle.putInt(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE,showModleType);
+					mBundle.putSerializable(SzTaskOrEvaluateDetailActivity.ACTIVITY_EXTAR_DATA,
+							dailyInfoBean);
+					PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);
+
 				}
 
 			}
@@ -197,7 +205,7 @@ public class TaskRecordFragment extends BaseFragment
 		}
 
 		Bundle mBundle=new Bundle();
-		//*/传不同的值 0：任务修改详情，2任务查看详情
+		//*/传不同的值 0：任务修改详情，1:添加，2：任务查看详情
 		if (showModleType==0){
 			mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
 					AddTaskActivity.TASKOPERATETYPE_MODIFY);
@@ -354,6 +362,8 @@ public class TaskRecordFragment extends BaseFragment
 		}
 		taskDateStatusAdapter.notifyDataSetChanged();
 		PublicUtil.showToast("无任务数据！");
+		showAddTv(null);
+
 	}
 
 	@Override
@@ -362,10 +372,12 @@ public class TaskRecordFragment extends BaseFragment
 		DailyperformanceinfoResultBean resultBean=
 				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
 		String monthlyPer=resultBean.getMonthlyPer();
+
 		if (!TextUtils.isEmpty(monthlyPer)){
 		tv_task_point.setText(
 				String.format(getString(R.string.sz_task_monthlyper)+"%s",monthlyPer));
 		}
+
 		dailyInfoBean=resultBean.getJobsdata();
 
 		//统一时间戳转成日期
@@ -394,6 +406,9 @@ public class TaskRecordFragment extends BaseFragment
 		DailyperformanceinfoResultBeanList dailyperBeanList=new DailyperformanceinfoResultBeanList();
 		dailyperBeanList.setDailyPerformanceInfoBeanList(dailyPerformanceInfoBeanArrayList);
 		saveDailyperLocalBeanList(dailyperBeanList);
+
+		LogUtil.e("dailyInfoBean 是否为空："+dailyInfoBean);
+
 		showAddTv(dailyInfoBean);
 	}
 
@@ -475,6 +490,8 @@ public class TaskRecordFragment extends BaseFragment
 			taskDateStatusAdapter.notifyDataSetChanged();
 //			设置添加的内容
 			tv_addTask.setText(getString(R.string.sz_task_add_task));
+			tv_addTask.setCompoundDrawables(
+					getDrawable(R.mipmap.icon_sz_task_add),null,null,null);
 			showModleType=1;
 		}else{
 			LogUtil.e("infoBean  isupdate："+infoBean.isupdate);
@@ -482,13 +499,26 @@ public class TaskRecordFragment extends BaseFragment
 			if (infoBean.isupdate==true){//可修改
 				showModleType=0;
 				tv_addTask.setText(getString(R.string.sz_task_modify_task));
+				tv_addTask.setCompoundDrawables(
+						getDrawable(R.mipmap.icon_sz_task_modify),null,null,null);
 			}else if (infoBean.isupdate==false){//只可查看
 				tv_addTask.setText(getString(R.string.sz_task_look_task));
+				tv_addTask.setCompoundDrawables(
+						getDrawable(R.mipmap.icon_sz_task_look),null,null,null);
 				showModleType=2;
 			}
 		}
 	}
 
+	private Drawable getDrawable(int id) {
+		Drawable drawable=null;
+			drawable=getResources().getDrawable(id);
+			drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+		if (drawable!=null){
+			return drawable;
+		}
+		return null;
+	}
 
 
 	@Override

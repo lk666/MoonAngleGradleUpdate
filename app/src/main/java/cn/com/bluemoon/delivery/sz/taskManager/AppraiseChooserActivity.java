@@ -33,6 +33,7 @@ import cn.com.bluemoon.delivery.sz.bean.taskManager.UserInfoListBean;
 import cn.com.bluemoon.delivery.sz.util.CacheServerResponse;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**人员选择（单选）*/
 public class AppraiseChooserActivity extends BaseActivity {
@@ -48,6 +49,8 @@ public class AppraiseChooserActivity extends BaseActivity {
 	public String APPRAISE_NAME_CONTENT="";
 	public static String APPRAISE_NAME_ACTION="APPRAISE_NAME_ACTION";
 	public static int APPRAISE_NAME_ACTION_CONTENT=11;
+	public static String USERBEAN="USERBEAN";
+	public UserInfoBean user=null;
 
 //	public static String APPRAISE_VIEW_NAME="APPRAISER";
 //	public static String APPRAISE_VIEW_NAME_CONTENT="";
@@ -94,9 +97,16 @@ public class AppraiseChooserActivity extends BaseActivity {
 	}
 
 	@Override
-	public void initData() {
+	protected void onBeforeSetContentLayout() {
+		super.onBeforeSetContentLayout();
 		APPRAISE_NAME_CONTENT=getIntent().getStringExtra(APPRAISE_NAME);
+		user= (UserInfoBean) getIntent().getSerializableExtra(USERBEAN);
+	}
 
+	@Override
+	public void initData() {
+
+		/**先读取本地，显示常用联系人*/
 		UserInfoListBean userInfoListBean=
 				(UserInfoListBean) CacheServerResponse.readObject(context,"UserInfoListBean");
 
@@ -149,6 +159,12 @@ public class AppraiseChooserActivity extends BaseActivity {
 				appraiseChooseAdapter.notifyDataSetChanged();
 
 				UserInfoBean userInfoBean= (UserInfoBean) parent.getAdapter().getItem(position);
+				if (user!=null){
+					if (userInfoBean.getUID().equals(user.getUID())){
+						PublicUtil.showToast("评价人不可以选择自己！");
+						return;
+					}
+				}
 				EventMessageBean messageBean=new EventMessageBean();
 				messageBean.setEventMsgAction(APPRAISE_NAME_ACTION_CONTENT+"");
 //				反回实体

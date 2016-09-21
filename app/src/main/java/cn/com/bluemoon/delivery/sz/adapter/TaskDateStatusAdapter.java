@@ -84,7 +84,14 @@ public class TaskDateStatusAdapter extends BaseAdapter {
         viewHolder.getUserDateTv().setText(dailyPerformanceInfoBean.getWork_date());
 		viewHolder.getUserNameTv().setText(dailyPerformanceInfoBean.getUser().getUName());
 
-        viewHolder.getUserScoreTv().setText(dailyPerformanceInfoBean.getDay_score());
+        //model 0待审批(未评价)，1审批通过，2审批驳回（x）',
+
+        if (dailyPerformanceInfoBean.getModel().equals("0")){
+            viewHolder.getUserScoreTv().setText("未评价");
+        }else if(dailyPerformanceInfoBean.getModel().equals("1")){
+            viewHolder.getUserScoreTv().setText(dailyPerformanceInfoBean.getDay_score());
+        }
+
         viewHolder.getUserAvaliabelTimeTv().setText(dailyPerformanceInfoBean.getDay_valid_min());
 
 

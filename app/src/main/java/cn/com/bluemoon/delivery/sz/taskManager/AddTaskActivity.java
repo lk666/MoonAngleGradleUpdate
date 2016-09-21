@@ -37,6 +37,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import cn.com.bluemoon.delivery.MenuFragment;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
@@ -69,6 +70,7 @@ public class AddTaskActivity extends BaseActivity{
     @Bind(R.id.ttv_totalTime) TaskTextView ttv_totalTime;
     @Bind(R.id.ll_task_item_conent) LinearLayout ll_task_item_conent;
     @Bind(R.id.tv_addTask) TextView tv_addTask;
+    @Bind(R.id.ll_addTask) LinearLayout ll_addTask;
     @Bind(R.id.scrollviwe_task)
     ScrollView scrollviwe_task;
 
@@ -87,7 +89,7 @@ public class AddTaskActivity extends BaseActivity{
     private WheelView mins;
 
     private Context context=null;
-    private final int itemSize=10;
+    private final int itemSize=20;
     private int itemTag=0;
 
     private UserInfoBean sup=null;//上级
@@ -109,6 +111,15 @@ public class AddTaskActivity extends BaseActivity{
         context=AddTaskActivity.this;
         currentDate=getIntent().getStringExtra(CURRENTDATA);
         taskOperateType=getIntent().getIntExtra(TASKOPERATETYPE,0);
+//        默认设置自身的信息 名字、id
+        user=new UserInfoBean();
+        user.setUID(MenuFragment.user.getAccount());
+        user.setUName(MenuFragment.user.getRealName());
+//        user.setUName(ClientStateManager.get);
+        LogUtil.i("用户id -name:"+ClientStateManager.getUserName());
+        LogUtil.i("MenuFragment.user -name:"+
+                MenuFragment.user.getAccount()+"//"+MenuFragment.user.getRealName());
+
     }
 
     @Override
@@ -204,6 +215,10 @@ public class AddTaskActivity extends BaseActivity{
                         ttv_appraiser.getTv_rightContent().getText().toString());
                 mBundle.putInt(AppraiseChooserActivity.APPRAISE_NAME_ACTION,
                         AppraiseChooserActivity.APPRAISE_NAME_ACTION_CONTENT);
+                if (user!=null){
+                    mBundle.putSerializable(AppraiseChooserActivity.USERBEAN,user);
+                }
+
                 PageJumps.PageJumps(context,AppraiseChooserActivity.class,mBundle);
             }
         });
@@ -489,10 +504,20 @@ public class AddTaskActivity extends BaseActivity{
         Date rightStartDate = null;
         Date rightEndDate = null;
         try {
-            leftStartDate = format.parse(startdate1);
-            leftEndDate = format.parse(enddate1);
-            rightStartDate = format.parse(startdate2);
-            rightEndDate = format.parse(enddate2);
+            leftStartDate = format.parse(
+                    String.valueOf(DateUtil.tranTimeToDate(startdate1,"HH:mm")));
+            leftEndDate = format.parse(
+                    String.valueOf(DateUtil.tranTimeToDate(enddate1,"HH:mm")));
+            rightStartDate = format.parse(
+                    String.valueOf(DateUtil.tranTimeToDate(startdate2,"HH:mm")));
+            rightEndDate = format.parse(
+                    String.valueOf(DateUtil.tranTimeToDate(enddate2,"HH:mm")));
+
+            LogUtil.e("leftStartDate:"+leftStartDate+"//"
+                    +"leftEndDate:"+leftEndDate+"//"+
+                    "rightStartDate:"+rightStartDate+"//"+
+                    "rightEndDate:"+rightEndDate+"//");
+
         } catch (ParseException e) {
             return false;
         }
@@ -530,16 +555,19 @@ public class AddTaskActivity extends BaseActivity{
 
 
 
-    @OnClick({R.id.tv_addTask, R.id.tv_dete})
+    @OnClick({R.id.tv_addTask,R.id.ll_addTask, R.id.tv_dete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_addTask:
+            case R.id.ll_addTask:
                 ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
                 itemTag++;
                 setItemName();
                 getAllTaskTimes();
                 if (itemTag==itemSize) {
                     tv_addTask.setVisibility(View.GONE);
+                    ll_addTask.setVisibility(View.GONE);
+
                 }
                 mHandler.post(new Runnable() {
                     @Override
@@ -590,7 +618,8 @@ public class AddTaskActivity extends BaseActivity{
                 mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
                 mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,50);
                 mbBundle.putString(InputToolsActivity.VIEWNAME,"ttv_taskName");
-                mbBundle.putString(InputToolsActivity.INPUTTITEL,"任务内容");
+                mbBundle.putString(InputToolsActivity.INPUTTITEL,
+                        taskViewHolder.ttv_taskName.getTv_leftName().getText().toString());
 
                 mbBundle.putString(InputToolsActivity.INPUTTITELCONTENT,
                         taskViewHolder.ttv_taskName
@@ -608,7 +637,8 @@ public class AddTaskActivity extends BaseActivity{
                 mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
                 mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,200);
                 mbBundle.putString(InputToolsActivity.VIEWNAME,"ttv_workOutput");
-                mbBundle.putString(InputToolsActivity.INPUTTITEL,"工作输出内容");
+                mbBundle.putString(InputToolsActivity.INPUTTITEL,
+                        taskViewHolder.ttv_taskName.getTv_leftName().getText().toString()+"工作输出");
                 mbBundle.putString(InputToolsActivity.INPUTTITELCONTENT,
                         taskViewHolder.ttv_workOutput
                                 .getTv_rightContent().getText().toString());
