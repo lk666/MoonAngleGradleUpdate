@@ -1,6 +1,8 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -13,6 +15,7 @@ import java.util.List;
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
@@ -26,6 +29,8 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Created by ljl on 2016/9/19.
  */
 public class DeliveryFragment extends BasePullToRefreshListViewFragment {
+
+    private long pageFlag = 0;
 
     @Override
     protected String getTitleString() {
@@ -53,40 +58,44 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected List getGetMoreList(ResultBase result) {
-        return null;
+        ResultExpress r = (ResultExpress) result;
+        pageFlag = ((ResultExpress) result).getPageFlag();
+        return r.getExpressList();
     }
 
     @Override
     protected List getGetDataList(ResultBase result) {
         ResultExpress r = (ResultExpress) result;
+        pageFlag = ((ResultExpress) result).getPageFlag();
         return r.getExpressList();
     }
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return null;
+        return PullToRefreshBase.Mode.BOTH;
+    }
+
+    @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+        ptrlv.getRefreshableView().setDivider(null);
+        ptrlv.getRefreshableView().setDividerHeight(0);
+        ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-        showWaitDialog();
-        DeliveryApi.queryExpressReceiveList(74563, getToken(), getNewHandler(requestCode, ResultExpress.class));
+        pageFlag = 0;
+        ReturningApi.queryExpressReceiveList(0, getToken(), getNewHandler(requestCode, ResultExpress.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-
+        ReturningApi.queryExpressReceiveList(pageFlag, getToken(), getNewHandler(requestCode, ResultExpress.class));
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
 
-    }
-    @Override
-    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
-        //ptrlv.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-        //ptrlv.setDividerDrawable(getResources().getDrawable(R.drawable.div_left_padding_16));
-        ptrlv.getRefreshableView().setDividerHeight(getResources().getDimensionPixelSize(R.dimen.div_height_8));
     }
 
     class DeliveryAdapter extends BaseListAdapter<ResultExpress.ExpressListBean> {
@@ -105,11 +114,33 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
             TextView txtNo = getViewById(R.id.txt_no);
             LinearLayout layoutDetail = getViewById(R.id.layout_detail);
             TextView txtNumber = getViewById(R.id.txt_number);
-            TextView txt_logistics = getViewById(R.id.txt_logistics);
+            TextView txtLogistics = getViewById(R.id.txt_logistics);
             Button receivingOrdersAction = getViewById(R.id.receiving_orders_action);
-            ResultExpress.ExpressListBean result = list.get(position);
+            final ResultExpress.ExpressListBean result = list.get(position);
             txtNo.setText(result.getCompanyName() + "：" + result.getExpressCode());
             txtNumber.setText("还衣单数量："+result.getBackOrderNum());
+            View.OnClickListener listener = new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    switch (v.getId()) {
+                        case R.id.layout_detail :
+                            longToast("detail");
+                            break;
+                        case R.id.txt_logistics :
+                            Intent intent = new Intent(getActivity(), LogisticsActivity.class);
+                            intent.putExtra("companyCode", result.getCompanyCode());
+                            intent.putExtra("expressCode", result.getExpressCode());
+                            startActivity(intent);
+                            break;
+                        case R.id.receiving_orders_action :
+                            longToast("ok");
+                            break;
+                    }
+                }
+            };
+            layoutDetail.setOnClickListener(listener);
+            txtLogistics.setOnClickListener(listener);
+            receivingOrdersAction.setOnClickListener(listener);
         }
     }
 }

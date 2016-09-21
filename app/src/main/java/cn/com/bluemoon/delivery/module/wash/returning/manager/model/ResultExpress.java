@@ -10,16 +10,16 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 public class ResultExpress extends ResultBase{
 
 
-    private int pageFalg;
+    private int pageFlag;
 
     private List<ExpressListBean> expressList;
 
-    public int getPageFalg() {
-        return pageFalg;
+    public int getPageFlag() {
+        return pageFlag;
     }
 
-    public void setPageFalg(int pageFalg) {
-        this.pageFalg = pageFalg;
+    public void setPageFlag(int pageFlag) {
+        this.pageFlag = pageFlag;
     }
 
     public List<ExpressListBean> getExpressList() {

@@ -24,6 +24,8 @@ public class ReturnMangerTabActivity extends BaseTabActivity {
 		tabs.add(new TabState(SignFragment.class,
 				R.drawable.tab_my_warehouse_selector,
 				R.string.manger_tab_3));
+
+
 		tabs.add(new TabState(ReturnHistoryFragment.class,
 				R.drawable.tab_my_warehouse_selector,
 				R.string.manger_tab_4));

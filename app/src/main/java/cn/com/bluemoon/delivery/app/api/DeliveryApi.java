@@ -2635,18 +2635,4 @@ public class DeliveryApi {
         postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
     }
 
-    /**
-     *9.1还衣管理-获取快递收货列表
-     * @param pageFalg 分页时间戳(分页标志) int
-     * @param token 登录凭证(必填) String
-     */
-    public static void queryExpressReceiveList(int pageFalg,String token,AsyncHttpResponseHandler handler){
-        if(null == token) {
-            return;
-        }
-        Map<String, Object> params = new HashMap<>();
-        params.put("pageFalg",pageFalg);
-        params.put("token",token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/queryExpressReceiveList%s", handler);
-    }
 }

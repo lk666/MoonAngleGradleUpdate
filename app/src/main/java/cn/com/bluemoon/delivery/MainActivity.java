@@ -60,11 +60,8 @@ import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
-<<<<<<< HEAD
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
-=======
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
->>>>>>> ab29d57ac7c1a8b66bac53c97b148503cf8315df
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
