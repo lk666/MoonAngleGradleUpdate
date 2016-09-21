@@ -16,6 +16,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.sz.bean.taskManager.AsignJobBean;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 
 /**
  * Created by Wan.N
@@ -33,6 +34,10 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
     private int showType = 0;
     public static final int ACTIVITY_TYPE_TASK_DETAIL = 0;//任务详情
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//评价详情
+    public static final int ACTIVITY_TYPE_DETAIL = 2;//任务查看详情
+
+    /**查看详情时，是否已评价区分，//model 0待审批(未评价)，1审批通过，2审批驳回（x）',*/
+    public String  modleType="";
 
     public TaskOrEvaluateDetailAdapter(Context cxt, int showType, List<AsignJobBean> datas) {
         this.cxt = cxt;
@@ -89,6 +94,23 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
             viewHolder.getTaskAvailabelLl().setVisibility(View.GONE);
             viewHolder.getTaskQualityLl().setVisibility(View.GONE);
             viewHolder.getTaskEvaluateContentLl().setVisibility(View.GONE);
+        }else if(showType == ACTIVITY_TYPE_DETAIL){
+            ////model 0待审批(未评价)，1审批通过，2审批驳回（x）',
+//            if (asignJobBean.)
+            String model=getModleType();
+            LogUtil.i("modle----->"+model);
+            if (!TextUtils.isEmpty(model)){
+                if (model.equals("0")){//未评价的不显示
+                    viewHolder.getTaskAvailabelLl().setVisibility(View.GONE);
+                    viewHolder.getTaskQualityLl().setVisibility(View.GONE);
+                    viewHolder.getTaskEvaluateContentLl().setVisibility(View.GONE);
+                }else if(model.equals("1")){//已评价的显示评价内容
+                    viewHolder.getTaskAvailabelLl().setVisibility(View.VISIBLE);
+                    viewHolder.getTaskQualityLl().setVisibility(View.VISIBLE);
+                    viewHolder.getTaskEvaluateContentLl().setVisibility(View.VISIBLE);
+                }
+            }
+
         } else {
             /**评价详情*/
             viewHolder.getTaskAvailabelLl().setVisibility(View.VISIBLE);
@@ -141,6 +163,15 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         }
         viewHolder.getTaskEvaluateTv().setText(asignJobBean.getReview_cont());
         return convertView;
+    }
+
+    public String getModleType() {
+        return modleType;
+    }
+
+    public void setModleType(String modleType) {
+        this.modleType = modleType;
+        notifyDataSetChanged();
     }
 
     class MyViewHolder {

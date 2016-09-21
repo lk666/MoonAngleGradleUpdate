@@ -151,11 +151,13 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         user_score_icon.setVisibility(View.GONE);
 
         adapter = new TaskOrEvaluateDetailAdapter(this, activityType, evaluateInfo.getAsignJobs());
+        adapter.setModleType(evaluateInfo.getModel());
         user_task_lv.setAdapter(adapter);
         //添加头部，用作分割线
         View header = new View(this);
         header.setBackgroundColor(getResources().getColor(R.color.page_bg_ed));
-        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 0));
+        AbsListView.LayoutParams lp = new AbsListView.LayoutParams(
+                ViewGroup.LayoutParams.MATCH_PARENT, UIUtil.dip2px(this, 0));
         header.setLayoutParams(lp);
         user_task_lv.addHeaderView(header);
 

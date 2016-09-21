@@ -79,6 +79,9 @@ public class InputToolsActivity extends BaseActivity{
             if (len <= maxTextLenght) {
                 Selection.setSelection(editable, editable.length());
             }
+        }else{
+            tv_maxLenght.setText(0+"/"+maxTextLenght);
+
         }
         TextViewWhater(ed_input,maxTextLenght);//上限限制
     }
@@ -155,7 +158,7 @@ public class InputToolsActivity extends BaseActivity{
             });
         TextView tv_right=titleBar.getTvRightView();
         tv_right.setVisibility(View.VISIBLE);
-        tv_right.setText("提交");
+        tv_right.setText("确定");
 
 
     }
