@@ -131,7 +131,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         viewHolder.getTaskQualityEvaluateRl().setOnClickListener(null);
         viewHolder.getTaskEvaluateContentRl().setOnClickListener(null);
         ///*************************************显示数据************************************************/
-        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label) + (position + 1));
+        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label2) + (position + 1));
         viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
         viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
         viewHolder.getTaskStartTimeTv().setText(asignJobBean.getBegin_time());

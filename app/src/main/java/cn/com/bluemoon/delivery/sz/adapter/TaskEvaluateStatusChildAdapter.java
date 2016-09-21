@@ -80,7 +80,7 @@ public class TaskEvaluateStatusChildAdapter extends BaseAdapter {
 //        任务记录首页item 展示
         AsignJobBean asignJobBean = datas.get(position);
 
-        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label) + (position + 1));
+        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label2) + (position + 1));
         viewHolder.getTaskContent().setText(asignJobBean.getTask_cont());
 
         return convertView;
