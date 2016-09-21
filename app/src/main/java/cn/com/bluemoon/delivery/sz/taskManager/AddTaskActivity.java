@@ -113,7 +113,8 @@ public class AddTaskActivity extends BaseActivity{
         taskOperateType=getIntent().getIntExtra(TASKOPERATETYPE,0);
 //        默认设置自身的信息 名字、id
         user=new UserInfoBean();
-        user.setUID(ClientStateManager.getUserName());
+        user.setUID(MenuFragment.user.getAccount());
+        user.setUName(MenuFragment.user.getRealName());
 //        user.setUName(ClientStateManager.get);
         LogUtil.i("用户id -name:"+ClientStateManager.getUserName());
         LogUtil.i("MenuFragment.user -name:"+
