@@ -854,6 +854,7 @@
     <string name="sz_have_evaluated">已评价</string>
     <string name="sz_task_output_label">工作输出</string>
     <string name="sz_task_label">任务</string>
+    <string name="sz_task_label2">任&#160;&#160;&#160;&#160;务</string>
     <string name="sz_task_start_time_label">起始时间</string>
     <string name="sz_task_complete_state_label">进展状态</string>
     <string name="sz_task_not_start_label">未开始</string>

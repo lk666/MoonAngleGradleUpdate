@@ -15,7 +15,7 @@
             android:id="@+id/task_rank_num_tv"
             style="@style/sz_task_or_evaluate_detail_item_left"
             android:gravity="left|center_vertical"
-            android:text="@string/sz_task_label" />
+            android:text="@string/sz_task_label2" />
 
         <TextView
             android:layout_width="wrap_content"
