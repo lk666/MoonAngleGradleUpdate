@@ -396,7 +396,6 @@
             android:name=".ui.ShowMultipleImageView"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop"/>
-
         <activity
             android:name=".module.wash.returning.manager.ManualSignActivity"
             android:screenOrientation="portrait"
@@ -504,6 +503,16 @@
             android:name=".module.wash.returning.incabinet.CabinetScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.collect.ClothScanCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".common.InputCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity android:name=".module.wash.returning.closebox.CloseBoxDetailActivity">
+        </activity>
     </application>
 
 </manifest>

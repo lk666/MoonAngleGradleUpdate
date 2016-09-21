@@ -115,7 +115,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
 
 
     private void goScanCode() {
-        PublicUtil.openNewScan(ClothingDeliverConfirmActivity.this,
+        PublicUtil.openClothScan(ClothingDeliverConfirmActivity.this,
                 getString(R.string.coupons_scan_code_title),
                 getString(R.string.with_order_collect_manual_input_code_btn),
                 Constants.REQUEST_SCAN);

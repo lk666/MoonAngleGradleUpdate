@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.common;
+package cn.com.bluemoon.delivery.module.wash.collect;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -8,10 +8,8 @@ import android.view.View;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 
-/**
- *返回码的内容key值为Constants.RESULT_CODE
- */
-public class ScanCodeActivity extends BaseScanCodeActivity {
+
+public class ClothScanCodeActivity extends BaseScanCodeActivity {
 
     /**
      * 扫描界面调起方法
@@ -23,12 +21,17 @@ public class ScanCodeActivity extends BaseScanCodeActivity {
      * @param requestCode
      */
     public static void actStart(Activity context, Fragment fragment, String title, String btnString,String code, int requestCode) {
-        actStart(context, fragment, title, btnString, code, ScanCodeActivity.class, requestCode);
+        actStart(context,fragment,title,btnString,code,ClothScanCodeActivity.class,requestCode);
+    }
+
+    @Override
+    protected void onBtnClick(View view) {
+        setResult(Constants.RESULT_SCAN);
+        finish();
     }
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
         finishWithData(str,type);
     }
-
 }

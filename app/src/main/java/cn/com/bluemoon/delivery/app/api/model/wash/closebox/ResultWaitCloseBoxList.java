@@ -29,7 +29,7 @@ public class ResultWaitCloseBoxList extends ResultBase {
     /**
      * 分页时间戳(分页标志)
      */
-    private long pageFalg;
+    private long pageFlag;
 
     public int getWaitInboxCount() {
         return waitInboxCount;
@@ -55,11 +55,11 @@ public class ResultWaitCloseBoxList extends ResultBase {
         this.inboxSum = inboxSum;
     }
 
-    public long getPageFalg() {
-        return pageFalg;
+    public long getPageFlag() {
+        return pageFlag;
     }
 
-    public void setPageFalg(long pageFalg) {
-        this.pageFalg = pageFalg;
+    public void setPageFlag(long pageFlag) {
+        this.pageFlag = pageFlag;
     }
 }

@@ -72,35 +72,39 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *2.1扫描衣物
-     * @param backOrderCode 还衣单号 String
+     * 2.1扫描衣物
+     *
+     * @param clothesCode 还衣单号 String
      * @param clothesCode 衣物编码 String
-     * @param token 登录凭证(必填) String
+     * @param token       登录凭证(必填) String
      */
-    public static void scanClothes(String clothesCode,String token,AsyncHttpResponseHandler handler){
-        if(null == clothesCode||null == token) {
+    public static void scanClothes(String clothesCode, String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == clothesCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("clothesCode",clothesCode);
-        params.put(TOKEN,token);
+        params.put("clothesCode", clothesCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/cabinet/scanClothes%s", handler);
     }
 
     /**
-     *2.2扫描分拨柜
-     * @param clothesCode 衣物编码 String
+     * 2.2扫描分拨柜
+     *
+     * @param clothesCode  衣物编码 String
      * @param cupboardCode 分拨柜号 String
-     * @param token 登录凭证(必填) String
+     * @param token        登录凭证(必填) String
      */
-    public static void scanCupboard(String clothesCode,String cupboardCode,String token,AsyncHttpResponseHandler handler){
-        if(null == clothesCode||null == cupboardCode||null == token) {
+    public static void scanCupboard(String clothesCode, String cupboardCode, String token,
+                                    AsyncHttpResponseHandler handler) {
+        if (null == clothesCode || null == cupboardCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("clothesCode",clothesCode);
-        params.put("cupboardCode",cupboardCode);
-        params.put(TOKEN,token);
+        params.put("clothesCode", clothesCode);
+        params.put("cupboardCode", cupboardCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/cabinet/scanCupboard%s", handler);
     }
 
@@ -177,4 +181,40 @@ public class ReturningApi extends DeliveryApi {
         postMockRequest(params, "washingService-controller/wash/express/seeExpress%s", handler);
     }
 
+     /* 4.6获取封箱条码历史列表
+     *
+     * @param opTime   封箱时间 long
+     * @param pageFalg 分页时间戳(分页标志) long
+     * @param token    登录凭证(必填) String
+     */
+    public static void queryCloseBoxHistoryList(long opTime, long pageFalg, String token,
+                                                AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("opTime", opTime);
+        params.put("pageFalg", pageFalg);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxHistoryList%s",
+                handler);
+    }
+
+    /**
+     * 4.7获取封箱详情
+     *
+     * @param tagCode 封箱条码 String
+     * @param token   登录凭证(必填) String
+     */
+    public static void queryCloseBoxDetail(String tagCode, String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == tagCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("tagCode", tagCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxDetail%s",
+                handler);
+    }
 }

@@ -17,7 +17,7 @@ import cn.com.bluemoon.delivery.R;
 /**
  * 待封箱筛选弹窗
  */
-public class WaitCloseBoxilterWindow extends PopupWindow {
+public class WaitCloseBoxFilterWindow extends PopupWindow {
     private CheckBox cbWaitInbox;
 
     private Context contextt;
@@ -28,7 +28,7 @@ public class WaitCloseBoxilterWindow extends PopupWindow {
      */
     private boolean waitInbox = true;
 
-    public WaitCloseBoxilterWindow(Context context, boolean waitInbox, FilterListener listener) {
+    public WaitCloseBoxFilterWindow(Context context, boolean waitInbox, FilterListener listener) {
         this.contextt = context;
         this.listener = listener;
         this.waitInbox = waitInbox;
@@ -38,7 +38,7 @@ public class WaitCloseBoxilterWindow extends PopupWindow {
     private void setWaitInbox(boolean waitInbox) {
         this.waitInbox = waitInbox;
         if (getContentView() != null) {
-            getContentView().invalidate();
+            cbWaitInbox.setChecked(waitInbox);
         }
     }
 
