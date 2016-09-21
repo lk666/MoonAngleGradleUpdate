@@ -10,7 +10,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.text.format.DateFormat;
 
 import java.util.Calendar;
@@ -192,7 +191,7 @@ public class Reminds {
 //     * otherwise loads all alarms, activates next alert.
 //     */
     public static void setNextAlert(Context context) {
-        // DeliveryApi.getRemindList(ClientStateManager.getLoginToken(),remindHandler);
+
         Remind alarm = calculateNextAlert(context);
         if (alarm != null) {
             enableAlert(context, alarm, alarm.getRemindTime());
@@ -215,17 +214,6 @@ public class Reminds {
                 context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(ALARM_ALERT_ACTION);
-
-        // XXX: This is a slight hack to avoid an exception in the remote
-        // AlarmManagerService process. The AlarmManager adds extra data to
-        // this Intent which causes it to inflate. Since the remote process
-        // does not know about the Alarm class, it throws a
-        // ClassNotFoundException.
-        //
-        // To avoid this, we marshall the data ourselves and then parcel a plain
-        // byte[] array. The AlarmReceiver class knows to build the Alarm
-        // object from the byte[] array.
-
         Bundle bundle = new Bundle();
         bundle.putSerializable(ALARM_INTENT_EXTRA, remind);
         intent.putExtras(bundle);
@@ -234,13 +222,6 @@ public class Reminds {
                 context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
         am.set(AlarmManager.RTC_WAKEUP, atTimeInMillis, sender);
-
-//        setStatusBarIcon(context, true);
-
-        Calendar c = Calendar.getInstance();
-        c.setTimeInMillis(atTimeInMillis);
-        String timeString = formatDayAndTime(context, c);
-        saveNextAlarm(context, timeString);
     }
 
     //
@@ -256,94 +237,9 @@ public class Reminds {
                 context, 0, new Intent(ALARM_ALERT_ACTION),
                 PendingIntent.FLAG_CANCEL_CURRENT);
         am.cancel(sender);
-//        setStatusBarIcon(context, false);
-        saveNextAlarm(context, "");
     }
 
-    //
-//    static void saveSnoozeAlert(final Context context, final int id,
-//                                final long time) {
-//        SharedPreferences prefs = context.getSharedPreferences(
-//                DeskClockMainActivity.PREFERENCES, 0);
-//        if (id == -1) {
-//            clearSnoozePreference(context, prefs);
-//        } else {
-//            SharedPreferences.Editor ed = prefs.edit();
-//            ed.putInt(PREF_SNOOZE_ID, id);
-//            ed.putLong(PREF_SNOOZE_TIME, time);
-//            ed.apply();
-//        }
-//        // Set the next alert after updating the snooze.
-//        setNextAlert(context);
-//    }
-//
-//    /**
-//     * Disable the snooze alert if the given id matches the snooze id.
-//     */
-//    static void disableSnoozeAlert(final Context context, final int id) {
-//        SharedPreferences prefs = context.getSharedPreferences(
-//                DeskClockMainActivity.PREFERENCES, 0);
-//        int snoozeId = prefs.getInt(PREF_SNOOZE_ID, -1);
-//        if (snoozeId == -1) {
-//            // No snooze set, do nothing.
-//            return;
-//        } else if (snoozeId == id) {
-//            // This is the same id so clear the shared prefs.
-//            clearSnoozePreference(context, prefs);
-//        }
-//    }
-//
-//    // Helper to remove the snooze preference. Do not use clear because that
-//    // will erase the clock preferences. Also clear the snooze notification in
-//    // the window shade.
-//    private static void clearSnoozePreference(final Context context,
-//                                              final SharedPreferences prefs) {
-//        final int alarmId = prefs.getInt(PREF_SNOOZE_ID, -1);
-//        if (alarmId != -1) {
-//            NotificationManager nm = (NotificationManager)
-//                    context.getSystemService(Context.NOTIFICATION_SERVICE);
-//            nm.cancel(alarmId);
-//        }
-//    };
-//
-//    /**
-//     * If there is a snooze set, enable it in AlarmManager
-//     * @return true if snooze is set
-//     */
-//    private static boolean enableSnoozeAlert(final Context context) {
-//        SharedPreferences prefs = context.getSharedPreferences(
-//                DeskClockMainActivity.PREFERENCES, 0);
-//
-//        int id = prefs.getInt(PREF_SNOOZE_ID, -1);
-//        if (id == -1) {
-//            return false;
-//        }
-//        long time = prefs.getLong(PREF_SNOOZE_TIME, -1);
-//
-//        // Get the alarm from the db.
-//        final Alarm alarm = getAlarm(context.getContentResolver(), id);
-//        if (alarm == null) {
-//            return false;
-//        }
-//        // The time in the database is either 0 (repeating) or a specific time
-//        // for a non-repeating alarm. Update this value so the AlarmReceiver
-//        // has the right time to compare.
-//        alarm.time = time;
-//
-//        enableAlert(context, alarm, time);
-//        return true;
-//    }
-//
-//    /**
-//     * Tells the StatusBar whether the alarm is enabled or disabled
-//     */
-//    private static void setStatusBarIcon(Context context, boolean enabled) {
-//        Intent alarmChanged = new Intent("android.intent.action.ALARM_CHANGED");
-//        alarmChanged.putExtra("alarmSet", enabled);
-//        context.sendBroadcast(alarmChanged);
-//    }
-
-    //
+    //获取下次响铃时间
     public static long calculateAlarm(Remind alarm) {
         return calculateAlarm(alarm.getHour(), alarm.getMinute(), new DaysOfWeek(alarm.getRemindWeek()))
                 .getTimeInMillis();
@@ -379,17 +275,6 @@ public class Reminds {
         return c;
     }
 
-    //    static String formatTime(final Context context, int hour, int minute,
-//                             Alarm.DaysOfWeek daysOfWeek) {
-//        Calendar c = calculateAlarm(hour, minute, daysOfWeek);
-//        return formatTime(context, c);
-//    }
-//
-//    /* used by AlarmAlert */
-    static String formatTime(final Context context, Calendar c) {
-        String format = get24HourMode(context) ? M24 : M12;
-        return (c == null) ? "" : (String) DateFormat.format(format, c);
-    }
 
     //
 //    /**
@@ -399,18 +284,6 @@ public class Reminds {
         String format = get24HourMode(context) ? DM24 : DM12;
         return (c == null) ? "" : (String) DateFormat.format(format, c);
     }
-
-    //
-//    /**
-//     * Save time of the next alarm, as a formatted string, into the system
-//     * settings so those who care can make use of it.
-//     */
-    static void saveNextAlarm(final Context context, String timeString) {
-        Settings.System.putString(context.getContentResolver(),
-                Settings.System.NEXT_ALARM_FORMATTED,
-                timeString);
-    }
-//
 
     /**
      * @return true if clock is set to 24-hour mode
