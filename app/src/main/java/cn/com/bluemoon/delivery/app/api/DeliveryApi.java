@@ -2634,4 +2634,5 @@ public class DeliveryApi {
         params.put("endDate", endDate);
         postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
     }
+
 }

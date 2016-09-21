@@ -855,6 +855,11 @@
 
     <!--wash returning-->
     <string name="manual_sign">手动签名</string>
+    <string name="manger_tab_1">快递收货</string>
+    <string name="manger_tab_2">待还衣</string>
+    <string name="manger_tab_3">待签收</string>
+    <string name="manger_tab_4">还衣历史</string>
+    <string name="delivery_detail">收货详情</string>
     <string name="code_scan">请扫描</string>
 
     <!--待封箱-->
