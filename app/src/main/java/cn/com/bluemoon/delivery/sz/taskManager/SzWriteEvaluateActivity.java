@@ -147,6 +147,9 @@ public class SzWriteEvaluateActivity extends BaseActivity {
                 if (TextUtils.isEmpty(asignJobBean.getValid_min())) {
                     asignJobBean.setValid_min("0");
                 }
+                if (TextUtils.isEmpty(asignJobBean.getUsage_time())) {
+                    asignJobBean.setUsage_time("0");
+                }
                 if (TextUtils.isEmpty(asignJobBean.getIs_valid())) {
                     asignJobBean.setIs_valid("0");
                 }
@@ -304,7 +307,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             //工作日期
             user_date_tv.setText(evaluateInfo.getWork_date());
             //有效工作时间（单位：分钟）
-            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
+            if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+                user_avaliabel_time_tv.setText(evaluateInfo.getDay_usage_time());
+            } else if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
+                user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
+            } else {
+
+            }
             asignJobs = evaluateInfo.getAsignJobs();
             if (evaluateadapter == null) {
                 evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs, activityType);
