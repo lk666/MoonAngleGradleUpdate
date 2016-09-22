@@ -393,26 +393,40 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".ui.ShowMultipleImageView"
+            android:name=".common.ShowMultipleImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop" />
-        android:theme="@style/MyDialogStyleTop"/>
         <activity
             android:name=".module.wash.returning.manager.ManualSignActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
 
-        <service android:name=".module.card.LocationSvc" />
-
         <activity
             android:name=".module.wash.returning.manager.ReturnMangerTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
         <activity
             android:name=".module.wash.returning.manager.LogisticsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.BackOrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.ClothesDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.CustomRefuseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name=".module.wash.returning.manager.RefuseDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
 
         <service android:name=".module.card.LocationSvc" />
 
@@ -503,7 +517,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
-
         <activity
             android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
             android:screenOrientation="portrait"
@@ -542,6 +555,10 @@
             android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.returning.driver.TransportListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.closebox.ScanBackOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
     </application>

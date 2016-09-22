@@ -150,7 +150,9 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());
                             break;
                         case R.id.btn_refuse_sign:
-                            longToast("btn_refuse_sign");
+                            intent = new Intent(getActivity(), CustomRefuseActivity.class);
+                            intent.putExtra("backOrderCode", result.getBackOrderCode());
+                            SignFragment.this.startActivityForResult(intent, 2);
                             break;
                     }
                 }

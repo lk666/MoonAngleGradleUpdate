@@ -861,6 +861,8 @@
     <string name="manger_tab_3">待签收</string>
     <string name="manger_tab_4">还衣历史</string>
     <string name="delivery_detail">收货详情</string>
+    <string name="open_close">展开,收起</string>
+    <string name="total_amount">共%s件</string>
     <string name="code_scan">请扫描</string>
 
     <!--待封箱-->
@@ -885,6 +887,12 @@
     <string name="close_box_back_order_print">打印封箱条</string>
     <string name="close_box_back_order_title">清点还衣单</string>
     <string name="close_box_back_code">还衣单号</string>
+    <string name="close_box_scan_back_code_title">扫描还衣单标签</string>
+    <string name="close_box_scan_back_code">箱内的还衣单号</string>
+    <string name="duplicate_code">该条码重复扫描</string>
+    <string name="not_in_code"> 该还衣单不属于当前衣物箱！请扫描正确条码</string>
+    <string name="scan_finish">扫描完成</string>
+    <string name="scan_successed">扫描成功</string>
 
 
     <!--入柜-->
