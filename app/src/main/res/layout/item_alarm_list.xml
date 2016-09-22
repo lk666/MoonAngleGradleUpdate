@@ -51,17 +51,32 @@
             </LinearLayout>
 
 
-            <TextView
-                android:id="@+id/txt_alarm_content"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:ellipsize="end"
-                android:includeFontPadding="false"
-                android:singleLine="true"
-                android:text="每天都是新的开始，记得打卡哦！"
-                android:textColor="@color/text_grep"
-                android:textSize="@dimen/text_size_12" />
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:includeFontPadding="false"
+                   android:text="@string/alarm_repeat"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_15" />
+
+                <TextView
+                    android:id="@+id/txt_repeat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:layout_weight="1"
+                    android:singleLine="true"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_14" />
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 

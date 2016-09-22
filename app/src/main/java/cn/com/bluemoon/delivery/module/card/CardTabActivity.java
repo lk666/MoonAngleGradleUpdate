@@ -23,7 +23,7 @@ public class CardTabActivity extends BaseTabActivity {
             tabs.add(new TabState(PunchCardFragment.class, R.drawable.card_tab_punch, R.string.tab_bottom_punch_card_text));
         }
         tabs.add(new TabState(RecordCardFragment.class, R.drawable.card_tab_record, R.string.tab_bottom_punch_record_text));
-        tabs.add(new TabState(AlarmSettingFragment.class, R.drawable.card_tab_record, R.string.tab_bottom_punch_alarm_setting));
+        tabs.add(new TabState(AlarmSettingFragment.class, R.drawable.card_tab_setting, R.string.tab_bottom_punch_alarm_setting));
         intent.putExtra(BaseFragment.EXTRA_BUNDLE_DATA, tabs);
         context.startActivity(intent);
     }

@@ -95,12 +95,18 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             LinearLayout layoutAlarm = getViewById(R.id.layout_alarm);
             TextView txtAlarmTime = getViewById(R.id.txt_alarm_time);
             TextView txtAlamTitle = getViewById(R.id.txt_alarm_title);
-            TextView txtAlarmContent = getViewById(R.id.txt_alarm_content);
+            TextView txtAlert = getViewById(R.id.txt_repeat);
             cn.com.bluemoon.lib.view.switchbutton.SwitchButton sbOpen = getViewById(R.id.sb_open);
 
             txtAlarmTime.setText(DateUtil.getTime(remind.getRemindTime(), "HH:mm"));
             txtAlamTitle.setText(remind.getRemindTitle());
-            txtAlarmContent.setText(remind.getRemindContent());
+            DaysOfWeek daysOfWeek = new DaysOfWeek(remind.getRemindWeek());
+            if(daysOfWeek.getCoded()!=0 && daysOfWeek.getCoded()!=0x7f){
+                String temp = getString(R.string.week) + daysOfWeek.toString();
+                txtAlert.setText(temp);
+            }else{
+                txtAlert.setText(daysOfWeek.toString());
+            }
             sbOpen.setChecked(!remind.isClose);
 
             layoutAlarm.setOnClickListener(new View.OnClickListener() {

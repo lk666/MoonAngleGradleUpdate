@@ -24,26 +24,17 @@ import cn.com.bluemoon.lib.utils.LibPublicUtil;
  */
 public class Reminds {
 
-
-    //    // This action triggers the AlarmReceiver as well as the AlarmKlaxon. It
-//    // is a public action used in the manifest for receiving Alarm broadcasts
-//    // from the alarm manager.
     public static final String ALARM_ALERT_ACTION = "cn.com.bluemoon.delivery.ALARM_ALERT";
-    //
-//    // This string is used when passing an Alarm object through an intent.
+
     public static final String ALARM_INTENT_EXTRA = "intent.extra.alarm";
     //
     private final static String DM12 = "E h:mm aa";
     private final static String DM24 = "E k:mm";
-    private final static String M12 = "h:mm aa";
-    // Shared with DigitalClock
-    final static String M24 = "kk:mm";
 
 
     public static long addAlarm(Context context, Remind alarm) {
 
         long timeInMillis = calculateAlarm(alarm);
-        alarm.setRemindTime(timeInMillis);
         ContentValues values = createContentValues(alarm);
         Uri uri = context.getContentResolver().insert(
                 Constants.ALARM_CONTENT_URI, values);
@@ -106,7 +97,6 @@ public class Reminds {
      */
     public static long setAlarm(Context context, Remind alarm) {
         long timeInMillis = calculateAlarm(alarm);
-        alarm.setRemindTime(timeInMillis);
         ContentValues values = createContentValues(alarm);
         ContentResolver resolver = context.getContentResolver();
         resolver.update(
@@ -155,7 +145,7 @@ public class Reminds {
         setNextAlert(context);
     }
 
-    public static Remind calculateNextAlert(Context context) {
+    private static Remind calculateNextAlert(Context context) {
         Remind alarm = null;
         long minTime = Long.MAX_VALUE;
         long now = System.currentTimeMillis();
@@ -239,7 +229,7 @@ public class Reminds {
         am.cancel(sender);
     }
 
-    //获取下次响铃时间
+    //获取本次响铃时间
     public static long calculateAlarm(Remind alarm) {
         return calculateAlarm(alarm.getHour(), alarm.getMinute(), new DaysOfWeek(alarm.getRemindWeek()))
                 .getTimeInMillis();

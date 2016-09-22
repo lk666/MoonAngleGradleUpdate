@@ -30,6 +30,7 @@
     <string name="refreshing">努力加载中！</string>
 
     <!-- common -->
+    <string name="week">星期</string>
     <string name="monday">星期一</string>
     <string name="tuesday">星期二</string>
     <string name="wednesday">星期三</string>
@@ -464,9 +465,9 @@
     <string name="error_message_input_phone">请输入11位手机号码</string>
     <string name="error_town_select">请先选择乡镇/街道</string>
     <!--打卡-->
-    <string name="btn_san_punch_card_text">扫码打卡</string>
-    <string name="btn_input_punch_card_text">手动打卡</string>
-    <string name="btn_input_punch_reset">今日休息</string>
+    <string name="btn_san_punch_card_text">扫 码 打 卡</string>
+    <string name="btn_input_punch_card_text">手 动 打 卡</string>
+    <string name="btn_input_punch_reset">今 日 休 息</string>
     <string name="tab_bottom_punch_card_text">打卡</string>
     <string name="tab_bottom_punch_record_text">打卡记录</string>
     <string name="tab_bottom_punch_alarm_setting">提醒设置</string>
@@ -529,16 +530,17 @@
     <string name="card_btn_cancle">取 消</string>
     <string name="card_btn_search">确 定</string>
     <string name="alarm_title_repeat">重复</string>
+    <string name="alarm_repeat">重复：</string>
     <string name="day_concat">、</string>
     <string name="every_day">每天</string>
-    <string name="never">未选择</string>
+    <string name="never">一次</string>
     <string name="alarm_topic_txt">标题</string>
     <string name="alarm_topic_txt_hint">嗨，给该条提醒取个标题吧！</string>
     <string name="alarm_content_txt">内容</string>
     <string name="alarm_content_text_hint">别忘了设定提醒的内容哦!</string>
 
     <string name="alarm_repeat_txt">重复</string>
-
+    <string name="alarm_delete_alert">确认删除该提醒吗？</string>
     <string name="alarm_toast">已将此提醒设置为从现在起%1$d天%2$d小时%3$d分钟后再提醒。</string>
 
     <!-- coupons -->

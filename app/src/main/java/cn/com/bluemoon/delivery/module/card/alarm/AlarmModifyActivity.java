@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.card.alarm;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.selectordialog.OnSelectChangedListener;
 import cn.com.bluemoon.delivery.ui.selectordialog.SimpleWheelView;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * Created by allenli on 2016/9/12.
@@ -268,12 +270,26 @@ public class AlarmModifyActivity extends BaseActivity {
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
-        if (remind.getRemindId() == -1) {
-            setResult(RESULT_CANCELED);
-            finish();
-        } else {
-            hideWaitDialog();
-            DeliveryApi.removeRemind(getToken(), remind.getRemindId(), getNewHandler(2, ResultBase.class));
-        }
+
+        CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(this);
+            dialog.setMessage(getString(R.string.alarm_delete_alert));
+        dialog.setPositiveButton(R.string.dialog_cancel, null);
+        dialog.setNegativeButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                if (remind.getRemindId() == -1) {
+                    setResult(RESULT_CANCELED);
+                    finish();
+                } else {
+                    hideWaitDialog();
+                    DeliveryApi.removeRemind(getToken(), remind.getRemindId(), getNewHandler(2, ResultBase.class));
+                }
+            }
+        });
+        dialog.show();
+
+
+
     }
 }
