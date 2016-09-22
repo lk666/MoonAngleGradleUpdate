@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/page_bg_f2">
 
     <LinearLayout
@@ -100,12 +101,41 @@
             </LinearLayout>
         </LinearLayout>
 
+        <!--》》》》》》》》备注-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginTop="8dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingLeft="12sp"
+            android:paddingRight="12sp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="备注"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"/>
+
+            <TextView
+                android:id="@+id/txt_remark"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:textColor="@color/text_grep"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
         <!--》》》》》》》》》》》》》》》共6件-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:layout_marginTop="8dp"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -149,70 +179,9 @@
             android:dividerHeight="0.5dp"
             android:listSelector="@color/white"/>
 
-        <!--》》》》》》》》备注-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_marginTop="8dp"
-            android:background="@color/white"
-            android:orientation="horizontal"
-            android:paddingLeft="12sp"
-            android:paddingRight="12sp">
+        <!--》》》》 签名信息 消费者拒签-->
+        <include layout="@layout/layout_sign_refuse_info"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="备注"
-                android:textColor="@color/text_black"
-                android:textSize="15sp"/>
 
-            <TextView
-                android:id="@+id/txt_remark"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:gravity="center_vertical"
-                android:textColor="@color/text_grep"
-                android:textSize="15sp"/>
-
-        </LinearLayout>
-        <!--》》》》 签名信息-->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:layout_marginTop="8dp"
-            android:orientation="vertical">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="44dp"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="12dp"
-                    android:layout_weight="1"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/text_black"
-                    android:text="签收信息"
-                    android:textSize="15sp"/>
-                <cn.com.bluemoon.delivery.ui.UpDownTextView
-                    android:id="@+id/txt_open2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:paddingLeft="12dp"
-                    android:paddingRight="12dp"/>
-            </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginLeft="12dp"
-                android:background="@color/line_soild_bg"/>
-
-        </LinearLayout>
-
-</LinearLayout>
-    </ScrollView>
+    </LinearLayout>
+</ScrollView>

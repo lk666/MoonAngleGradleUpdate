@@ -863,6 +863,7 @@
     <string name="delivery_detail">收货详情</string>
     <string name="open_close">展开,收起</string>
     <string name="total_amount">共%s件</string>
+    <string name="total_amount2">共%s单</string>
     <string name="code_scan">请扫描</string>
 
     <!--待封箱-->
