@@ -885,5 +885,11 @@
     <string name="close_box_back_order_print">打印封箱条</string>
     <string name="close_box_back_order_title">清点还衣单</string>
     <string name="close_box_back_code">还衣单号</string>
+    <string name="close_box_scan_back_code_title">扫描还衣单标签</string>
+    <string name="close_box_scan_back_code">箱内的还衣单号</string>
+    <string name="duplicate_code">该条码重复扫描</string>
+    <string name="not_in_code"> 该还衣单不属于当前衣物箱！请扫描正确条码</string>
+    <string name="scan_finish">扫描完成</string>
+    <string name="scan_successed">扫描成功</string>
 
 </resources>

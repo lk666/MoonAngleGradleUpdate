@@ -197,6 +197,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
             tvBoxCode.setText(item.getBoxCode());
             tvTotal.setText(String.valueOf(item.getBackOrderNum()));
             tvFinish.setText(String.valueOf(item.getBackOrderIntoNum()));
+
             if (item.getBackOrderIntoNum() != item.getBackOrderNum()) {
                 btnCloseBox.setVisibility(View.GONE);
             } else {
@@ -230,10 +231,8 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     public void onItemClick(Object obj, View view, int position) {
         BoxItem item = (BoxItem) obj;
         if (null != item) {
-            ScanBoxCodeActivity.actStart(getActivity(), this, getString(R.string
-                            .close_box_scan_box_code_title), getString(R.string
-                            .with_order_collect_manual_input_code_btn), item.getBoxCode(),
-                    ScanBoxCodeActivity.class, REQUEST_CODE_SCANE_BOX_CODE);
+            ScanBoxCodeActivity.actionStart(getActivity(), this, item.getBoxCode(),
+                    REQUEST_CODE_SCANE_BOX_CODE);
         }
     }
 

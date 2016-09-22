@@ -400,12 +400,10 @@
             android:name=".module.wash.returning.manager.ManualSignActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
-
         <activity
             android:name=".module.wash.returning.manager.ReturnMangerTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.wash.returning.manager.LogisticsActivity"
             android:screenOrientation="portrait"
@@ -500,7 +498,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
-
         <activity
             android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
             android:screenOrientation="portrait"
@@ -529,6 +526,9 @@
             android:name=".module.wash.returning.closebox.ClothesBoxBackOrderListActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity android:name=".module.wash.returning.closebox.ScanBackOrderActivity"
+                  android:screenOrientation="portrait"
+                  android:theme="@style/App.Base.Theme"/>
     </application>
 
 </manifest>

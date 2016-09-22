@@ -1,6 +1,5 @@
 package cn.com.bluemoon.delivery.module.wash.returning.closebox;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -23,7 +22,6 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 
 /**
  * 清点还衣单
@@ -33,6 +31,7 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
 
     private static final String EXTRA_BOX_CODE = "EXTRA_BOX_CODE";
     private static final int REQUEST_CODE_QUERY_LIST = 0x777;
+    private static final int REQUEST_CODE_SCANE_BACK_ORDER = 0x778;
     @Bind(R.id.tv_code_box)
     TextView tvCodeBox;
     @Bind(R.id.tv_back_num)
@@ -46,7 +45,7 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
     /**
      * 数据
      */
-    private List<BackOrderItem> list = new ArrayList<>();
+    private ArrayList<BackOrderItem> list = new ArrayList<>();
 
     private BackOrderAdapter adapter;
 
@@ -85,8 +84,8 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
 
     @Override
     protected void onActionBarBtnRightClick() {
-        // TODO: lk 2016/9/20 扫码
-        toast("扫码" + boxCode);
+        ScanBackOrderActivity.actionStart(this, null, REQUEST_CODE_SCANE_BACK_ORDER,
+                boxCode, list);
     }
 
     @Override
@@ -143,15 +142,24 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //  扫码返回
+        if (requestCode == REQUEST_CODE_SCANE_BACK_ORDER) {
+            ArrayList<BackOrderItem> l = (ArrayList<BackOrderItem>) data.getSerializableExtra
+                    (ScanBackOrderActivity.EXTRA_LIST);
 
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
+            list.clear();
+            if (l != null) {
+                list.addAll(l);
+            }
+            adapter.notifyDataSetChanged();
 
-        switch (requestCode) {
-            case Constants.TAKE_PIC_RESULT:
-// TODO: lk 2016/9/21 扫码返回 
-
+            int visibility = View.VISIBLE;
+            for (BackOrderItem item : list) {
+                if (item.state != 1) {
+                    visibility = View.GONE;
+                }
+            }
+            btnPrint.setVisibility(visibility);
         }
     }
 
