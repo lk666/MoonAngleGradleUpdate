@@ -117,7 +117,7 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
             viewHolder.getTaskQualityLl().setVisibility(View.VISIBLE);
             viewHolder.getTaskEvaluateContentLl().setVisibility(View.VISIBLE);
         }
-        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label) + (position + 1));
+        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label2) + (position + 1));
         viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
         viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
 

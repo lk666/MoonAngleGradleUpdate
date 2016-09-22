@@ -254,9 +254,9 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             public void onClick(View v) {
                 isShowDefaultValue = false;
                 Bundle bundle = new Bundle();
-                bundle.putInt("actionType", SzWriteEvaluateActivity.EVENT_ACTION_TYPE_QUALITY_SCORE);
-                bundle.putString("viewPosition", position + "");
-                bundle.putString("score", datas.get(position).getQuality_score());
+                bundle.putInt(TaskQualityScoreActivity.ACTION_TYPE, SzWriteEvaluateActivity.EVENT_ACTION_TYPE_QUALITY_SCORE);
+                bundle.putString(TaskQualityScoreActivity.VIEW_POSITION, position + "");
+                bundle.putString(TaskQualityScoreActivity.SCORE, datas.get(position).getQuality_score());
                 PageJumps.PageJumps(cxt, TaskQualityScoreActivity.class, bundle);
             }
         });
@@ -265,6 +265,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             public void onClick(View v) {
                 Bundle bundle = new Bundle();
                 bundle.putInt(InputToolsActivity.INTENTITEMTAG, SzWriteEvaluateActivity.EVENT_ACTION_TYPE_EVALUATE_CONTENT);
+                bundle.putString(InputToolsActivity.INPUTTITEL, cxt.getString(R.string.sz_evaluate_task_content_label));
                 bundle.putInt(InputToolsActivity.MAXTEXTLENGHT, 200);
                 bundle.putString(InputToolsActivity.INPUTTITELCONTENT, asignJobBean.getReview_cont());
                 bundle.putString(InputToolsActivity.VIEWNAME, position + "");
