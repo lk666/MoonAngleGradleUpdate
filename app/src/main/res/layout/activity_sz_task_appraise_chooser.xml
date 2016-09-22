@@ -31,6 +31,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginLeft="10dp"
+                android:layout_weight="1"
                 android:hint="搜索评价人"
                 android:textColor="@color/task_item_left_text_color"
                 android:cursorVisible="true"
@@ -39,6 +40,12 @@
                 android:singleLine="true"
                 android:imeOptions="actionSearch"
                 android:textSize="14sp"/>
+            <ImageView
+                android:id="@+id/iv_searchDelete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/icon_history_delete"
+                android:layout_marginRight="5dp"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -51,6 +58,7 @@
         ></View>
 
     <LinearLayout
+        android:id="@+id/ll_localUserHint"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:minHeight="50dp"

@@ -67,7 +67,9 @@ public class TaskRecordFragment extends BaseFragment
 	private CalendarCard[] mShowViews;
 	private CalendarViewAdapter<CalendarCard> adapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
-	private String currentDate;
+	private String currentDate="";
+
+	private CustomDate currentCustomDate=null;
 
 	private View headerView=null;
 	private View footerView=null;
@@ -149,6 +151,7 @@ public class TaskRecordFragment extends BaseFragment
 		CalendarCard[] views = new CalendarCard[3];
 		for (int i = 0; i < 3; i++) {
 			views[i] = new CalendarCard(context, this);
+			//设置选中为蓝色
 			views[i].setmCircleColor("#ff1fb8ff");//+getResources().getColor(R.color.title_background)
 		}
 		adjustViewPagerHeight(views[1].getCurrentRowNum());
@@ -242,6 +245,24 @@ public class TaskRecordFragment extends BaseFragment
 			public void onPageSelected(int position) {
 				measureDirection(position);
 				updateCalendarView(position);
+//				当前月份时，还是默认日期
+
+				//切换回当前月份时，还是以前的当前日期去请求数据
+				if (currentCustomDate!=null){
+					if (compareDate(currentDate,currentCustomDate.toString())==true){
+						String currentYear=currentDate.split("-")[0];
+						String currentMooth=currentDate.split("-")[1];
+						String currentDay=currentDate.split("-")[2];
+						CustomDate date=new CustomDate();
+						date.setYear(Integer.parseInt(currentYear));
+						date.setMonth(Integer.parseInt(currentMooth));
+						date.setDay(Integer.parseInt(currentDay));
+						updateCalendarView2(date);
+					}else{//访问其它月份一号的内容
+						updateCalendarView2(currentCustomDate);
+
+					}
+				}
 			}
 			@Override
 			public void onPageScrolled(int arg0, float arg1, int arg2) {
@@ -250,6 +271,31 @@ public class TaskRecordFragment extends BaseFragment
 			public void onPageScrollStateChanged(int arg0) {
 			}
 		});
+	}
+
+
+	private boolean compareDate(String currentDate,String date){
+		LogUtil.e("对比的时间："+currentDate+"///"+date);
+
+		boolean isCurrentMooth=false;
+		String currentYear=currentDate.split("-")[0];
+		String currentMooth=currentDate.split("-")[1];
+		String currentDay=currentDate.split("-")[2];
+
+		String year=date.split("-")[0];
+		String mooth=date.split("-")[1];
+		String day=date.split("-")[2];
+
+		if (currentYear.equals(year) && currentMooth.equals(mooth)){
+			isCurrentMooth=true;
+		}else{
+			isCurrentMooth=false;
+
+		}
+
+
+
+		return isCurrentMooth;
 	}
 
 	/**
@@ -266,31 +312,39 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 	// 更新日历视图
-	private void updateCalendarView(int arg0) {
+	private void updateCalendarView(int position) {
 		mShowViews = adapter.getAllItems();
 		if (mDirection == SildeDirection.RIGHT) {
-			mShowViews[arg0 % mShowViews.length].rightSlide();
+			mShowViews[position % mShowViews.length].rightSlide();
 		} else if (mDirection == SildeDirection.LEFT) {
-			mShowViews[arg0 % mShowViews.length].leftSlide();
+			mShowViews[position % mShowViews.length].leftSlide();
 		}
 		mDirection = SildeDirection.NO_SILDE;
-		int currentRowNum = mShowViews[arg0 % mShowViews.length].getCurrentRowNum();
+		int currentRowNum = mShowViews[position % mShowViews.length].getCurrentRowNum();
 		adjustViewPagerHeight(currentRowNum);
 	}
 
 	private void updateCalendarView2(CustomDate date){
-		mShowViews = adapter.getAllItems();
-		CalendarCard.mSelectDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay());
-		mShowViews[mCurrentIndex % mShowViews.length].setShowDate(date);
-		mDirection = SildeDirection.NO_SILDE;
-		int currentRowNum = mShowViews[mCurrentIndex % mShowViews.length].getCurrentRowNum();
-		adjustViewPagerHeight(currentRowNum);
-		clickDate(date);
+			mShowViews = adapter.getAllItems();
+			CalendarCard.mSelectDate = new CustomDate(date.getYear(),date.getMonth(),date.getDay());
+			mShowViews[mCurrentIndex % mShowViews.length].setShowDate(date);
+			mDirection = SildeDirection.NO_SILDE;
+			int currentRowNum = mShowViews[mCurrentIndex % mShowViews.length].getCurrentRowNum();
+			adjustViewPagerHeight(currentRowNum);
+//		clickDate(date);
+		getClickData();
+
 	}
+
 
 	@Override
 	public void clickDate(CustomDate date) {
 		currentDate=date.toString();
+		getClickData();
+	}
+
+	/**先查询本地是否存在，否则请求网络数据*/
+	private void getClickData(){
 		try {
 			//先看本地是否存在
 			DailyperformanceinfoResultBeanList loacalBeanList=
@@ -305,7 +359,7 @@ public class TaskRecordFragment extends BaseFragment
 						LogUtil.d("先查看本地是否存在："+bean.toString());
 						if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
 								==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
-		//					本地有，用本地的
+							//					本地有，用本地的
 							isExist=true;
 							LogUtil.d("先查看本地是否存在isExist："+isExist);
 						}
@@ -341,6 +395,17 @@ public class TaskRecordFragment extends BaseFragment
 			e1.printStackTrace();
 		}
 	}
+
+	@Override
+	public void changeDate(CustomDate date) {
+		dateTv.setText(date.getYear()+"年"+date.getMonth()+"月");
+		LogUtil.e(currentDate+"/changeDate count:"+date.toString());
+		CustomDate tranDate=date;
+		tranDate.setDay(1);//切换月份时，设置为请求当月一号的内容
+		currentCustomDate=tranDate;
+
+	}
+
 
 	private void getData(String date){
 		if (TextUtils.isEmpty(date)) {
@@ -510,6 +575,7 @@ public class TaskRecordFragment extends BaseFragment
 		}
 	}
 
+	/**动态设置*/
 	private Drawable getDrawable(int id) {
 		Drawable drawable=null;
 			drawable=getResources().getDrawable(id);
@@ -520,11 +586,6 @@ public class TaskRecordFragment extends BaseFragment
 		return null;
 	}
 
-
-	@Override
-	public void changeDate(CustomDate date) {
-		dateTv.setText(date.getYear()+"年"+date.getMonth()+"月");
-	}
 
 
 	@Override
