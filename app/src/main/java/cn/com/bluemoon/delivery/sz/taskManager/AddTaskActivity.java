@@ -62,7 +62,9 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
-/**添加任务页面*/
+/**
+ * @author jiangyh
+ * 添加、修改任务页面*/
 public class AddTaskActivity extends BaseActivity{
 
     @Bind(R.id.tv_dete) TextView tv_dete;

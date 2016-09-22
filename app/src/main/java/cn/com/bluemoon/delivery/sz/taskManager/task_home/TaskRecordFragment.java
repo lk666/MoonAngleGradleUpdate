@@ -172,8 +172,6 @@ public class TaskRecordFragment extends BaseFragment
 
 
 	public void initAdapterView() {
-		//TODO 模拟数据
-//		initMockData();
 		taskDateStatusAdapter = new TaskDateStatusAdapter(getActivity(), dailyPerformanceInfoBeanArrayList);
 		lv_taskRecord.setAdapter(taskDateStatusAdapter);
 		initListener();
@@ -185,26 +183,23 @@ public class TaskRecordFragment extends BaseFragment
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				if (dailyInfoBean!=null){
 //					intentDetailActivity(dailyInfoBean);
-
+					//点击item 为先查看再进行修改
 					Bundle mBundle=new Bundle();
 					LogUtil.i("跳转的类型showModleType："+showModleType);
 					mBundle.putInt(SzTaskOrEvaluateDetailActivity.ACTIVITY_TYPE,showModleType);
 					mBundle.putSerializable(SzTaskOrEvaluateDetailActivity.ACTIVITY_EXTAR_DATA,
 							dailyInfoBean);
 					PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);
-
 				}
-
 			}
 		});
 	}
 
+	/**跳转不同页面 0：任务修改详情，1:添加，2：任务查看详情*/
 	private void intentDetailActivity(DailyPerformanceInfoBean dailyPerformanceInfoBean){
-//		任务内容入口处修改时间
 		List<AsignJobBean> asignJobs=dailyPerformanceInfoBean.getAsignJobs();
-		//任务内容转成日期格式
 		for (AsignJobBean asignJobBean:asignJobs) {
-			LogUtil.e("跳转至详情，时间转换后：----------》"+asignJobBean.toString());
+			LogUtil.e("跳转至详情----------》"+asignJobBean.toString());
 		}
 
 		Bundle mBundle=new Bundle();
@@ -222,11 +217,7 @@ public class TaskRecordFragment extends BaseFragment
 			PageJumps.PageJumps(context,SzTaskOrEvaluateDetailActivity.class,mBundle);
 		}
 
-
 	}
-
-
-
 
 	private void adjustViewPagerHeight(int rowNum){
 		WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
@@ -245,9 +236,8 @@ public class TaskRecordFragment extends BaseFragment
 			public void onPageSelected(int position) {
 				measureDirection(position);
 				updateCalendarView(position);
-//				当前月份时，还是默认日期
 
-				//切换回当前月份时，还是以前的当前日期去请求数据
+				//切换回当前月份时，还是以前的当前日期去请求数据,还是默认日期
 				if (currentCustomDate!=null){
 					if (compareDate(currentDate,currentCustomDate.toString())==true){
 						String currentYear=currentDate.split("-")[0];
@@ -278,6 +268,7 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 
+	/**月份切换时的时间对比*/
 	private boolean compareDate(String currentDate,String date){
 		LogUtil.e("对比的时间："+currentDate+"///"+date);
 
@@ -294,11 +285,7 @@ public class TaskRecordFragment extends BaseFragment
 			isCurrentMooth=true;
 		}else{
 			isCurrentMooth=false;
-
 		}
-
-
-
 		return isCurrentMooth;
 	}
 
@@ -335,7 +322,6 @@ public class TaskRecordFragment extends BaseFragment
 			mDirection = SildeDirection.NO_SILDE;
 			int currentRowNum = mShowViews[mCurrentIndex % mShowViews.length].getCurrentRowNum();
 			adjustViewPagerHeight(currentRowNum);
-
 	}
 
 
@@ -406,10 +392,10 @@ public class TaskRecordFragment extends BaseFragment
 		CustomDate tranDate=date;
 		tranDate.setDay(1);//切换月份时，设置为请求当月一号的内容
 		currentCustomDate=tranDate;
-
 	}
 
 
+	//网络请求
 	private void getData(String date){
 		if (TextUtils.isEmpty(date)) {
 			PublicUtil.showToast("日期不可为空！");
@@ -418,9 +404,6 @@ public class TaskRecordFragment extends BaseFragment
 		showWaitDialog();
 		SzApi.getWorkDetailsApi(date,0,getNewHandler(0, ResultToken.class));
 	}
-
-
-
 
 	@Override
 	public void onSuccessException(int requestCode, Throwable t) {
@@ -459,7 +442,6 @@ public class TaskRecordFragment extends BaseFragment
 			LogUtil.i("DailyPerformanceInfoBean"+dailyInfoBean.getAsignJobs());
 			dailyPerformanceInfoBeanArrayList.add(dailyInfoBean);
 
-
 	//		任务内容
 			asignJobs=dailyInfoBean.getAsignJobs();
 		//任务内容转成日期格式
@@ -484,12 +466,10 @@ public class TaskRecordFragment extends BaseFragment
 	/**本地缓存*/
 	public void saveDailyperLocalBeanList(DailyperformanceinfoResultBeanList dailyperBeanList){
 		try {
-
 			//先读取本地是否存在，覆盖然后重新录入
 			DailyperformanceinfoResultBeanList loacalBeanList=
 					(DailyperformanceinfoResultBeanList) CacheServerResponse.readObject(
 							context,"DailyperformanceinfoResultBeanList");
-
 			if (loacalBeanList!=null){
 				//本地实体
 				List<DailyPerformanceInfoBean> dailyPerLocalBeanList=loacalBeanList.getDailyPerformanceInfoBeanList();
@@ -497,7 +477,6 @@ public class TaskRecordFragment extends BaseFragment
 				for (DailyPerformanceInfoBean bean:dailyPerLocalBeanList) {
 					LogUtil.e("本地实体输出====>"+bean.toString());
 				}
-
 				//当前实体 只有一个
 				List<DailyPerformanceInfoBean> dailyPerCurrBeanList=dailyperBeanList.getDailyPerformanceInfoBeanList();
 				DailyPerformanceInfoBean dailyPerformanceInfoBean=dailyPerCurrBeanList.get(0);
@@ -510,7 +489,6 @@ public class TaskRecordFragment extends BaseFragment
 					if (dailyLocalBean.getWork_date().equals(dailyPerformanceInfoBean.getWork_date())){
 						dailyPerDeleteTempBeanList.add(dailyLocalBean);
 					}
-
 				}
 				//删除本地有的
 				dailyPerLocalBeanList.removeAll(dailyPerDeleteTempBeanList);
@@ -521,13 +499,9 @@ public class TaskRecordFragment extends BaseFragment
 				CacheServerResponse.saveObject(context,
 						"DailyperformanceinfoResultBeanList", loacalBeanList);
 			}else{
-
 				CacheServerResponse.saveObject(context,
 						"DailyperformanceinfoResultBeanList", dailyperBeanList);
-
 			}
-
-
 		}catch (Exception e){
 			e.printStackTrace();
 		}
@@ -578,7 +552,7 @@ public class TaskRecordFragment extends BaseFragment
 		}
 	}
 
-	/**动态设置*/
+	/**动态设置 底部添加按钮的图片*/
 	private Drawable getDrawable(int id) {
 		Drawable drawable=null;
 			drawable=getResources().getDrawable(id);
@@ -589,46 +563,32 @@ public class TaskRecordFragment extends BaseFragment
 		return null;
 	}
 
-
-
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()){
 			case R.id.tv_addTask:
 			case R.id.ll_add_taskView:
-
 				if (showModleType==1){
 					Bundle mBundle=new Bundle();
 					mBundle.putString(AddTaskActivity.CURRENTDATA,currentDate);
 					mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
 							AddTaskActivity.TASKOPERATETYPE_ADD);
 					PageJumps.PageJumps(context,AddTaskActivity.class,mBundle);
-
 				}else if(showModleType==0){//修改
 					if (dailyInfoBean!=null){
 						intentDetailActivity(dailyInfoBean);
 					}
-
 				}else if(showModleType==2){//查看
 					if (dailyInfoBean!=null){
 						intentDetailActivity(dailyInfoBean);
 					}
-
 				}
-
 				break;
 			default:
 				break;
 		}
 	}
 
-	/**无数据内容时放置固定底部  两条数据以上的跟随在后面，添加按钮放在中间*/
-	public void setLinearLayoutWeight(LinearLayout linearLayoutWeight,float weight){
-		LinearLayout.LayoutParams layoutParams=
-				new LinearLayout.LayoutParams(
-						LinearLayout.LayoutParams.MATCH_PARENT,LinearLayout.LayoutParams.WRAP_CONTENT,weight);
-		linearLayoutWeight.setLayoutParams(layoutParams);
-	}
 
 	public void onResume() {
 		super.onResume();

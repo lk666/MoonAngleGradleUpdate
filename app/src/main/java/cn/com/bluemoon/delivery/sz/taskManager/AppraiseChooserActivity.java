@@ -66,7 +66,6 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 
 	private InputMethodManager imm = null;
 
-
 	List<UserInfoBean> appreaiseList=new ArrayList<>();
 	TaskAppraiseChooseAdapter appraiseChooseAdapter=null;
 
@@ -187,7 +186,6 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 		LogUtil.i("人员查询："+jsonString);
 
-
 		UserInfoListBean userInfoListBean= JSON.parseObject(jsonString,UserInfoListBean.class);
 		if (userInfoListBean!=null){
 			//搜索时不显示常用联系人的提示
@@ -200,7 +198,6 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 			appraiseChooseAdapter.notifyDataSetChanged();
 			imm.hideSoftInputFromWindow(et_search_appraiser.getWindowToken(), 0);
 		}
-
 	}
 
 	private void initAdapter() {
