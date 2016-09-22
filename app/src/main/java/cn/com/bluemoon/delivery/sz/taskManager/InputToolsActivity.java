@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.sz.taskManager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.text.Editable;
 import android.text.Selection;
 import android.text.TextUtils;
@@ -20,6 +21,7 @@ import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.bean.EventMessageBean;
 import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class InputToolsActivity extends BaseActivity{
 
@@ -147,7 +149,9 @@ public class InputToolsActivity extends BaseActivity{
                 }
                 @Override
                 public void onBtnLeft(View v) {
-                    finish();
+
+                    showDialogHintFinish();
+
                 }
                 @Override
                 public void setTitle(TextView v) {
@@ -159,7 +163,31 @@ public class InputToolsActivity extends BaseActivity{
         TextView tv_right=titleBar.getTvRightView();
         tv_right.setVisibility(View.VISIBLE);
         tv_right.setText("确定");
+    }
 
+    private void showDialogHintFinish(){
+        if (!inputContent.equals(ed_input.getText().toString())){
+            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(
+                    InputToolsActivity.this);
+            dialog.setMessage("是否放弃此次编辑？");
+            dialog.setPositiveButton(R.string.btn_ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            finish();
+                        }
+                    });
+            dialog.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            dialog.show();
+        }else{
+            finish();
+        }
 
     }
 

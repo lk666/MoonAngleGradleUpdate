@@ -948,6 +948,7 @@ public class AddTaskActivity extends BaseActivity{
                         taskViewHolder.ttv_taskName.getTv_rightContent().getText().toString());
                 asignJobBean.setProduce_cont(
                         taskViewHolder.ttv_workOutput.getTv_rightContent().getText().toString());
+
 //                时间转成时间戳
                 String finalStartTimes=currentDate+" "+taskViewHolder.tv_dateStart.getText().toString()+":00";
                 String finalEndTimes=currentDate+" "+taskViewHolder.tv_dateEnd.getText().toString()+":00";
@@ -958,8 +959,8 @@ public class AddTaskActivity extends BaseActivity{
                 LogUtil.w("年月日时间---转成开始时间戳 "+finalStartT);
                 LogUtil.w("年月日时间---转成结束时间戳 "+finalEndT);
 
-//                得到时长
-                long totalTime=(finalEndT-finalStartT)/1000*60;
+//                得到时长 216000
+                long totalTime=(finalEndT-finalStartT)/(1000*60);
                 asignJobBean.setUsage_time(String.valueOf(totalTime));
 
                 asignJobBean.setBegin_time(String.valueOf(finalStartT));

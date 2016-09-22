@@ -61,8 +61,8 @@ public class SzApi {
         params.put("scheduleType", scheduleType);
         params.put("uid", staffNum);
         params.put("token", token);
-        String url = HOST + "userSchDay";
-        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
+//        String url = HOST + "userSchDay";
+//        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
     }
 
     private static ByteArrayEntity getEntity(Map<String, Object> params) {
@@ -82,8 +82,8 @@ public class SzApi {
         params.put("msgType", null);
         params.put("uid", optStaffNum);
         params.put("token", ClientStateManager.getLoginToken());
-        String url = HOST + "msgMainType";
-        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
+//        String url = HOST + "msgMainType";
+//        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
     }
 
     public static void userMsgList(String uid, int msgType,
@@ -92,8 +92,8 @@ public class SzApi {
         params.put("msgType", msgType);
         params.put("uid", uid);
         params.put("token", ClientStateManager.getLoginToken());
-        String url = HOST + "userMsgList";
-        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
+//        String url = HOST + "userMsgList";
+//        client.post(AppContext.getInstance(), url, getEntity(params), "application/json", handler);
     }
 
     /****************************************

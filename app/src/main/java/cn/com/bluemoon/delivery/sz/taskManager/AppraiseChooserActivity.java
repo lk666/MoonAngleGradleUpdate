@@ -1,12 +1,17 @@
 package cn.com.bluemoon.delivery.sz.taskManager;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -36,13 +41,17 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**人员选择（单选）*/
-public class AppraiseChooserActivity extends BaseActivity {
+public class AppraiseChooserActivity extends BaseActivity implements View.OnClickListener{
 
 	Context context;
 	@Bind(R.id.lv_appraise_chooser)
 	ListView lv_appraise_chooser;
 	@Bind(R.id.et_search_appraiser)
 	EditText et_search_appraiser;
+	@Bind(R.id.iv_searchDelete)
+	ImageView iv_searchDelete;
+	@Bind(R.id.ll_localUserHint)
+	LinearLayout ll_localUserHint;
 
 	/**名称加编号的形式*/
 	public static String APPRAISE_NAME="APPRAISE_NAME";//有初始值的名称
@@ -75,10 +84,6 @@ public class AppraiseChooserActivity extends BaseActivity {
 
 		imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
 
-//		et_search_appraiser.setImeOptions(EditorInfo.IME_ACTION_SEARCH);
-//		et_search_appraiser.requestFocus();
-//		imm.showSoftInput(et_search_appraiser, 0);
-
 		et_search_appraiser.setOnEditorActionListener(new TextView.OnEditorActionListener() {
 			@Override
 			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
@@ -91,6 +96,8 @@ public class AppraiseChooserActivity extends BaseActivity {
 				return false;
 			}
 		});
+		iv_searchDelete.setOnClickListener(this);
+		showDeleteInputIcon(et_search_appraiser, iv_searchDelete);
 
 		initAdapter();
 
@@ -105,18 +112,25 @@ public class AppraiseChooserActivity extends BaseActivity {
 
 	@Override
 	public void initData() {
+		showLocalUserConent();
 
-		/**先读取本地，显示常用联系人*/
+	}
+	/**先读取本地，显示常用联系人*/
+	public void showLocalUserConent(){
 		UserInfoListBean userInfoListBean=
 				(UserInfoListBean) CacheServerResponse.readObject(context,"UserInfoListBean");
-
+		//搜索时显示常用联系人的提示
+		ll_localUserHint.setVisibility(View.VISIBLE);
 		if (userInfoListBean!=null){
 			List<UserInfoBean> userInfoBeanList=userInfoListBean.getData();
+			if (!appreaiseList.isEmpty()){
+				appreaiseList.clear();
+				appraiseChooseAdapter.notifyDataSetChanged();
+			}
 			appreaiseList.addAll(userInfoBeanList);
 			appraiseChooseAdapter.notifyDataSetChanged();
 		}
 	}
-
 
 
 
@@ -127,13 +141,57 @@ public class AppraiseChooserActivity extends BaseActivity {
 			SzApi.searchByKeyword(queryStr, getNewHandler(0, ResultToken.class));
 		}
 	}
+
+
+	public void showDeleteInputIcon(EditText editText, final View view) {
+		TextWatcher tw = new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				//
+				if (!TextUtils.isEmpty(s)) {
+					view.setVisibility(View.VISIBLE);
+				} else {
+					view.setVisibility(View.INVISIBLE);
+//					等于空时显示常用
+					showLocalUserConent();
+				}
+			}
+			@Override
+			public void beforeTextChanged(
+					CharSequence s, int start, int count,int after) {
+			}
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		};
+		editText.addTextChangedListener(tw);
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()){
+			case R.id.iv_searchDelete:
+				et_search_appraiser.setText("");
+				iv_searchDelete.setVisibility(View.INVISIBLE);
+				showLocalUserConent();
+
+				break;
+			default:
+				break;
+		}
+	}
+
+
 	/**接口返回的数据*/
 	@Override
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 		LogUtil.i("人员查询："+jsonString);
 
+
 		UserInfoListBean userInfoListBean= JSON.parseObject(jsonString,UserInfoListBean.class);
 		if (userInfoListBean!=null){
+			//搜索时不显示常用联系人的提示
+			ll_localUserHint.setVisibility(View.GONE);
 			List<UserInfoBean> userInfoBeen=userInfoListBean.getData();
 			if (!appreaiseList.isEmpty()){
 				appreaiseList.clear();
@@ -199,6 +257,7 @@ public class AppraiseChooserActivity extends BaseActivity {
 
 
 	}
+
 
 
 }
