@@ -75,32 +75,35 @@ public class ReturningApi extends DeliveryApi {
     /**
      *2.1扫描衣物
      * @param clothesCode 衣物编码 String
-     * @param token 登录凭证(必填) String
+     * @param token       登录凭证(必填) String
      */
-    public static void scanClothes(String clothesCode,String token,AsyncHttpResponseHandler handler){
-        if(null == clothesCode||null == token) {
+    public static void scanClothes(String clothesCode, String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == clothesCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("clothesCode",clothesCode);
-        params.put(TOKEN,token);
+        params.put("clothesCode", clothesCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/cabinet/scanClothes%s", handler);
     }
 
     /**
-     *2.2扫描分拨柜
-     * @param clothesCode 衣物编码 String
+     * 2.2扫描分拨柜
+     *
+     * @param clothesCode  衣物编码 String
      * @param cupboardCode 分拨柜号 String
-     * @param token 登录凭证(必填) String
+     * @param token        登录凭证(必填) String
      */
-    public static void scanCupboard(String clothesCode,String cupboardCode,String token,AsyncHttpResponseHandler handler){
-        if(null == clothesCode||null == cupboardCode||null == token) {
+    public static void scanCupboard(String clothesCode, String cupboardCode, String token,
+                                    AsyncHttpResponseHandler handler) {
+        if (null == clothesCode || null == cupboardCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("clothesCode",clothesCode);
-        params.put("cupboardCode",cupboardCode);
-        params.put(TOKEN,token);
+        params.put("clothesCode", clothesCode);
+        params.put("cupboardCode", cupboardCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/cabinet/scanCupboard%s", handler);
     }
 
@@ -252,4 +255,111 @@ public class ReturningApi extends DeliveryApi {
                 handler);
     }
 
+    /**
+     *9.1还衣管理-获取快递收货列表
+     * @param pageFalg 分页时间戳(分页标志) int
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryExpressReceiveList(long pageFalg,String token,AsyncHttpResponseHandler handler){
+        if(null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageFalg",pageFalg);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/queryExpressReceiveList%s", handler);
+    }
+
+    /**
+     *9.4还衣管理-获取还衣列表
+     * @param backOrderType 还衣列表类型 String
+     * @param pageFlag 分页时间戳(分页标志) int
+     * @param signEndTime 签收结束时间 int
+     * @param signStartTime 签收开始时间 int
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryBackOrderList(String backOrderType,long pageFlag,long signEndTime,long signStartTime,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderType||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderType",backOrderType);
+        params.put("pageFlag",pageFlag);
+        params.put("signEndTime",signEndTime);
+        params.put("signStartTime",signStartTime);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/queryBackOrderList%s", handler);
+    }
+
+    /**
+     *7.6查看物流
+     * @param companyCode 快递公司编号 String
+     * @param expressCode 快递单号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void seeExpress(String companyCode,String expressCode,String token,AsyncHttpResponseHandler handler) {
+        if (null == companyCode || null == expressCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("companyCode", companyCode);
+        params.put("expressCode", expressCode);
+        params.put("token", token);
+        postMockRequest(params, "washingService-controller/wash/express/seeExpress%s", handler);
+    }
+
+     /* 4.6获取封箱条码历史列表
+     *
+     * @param opTime   封箱时间 long
+     * @param pageFalg 分页时间戳(分页标志) long
+     * @param token    登录凭证(必填) String
+     */
+    public static void queryCloseBoxHistoryList(long opTime, long pageFalg, String token,
+                                                AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("opTime", opTime);
+        params.put("pageFalg", pageFalg);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxHistoryList%s",
+                handler);
+    }
+
+    /**
+     * 4.7获取封箱详情
+     *
+     * @param tagCode 封箱条码 String
+     * @param token   登录凭证(必填) String
+     */
+    public static void queryCloseBoxDetail(String tagCode, String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == tagCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("tagCode", tagCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxDetail%s",
+                handler);
+    }
+
+    /**
+     * 4.2获取衣物箱还衣单列表(扫描)
+     *
+     * @param boxCode 衣物箱号(必填) String
+     * @param token   登录凭证(必填) String
+     */
+    public static void queryClothesBoxBackOrderList(String boxCode, String token,
+                                                    AsyncHttpResponseHandler handler) {
+        if (null == boxCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("boxCode", boxCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryClothesBoxBackOrderList" +
+                "%s", handler);
+    }
 }

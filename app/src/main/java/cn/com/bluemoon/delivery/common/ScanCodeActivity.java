@@ -21,6 +21,7 @@ public class ScanCodeActivity extends BaseScanCodeActivity {
      * @param code 标题下面的编码，null则不显示
      * @param requestCode
      */
+    
     public static void actStart(Activity context,String title, String btnString,String code, int requestCode) {
         actStart(context, title, btnString, code, ScanCodeActivity.class, requestCode);
     }

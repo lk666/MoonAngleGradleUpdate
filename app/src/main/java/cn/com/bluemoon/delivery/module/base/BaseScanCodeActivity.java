@@ -30,6 +30,14 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
     @Bind(R.id.layout_code)
     RelativeLayout layoutCode;
 
+    public static void actStart(Activity context,Fragment fragment,String title, String btnString,String code, Class clazz, int requestCode) {
+        if(fragment!=null){
+            actStart(fragment,title,btnString,code,clazz,requestCode);
+        }else{
+            actStart(context,title,btnString,code,clazz,requestCode);
+        }
+    }
+
     /**
      * Activity扫描界面调起方法
      * @param context
@@ -54,11 +62,12 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
         Intent intent = new Intent(fragment.getActivity(), clazz);
         intent.putExtra("title", title);
         intent.putExtra("code", code);
-     intent.putExtra("btnString", btnString);
+        intent.putExtra("btnString", btnString);
         fragment.startActivityForResult(intent, requestCode);
     }
 
     /*必须重写*/
+
     /**
      * 返回结果事件重写
      * 注：如果需要连续扫描：
@@ -71,54 +80,64 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
     protected abstract void onResult(String str, String type, Bitmap barcode);
 
     /*可重写*/
+
     /**
      * 手动输入的点击事件处理,默认返回resultCode == Constants.RESULT_SCAN
      */
-    protected void onBtnClick(View view){
-        InputCodeActivity.actStart(this,0,InputCodeActivity.class);
+    protected void onBtnClick(View view) {
+        InputCodeActivity.actStart(this, 0, InputCodeActivity.class);
     }
 
     /**
      * 手动输入返回输入内容
+     *
      * @param code
      */
-    protected void onResultCode(String code){
-        onResult(code,null,null);
+    protected void onResultCode(String code) {
+        onResult(code, null, null);
     }
-
 
     /*公共方法*/
 
     /**
+     * 获取code
+     */
+    final protected String getCode() {
+        return txtCode.getText().toString();
+    }
+
+    /**
      * 设置手动输入的按钮
+     *
      * @param btnString null则不显示
      */
-    final protected void setInputBtn(String btnString){
+    final protected void setInputBtn(String btnString) {
         if (!TextUtils.isEmpty(btnString)) {
             btnInput.setText(btnString);
             ViewUtil.setViewVisibility(btnInput, View.VISIBLE);
-        }else{
-            ViewUtil.setViewVisibility(layoutCode,View.GONE);
+        } else {
+            ViewUtil.setViewVisibility(layoutCode, View.GONE);
         }
     }
 
     /**
      * 设置顶部显示的内容
+     *
      * @param code null则不显示
      */
-    final protected void setTxtCode(String code){
+    final protected void setTxtCode(String code) {
         if (!TextUtils.isEmpty(code)) {
             txtCode.setText(code);
-            ViewUtil.setViewVisibility(layoutCode,View.VISIBLE);
-        }else{
-            ViewUtil.setViewVisibility(layoutCode,View.GONE);
+            ViewUtil.setViewVisibility(layoutCode, View.VISIBLE);
+        } else {
+            ViewUtil.setViewVisibility(layoutCode, View.GONE);
         }
     }
 
     /**
      * 清除顶部显示的内容
      */
-    final protected void clearTxtCode(){
+    final protected void clearTxtCode() {
         setTxtCode(null);
     }
 
@@ -163,7 +182,7 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0&& resultCode == RESULT_OK&&data!=null){
+        if (requestCode == 0 && resultCode == RESULT_OK && data != null) {
             onResultCode(data.getStringExtra(Constants.RESULT_CODE));
         }
     }
