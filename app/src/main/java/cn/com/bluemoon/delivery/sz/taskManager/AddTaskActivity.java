@@ -339,6 +339,12 @@ public class AddTaskActivity extends BaseActivity{
                         dialog.dismiss();
                     }
                 });
+        dialog.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
         dialog.show();
     }
 
@@ -481,7 +487,7 @@ public class AddTaskActivity extends BaseActivity{
             LogUtil.e("第一次本地缓存的用户信息："+currUserInfoBean.toString());
         }
             CacheServerResponse.saveObject(context,
-                    USERINFOLISTBEAN, userInfoListBean);
+                    "UserInfoListBean", userInfoListBean);
 
     }
 
@@ -533,13 +539,12 @@ public class AddTaskActivity extends BaseActivity{
 
     }
 
-    /**查询h上级及自己的人员信息*/
+    /**查询上级及自己的人员信息*/
     private void getuserinfo(String account){
         if (!StringUtils.isEmpty(account)) {
             SzApi.getuserinfo(account, getNewHandler(REQUESTUSERINFO, ResultToken.class));
         }
     }
-
 
     @OnClick({R.id.tv_addTask,R.id.ll_addTask, R.id.tv_dete})
     public void onClick(View view) {
@@ -600,6 +605,7 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 Bundle mbBundle=new Bundle();
+//                PublicUtil.showToast("ttv_taskName");
 
                 mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
                 mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,50);
@@ -618,6 +624,7 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 Bundle mbBundle=new Bundle();
+//                PublicUtil.showToast("ttv_taskName");
 
                 mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
                 mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,200);
