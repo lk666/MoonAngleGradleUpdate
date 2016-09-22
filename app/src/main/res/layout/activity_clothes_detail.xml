@@ -1,208 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
-    android:overScrollMode="never">
-
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg_f2"
+        android:orientation="vertical">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/white"
         android:orientation="vertical">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/view_bg"
-            android:orientation="vertical"
-            android:paddingBottom="10dp"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
-            android:paddingTop="10dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_collect_code"
-                    style="@style/txt_title_13"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:text="@string/clothing_detail_collect_code"/>
-
-                <TextView
-                    android:id="@+id/tv_urgent"
-                    style="@style/txt_title_13"
-                    android:text="@string/with_order_collect_is_urgent"
-                    android:textColor="@color/text_red"/>
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_collect_brcode"
-                style="@style/txt_title_13"
-                android:layout_marginTop="8dp"
-                android:text="@string/clothing_detail_brcode"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:id="@+id/tv_op_name"
-                    style="@style/txt_title_13"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:text="@string/clothing_detail_receiver_name"/>
-
-                <TextView
-                    android:id="@+id/tv_op_number"
-                    style="@style/txt_title_13"
-                    android:layout_width="0dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:text="@string/clothing_detail_receiver_name"/>
-
-                <TextView
-                    android:id="@+id/tv_op_phone"
-                    style="@style/txt_title_13"
-                    android:layout_height="wrap_content"
-                    android:autoLink="phone"
-                    android:paddingBottom="8dp"
-                    android:paddingTop="8dp"
-                    android:text="@string/clothing_detail_receiver_name"
-                    android:textColor="@color/text_blue"
-                    android:textColorLink="@color/text_blue"/>
-
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/tv_collect_time"
-                style="@style/txt_title_13"
-                android:text="@string/clothing_detail_time"/>
-
-            <TextView
-                android:id="@+id/tv_collect_appoint_back_time"
-                style="@style/txt_title_13"
-                android:layout_marginTop="8dp"
-                android:text="@string/clothing_detail_appoint_back_time"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:background="@color/view_bg"
-            android:orientation="horizontal"
-            android:paddingLeft="16dp">
-
+            android:layout_marginRight="12dp"
+            android:orientation="horizontal">
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginRight="12dp"
                 android:layout_weight="1"
                 android:orientation="vertical">
-
                 <TextView
-                    android:id="@+id/tv_clotnes_code"
-                    style="@style/txt_title_13"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/clothing_detail_clothes_code"/>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                    android:id="@+id/txt_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="8dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_black"/>
+                <TextView
+                    android:id="@+id/txt_type"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:paddingTop="8dp"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_black"/>
+                <TextView
+                    android:id="@+id/txt_info"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:orientation="horizontal">
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:visibility="gone"
+                    android:textSize="13sp"
+                    android:textColor="@color/text_black"/>
 
-                    <TextView
-                        android:id="@+id/tv_type_name"
-                        style="@style/txt_title_13"/>
-
-                    <TextView
-                        android:id="@+id/tv_clothes_name"
-                        style="@style/txt_title_13"
-                        android:layout_marginLeft="8dp"/>
-
-
-                </LinearLayout>
-
-                <TextView
-                    android:id="@+id/tv_flaw_dec"
-                    style="@style/txt_title_13"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/clothing_detail_flaw"/>
             </LinearLayout>
-
-            <LinearLayout
+            <ImageView
+                android:id="@+id/img_flaw"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="12dp"
-                android:layout_marginRight="4dp"
-                android:orientation="horizontal">
+                android:src="@mipmap/ic_flaw"
+                android:visibility="gone"
+                />
+            <ImageView
+                android:id="@+id/img_stain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:src="@mipmap/ic_stain"
+                android:visibility="gone"/>
 
-                <ImageView
-                    android:id="@+id/iv_flaw"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_flaw"/>
-
-                <ImageView
-                    android:id="@+id/iv_stain"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="8dp"
-                    android:src="@mipmap/ic_stain"/>
-            </LinearLayout>
         </LinearLayout>
-
         <TextView
-            android:id="@+id/tv_backup"
-            style="@style/txt_title_13"
-            android:layout_width="match_parent"
-            android:background="@color/view_bg"
-            android:gravity="bottom"
-            android:paddingLeft="16dp"
-            android:paddingRight="16dp"
+            android:id="@+id/txt_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="12dp"
+            android:paddingRight="12dp"
+            android:paddingBottom="8dp"
             android:paddingTop="8dp"
-            android:text="@string/clothing_detail_backup"/>
+            android:textSize="13sp"
+            android:textColor="@color/text_black"/>
+    </LinearLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="10dp"
-            android:background="@color/view_bg"/>
-
-        <TextView
-            style="@style/txt_title_15"
-            android:layout_height="44dp"
-            android:layout_marginLeft="16dp"
-            android:gravity="center_vertical"
-            android:text="@string/clothing_detail_photo"
-            android:textColor="@color/text_black_light"/>
-
-        <cn.com.bluemoon.lib.view.ScrollGridView
-            android:id="@+id/sgv_photo"
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="15dp"
+        android:textColor="@color/text_grep"
+        android:textSize="15sp"
+        android:text="衣物照片"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:orientation="vertical">
+        <cn.com.bluemoon.delivery.ui.ImageGridView
+            android:id="@+id/gridview_img"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/view_bg"
-            android:cacheColorHint="@color/transparent"
-            android:clipToPadding="false"
-            android:divider="@null"
-            android:gravity="center"
-            android:horizontalSpacing="16dp"
-            android:numColumns="4"
+            android:columnWidth="60dp"
+            android:paddingTop="10dp"
             android:paddingBottom="10dp"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
-            android:paddingTop="10dp"
+            android:horizontalSpacing="16dp"
+            android:verticalSpacing="10dp"
+            android:listSelector="@color/white"
+            android:background="@color/white"
+            android:numColumns="auto_fit"
             android:scrollbars="none"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="10dp"/>
+            android:stretchMode="none" />
     </LinearLayout>
-</ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:layout_marginTop="8dp"
+        android:background="@color/white"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black"
+            android:layout_marginLeft="12dp"
+            android:textSize="15sp"
+            android:text="洗涤结果："/>
+        <Button
+            android:id="@+id/btn_clean"
+            android:layout_width="wrap_content"
+            android:layout_height="22dp"
+            android:textColor="@color/text_black"
+            android:paddingLeft="2dp"
+            android:paddingRight="2dp"
+            android:clickable="false"
+            android:textSize="13sp"
+            android:visibility="gone"
+            android:background="@drawable/btn_border_grep_shape4"/>
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

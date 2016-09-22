@@ -181,7 +181,56 @@ public class ReturningApi extends DeliveryApi {
         postMockRequest(params, "washingService-controller/wash/express/seeExpress%s", handler);
     }
 
-     /* 4.6获取封箱条码历史列表
+    /**
+     *9.5获取还衣单详情
+     * @param backOrderCode 还衣单号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryBackOrderDetail(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/queryBackOrderDetail%s", handler);
+    }
+
+    /**
+     *9.10衣物详情
+     * @param clothesCode 衣物编码(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void clothesDetail(String clothesCode,String token,AsyncHttpResponseHandler handler){
+        if(null == clothesCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("clothesCode",clothesCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/clothesDetail%s", handler);
+    }
+
+    /**
+     *9.8消费者拒签列表
+     * @param backOrderCode 还衣单号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void refuseSignList(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("token",token);
+        postMockRequest
+                (params, "washingService-controller/wash/backOrderManage/refuseSignList%s", handler);
+    }
+
+
+
+
+    /** 4.6获取封箱条码历史列表
      *
      * @param opTime   封箱时间 long
      * @param pageFalg 分页时间戳(分页标志) long

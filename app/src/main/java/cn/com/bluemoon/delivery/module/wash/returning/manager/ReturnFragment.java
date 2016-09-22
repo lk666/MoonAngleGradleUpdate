@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
@@ -132,7 +133,13 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     switch (v.getId()) {
                         case R.id.layout_detail:
-                            longToast("detail");
+                            Intent intent = new Intent(getActivity(), BackOrderDetailActivity.class);
+                            intent.putExtra("backOrderCode", result.getBackOrderCode());
+                            intent.putExtra("name", result.getCustomerName());
+                            intent.putExtra("phone", result.getCustomerPhone());
+                            intent.putExtra("address", result.getAddress());
+                            intent.putExtra("isUrgent", result.isIsUrgent());
+                            startActivity(intent);
                             break;
                         case R.id.btn_action:
                             longToast("btn");

@@ -393,7 +393,7 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
         <activity
-            android:name=".ui.ShowMultipleImageView"
+            android:name=".common.ShowMultipleImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop"/>
         <activity
@@ -410,6 +410,19 @@
             android:name=".module.wash.returning.manager.LogisticsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.manager.BackOrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.manager.ClothesDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.manager.CustomRefuseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+
 
         <service android:name=".module.card.LocationSvc"/>
 
