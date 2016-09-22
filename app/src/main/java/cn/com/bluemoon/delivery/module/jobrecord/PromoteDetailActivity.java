@@ -25,6 +25,7 @@ import org.apache.http.Header;
 import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.bitmap.BitmapCallBack;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -36,7 +37,7 @@ import cn.com.bluemoon.delivery.app.api.model.jobrecord.ResultPromoteInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.ui.ShowMultipleImageView;
+import cn.com.bluemoon.delivery.common.ShowMultipleImageActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -100,15 +101,13 @@ public class PromoteDetailActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (images != null && images.size() > 0) {
-                    String[] urls = new String[images.size()];
-                    for (int i = 0; i < images.size(); i++) {
-                        urls[i] = images.get(i).getFilePath();
+                    List<String> urls = new ArrayList<String>();
+                    for (ImageInfo image : images) {
+                        urls.add(image.getFilePath());
                     }
-                    Intent intent = new Intent(PromoteDetailActivity.this, ShowMultipleImageView.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("bitmaps", urls);
+                    Intent intent = new Intent(PromoteDetailActivity.this, ShowMultipleImageActivity.class);
+                    intent.putStringArrayListExtra("bitmaps", (ArrayList<String>)urls);
                     intent.putExtra("position", position);
-                    intent.putExtras(bundle);
                     startActivity(intent);
                 }
             }

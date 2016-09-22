@@ -861,6 +861,8 @@
     <string name="manger_tab_3">待签收</string>
     <string name="manger_tab_4">还衣历史</string>
     <string name="delivery_detail">收货详情</string>
+    <string name="open_close">展开,收起</string>
+    <string name="total_amount">共%s件</string>
     <string name="code_scan">请扫描</string>
 
     <!--待封箱-->
@@ -892,4 +894,27 @@
     <string name="scan_finish">扫描完成</string>
     <string name="scan_successed">扫描成功</string>
 
+
+    <!--入柜-->
+    <string name="incabinet_cloth_title">扫描衣物编码</string>
+    <string name="incabinet_cabinet_title">扫描分拨柜标签</string>
+
+    <!--司机承运-->
+    <string name="driver_carriage_detail_title">承运单详情查看</string>
+    <string name="driver_carriage_confirm_title">确认运输</string>
+    <string name="driver_carriage_scan_title">扫描衣物箱标签</string>
+    <string name="driver_transport_code">承运单号-%s</string>
+    <string name="driver_box_num">应收箱数：%s</string>
+    <string name="driver_real_box_num">实收箱数：%s</string>
+    <string name="driver_load_address">装车地点：%s</string>
+    <string name="driver_box_code">箱号-%s</string>
+    <string name="driver_center_num">%s个收衣点</string>
+    <string name="driver_btn_load">装  车</string>
+    <string name="driver_btn_load_finish">装车完成</string>
+    <string name="driver_tab_wait_load">待装车</string>
+    <string name="driver_tab_wait_send">待送达</string>
+    <string name="driver_scan_repeat">该条码重复扫描</string>
+    <string name="driver_scan_not_exist">该箱不属于此承运单,请扫描正确条码</string>
+    <string name="driver_scan_success">扫描成功</string>
+    <string name="driver_scan_finish">扫描完成</string>
 </resources>

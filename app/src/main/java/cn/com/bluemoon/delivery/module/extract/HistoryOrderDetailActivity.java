@@ -40,7 +40,7 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class HistoryOrderDetailActivity extends Activity {
-	private String TAG = "OrderDetailActivity";
+	private String TAG = "HistoryOrderDetailActivity";
 	private ListView listviewProduct;
 	private TextView tvTotalPrice;
 	private TextView tvOrderNumber;

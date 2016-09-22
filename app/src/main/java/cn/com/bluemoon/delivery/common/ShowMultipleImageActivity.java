@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.ui;
+package cn.com.bluemoon.delivery.common;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -13,20 +13,22 @@ import android.widget.TextView;
 
 import org.kymjs.kjframe.KJBitmap;
 
+import java.util.List;
+
 import cn.com.bluemoon.delivery.R;
 
 /**
  * Created by LIANGJIANGLI on 2016/7/14.
  */
-public class ShowMultipleImageView extends Activity {
+public class ShowMultipleImageActivity extends Activity {
     private KJBitmap kjBitmap = new KJBitmap();
     private int currentPage=0;
-    private String[] images;
+    private List<String> images;
 
     PagerAdapter adapter=new PagerAdapter(){
         @Override
         public int getCount() {
-            return images.length;
+            return images.size();
         }
         @Override
         public boolean isViewFromObject(View arg0, Object arg1) {
@@ -39,8 +41,8 @@ public class ShowMultipleImageView extends Activity {
 
         @Override
         public Object instantiateItem(ViewGroup container,int position){
-            ImageView im=new ImageView(ShowMultipleImageView.this);
-            kjBitmap.displayWithLoadBitmap(im, images[position], R.mipmap.place_holder);
+            ImageView im=new ImageView(ShowMultipleImageActivity.this);
+            kjBitmap.displayWithLoadBitmap(im, images.get(position), R.mipmap.place_holder);
             container.addView(im);
             im.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -60,13 +62,13 @@ public class ShowMultipleImageView extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.dialog_show_pic);
         getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-        images = (String[]) getIntent().getSerializableExtra("bitmaps");
+        images = (List<String>) getIntent().getSerializableExtra("bitmaps");
         int position = getIntent().getIntExtra("position", 0);
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager1);
         viewPager.setAdapter(adapter);
         final TextView txtView = (TextView) findViewById(R.id.txt_page);
         viewPager.setCurrentItem(position);
-        txtView.setText(String.format("%d/%d", position + 1, images.length));
+        txtView.setText(String.format("%d/%d", position + 1, images.size()));
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrollStateChanged(int arg0) {
@@ -77,7 +79,7 @@ public class ShowMultipleImageView extends Activity {
             @Override
             public void onPageSelected(int position) {
                 currentPage=position;
-                txtView.setText(String.format("%d/%d", currentPage + 1, images.length));
+                txtView.setText(String.format("%d/%d", currentPage + 1, images.size()));
             }
 
         });
