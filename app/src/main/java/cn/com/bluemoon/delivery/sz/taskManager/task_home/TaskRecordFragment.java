@@ -253,14 +253,18 @@ public class TaskRecordFragment extends BaseFragment
 						String currentYear=currentDate.split("-")[0];
 						String currentMooth=currentDate.split("-")[1];
 						String currentDay=currentDate.split("-")[2];
+						LogUtil.w(currentYear+"/"+currentMooth+"/"+currentDay);
+
 						CustomDate date=new CustomDate();
 						date.setYear(Integer.parseInt(currentYear));
 						date.setMonth(Integer.parseInt(currentMooth));
 						date.setDay(Integer.parseInt(currentDay));
+						getClickData(date);//必须在视图更新之前，否则会转换成1号
 						updateCalendarView2(date);
+
 					}else{//访问其它月份一号的内容
 						updateCalendarView2(currentCustomDate);
-
+						getClickData(currentCustomDate);
 					}
 				}
 			}
@@ -331,8 +335,6 @@ public class TaskRecordFragment extends BaseFragment
 			mDirection = SildeDirection.NO_SILDE;
 			int currentRowNum = mShowViews[mCurrentIndex % mShowViews.length].getCurrentRowNum();
 			adjustViewPagerHeight(currentRowNum);
-//		clickDate(date);
-		getClickData();
 
 	}
 
@@ -340,11 +342,12 @@ public class TaskRecordFragment extends BaseFragment
 	@Override
 	public void clickDate(CustomDate date) {
 		currentDate=date.toString();
-		getClickData();
+		LogUtil.w("clickDate!!!!!!!!!!!!"+date.toString());
+		getClickData(date);
 	}
 
 	/**先查询本地是否存在，否则请求网络数据*/
-	private void getClickData(){
+	private void getClickData(CustomDate date){
 		try {
 			//先看本地是否存在
 			DailyperformanceinfoResultBeanList loacalBeanList=
@@ -358,8 +361,8 @@ public class TaskRecordFragment extends BaseFragment
 					for (DailyPerformanceInfoBean bean:loacalList) {
 						LogUtil.d("先查看本地是否存在："+bean.toString());
 						if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
-								==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
-							//					本地有，用本地的
+								==DateUtil.tranDateToTime(date.toString(),"yyyy-MM-dd")){//时间格式问题
+							//本地有，用本地的
 							isExist=true;
 							LogUtil.d("先查看本地是否存在isExist："+isExist);
 						}
@@ -369,9 +372,9 @@ public class TaskRecordFragment extends BaseFragment
 
 			if (isExist==false){
 				getData(String.valueOf(
-						DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
-				LogUtil.i(currentDate+"/"+String.valueOf(
-						DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
+						DateUtil.tranDateToTime(date.toString(),"yyyy-MM-dd")));
+				LogUtil.i("请求网络日期："+date.toString()+"/"+String.valueOf(
+						DateUtil.tranDateToTime(date.toString(),"yyyy-MM-dd")));
 			}else{//本地存在，直接刷新
 				if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
 					dailyPerformanceInfoBeanArrayList.clear();

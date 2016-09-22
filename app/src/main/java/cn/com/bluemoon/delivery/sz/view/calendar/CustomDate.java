@@ -1,6 +1,8 @@
 package cn.com.bluemoon.delivery.sz.view.calendar;
 
 import java.io.Serializable;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import cn.com.bluemoon.delivery.sz.util.DateUtil;
 
@@ -45,7 +47,14 @@ public class CustomDate implements Serializable{
 	}
 	@Override
 	public String toString() {
-		return year+"-"+month+"-"+day;
+		String currDate=year+"-"+month+"-"+day;
+		SimpleDateFormat sd1 = new SimpleDateFormat("yyyy-MM-dd");
+		try {
+			currDate=sd1.format(sd1.parse(currDate));
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		return currDate;
 	}
 
 	public int getYear() {
