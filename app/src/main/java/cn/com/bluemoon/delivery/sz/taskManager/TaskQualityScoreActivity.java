@@ -85,13 +85,17 @@ public class TaskQualityScoreActivity extends BaseActivity implements View.OnCli
     private int actionNameType = -1;
     private String viewPosition = "";
 
+    public static final String ACTION_TYPE = "actionType";
+    public static final String VIEW_POSITION = "viewPosition";
+    public static final String SCORE = "score";
+
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         if (getIntent() != null) {
-            actionNameType = getIntent().getIntExtra("actionType", -1);
-            viewPosition = getIntent().getStringExtra("viewPosition");
-            String scoreStr = getIntent().getStringExtra("score");
+            actionNameType = getIntent().getIntExtra(ACTION_TYPE, -1);
+            viewPosition = getIntent().getStringExtra(VIEW_POSITION);
+            String scoreStr = getIntent().getStringExtra(SCORE);
             if (!TextUtils.isEmpty(scoreStr)) {
                 score = Integer.valueOf(scoreStr);
             } else {
