@@ -32,7 +32,7 @@
                 android:layout_marginRight="3dp"
                 android:gravity="center"
                 android:text=":"
-                android:textColor="@color/gray"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_12" />
 
             <TextView
@@ -59,7 +59,7 @@
                 android:layout_marginRight="3dp"
                 android:gravity="center"
                 android:text=":"
-                android:textColor="@color/gray"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_12" />
 
             <TextView
@@ -84,7 +84,7 @@
                 android:layout_marginRight="3dp"
                 android:gravity="center"
                 android:text=":"
-                android:textColor="@color/gray"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_12" />
 
             <TextView
@@ -120,7 +120,7 @@
                 android:layout_marginRight="3dp"
                 android:gravity="center"
                 android:text=":"
-                android:textColor="@color/gray"
+                android:textColor="@color/black"
                 android:textSize="@dimen/text_size_12" />
 
             <!--<TextView-->
