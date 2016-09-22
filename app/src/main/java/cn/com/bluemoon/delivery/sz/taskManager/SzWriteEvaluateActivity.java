@@ -7,7 +7,6 @@ import android.graphics.Rect;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.os.SystemClock;
 import android.text.TextUtils;
 import android.view.MotionEvent;
 import android.view.View;
@@ -51,11 +50,8 @@ import cn.com.bluemoon.delivery.sz.util.UIUtil;
 import cn.com.bluemoon.delivery.sz.view.RoundImageView;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AngelAlertDialog;
-import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-
-import static cn.com.bluemoon.delivery.sz.taskManager.SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE;
 
 /**
  * Created by Wan.N
@@ -124,8 +120,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     private TaskWriteEvaluateApater evaluateadapter;
     private List<AsignJobBean> asignJobs = new ArrayList<>();
 
-    private boolean isOverAweekTime = false;//记录评价数据距离现在是否超过一周
-
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -137,28 +131,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         if (intent.hasExtra(ACTIVITY_EXTAR_DATA)) {
             evaluateInfo = (DailyPerformanceInfoBean) intent.getSerializableExtra(ACTIVITY_EXTAR_DATA);
             dealEvaluateInfo(evaluateInfo);
-        }
-        if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
-            //如果是已评论的数据，则要判断评论时间，超过一周则不能修改评论
-            if (evaluateInfo != null) {
-                if (!TextUtils.isEmpty(evaluateInfo.getUpdatetime())) {
-                    Calendar c = Calendar.getInstance();
-                    try {
-                        c.setTime(new SimpleDateFormat("yyyy-MM-dd").parse(evaluateInfo.getUpdatetime()));
-                    } catch (ParseException e) {
-                        e.printStackTrace();
-                    }
-                    long time = System.currentTimeMillis() - c.getTimeInMillis();
-                    if (time >= 1000 * 60 * 60 * 24 * 7) {
-                        //如果评论超过一周
-                        isOverAweekTime = true;
-                    }
-                } else {
-                    isOverAweekTime = false;
-                }
-            }
-        } else {
-            isOverAweekTime = false;
         }
 //        LogUtil.e("isOverAweekTime:" + isOverAweekTime + "--getUpdatetime：" + evaluateInfo.getUpdatetime());
         LogUtil.i("activityType:" + activityType + "--evaluateInfo：" + evaluateInfo.toString());
@@ -260,7 +232,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         btn_advice = (LinearLayout) btnAreaLl.findViewById(R.id.btn_advice);
         btn_sure = (LinearLayout) btnAreaLl.findViewById(R.id.btn_sure);
 
-        evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
+        evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs, activityType);
         user_task_lv.setAdapter(evaluateadapter);
 
         user_score_tv.setVisibility(View.GONE);
@@ -291,25 +263,20 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         btn_sure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (isOverAweekTime) {
-                    toast(getString(R.string.sz_evaluate_overtime_tip));
-                } else {
-                    if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
-                        new CommonAlertDialog.Builder(SzWriteEvaluateActivity.this).
-                                setMessage(R.string.sz_update_evaluate_dialog_title).
-                                setNegativeButton(R.string.dialog_cancel, null).
-                                setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        // 提交评价信息
-                                        submitEvaluate();
-                                    }
-                                }).show();
-                    } else if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
-                        // 提交评价信息
-                        submitEvaluate();
-                    }
-
+                if (activityType == ACTIVITY_TYPE_UPDATE_EVALUATE) {
+                    new CommonAlertDialog.Builder(SzWriteEvaluateActivity.this).
+                            setMessage(R.string.sz_update_evaluate_dialog_title).
+                            setNegativeButton(R.string.dialog_cancel, null).
+                            setPositiveButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    // 提交评价信息
+                                    submitEvaluate();
+                                }
+                            }).show();
+                } else if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+                    // 提交评价信息
+                    submitEvaluate();
                 }
             }
         });
@@ -340,7 +307,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
             asignJobs = evaluateInfo.getAsignJobs();
             if (evaluateadapter == null) {
-                evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs);
+                evaluateadapter = new TaskWriteEvaluateApater(this, asignJobs, activityType);
                 user_task_lv.setAdapter(evaluateadapter);
             } else {
                 evaluateadapter.updateAdapter(asignJobs);
@@ -352,11 +319,6 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             isFirstLayoutBtns = false;
         }
 
-        if (isOverAweekTime) {
-            btn_sure.setBackgroundResource(R.drawable.sz_task_btn_blue_bg_disable);
-        } else {
-            btn_sure.setBackgroundResource(R.drawable.sz_task_btn_blue_bg_selector);
-        }
     }
 
     @Subscribe(threadMode = ThreadMode.MAIN)

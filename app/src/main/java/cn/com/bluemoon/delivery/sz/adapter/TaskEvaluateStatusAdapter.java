@@ -96,17 +96,20 @@ public class TaskEvaluateStatusAdapter extends BaseAdapter {
         }
         //工作日期
         viewHolder.getUserDateTv().setText(itemBean.getWork_date());
-        //有效工作时间（单位：分钟）
-        viewHolder.getUserAvaliabelTimeTv().setText(itemBean.getDay_valid_min());
+
         //得分
         if (activityType == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_HAVE_EVALUATED) {
             //已评价
+            //有效工作时间（单位：分钟）
+            viewHolder.getUserAvaliabelTimeTv().setText(itemBean.getDay_valid_min());
             viewHolder.getUserScoreTv().setText(itemBean.getDay_score() + mCxt.getString(R.string.sz_task_quality_score_unit));
             viewHolder.getUserScoreTv().setTextColor(mCxt.getResources().getColor(R.color.red));
         } else if (activityType == SzTaskEvaluateStatusFragment.ACTIVITY_TYPE_TO_EVALUATE) {
             //未评价
+            //有效工作时间（单位：分钟）
+            viewHolder.getUserAvaliabelTimeTv().setText(itemBean.getDay_usage_time());
             viewHolder.getUserScoreTv().setText(mCxt.getString(R.string.sz_evaluate_not_valid_label));
-            viewHolder.getUserScoreTv().setTextColor(mCxt.getResources().getColor(R.color.sz_task_evaluate_text_color));
+            viewHolder.getUserScoreTv().setTextColor(mCxt.getResources().getColor(R.color.red));
         }
         //任务列表
         TaskEvaluateStatusChildAdapter adapter = new TaskEvaluateStatusChildAdapter(mCxt, itemBean.getAsignJobs());

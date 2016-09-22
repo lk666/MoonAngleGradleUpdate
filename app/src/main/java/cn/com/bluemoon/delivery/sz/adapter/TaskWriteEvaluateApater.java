@@ -42,9 +42,18 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
 
     private LayoutInflater inflater;
     private Context cxt;
+    private boolean isShowDefaultValue = false;//是否显示默认值
+    private int activityType = -1;
 
-    public TaskWriteEvaluateApater(Context cxt, List<AsignJobBean> datas) {
+    public TaskWriteEvaluateApater(Context cxt, List<AsignJobBean> datas, int activityType) {
         this.cxt = cxt;
+        this.activityType = activityType;
+
+        if (activityType == SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE) {
+            isShowDefaultValue = true;
+        } else {
+            isShowDefaultValue = false;
+        }
         if (datas == null) {
             this.datas.clear();
         } else {
@@ -122,7 +131,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         viewHolder.getTaskQualityEvaluateRl().setOnClickListener(null);
         viewHolder.getTaskEvaluateContentRl().setOnClickListener(null);
         ///*************************************显示数据************************************************/
-        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label) + (position + 1));
+        viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label2) + (position + 1));
         viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
         viewHolder.getTaskOutputTv().setText(asignJobBean.getProduce_cont());
         viewHolder.getTaskStartTimeTv().setText(asignJobBean.getBegin_time());
@@ -168,18 +177,39 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             viewHolder.getTaskAvaliabelCb().setChecked(true);
         }
 
-        if (TextUtils.isEmpty(asignJobBean.getUsage_time())) {
-            viewHolder.getTaskAvaliabelTimeEt().setText("0");
-        } else {
-            viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getUsage_time());
-        }
 
-        if (!TextUtils.isEmpty(asignJobBean.getScore())) {
-            viewHolder.getTaskQualityEvaluateScoreTv().setText(asignJobBean.getQuality_score() + cxt.getResources().getString(R.string.sz_task_quality_score_unit));
+        if (SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE == activityType) {
+            //修改评价
+            //有效用时
+            if (TextUtils.isEmpty(asignJobBean.getValid_min())) {
+                viewHolder.getTaskAvaliabelTimeEt().setText("0");
+            } else {
+                viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getValid_min());
+            }
+        } else if (SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE == activityType) {
+            //写评价
+            //有效用时
+            if (TextUtils.isEmpty(asignJobBean.getUsage_time())) {
+                viewHolder.getTaskAvaliabelTimeEt().setText("0");
+            } else {
+                viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getUsage_time());
+            }
         } else {
+        }
+        /**质量评分*/
+        if (isShowDefaultValue) {
+            //质量评分，默认十分
             viewHolder.getTaskQualityEvaluateScoreTv().setText(10 + cxt.getResources().getString(R.string.sz_task_quality_score_unit));
+            datas.get(position).setQuality_score("10");
+        } else {
+            if (!TextUtils.isEmpty(asignJobBean.getQuality_score())) {
+                viewHolder.getTaskQualityEvaluateScoreTv().setText(asignJobBean.getQuality_score() + cxt.getResources().getString(R.string.sz_task_quality_score_unit));
+            } else {
+                //默认十分
+                viewHolder.getTaskQualityEvaluateScoreTv().setText(10 + cxt.getResources().getString(R.string.sz_task_quality_score_unit));
+                datas.get(position).setQuality_score("10");
+            }
         }
-
         if (!TextUtils.isEmpty(asignJobBean.getReview_cont())) {
             viewHolder.getTaskEvaluateContentTv().setText(asignJobBean.getReview_cont());
         } else {
@@ -222,6 +252,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         viewHolder.getTaskQualityEvaluateRl().setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                isShowDefaultValue = false;
                 Bundle bundle = new Bundle();
                 bundle.putInt("actionType", SzWriteEvaluateActivity.EVENT_ACTION_TYPE_QUALITY_SCORE);
                 bundle.putString("viewPosition", position + "");
