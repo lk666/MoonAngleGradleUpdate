@@ -193,6 +193,8 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 viewHolder.getTaskAvaliabelTimeEt().setText("0");
             } else {
                 viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getUsage_time());
+                //如果没有有效工时，则将默认值当做有效工时
+                datas.get(position).setValid_min(asignJobBean.getUsage_time());
             }
         } else {
         }
