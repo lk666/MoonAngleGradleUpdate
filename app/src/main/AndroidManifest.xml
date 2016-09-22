@@ -84,7 +84,7 @@
         <activity
             android:name=".module.order.OrderDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.order.OrdersTabActivity"
             android:screenOrientation="portrait"
@@ -396,24 +396,25 @@
             android:name=".ui.ShowMultipleImageView"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop" />
-            android:theme="@style/MyDialogStyleTop"/>
+        android:theme="@style/MyDialogStyleTop"/>
         <activity
             android:name=".module.wash.returning.manager.ManualSignActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
 
         <service android:name=".module.card.LocationSvc" />
+
         <activity
             android:name=".module.wash.returning.manager.ReturnMangerTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
 
         <activity
             android:name=".module.wash.returning.manager.LogisticsActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
 
-        <service android:name=".module.card.LocationSvc"/>
+        <service android:name=".module.card.LocationSvc" />
 
         <!-- push应用定义消息receiver声明 -->
         <receiver android:name=".utils.BMPushMessageReceiver">
@@ -501,7 +502,7 @@
             android:name=".ui.selectordialog.SampleActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
 
         <activity
             android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
@@ -518,15 +519,15 @@
         <activity
             android:name=".common.InputCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.returning.closebox.CloseBoxDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.returning.closebox.ScanBoxCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.returning.closebox.ClothesBoxBackOrderListActivity"
             android:screenOrientation="portrait"
@@ -535,14 +536,14 @@
             android:name=".module.wash.returning.driver.DriverTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-        <activity android:name=".module.wash.returning.driver.CarriageDetailActivity"
+        <activity
+            android:name=".module.wash.returning.driver.CarriageDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            />
-        <activity android:name=".module.wash.returning.driver.TransportListActivity"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.driver.TransportListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            />
+            android:theme="@style/App.Base.Theme" />
     </application>
 
 </manifest>

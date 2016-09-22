@@ -20,7 +20,7 @@
         scan:rectWidth="200dp"
         scan:rectHeight="200dp"
         scan:content_text="@string/code_content"
-        scan:content_color="@color/view_bg"
+        scan:content_color="@color/text_white_light"
         />
 
     <RelativeLayout

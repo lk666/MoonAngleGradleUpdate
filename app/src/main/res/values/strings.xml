@@ -895,6 +895,8 @@
     <string name="driver_carriage_detail_title">承运单详情查看</string>
     <string name="driver_carriage_confirm_title">确认运输</string>
     <string name="driver_carriage_scan_title">扫描衣物箱标签</string>
+    <string name="driver_send_scan_title">扫描收货人二维码</string>
+    <string name="driver_send_title">待签收</string>
     <string name="driver_transport_code">承运单号-%s</string>
     <string name="driver_box_num">应收箱数：%s</string>
     <string name="driver_real_box_num">实收箱数：%s</string>
@@ -909,4 +911,9 @@
     <string name="driver_scan_not_exist">该箱不属于此承运单,请扫描正确条码</string>
     <string name="driver_scan_success">扫描成功</string>
     <string name="driver_scan_finish">扫描完成</string>
+    <string name="driver_btn_receiver">确认收货人</string>
+    <string name="driver_box_num_all">共%S箱</string>
+    <string name="driver_tag_code">封箱条码-%s</string>
+    <string name="driver_box_code2">箱号：%s</string>
+    <string name="driver_cloth_num">还衣单：%s</string>
 </resources>

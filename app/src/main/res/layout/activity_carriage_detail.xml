@@ -24,7 +24,7 @@
 
         <View
             android:id="@+id/line"
-            style="@style/line_solid_style"
+            style="@style/line_solid_light_style"
             android:layout_below="@id/txt_transport_code"
             android:layout_marginLeft="12dp" />
 

@@ -77,7 +77,7 @@ public class TransportListActivity extends BaseActivity {
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
-        CabinetScanActivity.actStart(this, getString(R.string.driver_carriage_scan_title), carriageDetail);
+        CabinetScanActivity.actStart(this,carriageDetail);
     }
 
     @Override
