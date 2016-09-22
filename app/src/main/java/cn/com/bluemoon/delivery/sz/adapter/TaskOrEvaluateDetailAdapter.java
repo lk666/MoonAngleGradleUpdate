@@ -36,8 +36,10 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
     public static final int ACTIVITY_TYPE_EVALUATE_DETAIL = 1;//评价详情
     public static final int ACTIVITY_TYPE_DETAIL = 2;//任务查看详情
 
-    /**查看详情时，是否已评价区分，//model 0待审批(未评价)，1审批通过，2审批驳回（x）',*/
-    public String  modleType="";
+    /**
+     * 查看详情时，是否已评价区分，//model 0待审批(未评价)，1审批通过，2审批驳回（x）',
+     */
+    public String modleType = "";
 
     public TaskOrEvaluateDetailAdapter(Context cxt, int showType, List<AsignJobBean> datas) {
         this.cxt = cxt;
@@ -94,28 +96,34 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
             viewHolder.getTaskAvailabelLl().setVisibility(View.GONE);
             viewHolder.getTaskQualityLl().setVisibility(View.GONE);
             viewHolder.getTaskEvaluateContentLl().setVisibility(View.GONE);
-        }else if(showType == ACTIVITY_TYPE_DETAIL){
+            viewHolder.getTaskValidTimeLl().setVisibility(View.GONE);
+        } else if (showType == ACTIVITY_TYPE_DETAIL) {
             ////model 0待审批(未评价)，1审批通过，2审批驳回（x）',
 //            if (asignJobBean.)
-            String model=getModleType();
-            LogUtil.i("modle----->"+model);
-            if (!TextUtils.isEmpty(model)){
-                if (model.equals("0")){//未评价的不显示
+            String model = getModleType();
+            LogUtil.i("modle----->" + model);
+            if (!TextUtils.isEmpty(model)) {
+                if (model.equals("0")) {//未评价的不显示
                     viewHolder.getTaskAvailabelLl().setVisibility(View.GONE);
                     viewHolder.getTaskQualityLl().setVisibility(View.GONE);
                     viewHolder.getTaskEvaluateContentLl().setVisibility(View.GONE);
-                }else if(model.equals("1")){//已评价的显示评价内容
+                    viewHolder.getTaskValidTimeLl().setVisibility(View.GONE);
+                } else if (model.equals("1")) {//已评价的显示评价内容
                     viewHolder.getTaskAvailabelLl().setVisibility(View.VISIBLE);
                     viewHolder.getTaskQualityLl().setVisibility(View.VISIBLE);
                     viewHolder.getTaskEvaluateContentLl().setVisibility(View.VISIBLE);
+                    viewHolder.getTaskValidTimeLl().setVisibility(View.VISIBLE);
+                    viewHolder.getTaskValidTimeTv().setText(asignJobBean.getValid_min() + cxt.getResources().getString(R.string.sz_minute_label));
                 }
             }
 
         } else {
-            /**评价详情*/
+            /**评价详情(已评价)*/
             viewHolder.getTaskAvailabelLl().setVisibility(View.VISIBLE);
             viewHolder.getTaskQualityLl().setVisibility(View.VISIBLE);
             viewHolder.getTaskEvaluateContentLl().setVisibility(View.VISIBLE);
+            viewHolder.getTaskValidTimeLl().setVisibility(View.VISIBLE);
+            viewHolder.getTaskValidTimeTv().setText(asignJobBean.getValid_min() + cxt.getResources().getString(R.string.sz_minute_label));
         }
         viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label2) + (position + 1));
         viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
@@ -199,6 +207,12 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
         @Bind(R.id.task_avalilabel_tv)
         TextView taskAvalilabelTv;
 
+        @Bind(R.id.ll_task_valid_time_ll)
+        LinearLayout taskValidTimeLl;
+
+        @Bind(R.id.task_valid_time_tv)
+        TextView taskValidTimeTv;
+
         @Bind(R.id.ll_task_quality)
         LinearLayout taskQualityLl;
 
@@ -245,6 +259,14 @@ public class TaskOrEvaluateDetailAdapter extends BaseAdapter {
 
         public TextView getTaskAvalilabelTv() {
             return taskAvalilabelTv;
+        }
+
+        public LinearLayout getTaskValidTimeLl() {
+            return taskValidTimeLl;
+        }
+
+        public TextView getTaskValidTimeTv() {
+            return taskValidTimeTv;
         }
 
         public LinearLayout getTaskQualityLl() {

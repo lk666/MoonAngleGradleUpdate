@@ -132,7 +132,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
                 } else {
                     isOverAweekTime = false;
                 }
-            }else{
+            } else {
                 isOverAweekTime = false;
             }
         } else {

@@ -150,6 +150,32 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_task_valid_time_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:orientation="horizontal">
+
+        <TextView
+            style="@style/sz_task_or_evaluate_detail_item_left"
+            android:text="@string/sz_do_task_avaliabel_time_label" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
+            android:gravity="center"
+            android:text=":"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/text_size_12" />
+
+        <TextView
+            android:id="@+id/task_valid_time_tv"
+            style="@style/sz_task_or_evaluate_detail_item_right" />
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/ll_task_quality"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
