@@ -282,7 +282,12 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             //工作日期
             user_date_tv.setText(evaluateInfo.getWork_date());
             //有效工作时间（单位：分钟）
-            user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
+            if (evaluateInfo.getModel().equals("0")){//未评价
+                user_avaliabel_time_tv.setText(evaluateInfo.getDay_usage_time());
+            }else if(evaluateInfo.getModel().equals("1")){
+                user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
+
+            }
         }
         if (isFirstLayoutBtns) {
             layoutBottomBtnArea();

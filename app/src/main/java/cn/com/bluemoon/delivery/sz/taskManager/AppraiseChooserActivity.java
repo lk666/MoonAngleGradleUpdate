@@ -57,8 +57,10 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 	public static String APPRAISE_NAME="APPRAISE_NAME";//有初始值的名称
 	public String APPRAISE_NAME_CONTENT="";
 	public static String APPRAISE_NAME_ACTION="APPRAISE_NAME_ACTION";
-	public static int APPRAISE_NAME_ACTION_CONTENT=11;
+	public static int APPRAISE_NAME_ACTION_CONTENT=1001;//不可小于20 任务项为20
 	public static String USERBEAN="USERBEAN";
+	/**用于存储在本地的实例文件*/
+	public static String USERINFOLISTBEAN="UserInfoListBean";
 	public UserInfoBean user=null;
 
 //	public static String APPRAISE_VIEW_NAME="APPRAISER";
@@ -117,7 +119,7 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 	/**先读取本地，显示常用联系人*/
 	public void showLocalUserConent(){
 		UserInfoListBean userInfoListBean=
-				(UserInfoListBean) CacheServerResponse.readObject(context,"UserInfoListBean");
+				(UserInfoListBean) CacheServerResponse.readObject(context,USERINFOLISTBEAN);
 		//搜索时显示常用联系人的提示
 		ll_localUserHint.setVisibility(View.VISIBLE);
 		if (userInfoListBean!=null){
@@ -227,7 +229,6 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 				EventBus.getDefault().post(messageBean);
 
 				finish();
-
 			}
 		});
 	}

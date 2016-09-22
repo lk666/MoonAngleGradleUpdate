@@ -37,7 +37,6 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import cn.com.bluemoon.delivery.MenuFragment;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
@@ -75,7 +74,8 @@ public class AddTaskActivity extends BaseActivity{
     @Bind(R.id.ll_addTask) LinearLayout ll_addTask;
     @Bind(R.id.scrollviwe_task)
     ScrollView scrollviwe_task;
-
+    /**用于存储在本地的实例文件*/
+    public static String USERINFOLISTBEAN="UserInfoListBean";
     public static final String TASKOPERATETYPE="TASKOPERATETYPE";
     public static final int TASKOPERATETYPE_ADD=0;
     public static final int TASKOPERATETYPE_MODIFY=1;
@@ -113,17 +113,9 @@ public class AddTaskActivity extends BaseActivity{
         context=AddTaskActivity.this;
         currentDate=getIntent().getStringExtra(CURRENTDATA);
         taskOperateType=getIntent().getIntExtra(TASKOPERATETYPE,0);
-//        默认设置自身的信息 名字、id
-        user=new UserInfoBean();
-        user.setUID(MenuFragment.user.getAccount());
-        user.setUName(MenuFragment.user.getRealName());
-//        user.setUName(ClientStateManager.get);
-        LogUtil.i("用户id -name:"+ClientStateManager.getUserName());
-        LogUtil.i("MenuFragment.user -name:"+
-                MenuFragment.user.getAccount()+"//"+MenuFragment.user.getRealName());
-
     }
 
+//    RecyclerView
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode){
@@ -347,12 +339,6 @@ public class AddTaskActivity extends BaseActivity{
                         dialog.dismiss();
                     }
                 });
-        dialog.setNegativeButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                dialog.dismiss();
-            }
-        });
         dialog.show();
     }
 
@@ -391,8 +377,8 @@ public class AddTaskActivity extends BaseActivity{
 
                 LogUtil.w("是否有交集：------>"+isOverlap);
                 if (isOverlap==true){
-                    PublicUtil.showToast("任务："+asignJobBean.getTask_idx()
-                            +"时间与任务："+asignJobBeanNext.getTask_idx()+"时间有冲突");
+                    PublicUtil.showToast("任务 "+asignJobBean.getTask_idx()
+                            +"时间与任务 "+asignJobBeanNext.getTask_idx()+"时间有冲突");
                     return;
 
                 }
@@ -467,7 +453,7 @@ public class AddTaskActivity extends BaseActivity{
         List<UserInfoBean> userInfoBeanListFinal=new ArrayList<>();//中转用后最后的排序
 
         userInfoListBean=
-                (UserInfoListBean) CacheServerResponse.readObject(context,"UserInfoListBean");
+                (UserInfoListBean) CacheServerResponse.readObject(context,USERINFOLISTBEAN);
         if (userInfoListBean!=null){
             userInfoBeanList=userInfoListBean.getData();
             //对比是否存在
@@ -495,7 +481,7 @@ public class AddTaskActivity extends BaseActivity{
             LogUtil.e("第一次本地缓存的用户信息："+currUserInfoBean.toString());
         }
             CacheServerResponse.saveObject(context,
-                    "UserInfoListBean", userInfoListBean);
+                    USERINFOLISTBEAN, userInfoListBean);
 
     }
 
@@ -547,7 +533,7 @@ public class AddTaskActivity extends BaseActivity{
 
     }
 
-    /**查询人员接口*/
+    /**查询h上级及自己的人员信息*/
     private void getuserinfo(String account){
         if (!StringUtils.isEmpty(account)) {
             SzApi.getuserinfo(account, getNewHandler(REQUESTUSERINFO, ResultToken.class));
@@ -555,28 +541,27 @@ public class AddTaskActivity extends BaseActivity{
     }
 
 
-
-
     @OnClick({R.id.tv_addTask,R.id.ll_addTask, R.id.tv_dete})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_addTask:
             case R.id.ll_addTask:
-                ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
-                itemTag++;
-                setItemName();
-                getAllTaskTimes();
-                if (itemTag==itemSize) {
-                    tv_addTask.setVisibility(View.GONE);
-                    ll_addTask.setVisibility(View.GONE);
-
-                }
+                if (itemTag<itemSize){
+                    ll_task_item_conent.addView(initTaskItemView(itemTag),itemTag);
+                    itemTag++;
+                    setItemName();
+                    getAllTaskTimes();
                 mHandler.post(new Runnable() {
                     @Override
                     public void run() {
                         scrollviwe_task.fullScroll(ScrollView.FOCUS_DOWN);
                     }
-                });
+                    });
+                }else  if(itemTag>=itemSize) {
+//                    tv_addTask.setVisibility(View.GONE);
+//                    ll_addTask.setVisibility(View.GONE);
+                    PublicUtil.showToast("您今日工作任务数量达到20项，已不能继续添加！");
+                }
                 break;
             case R.id.tv_dete:
 
@@ -615,7 +600,6 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 Bundle mbBundle=new Bundle();
-//                PublicUtil.showToast("ttv_taskName");
 
                 mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
                 mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,50);
@@ -634,7 +618,6 @@ public class AddTaskActivity extends BaseActivity{
             @Override
             public void onClick(View v) {
                 Bundle mbBundle=new Bundle();
-//                PublicUtil.showToast("ttv_taskName");
 
                 mbBundle.putInt(InputToolsActivity.INTENTITEMTAG,Tag);
                 mbBundle.putInt(InputToolsActivity.MAXTEXTLENGHT,200);
@@ -696,7 +679,7 @@ public class AddTaskActivity extends BaseActivity{
                                             itemTag--;
                                             setItemName();
                                             getAllTaskTimes();
-                                            if (itemTag<10) {
+                                            if (itemTag<itemSize) {
                                                 tv_addTask.setVisibility(View.VISIBLE);
                                             }
                                         }

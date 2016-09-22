@@ -67,8 +67,9 @@ public class TaskRecordFragment extends BaseFragment
 	private CalendarCard[] mShowViews;
 	private CalendarViewAdapter<CalendarCard> adapter;
 	private SildeDirection mDirection = SildeDirection.NO_SILDE;
+	/**当前日期*/
 	private String currentDate="";
-
+	/**切换月份的日期记录*/
 	private CustomDate currentCustomDate=null;
 
 	private View headerView=null;
@@ -530,24 +531,28 @@ public class TaskRecordFragment extends BaseFragment
 				dailyPerformanceInfoBeanArrayList.clear();
 			}
 			taskDateStatusAdapter.notifyDataSetChanged();
-//			设置添加的内容
-			tv_addTask.setText(getString(R.string.sz_task_add_task));
-			tv_addTask.setCompoundDrawables(
-					getDrawable(R.mipmap.icon_sz_task_add),null,null,null);
-			showModleType=1;
+//			设置添加的内容 出现 Fragment  not attached to Activity
+// 			Fragment的还没有Attach到Activity时，调用了如getResource()
+			if (tv_addTask!=null && isAdded()){
+				tv_addTask.setText(getString(R.string.sz_task_add_task));
+				tv_addTask.setCompoundDrawables(
+						getDrawable(R.mipmap.icon_sz_task_add),null,null,null);
+				showModleType=1;
+			}
 		}else{
 			LogUtil.e("infoBean  isupdate："+infoBean.isupdate);
-
-			if (infoBean.isupdate==true){//可修改
-				showModleType=0;
-				tv_addTask.setText(getString(R.string.sz_task_modify_task));
-				tv_addTask.setCompoundDrawables(
-						getDrawable(R.mipmap.icon_sz_task_modify),null,null,null);
-			}else if (infoBean.isupdate==false){//只可查看
-				tv_addTask.setText(getString(R.string.sz_task_look_task));
-				tv_addTask.setCompoundDrawables(
-						getDrawable(R.mipmap.icon_sz_task_look),null,null,null);
-				showModleType=2;
+			if (isAdded()){
+				if (infoBean.isupdate==true){//可修改
+					showModleType=0;
+					tv_addTask.setText(getString(R.string.sz_task_modify_task));
+					tv_addTask.setCompoundDrawables(
+							getDrawable(R.mipmap.icon_sz_task_modify),null,null,null);
+				}else if (infoBean.isupdate==false){//只可查看
+					tv_addTask.setText(getString(R.string.sz_task_look_task));
+					tv_addTask.setCompoundDrawables(
+							getDrawable(R.mipmap.icon_sz_task_look),null,null,null);
+					showModleType=2;
+				}
 			}
 		}
 	}
@@ -570,7 +575,16 @@ public class TaskRecordFragment extends BaseFragment
 			case R.id.ll_add_taskView:
 				if (showModleType==1){
 					Bundle mBundle=new Bundle();
-					mBundle.putString(AddTaskActivity.CURRENTDATA,currentDate);
+//					currentDate时间与 currentCustomDate的判断
+					String tranCurrentDate="";
+					if (currentCustomDate!=null){
+						if (compareDate(currentDate,currentCustomDate.toString())==true){
+							tranCurrentDate=currentDate;
+						}else{//访问其它月份一号的内容
+							tranCurrentDate=currentCustomDate.toString();
+						}
+					}
+					mBundle.putString(AddTaskActivity.CURRENTDATA,tranCurrentDate);
 					mBundle.putInt(AddTaskActivity.TASKOPERATETYPE,
 							AddTaskActivity.TASKOPERATETYPE_ADD);
 					PageJumps.PageJumps(context,AddTaskActivity.class,mBundle);

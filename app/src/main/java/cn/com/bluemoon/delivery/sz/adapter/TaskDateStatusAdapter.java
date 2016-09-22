@@ -88,11 +88,14 @@ public class TaskDateStatusAdapter extends BaseAdapter {
 
         if (dailyPerformanceInfoBean.getModel().equals("0")){
             viewHolder.getUserScoreTv().setText("未评价");
+            //未评价的有效工时
+            viewHolder.getUserAvaliabelTimeTv().setText(dailyPerformanceInfoBean.getDay_usage_time());
         }else if(dailyPerformanceInfoBean.getModel().equals("1")){
             viewHolder.getUserScoreTv().setText(dailyPerformanceInfoBean.getDay_score());
+            //已评价的有效工时
+            viewHolder.getUserAvaliabelTimeTv().setText(dailyPerformanceInfoBean.getDay_valid_min());
         }
 
-        viewHolder.getUserAvaliabelTimeTv().setText(dailyPerformanceInfoBean.getDay_valid_min());
 
 
         List<AsignJobBean> asignJobs=dailyPerformanceInfoBean.getAsignJobs();
