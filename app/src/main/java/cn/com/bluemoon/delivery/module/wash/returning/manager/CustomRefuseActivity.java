@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -93,6 +94,14 @@ public class CustomRefuseActivity extends BaseActivity {
                 btnRefuse.setTextColor(getResources().getColor(R.color.text_blue));
                 btnRefuse.setBackgroundResource(R.drawable.btn_border_blue_shape4);
             }
+            btnRefuse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CustomRefuseActivity.this, RefuseDetailActivity.class);
+                    intent.putExtra("clothesCode", r.getClothesCode());
+                    startActivityForResult(intent, 1);
+                }
+            });
 
         }
     }

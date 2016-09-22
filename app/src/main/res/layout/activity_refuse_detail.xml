@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+ <TextView
+     android:id="@+id/txt_code"
+     android:layout_width="match_parent"
+     android:layout_height="44dp"
+     android:textColor="@color/text_black_light"
+     android:gravity="center_vertical"
+     android:layout_marginLeft="12dp"
+     android:textSize="15sp"/>
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="44dp"
+     android:background="@color/white"
+     android:gravity="center_vertical">
+  <TextView
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight="1"
+      android:textColor="@color/text_black"
+      android:layout_marginLeft="12dp"
+      android:text="拒签时间"
+      android:textSize="15sp"/>
+  <TextView
+      android:id="@+id/txt_time"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/text_grep"
+      android:layout_marginRight="12dp"
+      android:textSize="13sp"/>
+
+ </LinearLayout>
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="44dp"
+     android:layout_marginTop="8dp"
+     android:background="@color/white"
+     android:gravity="center_vertical">
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/text_black"
+      android:layout_marginLeft="12dp"
+      android:text="拒签原因"
+      android:textSize="15sp"/>
+  <include layout="@layout/red_star"/>
+ </LinearLayout>
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:background="@color/white"
+     android:orientation="vertical">
+  <View
+      android:layout_width="match_parent"
+      android:layout_height="0.5dp"
+      android:layout_marginLeft="12dp"
+      android:background="@color/line_soild_bg"/>
+  <TextView
+      android:id="@+id/txt_reason"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="12dp"
+      android:textColor="@color/text_black_light"
+      android:textSize="13sp"/>
+
+ </LinearLayout>
+
+ <LinearLayout
+     android:layout_width="match_parent"
+     android:layout_height="44dp"
+     android:gravity="center_vertical">
+   <TextView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:textColor="@color/text_black"
+       android:layout_marginLeft="12dp"
+       android:text="衣物照片"
+       android:textSize="15sp"/>
+  <include layout="@layout/red_star"/>
+  <TextView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:textColor="@color/text_black_light"
+      android:layout_marginLeft="10dp"
+      android:text="上传1-5张拒绝接收衣物相关照片"
+      android:textSize="11sp"/>
+ </LinearLayout>
+
+ <cn.com.bluemoon.delivery.ui.ImageGridView
+     android:id="@+id/gridview_img"
+     android:layout_width="match_parent"
+     android:layout_height="wrap_content"
+     android:columnWidth="60dp"
+     android:paddingTop="10dp"
+     android:paddingBottom="10dp"
+     android:paddingLeft="16dp"
+     android:paddingRight="16dp"
+     android:horizontalSpacing="16dp"
+     android:verticalSpacing="10dp"
+     android:listSelector="@color/white"
+     android:background="@color/white"
+     android:numColumns="auto_fit"
+     android:scrollbars="none"
+     android:stretchMode="none" />
+
+ </LinearLayout>
