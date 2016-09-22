@@ -1,33 +1,33 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.com.bluemoon.delivery">
+    package="cn.com.bluemoon.delivery">
 
-    <uses-feature android:name="android.hardware.camera.autofocus"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" />
 
-    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
-    <uses-permission android:name="android.permission.CALL_PHONE"/>
+    <uses-permission android:name="android.permission.MOUNT_UNMOUNT_FILESYSTEMS" />
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <!-- Push service 运行需要的权限 -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
-    <uses-permission android:name="android.permission.WRITE_SETTINGS"/>
-    <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
-    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
-    <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER" />
+    <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION" />
+    <uses-permission android:name="android.permission.DISABLE_KEYGUARD" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.EXPAND_STATUS_BAR" />
 
     <!-- 这个权限用于获取wifi的获取权限，wifi信息会用来进行网络定位 -->
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.REAL_GET_TASKS"/>
-    <uses-permission android:name="android.permission.GET_TASKS"/>
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.REAL_GET_TASKS" />
+    <uses-permission android:name="android.permission.GET_TASKS" />
 
     <application
         android:name=".AppContext"
@@ -39,387 +39,386 @@
             android:label="@string/app_name"
             android:theme="@style/AnimStartStyle">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Anim_style2"/>
+            android:theme="@style/Anim_style2" />
         <activity
             android:name=".module.account.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
             android:theme="@style/Anim_style2"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.usermvptest.view.UserActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.account.SettingInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.account.SettingActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.account.ResetPswActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.account.InputPhoneActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.account.ChangePswActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".module.order.OrderDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.order.OrdersTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.order.SelectStoreHouseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.order.ReturnOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".common.ScanActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".common.ScanInputActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".common.ScanCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.order.SignActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.extract.OrderDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.extract.HistoryOrderDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.extract.ExtractTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.ticket.TicketCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.ticket.TicketCountActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.ticket.TicketChooseActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.ticket.TicketScanActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".module.inventory.InventoryTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.storage.StorageTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.storage.StockDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.storage.WarehouseAddressActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.storage.WarehouseAddressEditActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.inventory.OrderSelectDeliveryAddrActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.inventory.OrderReceiveDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.inventory.OrderTicketUploadActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.card.CardTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.card.PunchCardOndutyActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.card.GetWorkPlaceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".common.SelectAddressActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".common.SelectAddressByDepthActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
         <activity
             android:name=".module.inventory.PhotoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.inventory.OrderDiffReasonActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.card.WorkDiaryActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.card.UploadImageActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.card.LogActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.card.SearchProductActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".common.WebViewActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="adjustResize"/>
+            android:windowSoftInputMode="adjustResize" />
         <activity
             android:name=".module.coupons.CouponsTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.inventory.OrderDeliverDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.inventory.OrderEndDeliverDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.inventory.OrderEndReceiveDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.coupons.CouponsDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.notice.NoticeListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.notice.NoticeDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.notice.MessageListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.notice.PaperListActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.collect.ClothingTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.collect.withorder.WithOrderCollectBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withorder.ClothingDeliverActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.ClothesDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.collect.withorder.ClothingDeliverConfirmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.ClothingRecordDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withoutorder.ActivityDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withorder.ClothingBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withorder.ManualInputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withorder.WithOrderOuterDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withoutorder.ActivityDescActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withoutorder.CreateCollectOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.wash.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
+            android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
             android:name=".module.jobrecord.PromoteDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.jobrecord.PromoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".module.jobrecord.AddPromoteActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden"/>
+            android:windowSoftInputMode="stateHidden" />
         <activity
             android:name=".module.jobrecord.PeopleFlowActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.jobrecord.CommunitySelectActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".module.team.MyTeamActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".module.team.GroupDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.team.SelectEmpActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".module.team.RelationShipDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.team.RelationInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.team.PersonnelAreaActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.team.SelectAreaActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".module.team.CommonSelectActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.team.SearchGroupActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.ShowMultipleImageView"
             android:screenOrientation="portrait"
-            android:theme="@style/MyDialogStyleTop"/>
-
+            android:theme="@style/MyDialogStyleTop" />
         <activity
             android:name=".module.wash.returning.manager.ManualSignActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"/>
+            android:theme="@android:style/Theme.NoTitleBar" />
 
-        <service android:name=".module.card.LocationSvc"/>
+        <service android:name=".module.card.LocationSvc" />
 
         <!-- push应用定义消息receiver声明 -->
         <receiver android:name=".utils.BMPushMessageReceiver">
             <intent-filter>
 
                 <!-- 接收push消息 -->
-                <action android:name="com.baidu.android.pushservice.action.MESSAGE"/>
+                <action android:name="com.baidu.android.pushservice.action.MESSAGE" />
                 <!-- 接收bind,unbind,fetch,delete等反馈消息 -->
-                <action android:name="com.baidu.android.pushservice.action.RECEIVE"/>
-                <action android:name="com.baidu.android.pushservice.action.notification.CLICK"/>
+                <action android:name="com.baidu.android.pushservice.action.RECEIVE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.CLICK" />
             </intent-filter>
         </receiver>
 
         <!-- 4.6版本新增的Activity声明，提升Push后台存活率 -->
         <activity
             android:name="com.baidu.android.pushservice.PushKeepAlive"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
 
         <!-- push service start -->
         <!-- 用于接收系统消息以保证PushService正常运行 -->
@@ -427,15 +426,15 @@
             android:name="com.baidu.android.pushservice.PushServiceReceiver"
             android:process=":bdservice_v1">
             <intent-filter android:priority="1000">
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"/>
-                <action android:name="com.baidu.android.pushservice.action.notification.SHOW"/>
-                <action android:name="com.baidu.android.pushservice.action.media.CLICK"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+                <action android:name="com.baidu.android.pushservice.action.notification.SHOW" />
+                <action android:name="com.baidu.android.pushservice.action.media.CLICK" />
                 <!-- 以下四项为可选的action声明，可大大提高service存活率和消息到达速度 -->
-                <action android:name="android.intent.action.MEDIA_MOUNTED"/>
-                <action android:name="android.intent.action.USER_PRESENT"/>
-                <action android:name="android.intent.action.ACTION_POWER_CONNECTED"/>
-                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED"/>
+                <action android:name="android.intent.action.MEDIA_MOUNTED" />
+                <action android:name="android.intent.action.USER_PRESENT" />
+                <action android:name="android.intent.action.ACTION_POWER_CONNECTED" />
+                <action android:name="android.intent.action.ACTION_POWER_DISCONNECTED" />
             </intent-filter>
         </receiver>
         <!-- Push服务接收客户端发送的各种请求 -->
@@ -443,13 +442,13 @@
             android:name="com.baidu.android.pushservice.RegistrationReceiver"
             android:process=":bdservice_v1">
             <intent-filter>
-                <action android:name="com.baidu.android.pushservice.action.METHOD"/>
-                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC"/>
+                <action android:name="com.baidu.android.pushservice.action.METHOD" />
+                <action android:name="com.baidu.android.pushservice.action.BIND_SYNC" />
             </intent-filter>
             <intent-filter>
-                <action android:name="android.intent.action.PACKAGE_REMOVED"/>
+                <action android:name="android.intent.action.PACKAGE_REMOVED" />
 
-                <data android:scheme="package"/>
+                <data android:scheme="package" />
             </intent-filter>
         </receiver>
 
@@ -458,50 +457,62 @@
             android:exported="true"
             android:process=":bdservice_v1">
             <intent-filter>
-                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE"/>
+                <action android:name="com.baidu.android.pushservice.action.PUSH_SERVICE" />
             </intent-filter>
         </service>
         <!-- 4.4版本新增的CommandService声明，提升小米和魅族手机上的实际推送到达率 -->
         <service
             android:name="com.baidu.android.pushservice.CommandService"
-            android:exported="true"/>
+            android:exported="true" />
         <!-- push结束 -->
 
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"/>
+            android:process=":remote" />
 
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data
             android:name="api_key"
-            android:value="ydOj5IiwGcAv0EHOAGX0ajRH"/>
+            android:value="ydOj5IiwGcAv0EHOAGX0ajRH" />
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="4oN3rtPUN1jio5uamCReRPBAF7h9N32f"/>
+            android:value="4oN3rtPUN1jio5uamCReRPBAF7h9N32f" />
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="567c90abe0f55ac50200370c"/>
+            android:value="567c90abe0f55ac50200370c" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="bluemoon"/>
+            android:value="bluemoon" />
 
         <activity
             android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.returning.incabinet.CabinetScanActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.collect.ClothScanCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".common.InputCodeActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.driver.DriverTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity android:name=".module.wash.returning.driver.CarriageDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            />
+        <activity android:name=".module.wash.returning.driver.TransportListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            />
     </application>
 
 </manifest>

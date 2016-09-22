@@ -59,6 +59,7 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
@@ -777,9 +778,9 @@ public class MainActivity extends SlidingActivity {
 
             // TODO: lk 2016/9/14 洗衣服务还衣
             else if(MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())){
-                CabinetScanActivity.actStart(main, null, "扫描衣物编码", "手动输入",null, 0);
+                CabinetScanActivity.actStart(main,getString(R.string.incabinet_cloth_title));
             } else if(MenuCode.wash_driver.toString().equals(userRight.getMenuCode())){
-                ScanCodeActivity.actStart(main, null, null, "手动输入",null, 0);
+                DriverTabActivity.actionStart(main);
             }
             else if  (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
                 CloseBoxTabActivity.actionStart(main);
