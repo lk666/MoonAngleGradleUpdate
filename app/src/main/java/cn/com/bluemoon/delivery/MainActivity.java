@@ -791,7 +791,7 @@ public class MainActivity extends SlidingActivity {
 
             // TODO: lk 2016/9/14 洗衣服务还衣
             else if(MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())){
-                CabinetScanActivity.actStart(main,getString(R.string.incabinet_cloth_title));
+                CabinetScanActivity.actStart(main);
             } else if(MenuCode.wash_driver.toString().equals(userRight.getMenuCode())){
                 DriverTabActivity.actionStart(main);
             } else if(MenuCode.express_sealing.toString().equals(userRight.getMenuCode())){

@@ -35,6 +35,13 @@
     </style>
 
     <!-- 浅色实线 -->
+    <style name="line_solid_light_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/page_bg_ed</item>
+    </style>
+
+    <!-- 浅色实线 -->
     <style name="line_solid_padding_left_style">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">0.5dp</item>
