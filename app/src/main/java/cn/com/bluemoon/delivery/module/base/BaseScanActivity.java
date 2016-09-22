@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
@@ -39,6 +40,7 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
         IHttpRespone {
 
     private ProgressDialog waitDialog;
+    private Handler handler;
 
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
@@ -50,6 +52,7 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     protected void initContentView() {
         super.initContentView();
         ButterKnife.bind(this);
+        handler = new Handler();
     }
 
     private void initCustomActionBar() {
@@ -246,6 +249,32 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
             }
         }
     }
+
+    /**
+     * 延时启动
+     * @param time
+     */
+    final protected void startDelay(long time){
+        if(time <=0){
+            resumeScan();
+        }else{
+            handler.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    resumeScan();
+                }
+            }, time);
+        }
+
+    }
+
+    /**
+     * 延时启动，默认1秒
+     */
+    final protected void startDelay(){
+        startDelay(1000);
+    }
+
     ///////////// 可选重写 ////////////////
 
     /**
@@ -254,6 +283,7 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         PublicUtil.showErrorMsg(this, result);
+        startDelay();
     }
 
     /**
@@ -262,11 +292,13 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     @Override
     public void onFailureResponse(int requestCode, Throwable t) {
         ViewUtil.toastOvertime();
+        startDelay();
     }
 
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         ViewUtil.toastBusy();
+        startDelay();
     }
 
     /**

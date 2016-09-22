@@ -26,6 +26,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Created by lk on 2016/9/14.
  */
 public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
+    private static final int REQUEST_CODE_SCANE_BOX_CODE = 0x777;
     private View viewPopStart;
     private TextView txtCount;
     private TextView txtPendingBox;
@@ -129,6 +130,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
+        isFirstTimeLoad = true;
         pageFlag = 0;
         ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox, getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
@@ -195,23 +197,43 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
             tvBoxCode.setText(item.getBoxCode());
             tvTotal.setText(String.valueOf(item.getBackOrderNum()));
             tvFinish.setText(String.valueOf(item.getBackOrderIntoNum()));
-
             if (item.getBackOrderIntoNum() != item.getBackOrderNum()) {
                 btnCloseBox.setVisibility(View.GONE);
             } else {
-                btnCloseBox.setVisibility(View.VISIBLE);
+            btnCloseBox.setVisibility(View.VISIBLE);
             }
 
             setClickEvent(isNew, position, btnCloseBox);
         }
     }
 
+    /**
+     * 当再次回到此界面，且在此此回到此界面，setUserVisibleHint之前没有调用initData时，刷新数据
+     */
+    private boolean isFirstTimeLoad = true;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (!isFirstTimeLoad) {
+            initData();
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        isFirstTimeLoad = false;
+    }
+
     @Override
     public void onItemClick(Object obj, View view, int position) {
         BoxItem item = (BoxItem) obj;
         if (null != item) {
-            // TODO: lk 2016/9/18 跳转到封箱
-            toast("跳转到封箱");
+            ScanBoxCodeActivity.actStart(getActivity(), this, getString(R.string
+                            .close_box_scan_box_code_title), getString(R.string
+                            .with_order_collect_manual_input_code_btn), item.getBoxCode(),
+                    ScanBoxCodeActivity.class, REQUEST_CODE_SCANE_BOX_CODE);
         }
     }
 

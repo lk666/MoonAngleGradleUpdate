@@ -4,6 +4,7 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="listview_left_margin">10dp</dimen>
     <dimen name="listview_right_margin">10dp</dimen>
+    <dimen name="listview_top_margin">10dp</dimen>
 
     <dimen name="actionbar_height">45dp</dimen>
     <dimen name="profile_head_userinfo_view_height">70dp</dimen>
@@ -39,4 +40,5 @@
     <dimen name="div_height">0.5dp</dimen>
     <!--分割线高度-->
     <dimen name="div_height_8">8dp</dimen>
+    <dimen name="div_height_10">10dp</dimen>
 </resources>

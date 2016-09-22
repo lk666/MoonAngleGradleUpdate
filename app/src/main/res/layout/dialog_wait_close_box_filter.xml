@@ -30,7 +30,7 @@
                 android:paddingLeft="8dp"
                 android:paddingRight="10dp"
                 android:text="@string/close_box_title"
-                android:textColor="@color/text_grep"
+                android:textColor="@color/text_black"
                 android:textSize="@dimen/text_size_17"/>
 
             <LinearLayout

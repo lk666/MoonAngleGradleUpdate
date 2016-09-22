@@ -75,8 +75,8 @@ public class CloseBoxDetailActivity extends BaseActivity {
     protected void setActionBar(CommonActionBar actionBar) {
         super.setActionBar(actionBar);
 
-        actionBar.getTvRightView().setText(R.string.re_print);
-        actionBar.getTvRightView().setVisibility(View.VISIBLE);
+        actionBar.getImgRightView().setImageResource(R.mipmap.ic_print);
+        actionBar.getImgRightView().setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -133,7 +133,7 @@ public class CloseBoxDetailActivity extends BaseActivity {
                     .getSourceCity(), result.getSourceCounty()));
             tvAddressDetail.setText(result.getSourceAddress());
             tvBackOrderNum.setText(String.format(getString(R.string
-                    .close_box_back_detail_order_num),
+                            .close_box_back_detail_order_num),
 
                     result.getBackOrderNum()));
             tvBoxCode.setText(String.format(getString(R.string.close_box_tag_detail_box_code),

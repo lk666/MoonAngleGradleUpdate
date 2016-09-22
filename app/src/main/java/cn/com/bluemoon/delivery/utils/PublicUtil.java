@@ -140,15 +140,15 @@ public class PublicUtil extends LibPublicUtil {
     /**
      * 最新的统一扫描界面
      */
-    public static void openNewScanView(Activity aty, Fragment fragment, String title,String btnString,int requestCode) {
-        ScanCodeActivity.actStart(aty, fragment, title,btnString,null, requestCode);
+    public static void openNewScanView(Activity aty,String title,String btnString,String code,int requestCode) {
+        ScanCodeActivity.actStart(aty,title,btnString,code, requestCode);
     }
 
     /**
      * 最新的统一扫描界面
      */
-    public static void openNewScanView(Activity aty, Fragment fragment, String title,String btnString,String code,int requestCode) {
-        ScanCodeActivity.actStart(aty, fragment, title,btnString,code, requestCode);
+    public static void openNewScanView(Fragment fragment, String title,String btnString,String code,int requestCode) {
+        ScanCodeActivity.actStart(fragment, title,btnString,code, requestCode);
     }
 
     public static String genApiSign(String[] params) {

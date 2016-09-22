@@ -54,7 +54,6 @@ public class InputPhoneActivity extends KJActivity {
 		super.initWidget();
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(this);
-		edUserId.setMaxLength(9);
 		edPhone.setMaxLength(11);
 		userid = getIntent().getStringExtra("id");
 		if (userid != null) {
