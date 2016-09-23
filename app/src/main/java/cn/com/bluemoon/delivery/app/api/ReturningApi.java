@@ -41,11 +41,12 @@ public class ReturningApi extends DeliveryApi {
      * 1.2上传异常图片（签名图片）
      *
      * @param file  文件流
+     * @param fileName	文件名 (UUID.randomUUID() + ".png")
      * @param token 登录凭证(必填) String
      */
-    public static void uploadExceptionImage(byte[] file, String token, AsyncHttpResponseHandler
+    public static void uploadExceptionImage(byte[] file, String fileName, String token, AsyncHttpResponseHandler
             handler) {
-        if (null == token || null == file) {
+        if (null == token || null == file || null == fileName){
             return;
         }
 
@@ -55,8 +56,8 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("fileData", fileString);
-        params.put("fileName", UUID.randomUUID() + ".png");
-        postRequest(params, "washingService-controller/wash/uploadExceptionImage%s", handler);
+        params.put("fileName",fileName);
+        postMockRequest(params, "washingService-controller/wash/uploadExceptionImage%s", handler);
     }
 
     /**
@@ -333,6 +334,28 @@ public class ReturningApi extends DeliveryApi {
         params.put("token",token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/queryBackOrderDetail%s", handler);
     }
+
+    /**
+     *9.7还衣单签收
+     * @param backOrderCode 还衣单号 String
+     * @param isSignName 是否本人签名 boolean
+     * @param signFileName 签收图片文件名 String
+     * @param signImagePath 签收签名图片路径 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void backOrderSign(String backOrderCode,boolean isSignName,String signFileName,String signImagePath,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == signFileName||null == signImagePath||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("isSignName",isSignName);
+        params.put("signFileName",signFileName);
+        params.put("signImagePath",signImagePath);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/backOrderSign%s", handler);
+    }
+
 
     /**
      *9.11还衣详情历史列表

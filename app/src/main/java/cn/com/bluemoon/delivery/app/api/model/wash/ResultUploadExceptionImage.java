@@ -4,12 +4,14 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.io.Serializable;
 
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+
 /**
  * {@link cn.com.bluemoon.delivery.app.api.ReturningApi#uploadExceptionImage(byte[], String, AsyncHttpResponseHandler)}
  * 服务器返回json
  * Created by lk on 2016/9/14.
  */
-public class ResultUploadExceptionImage implements Serializable {
+public class ResultUploadExceptionImage extends ResultBase implements Serializable {
 
     /**
      * 文件路径

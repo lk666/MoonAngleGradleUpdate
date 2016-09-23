@@ -25,6 +25,7 @@ import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultBackOr
 import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.ui.UpDownTextView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
@@ -156,6 +157,12 @@ public class BackOrderDetailActivity extends BaseActivity {
         txtNo.setText("还衣单号：" + backOrderCode);
         txtCustomerName.setText(name);
         txtMobilePhone.setText(phone);
+        txtMobilePhone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PublicUtil.showCallPhoneDialog2(BackOrderDetailActivity.this, phone);
+            }
+        });
         txtAddress.setText(address);
         txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
         txtMobilePhone.getPaint().setAntiAlias(true);
