@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -45,6 +47,16 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
     GestureOverlayView mDrawGestureView;
 
     private static ArrayList<GestureStroke> strokes;
+
+    public static void actStart(Activity context, int requestCode) {
+        Intent intent = new Intent(context, ManualSignActivity.class);
+        context.startActivityForResult(intent, requestCode);
+    }
+
+    public static void actStart(Fragment fragment, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), ManualSignActivity.class);
+        fragment.startActivityForResult(intent, requestCode);
+    }
 
 
     @Override

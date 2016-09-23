@@ -143,21 +143,11 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
                 @Override
                 public void onClick(View v) {
                     switch (v.getId()) {
-                        case R.id.layout_detail:
-                            Intent intent = new Intent(getActivity(), BackOrderDetailActivity.class);
-                            intent.putExtra("backOrderCode", result.getBackOrderCode());
-                            intent.putExtra("name", result.getCustomerName());
-                            intent.putExtra("phone", result.getCustomerPhone());
-                            intent.putExtra("address", result.getAddress());
-                            intent.putExtra("isUrgent", result.isIsUrgent());
-                            intent.putExtra("isHistory", true);
-                            startActivity(intent);
-                            break;
                         case R.id.txt_mobilePhone:
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());
                             break;
                         case R.id.layout_history_detail:
-                            longToast("layout_history_detail");
+                            BackOrderDetailActivity.actStart(getActivity(), result, true);
                             break;
                     }
                 }

@@ -346,6 +346,22 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
+     *9.3快递收货-确认收货
+     * @param expressCode 快递单号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void confirmReceive(String expressCode,String token,AsyncHttpResponseHandler handler){
+        if(null == expressCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("expressCode",expressCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/confirmReceive%s", handler);
+    }
+
+
+    /**
      *9.7还衣单签收
      * @param backOrderCode 还衣单号 String
      * @param isSignName 是否本人签名 boolean

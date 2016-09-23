@@ -173,13 +173,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     switch (v.getId()) {
                         case R.id.layout_detail:
-                            Intent intent = new Intent(getActivity(), BackOrderDetailActivity.class);
-                            intent.putExtra("backOrderCode", result.getBackOrderCode());
-                            intent.putExtra("name", result.getCustomerName());
-                            intent.putExtra("phone", result.getCustomerPhone());
-                            intent.putExtra("address", result.getAddress());
-                            intent.putExtra("isUrgent", result.isIsUrgent());
-                            startActivity(intent);
+                            BackOrderDetailActivity.actStart(getActivity(), result, false);
                             break;
                         case R.id.btn_action:
                             final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_clothes_sign, null);
@@ -187,8 +181,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                             txtSign.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Intent intent = new Intent(getActivity(), ManualSignActivity.class);
-                                    SignFragment.this.startActivityForResult(intent, 1);
+                                    ManualSignActivity.actStart(SignFragment.this, 1);
                                 }
                             });
                             //show sign dialog
@@ -229,7 +222,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());
                             break;
                         case R.id.btn_refuse_sign:
-                            intent = new Intent(getActivity(), CustomerRefuseActivity.class);
+                            Intent intent = new Intent(getActivity(), CustomerRefuseActivity.class);
                             intent.putExtra("backOrderCode", result.getBackOrderCode());
                             SignFragment.this.startActivityForResult(intent, 2);
                             break;

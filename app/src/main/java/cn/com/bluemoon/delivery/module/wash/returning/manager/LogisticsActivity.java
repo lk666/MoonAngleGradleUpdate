@@ -1,6 +1,9 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -32,6 +35,13 @@ public class LogisticsActivity extends BaseActivity {
     ListView listviewExpress;
     private String companyCode;
     private String expressCode;
+
+    public static void actStart(Activity context, String companyCode, String expressCode) {
+        Intent intent = new Intent(context, LogisticsActivity.class);
+        intent.putExtra("companyCode", companyCode);
+        intent.putExtra("expressCode", expressCode);
+        context.startActivity(intent);
+    }
 
     @Override
     protected String getTitleString() {

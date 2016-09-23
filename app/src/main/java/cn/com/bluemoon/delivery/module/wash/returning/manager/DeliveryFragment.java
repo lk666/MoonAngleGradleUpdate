@@ -31,6 +31,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 public class DeliveryFragment extends BasePullToRefreshListViewFragment {
 
     private long pageFlag = 0;
+    private int index;
 
     @Override
     protected String getTitleString() {
@@ -98,6 +99,16 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
 
     }
 
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        if (requestCode == 1) {
+            getList().remove(index);
+            getAdapter().notifyDataSetChanged();
+            toast(result.getResponseMsg());
+        }
+    }
+
     class DeliveryAdapter extends BaseListAdapter<ResultExpress.ExpressListBean> {
 
         public DeliveryAdapter(Context context, OnListItemClickListener listener) {
@@ -110,7 +121,7 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
         }
 
         @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+        protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
             TextView txtNo = getViewById(R.id.txt_no);
             LinearLayout layoutDetail = getViewById(R.id.layout_detail);
             TextView txtNumber = getViewById(R.id.txt_number);
@@ -131,13 +142,13 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
                             startActivity(intent);
                             break;
                         case R.id.txt_logistics :
-                            intent = new Intent(getActivity(), LogisticsActivity.class);
-                            intent.putExtra("companyCode", result.getCompanyCode());
-                            intent.putExtra("expressCode", result.getExpressCode());
-                            startActivity(intent);
+                            LogisticsActivity.actStart(getActivity(),
+                                    result.getCompanyCode(), result.getExpressCode());
                             break;
                         case R.id.receiving_orders_action :
-                            longToast("ok");
+                            showWaitDialog();
+                            index = position;
+                            ReturningApi.confirmReceive(result.getExpressCode(), getToken(), getNewHandler(1, ResultBase.class));
                             break;
                     }
                 }

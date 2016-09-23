@@ -72,12 +72,14 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         pageFlag = 0;
-        ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, getToken(), getNewHandler(requestCode, ResultBackOrder.class));
+        ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, getToken(),
+                getNewHandler(requestCode, ResultBackOrder.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryBackOrderList(TYPE, pageFlag, 0, 0, getToken(), getNewHandler(requestCode, ResultBackOrder.class));
+        ReturningApi.queryBackOrderList(TYPE, pageFlag, 0, 0, getToken(),
+                getNewHandler(requestCode, ResultBackOrder.class));
     }
 
     @Override
@@ -133,13 +135,7 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     switch (v.getId()) {
                         case R.id.layout_detail:
-                            Intent intent = new Intent(getActivity(), BackOrderDetailActivity.class);
-                            intent.putExtra("backOrderCode", result.getBackOrderCode());
-                            intent.putExtra("name", result.getCustomerName());
-                            intent.putExtra("phone", result.getCustomerPhone());
-                            intent.putExtra("address", result.getAddress());
-                            intent.putExtra("isUrgent", result.isIsUrgent());
-                            startActivity(intent);
+                            BackOrderDetailActivity.actStart(getActivity(), result, false);
                             break;
                         case R.id.btn_action:
                             longToast("btn");
