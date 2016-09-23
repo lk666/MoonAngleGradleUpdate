@@ -197,11 +197,10 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
             tvBoxCode.setText(item.getBoxCode());
             tvTotal.setText(String.valueOf(item.getBackOrderNum()));
             tvFinish.setText(String.valueOf(item.getBackOrderIntoNum()));
-
             if (item.getBackOrderIntoNum() != item.getBackOrderNum()) {
                 btnCloseBox.setVisibility(View.GONE);
             } else {
-            btnCloseBox.setVisibility(View.VISIBLE);
+                btnCloseBox.setVisibility(View.VISIBLE);
             }
 
             setClickEvent(isNew, position, btnCloseBox);

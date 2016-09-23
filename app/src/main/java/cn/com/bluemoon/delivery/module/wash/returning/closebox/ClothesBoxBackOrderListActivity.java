@@ -135,10 +135,10 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
 
     @OnClick(R.id.btn_print)
     public void onClick() {
-        // TODO: lk 2016/9/21 打印
-        toast("打印");
+        // 打印封箱条
+        CloseBoxListActivity.actionStart(this, boxCode);
+        finish();
     }
-
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -87,7 +87,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
      * 获取界面数据（刷新界面）
      */
     private void getData() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
+        // LibViewUtil.setChildEnableRecursion(ptr, false);
         invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA);
     }
 
@@ -109,7 +109,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
      * 加载更多
      */
     private void getMore() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
+        // LibViewUtil.setChildEnableRecursion(ptr, false);
         invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE);
     }
 
@@ -231,13 +231,13 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 setGetData(result);
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 setGetMore(result);
                 break;
             default:
@@ -252,14 +252,14 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
             case HTTP_REQUEST_CODE_GET_DATA:
                 PublicUtil.showToastServerBusy();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 PublicUtil.showToastServerBusy();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;
@@ -273,14 +273,14 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
             case HTTP_REQUEST_CODE_GET_DATA:
                 PublicUtil.showToastServerOvertime();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 PublicUtil.showToastServerOvertime();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;
@@ -294,14 +294,14 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
             case HTTP_REQUEST_CODE_GET_DATA:
                 PublicUtil.showErrorMsg(this, result);
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 PublicUtil.showErrorMsg(this, result);
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;
