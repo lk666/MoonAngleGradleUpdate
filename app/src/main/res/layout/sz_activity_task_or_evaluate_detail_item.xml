@@ -217,7 +217,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="3dp"
             android:layout_marginRight="3dp"
-            android:gravity="center"
+            android:gravity="left|center"
             android:text=":"
             android:textColor="@color/black"
             android:textSize="@dimen/text_size_12" />
