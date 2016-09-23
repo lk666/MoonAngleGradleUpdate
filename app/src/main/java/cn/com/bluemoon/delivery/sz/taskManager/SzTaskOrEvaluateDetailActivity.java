@@ -282,9 +282,9 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
             //工作日期
             user_date_tv.setText(evaluateInfo.getWork_date());
             //有效工作时间（单位：分钟）
-            if (evaluateInfo.getModel().equals("0")){//未评价
+            if (evaluateInfo.getModel().equals("0")) {//未评价
                 user_avaliabel_time_tv.setText(evaluateInfo.getDay_usage_time());
-            }else if(evaluateInfo.getModel().equals("1")){
+            } else if (evaluateInfo.getModel().equals("1")) {
                 user_avaliabel_time_tv.setText(evaluateInfo.getDay_valid_min());
 
             }
@@ -307,7 +307,7 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
         WindowManager wm = this.getWindowManager();
         int screenwidth = wm.getDefaultDisplay().getWidth();
         int screenheight = wm.getDefaultDisplay().getHeight();
-        LogUtil.i("width:" + screenwidth + "--height:" + screenheight + "--totalHeight:" + totalHeight);
+        LogUtil.i("screenwidth:" + screenwidth + "--screenheight:" + screenheight + "--totalHeight:" + totalHeight);
         if (totalHeight < screenheight) {
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(
                     ViewGroup.LayoutParams.MATCH_PARENT,
@@ -323,7 +323,8 @@ public class SzTaskOrEvaluateDetailActivity extends BaseActivity {
     public int getLayoutHeight() {
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
+//        int statusBarHeight = frame.top;
+        int statusBarHeight = UIUtil.getNavigationBarHeight(this);
 
         int rl_user_data_height = measureViewHeight(rl_user_data);
         int titleBar_height = measureViewHeight(getActionBar().getCustomView());

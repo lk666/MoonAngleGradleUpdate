@@ -144,6 +144,12 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         if (evaluateInfo != null && evaluateInfo.getAsignJobs() != null) {
             for (int i = 0; i < evaluateInfo.getAsignJobs().size(); i++) {
                 AsignJobBean asignJobBean = evaluateInfo.getAsignJobs().get(i);
+                //将未评价的有效工时赋值
+                if (activityType == ACTIVITY_TYPE_WRTTE_EVALUATE) {
+                    asignJobBean.setValid_min(asignJobBean.getUsage_time());
+                }
+
+                //转换时间格式
                 if (TextUtils.isEmpty(asignJobBean.getValid_min())) {
                     asignJobBean.setValid_min("0");
                 }
@@ -506,7 +512,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         WindowManager wm = this.getWindowManager();
         int screenwidth = wm.getDefaultDisplay().getWidth();
         int screenheight = wm.getDefaultDisplay().getHeight();
-        LogUtil.i("width:" + screenwidth + "--height:" + screenheight + "--totalHeight:" + totalHeight);
+        LogUtil.i("screenwidth:" + screenwidth + "--screenheight:" + screenheight + "--totalHeight:" + totalHeight);
         if (totalHeight < screenheight) {
             RelativeLayout.LayoutParams lp = new RelativeLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             lp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM);
