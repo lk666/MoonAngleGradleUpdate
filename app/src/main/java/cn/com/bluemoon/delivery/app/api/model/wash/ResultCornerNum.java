@@ -12,13 +12,14 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
  * Created by lk on 2016/9/14.
  */
 public class ResultCornerNum extends ResultBase {
-    /** 角标统计数量 */
-    private int count;
+    /** 角标统计数量列表 */
+    private List<CornerNum> modelCountList;
 
-    public int getCount() {
-        return count;
+    public List<CornerNum> getModelCountList() {
+        return modelCountList;
     }
-    public void setCount(int count) {
-        this.count = count;
+
+    public void setModelCountList(List<CornerNum> modelCountList) {
+        this.modelCountList = modelCountList;
     }
 }

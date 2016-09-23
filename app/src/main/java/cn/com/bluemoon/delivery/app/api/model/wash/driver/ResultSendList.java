@@ -11,7 +11,7 @@ public class ResultSendList extends ResultBase {
     /** 收衣点列表 */
     private List<ClothCenter> centerList;
     /** 分页时间戳(分页标志) */
-    private int pageFlag;
+    private long pageFlag;
 
     public List<ClothCenter> getCenterList() {
         return centerList;
@@ -21,11 +21,11 @@ public class ResultSendList extends ResultBase {
         this.centerList = centerList;
     }
 
-    public int getPageFlag() {
+    public long getPageFlag() {
         return pageFlag;
     }
 
-    public void setPageFlag(int pageFlag) {
+    public void setPageFlag(long pageFlag) {
         this.pageFlag = pageFlag;
     }
 }

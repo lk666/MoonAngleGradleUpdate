@@ -63,11 +63,13 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         ReturningApi.queryWaitLoadList(0,getToken(),getNewHandler(requestCode,ResultWaitLoadList.class));
+        setAmount();
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
         ReturningApi.queryWaitLoadList(timesamp,getToken(),getNewHandler(requestCode,ResultWaitLoadList.class));
+        setAmount();
     }
 
     @Override
@@ -81,7 +83,6 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
                 TransportListActivity.actStart(this, carriage.getCarriageCode());
                 break;
         }
-
     }
 
 
@@ -106,7 +107,6 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
             txtTransportCode.setText(getString(R.string.driver_transport_code, item.getCarriageCode()));
             txtBoxNum.setText(getString(R.string.driver_box_num,item.getBoxNum()));
             txtLoadAddress.setText(getString(R.string.driver_load_address, item.getCenterName()));
-
             setClickEvent(isNew, position, txtTransportCode, btnLoad);
         }
     }

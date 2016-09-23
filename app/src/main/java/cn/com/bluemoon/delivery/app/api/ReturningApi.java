@@ -22,18 +22,17 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 1.1功能角标统计查询
-     *
+     *1.1功能角标统计查询
+     * @param modelType 角标模块类型（必填） String
      * @param token 登录凭证(必填) String
-     * @param type  角标类型 String
      */
-    public static void queryCornerNum(String token, String type, AsyncHttpResponseHandler handler) {
-        if (null == token || null == type) {
+    public static void queryCornerNum(String modelType,String token,AsyncHttpResponseHandler handler){
+        if(null == modelType||null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put(TOKEN, token);
-        params.put("type", type);
+        params.put("modelType",modelType);
+        params.put(TOKEN,token);
         postRequest(params, "washingService-controller/wash/queryCornerNum%s", handler);
     }
 
@@ -219,8 +218,8 @@ public class ReturningApi extends DeliveryApi {
      * @param receiverSignTime 收货时间 int
      * @param token            登录凭证(必填) String
      */
-    public static void queryCarriageHistoryList(long pageFlag, int receiverSignTime, String token, AsyncHttpResponseHandler handler) {
-        if (null == token) {
+    public static void queryCarriageHistoryList(long pageFlag,long receiverSignTime,String token,AsyncHttpResponseHandler handler){
+        if(null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();

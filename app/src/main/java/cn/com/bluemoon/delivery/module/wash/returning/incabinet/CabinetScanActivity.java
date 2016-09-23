@@ -72,8 +72,13 @@ public class CabinetScanActivity extends BaseScanCodeActivity {
                     showWaitDialog();
                     ReturningApi.scanClothes(clothesCode, getToken(), getNewHandler(0, ResultCupboard.class));
                 } else {
-                    showWaitDialog();
-                    ReturningApi.scanCupboard(clothesCode, cupboardCode, getToken(), getNewHandler(1, ResultBase.class));
+                    if(cupboardCode.equals(str)){
+                        showWaitDialog();
+                        ReturningApi.scanCupboard(clothesCode, cupboardCode, getToken(), getNewHandler(1, ResultBase.class));
+                    }else{
+                        toast(getString(R.string.incabinet_cabinet_error,cupboardCode));
+                        startDelay();
+                    }
                 }
                 break;
             case MODE_DRIVER:
