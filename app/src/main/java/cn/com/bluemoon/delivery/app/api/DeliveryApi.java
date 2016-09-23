@@ -228,6 +228,27 @@ public class DeliveryApi {
      * 2.2 订单相关
      **********************************/
 
+
+
+    public static void rejectOrder(String token,String orderId,String orderSource,
+                                     AsyncHttpResponseHandler handler) {
+
+        if (null == token) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("orderId", orderId);
+        params.put("orderSource", orderSource);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/order/rejectOrder%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+
 	/* 2.2.1获取各类型订单的数量 */
     /* 返回： ResultOrderCount */
     public static void getOrderCount(String token,
@@ -2596,6 +2617,19 @@ public class DeliveryApi {
     /************************
      * 查询提醒记录列表
      **********************************/
+
+    public static void nowRest(String token,PunchCard punchCard,
+                                     AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put(	"punchCard", 	punchCard);
+        postRequest(params, "bluemoon-control/attendance/nowRest%s", handler);
+    }
+
+
 
  /*2.0_新增提醒接口*/
     /* 返回： ResultRemind */

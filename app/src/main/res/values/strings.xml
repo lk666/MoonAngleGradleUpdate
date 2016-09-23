@@ -169,6 +169,7 @@
     <string name="pending_order_detail">订单详情</string>
     <string name="pending_order_pay_time">付款时间：%s</string>
     <string name="pending_order_subscribe_time">预约时间：%s</string>
+    <string name="pending_order_bottom">总类数：%1$d     总支数：%2$d     总价：%3$s</string>
     <string name="pending_order_total_kinds">总类数：%d</string>
     <string name="pending_order_total_amount">总支数：%d</string>
     <string name="pending_order_total_price">总价：%s</string>
@@ -199,12 +200,15 @@
     <string name="pending_order_appointment">预 约</string>
     <string name="pending_order_edit_storehouse">修改仓库</string>
     <string name="pending_order_cancle_txt">取消接单</string>
+    <string name="pending_order_refuse_txt">拒绝接单</string>
     <string name="pending_order_date_txt">日期</string>
     <string name="pending_order_date_hint">年-月-日</string>
     <string name="pending_order_time_txt">时间</string>
     <string name="pending_order_time_hint">--:--</string>
     <string name="pending_order_appointment_confirm">确定预约时间</string>
     <string name="pending_order_appointment_oderid">订单号：</string>
+    <string name="pending_order_refuse_alert">拒绝接单后，将无法再接收此订单，请确认！</string>
+
     <!-- 待送货 -->
     <string name="pending_order_delivery_sure">是否确定现在去送货</string>
     <string name="pending_order_to_delivery">去送货</string>

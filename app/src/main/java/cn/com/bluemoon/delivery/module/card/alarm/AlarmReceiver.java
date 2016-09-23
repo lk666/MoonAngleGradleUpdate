@@ -17,12 +17,30 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-
+        Remind remind = null;
 
         if(Reminds.ALARM_ALERT_ACTION.equals(intent.getAction())) {
 
-            Remind remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
 
+            try{
+                remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
+            }catch (Exception ex){
+
+            }
+
+            if (remind == null) {
+                Reminds.setNextAlert(context);
+                return;
+            }
+
+            // Disable this alarm if it does not repeat.
+            if (!new DaysOfWeek(remind.getRemindWeek()).isRepeatSet()) {
+                Reminds.enableAlarm(context, remind.getRemindId(), false);
+            } else {
+                // Enable the next alert if there is one. The above call to
+                // enableAlarm will call setNextAlert so avoid calling it twice.
+                Reminds.setNextAlert(context);
+            }
             //创建一个启动其他Activity的Intent
             Intent intent2 = new Intent(context
                     , MainActivity.class);
@@ -39,7 +57,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             notification.defaults = Notification.DEFAULT_ALL;
             notification.flags = Notification.FLAG_AUTO_CANCEL;
             manager.notify((int) remind.getRemindId(), notification);
-            Reminds.setNextAlert(context);
         }
     }
 }

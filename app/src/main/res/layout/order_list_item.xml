@@ -8,8 +8,8 @@
     <LinearLayout
         android:id="@+id/layout_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingTop="10dp"
+        android:gravity="center_vertical"
+        android:layout_height="50dp"
         android:paddingLeft="10dp"
         android:orientation="horizontal" >
 
@@ -19,14 +19,15 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/text_black"
-            android:textSize="15sp" />
+            android:text="C160160"
+            android:textSize="@dimen/text_size_17" />
 
         <TextView
             android:id="@+id/txt_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pending_order_detail"
-            android:textColor="@color/text_black"
+            android:textColor="@color/text_black_light"
             android:textSize="15sp" />
 
         <ImageView
@@ -38,11 +39,14 @@
             android:src="@mipmap/icon_right" />
     </LinearLayout>
 
-    <include layout="@layout/line_dotted_view" />
+    <View
+       style="@style/line_solid_padding_left_style"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="13dp"
+        android:layout_marginBottom="13dp"
         android:orientation="horizontal" >
 
         <LinearLayout
@@ -105,7 +109,7 @@
 
         <Button
             android:id="@+id/receiving_orders_action"
-            android:layout_width="70dp"
+            android:layout_width="68dp"
             android:layout_height="30dp"
             android:background="@drawable/btn_red_shape"
             android:layout_marginRight="10dp"
@@ -114,14 +118,15 @@
             android:textSize="15sp"
             android:text="@string/pending_order_get" />
     </LinearLayout>
-    <include layout="@layout/line_dotted_view" />
+    <View
+        style="@style/line_solid_padding_left_style"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="32dp"
         android:paddingLeft="10dp" 
         android:paddingRight="10dp"
-        android:paddingBottom="10dp">
+        android:gravity="center_vertical">
 
         <TextView
             android:id="@+id/txt_cateAmount"
@@ -132,19 +137,13 @@
             android:textSize="12sp" />
 
         <TextView
-            android:id="@+id/txt_totalAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:textColor="@color/text_grep"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/txt_totalPrice"
+            android:id="@+id/txt_refuse_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:textColor="@color/text_grep"
+            android:text="@string/pending_order_refuse_txt"
             android:textSize="12sp" />
     </RelativeLayout>
     <include layout="@layout/line_solid_view_d7"/>

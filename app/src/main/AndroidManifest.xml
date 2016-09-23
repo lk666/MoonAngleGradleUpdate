@@ -422,6 +422,17 @@
                 <action android:name="cn.com.bluemoon.delivery.ALARM_ALERT" />
             </intent-filter>
         </receiver>
+
+        <receiver android:name=".module.card.alarm.AlarmInitReceiver">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="android.intent.action.TIME_SET" />
+                <action android:name="android.intent.action.TIMEZONE_CHANGED" />
+                <action android:name="android.intent.action.LOCALE_CHANGED" />
+            </intent-filter>
+        </receiver>
+
+
         <provider android:name=".module.card.alarm.AlarmProvider"
             android:authorities="cn.com.bluemoon.delivery"
             android:exported="false" />

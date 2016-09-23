@@ -98,14 +98,13 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             TextView txtAlert = getViewById(R.id.txt_repeat);
             cn.com.bluemoon.lib.view.switchbutton.SwitchButton sbOpen = getViewById(R.id.sb_open);
 
-            txtAlarmTime.setText(DateUtil.getTime(remind.getRemindTime(), "HH:mm"));
+            txtAlarmTime.setText(DateUtil.getTime(Reminds.calculateAlarm(remind), "HH:mm"));
             txtAlamTitle.setText(remind.getRemindTitle());
             DaysOfWeek daysOfWeek = new DaysOfWeek(remind.getRemindWeek());
             if(daysOfWeek.getCoded()!=0 && daysOfWeek.getCoded()!=0x7f){
-                String temp = getString(R.string.week) + daysOfWeek.toString();
-                txtAlert.setText(temp);
+                txtAlert.setText( getString(R.string.week) + daysOfWeek.toString(getActivity(),true));
             }else{
-                txtAlert.setText(daysOfWeek.toString());
+                txtAlert.setText(daysOfWeek.toString(getActivity(),true));
             }
             sbOpen.setChecked(!remind.isClose);
 
@@ -119,8 +118,8 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             sbOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    remind.isClose = isChecked;
-                    Reminds.setAlarm(getActivity(),remind);
+                    remind.isClose = !isChecked;
+                    Reminds.enableAlarm(getActivity(),remind.getRemindId(),isChecked);
                     DeliveryApi.turnRemindOnOrOff(getToken(), remind.getRemindId(), isChecked, getNewHandler(999, ResultBase.class));
                 }
             });

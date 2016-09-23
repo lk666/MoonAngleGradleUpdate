@@ -229,8 +229,6 @@ public class AlarmModifyActivity extends BaseActivity {
     @OnClick(R.id.btn_save)
     void saveRemind(View view) {
         showWaitDialog();
-        long timeStamp = Reminds.calculateAlarm(remind);
-        remind.setRemindTime(timeStamp);
         if (remind.getRemindId() == -1) {
             DeliveryApi.addRemind(getToken(), remind, getNewHandler(0, ResultRemindId.class));
         } else {

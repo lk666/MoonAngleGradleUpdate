@@ -10,11 +10,12 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 
 import java.util.Calendar;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
@@ -27,9 +28,6 @@ public class Reminds {
     public static final String ALARM_ALERT_ACTION = "cn.com.bluemoon.delivery.ALARM_ALERT";
 
     public static final String ALARM_INTENT_EXTRA = "intent.extra.alarm";
-    //
-    private final static String DM12 = "E h:mm aa";
-    private final static String DM24 = "E k:mm";
 
 
     public static long addAlarm(Context context, Remind alarm) {
@@ -133,17 +131,48 @@ public class Reminds {
         return String.format(formats, days, hours, minutes);
     }
 
-    //    /**
-//     * A convenience method to enable or disable an alarm.
-//     *
-//     * @param id             corresponds to the _id column
-//     * @param enabled        corresponds to the ENABLED column
-//     */
-//
-    public static void enableAlarm(final Context context,
-                                   final Remind alarm, boolean enabled) {
+    public static void enableAlarm(
+            final Context context, final long id, boolean enabled) {
+        enableAlarmInternal(context, id, enabled);
         setNextAlert(context);
+        try{
+            DeliveryApi.turnRemindOnOrOff(ClientStateManager.getLoginToken(),id,enabled,null);
+        }catch (Exception ex){
+
+        }
     }
+
+    private static void enableAlarmInternal(final Context context,
+                                            final long id, boolean enabled) {
+        enableAlarmInternal(context, getRemind(context.getContentResolver(), id),
+                enabled);
+    }
+
+    private static void enableAlarmInternal(final Context context,
+                                            final Remind alarm, boolean enabled) {
+        if (alarm == null) {
+            return;
+        }
+        ContentResolver resolver = context.getContentResolver();
+
+        ContentValues values = new ContentValues(2);
+        values.put("isClose", enabled ? 0 : 1);
+
+        // If we are enabling the alarm, calculate alarm time since the time
+        // value in Alarm may be old.
+        if (enabled) {
+            long time = 0;
+            if (!new DaysOfWeek(alarm.getRemindWeek()).isRepeatSet()) {
+                time = calculateAlarm(alarm);
+            }
+            values.put("remindTime", time);
+        }
+
+        resolver.update(ContentUris.withAppendedId(
+                Constants.ALARM_CONTENT_URI, alarm.getRemindId()), values, null, null);
+    }
+
+
 
     private static Remind calculateNextAlert(Context context) {
         Remind alarm = null;
@@ -161,7 +190,7 @@ public class Reminds {
                     } else if (a.getRemindTime() < now) {
                         LogUtils.v("calculateNextAlert", "Disabling expired alarm set for ");
                         // Expired alarm, disable it and move along.
-                        //enableAlarmInternal(context, a, false);
+                        enableAlarmInternal(context, a, false);
                         continue;
                     }
                     if (a.getRemindTime() < minTime) {
@@ -190,14 +219,6 @@ public class Reminds {
         }
     }
 
-    //
-//    /**
-//     * Sets alert in AlarmManger and StatusBar.  This is what will
-//     * actually launch the alert when the alarm triggers.
-//     *
-//     * @param alarm Alarm.
-//     * @param atTimeInMillis milliseconds since epoch
-//     */
     private static void enableAlert(Context context, final Remind remind,
                                     final long atTimeInMillis) {
         AlarmManager am = (AlarmManager)
@@ -214,13 +235,7 @@ public class Reminds {
         am.set(AlarmManager.RTC_WAKEUP, atTimeInMillis, sender);
     }
 
-    //
-//    /**
-//     * Disables alert in AlarmManger and StatusBar.
-//     *
-//     * @param id Alarm ID.
-//     */
-    static void disableAlert(Context context) {
+   private static void disableAlert(Context context) {
         AlarmManager am = (AlarmManager)
                 context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent sender = PendingIntent.getBroadcast(
@@ -235,11 +250,6 @@ public class Reminds {
                 .getTimeInMillis();
     }
 
-    //
-//    /**
-//     * Given an alarm in hours and minutes, return a time suitable for
-//     * setting in AlarmManager.
-//     */
     static Calendar calculateAlarm(int hour, int minute,
                                    DaysOfWeek daysOfWeek) {
 
@@ -265,22 +275,19 @@ public class Reminds {
         return c;
     }
 
-
-    //
-//    /**
-//     * Shows day and time -- used for lock screen
-//     */
-    private static String formatDayAndTime(final Context context, Calendar c) {
-        String format = get24HourMode(context) ? DM24 : DM12;
-        return (c == null) ? "" : (String) DateFormat.format(format, c);
+    public static Remind getRemind(ContentResolver contentResolver, long alarmId) {
+        Cursor cursor = contentResolver.query(
+                ContentUris.withAppendedId(Constants.ALARM_CONTENT_URI, alarmId),
+                Constants.ALARM_QUERY_COLUMNS,
+                null, null, null);
+        Remind alarm = null;
+        if (cursor != null) {
+            if (cursor.moveToFirst()) {
+                alarm = new Remind(cursor);
+            }
+            cursor.close();
+        }
+        return alarm;
     }
-
-    /**
-     * @return true if clock is set to 24-hour mode
-     */
-    static boolean get24HourMode(final Context context) {
-        return android.text.format.DateFormat.is24HourFormat(context);
-    }
-
 
 }

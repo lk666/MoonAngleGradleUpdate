@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.AppConfig;
+import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -31,6 +32,7 @@ public class AppContext extends BaseApplication {
         instance = this;
         init();
         initLogin();
+        initAlarm();
     }
 
     public static AppContext getInstance() {
@@ -40,7 +42,12 @@ public class AppContext extends BaseApplication {
     private void initLogin() {
 
     }
+    private void initAlarm() {
 
+
+
+        Reminds.setNextAlert(this);
+    }
     private void init() {
 
         AsyncHttpClient client = new AsyncHttpClient();
