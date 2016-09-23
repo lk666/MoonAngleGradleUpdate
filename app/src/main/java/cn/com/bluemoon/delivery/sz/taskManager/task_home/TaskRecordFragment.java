@@ -414,6 +414,8 @@ public class TaskRecordFragment extends BaseFragment
 		}
 		taskDateStatusAdapter.notifyDataSetChanged();
 		PublicUtil.showToast("无任务数据！");
+		tv_task_point.setText(
+				String.format(getString(R.string.sz_task_monthlyper)));
 		showAddTv(null);
 
 	}
