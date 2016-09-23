@@ -110,7 +110,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         final AsignJobBean asignJobBean = datas.get(position);
-        LogUtil.i("getView:" + position + "--getIs_valid:" + asignJobBean.getIs_valid() + "--getNewState:" + asignJobBean.getNewState() + "--getValid_min:" + asignJobBean.getValid_min());
+//        LogUtil.i("getView:" + position + "--getIs_valid:" + asignJobBean.getIs_valid() + "--getNewState:" + asignJobBean.getNewState() + "--getValid_min:" + asignJobBean.getValid_min());
         final MyViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(R.layout.sz_activity_write_evaluate_item, null);
@@ -177,26 +177,11 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             viewHolder.getTaskAvaliabelCb().setChecked(true);
         }
 
-
-        if (SzWriteEvaluateActivity.ACTIVITY_TYPE_UPDATE_EVALUATE == activityType) {
-            //修改评价
-            //有效用时
-            if (TextUtils.isEmpty(asignJobBean.getValid_min())) {
-                viewHolder.getTaskAvaliabelTimeEt().setText("0");
-            } else {
-                viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getValid_min());
-            }
-        } else if (SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE == activityType) {
-            //写评价
-            //有效用时
-            if (TextUtils.isEmpty(asignJobBean.getUsage_time())) {
-                viewHolder.getTaskAvaliabelTimeEt().setText("0");
-            } else {
-                viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getUsage_time());
-                //如果没有有效工时，则将默认值当做有效工时
-                datas.get(position).setValid_min(asignJobBean.getUsage_time());
-            }
+        /**有效工时*/
+        if (TextUtils.isEmpty(asignJobBean.getValid_min())) {
+            viewHolder.getTaskAvaliabelTimeEt().setText("0");
         } else {
+            viewHolder.getTaskAvaliabelTimeEt().setText(asignJobBean.getValid_min());
         }
         /**质量评分*/
         if (isShowDefaultValue) {
@@ -231,7 +216,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 } else {
 
                 }
-                LogUtil.e("修改" + position + "进展状态：" + datas.get(position).getNewState());
+//                LogUtil.e("修改" + position + "进展状态：" + datas.get(position).getNewState());
             }
         });
         viewHolder.getTaskAvaliabelCb().setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
