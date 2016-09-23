@@ -40,11 +40,12 @@ public class ReturningApi extends DeliveryApi {
      * 1.2上传异常图片（签名图片）
      *
      * @param file  文件流
+     * @param fileName	文件名 (UUID.randomUUID() + ".png")
      * @param token 登录凭证(必填) String
      */
-    public static void uploadExceptionImage(byte[] file, String token, AsyncHttpResponseHandler
+    public static void uploadExceptionImage(byte[] file, String fileName, String token, AsyncHttpResponseHandler
             handler) {
-        if (null == token || null == file) {
+        if (null == token || null == file || null == fileName){
             return;
         }
 
@@ -54,8 +55,8 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("fileData", fileString);
-        params.put("fileName", UUID.randomUUID() + ".png");
-        postRequest(params, "washingService-controller/wash/uploadExceptionImage%s", handler);
+        params.put("fileName",fileName);
+        postMockRequest(params, "washingService-controller/wash/uploadExceptionImage%s", handler);
     }
 
     /**
@@ -73,7 +74,8 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *2.1扫描衣物
+     * 2.1扫描衣物
+     *
      * @param clothesCode 衣物编码 String
      * @param token       登录凭证(必填) String
      */
@@ -108,130 +110,138 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *5.1获取待装车列表
+     * 5.1获取待装车列表
+     *
      * @param pageFlag 分页时间戳(分页标志) int
-     * @param token 登录凭证(必填) String
+     * @param token    登录凭证(必填) String
      */
-    public static void queryWaitLoadList(long pageFlag,String token,AsyncHttpResponseHandler handler){
-        if(null == token) {
+    public static void queryWaitLoadList(long pageFlag, String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("pageFlag",pageFlag);
-        params.put(TOKEN,token);
+        params.put("pageFlag", pageFlag);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/queryWaitLoadList%s", handler);
     }
 
     /**
-     *5.2获取确认运输列表
+     * 5.2获取确认运输列表
+     *
      * @param carriageCode 承运单号（必填） String
-     * @param token 登录凭证(必填) String
+     * @param token        登录凭证(必填) String
      */
-    public static void queryTransportList(String carriageCode,String token,AsyncHttpResponseHandler handler){
-        if(null == carriageCode||null == token) {
+    public static void queryTransportList(String carriageCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == carriageCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("carriageCode",carriageCode);
-        params.put(TOKEN,token);
+        params.put("carriageCode", carriageCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/queryTransportList%s", handler);
     }
 
     /**
-     *5.3装车完成
-     * @param boxCodeList 衣物箱号（必填） List<String>
+     * 5.3装车完成
+     *
+     * @param boxCodeList  衣物箱号（必填） List<String>
      * @param carriageCode 承运单号（必填） String
-     * @param token 登录凭证(必填) String
+     * @param token        登录凭证(必填) String
      */
-    public static void loadComplete(List<String> boxCodeList,String carriageCode,String token,AsyncHttpResponseHandler handler){
-        if(null == boxCodeList||null == carriageCode||null == token) {
+    public static void loadComplete(List<String> boxCodeList, String carriageCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == boxCodeList || null == carriageCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("boxCodeList",boxCodeList);
-        params.put("carriageCode",carriageCode);
-        params.put(TOKEN,token);
+        params.put("boxCodeList", boxCodeList);
+        params.put("carriageCode", carriageCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/loadComplete%s", handler);
     }
 
     /**
-     *5.4获取承运单详情
+     * 5.4获取承运单详情
+     *
      * @param carriageCode 承运单号（必填） String
-     * @param token 登录凭证(必填) String
+     * @param token        登录凭证(必填) String
      */
-    public static void queryCarriageDetail(String carriageCode,String token,AsyncHttpResponseHandler handler){
-        if(null == carriageCode||null == token) {
+    public static void queryCarriageDetail(String carriageCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == carriageCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("carriageCode",carriageCode);
-        params.put(TOKEN,token);
+        params.put("carriageCode", carriageCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/queryCarriageDetail%s", handler);
     }
 
     /**
-     *5.5获取待送达列表
+     * 5.5获取待送达列表
+     *
      * @param pageFlag 分页时间戳(分页标志) int
-     * @param token 登录凭证(必填) String
+     * @param token    登录凭证(必填) String
      */
-    public static void queryWaitSendList(long pageFlag,String token,AsyncHttpResponseHandler handler){
-        if(null == token) {
+    public static void queryWaitSendList(long pageFlag, String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("pageFlag",pageFlag);
-        params.put(TOKEN,token);
+        params.put("pageFlag", pageFlag);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/queryWaitSendList%s", handler);
     }
 
     /**
-     *5.6确认收货人(扫描)
-     * @param angleCode 员工编号（必填） String
+     * 5.6确认收货人(扫描)
+     *
+     * @param angleCode         员工编号（必填） String
      * @param carriageAddressId 承运单明细id（必填） String
-     * @param tagCodeList 封箱条码（必填） List<String>
-     * @param token 登录凭证(必填) String
+     * @param tagCodeList       封箱条码（必填） List<String>
+     * @param token             登录凭证(必填) String
      */
-    public static void scanReceiver(String angleCode,String carriageAddressId,List<String> tagCodeList,String token,AsyncHttpResponseHandler handler){
-        if(null == angleCode||null == carriageAddressId||null == tagCodeList||null == token) {
+    public static void scanReceiver(String angleCode, String carriageAddressId, List<String> tagCodeList, String token, AsyncHttpResponseHandler handler) {
+        if (null == angleCode || null == carriageAddressId || null == tagCodeList || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("angleCode",angleCode);
-        params.put("carriageAddressId",carriageAddressId);
-        params.put("tagCodeList",tagCodeList);
-        params.put(TOKEN,token);
+        params.put("angleCode", angleCode);
+        params.put("carriageAddressId", carriageAddressId);
+        params.put("tagCodeList", tagCodeList);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/scanReceiver%s", handler);
     }
 
     /**
-     *5.7获取承运历史列表
-     * @param pageFlag 分页时间戳(分页标志) int
+     * 5.7获取承运历史列表
+     *
+     * @param pageFlag         分页时间戳(分页标志) int
      * @param receiverSignTime 收货时间 int
-     * @param token 登录凭证(必填) String
+     * @param token            登录凭证(必填) String
      */
     public static void queryCarriageHistoryList(long pageFlag,long receiverSignTime,String token,AsyncHttpResponseHandler handler){
         if(null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("pageFlag",pageFlag);
-        params.put("receiverSignTime",receiverSignTime);
-        params.put(TOKEN,token);
+        params.put("pageFlag", pageFlag);
+        params.put("receiverSignTime", receiverSignTime);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/queryCarriageHistoryList%s", handler);
     }
 
     /**
-     *5.8获取承运单历史详情
+     * 5.8获取承运单历史详情
+     *
      * @param carriageCode 承运单号（必填） String
-     * @param token 登录凭证(必填) String
+     * @param token        登录凭证(必填) String
      */
-    public static void queryCarriageHistoryDetail(String carriageCode,String token,AsyncHttpResponseHandler handler){
-        if(null == carriageCode||null == token) {
+    public static void queryCarriageHistoryDetail(String carriageCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == carriageCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("carriageCode",carriageCode);
-        params.put(TOKEN,token);
+        params.put("carriageCode", carriageCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/driverCarrier/queryCarriageHistoryDetail%s", handler);
     }
 
@@ -319,96 +329,152 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *9.5获取还衣单详情
+     * 9.5获取还衣单详情
+     *
      * @param backOrderCode 还衣单号 String
-     * @param token 登录凭证(必填) String
+     * @param token         登录凭证(必填) String
      */
-    public static void queryBackOrderDetail(String backOrderCode,String token,AsyncHttpResponseHandler handler){
-        if(null == backOrderCode||null == token) {
+    public static void queryBackOrderDetail(String backOrderCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("backOrderCode",backOrderCode);
-        params.put("token",token);
+        params.put("backOrderCode", backOrderCode);
+        params.put("token", token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/queryBackOrderDetail%s", handler);
     }
 
     /**
-     *9.10衣物详情
-     * @param clothesCode 衣物编码(必填) String
+     *9.7还衣单签收
+     * @param backOrderCode 还衣单号 String
+     * @param isSignName 是否本人签名 boolean
+     * @param signFileName 签收图片文件名 String
+     * @param signImagePath 签收签名图片路径 String
      * @param token 登录凭证(必填) String
      */
-    public static void clothesDetail(String clothesCode,String token,AsyncHttpResponseHandler handler){
-        if(null == clothesCode||null == token) {
+    public static void backOrderSign(String backOrderCode,boolean isSignName,String signFileName,String signImagePath,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == signFileName||null == signImagePath||null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("clothesCode",clothesCode);
+        params.put("backOrderCode",backOrderCode);
+        params.put("isSignName",isSignName);
+        params.put("signFileName",signFileName);
+        params.put("signImagePath",signImagePath);
         params.put("token",token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/clothesDetail%s", handler);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/backOrderSign%s", handler);
     }
 
+
     /**
-     *9.8消费者拒签列表
+     *9.11还衣详情历史列表
      * @param backOrderCode 还衣单号 String
      * @param token 登录凭证(必填) String
      */
-    public static void refuseSignList(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+    public static void returnClothesHistoryList(String backOrderCode,String token,AsyncHttpResponseHandler handler){
         if(null == backOrderCode||null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put("backOrderCode",backOrderCode);
         params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/returnClothesHistoryList%s", handler);
+    }
+
+
+    /**
+     * 9.10衣物详情
+     *
+     * @param clothesCode 衣物编码(必填) String
+     * @param token       登录凭证(必填) String
+     */
+    public static void clothesDetail(String clothesCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == clothesCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("clothesCode", clothesCode);
+        params.put("token", token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/clothesDetail%s", handler);
+    }
+
+    /**
+     * 9.8消费者拒签列表
+     *
+     * @param backOrderCode 还衣单号 String
+     * @param token         登录凭证(必填) String
+     */
+    public static void refuseSignList(String backOrderCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode", backOrderCode);
+        params.put("token", token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/refuseSignList%s", handler);
     }
 
     /**
-     *9.9消费者拒签
-     * @param clothesCode 衣物编码 String
-     * @param refuseImages 图片id List<object>
-     * @param fileName 文件名称 String
-     * @param imagePath 文件路径 String
+     * 9.9消费者拒签
+     *
+     * @param clothesCode     衣物编码 String
+     * @param refuseImages    图片id List<object>
+     * @param fileName        文件名称 String
+     * @param imagePath       文件路径 String
      * @param refuseIssueDesc 拒签原因 String
-     * @param refuseTagTime 拒签时间 String
-     * @param token 登录凭证(必填) String
+     * @param refuseTagTime   拒签时间 String
+     * @param token           登录凭证(必填) String
      */
-    public static void refuseSign(String clothesCode, List<ImageInfo> refuseImages, String fileName, String imagePath, String refuseIssueDesc, String refuseTagTime, String token, AsyncHttpResponseHandler handler){
-        if(null == clothesCode||null == refuseImages||null == fileName||null == imagePath||null == refuseIssueDesc||null == refuseTagTime||null == token) {
+    public static void refuseSign(String clothesCode, List<ImageInfo> refuseImages, String fileName, String imagePath, String refuseIssueDesc, String refuseTagTime, String token, AsyncHttpResponseHandler handler) {
+        if (null == clothesCode || null == refuseImages || null == fileName || null == imagePath || null == refuseIssueDesc || null == refuseTagTime || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("clothesCode",clothesCode);
-        params.put("refuseImages",refuseImages);
-        params.put("fileName",fileName);
-        params.put("imagePath",imagePath);
-        params.put("refuseIssueDesc",refuseIssueDesc);
-        params.put("refuseTagTime",refuseTagTime);
-        params.put("token",token);
+        params.put("clothesCode", clothesCode);
+        params.put("refuseImages", refuseImages);
+        params.put("fileName", fileName);
+        params.put("imagePath", imagePath);
+        params.put("refuseIssueDesc", refuseIssueDesc);
+        params.put("refuseTagTime", refuseTagTime);
+        params.put("token", token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/refuseSign%s", handler);
     }
 
     /**
-     *9.12查看拒签单
+     * 9.12查看拒签单
+     *
      * @param clothesCode 衣物编码 String
-     * @param token 登录凭证(必填) String
+     * @param token       登录凭证(必填) String
      */
-    public static void refuseSignDetail(String clothesCode,String token,AsyncHttpResponseHandler handler){
-        if(null == clothesCode||null == token) {
+    public static void refuseSignDetail(String clothesCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == clothesCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("clothesCode",clothesCode);
-        params.put("token",token);
+        params.put("clothesCode", clothesCode);
+        params.put("token", token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/refuseSignDetail%s", handler);
+    }
+
+    /**
+     *9.2查看快递详情
+     * @param expressCode 快递单号 String
+     * @param token 登录凭证(必填 String
+     */
+    public static void seeExpressDetail(String expressCode,String token,AsyncHttpResponseHandler handler){
+        if(null == expressCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("expressCode",expressCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/seeExpressDetail%s", handler);
     }
 
 
 
-
-
-
-    /** 4.6获取封箱条码历史列表
+    /**
+     * 4.6获取封箱条码历史列表
      *
      * @param opTime   封箱时间 long
      * @param pageFalg 分页时间戳(分页标志) long
@@ -482,4 +548,19 @@ public class ReturningApi extends DeliveryApi {
         postRequest(params, "washingService-controller/wash/closeBox/scanBackOrder%s", handler);
     }
 
+    /**
+     * 4.3获取打印封箱条列表
+     *
+     * @param boxCode 衣物箱号 String
+     * @param token   登录凭证(必填) String
+     */
+    public static void queryCloseBoxList(String boxCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == boxCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("boxCode", boxCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxList%s", handler);
+    }
 }

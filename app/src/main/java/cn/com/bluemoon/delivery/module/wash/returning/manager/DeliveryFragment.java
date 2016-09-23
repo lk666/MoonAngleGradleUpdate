@@ -124,10 +124,14 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     switch (v.getId()) {
                         case R.id.layout_detail :
-                            longToast("detail");
+                            Intent intent = new Intent(getActivity(), DeliveryDetailActivity.class);
+                            intent.putExtra("expressName", result.getCompanyName());
+                            intent.putExtra("expressCode", result.getExpressCode());
+                            intent.putExtra("count", list.size());
+                            startActivity(intent);
                             break;
                         case R.id.txt_logistics :
-                            Intent intent = new Intent(getActivity(), LogisticsActivity.class);
+                            intent = new Intent(getActivity(), LogisticsActivity.class);
                             intent.putExtra("companyCode", result.getCompanyCode());
                             intent.putExtra("expressCode", result.getExpressCode());
                             startActivity(intent);

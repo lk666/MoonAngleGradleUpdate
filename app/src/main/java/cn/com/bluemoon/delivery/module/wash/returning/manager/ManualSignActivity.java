@@ -8,6 +8,7 @@ import android.gesture.GestureOverlayView;
 import android.gesture.GestureOverlayView.OnGesturePerformedListener;
 import android.gesture.GestureStroke;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
@@ -22,6 +23,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -31,6 +34,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibImageUtil;
 
 /**
@@ -50,8 +54,6 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
 
     @Override
     public void initView() {
-
-
 
         //txtFinish.setBackgroundColor(Color.RED);
         //btnReset.bringToFront();
@@ -97,9 +99,10 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
                 if (mDrawGestureView.getGesture() != null) {
                     int width = mDrawGestureView.getMeasuredWidth();
                     int height = mDrawGestureView.getMeasuredHeight();
-                    final Bitmap bitmap =Bitmap.createBitmap(width, height,Bitmap.Config.ARGB_8888);
-                    final Canvas canvas = new Canvas(bitmap);
+                    Bitmap bitmap = Bitmap.createBitmap(width, height,Bitmap.Config.ARGB_8888);
+                    Canvas canvas = new Canvas(bitmap);
                     canvas.drawColor(Color.WHITE);
+
 
                     final Paint paint = new Paint();
                     paint.setAntiAlias(true);
@@ -122,7 +125,7 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
                     setResult(1, intent);
                     finish();
                 } else {
-                    PublicUtil.showToast("没签名点完成该提示什么文本？");
+                    toast("没签名点完成该提示什么文本？");
                 }
                 break;
         }
@@ -149,44 +152,6 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
 
     @Override
     public void onGesturePerformed(GestureOverlayView overlay, final Gesture gesture) {
-        /*View dialogView = getLayoutInflater().inflate(R.layout.show_gesture, null);
-        //imageView用于显示绘制的手势
-        ImageView imageView = (ImageView) dialogView.findViewById(R.id.show);
-        //获取用户保存手势的名字
-        EditText editText = (EditText) dialogView.findViewById(R.id.name);
-        final String name = editText.getText().toString();
-        // 调用Gesture的toBitmap方法形成对应手势的位图
-        final Bitmap bitmap = gesture.toBitmap(500, 1000, 10, gestureColor(R.color.title_background));
-
-
-        AlertDialog.Builder dialogBuider = new AlertDialog.Builder(ManualSignActivity.this);
-        dialogBuider.setView(dialogView);
-        //绑定对话框的确认按钮监听事件
-        dialogBuider.setPositiveButton(
-                "保存", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // 添加手势
-                        //sStore.addGesture(name, gesture);
-                        // 保存添加的手势
-                        //sStore.save();
-                    }
-                });
-        //绑定对话框的取消按钮监听事件
-        dialogBuider.setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                mDrawGestureView.setFadeOffset(100);//清除前设置时间间隔缩小
-                mDrawGestureView.clear(true);
-                mDrawGestureView.setFadeOffset(360000);//清楚后恢复时间间隔
-
-            }
-        });
-        //显示对话框
-        dialogBuider.show();*/
-
 
     }
 

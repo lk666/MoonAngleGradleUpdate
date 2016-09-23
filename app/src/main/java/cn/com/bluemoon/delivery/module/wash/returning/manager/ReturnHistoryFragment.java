@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
@@ -117,6 +118,7 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
             if (result.getSignTime() > 0) {
                 txtStatus.setVisibility(View.VISIBLE);
                 txtStatus.setText("已完成");
+                txtSignTime.setText("签收时间："+ DateUtil.getTime(result.getSignTime(),"yyyy-MM-dd HH:mm:ss"));
             } else {
                 txtStatus.setVisibility(View.GONE);
             }
@@ -135,7 +137,6 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
                 txtUrgent.setVisibility(View.GONE);
             }
             txtSignTime.setVisibility(View.VISIBLE);
-            txtSignTime.setText("签收时间："+ DateUtil.getTime(result.getSignTime(),"yyyy-MM-dd HH:mm:ss"));
             txtNo.setText("还衣单号：" + result.getBackOrderCode());
             //txtNumber.setText("还衣单数量：" + result.getBackOrderNum());
             View.OnClickListener listener = new View.OnClickListener() {
@@ -143,7 +144,14 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     switch (v.getId()) {
                         case R.id.layout_detail:
-                            longToast("detail");
+                            Intent intent = new Intent(getActivity(), BackOrderDetailActivity.class);
+                            intent.putExtra("backOrderCode", result.getBackOrderCode());
+                            intent.putExtra("name", result.getCustomerName());
+                            intent.putExtra("phone", result.getCustomerPhone());
+                            intent.putExtra("address", result.getAddress());
+                            intent.putExtra("isUrgent", result.isIsUrgent());
+                            intent.putExtra("isHistory", true);
+                            startActivity(intent);
                             break;
                         case R.id.txt_mobilePhone:
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());

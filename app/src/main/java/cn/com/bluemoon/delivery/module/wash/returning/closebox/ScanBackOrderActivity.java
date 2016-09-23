@@ -82,6 +82,8 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                 break;
             }
         }
+
+        toast(getString(R.string.scan_succeed));
         checkFinished();
     }
 
@@ -105,7 +107,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
             toast(getString(R.string.scan_finish));
             finish();
         } else {
-            resumeScan();
+            startDelay();
         }
     }
 
