@@ -927,4 +927,7 @@
     <string name="driver_tag_code">封箱条码-%s</string>
     <string name="driver_box_code2">箱号：%s</string>
     <string name="driver_cloth_num">还衣单：%s</string>
+
+    <!--承运收货-->
+    <string name="wait_sign_title">待签收</string>
 </resources>
