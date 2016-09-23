@@ -96,6 +96,7 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
     final protected List<ITEM> getList() {
         return list;
     }
+    final protected ADAPTER getAdapter() { return adapter;}
 
     ///////////// 可选重写 ////////////////
 
