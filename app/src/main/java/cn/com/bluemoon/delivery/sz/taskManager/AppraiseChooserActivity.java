@@ -28,6 +28,7 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.sz.adapter.TaskAppraiseChooseAdapter;
@@ -60,7 +61,7 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 	public static int APPRAISE_NAME_ACTION_CONTENT=1001;//不可小于20 任务项为20
 	public static String USERBEAN="USERBEAN";
 	/**用于存储在本地的实例文件*/
-	public static String USERINFOLISTBEAN="UserInfoListBean";
+	public static String USERINFOLISTBEAN="UserInfoListBean"+ ClientStateManager.getUserName();
 	public UserInfoBean user=null;
 
 //	public static String APPRAISE_VIEW_NAME="APPRAISER";
