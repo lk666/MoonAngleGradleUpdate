@@ -14,6 +14,14 @@ public class ResultBackOrderDetail extends ResultBase{
 
     private List<ClothesListBean> clothesList;
 
+
+    private String signImagePath;
+    private long signTime;
+    private int pageFlag;
+    private String signName;
+
+    private List<RefuseListBean> refuseList;
+
     public String getBuyerMessage() {
         return buyerMessage;
     }
@@ -28,6 +36,46 @@ public class ResultBackOrderDetail extends ResultBase{
 
     public void setClothesList(List<ClothesListBean> clothesList) {
         this.clothesList = clothesList;
+    }
+
+    public String getSignImagePath() {
+        return signImagePath;
+    }
+
+    public void setSignImagePath(String signImagePath) {
+        this.signImagePath = signImagePath;
+    }
+
+    public long getSignTime() {
+        return signTime;
+    }
+
+    public void setSignTime(long signTime) {
+        this.signTime = signTime;
+    }
+
+    public int getPageFlag() {
+        return pageFlag;
+    }
+
+    public void setPageFlag(int pageFlag) {
+        this.pageFlag = pageFlag;
+    }
+
+    public String getSignName() {
+        return signName;
+    }
+
+    public void setSignName(String signName) {
+        this.signName = signName;
+    }
+
+    public List<RefuseListBean> getRefuseList() {
+        return refuseList;
+    }
+
+    public void setRefuseList(List<RefuseListBean> refuseList) {
+        this.refuseList = refuseList;
     }
 
     public static class ClothesListBean {
@@ -66,6 +114,45 @@ public class ResultBackOrderDetail extends ResultBase{
 
         public void setTypeName(String typeName) {
             this.typeName = typeName;
+        }
+    }
+
+    public static class RefuseListBean {
+        private String refuseIssueDesc;
+        private String refuseClothesCode;
+        private long refuseTagTime;
+        private List<String> refuseImagePaths;
+
+        public String getRefuseIssueDesc() {
+            return refuseIssueDesc;
+        }
+
+        public void setRefuseIssueDesc(String refuseIssueDesc) {
+            this.refuseIssueDesc = refuseIssueDesc;
+        }
+
+        public String getRefuseClothesCode() {
+            return refuseClothesCode;
+        }
+
+        public void setRefuseClothesCode(String refuseClothesCode) {
+            this.refuseClothesCode = refuseClothesCode;
+        }
+
+        public long getRefuseTagTime() {
+            return refuseTagTime;
+        }
+
+        public void setRefuseTagTime(long refuseTagTime) {
+            this.refuseTagTime = refuseTagTime;
+        }
+
+        public List<String> getRefuseImagePaths() {
+            return refuseImagePaths;
+        }
+
+        public void setRefuseImagePaths(List<String> refuseImagePaths) {
+            this.refuseImagePaths = refuseImagePaths;
         }
     }
 }

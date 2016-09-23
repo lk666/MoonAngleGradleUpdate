@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.app.api.model.wash.closebox;
+package cn.com.bluemoon.delivery.app.api.model.wash;
 
 /**
  * {@link ResultAreaList#inboxList}数据项

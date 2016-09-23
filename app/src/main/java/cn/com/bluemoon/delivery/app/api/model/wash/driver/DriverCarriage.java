@@ -1,9 +1,11 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.driver;
 
+import java.io.Serializable;
+
 /**
  * Created by bm on 2016/9/20.
  */
-public class DriverCarriage {
+public class DriverCarriage implements Serializable{
     /** 应收箱数 */
     private int boxNum;
     /** 承运单号 */

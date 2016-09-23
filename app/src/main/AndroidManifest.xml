@@ -417,13 +417,21 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".module.wash.returning.manager.CustomRefuseActivity"
+            android:name=".module.wash.returning.manager.CustomerRefuseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+
         <activity
             android:name=".module.wash.returning.manager.RefuseDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name=".module.wash.returning.manager.DeliveryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+
+
 
         <service android:name=".module.card.LocationSvc" />
 

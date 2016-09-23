@@ -21,7 +21,7 @@ import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultRefuse
 /**
  * Created by ljl on 2016/9/21.
  */
-public class CustomRefuseActivity extends BaseActivity {
+public class CustomerRefuseActivity extends BaseActivity {
     @Bind(R.id.listview_refuse)
     ListView listviewRefuse;
     @Bind(R.id.btn_finish)
@@ -97,7 +97,7 @@ public class CustomRefuseActivity extends BaseActivity {
             btnRefuse.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(CustomRefuseActivity.this, RefuseDetailActivity.class);
+                    Intent intent = new Intent(CustomerRefuseActivity.this, RefuseDetailActivity.class);
                     intent.putExtra("clothesCode", r.getClothesCode());
                     startActivityForResult(intent, 1);
                 }

@@ -22,7 +22,7 @@
         android:scaleType="fitCenter"/>
     <View
         android:id="@+id/line1"
-        style="@style/line_solid_style"
+        style="@style/line_solid_light_style"
         android:layout_below="@id/txt_transport_code"/>
 
     <TextView
@@ -44,12 +44,12 @@
         android:layout_alignParentRight="true"
         android:text="@string/driver_btn_load"
         android:textColor="@color/view_bg"
-        android:textSize="@dimen/space_15"
+        android:textSize="@dimen/text_size_15"
         android:background="@drawable/btn_red_shape4"
         />
     <View
         android:id="@+id/line2"
-        style="@style/line_solid_style"
+        style="@style/line_solid_light_style"
         android:layout_below="@id/txt_box_num"/>
 
     <TextView

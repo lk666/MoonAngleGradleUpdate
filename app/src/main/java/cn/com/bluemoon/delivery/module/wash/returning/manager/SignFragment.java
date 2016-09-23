@@ -140,17 +140,23 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     switch (v.getId()) {
                         case R.id.layout_detail:
-                            longToast("detail");
+                            Intent intent = new Intent(getActivity(), BackOrderDetailActivity.class);
+                            intent.putExtra("backOrderCode", result.getBackOrderCode());
+                            intent.putExtra("name", result.getCustomerName());
+                            intent.putExtra("phone", result.getCustomerPhone());
+                            intent.putExtra("address", result.getAddress());
+                            intent.putExtra("isUrgent", result.isIsUrgent());
+                            startActivity(intent);
                             break;
                         case R.id.btn_action:
-                            Intent intent = new Intent(getActivity(), ManualSignActivity.class);
+                            intent = new Intent(getActivity(), ManualSignActivity.class);
                             SignFragment.this.startActivityForResult(intent, 1);
                             break;
                         case R.id.txt_mobilePhone:
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());
                             break;
                         case R.id.btn_refuse_sign:
-                            intent = new Intent(getActivity(), CustomRefuseActivity.class);
+                            intent = new Intent(getActivity(), CustomerRefuseActivity.class);
                             intent.putExtra("backOrderCode", result.getBackOrderCode());
                             SignFragment.this.startActivityForResult(intent, 2);
                             break;

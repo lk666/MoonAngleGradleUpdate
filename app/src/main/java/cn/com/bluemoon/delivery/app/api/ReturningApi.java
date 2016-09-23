@@ -345,6 +345,22 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
+     *9.11还衣详情历史列表
+     * @param backOrderCode 还衣单号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void returnClothesHistoryList(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/returnClothesHistoryList%s", handler);
+    }
+
+
+    /**
      * 9.10衣物详情
      *
      * @param clothesCode 衣物编码(必填) String
@@ -417,6 +433,22 @@ public class ReturningApi extends DeliveryApi {
         params.put("token", token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/refuseSignDetail%s", handler);
     }
+
+    /**
+     *9.2查看快递详情
+     * @param expressCode 快递单号 String
+     * @param token 登录凭证(必填 String
+     */
+    public static void seeExpressDetail(String expressCode,String token,AsyncHttpResponseHandler handler){
+        if(null == expressCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("expressCode",expressCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/seeExpressDetail%s", handler);
+    }
+
 
 
     /**
