@@ -258,9 +258,11 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
         if(time <=0){
             resumeScan();
         }else{
+            showWaitDialog();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    hideWaitDialog();
                     resumeScan();
                 }
             }, time);

@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
 import cn.com.bluemoon.delivery.ui.LinearLayoutForListView;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -69,11 +70,13 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         ReturningApi.queryWaitSendList(0, getToken(), getNewHandler(requestCode, ResultSendList.class));
+        ((DriverTabActivity)getActivity()).getAmount();
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
         ReturningApi.queryWaitSendList(timesamp, getToken(), getNewHandler(requestCode, ResultSendList.class));
+        ((DriverTabActivity)getActivity()).getAmount();
     }
 
     private ArrayList<String> getTagBoxList(List<TagBox> list) {
@@ -113,8 +116,12 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
             ListView listViewBox = getViewById(R.id.listView_box);
             txtCenterAddress.setText(item.getCenterName());
             txtBoxNum.setText(getString(R.string.driver_box_num_all, item.getTagList().size()));
-            txtAddress.setText(item.getAddress());
-            tagBoxAdapter = new TagBoxAdapter(context, null);
+            txtAddress.setText(StringUtil.getStringParamsByFormat("",
+                    item.getProvince(),item.getCity(),item.getCounty(),
+                    item.getVillage(),item.getStreet(),item.getAddress()));
+            if(isNew){
+                tagBoxAdapter = new TagBoxAdapter(context, null);
+            }
             tagBoxAdapter.setList(item.getTagList());
             listViewBox.setAdapter(tagBoxAdapter);
             ViewUtil.setListViewHeight2(listViewBox);

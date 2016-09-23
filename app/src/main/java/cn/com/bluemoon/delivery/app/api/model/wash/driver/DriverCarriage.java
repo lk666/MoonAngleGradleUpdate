@@ -15,7 +15,7 @@ public class DriverCarriage implements Serializable{
     /** 实收箱数 */
     private int actualNum;
     /** 承运收货时间 */
-    private int receiverSignTime;
+    private long receiverSignTime;
     public int getBoxNum() {
         return boxNum;
     }
@@ -43,11 +43,11 @@ public class DriverCarriage implements Serializable{
         this.actualNum = actualNum;
     }
 
-    public int getReceiverSignTime() {
+    public long getReceiverSignTime() {
         return receiverSignTime;
     }
 
-    public void setReceiverSignTime(int receiverSignTime) {
+    public void setReceiverSignTime(long receiverSignTime) {
         this.receiverSignTime = receiverSignTime;
     }
 }

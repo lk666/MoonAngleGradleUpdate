@@ -9,7 +9,7 @@ public class TagBoxHistory {
     /** 收货人 */
     private String receiver;
     /** 承运收货时间 */
-    private int receiverSignTime;
+    private long receiverSignTime;
     /** 封箱标签 */
     private String tagCode;
 
@@ -21,11 +21,11 @@ public class TagBoxHistory {
         this.centerName = centerName;
     }
 
-    public int getReceiverSignTime() {
+    public long getReceiverSignTime() {
         return receiverSignTime;
     }
 
-    public void setReceiverSignTime(int receiverSignTime) {
+    public void setReceiverSignTime(long receiverSignTime) {
         this.receiverSignTime = receiverSignTime;
     }
 
