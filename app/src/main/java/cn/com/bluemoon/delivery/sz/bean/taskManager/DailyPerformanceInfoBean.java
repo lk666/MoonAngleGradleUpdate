@@ -38,6 +38,9 @@ public class DailyPerformanceInfoBean implements Serializable {
     private String work_date;
     private String work_day_id;
 
+    /**存储本地才用到的积分临时字段*/
+    private String monthlyPer;
+
     public DailyPerformanceInfoBean() {
     }
 
@@ -153,20 +156,31 @@ public class DailyPerformanceInfoBean implements Serializable {
         return work_day_id != null ? work_day_id.hashCode() : 0;
     }
 
+    public String getMonthlyPer() {
+        return monthlyPer;
+    }
+
+    public void setMonthlyPer(String monthlyPer) {
+        this.monthlyPer = monthlyPer;
+    }
+
     @Override
     public String toString() {
         return "DailyPerformanceInfoBean{" +
                 "asignJobs=" + asignJobs +
                 ", createtime='" + createtime + '\'' +
                 ", day_score='" + day_score + '\'' +
+                ", day_usage_time='" + day_usage_time + '\'' +
                 ", day_valid_min='" + day_valid_min + '\'' +
                 ", model='" + model + '\'' +
+                ", isupdate=" + isupdate +
                 ", reviewer=" + reviewer +
                 ", time_utilization='" + time_utilization + '\'' +
                 ", updatetime='" + updatetime + '\'' +
                 ", user=" + user +
                 ", work_date='" + work_date + '\'' +
                 ", work_day_id='" + work_day_id + '\'' +
+                ", monthlyPer='" + monthlyPer + '\'' +
                 '}';
     }
 }

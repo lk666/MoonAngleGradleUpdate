@@ -15,8 +15,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
@@ -26,7 +30,6 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.sz.adapter.TaskDateStatusAdapter;
 import cn.com.bluemoon.delivery.sz.api.SzApi;
@@ -71,6 +74,9 @@ public class TaskRecordFragment extends BaseFragment
 	private String currentDate="";
 	/**切换月份的日期记录*/
 	private CustomDate currentCustomDate=null;
+
+	/**当前月的月绩效积分*/
+	private String monthlyPer="";
 
 	private View headerView=null;
 	private View footerView=null;
@@ -367,11 +373,16 @@ public class TaskRecordFragment extends BaseFragment
 					dailyPerformanceInfoBeanArrayList.clear();
 					taskDateStatusAdapter.notifyDataSetChanged();
 				}
+
 				loacalList=loacalBeanList.getDailyPerformanceInfoBeanList();
 				if (loacalBeanList!=null && loacalList!=null){
 					for (DailyPerformanceInfoBean bean:loacalList) {
 						if (DateUtil.tranDateToTime(bean.getWork_date(),"yyyy-MM-dd")
-								==DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")){
+								==DateUtil.tranDateToTime(date.toString(),"yyyy-MM-dd")){
+							//取出本地临时存储的月绩效积分
+							tv_task_point.setText(
+									String.format(getString(
+											R.string.sz_task_monthlyper)+"%s",bean.getMonthlyPer()));
 
 							dailyPerformanceInfoBeanArrayList.add(bean);
 							taskDateStatusAdapter.notifyDataSetChanged();
@@ -403,66 +414,108 @@ public class TaskRecordFragment extends BaseFragment
 			return;
 		}
 		showWaitDialog();
-		SzApi.getWorkDetailsApi(date,0,getNewHandler(0, ResultToken.class));
+		//
+		SzApi.getWorkDetailsApi(date,0,userSchDayHandler);
 	}
+
+	/**请求失败时 monthlyPer月积分是在外层，封装中无传递过来*/
+	AsyncHttpResponseHandler userSchDayHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+		@Override
+		public void onSuccess(int statusCode, Header[] headers, String responseString) {
+			hideWaitDialog();
+			LogUtil.showMultiLog("statusCode:---->"+statusCode+"/responseString:"+responseString);
+
+			DailyperformanceinfoResultBean resultBean=
+					JSON.parseObject(responseString,DailyperformanceinfoResultBean.class);
+
+
+			if (resultBean.isSuccess==true && resultBean.getResponseCode()==0){
+					dailyInfoBean=resultBean.getJobsdata();
+				if (dailyInfoBean!=null){
+				//成功有积分数据
+					monthlyPer=resultBean.getMonthlyPer();
+					if (!TextUtils.isEmpty(monthlyPer)){
+						tv_task_point.setText(
+								String.format(getString(R.string.sz_task_monthlyper)+"%s",monthlyPer));
+					}
+
+					//统一时间戳转成日期
+					dailyInfoBean.setWork_date(DateUtil.tranTimeToDate(dailyInfoBean.getWork_date(),"yyyy-MM-dd"));
+					dailyInfoBean.setUpdatetime(DateUtil.tranTimeToDate(dailyInfoBean.getUpdatetime(),"yyyy-MM-dd"));
+					dailyInfoBean.setCreatetime(DateUtil.tranTimeToDate(dailyInfoBean.getCreatetime(),"yyyy-MM-dd"));
+
+					if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+						dailyPerformanceInfoBeanArrayList.clear();
+					}
+					LogUtil.i("DailyPerformanceInfoBean"+dailyInfoBean.getAsignJobs());
+					dailyPerformanceInfoBeanArrayList.add(dailyInfoBean);
+
+					//		任务内容
+					asignJobs=dailyInfoBean.getAsignJobs();
+					//任务内容转成日期格式
+					for (AsignJobBean asignJobBean:asignJobs) {
+						asignJobBean.setBegin_time(DateUtil.tranTimeToDate(asignJobBean.getBegin_time(),"HH:mm"));
+						asignJobBean.setEnd_time(DateUtil.tranTimeToDate(asignJobBean.getEnd_time(),"HH:mm"));
+						asignJobBean.setCreatetime(DateUtil.tranTimeToDate(asignJobBean.getCreatetime(),"yyyy-MM-dd"));
+						LogUtil.e("时间转换后：----------》"+asignJobBean.toString());
+					}
+					taskDateStatusAdapter.notifyDataSetChanged();
+					/**本地缓存*/
+					DailyperformanceinfoResultBeanList dailyperBeanList=new DailyperformanceinfoResultBeanList();
+					dailyperBeanList.setDailyPerformanceInfoBeanList(dailyPerformanceInfoBeanArrayList);
+					saveDailyperLocalBeanList(dailyperBeanList);
+
+					LogUtil.e("dailyInfoBean 是否为空："+dailyInfoBean);
+
+					showAddTv(dailyInfoBean);
+
+				}else{
+				//成功但无数据
+					monthlyPer=resultBean.getMonthlyPer();
+					if (!TextUtils.isEmpty(monthlyPer)){
+						tv_task_point.setText(
+								String.format(getString(R.string.sz_task_monthlyper)+"%s",monthlyPer));
+					}
+					LogUtil.e("成功但无数据 requestCode:"+responseString);
+					if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
+						dailyPerformanceInfoBeanArrayList.clear();
+					}
+					taskDateStatusAdapter.notifyDataSetChanged();
+					PublicUtil.showToast("无任务数据！");
+					showAddTv(null);
+				}
+			}else{//resultBean.isSuccess==false
+				//失败弹出服务报的相关信息
+				PublicUtil.showErrorMsg(getActivity(), resultBean);
+				showAddTv(null);
+			}
+
+		}
+
+		@Override
+		public void onFailure(int statusCode, Header[] headers, String responseString,
+							  Throwable throwable) {
+			hideWaitDialog();
+			LogUtil.e("onFailure responseString:"+responseString);
+			PublicUtil.showToastServerOvertime();
+			showAddTv(null);
+
+		}
+	};
+
+
+
+
 
 	@Override
 	public void onSuccessException(int requestCode, Throwable t) {
-		LogUtil.e("onSuccessException requestCode:"+requestCode);
-		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
-			dailyPerformanceInfoBeanArrayList.clear();
-		}
-		taskDateStatusAdapter.notifyDataSetChanged();
-		PublicUtil.showToast("无任务数据！");
-		tv_task_point.setText(
-				String.format(getString(R.string.sz_task_monthlyper)));
-		showAddTv(null);
+
 
 	}
 
 	@Override
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-		LogUtil.showMultiLog("requestCode:---->"+requestCode+"/jsonString:"+jsonString);
-		DailyperformanceinfoResultBean resultBean=
-				JSON.parseObject(jsonString,DailyperformanceinfoResultBean.class);
-		String monthlyPer=resultBean.getMonthlyPer();
 
-		if (!TextUtils.isEmpty(monthlyPer)){
-		tv_task_point.setText(
-				String.format(getString(R.string.sz_task_monthlyper)+"%s",monthlyPer));
-		}
-
-		dailyInfoBean=resultBean.getJobsdata();
-
-		//统一时间戳转成日期
-		dailyInfoBean.setWork_date(DateUtil.tranTimeToDate(dailyInfoBean.getWork_date(),"yyyy-MM-dd"));
-		dailyInfoBean.setUpdatetime(DateUtil.tranTimeToDate(dailyInfoBean.getUpdatetime(),"yyyy-MM-dd"));
-		dailyInfoBean.setCreatetime(DateUtil.tranTimeToDate(dailyInfoBean.getCreatetime(),"yyyy-MM-dd"));
-
-		if (!dailyPerformanceInfoBeanArrayList.isEmpty()){
-				dailyPerformanceInfoBeanArrayList.clear();
-			}
-			LogUtil.i("DailyPerformanceInfoBean"+dailyInfoBean.getAsignJobs());
-			dailyPerformanceInfoBeanArrayList.add(dailyInfoBean);
-
-	//		任务内容
-			asignJobs=dailyInfoBean.getAsignJobs();
-		//任务内容转成日期格式
-		for (AsignJobBean asignJobBean:asignJobs) {
-			asignJobBean.setBegin_time(DateUtil.tranTimeToDate(asignJobBean.getBegin_time(),"HH:mm"));
-			asignJobBean.setEnd_time(DateUtil.tranTimeToDate(asignJobBean.getEnd_time(),"HH:mm"));
-			asignJobBean.setCreatetime(DateUtil.tranTimeToDate(asignJobBean.getCreatetime(),"yyyy-MM-dd"));
-			LogUtil.e("时间转换后：----------》"+asignJobBean.toString());
-		}
-		taskDateStatusAdapter.notifyDataSetChanged();
-		/**本地缓存*/
-		DailyperformanceinfoResultBeanList dailyperBeanList=new DailyperformanceinfoResultBeanList();
-		dailyperBeanList.setDailyPerformanceInfoBeanList(dailyPerformanceInfoBeanArrayList);
-		saveDailyperLocalBeanList(dailyperBeanList);
-
-		LogUtil.e("dailyInfoBean 是否为空："+dailyInfoBean);
-
-		showAddTv(dailyInfoBean);
 	}
 
 
@@ -483,6 +536,7 @@ public class TaskRecordFragment extends BaseFragment
 				//当前实体 只有一个
 				List<DailyPerformanceInfoBean> dailyPerCurrBeanList=dailyperBeanList.getDailyPerformanceInfoBeanList();
 				DailyPerformanceInfoBean dailyPerformanceInfoBean=dailyPerCurrBeanList.get(0);
+				dailyPerformanceInfoBean.setMonthlyPer(monthlyPer);
 
 				List<DailyPerformanceInfoBean> dailyPerDeleteTempBeanList=new ArrayList<>();
 
@@ -502,6 +556,12 @@ public class TaskRecordFragment extends BaseFragment
 				CacheServerResponse.saveObject(context,
 						"DailyperformanceinfoResultBeanList", loacalBeanList);
 			}else{
+				//设置缓存中月积分
+				List<DailyPerformanceInfoBean> dailyPerCurrBeanList=
+						dailyperBeanList.getDailyPerformanceInfoBeanList();
+				DailyPerformanceInfoBean dailyPerformanceInfoBean=dailyPerCurrBeanList.get(0);
+				dailyPerformanceInfoBean.setMonthlyPer(monthlyPer);
+
 				CacheServerResponse.saveObject(context,
 						"DailyperformanceinfoResultBeanList", dailyperBeanList);
 			}
@@ -514,16 +574,14 @@ public class TaskRecordFragment extends BaseFragment
 		@Override
 	public void onFailureResponse(int requestCode, Throwable t) {
 //			super.onFailureResponse(requestCode, t);
-			PublicUtil.showToastServerOvertime();
-		LogUtil.e("onFailureResponse requestCode:"+requestCode);
-		showAddTv(null);
+
 
 	}
 
 	@Override
 	public void onErrorResponse(int requestCode, ResultBase result) {
 		super.onErrorResponse(requestCode, result);
-		showAddTv(null);
+//		showAddTv(null);
 	}
 
 	/**showModleType 1:添加，0：修改，2：查看*/
