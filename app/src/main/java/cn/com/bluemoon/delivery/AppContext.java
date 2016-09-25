@@ -13,10 +13,12 @@ import java.util.UUID;
 
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.AppConfig;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.service.LocationService;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 
 public class AppContext extends BaseApplication {
@@ -43,10 +45,14 @@ public class AppContext extends BaseApplication {
 
     }
     private void initAlarm() {
-
-
-
-        Reminds.setNextAlert(this);
+        try {
+            if(!StringUtil.isEmptyString(ClientStateManager.getLoginToken())) {
+                Reminds.SynAlarm(this);
+                Reminds.SynAlarm(this);
+            }
+        }catch (Exception ex){
+            LogUtils.e("AppContext","Syn Alarms Error",ex);
+        }
     }
     private void init() {
 

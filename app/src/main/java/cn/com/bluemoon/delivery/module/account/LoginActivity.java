@@ -21,8 +21,10 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.ClearEditText;
 
@@ -49,6 +51,11 @@ public class LoginActivity extends BaseActivity {
         ClientStateManager.setUserName(getUserName());
         MobclickAgent.onProfileSignIn(getUserName());
         toMainActivity();
+        try {
+                Reminds.SynAlarm(this);
+        }catch (Exception ex){
+            LogUtils.e("LoginActivity","Syn Alarms Error",ex);
+        }
     }
 
     @Override

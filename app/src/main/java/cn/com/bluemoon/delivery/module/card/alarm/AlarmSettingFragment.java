@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
@@ -30,6 +31,8 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * Created by allenli on 2016/9/7.
  */
 public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
+    RemindAdapter adapter;
+
 
     @Override
     protected void setActionBar(CommonActionBar actionBar) {
@@ -52,8 +55,8 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     public void initData() {
-
-        RemindAdapter adapter = getNewAdapter();
+        ptrlv.setBackgroundColor(getResources().getColor(R.color.view_bg));
+        adapter = getNewAdapter();
 
         List<Remind> list = new ArrayList<>();
         Cursor mCursor = Reminds.getAlarmsCursor(getActivity().getContentResolver());
@@ -90,23 +93,47 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         }
 
         @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+        protected void setView(int position, final View convertView, final ViewGroup parent, boolean isNew) {
             final Remind remind = (Remind) getItem(position);
             LinearLayout layoutAlarm = getViewById(R.id.layout_alarm);
             TextView txtAlarmTime = getViewById(R.id.txt_alarm_time);
             TextView txtAlamTitle = getViewById(R.id.txt_alarm_title);
-            TextView txtAlert = getViewById(R.id.txt_repeat);
+            TextView txtRepeat = getViewById(R.id.txt_repeat);
+            TextView txtAlert = getViewById(R.id.txt_repeat_content);
             cn.com.bluemoon.lib.view.switchbutton.SwitchButton sbOpen = getViewById(R.id.sb_open);
 
             txtAlarmTime.setText(DateUtil.getTime(Reminds.calculateAlarm(remind), "HH:mm"));
             txtAlamTitle.setText(remind.getRemindTitle());
             DaysOfWeek daysOfWeek = new DaysOfWeek(remind.getRemindWeek());
-            if(daysOfWeek.getCoded()!=0 && daysOfWeek.getCoded()!=0x7f){
-                txtAlert.setText( getString(R.string.week) + daysOfWeek.toString(getActivity(),true));
-            }else{
-                txtAlert.setText(daysOfWeek.toString(getActivity(),true));
+            if (daysOfWeek.getCoded() != 0 && daysOfWeek.getCoded() != 0x7f) {
+                txtAlert.setText(getString(R.string.week) + daysOfWeek.toString(getActivity(), true));
+            } else {
+                txtAlert.setText(daysOfWeek.toString(getActivity(), true));
             }
             sbOpen.setChecked(!remind.isClose);
+            if (sbOpen.isChecked()) {
+                if (Build.VERSION.SDK_INT > 15) {
+                    layoutAlarm.setBackground(getResources().getDrawable(R.drawable.btn_border_blue_alarm));
+                } else {
+                    layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_border_blue_alarm));
+                }
+                txtAlarmTime.setTextColor(getResources().getColor(R.color.btn_blue));
+                txtAlamTitle.setTextColor(getResources().getColor(R.color.text_black));
+                txtAlert.setTextColor(getResources().getColor(R.color.text_black));
+                txtRepeat.setTextColor(getResources().getColor(R.color.text_black));
+            } else {
+                if (Build.VERSION.SDK_INT > 15) {
+                    layoutAlarm.setBackground(getResources().getDrawable(R.drawable.btn_border_grey_alarm));
+                } else {
+                    layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_border_grey_alarm));
+                }
+
+                txtAlarmTime.setTextColor(getResources().getColor(R.color.text_grep));
+                txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep));
+                txtAlert.setTextColor(getResources().getColor(R.color.text_grep));
+                txtRepeat.setTextColor(getResources().getColor(R.color.text_grep));
+            }
+
 
             layoutAlarm.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -115,14 +142,20 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
                 }
             });
 
+
             sbOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                     remind.isClose = !isChecked;
-                    Reminds.enableAlarm(getActivity(),remind.getRemindId(),isChecked);
+
+                    adapter.notifyDataSetChanged();
+                    Reminds.enableAlarm(getActivity(), remind.getRemindId(), isChecked);
                     DeliveryApi.turnRemindOnOrOff(getToken(), remind.getRemindId(), isChecked, getNewHandler(999, ResultBase.class));
+
                 }
             });
+
+
         }
     }
 
@@ -156,7 +189,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         // DeliveryApi.getRemindList(getToken(), getNewHandler(requestCode, ResultRemind.class));
-              hideWaitDialog();
+        hideWaitDialog();
     }
 
 
@@ -182,11 +215,10 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         if (requestCode == 999) {
             return;
+        } else {
+            super.onSuccessResponse(requestCode, jsonString, result);
         }
-        super.onSuccessResponse(requestCode, jsonString, result);
     }
-
-
 
 
 }

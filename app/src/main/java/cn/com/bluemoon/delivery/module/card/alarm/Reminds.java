@@ -11,10 +11,18 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 
+import com.alibaba.fastjson.JSON;
+import com.loopj.android.http.TextHttpResponseHandler;
+
+import org.apache.http.Header;
+
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.card.ResultRemind;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -34,12 +42,8 @@ public class Reminds {
 
         long timeInMillis = calculateAlarm(alarm);
         ContentValues values = createContentValues(alarm);
-        Uri uri = context.getContentResolver().insert(
+        context.getContentResolver().insert(
                 Constants.ALARM_CONTENT_URI, values);
-
-        if (!alarm.isClose) {
-            popAlarmSetToast(context, timeInMillis);
-        }
         setNextAlert(context);
         return timeInMillis;
     }
@@ -94,6 +98,8 @@ public class Reminds {
      * @return Time when the alarm will fire.
      */
     public static long setAlarm(Context context, Remind alarm) {
+
+        LogUtils.d("setAlarm", String.format("Remind id {}  is {}", alarm.getRemindId(), !alarm.isClose));
         long timeInMillis = calculateAlarm(alarm);
         ContentValues values = createContentValues(alarm);
         ContentResolver resolver = context.getContentResolver();
@@ -101,21 +107,21 @@ public class Reminds {
                 ContentUris.withAppendedId(Constants.ALARM_CONTENT_URI, alarm.getRemindId()),
                 values, null, null);
 
-        if (!alarm.isClose) {
-            popAlarmSetToast(context, alarm.getHour(), alarm.getMinute(), alarm.getRemindWeek());
-        }
+//        if (!alarm.isClose) {
+//            popAlarmSetToast(context, alarm.getHour(), alarm.getMinute(), alarm.getRemindWeek());
+//        }
         setNextAlert(context);
         return timeInMillis;
     }
 
-     static void popAlarmSetToast(Context context, int hour, int minute,
-                                        int days) {
+    static void popAlarmSetToast(Context context, int hour, int minute,
+                                 int days) {
         popAlarmSetToast(context,
                 Reminds.calculateAlarm(hour, minute, new DaysOfWeek(days))
                         .getTimeInMillis());
     }
 
-     static void popAlarmSetToast(Context context, long timeInMillis) {
+    static void popAlarmSetToast(Context context, long timeInMillis) {
         LibPublicUtil.showToast(context, formatToast(context, timeInMillis));
     }
 
@@ -133,13 +139,10 @@ public class Reminds {
 
     public static void enableAlarm(
             final Context context, final long id, boolean enabled) {
+        LogUtils.d("enableAlarm", String.format("Remind id {}  is {}", id, enabled));
         enableAlarmInternal(context, id, enabled);
         setNextAlert(context);
-        try{
-            DeliveryApi.turnRemindOnOrOff(ClientStateManager.getLoginToken(),id,enabled,null);
-        }catch (Exception ex){
 
-        }
     }
 
     private static void enableAlarmInternal(final Context context,
@@ -170,8 +173,23 @@ public class Reminds {
 
         resolver.update(ContentUris.withAppendedId(
                 Constants.ALARM_CONTENT_URI, alarm.getRemindId()), values, null, null);
-    }
 
+        try {
+            DeliveryApi.turnRemindOnOrOff(ClientStateManager.getLoginToken(), alarm.getRemindId(), enabled, new TextHttpResponseHandler() {
+                @Override
+                public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
+
+                }
+
+                @Override
+                public void onSuccess(int i, Header[] headers, String s) {
+
+                }
+            });
+        } catch (Exception ex) {
+
+        }
+    }
 
 
     private static Remind calculateNextAlert(Context context) {
@@ -215,6 +233,7 @@ public class Reminds {
         if (alarm != null) {
             enableAlert(context, alarm, alarm.getRemindTime());
         } else {
+            LogUtils.d("Alarm Clean", "All Alarm is clean");
             disableAlert(context);
         }
     }
@@ -235,7 +254,7 @@ public class Reminds {
         am.set(AlarmManager.RTC_WAKEUP, atTimeInMillis, sender);
     }
 
-   private static void disableAlert(Context context) {
+    private static void disableAlert(Context context) {
         AlarmManager am = (AlarmManager)
                 context.getSystemService(Context.ALARM_SERVICE);
         PendingIntent sender = PendingIntent.getBroadcast(
@@ -289,5 +308,57 @@ public class Reminds {
         }
         return alarm;
     }
+
+
+    public static void SynAlarm(final Context context) {
+        DeliveryApi.getRemindList(ClientStateManager.getLoginToken(), new TextHttpResponseHandler() {
+            @Override
+            public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
+
+            }
+
+            @Override
+            public void onSuccess(int i, Header[] headers, String s) {
+                try {
+                    LogUtils.d("SynAlarm", s);
+                    ResultRemind result = JSON.parseObject(s, ResultRemind.class);
+                    if (result.isSuccess) {
+                        List<Remind> localReminds = new ArrayList<>();
+                        Cursor mCursor = Reminds.getAlarmsCursor(context.getContentResolver());
+
+                        if (mCursor != null) {
+                            if (mCursor.moveToFirst()) {
+                                do {
+                                    Remind a = new Remind(mCursor);
+                                    localReminds.add(a);
+                                } while (mCursor.moveToNext());
+                            }
+                            mCursor.close();
+                        }
+                        for (Remind remind : localReminds
+                                ) {
+                            deleteAlarm(context, remind.getRemindId());
+                        }
+
+                        if (null != result.getRemindList() && result.getRemindList().size() > 0) {
+                            for (Remind remind : result.getRemindList()
+                                    ) {
+                                addAlarm(context, remind);
+                            }
+                        }
+
+
+                    }
+                } catch (Exception ex) {
+
+                } finally {
+                    setNextAlert(context);
+                }
+
+
+            }
+        });
+    }
+
 
 }
