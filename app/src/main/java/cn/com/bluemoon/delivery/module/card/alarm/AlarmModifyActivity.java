@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.card.alarm;
 
+import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -28,6 +29,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.selectordialog.OnSelectChangedListener;
 import cn.com.bluemoon.delivery.ui.selectordialog.SimpleWheelView;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
@@ -203,6 +205,7 @@ public class AlarmModifyActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+
         if(requestCode==0){
             ResultRemindId resultRemindId = JSON.parseObject(jsonString,ResultRemindId.class);
             remind.setRemindId(resultRemindId.getRemindId());
@@ -221,13 +224,24 @@ public class AlarmModifyActivity extends BaseActivity {
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
 
-        txtError.setVisibility(View.VISIBLE);
         txtError.setText(result.getResponseMsg());
+        showBtnAmin(btnSave);
+        showTextAmin(txtError);
+    }
 
+    public static void showTextAmin(View view){
+        ViewUtil.setViewVisibility(view, View.VISIBLE);
+        ObjectAnimator.ofFloat(view, "alpha", 1.0f, 0.0f).setDuration(3000).start();
+    }
+
+    public static void showBtnAmin(View view){
+        float translationX = view.getResources().getDimensionPixelOffset(R.dimen.translation_x);
+        ObjectAnimator.ofFloat(view, "translationX", 0.0f, -translationX, translationX, 0.0f).setDuration(400).start();
     }
 
     @OnClick(R.id.btn_save)
     void saveRemind(View view) {
+        txtError.setText("");
         showWaitDialog();
         if (remind.getRemindId() == -1) {
             DeliveryApi.addRemind(getToken(), remind, getNewHandler(0, ResultRemindId.class));
