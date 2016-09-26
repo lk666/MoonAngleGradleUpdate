@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/view_bg">
+
+    <ImageView
+        android:id="@+id/iv_signed"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="25dp"
+        android:src="@mipmap/ic_checked_green" />
+
+    <TextView
+        android:id="@+id/tv_signed"
+        style="@style/txt_content_13"
+        android:layout_height="80dp"
+        android:layout_marginLeft="6dp"
+        android:layout_marginRight="6dp"
+        android:layout_toLeftOf="@+id/iv_signed"
+        android:gravity="center_vertical"
+        android:text="@string/wait_sign_received" />
+
+    <TextView
+        android:id="@+id/tv_tag_code"
+        style="@style/txt_title_15"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="6dp"
+        android:layout_toLeftOf="@+id/tv_signed"
+        android:ellipsize="end"
+        android:gravity="bottom"
+        android:singleLine="true"
+        android:text="@string/wait_sign_tag_code" />
+
+    <TextView
+        android:id="@+id/tv_back_order_num"
+        style="@style/txt_content_13"
+        android:layout_width="match_parent"
+        android:layout_height="36dp"
+        android:layout_below="@+id/tv_tag_code"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="8dp"
+        android:layout_toLeftOf="@+id/tv_signed"
+        android:ellipsize="end"
+        android:gravity="top"
+        android:singleLine="true"
+        android:text="@string/wait_sign_back_orderNum" />
+</RelativeLayout>
+

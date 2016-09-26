@@ -24,5 +24,5 @@ public class CloseBoxTabActivity extends BaseTabActivity {
                 R.string.close_box_history));
         actionStart(context, tabs, CloseBoxTabActivity.class);
     }
-
+// TODO: lk 2016/9/23 角标
 }
