@@ -55,6 +55,7 @@ public class WaitSignFragment extends BasePullToRefreshListViewFragment {
         pageFlag = 0;
         ReturningApi.queryWaitSignList(0, getToken(), getNewHandler
                 (requestCode, ResultWaitSignList.class));
+        setAmount();
     }
 
     @Override

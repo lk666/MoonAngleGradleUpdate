@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 
 /**
@@ -24,5 +25,9 @@ public class CloseBoxTabActivity extends BaseTabActivity {
                 R.string.close_box_history));
         actionStart(context, tabs, CloseBoxTabActivity.class);
     }
-// TODO: lk 2016/9/23 角标
+
+    @Override
+    protected WashModeType getModeType() {
+        return WashModeType.CLOSE_BOX_MODEL;
+    }
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxFragment;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxHistoryFragment;
@@ -26,5 +27,9 @@ public class TransportReceiveTabActivity extends BaseTabActivity {
                 R.string.close_box_history));
         actionStart(context, tabs, TransportReceiveTabActivity.class);
     }
-// TODO: lk 2016/9/23 角标 
+
+    @Override
+    protected WashModeType getModeType() {
+        return WashModeType.CARRIAGE_RECEIVE_MODEL;
+    }
 }

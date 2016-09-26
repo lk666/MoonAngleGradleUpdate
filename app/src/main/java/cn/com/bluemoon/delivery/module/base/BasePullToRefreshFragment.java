@@ -142,7 +142,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     }
 
     /**
-     * 显示内容页
+     * 重新获取数据时，显示内容页
      */
     protected void showRefreshView() {
         LibViewUtil.setViewVisibility(errorView, View.GONE);
