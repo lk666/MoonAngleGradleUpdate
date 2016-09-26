@@ -83,27 +83,6 @@ public class WaitSignFragment extends BasePullToRefreshListViewFragment {
         return resultObj.getCarriageList();
     }
 
-    @Override
-    protected void showEmptyView() {
-        super.showEmptyView();
-        // TODO: lk 2016/9/23 角标设置数量
-//        getBaseTabActivity().setAmount(0, 0);
-    }
-
-    @Override
-    protected void showNetErrorView() {
-        super.showNetErrorView();
-        // TODO: lk 2016/9/23 角标设置数量
-//        getBaseTabActivity().setAmount(0, 0);
-    }
-
-    @Override
-    protected void showRefreshView() {
-        super.showRefreshView();
-        // TODO: lk 2016/9/23 角标设置数量
-//        getBaseTabActivity().setAmount(0, waitInboxCount);
-    }
-
     /**
      * 当再次回到此界面，且在此此回到此界面，setUserVisibleHint之前没有调用initData时，刷新数据
      */
