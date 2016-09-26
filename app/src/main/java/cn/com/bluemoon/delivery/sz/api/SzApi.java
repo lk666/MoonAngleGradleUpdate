@@ -33,7 +33,7 @@ public class SzApi {
     private static String FORMAT = "json";
     private static String APP_TYPE = "moonAngel";
 
-    private static boolean isDebug = true;
+    private static boolean isDebug = false;
 
 
     static {
@@ -44,13 +44,14 @@ public class SzApi {
     }
 
 	public static String getAbsoluteApiUrl(String partUrl) {
-		String url = String.format(BuildConfig.API_URL, partUrl);
-		// LogUtils.d("BASE_CLIENT", "request:" + url);
+		String url = String.format(BuildConfig.API_URL_SZ, partUrl);
+		 LogUtil.d("getAbsoluteApiUrl BASE_URL:" + url);
 		return url;
 	}
 
 	public static String getMockUrl(String partUrl) {
-		return String.format(BuildConfig.MOCK_URL, partUrl);
+		 LogUtil.d("getAbsoluteApiUrl BASE_URL:" + String.format(BuildConfig.MOCK_URL_SZ, partUrl));
+		return String.format(BuildConfig.MOCK_URL_SZ, partUrl);
 	}
 
     /*  获取用户单日日程列表 */
