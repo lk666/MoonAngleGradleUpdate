@@ -133,7 +133,6 @@ public class AddTaskActivity extends BaseActivity{
                         && !TextUtils.isEmpty(sup.getUID())
                         && !TextUtils.isEmpty(sup.getUName())
                         && !user.getUID().equals(sup.getUID())){
-                    if (!TextUtils.isEmpty(sup.getUName()) && !TextUtils.isEmpty(sup.getUID()))
                     ttv_appraiser.setText_right(sup.getUName()+"("+sup.getUID()+")");
                 }else{
                     ttv_appraiser.setText_right_hint(getString(R.string.sz_task_ttv_appraiser));
@@ -404,17 +403,27 @@ public class AddTaskActivity extends BaseActivity{
             final DailyPerformanceInfoBean submitData=new DailyPerformanceInfoBean();
             submitData.setAsignJobs(asignJobs);
 
-            if (user==null || TextUtils.isEmpty(user.getUID()) || TextUtils.isEmpty(user.getUName())){
+            if (user==null ||
+                    TextUtils.isEmpty(user.getUID())
+                    || TextUtils.isEmpty(user.getUName())){
                 showGetUserInfoDialog("未获得到个人信息内容，请重新获取！");
             }else{
                 submitData.setUser(user);
             }
-            if (sup==null || TextUtils.isEmpty(sup.getUID()) || TextUtils.isEmpty(sup.getUName())){
+            String appraiserName=ttv_appraiser.getTv_rightContent().getText().toString();
+            if (sup==null ||
+                    TextUtils.isEmpty(appraiserName)
+                    || TextUtils.isEmpty(sup.getUID())
+                    || TextUtils.isEmpty(sup.getUName())){
                 PublicUtil.showToast("评价人不可为空，请选择评价人！");
                 return;
             }else{
-                submitData.setReviewer(sup);
+                if (!user.getUID().equals(sup.getUID()))
+                    submitData.setReviewer(sup);
+                else
+                    PublicUtil.showToast("评价人不可以是自己，请重新选择评价人！");
             }
+
 
             submitData.setWork_date(DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")+"");
             LogUtil.w("任务添加实体转换："+JSON.toJSONString(submitData));
@@ -446,10 +455,6 @@ public class AddTaskActivity extends BaseActivity{
                 SzApi.submitDayJobsApi(submitData,"0",getNewHandler(REQUEST_COMMIT, ResultToken.class));
             }
         }
-
-
-
-
     }
 
 
@@ -586,7 +591,6 @@ public class AddTaskActivity extends BaseActivity{
                     new TaskViewHolder(ll_task_item_conent.getChildAt(itemTag-1));
             String preStartTime=taskViewHolder.tv_dateStart.getText().toString();
             String preEndTime=taskViewHolder.tv_dateEnd.getText().toString();
-
 
                 long preST=DateUtil.tranDateToTime(preStartTime);
                 long preET=DateUtil.tranDateToTime(preEndTime);

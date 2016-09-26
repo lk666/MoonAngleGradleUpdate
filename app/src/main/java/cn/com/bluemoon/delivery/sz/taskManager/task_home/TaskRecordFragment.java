@@ -485,6 +485,7 @@ public class TaskRecordFragment extends BaseFragment
 					showAddTv(null);
 				}
 			}else{//resultBean.isSuccess==false
+				LogUtil.e("resultBean.isSuccess==false:"+responseString);
 				//失败弹出服务报的相关信息
 				PublicUtil.showErrorMsg(getActivity(), resultBean);
 				showAddTv(null);
@@ -504,18 +505,23 @@ public class TaskRecordFragment extends BaseFragment
 	};
 
 
-
-
-
 	@Override
 	public void onSuccessException(int requestCode, Throwable t) {
-
-
+//		super.onSuccessException(requestCode, t);
 	}
 
 	@Override
 	public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
+	}
+
+	@Override
+	public void onFailureResponse(int requestCode, Throwable t) {
+//			super.onFailureResponse(requestCode, t);
+	}
+	@Override
+	public void onErrorResponse(int requestCode, ResultBase result) {
+//		super.onErrorResponse(requestCode, result);
 	}
 
 
@@ -571,18 +577,6 @@ public class TaskRecordFragment extends BaseFragment
 	}
 
 
-		@Override
-	public void onFailureResponse(int requestCode, Throwable t) {
-//			super.onFailureResponse(requestCode, t);
-
-
-	}
-
-	@Override
-	public void onErrorResponse(int requestCode, ResultBase result) {
-		super.onErrorResponse(requestCode, result);
-//		showAddTv(null);
-	}
 
 	/**showModleType 1:添加，0：修改，2：查看*/
 	public void showAddTv(DailyPerformanceInfoBean infoBean){
