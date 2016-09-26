@@ -574,6 +574,10 @@
             android:name=".module.wash.returning.transportreceive.TransportReceiveTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.transportreceive.ScanReceiveSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
     </application>
 
 </manifest>

@@ -5,7 +5,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ImageInfo;
@@ -595,5 +594,22 @@ public class ReturningApi extends DeliveryApi {
         params.put("pageFlag", pageFlag);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/carriageReceive/queryWaitSignList%s", handler);
+    }
+
+    /**
+     *6.2收衣点收货确认签收(扫描)
+     * @param carriageCode 承运单号 String
+     * @param tagCode 封箱标签号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanReceiveSign(String carriageCode,String tagCode,String token,AsyncHttpResponseHandler handler){
+        if(null == carriageCode||null == tagCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("carriageCode",carriageCode);
+        params.put("tagCode",tagCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/carriageReceive/scanReceiveSign%s", handler);
     }
 }

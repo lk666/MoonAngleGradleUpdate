@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.transportreceive;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -19,7 +20,6 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
-import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -28,6 +28,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Created by lk on 2016/9/14.
  */
 public class WaitSignFragment extends BasePullToRefreshListViewFragment {
+    private static final int REQUEST_CODE_SCANE = 0x444;
     /**
      * 分页标识
      */
@@ -203,8 +204,17 @@ public class WaitSignFragment extends BasePullToRefreshListViewFragment {
     public void onItemClick(Object item, View view, int position) {
         // 点击签收
         if (item instanceof Carriage) {
-            // TODO: lk 2016/9/26 签收
-            toast("点击签收" + ((Carriage) item).getCarriageCode());
+            Carriage c = (Carriage) item;
+            ScanReceiveSignActivity.actionStart(getActivity(), this, REQUEST_CODE_SCANE,
+                    c.getCarriageCode(), ((Carriage) item).getTagList());
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //  扫码返回
+        if (requestCode == REQUEST_CODE_SCANE) {
+            initData();
         }
     }
 }

@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.closebox;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -32,7 +33,7 @@ public class Carriage implements Serializable {
     /**
      * 数据列表
      */
-    private List<CarriageTag> tagList;
+    private ArrayList<CarriageTag> tagList;
 
     public String getCarriageCode() {
         return carriageCode;
@@ -75,11 +76,11 @@ public class Carriage implements Serializable {
     }
 
 
-    public List<CarriageTag> getTagList() {
+    public ArrayList<CarriageTag> getTagList() {
         return tagList;
     }
 
-    public void setTagList(List<CarriageTag> tagList) {
+    public void setTagList(ArrayList<CarriageTag> tagList) {
         this.tagList = tagList;
     }
 }

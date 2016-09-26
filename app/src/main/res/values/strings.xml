@@ -941,4 +941,10 @@
     <string name="wait_sign_scan_tag">(扫描封箱标签)</string>
     <string name="wait_sign_received">(已签收)</string>
     <string name="wait_sign_btn_sign">签收</string>
+    <string name="wait_sign_scan_tag_title">扫描封箱标签</string>
+    <string name="wait_sign_duplicate_code">该封箱标签已被签收</string>
+    <string name="wait_sign_not_in_code"> 当前标签不属于封箱标签，请核实后重新扫描</string>
+    <string name="sign_finish">签收完成</string>
+    <string name="sign_succeed">签收成功</string>
+    <string name="sign_continue">继续签收</string>
 </resources>
