@@ -267,7 +267,6 @@ public class PendingOrdersFragment extends Fragment {
             final OrderVo order = orderList.get(position);
             TextView txtDispatchId = ViewHolder.get(convertView, R.id.txt_dispatchId);
             TextView txtAddress = ViewHolder.get(convertView, R.id.txt_address);
-            TextView txtCateAmount = ViewHolder.get(convertView, R.id.txt_cateAmount);
             LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
             TextView txtPaytime = ViewHolder.get(convertView, R.id.txt_paytime);
             Button receivingOrders = ViewHolder.get(convertView, R.id.receiving_orders_action);
@@ -275,10 +274,17 @@ public class PendingOrdersFragment extends Fragment {
             txtPaytime.setText(String.format(getString(R.string.pending_order_pay_time), order.getPayOrderTime()));
             txtDispatchId.setText(order.getOrderId());
             txtAddress.setText(String.format("%s%s", order.getRegion(), order.getAddress()));
-            txtCateAmount.setText(String.format(getString(R.string.pending_order_bottom),
-                    order.getCateAmount(),
-                    order.getTotalAmount(),
-                    StringUtil.formatPrice(order.getTotalPrice())));
+            TextView txtCateAmount = ViewHolder.get(convertView, R.id.txt_cateAmount);
+            TextView txtTotalAmount = ViewHolder.get(convertView, R.id.txt_totalAmount);
+            TextView txtTotalPrice = ViewHolder.get(convertView, R.id.txt_totalPrice);
+
+            txtCateAmount.setText(String.format(getString(R.string.pending_order_total_kinds),order.getCateAmount()));
+            txtTotalAmount.setText(String.format(getString(R.string.pending_order_total_amount),order.getTotalAmount()));
+            txtTotalPrice.setText(String.format(getString(R.string.pending_order_total_price), StringUtil.formatPrice(order.getTotalPrice())));
+
+
+
+
 
             txtRefuseOrder.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtRefuseOrder.getPaint().setAntiAlias(true);
