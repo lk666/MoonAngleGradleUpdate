@@ -573,7 +573,7 @@
         <activity
             android:name=".module.wash.returning.transportreceive.TransportReceiveTabActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@style/App.Base.Theme" />
     </application>
 
 </manifest>

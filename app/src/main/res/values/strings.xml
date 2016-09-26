@@ -930,4 +930,11 @@
 
     <!--承运收货-->
     <string name="wait_sign_title">待签收</string>
+    <string name="wait_sign_carriage_code">承运单号-%s</string>
+    <string name="wait_sign_seal_tags">封箱标签数量：%s</string>
+    <string name="wait_sign_tag_code">封箱标签-%s</string>
+    <string name="wait_sign_back_orderNum">还衣单：%s</string>
+    <string name="wait_sign_scan_tag">(扫描封箱标签)</string>
+    <string name="wait_sign_received">(已签收)</string>
+    <string name="wait_sign_btn_sign">签收</string>
 </resources>
