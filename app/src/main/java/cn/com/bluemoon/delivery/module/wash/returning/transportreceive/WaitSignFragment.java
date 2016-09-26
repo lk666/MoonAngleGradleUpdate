@@ -41,8 +41,7 @@ public class WaitSignFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
-        ptrlv.getRefreshableView().setDividerHeight(
-                getResources().getDimensionPixelSize(R.dimen.div_height_8));
+        ptrlv.getRefreshableView().setDividerHeight(0);
     }
 
     @Override
