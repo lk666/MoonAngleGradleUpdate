@@ -58,6 +58,8 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
+import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -66,12 +68,13 @@ import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.PushUtils;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
+import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
@@ -759,7 +762,13 @@ public class MainActivity extends SlidingActivity {
                         userRight.getMenuName(), false);
             } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                 //click empty
-            } else {
+            } else if ("scheduleSys".equals(userRight.getMenuCode())) {
+                intent = new Intent(main, SzSchedualActivity.class);
+                startActivity(intent);
+            }else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, SzTaskActivity.class);
+                startActivity(intent);
+            }else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
             }
         } catch (Exception ex) {

@@ -37,4 +37,16 @@
 
     <!--分割线高度-->
     <dimen name="div_height">0.5dp</dimen>
+
+    <!--sz jiangyuehue-->
+    <dimen name="activity_meeting_times_titelWidth">60dp</dimen>
+    <dimen name="activity_meeting_times_titelHeight_bar">25dp</dimen>
+    <dimen name="activity_meeting_times_titelHeight">40dp</dimen>
+    <dimen name="activity_meeting_times_titelWidth2">100dp</dimen>
+    <dimen name="activity_meeting_times_textSize">10sp</dimen>
+
+
+    <dimen name="sz_seekbar_thumb_normal">25dp</dimen>
+    <dimen name="sz_seekbar_thumb_press">40dp</dimen>
+    <dimen name="setting_item_height">50dp</dimen>
 </resources>

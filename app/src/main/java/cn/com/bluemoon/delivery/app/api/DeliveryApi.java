@@ -54,6 +54,8 @@ public class DeliveryApi {
 
         String passwordEncrypt = DES.encrypt(password, Constants.DES_KEY);
 
+//        LogUtil.v("================================"+passwordEncrypt);
+
         Map<String, String> params = new HashMap<>();
         params.put("account", account);
         params.put("password", passwordEncrypt);
@@ -63,6 +65,8 @@ public class DeliveryApi {
         String url = String.format("bluemoon-control/user/ssoLogin%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+
+
     }
 
     /* 2.1.2 获取用户信息 */

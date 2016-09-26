@@ -117,6 +117,26 @@ public class ApiHttpClient {
         log(new StringBuilder("POST ").append(partUrl).append("----->")
                 .append(jsonString).toString());
     }
+    public static void post_sz(Context context, String partUrl, String jsonString,
+                            AsyncHttpResponseHandler handler) {
+
+        ByteArrayEntity entity = null;
+        try {
+            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+
+            // TODO Auto-generated catch block
+            log(new StringBuilder("POST UnsupportedEncodingException ")
+                    .append(partUrl).append("----->").append(jsonString)
+                    .toString());
+        }
+        client.post(context, partUrl, entity,
+                "application/json", handler);
+
+        log(new StringBuilder("POST ").append(partUrl).append("----->")
+                .append(jsonString).toString());
+    }
+
 
     public static void post(String partUrl, int requestCode, AsyncHttpResponseHandler handler) {
         client.post(getAbsoluteApiUrl(partUrl), requestCode, handler);

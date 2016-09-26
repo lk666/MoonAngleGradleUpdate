@@ -45,7 +45,7 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
  */
 
 public class MessageListActivity extends Activity {
-    private String TAG = "MessageListActivity";
+    private String TAG = MessageListActivity.class.getSimpleName();
     private MessageListActivity main;
     private CommonProgressDialog progressDialog;
     private PullToRefreshListView listView;

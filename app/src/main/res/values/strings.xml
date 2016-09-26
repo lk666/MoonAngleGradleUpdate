@@ -851,4 +851,86 @@
     <string name="code_qr">二维码</string>
     <string name="code_bar">条形码</string>
     <string name="code_content">请将二维码或条形码至于框内</string>
+    <!--sz meeting-->
+    <string name="sz_meeting_schedual_add_meeting">安排会议</string>
+    <string name="sz_meeting_wait_schedual_msg">待办日程消息</string>
+    <string name="sz_main_wait_msg_remind">待办提醒</string>
+    <string name="sz_main_meeting_msg_remind">会议提醒</string>
+    <string name="sz_main_advice_msg_remind">建议提醒</string>
+    <string name="sz_main_conflict_msg_remind">任务冲突提醒</string>
+    <string name="sz_main_delegation_msg_remind">委托人消息提醒</string>
+    <string name="sz_meeting_user_choose">人员选择</string>
+    <string name="sz_meeting_time_setting">时间设置</string>
+
+    <string name="sz_search_meeting">搜索会议，他人会议</string>
+    <string name="sz_search">搜索</string>
+
+
+    <!--sz task-->
+    <string name="sz_task_add_task">添加工作</string>
+    <string name="sz_task_modify_task">修改工作</string>
+    <string name="sz_task_look_task">查看工作</string>
+    <string name="sz_task_add_task_appraise_choose">人员选择</string>
+    <string name="sz_task_delete_dialog_hint">确定要删除 %s 任务项？</string>
+    <string name="sz_task_monthlyper">月绩效积分：</string>
+    <string name="sz_task_ttv_appraiser">请选择评价人</string>
+
+    <!--sz task_evaluate-->
+    <string name="sz_to_evaluate">待评价</string>
+    <string name="sz_have_evaluated">已评价</string>
+    <string name="sz_task_output_label">工作输出</string>
+    <string name="sz_task_label">任务</string>
+    <string name="sz_task_label2">任&#160;&#160;&#160;&#160;务</string>
+    <string name="sz_task_start_time_label">起始时间</string>
+    <string name="sz_task_complete_state_label">进展状态</string>
+    <string name="sz_task_not_start_label">未开始</string>
+    <string name="sz_task_completing_label">进行中</string>
+    <string name="sz_task_completed_label">已完成</string>
+    <string name="sz_task_pause_label">已暂停</string>
+    <string name="sz_do_task_complete_state_label">进展状态</string>
+    <string name="sz_do_task_avaliabel_label">业绩有效</string>
+    <string name="sz_do_task_avaliabel_label2">有效</string>
+    <string name="sz_do_task_avaliabel_time_label">有效工时</string>
+    <string name="sz_do_task_quality_score_label">质量评分</string>
+    <string name="sz_do_task_quality_score_label2">十分制</string>
+    <string name="sz_do_task_evaluate_content_label">评价内容</string>
+    <string name="sz_do_task_evaluate_content_label2">请填写评价内容（选填）</string>
+    <string name="sz_task_desc_label">任务概述</string>
+    <string name="sz_update_evaluete_label">修改评价</string>
+    <string name="sz_task_adavice_label">驳回</string>
+    <string name="sz_task_sure">确定</string>
+    <string name="sz_update_task_labe">修改任务</string>
+    <string name="sz_write_task_evaluate_label">写评价</string>
+    <string name="sz_task_advice_content">建议内容</string>
+    <string name="sz_task_notification_detail">通知详情</string>
+    <string name="sz_task_quality_score_label">质量评分</string>
+    <string name="sz_task_quality_score_0">0分</string>
+    <string name="sz_task_quality_score_1">1分</string>
+    <string name="sz_task_quality_score_2">2分</string>
+    <string name="sz_task_quality_score_3">3分</string>
+    <string name="sz_task_quality_score_4">4分</string>
+    <string name="sz_task_quality_score_5">5分</string>
+    <string name="sz_task_quality_score_6">6分</string>
+    <string name="sz_task_quality_score_7">7分</string>
+    <string name="sz_task_quality_score_8">8分</string>
+    <string name="sz_task_quality_score_9">9分</string>
+    <string name="sz_task_quality_score_10">10分</string>
+    <string name="sz_update_task_evaluate_label">修改评价</string>
+    <string name="sz_update_evaluate_dialog_title">是否确认修改此评价</string>
+    <string name="sz_task_detail_label">任务详情</string>
+    <string name="sz_evaluate_detail_label">评价详情</string>
+    <string name="sz_listview_loding_label">正在加载，请稍后…</string>
+    <string name="sz_minute_label">分钟</string>
+    <string name="sz_valid_time_warning_label">有效工时不能超过1440分钟</string>
+    <string name="sz_task_is_valid_label">有效</string>
+    <string name="sz_task_not_valid_label">无效</string>
+    <string name="sz_task_quality_score_unit">分</string>
+    <string name="sz_evaluate_overtime_tip">评价超过1星期，已不能修改评价内容！</string>
+    <string name="sz_evaluate_submit_fail_label">评价提交失败，请重新提交！</string>
+    <string name="sz_evaluate_update_fail_label">评价修改提交失败，请重新提交！</string>
+    <string name="sz_evaluate_not_valid_label">未评价</string>
+    <string name="sz_no_more_data_tip">没有更多数据了</string>
+    <string name="sz_evaluate_task_content_label">评价内容</string>
+
+
 </resources>

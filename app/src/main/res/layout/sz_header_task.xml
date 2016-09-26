@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/white">
+
+    <RelativeLayout
+        android:id="@+id/sub_no_llt"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        >
+
+        <TextView
+            android:id="@+id/tv_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="2016年7月"
+            android:textSize="@dimen/text_size_14"
+            android:textColor="@color/task_item_left_text_color"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/space_12"
+
+            />
+        <TextView
+            android:id="@+id/tv_task_point"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/sz_task_monthlyper"
+            android:textSize="@dimen/text_size_14"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/task_item_left_text_color"
+            android:layout_marginRight="@dimen/space_12"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:background="@color/sz_gray_background"
+            android:layout_alignParentBottom="true"
+            android:layout_height="2px"/>
+
+
+
+    </RelativeLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/white">
+
+        <TableLayout
+            android:layout_width="match_parent"
+            android:layout_height="20dip"
+            android:layout_marginBottom="2dip"
+            android:layout_marginTop="12dip" >
+
+            <TableRow>
+
+                <TextView
+                    style="@style/dateStyle"
+                    android:text="日" />
+
+                <TextView
+                    style="@style/dateStyle"
+                    android:text="一" />
+                <TextView
+                    style="@style/dateStyle"
+                    android:text="二" />
+
+                <TextView
+                    style="@style/dateStyle"
+                    android:text="三" />
+
+                <TextView
+                    style="@style/dateStyle"
+                    android:text="四" />
+
+                <TextView
+                    style="@style/dateStyle"
+                    android:text="五" />
+
+                <TextView
+                    style="@style/dateStyle"
+                    android:text="六" />
+            </TableRow>
+        </TableLayout>
+    </LinearLayout>
+
+    <android.support.v4.view.ViewPager
+        android:layout_marginTop="10dp"
+        android:id="@+id/vp_calendar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/white" >
+    </android.support.v4.view.ViewPager>
+</LinearLayout>

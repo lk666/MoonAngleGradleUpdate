@@ -54,4 +54,29 @@
     <!-- 科技馆检票 -->
     <color name="tiket_content_bg">#99011930</color>
     <color name="tiket_content_color">#d9d9d9</color>
+    <!-- 洗衣服务分割线颜色 -->
+
+    <!-- 深圳 日期选择器 -->
+    <color name="province_line_border">#D0D0D0</color>
+    <color name="login_button_normal">#169fff</color>
+    <color name="login_button_pressed">#1073b9</color>
+    <!-- 深圳 -->
+    <color name="sz_alert_color">#FF8027</color>
+    <color name="sz_font_yellow">#FF8027</color>
+    <color name="sz_font_normal">#464646</color>
+    <color name="sz_font_gray">#A0A0A0</color>
+    <color name="sz_font_blue">#00C9FB</color>
+    <color name="sz_line">#f5f5f5</color>
+    <color name="sz_blue">#4d1fb8ff</color>
+    <color name="sz_siderbar_blue">#1fb8fe</color>
+
+    <!--sz task color-->
+    <color name="sz_gray_background">#F0F0F0</color>
+    <color name="task_item_left_text_color">#333333</color>
+    <color name="task_item_right_text_color">#888888</color>
+    <color name="task_item_hint_color">#DBDBDB</color>
+
+    <color name="sz_task_evaluate_text_color">#888888</color>
+    <color name="sz_task_backgroud_color">#888888</color>
+    <color name="sz_divider_gray_background">#F0F0F0</color>
 </resources>

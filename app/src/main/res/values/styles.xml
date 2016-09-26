@@ -236,6 +236,7 @@
         <item name="android:backgroundDimEnabled">true</item>
     </style>
 
+
     <!--灰色13提示字体-->
     <style name="txt_hint_13">
         <item name="android:layout_width">wrap_content</item>
@@ -305,7 +306,7 @@
         <item name="android:textSize">@dimen/text_size_11</item>
     </style>
 
-    <style name="MyDialogStyleTop" parent="android:Theme.Dialog" >
+    <style name="MyDialogStyleTop" parent="android:Theme.Dialog">
         <item name="android:windowFrame">@null</item><!--边框-->
         <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
         <item name="android:windowIsTranslucent">true</item><!--半透明-->
@@ -314,4 +315,81 @@
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
     </style>
 
+    <style name="dateStyle">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#323232</item>
+    </style>
+
+    <!--普通白色15标题字体-->
+    <style name="txt_title_white_15" parent="txt_title_13">
+        <item name="android:textColor">#ffffff</item>
+    </style>
+
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/p_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/p_bottom_out</item>
+    </style>
+
+    <style name="sz_txt">
+        <item name="android:textColor">@color/sz_font_normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="sz_txt_margin_top">
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:textColor">@color/sz_font_normal</item>
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <!--任务质量评分界面1-->
+    <style name="sz_task_quality_score_itemview_rl">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">40dp</item>
+        <item name="android:background">@color/white_bg</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingRight">10dp</item>
+    </style>
+    <!--任务质量评分界面2-->
+    <style name="sz_task_quality_score_itemview_left_tv">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:gravity">right|center_vertical</item>
+        <item name="android:textColor">@color/text_grep</item>
+        <item name="android:textSize">@dimen/text_size_17</item>
+    </style>
+    <!--任务质量评分界面3-->
+    <style name="sz_task_quality_score_itemview_right_cb">
+        <item name="android:layout_width">15dp</item>
+        <item name="android:layout_height">15dp</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:background">@drawable/sz_task_complete_state_bg_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:clickable">false</item>
+        <item name="android:enabled">false</item>
+        <item name="android:focusable">false</item>
+    </style>
+    <!--任务详情/评价详情中itemview中左视图-->
+    <style name="sz_task_or_evaluate_detail_item_left">
+        <item name="android:layout_width">50dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
+
+    <!--任务详情/评价详情中itemview中右视图-->
+    <style name="sz_task_or_evaluate_detail_item_right">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:ellipsize">end</item>
+        <item name="android:gravity">left|center_vertical</item>
+        <item name="android:textColor">@color/sz_task_evaluate_text_color</item>
+        <item name="android:textSize">@dimen/text_size_12</item>
+    </style>
 </resources>

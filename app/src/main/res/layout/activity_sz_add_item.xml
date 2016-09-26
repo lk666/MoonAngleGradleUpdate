@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/sz_gray_background"
+    android:orientation="vertical">
+
+
+    <cn.com.bluemoon.delivery.sz.view.TaskTextView
+        android:id="@+id/ttv_taskName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rt_gravityStyle="right"
+        app:rt_line_lenght="4"
+        app:rt_max_lenght="50"
+        app:text_left="任务"
+        app:text_right=""
+        app:text_size_left="14sp"
+        app:text_size_right="14sp"
+        android:layout_marginTop="12dp"
+        app:text_right_hint="填写工作任务"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="12dp"
+        android:background="@color/gray_deep"
+        />
+
+    <cn.com.bluemoon.delivery.sz.view.TaskTextView
+        android:id="@+id/ttv_workOutput"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:rt_gravityStyle="right"
+        app:rt_line_lenght="3"
+        app:rt_max_lenght="200"
+        app:text_left="工作输出"
+        app:text_right=""
+        app:text_size_left="14sp"
+        app:text_size_right="14sp"
+        app:text_right_hint="填写工作完成情况"
+        />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/gray_deep"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white_bg"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/space_14"
+            android:text="起始时间"
+            android:textColor="@color/task_item_left_text_color"
+            />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_dateStart"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:text="8:30"
+                android:textColor="@color/task_item_right_text_color"
+                android:textSize="@dimen/text_size_14"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="至"
+                android:textColor="@color/task_item_left_text_color"
+                android:textSize="@dimen/text_size_14"/>
+
+
+            <TextView
+                android:id="@+id/tv_dateEnd"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:minWidth="60dp"
+                android:text="9:30"
+                android:textColor="@color/task_item_right_text_color"
+                android:textSize="@dimen/text_size_14"/>
+
+
+        </LinearLayout>
+
+
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/gray_deep"
+        />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:background="@color/white_bg"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_marginTop="@dimen/space_14"
+            android:text="进展状态"
+            android:textColor="@color/task_item_left_text_color"
+            />
+
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:orientation="horizontal">
+            <RadioGroup
+                android:id="@+id/rg_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:orientation="horizontal">
+                <RadioButton
+                    android:id="@+id/rb_finish"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:checked="true"
+                    android:text="已完成"
+                    android:textColor="@color/task_item_right_text_color"
+                    android:textSize="@dimen/text_size_14"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+
+
+                    />
+                <RadioButton
+                    android:id="@+id/rb_working"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="进行中"
+                    android:textColor="@color/task_item_right_text_color"
+                    android:textSize="@dimen/text_size_14"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:background="@null"
+                    android:layout_marginLeft="20dp"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+
+                    />
+                <RadioButton
+                    android:id="@+id/rb_pause"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="已暂停"
+                    android:textColor="@color/task_item_right_text_color"
+                    android:textSize="@dimen/text_size_14"
+                    android:button="@null"
+                    android:drawablePadding="8dp"
+                    android:layout_marginLeft="20dp"
+                    android:background="@null"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+
+                    />
+            </RadioGroup>
+        </LinearLayout>
+
+    </RelativeLayout>
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1px"
+        android:layout_marginLeft="10dp"
+        android:background="@color/gray_deep"
+        />
+
+    <ImageView
+        android:id="@+id/iv_taskDelete"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white_bg"
+        android:src="@mipmap/icon_sz_task_delete"
+        android:scaleType="centerInside"
+        android:minHeight="32dp"
+        android:gravity="center"
+        />
+
+
+
+
+</LinearLayout>
+

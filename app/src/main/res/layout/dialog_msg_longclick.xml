@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/delete_tv"
+        android:layout_width="156dp"
+        android:layout_height="50dp"
+        android:background="@drawable/bg_corner_white"
+        android:text="删除该消息"
+        style="@style/sz_txt"
+        android:textSize="16sp"
+        android:gravity="center"/>
+
+</LinearLayout>

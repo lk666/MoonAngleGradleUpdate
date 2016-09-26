@@ -1,0 +1,424 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:paddingTop="@dimen/space_10">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/space_13"
+        android:paddingLeft="@dimen/space_13"
+        android:paddingRight="@dimen/space_15">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/task_rank_num_tv"
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:gravity="left|center_vertical"
+                android:text="@string/sz_task_label2" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12" />
+
+            <TextView
+                android:id="@+id/task_detail_content"
+                style="@style/sz_task_or_evaluate_detail_item_right"
+                android:maxLines="3"
+                android:minLines="1" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:text="@string/sz_task_output_label" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12" />
+
+            <TextView
+                android:id="@+id/task_output_tv"
+                style="@style/sz_task_or_evaluate_detail_item_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:text="@string/sz_task_start_time_label" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12" />
+
+            <TextView
+                android:id="@+id/task_starttime_tv"
+                style="@style/sz_task_or_evaluate_detail_item_right" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="2dp"
+                android:layout_marginRight="2dp"
+                android:text="-" />
+
+            <TextView
+                android:id="@+id/task_endtime_tv"
+                style="@style/sz_task_or_evaluate_detail_item_right" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <TextView
+                style="@style/sz_task_or_evaluate_detail_item_left"
+                android:text="@string/sz_task_complete_state_label" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:gravity="center"
+                android:text=":"
+                android:textColor="@color/black"
+                android:textSize="@dimen/text_size_12" />
+
+            <!--<TextView-->
+            <!--android:id="@+id/task_complete_state_tv"-->
+            <!--android:text="@string/sz_task_completing_label"-->
+            <!--android:textColor="@color/bar_blue"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:textSize="@dimen/text_size_12" />-->
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="3dp"-->
+            <!--android:layout_marginRight="3dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="/"-->
+            <!--android:textColor="@color/bar_blue"-->
+            <!--android:textSize="@dimen/text_size_12" />-->
+
+            <TextView
+                android:id="@+id/task_complete_state_tv"
+                style="@style/sz_task_or_evaluate_detail_item_right"
+                android:text="@string/sz_task_completed_label"
+                android:textColor="@color/gray" />
+
+            <!--<TextView-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginLeft="3dp"-->
+            <!--android:layout_marginRight="3dp"-->
+            <!--android:gravity="center"-->
+            <!--android:text="/"-->
+            <!--android:textColor="@color/bar_blue"-->
+            <!--android:textSize="@dimen/text_size_12" />-->
+
+            <!--<TextView-->
+            <!--android:id="@+id/task_pause_state_tv"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:gravity="center"-->
+            <!--android:text="@string/sz_task_pause_label"-->
+            <!--android:textColor="@color/red"-->
+            <!--android:textSize="@dimen/text_size_12" />-->
+        </LinearLayout>
+    </LinearLayout>
+
+    <include layout="@layout/sz_gray_divider_view" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/space_13">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:paddingRight="@dimen/space_15">
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:text="@string/sz_do_task_complete_state_label"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <RadioGroup
+                android:id="@+id/rg_task_complete_state"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:gravity="center"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/do_task_state_completed_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:button="@null"
+                    android:checked="true"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+                    android:drawablePadding="6dp"
+                    android:gravity="center"
+                    android:text="@string/sz_task_completed_label"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_12" />
+
+                <RadioButton
+                    android:id="@+id/do_task_state_completing_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="15dp"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+                    android:drawablePadding="6dp"
+                    android:gravity="center"
+                    android:text="@string/sz_task_completing_label"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_12" />
+
+
+                <RadioButton
+                    android:id="@+id/do_task_pause_state_rb"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:button="@null"
+                    android:drawableLeft="@drawable/sz_task_complete_state_bg_selector"
+                    android:drawablePadding="6dp"
+                    android:gravity="center"
+                    android:text="@string/sz_task_pause_label"
+                    android:textColor="@color/gray"
+                    android:textSize="@dimen/text_size_12" />
+            </RadioGroup>
+        </RelativeLayout>
+
+        <include layout="@layout/sz_gray_divider_view" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:paddingRight="@dimen/space_15">
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:text="@string/sz_do_task_avaliabel_label"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/task_avalilabel_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/sz_do_task_avaliabel_label2"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_12" />
+
+            <CheckBox
+                android:id="@+id/do_task_avalilabel_cb"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="6dp"
+                android:layout_toLeftOf="@+id/task_avalilabel_tv"
+                android:button="@drawable/sz_task_valid_checked_bg_selector"
+                android:checked="false" />
+        </RelativeLayout>
+
+        <include layout="@layout/sz_gray_divider_view" />
+
+        <RelativeLayout
+            android:id="@+id/do_task_avalilabel_time_rl"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:paddingRight="@dimen/space_15">
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:text="@string/sz_do_task_avaliabel_time_label"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <!--  <ImageView
+                  android:id="@+id/task_availabel_time_right_icon"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_alignParentRight="true"
+                  android:layout_centerVertical="true"
+                  android:layout_marginLeft="10dp"
+                  android:src="@mipmap/icon_right" />-->
+
+            <TextView
+                android:id="@+id/min_label_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:gravity="center"
+                android:text="@string/sz_minute_label"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_12" />
+
+            <EditText
+                android:id="@+id/do_task_avalilabel_time_et"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/min_label_tv"
+                android:background="@null"
+                android:gravity="right|center_vertical"
+                android:imeActionLabel="@string/dialog_confirm"
+                android:imeOptions="actionDone"
+                android:inputType="number"
+                android:maxLength="4"
+                android:minWidth="50dp"
+                android:paddingRight="6dp"
+                android:text="0"
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_12" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/sz_gray_divider_view" />
+
+        <RelativeLayout
+            android:id="@+id/do_quality_evaluate_rl"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:paddingRight="@dimen/space_15">
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:text="@string/sz_do_task_quality_score_label"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/quality_evaluate_right_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/icon_right" />
+
+            <TextView
+                android:id="@+id/do_quality_evaluate_socre_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/quality_evaluate_right_icon"
+                android:gravity="center"
+                android:text=""
+                android:textColor="@color/gray"
+                android:textSize="@dimen/text_size_12" />
+
+        </RelativeLayout>
+
+        <include layout="@layout/sz_gray_divider_view" />
+
+        <RelativeLayout
+            android:id="@+id/do_evaluate_content_rl"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:paddingRight="@dimen/space_15">
+
+            <TextView
+                android:layout_width="65dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:gravity="left"
+                android:text="@string/sz_do_task_evaluate_content_label"
+                android:textColor="@color/black"
+                android:textSize="14sp" />
+
+            <ImageView
+                android:id="@+id/evaluate_content_right_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:src="@mipmap/icon_right" />
+
+            <TextView
+                android:id="@+id/do_evaluate_content_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/evaluate_content_right_icon"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:maxLines="3"
+                android:maxWidth="200dp"
+                android:text="@string/sz_do_task_evaluate_content_label2"
+                android:textColor="@color/gray_deep"
+                android:textSize="@dimen/text_size_12" />
+
+        </RelativeLayout>
+    </LinearLayout>
+
+    <include layout="@layout/sz_gray_divider_view" />
+</LinearLayout>

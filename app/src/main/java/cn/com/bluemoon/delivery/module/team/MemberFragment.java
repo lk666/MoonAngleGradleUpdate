@@ -172,7 +172,7 @@ public class MemberFragment extends BackHandledFragment {
 
         @Override
         public void onCancel(CommonSearchView view) {
-
+            searchView.hideHistoryView();
         }
 
     };

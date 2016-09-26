@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/work_people_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="工作人员：XXXX"
+        style="@style/sz_txt"/>
+
+    <TextView
+        android:id="@+id/work_name_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="工作名称：XXX"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/work_content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="工作内容：XXX"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/work_time_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="时间：2016年12月12日 12:00"
+        android:textColor="@color/sz_font_yellow"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/work_adjust_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="时间可调：可调整"
+        style="@style/sz_txt_margin_top"/>
+
+</LinearLayout>

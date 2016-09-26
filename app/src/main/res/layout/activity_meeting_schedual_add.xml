@@ -1,0 +1,572 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:background="@color/white"
+        >
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="76dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_meetingThemeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@mipmap/ic_camera"
+                android:gravity="center_vertical"
+                android:layout_marginTop="17dp"
+                />
+
+            <TextView
+                android:id="@+id/tv_meetingTheme"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:layout_toRightOf="@+id/iv_meetingThemeIcon"
+                android:background="@null"
+                android:hint="主题："
+                android:textSize="14sp"
+                android:gravity="left|top"
+                android:paddingTop="17dp"
+                android:textColor="@color/black"
+                android:focusable="false"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_deep"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_meetingerIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:src="@mipmap/ic_camera"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/tv_meetingerContent"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:layout_toLeftOf="@+id/iv_meetinger"
+                android:layout_toRightOf="@+id/iv_meetingerIcon"
+                android:hint="参会者:"
+                android:textColor="@color/gray"
+                android:paddingLeft="15dp"
+                android:textSize="14sp"
+                />
+
+            <ImageView
+                android:id="@+id/iv_meetinger"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:background="@null"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:src="@mipmap/ic_add"
+                android:textSize="14sp"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_deep"/>
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_meetingTimeIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:src="@mipmap/ic_camera"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/tv_meetingTime"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="会议时间:"
+                android:paddingLeft="15dp"
+                android:layout_toRightOf="@+id/iv_meetingTimeIcon"
+                android:background="@null"
+                android:textSize="14sp"
+                android:gravity="center_vertical"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_deep"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            >
+
+            <ImageView
+                android:id="@+id/iv_meetingAddressIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:src="@mipmap/ic_camera"
+                android:gravity="center_vertical"
+                />
+
+            <TextView
+                android:id="@+id/tv_meetingAddress"
+                android:layout_width="match_parent"
+                android:gravity="center_vertical"
+                android:layout_height="match_parent"
+                android:paddingLeft="15dp"
+                android:layout_toRightOf="@+id/iv_meetingAddressIcon"
+                android:background="@null"
+                android:textSize="14sp"
+                android:hint="地点:"
+
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_deep"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginLeft="17dp"
+            android:layout_marginRight="17dp"
+            >
+
+            <TextView
+                android:id="@+id/tv_meetingMore"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentLeft="true"
+                android:drawableLeft="@mipmap/ic_camera"
+                android:drawablePadding="15dp"
+                android:gravity="center_vertical"
+                android:text="高级"
+                android:textColor="@color/gray"
+                android:textSize="14sp"
+                />
+
+            <CheckBox
+                android:id="@+id/cb_meetingMore"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="15dp"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:drawableLeft="@drawable/switch_checkbox_bg"
+                android:checked="true"
+                />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1px"
+                android:layout_alignParentBottom="true"
+                android:background="@color/gray_deep"/>
+        </RelativeLayout>
+
+
+
+
+        <!--more 高级-->
+            <!--android:visibility="gone"-->
+        <LinearLayout
+            android:id="@+id/ll_meetingMore"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="54dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_meetingContentIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:src="@mipmap/ic_camera"
+                    android:gravity="center_vertical"
+                    android:layout_marginTop="17dp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_meetingContent"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="17dp"
+                    android:minHeight="54dp"
+                    android:paddingLeft="15dp"
+                    android:layout_toRightOf="@+id/iv_meetingContentIcon"
+                    android:background="@null"
+                    android:layout_centerInParent="true"
+                    android:textSize="14sp"
+                    android:hint="会议内容："
+                    android:textColor="@color/black"
+                    android:paddingTop="5dp"
+                    android:paddingRight="5dp"
+                    android:paddingBottom="5dp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_deep"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_meetingSpeakerIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:src="@mipmap/ic_camera"
+                    android:gravity="center_vertical"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_meetingSpeaker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/iv_meetingSpeaker"
+                    android:layout_toRightOf="@+id/iv_meetingSpeakerIcon"
+                    android:hint="演讲者:"
+                    android:textColor="@color/gray"
+                    android:paddingLeft="15dp"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_meetingSpeaker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@null"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:src="@mipmap/ic_add"
+                    android:textSize="14sp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_deep"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_meetingRecorderIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:src="@mipmap/ic_camera"
+                    android:gravity="center_vertical"
+                    />
+                <TextView
+                    android:id="@+id/tv_meetingRecorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/iv_meetingRecorder"
+                    android:layout_toRightOf="@+id/iv_meetingRecorderIcon"
+                    android:hint="记录员:"
+                    android:textColor="@color/gray"
+                    android:paddingLeft="15dp"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_meetingRecorder"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@null"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:src="@mipmap/ic_add"
+                    android:textSize="14sp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_deep"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                >
+
+                <ImageView
+                    android:id="@+id/iv_meetingReViewIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:src="@mipmap/ic_camera"
+                    android:gravity="center_vertical"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_meetingReView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:layout_toLeftOf="@+id/iv_meetingReView"
+                    android:layout_toRightOf="@+id/iv_meetingReViewIcon"
+                    android:hint="评审员:"
+                    android:textColor="@color/gray"
+                    android:paddingLeft="15dp"
+                    android:textSize="14sp"
+                    />
+
+                <ImageView
+                    android:id="@+id/iv_meetingReView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginLeft="15dp"
+                    android:background="@null"
+                    android:paddingLeft="15dp"
+                    android:paddingRight="15dp"
+                    android:src="@mipmap/ic_add"
+                    android:textSize="14sp"
+                    />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_deep"/>
+            </RelativeLayout>
+
+
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_meetingType"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:drawableLeft="@mipmap/ic_camera"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="类型:"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_toRightOf="@+id/tv_meetingType"
+                    android:paddingLeft="15dp"
+                    >
+
+
+                <RadioButton
+                    android:id="@+id/rb_none"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/switch_checkbox_bg"
+                    android:text="无"
+                    android:textColor="@color/black"
+                    android:checked="true"
+                    />
+                <RadioButton
+                    android:id="@+id/rb_decision"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/switch_checkbox_bg"
+                    android:text="决策"
+                    android:textColor="@color/black"
+                    />
+
+                <RadioButton
+                    android:id="@+id/rb_reView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:drawableLeft="@drawable/switch_checkbox_bg"
+                    android:text="评审"
+                    android:textColor="@color/black"
+                    />
+                <RadioButton
+                    android:id="@+id/rb_progress"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/switch_checkbox_bg"
+                    android:text="进度"
+                    android:textColor="@color/black"
+                    />
+                </RadioGroup>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_deep"/>
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="54dp"
+                android:layout_marginLeft="17dp"
+                android:layout_marginRight="17dp"
+                >
+
+                <TextView
+                    android:id="@+id/tv_meetingAdjust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_alignParentLeft="true"
+                    android:drawableLeft="@mipmap/ic_camera"
+                    android:drawablePadding="15dp"
+                    android:gravity="center_vertical"
+                    android:text="时间可调:"
+                    android:textColor="@color/gray"
+                    android:textSize="14sp"
+                    />
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:layout_toRightOf="@+id/tv_meetingAdjust"
+                    android:paddingLeft="15dp"
+                    >
+
+
+                <RadioButton
+                    android:id="@+id/rb_adjust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/switch_checkbox_bg"
+                    android:text="可调"
+                    android:textColor="@color/black"
+                    android:checked="true"
+                    />
+                <RadioButton
+                    android:id="@+id/rb_unadjust"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:background="@null"
+                    android:textSize="14sp"
+                    android:layout_weight="1"
+                    android:drawableLeft="@drawable/switch_checkbox_bg"
+                    android:text="不可调"
+                    android:textColor="@color/black"
+                    />
+
+                </RadioGroup>
+
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="1px"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/gray_deep"/>
+            </RelativeLayout>
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</ScrollView>
