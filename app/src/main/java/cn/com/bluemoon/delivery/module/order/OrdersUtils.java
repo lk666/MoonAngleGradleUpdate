@@ -16,9 +16,11 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.OrderInfo;
 import cn.com.bluemoon.delivery.app.api.model.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
 import cn.com.bluemoon.delivery.app.api.model.Storehouse;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * @author Administrator
@@ -55,6 +57,32 @@ public class OrdersUtils {
 			}
 			return strBuffer.toString();
 		}
+	}
+
+	public static String getWarehouseStr(OrderInfo item, Context context) {
+		String str = context.getString(R.string.none);
+		if (item != null) {
+			if (item.getStorehouseCode() == null
+					&& item.getStorehouseName() == null
+					&& item.getStorechargeName() == null) {
+				str = context.getString(R.string.none);
+			} else {
+				StringBuffer strBuffer = new StringBuffer();
+				String storehouseCode = StringUtil.isEmptyString(item
+						.getStorehouseCode()) ? "" : item.getStorehouseCode();
+				String storehouseName = StringUtil.isEmptyString(item
+						.getStorehouseName()) ? "" : item.getStorehouseName();
+				String storechargeName = StringUtil.isEmptyString(item
+						.getStorechargeName()) ? "" : item.getStorechargeName();
+				strBuffer.append(storehouseCode);
+				if (!org.kymjs.kjframe.utils.StringUtils.isEmpty(storehouseName))
+					strBuffer.append("-").append(storehouseName);
+				if (!org.kymjs.kjframe.utils.StringUtils.isEmpty(storechargeName))
+					strBuffer.append("-").append(storechargeName);
+				str = strBuffer.toString();
+			}
+		}
+		return str;
 	}
 
 	public static String getShString(ResultOrderInfoPickup order) {

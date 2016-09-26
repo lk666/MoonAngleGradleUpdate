@@ -30,6 +30,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.entity.ProductType;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.module.card.alarm.Remind;
 import cn.com.bluemoon.delivery.module.inventory.ImageUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DES;
@@ -38,6 +39,47 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 public class DeliveryApi {
 
     private static final String TOKEN = "token";
+
+    /**
+     * 提交http请求
+     *
+     * @param params  参数列表
+     * @param subUrl  请求的url子部
+     * @param handler 回调
+     */
+    private static void postRequest(Map<String, Object> params, String subUrl,
+                                    AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, handler);
+    }
+
+    /**
+     * 提交http请求
+     *
+     * @param params  参数列表
+     * @param subUrl  请求的url子部
+     * @param handler 回调
+     */
+    private static void postMockRequest(Map<String, Object> params, String subUrl,
+                                        AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.postMock(context, url, jsonString, handler);
+    }
+
 
     /************************
      * 2.1 用户相关
@@ -189,6 +231,27 @@ public class DeliveryApi {
     /************************
      * 2.2 订单相关
      **********************************/
+
+
+
+    public static void rejectOrder(String token,String orderId,String orderSource,
+                                     AsyncHttpResponseHandler handler) {
+
+        if (null == token) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("orderId", orderId);
+        params.put("orderSource", orderSource);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/order/rejectOrder%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
 
 	/* 2.2.1获取各类型订单的数量 */
     /* 返回： ResultOrderCount */
@@ -1026,9 +1089,9 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
-    /*2.9.3保存更新打卡信息 */
+    /*2.9.3.1上班打卡 */
     /* 返回： ResultBase */
-    public static void confirmAttendance(String token, PunchCard punchCard, String workTask,
+    public static void addPunchCardIn(String token, PunchCard punchCard, String workTask,
                                          AsyncHttpResponseHandler handler) {
 
         if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
@@ -1050,7 +1113,36 @@ public class DeliveryApi {
         params.put("workTask", workTask);
 
         String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("bluemoon-control/attendance/confirmAttendance%s",
+        String url = String.format("bluemoon-control/attendance/addPunchCardIn%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*2.9.3.2下班打卡 */
+    /* 返回： ResultBase */
+    public static void addPunchCardOut(String token, PunchCard punchCard, String workTask,
+                                         AsyncHttpResponseHandler handler) {
+
+        if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
+            return;
+        }
+
+        if (punchCard.getLongitude() == Constants.DEFAUL_LOCATION) {
+            punchCard.setLongitude(Constants.UNKNOW_LONGITUDE);
+        }
+        if (punchCard.getLatitude() == Constants.DEFAUL_LOCATION) {
+            punchCard.setLatitude(Constants.UNKNOW_LATITUDE);
+        }
+        if (punchCard.getAltitude() == Constants.DEFAUL_LOCATION) {
+            punchCard.setAltitude(Constants.UNKNOW_LONGITUDE);
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("punchCard", punchCard);
+        params.put("workTask", workTask);
+
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/attendance/addPunchCardOut%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -1148,7 +1240,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.11 展示图片 */
-	/* 返回： ResultImage */
+    /* 返回： ResultImage */
     public static void getImgList(String token, AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -2546,98 +2638,82 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
-    /**
-     * 2.2获取订单详情，测试用
-     *
-     * @param outerCode 洗衣服务订单号(必填) String
-     * @param token     登录凭证(必填) String
-     */
-    public static void _getOuterOrderInfo(String outerCode, String token,
-                                          AsyncHttpResponseHandler handler) {
-        if (null == outerCode || null == token) {
-            return;
-        }
-        Map<String, String> params = new HashMap<>();
-        params.put("outerCode", outerCode);
-        params.put(TOKEN, token);
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format("washingService-controller/wash/getOrderInfo%s",
-                ApiClientHelper.getParamUrl());
 
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
-        }
+    /************************
+     * 查询提醒记录列表
+     **********************************/
 
-        ApiHttpClient.post(context, url, jsonString, handler);
-    }
-
-    /**
-     * 5.3获取活动列表 ，测试用
-     */
-    public static void _getActivityInfos(String token,
-                                         AsyncHttpResponseHandler handler) {
-        if (StringUtil.isEmpty(token)) {
-            return;
-        }
-
-        Map<String, Object> params = new HashMap<>();
-        params.put(TOKEN, token);
-
-        postRequest(params, "washingService-controller/wash/activity/getActivityInfos%s", handler);
-    }
-
-    /**
-     * 2.5 收衣记录，测试用
-     */
-	/*返回：ResultCollectInfo*/
-    public static void _collectInfoRecord(String token, long startDate, long endDate,
-                                          AsyncHttpResponseHandler handler) {
+    public static void nowRest(String token,PunchCard punchCard,
+                                     AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        postRequest(params, "washingService-controller/wash/collectInfoRecord%s", handler);
+        params.put(	"punchCard", 	punchCard);
+        postRequest(params, "bluemoon-control/attendance/nowRest%s", handler);
     }
 
 
-    /**
-     * 5.8收衣记录，测试用
-     */
-	/*返回：ResultCollectInfo*/
-    public static void _collectInfoRecord2(String token, long startDate, long endDate,
-                                           AsyncHttpResponseHandler handler) {
+
+ /*2.0_新增提醒接口*/
+    /* 返回： ResultRemind */
+    public static void getRemindList(String token,
+                                     AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("startDate", startDate);
-        params.put("endDate", endDate);
-        postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
+        postRequest(params, "bluemoon-control/attendance/getRemindList%s", handler);
+    }
+
+    public static void addRemind(String token, Remind remind,
+                                 AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remind", remind);
+        postRequest(params, "bluemoon-control/attendance/addRemind%s", handler);
     }
 
 
-    /**
-     * 提交http请求
-     *
-     * @param params  参数列表
-     * @param subUrl  请求的url子部
-     * @param handler 回调
-     */
-    private static void postRequest(Map<String, Object> params, String subUrl,
+    public static void updateRemind(String token, Remind remind,
                                     AsyncHttpResponseHandler handler) {
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
-
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        if (null == token) {
+            return;
         }
-
-        ApiHttpClient.post(context, url, jsonString, handler);
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remind", remind);
+        postRequest(params, "bluemoon-control/attendance/updateRemind%s", handler);
     }
+
+    public static void removeRemind(String token, long remindId,
+                                    AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remindId", remindId);
+        postRequest(params, "bluemoon-control/attendance/removeRemind%s", handler);
+    }
+
+
+    public static void turnRemindOnOrOff(String token, long remindId, boolean turnOn,
+                                         AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("remindId", remindId);
+        params.put("status", turnOn ? "on" : "off");
+        postRequest(params, "bluemoon-control/attendance/turnRemindOnOrOff%s", handler);
+    }
+
+
 }

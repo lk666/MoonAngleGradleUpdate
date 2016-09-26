@@ -11,6 +11,11 @@
 
     </style>
 
+    <style name="TranslucentTheme2" parent="android:Theme.Light.NoTitleBar">
+        - <!-- 在Android 4.4之前的版本上运行，直接跟随系统主题
+  -->
+    </style>
+
 
     <style name="edittext_fill">
         <item name="android:layout_width">fill_parent</item>
@@ -217,6 +222,9 @@
 
     </style>
 
+    <style name="FullStyle" parent="android:Theme.Light.NoTitleBar.Fullscreen">
+    </style>
+
     <style name="MoonWithACtionBar" parent="android:Theme.Light">
         <item name="android:actionBarSize">50dip</item>
         <item name="android:windowActionBar">true</item>
@@ -313,6 +321,25 @@
         <item name="android:windowNoTitle">true</item><!--无标题-->
         <item name="android:windowBackground">@color/black_transparent</item><!--背景透明-->
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
+
+    <style name="btn_date_style">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@drawable/btn_date_selector</item>
+        <item name="android:button">@null</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/text_date_color_selector</item>
+
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:background="@drawable/btn_date_selector"
+        android:button="@null"
+        android:gravity="center"
+        android:textColor="@color/text_date_color_selector"
+
     </style>
 
     <style name="dateStyle">

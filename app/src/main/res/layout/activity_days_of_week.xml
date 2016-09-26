@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:background="@color/white_bg"
+    android:layout_height="match_parent">
+
+    <ListView
+        android:id="@+id/list_day_of_week"
+        android:layout_width="match_parent"
+        android:background="@drawable/btn_border_blue_alarm"
+        android:layout_marginTop="40dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:divider="#e5e5e5"
+        android:dividerHeight="1dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:layout_height="wrap_content">
+
+    </ListView>
+
+
+
+</LinearLayout>

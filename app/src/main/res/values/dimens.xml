@@ -30,6 +30,8 @@
     <dimen name="linepaddingtxt2">0dp</dimen>
     <dimen name="linepaddingtxt3">5dp</dimen>
     <dimen name="linepaddingtxt4">5dp</dimen>
+    <dimen name="linepaddingtxt5">2dp</dimen>
+    <dimen name="linepaddingtxt6">7dp</dimen>
 
     <dimen name="shadow_width">15dp</dimen>
 
@@ -37,6 +39,8 @@
 
     <!--分割线高度-->
     <dimen name="div_height">0.5dp</dimen>
+    <!--登录按钮平移距离-->
+    <dimen name="translation_x">20dp</dimen>
 
     <!--sz jiangyuehue-->
     <dimen name="activity_meeting_times_titelWidth">60dp</dimen>

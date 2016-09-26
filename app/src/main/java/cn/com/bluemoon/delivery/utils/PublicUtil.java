@@ -45,8 +45,6 @@ import cn.com.bluemoon.delivery.module.card.CardTabActivity;
 import cn.com.bluemoon.delivery.module.order.OrderDetailActivity;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
-import cn.com.bluemoon.lib.qrcode.utils.Configure;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
@@ -371,9 +369,11 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     public static void showPunchCardView(final Activity aty, boolean isPunchCard) {
-        Intent intent = new Intent(aty, CardTabActivity.class);
-        intent.putExtra("isPunchCard", isPunchCard);
-        aty.startActivity(intent);
+//        Intent intent = new Intent(aty, CardTabActivity.class);
+//        intent.putExtra("isPunchCard", isPunchCard);
+//        aty.startActivity(intent);
+        CardTabActivity.actionStart(aty,isPunchCard);
+
     }
 
     public static boolean isTipsByDay(Context context) {
@@ -440,9 +440,7 @@ public class PublicUtil extends LibPublicUtil {
         if (content != null) {
             emptyView.setContentText(content);
         }
-        if (listener != null) {
-            emptyView.setEmptyListener(listener);
-        }
+        emptyView.setEmptyListener(listener);
         return emptyView;
     }
 
