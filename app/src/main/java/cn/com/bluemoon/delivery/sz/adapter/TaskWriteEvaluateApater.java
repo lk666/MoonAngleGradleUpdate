@@ -210,9 +210,11 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         if (!TextUtils.isEmpty(asignJobBean.getReview_cont())) {
             viewHolder.getTaskEvaluateContentTv().setGravity(Gravity.CENTER | Gravity.LEFT);
             viewHolder.getTaskEvaluateContentTv().setText(asignJobBean.getReview_cont());
+            viewHolder.getTaskEvaluateContentTv().setTextColor(cxt.getResources().getColor(R.color.sz_task_evaluate_text_color));
         } else {
-            viewHolder.getTaskEvaluateContentTv().setHint(R.string.sz_do_task_evaluate_content_label2);
+            viewHolder.getTaskEvaluateContentTv().setText(R.string.sz_do_task_evaluate_content_label2);
             viewHolder.getTaskEvaluateContentTv().setGravity(Gravity.CENTER | Gravity.RIGHT);
+            viewHolder.getTaskEvaluateContentTv().setTextColor(cxt.getResources().getColor(R.color.gray_deep));
         }
 
         ///*************************************设置监听器************************************************/
