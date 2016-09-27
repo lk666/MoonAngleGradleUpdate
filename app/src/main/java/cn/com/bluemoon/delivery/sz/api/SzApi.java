@@ -265,6 +265,4 @@ public class SzApi {
         LogUtil.e(JSON.toJSONString(params));
     }
 
-
-
 }

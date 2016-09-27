@@ -61,7 +61,7 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 	public static int APPRAISE_NAME_ACTION_CONTENT=1001;//不可小于20 任务项为20
 	public static String USERBEAN="USERBEAN";
 	/**用于存储在本地的实例文件*/
-	public static String USERINFOLISTBEAN="UserInfoListBean"+ ClientStateManager.getUserName();
+	public String USERINFOLISTBEAN="UserInfoListBean";
 	public UserInfoBean user=null;
 
 //	public static String APPRAISE_VIEW_NAME="APPRAISER";
@@ -110,21 +110,27 @@ public class AppraiseChooserActivity extends BaseActivity implements View.OnClic
 		super.onBeforeSetContentLayout();
 		APPRAISE_NAME_CONTENT=getIntent().getStringExtra(APPRAISE_NAME);
 		user= (UserInfoBean) getIntent().getSerializableExtra(USERBEAN);
+		USERINFOLISTBEAN=USERINFOLISTBEAN+ ClientStateManager.getUserName();
 	}
 
 	@Override
 	public void initData() {
 		showLocalUserConent();
-
 	}
+
+
 	/**先读取本地，显示常用联系人*/
 	public void showLocalUserConent(){
 		UserInfoListBean userInfoListBean=
 				(UserInfoListBean) CacheServerResponse.readObject(context,USERINFOLISTBEAN);
+
 		//搜索时显示常用联系人的提示
 		ll_localUserHint.setVisibility(View.VISIBLE);
 		if (userInfoListBean!=null){
 			List<UserInfoBean> userInfoBeanList=userInfoListBean.getData();
+			for (UserInfoBean bean:userInfoBeanList) {
+				LogUtil.i(USERINFOLISTBEAN+"--->"+bean.toString());
+			}
 			if (!appreaiseList.isEmpty()){
 				appreaiseList.clear();
 				appraiseChooseAdapter.notifyDataSetChanged();

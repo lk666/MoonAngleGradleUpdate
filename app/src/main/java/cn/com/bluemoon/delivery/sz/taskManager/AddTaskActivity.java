@@ -75,7 +75,7 @@ public class AddTaskActivity extends BaseActivity{
     @Bind(R.id.scrollviwe_task)
     ScrollView scrollviwe_task;
     /**用于存储在本地的实例文件*/
-    public static String USERINFOLISTBEAN="UserInfoListBean"+ClientStateManager.getUserName();
+    public  String USERINFOLISTBEAN="UserInfoListBean";
     public static final String TASKOPERATETYPE="TASKOPERATETYPE";
     public static final int TASKOPERATETYPE_ADD=0;
     public static final int TASKOPERATETYPE_MODIFY=1;
@@ -113,6 +113,7 @@ public class AddTaskActivity extends BaseActivity{
         context=AddTaskActivity.this;
         currentDate=getIntent().getStringExtra(CURRENTDATA);
         taskOperateType=getIntent().getIntExtra(TASKOPERATETYPE,0);
+        USERINFOLISTBEAN=USERINFOLISTBEAN+ ClientStateManager.getUserName();
     }
 
 //    RecyclerView
