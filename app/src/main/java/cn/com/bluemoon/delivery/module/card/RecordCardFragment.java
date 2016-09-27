@@ -206,9 +206,6 @@ public class RecordCardFragment extends BasePullToRefreshListViewFragment {
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
             final PunchCard punchCard = list.get(position);
-            if(position%2==0){
-                punchCard.setPunchCardType(PunchCardType.rest.toString());
-            }
             TextView txtTimeStart = getViewById(R.id.txt_time_start);
             TextView txtTimeEnd = getViewById(R.id.txt_time_end);
             LinearLayout layoutCharge = getViewById(R.id.layout_charge);
