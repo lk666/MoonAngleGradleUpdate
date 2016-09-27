@@ -70,16 +70,21 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
                     @Override
                     public void onOkClick(long time) {
                         opTime = time;
-                        if (time > 0) {
-                            setHeadViewVisibility(View.VISIBLE);
-                            tvDate.setText(DateUtil.getTime(time, "yyyy/MM/dd"));
-                        } else {
-                            setHeadViewVisibility(View.GONE);
-                        }
+                        setHead(View.VISIBLE);
                         initData();
                     }
                 });
         popupWindow.showPopwindow(viewPopStart);
+    }
+
+    private void setHead(int visibility) {
+        if (visibility == View.VISIBLE && opTime > 0) {
+            setHeadViewVisibility(View.VISIBLE);
+            tvDate.setText(DateUtil.getTime(opTime, "yyyy/MM/dd"));
+        } else {
+            setHeadViewVisibility(View.GONE);
+            tvTotal.setText(getString(R.string.driver_order_num, 0));
+        }
     }
 
     @Override
@@ -140,25 +145,21 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
     protected void showEmptyView() {
         super.showEmptyView();
         // 可在此处设置head等
-        setHeadViewVisibility(View.VISIBLE);
+        setHead(View.VISIBLE);
     }
 
     @Override
     protected void showNetErrorView() {
         super.showNetErrorView();
         // 可在此处设置head等
-        setHeadViewVisibility(View.GONE);
+        setHead(View.GONE);
     }
 
     @Override
     protected void showRefreshView() {
         super.showRefreshView();
         // 列表数据刷新，如可在此处设置head等
-        if (opTime == 0) {
-            setHeadViewVisibility(View.GONE);
-        } else {
-            setHeadViewVisibility(View.VISIBLE);
-        }
+        setHead(View.VISIBLE);
     }
 
     @Override

@@ -17,16 +17,17 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-// TODO: lk 2016/9/14
-
 /**
  * 封箱历史
  * Created by lk on 2016/9/14.
  */
 public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
     private View viewPopStart;
+    private TextView tvDate;
+    private TextView tvTotal;
 
     /**
      * 分页标识
@@ -65,10 +66,21 @@ public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
                     @Override
                     public void onOkClick(long time) {
                         opTime = time;
+                        setHead(View.VISIBLE);
                         initData();
                     }
                 });
         popupWindow.showPopwindow(viewPopStart);
+    }
+
+    private void setHead(int visibility) {
+        if (visibility == View.VISIBLE && opTime > 0) {
+            setHeadViewVisibility(View.VISIBLE);
+            tvDate.setText(DateUtil.getTime(opTime, "yyyy/MM/dd"));
+        } else {
+            setHeadViewVisibility(View.GONE);
+            tvTotal.setText(getString(R.string.sign_history_total, 0));
+        }
     }
 
     @Override
@@ -105,6 +117,21 @@ public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
     protected List<TagItem> getGetDataList(ResultBase result) {
         ResultCloseBoxHistoryList resultObj = (ResultCloseBoxHistoryList) result;
         pageFlag = resultObj.getPageFlag();
+        tvTotal.setText(getString(R.string.sign_history_total, resultObj.getInboxSum()));
+        return resultObj.getTagList();
+    }
+
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        ReturningApi.queryCloseBoxHistoryList(opTime, pageFlag, getToken(), getNewHandler
+                (requestCode, ResultCloseBoxHistoryList.class));
+    }
+
+    @Override
+    protected List<TagItem> getGetMoreList(ResultBase result) {
+        ResultCloseBoxHistoryList resultObj = (ResultCloseBoxHistoryList) result;
+        pageFlag = resultObj.getPageFlag();
+        tvTotal.setText(getString(R.string.sign_history_total, resultObj.getInboxSum()));
         return resultObj.getTagList();
     }
 
@@ -112,24 +139,21 @@ public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
     protected void showEmptyView() {
         super.showEmptyView();
         // 可在此处设置head等
-        setHeadViewVisibility(View.VISIBLE);
-//        getBaseTabActivity().setAmount(0, 0);
+        setHead(View.VISIBLE);
     }
 
     @Override
     protected void showNetErrorView() {
         super.showNetErrorView();
         // 可在此处设置head等
-        setHeadViewVisibility(View.GONE);
+        setHead(View.GONE);
     }
 
     @Override
     protected void showRefreshView() {
         super.showRefreshView();
         // 列表数据刷新，如可在此处设置head等
-        setHeadViewVisibility(View.VISIBLE);
-//        setHeadCOntent(totalCount, waitInbox, waitInboxCount);
-//        getBaseTabActivity().setAmount(0, waitInboxCount);
+        setHead(View.VISIBLE);
     }
 
     protected TagItemAdapter getNewAdapter() {
@@ -170,23 +194,5 @@ public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
         if (null != item) {
             CloseBoxDetailActivity.actionStart(getContext(), item.getTagCode());
         }
-    }
-
-    @Override
-    protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryCloseBoxHistoryList(opTime, pageFlag, getToken(), getNewHandler
-                (requestCode, ResultCloseBoxHistoryList.class));
-    }
-
-    /**
-     * Mode不包含上拉加载时，可这样重写此方法
-     *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
-     */
-    @Override
-    protected List<TagItem> getGetMoreList(ResultBase result) {
-        ResultCloseBoxHistoryList resultObj = (ResultCloseBoxHistoryList) result;
-        pageFlag = resultObj.getPageFlag();
-        return resultObj.getTagList();
     }
 }
