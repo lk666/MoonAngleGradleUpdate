@@ -120,7 +120,7 @@
             android:drawableLeft="@mipmap/icon_sz_task_add"
             android:drawablePadding="@dimen/space_12"
             android:gravity="center"
-            android:text="添加工作"
+            android:text="添加任务"
             android:textColor="@color/white"
             android:textSize="16sp"
             />

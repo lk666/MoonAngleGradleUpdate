@@ -75,7 +75,7 @@ public class AddTaskActivity extends BaseActivity{
     @Bind(R.id.scrollviwe_task)
     ScrollView scrollviwe_task;
     /**用于存储在本地的实例文件*/
-    public static String USERINFOLISTBEAN="UserInfoListBean";
+    public String USERINFOLISTBEAN="UserInfoListBean";
     public static final String TASKOPERATETYPE="TASKOPERATETYPE";
     public static final int TASKOPERATETYPE_ADD=0;
     public static final int TASKOPERATETYPE_MODIFY=1;
@@ -322,7 +322,6 @@ public class AddTaskActivity extends BaseActivity{
                     v.setText(R.string.sz_task_add_task);
                 }else if(taskOperateType==TASKOPERATETYPE_MODIFY){
                     v.setText(R.string.sz_task_modify_task);
-
                 }
             }
         });
