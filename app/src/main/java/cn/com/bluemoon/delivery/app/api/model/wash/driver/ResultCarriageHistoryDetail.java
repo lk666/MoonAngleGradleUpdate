@@ -2,10 +2,12 @@ package cn.com.bluemoon.delivery.app.api.model.wash.driver;
 
 import java.util.List;
 
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+
 /**
  * Created by bm on 2016/9/20.
  */
-public class ResultCarriageHistoryDetail {
+public class ResultCarriageHistoryDetail extends ResultBase{
     /** 箱子数量 */
     private int boxNum;
     /** 封箱标签列表 */

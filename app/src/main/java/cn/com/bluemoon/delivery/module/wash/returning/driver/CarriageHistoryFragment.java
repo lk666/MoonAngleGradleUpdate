@@ -25,7 +25,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
 
-    private long timesamp = 0;
+    private long pageFlag = 0;
     private long chooseTime = 0;
     private View viewPopStart;
     private TextView txtTime;
@@ -54,6 +54,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
         txtTime = (TextView) headView.findViewById(R.id.txt_count);
         txtCount = (TextView) headView.findViewById(R.id.txt_pending_box);
         setHeadViewVisibility(View.GONE);
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     @Override
@@ -97,7 +98,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected List getGetMoreList(ResultBase result) {
         ResultCarriageHistory carriageHistory = (ResultCarriageHistory)result;
-        timesamp = carriageHistory.getPageFlag();
+        pageFlag = carriageHistory.getPageFlag();
         txtCount.setText(getString(R.string.driver_order_num, carriageHistory.getCarriageSum()));
         return carriageHistory.getCarriageList();
     }
@@ -105,7 +106,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected List getGetDataList(ResultBase result) {
         ResultCarriageHistory carriageHistory = (ResultCarriageHistory)result;
-        timesamp = carriageHistory.getPageFlag();
+        pageFlag = carriageHistory.getPageFlag();
         txtCount.setText(getString(R.string.driver_order_num, carriageHistory.getCarriageSum()));
         return carriageHistory.getCarriageList();
     }
@@ -118,19 +119,16 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         ReturningApi.queryCarriageHistoryList(0, chooseTime, getToken(), getNewHandler(requestCode, ResultCarriageHistory.class));
-        setAmount();
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryCarriageHistoryList(timesamp, chooseTime, getToken(), getNewHandler(requestCode, ResultCarriageHistory.class));
-        setAmount();
+        ReturningApi.queryCarriageHistoryList(pageFlag, chooseTime, getToken(), getNewHandler(requestCode, ResultCarriageHistory.class));
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        DriverCarriage carriage = (DriverCarriage)item;
-        toast(carriage.getCarriageCode());
+        HistoryDetailActivity.actStart(this,(DriverCarriage)item);
     }
 
 

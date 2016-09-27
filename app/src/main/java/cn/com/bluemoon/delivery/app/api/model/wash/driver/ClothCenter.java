@@ -2,6 +2,8 @@ package cn.com.bluemoon.delivery.app.api.model.wash.driver;
 
 import java.util.List;
 
+import cn.com.bluemoon.delivery.utils.StringUtil;
+
 /**
  * Created by bm on 2016/9/20.
  */
@@ -10,8 +12,10 @@ public class ClothCenter {
     private String address;
     /** 承运单明细id */
     private String carriageAddressId;
-    /** 收衣点（人-联系电话） */
+    /** 收衣点（人） */
     private String centerName;
+    /** 联系电话 */
+    private String receiverPhone;
     /** 市 */
     private String city;
     /** 区 */
@@ -95,5 +99,13 @@ public class ClothCenter {
 
     public void setCarriageAddressId(String carriageAddressId) {
         this.carriageAddressId = carriageAddressId;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 }

@@ -910,6 +910,7 @@
     <string name="driver_send_scan_title">扫描收货人二维码</string>
     <string name="driver_send_title">待签收</string>
     <string name="driver_carriage_history_title">承运历史</string>
+    <string name="driver_carriage_history_detail_title">承运单详情</string>
     <string name="driver_transport_code">承运单号-%s</string>
     <string name="driver_box_num">应收箱数：%s</string>
     <string name="driver_real_box_num">实收箱数：%s</string>
@@ -931,4 +932,6 @@
     <string name="driver_cloth_num">还衣单：%s</string>
     <string name="driver_carriage_time">承运收货时间：%s</string>
     <string name="driver_order_num">共%s单</string>
+    <string name="driver_box_code3">封箱标签-%s</string>
+    <string name="driver_receiver">签收人：%s</string>
 </resources>
