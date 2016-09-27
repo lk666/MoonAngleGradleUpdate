@@ -128,8 +128,16 @@ public class TaskRecordFragment extends BaseFragment
 		LogUtil.v("getModifyTaskSuccess"+messageBean.toString());
 		if (messageBean.getEventMsgAction().equals("101")){
 //			重新获取当前的日期数据
-			getData(String.valueOf(
-					DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
+			/**这个时候还要判断是否是月份切换的*/
+			if (compareDate(currentDate,currentCustomDate.toString())==true){
+				getData(String.valueOf(
+						DateUtil.tranDateToTime(currentDate,"yyyy-MM-dd")));
+
+			}else{
+				getData(String.valueOf(
+						DateUtil.tranDateToTime(currentCustomDate.toString(),"yyyy-MM-dd")));
+
+			}
 		}
 	}
 
