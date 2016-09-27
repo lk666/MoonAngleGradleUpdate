@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import butterknife.Bind;
@@ -49,6 +52,9 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         this.cxt = cxt;
         this.activityType = activityType;
 
+        totalHeight = 0;
+        itemsHeightMap.clear();
+
         if (activityType == SzWriteEvaluateActivity.ACTIVITY_TYPE_WRTTE_EVALUATE) {
             isShowDefaultValue = true;
         } else {
@@ -66,6 +72,9 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
     }
 
     public void updateAdapter(List<AsignJobBean> datas) {
+        totalHeight = 0;
+        itemsHeightMap.clear();
+
         if (datas == null) {
             this.datas.clear();
         } else {
@@ -130,6 +139,7 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
         }
         viewHolder.getTaskQualityEvaluateRl().setOnClickListener(null);
         viewHolder.getTaskEvaluateContentRl().setOnClickListener(null);
+
         ///*************************************显示数据************************************************/
         viewHolder.getTaskRankNumTv().setText(cxt.getString(R.string.sz_task_label2) + (position + 1));
         viewHolder.getTaskContentTv().setText(asignJobBean.getTask_cont());
@@ -198,9 +208,11 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
             }
         }
         if (!TextUtils.isEmpty(asignJobBean.getReview_cont())) {
+            viewHolder.getTaskEvaluateContentTv().setGravity(Gravity.CENTER | Gravity.LEFT);
             viewHolder.getTaskEvaluateContentTv().setText(asignJobBean.getReview_cont());
         } else {
-            viewHolder.getTaskEvaluateContentTv().setText(R.string.sz_do_task_evaluate_content_label2);
+            viewHolder.getTaskEvaluateContentTv().setHint(R.string.sz_do_task_evaluate_content_label2);
+            viewHolder.getTaskEvaluateContentTv().setGravity(Gravity.CENTER | Gravity.RIGHT);
         }
 
         ///*************************************设置监听器************************************************/
@@ -259,7 +271,24 @@ public class TaskWriteEvaluateApater extends BaseAdapter {
                 PageJumps.PageJumps(cxt, InputToolsActivity.class, bundle);
             }
         });
+        if (convertView.getMeasuredHeight() > 0) {
+            LogUtil.i("position:" + position + "--convertView.getMeasuredHeight():" + convertView.getMeasuredHeight());
+            itemsHeightMap.put(position, convertView.getMeasuredHeight());
+        }
         return convertView;
+    }
+
+    private int totalHeight = 0;
+    private HashMap<Integer, Integer> itemsHeightMap = new HashMap<>();
+
+    public int getItemsTotalHeight() {
+        Iterator<Integer> iterator = itemsHeightMap.keySet().iterator();
+        while (iterator.hasNext()) {
+            Integer key = iterator.next();
+            totalHeight += itemsHeightMap.get(key);
+        }
+        LogUtil.i("getItemsTotalHeight--totalHeight:" + totalHeight);
+        return totalHeight;
     }
 
     private List<MyTextWatcher> mListeners = new ArrayList<>();
