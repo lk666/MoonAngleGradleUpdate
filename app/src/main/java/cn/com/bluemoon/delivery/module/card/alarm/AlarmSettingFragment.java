@@ -1,8 +1,10 @@
 package cn.com.bluemoon.delivery.module.card.alarm;
 
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -32,7 +34,55 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  */
 public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
     RemindAdapter adapter;
+    List<Remind> list;
 
+    BroadcastReceiver receiver = new BroadcastReceiver() {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Remind remind = null;
+
+            if(Reminds.ALARM_ALERT_ACTION.equals(intent.getAction())) {
+                try {
+                    remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
+                } catch (Exception ex) {
+
+                }
+
+                if (remind == null) {
+                    return;
+                }
+
+                // Disable this alarm if it does not repeat.
+                if (!new DaysOfWeek(remind.getRemindWeek()).isRepeatSet()) {
+                    Reminds.enableAlarm(context, remind.getRemindId(), false);
+                    if(list!=null && list.size()>0){
+                        for (Remind alarm:list
+                             ) {
+                            if(alarm.getRemindId()==remind.getRemindId()){
+                                alarm.isClose = true;
+                                adapter.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                } else {
+                    // Enable the next alert if there is one. The above call to
+                    // enableAlarm will call setNextAlert so avoid calling it twice.
+                    Reminds.setNextAlert(context);
+                }
+            }
+        }
+
+    };
+
+
+    @Override
+    protected void onBeforeCreateView() {
+        super.onBeforeCreateView();
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(Reminds.ALARM_ALERT_ACTION);
+        getActivity().registerReceiver(receiver, filter);
+    }
 
     @Override
     protected void setActionBar(CommonActionBar actionBar) {
@@ -58,7 +108,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         ptrlv.setBackgroundColor(getResources().getColor(R.color.view_bg));
         adapter = getNewAdapter();
 
-        List<Remind> list = new ArrayList<>();
+       list= new ArrayList<>();
         Cursor mCursor = Reminds.getAlarmsCursor(getActivity().getContentResolver());
 
         if (mCursor != null) {
@@ -220,5 +270,9 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         }
     }
 
-
+    @Override
+    public void onDestroyView() {
+        getActivity().unregisterReceiver(receiver);
+        super.onDestroyView();
+    }
 }
