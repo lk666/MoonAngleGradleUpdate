@@ -566,7 +566,16 @@
             android:name=".module.wash.returning.closebox.CloseBoxListActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
-        <activity android:name=".module.wash.returning.driver.HistoryDetailActivity"
+        <activity
+            android:name=".module.wash.returning.transportreceive.TransportReceiveTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.transportreceive.ScanReceiveSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity 
+            android:name=".module.wash.returning.driver.HistoryDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
     </application>

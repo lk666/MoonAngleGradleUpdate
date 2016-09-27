@@ -37,13 +37,13 @@ public class SingleTimerFilterWindow extends PopupWindow {
 
     private CommonDatePickerDialog datePicker;
 
-    public SingleTimerFilterWindow(Context context, FilterListener listener) {
+    public SingleTimerFilterWindow(Context context, long defTime, FilterListener listener) {
         this.contextt = context;
         this.listener = listener;
 
         curTime = Calendar.getInstance();
         curTime.clear();
-        curTime.setTimeInMillis(0);
+        curTime.setTimeInMillis(defTime);
         init();
     }
 
@@ -157,12 +157,10 @@ public class SingleTimerFilterWindow extends PopupWindow {
         String txt;
         if (time.getTimeInMillis() == 0) {
             txt = contextt.getString(R.string.pending_order_date_hint);
-            btnConfirm.setEnabled(false);
         } else {
             @SuppressLint("SimpleDateFormat") SimpleDateFormat df = new SimpleDateFormat
                     ("yyyy-MM-dd");
             txt = df.format(time.getTime());
-            btnConfirm.setEnabled(true);
         }
         tvTimeSelect.setText(txt);
     }

@@ -934,4 +934,25 @@
     <string name="driver_order_num">共%s单</string>
     <string name="driver_box_code3">封箱标签-%s</string>
     <string name="driver_receiver">签收人：%s</string>
+    
+    <!--承运收货-->
+    <string name="wait_sign_title">待签收</string>
+    <string name="wait_sign_carriage_code">承运单号-%s</string>
+    <string name="wait_sign_seal_tags">封箱标签数量：%s</string>
+    <string name="wait_sign_tag_code">封箱标签-%s</string>
+    <string name="wait_sign_back_orderNum">还衣单：%s</string>
+    <string name="wait_sign_scan_tag">(扫描封箱标签)</string>
+    <string name="wait_sign_received">(已签收)</string>
+    <string name="wait_sign_btn_sign">签收</string>
+    <string name="wait_sign_scan_tag_title">扫描封箱标签</string>
+    <string name="wait_sign_duplicate_code">该封箱标签已被签收</string>
+    <string name="wait_sign_not_in_code"> 当前标签不属于封箱标签，请核实后重新扫描</string>
+    <string name="sign_finish">签收完成</string>
+    <string name="sign_succeed">签收成功</string>
+    <string name="sign_continue">继续签收</string>
+    <string name="sign_history_title">签收历史</string>
+    <string name="sign_history_total">共%s箱</string>
+    <string name="sign_history_back_orderNum">还衣单数量：</string>
+    <string name="sign_history_receiver">签收人：%s</string>
+    
 </resources>

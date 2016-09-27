@@ -63,7 +63,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
         titleBar.getTvRightView().setText(R.string.btn_txt_fillter);
         titleBar.getTvRightView().setCompoundDrawablePadding(10);
 
-        Drawable drawableFillter=getResources().getDrawable(R.mipmap.icon_filter);
+        Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
         drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter.getMinimumHeight());
         titleBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
         titleBar.getTvRightView().setVisibility(View.VISIBLE);
@@ -72,16 +72,15 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
-        SingleTimerFilterWindow popupWindow = new SingleTimerFilterWindow(getActivity(), new
+        SingleTimerFilterWindow popupWindow = new SingleTimerFilterWindow(getActivity(), chooseTime, new
                 SingleTimerFilterWindow.FilterListener() {
                     @Override
                     public void onOkClick(long time) {
                         chooseTime = time;
-                        if(time > 0){
+                        if (time > 0) {
                             setHeadViewVisibility(View.VISIBLE);
                             txtTime.setText(DateUtil.getTime(time, "yyyy/MM/dd"));
-
-                        }else{
+                        } else {
                             setHeadViewVisibility(View.GONE);
                         }
                         initData();
@@ -92,12 +91,12 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected BaseListAdapter getNewAdapter() {
-        return new CarriageHistoryAdapter(getActivity(),this);
+        return new CarriageHistoryAdapter(getActivity(), this);
     }
 
     @Override
     protected List getGetMoreList(ResultBase result) {
-        ResultCarriageHistory carriageHistory = (ResultCarriageHistory)result;
+        ResultCarriageHistory carriageHistory = (ResultCarriageHistory) result;
         pageFlag = carriageHistory.getPageFlag();
         txtCount.setText(getString(R.string.driver_order_num, carriageHistory.getCarriageSum()));
         return carriageHistory.getCarriageList();
@@ -105,7 +104,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected List getGetDataList(ResultBase result) {
-        ResultCarriageHistory carriageHistory = (ResultCarriageHistory)result;
+        ResultCarriageHistory carriageHistory = (ResultCarriageHistory) result;
         pageFlag = carriageHistory.getPageFlag();
         txtCount.setText(getString(R.string.driver_order_num, carriageHistory.getCarriageSum()));
         return carriageHistory.getCarriageList();
@@ -118,6 +117,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
+        pageFlag = 0;
         ReturningApi.queryCarriageHistoryList(0, chooseTime, getToken(), getNewHandler(requestCode, ResultCarriageHistory.class));
     }
 
@@ -132,7 +132,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
     }
 
 
-    class CarriageHistoryAdapter extends BaseListAdapter<DriverCarriage>{
+    class CarriageHistoryAdapter extends BaseListAdapter<DriverCarriage> {
 
         public CarriageHistoryAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
@@ -151,7 +151,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
             TextView txtRealBoxNum = getViewById(R.id.txt_real_box_num);
             TextView txtCarriageTime = getViewById(R.id.txt_carriage_time);
             txtTransportCode.setText(getString(R.string.driver_transport_code, item.getCarriageCode()));
-            txtBoxNum.setText(getString(R.string.driver_box_num,item.getBoxNum()));
+            txtBoxNum.setText(getString(R.string.driver_box_num, item.getBoxNum()));
             txtRealBoxNum.setText(getString(R.string.driver_real_box_num, item.getActualNum()));
             txtCarriageTime.setText(getString(R.string.driver_carriage_time,
                     DateUtil.getTime(item.getReceiverSignTime(), "yyyy-MM-dd HH:mm:ss")));

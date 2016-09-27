@@ -63,6 +63,7 @@ import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -526,6 +527,13 @@ public class MainActivity extends SlidingActivity {
         item.setIconImg(listRight.get(2).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
+
+        item = new UserRight();
+        item.setMenuCode(MenuCode.transport_receive.toString());
+        item.setMenuName("承运收货");
+        item.setIconImg(listRight.get(2).getIconImg());
+        item.setGroupNum(1);
+        listRight.add(item);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -798,6 +806,8 @@ public class MainActivity extends SlidingActivity {
                 //TODO
             } else if(MenuCode.return_manger.toString().equals(userRight.getMenuCode())){
                 ReturnMangerTabActivity.actionStart(this);
+            } else if(MenuCode.transport_receive.toString().equals(userRight.getMenuCode())){
+                TransportReceiveTabActivity.actionStart(this);
             }
             else if  (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
                 CloseBoxTabActivity.actionStart(main);
