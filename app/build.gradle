@@ -43,7 +43,7 @@ android {
                 variant.outputs.each { output ->
                     def outputFile = output.outputFile
                     if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
-                        def fileName = "月亮天使_${buildTime()}_测试版_${defaultConfig.versionName}(${/*gitNum*/}).apk"
+                        def fileName = "月亮天使_${buildTime()}_测试版_${defaultConfig.versionName}(${gitNum}).apk"
                         output.outputFile = new File(outputFile.parent, fileName)
                     }
                 }
