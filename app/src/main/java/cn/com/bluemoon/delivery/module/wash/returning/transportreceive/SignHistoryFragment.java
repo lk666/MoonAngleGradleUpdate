@@ -11,24 +11,27 @@ import java.util.List;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ResultCloseBoxHistoryList;
-import cn.com.bluemoon.delivery.app.api.model.wash.closebox.TagItem;
+import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ReceiveCarriage;
+import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ReceiveCarriageTag;
+import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ResultReceiveHistoryList;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxDetailActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.SingleTimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.NoScrollListView;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-// TODO: lk 2016/9/14
 
 /**
- * 封箱历史
+ * 签收历史
  * Created by lk on 2016/9/14.
  */
 public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
     private View viewPopStart;
+    private TextView tvDate;
+    private TextView tvTotal;
 
     /**
      * 分页标识
@@ -42,7 +45,7 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.close_box_history_title);
+        return getString(R.string.sign_history_title);
     }
 
     @Override
@@ -62,11 +65,17 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        SingleTimerFilterWindow popupWindow = new SingleTimerFilterWindow(getActivity(), new
-                SingleTimerFilterWindow.FilterListener() {
+        SingleTimerFilterWindow popupWindow = new SingleTimerFilterWindow(getActivity(), opTime,
+                new SingleTimerFilterWindow.FilterListener() {
                     @Override
                     public void onOkClick(long time) {
                         opTime = time;
+                        if (time > 0) {
+                            setHeadViewVisibility(View.VISIBLE);
+                            tvDate.setText(DateUtil.getTime(time, "yyyy/MM/dd"));
+                        } else {
+                            setHeadViewVisibility(View.GONE);
+                        }
                         initData();
                     }
                 });
@@ -75,13 +84,15 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected int getHeadLayoutId() {
-        return R.layout.head_fragment_tab_close_box_history;
+        return R.layout.head_fragment_tab_sign_history;
     }
 
     @Override
     protected void initHeadViewEvent(View headView) {
         super.initHeadViewEvent(headView);
         viewPopStart = headView.findViewById(R.id.view_pop_start);
+        tvDate = (TextView) headView.findViewById(R.id.tv_date);
+        tvTotal = (TextView) headView.findViewById(R.id.tv_total);
         setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
@@ -99,15 +110,30 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         pageFlag = 0;
-        ReturningApi.queryCloseBoxHistoryList(opTime, 0, getToken(), getNewHandler
-                (requestCode, ResultCloseBoxHistoryList.class));
+        ReturningApi.queryReceiveHistoryList(pageFlag, opTime, getToken(), getNewHandler
+                (requestCode, ResultReceiveHistoryList.class));
     }
 
     @Override
-    protected List<TagItem> getGetDataList(ResultBase result) {
-        ResultCloseBoxHistoryList resultObj = (ResultCloseBoxHistoryList) result;
+    protected List<ReceiveCarriage> getGetDataList(ResultBase result) {
+        ResultReceiveHistoryList resultObj = (ResultReceiveHistoryList) result;
         pageFlag = resultObj.getPageFlag();
-        return resultObj.getTagList();
+        tvTotal.setText(getString(R.string.driver_order_num, resultObj.getCarriageSum()));
+        return resultObj.getCarriageList();
+    }
+
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        ReturningApi.queryReceiveHistoryList(pageFlag, opTime, getToken(), getNewHandler
+                (requestCode, ResultReceiveHistoryList.class));
+    }
+
+    @Override
+    protected List<ReceiveCarriage> getGetMoreList(ResultBase result) {
+        ResultReceiveHistoryList resultObj = (ResultReceiveHistoryList) result;
+        pageFlag = resultObj.getPageFlag();
+        tvTotal.setText(getString(R.string.driver_order_num, resultObj.getCarriageSum()));
+        return resultObj.getCarriageList();
     }
 
     @Override
@@ -115,7 +141,6 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
         super.showEmptyView();
         // 可在此处设置head等
         setHeadViewVisibility(View.VISIBLE);
-//        getBaseTabActivity().setAmount(0, 0);
     }
 
     @Override
@@ -129,66 +154,94 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
     protected void showRefreshView() {
         super.showRefreshView();
         // 列表数据刷新，如可在此处设置head等
-        setHeadViewVisibility(View.VISIBLE);
-//        setHeadCOntent(totalCount, waitInbox, waitInboxCount);
-//        getBaseTabActivity().setAmount(0, waitInboxCount);
+        if (opTime == 0) {
+            setHeadViewVisibility(View.GONE);
+        } else {
+            setHeadViewVisibility(View.VISIBLE);
+        }
     }
 
-    protected TagItemAdapter getNewAdapter() {
-        return new TagItemAdapter(getActivity(), this);
+    @Override
+    protected ItemAdapter getNewAdapter() {
+        return new ItemAdapter(getActivity(), this);
     }
 
-    class TagItemAdapter extends BaseListAdapter<TagItem> {
-
-        public TagItemAdapter(Context context, OnListItemClickListener listener) {
+    class ItemAdapter extends BaseListAdapter<ReceiveCarriage> {
+        public ItemAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
         }
 
         @Override
         protected int getLayoutId() {
-            return R.layout.item_close_box_tag;
+            return R.layout.item_sign_history;
         }
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            TagItem item = (TagItem) getItem(position);
+            ReceiveCarriage item = (ReceiveCarriage) getItem(position);
+            if (item == null) {
+                return;
+            }
 
-            TextView tvBoxTagCode = getViewById(R.id.tv_box_tag_code);
+            TextView tvCarriageCode = getViewById(R.id.tv_carriage_code);
+            TextView tvTotal = getViewById(R.id.tv_total);
+            NoScrollListView lv = getViewById(R.id.lv);
+
+            tvCarriageCode.setText(String.format(getString(R.string.wait_sign_carriage_code),
+                    item.getCarriageCode()));
+
+            tvTotal.setText(String.format(getString(R.string.sign_history_total),
+                    item.getTagList().size()));
+
+            if (isNew) {
+                TagAdapter newAdapter = new TagAdapter(context, SignHistoryFragment.this);
+                lv.setAdapter(newAdapter);
+            }
+
+            TagAdapter adapter = (TagAdapter) lv.getAdapter();
+            adapter.setList(item.getTagList());
+            adapter.notifyDataSetChanged();
+        }
+    }
+
+
+    class TagAdapter extends BaseListAdapter<ReceiveCarriageTag> {
+        public TagAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
+        }
+
+        @Override
+        protected int getLayoutId() {
+            return R.layout.item_sign_history_tag;
+        }
+
+        @Override
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            final ReceiveCarriageTag item = (ReceiveCarriageTag) getItem(position);
+            if (item == null) {
+                return;
+            }
+
             TextView tvBackOrderNum = getViewById(R.id.tv_back_order_num);
-            TextView tvClothesNum = getViewById(R.id.tv_clothes_num);
+            TextView tvTagCode = getViewById(R.id.tv_tag_code);
+            TextView tvReceiverSignTime = getViewById(R.id.tv_receiver_sign_time);
+            TextView tvReceiver = getViewById(R.id.tv_receiver);
 
-            tvBoxTagCode.setText(String.format(getString(R.string.close_box_tag_code), item
-                    .getTagCode()));
+
             tvBackOrderNum.setText(String.valueOf(item.getBackOrderNum()));
-            tvClothesNum.setText(String.valueOf(item.getClothesNum()));
+            tvTagCode.setText(String.format(getString(R.string.wait_sign_tag_code),
+                    item.getTagCode()));
 
-            setClickEvent(isNew, position, convertView);
+            tvReceiver.setText(String.format(getString(R.string.sign_history_receiver),
+                    item.getReceiver()));
+            tvReceiverSignTime.setText(DateUtil.getTime(item.getReceiverSignTime(),
+                    "yyyy-MM-dd " + "HH:mm:ss"));
         }
     }
 
     @Override
-    public void onItemClick(Object obj, View view, int position) {
-        TagItem item = (TagItem) obj;
-        if (null != item) {
-            CloseBoxDetailActivity.actionStart(getContext(), item.getTagCode());
-        }
+    public void onItemClick(Object item, View view, int position) {
+
     }
 
-    @Override
-    protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryCloseBoxHistoryList(opTime, pageFlag, getToken(), getNewHandler
-                (requestCode, ResultCloseBoxHistoryList.class));
-    }
-
-    /**
-     * Mode不包含上拉加载时，可这样重写此方法
-     *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
-     */
-    @Override
-    protected List<TagItem> getGetMoreList(ResultBase result) {
-        ResultCloseBoxHistoryList resultObj = (ResultCloseBoxHistoryList) result;
-        pageFlag = resultObj.getPageFlag();
-        return resultObj.getTagList();
-    }
 }

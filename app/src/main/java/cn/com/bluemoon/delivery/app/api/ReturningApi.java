@@ -21,30 +21,31 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *1.1功能角标统计查询
+     * 1.1功能角标统计查询
+     *
      * @param modelType 角标模块类型（必填） String
-     * @param token 登录凭证(必填) String
+     * @param token     登录凭证(必填) String
      */
-    public static void queryCornerNum(String modelType,String token,AsyncHttpResponseHandler handler){
-        if(null == modelType||null == token) {
+    public static void queryCornerNum(String modelType, String token, AsyncHttpResponseHandler handler) {
+        if (null == modelType || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("modelType",modelType);
-        params.put(TOKEN,token);
+        params.put("modelType", modelType);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/queryCornerNum%s", handler);
     }
 
     /**
      * 1.2上传异常图片（签名图片）
      *
-     * @param file  文件流
-     * @param fileName	文件名 (UUID.randomUUID() + ".png")
-     * @param token 登录凭证(必填) String
+     * @param file     文件流
+     * @param fileName 文件名 (UUID.randomUUID() + ".png")
+     * @param token    登录凭证(必填) String
      */
     public static void uploadExceptionImage(byte[] file, String fileName, String token, AsyncHttpResponseHandler
             handler) {
-        if (null == token || null == file || null == fileName){
+        if (null == token || null == file || null == fileName) {
             return;
         }
 
@@ -54,7 +55,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("fileData", fileString);
-        params.put("fileName",fileName);
+        params.put("fileName", fileName);
         postMockRequest(params, "washingService-controller/wash/uploadExceptionImage%s", handler);
     }
 
@@ -217,8 +218,8 @@ public class ReturningApi extends DeliveryApi {
      * @param receiverSignTime 收货时间 int
      * @param token            登录凭证(必填) String
      */
-    public static void queryCarriageHistoryList(long pageFlag,long receiverSignTime,String token,AsyncHttpResponseHandler handler){
-        if(null == token) {
+    public static void queryCarriageHistoryList(long pageFlag, long receiverSignTime, String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -344,39 +345,41 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *9.3快递收货-确认收货
+     * 9.3快递收货-确认收货
+     *
      * @param expressCode 快递单号 String
-     * @param token 登录凭证(必填) String
+     * @param token       登录凭证(必填) String
      */
-    public static void confirmReceive(String expressCode,String token,AsyncHttpResponseHandler handler){
-        if(null == expressCode||null == token) {
+    public static void confirmReceive(String expressCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == expressCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("expressCode",expressCode);
-        params.put("token",token);
+        params.put("expressCode", expressCode);
+        params.put("token", token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/confirmReceive%s", handler);
     }
 
 
     /**
-     *9.7还衣单签收
+     * 9.7还衣单签收
+     *
      * @param backOrderCode 还衣单号 String
-     * @param isSignName 是否本人签名 boolean
-     * @param signFileName 签收图片文件名 String
+     * @param isSignName    是否本人签名 boolean
+     * @param signFileName  签收图片文件名 String
      * @param signImagePath 签收签名图片路径 String
-     * @param token 登录凭证(必填) String
+     * @param token         登录凭证(必填) String
      */
-    public static void backOrderSign(String backOrderCode,boolean isSignName,String signFileName,String signImagePath,String token,AsyncHttpResponseHandler handler){
-        if(null == backOrderCode||null == signFileName||null == signImagePath||null == token) {
+    public static void backOrderSign(String backOrderCode, boolean isSignName, String signFileName, String signImagePath, String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderCode || null == signFileName || null == signImagePath || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("backOrderCode",backOrderCode);
-        params.put("isSignName",isSignName);
-        params.put("signFileName",signFileName);
-        params.put("signImagePath",signImagePath);
-        params.put("token",token);
+        params.put("backOrderCode", backOrderCode);
+        params.put("isSignName", isSignName);
+        params.put("signFileName", signFileName);
+        params.put("signImagePath", signImagePath);
+        params.put("token", token);
         postMockRequest(params, "washingService-controller/wash/backOrderManage/backOrderSign%s", handler);
     }
 
@@ -597,19 +600,39 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     *6.2收衣点收货确认签收(扫描)
+     * 6.2收衣点收货确认签收(扫描)
+     *
      * @param carriageCode 承运单号 String
-     * @param tagCode 封箱标签号 String
-     * @param token 登录凭证(必填) String
+     * @param tagCode      封箱标签号 String
+     * @param token        登录凭证(必填) String
      */
-    public static void scanReceiveSign(String carriageCode,String tagCode,String token,AsyncHttpResponseHandler handler){
-        if(null == carriageCode||null == tagCode||null == token) {
+    public static void scanReceiveSign(String carriageCode, String tagCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == carriageCode || null == tagCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("carriageCode",carriageCode);
-        params.put("tagCode",tagCode);
-        params.put(TOKEN,token);
+        params.put("carriageCode", carriageCode);
+        params.put("tagCode", tagCode);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/carriageReceive/scanReceiveSign%s", handler);
     }
+
+    /**
+     * 6.3获取签收历史列表
+     *
+     * @param pageFlag       分页时间戳(分页标志) long
+     * @param sginFinishTime 收货人签收时间 long
+     * @param token          登录凭证(必填) String
+     */
+    public static void queryReceiveHistoryList(long pageFlag, long sginFinishTime, String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageFlag", pageFlag);
+        params.put("sginFinishTime", sginFinishTime);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/carriageReceive/queryReceiveHistoryList%s", handler);
+    }
+
 }

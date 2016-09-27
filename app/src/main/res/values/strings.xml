@@ -947,4 +947,8 @@
     <string name="sign_finish">签收完成</string>
     <string name="sign_succeed">签收成功</string>
     <string name="sign_continue">继续签收</string>
+    <string name="sign_history_title">签收历史</string>
+    <string name="sign_history_total">共%s箱</string>
+    <string name="sign_history_back_orderNum">还衣单数量：</string>
+    <string name="sign_history_receiver">签收人：%s</string>
 </resources>

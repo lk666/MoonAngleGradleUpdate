@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_back_order_num_title"
+        style="@style/txt_content_15"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:text="@string/sign_history_back_orderNum" />
+
+    <TextView
+        android:id="@+id/tv_back_order_num"
+        style="@style/txt_title_15"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@+id/tv_back_order_num_title"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true" />
+
+    <View
+        android:id="@+id/div1"
+        style="@style/line_solid_padding_left_style"
+        android:layout_below="@+id/tv_back_order_num_title" />
+
+    <TextView
+        android:id="@+id/tv_tag_code"
+        style="@style/txt_title_15"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_below="@+id/div1"
+        android:layout_marginLeft="12dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/wait_sign_tag_code" />
+
+    <View
+        android:id="@+id/div2"
+        style="@style/line_solid_padding_left_style"
+        android:layout_below="@+id/tv_tag_code" />
+
+    <TextView
+        android:id="@+id/tv_receiver_sign_time"
+        style="@style/txt_content_13"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/div2"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="12dp"
+        android:ellipsize="end"
+        android:gravity="right|center_vertical"
+        android:singleLine="true"/>
+
+    <TextView
+        android:id="@+id/tv_receiver"
+        style="@style/txt_content_13"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/div2"
+        android:layout_marginLeft="12dp"
+        android:layout_toLeftOf="@+id/tv_receiver_sign_time"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/sign_history_receiver" />
+
+</RelativeLayout>
+
