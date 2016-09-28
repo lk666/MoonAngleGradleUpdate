@@ -54,6 +54,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
         txtTime = (TextView) headView.findViewById(R.id.txt_count);
         txtCount = (TextView) headView.findViewById(R.id.txt_pending_box);
         setHeadViewVisibility(View.GONE);
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     @Override
@@ -118,19 +119,16 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         pageFlag = 0;
         ReturningApi.queryCarriageHistoryList(0, chooseTime, getToken(), getNewHandler(requestCode, ResultCarriageHistory.class));
-        setAmount();
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
         ReturningApi.queryCarriageHistoryList(pageFlag, chooseTime, getToken(), getNewHandler(requestCode, ResultCarriageHistory.class));
-        setAmount();
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        DriverCarriage carriage = (DriverCarriage) item;
-        toast(carriage.getCarriageCode());
+        HistoryDetailActivity.actStart(this,(DriverCarriage)item);
     }
 
 

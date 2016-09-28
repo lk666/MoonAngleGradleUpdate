@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -20,16 +19,15 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
-import cn.com.bluemoon.delivery.ui.LinearLayoutForListView;
+import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 
 public class WaitSendFragment extends BasePullToRefreshListViewFragment {
 
-    private long timesamp;
+    private long pageFlag = 0;
 
     @Override
     protected String getTitleString() {
@@ -39,8 +37,8 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
-        ptrlv.getRefreshableView().setDividerHeight(getResources().getDimensionPixelSize(R.dimen
-                .div_height_10));
+        ptrlv.getRefreshableView().setDividerHeight(0);
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     @Override
@@ -51,14 +49,14 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected List getGetMoreList(ResultBase result) {
         ResultSendList sendList = (ResultSendList) result;
-        timesamp = sendList.getPageFlag();
+        pageFlag = sendList.getPageFlag();
         return sendList.getCenterList();
     }
 
     @Override
     protected List getGetDataList(ResultBase result) {
         ResultSendList sendList = (ResultSendList) result;
-        timesamp = sendList.getPageFlag();
+        pageFlag = sendList.getPageFlag();
         return sendList.getCenterList();
     }
 
@@ -70,13 +68,12 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         ReturningApi.queryWaitSendList(0, getToken(), getNewHandler(requestCode, ResultSendList.class));
-        ((DriverTabActivity)getActivity()).getAmount();
+        setAmount();
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitSendList(timesamp, getToken(), getNewHandler(requestCode, ResultSendList.class));
-        ((DriverTabActivity)getActivity()).getAmount();
+        ReturningApi.queryWaitSendList(pageFlag, getToken(), getNewHandler(requestCode, ResultSendList.class));
     }
 
     private ArrayList<String> getTagBoxList(List<TagBox> list) {
@@ -95,7 +92,6 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
 
 
     class WaitSendAdapter extends BaseListAdapter<ClothCenter> {
-        TagBoxAdapter tagBoxAdapter;
 
         public WaitSendAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
@@ -109,22 +105,26 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
             ClothCenter item = list.get(position);
-            TextView txtCenterAddress = getViewById(R.id.txt_center_address);
+            TextView txtName = getViewById(R.id.txt_name);
+            TextView txtPhone = getViewById(R.id.txt_phone);
             TextView txtBoxNum = getViewById(R.id.txt_box_num);
             TextView txtAddress = getViewById(R.id.txt_address);
             Button btnReceiver = getViewById(R.id.btn_receiver);
-            ListView listViewBox = getViewById(R.id.listView_box);
-            txtCenterAddress.setText(item.getCenterName());
+            NoScrollListView listViewBox = getViewById(R.id.listView_box);
+            txtName.setText(item.getCenterName());
+            txtPhone.setText(item.getReceiverPhone());
             txtBoxNum.setText(getString(R.string.driver_box_num_all, item.getTagList().size()));
             txtAddress.setText(StringUtil.getStringParamsByFormat("",
-                    item.getProvince(),item.getCity(),item.getCounty(),
-                    item.getVillage(),item.getStreet(),item.getAddress()));
-            if(isNew){
-                tagBoxAdapter = new TagBoxAdapter(context, null);
+                    item.getProvince(), item.getCity(), item.getCounty(),
+                    item.getVillage(), item.getStreet(), item.getAddress()));
+            if (isNew) {
+                TagBoxAdapter tagBoxAdapter = new TagBoxAdapter(context, null);
+                listViewBox.setAdapter(tagBoxAdapter);
             }
+            TagBoxAdapter tagBoxAdapter = (TagBoxAdapter) listViewBox.getAdapter();
             tagBoxAdapter.setList(item.getTagList());
-            listViewBox.setAdapter(tagBoxAdapter);
-            ViewUtil.setListViewHeight2(listViewBox);
+            tagBoxAdapter.notifyDataSetChanged();
+//            ViewUtil.setListViewHeight2(listViewBox);
             setClickEvent(isNew, position, btnReceiver);
         }
     }

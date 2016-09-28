@@ -10,6 +10,7 @@ public enum MenuCode {
 	promote_file,my_team,
 	//  TODO: lk 2016/9/14 洗衣服务还衣
 	closebox,
+	pack,
 	wash_cabinet,wash_driver,express_sealing,return_manger,transport_receive
 }
 

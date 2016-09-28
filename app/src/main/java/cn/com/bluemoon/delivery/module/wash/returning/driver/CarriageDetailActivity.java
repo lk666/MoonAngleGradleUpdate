@@ -62,7 +62,7 @@ public class CarriageDetailActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        layoutEmpty.setContentText(getString(R.string.empty_hint3, ""));
+        layoutEmpty.setContentText(getString(R.string.empty_hint3, getTitleString()));
         layoutEmpty.setEmptyListener(new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {

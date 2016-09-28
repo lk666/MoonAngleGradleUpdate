@@ -88,7 +88,7 @@ public class TransportListActivity extends BaseActivity {
     @Override
     public void initView() {
         LibViewUtil.setViewVisibility(txtRealBoxNum, View.VISIBLE);
-        layoutEmpty.setContentText(getString(R.string.empty_hint3, ""));
+        layoutEmpty.setContentText(getString(R.string.empty_hint3, getTitleString()));
         layoutEmpty.setEmptyListener(new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {

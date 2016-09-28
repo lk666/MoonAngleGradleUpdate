@@ -22,7 +22,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
 
-    private long timesamp;
+    private long pageFlag = 0;
 
     @Override
     protected String getTitleString() {
@@ -32,8 +32,7 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
-        ptrlv.getRefreshableView().setDividerHeight(getResources().getDimensionPixelSize(R.dimen
-                .div_height_10));
+        ptrlv.getRefreshableView().setDividerHeight(0);
     }
 
     @Override
@@ -44,14 +43,14 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected List getGetMoreList(ResultBase result) {
         ResultWaitLoadList loadList = (ResultWaitLoadList)result;
-        timesamp = loadList.getPageFlag();
+        pageFlag = loadList.getPageFlag();
         return loadList.getCarriageList();
     }
 
     @Override
     protected List getGetDataList(ResultBase result) {
         ResultWaitLoadList loadList = (ResultWaitLoadList)result;
-        timesamp = loadList.getPageFlag();
+        pageFlag = loadList.getPageFlag();
         return loadList.getCarriageList();
     }
 
@@ -68,8 +67,7 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitLoadList(timesamp,getToken(),getNewHandler(requestCode,ResultWaitLoadList.class));
-        setAmount();
+        ReturningApi.queryWaitLoadList(pageFlag, getToken(), getNewHandler(requestCode, ResultWaitLoadList.class));
     }
 
     @Override
