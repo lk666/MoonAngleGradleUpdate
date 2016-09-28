@@ -156,9 +156,9 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             txtAlamTitle.setText(remind.getRemindTitle());
             DaysOfWeek daysOfWeek = new DaysOfWeek(remind.getRemindWeek());
             if (daysOfWeek.getCoded() != 0 && daysOfWeek.getCoded() != 0x7f) {
-                txtAlert.setText(getString(R.string.week) + daysOfWeek.toString(getActivity(), true));
+                txtAlert.setText(getString(R.string.alarm_repeat)+getString(R.string.week) + daysOfWeek.toString(getActivity(), true));
             } else {
-                txtAlert.setText(daysOfWeek.toString(getActivity(), true));
+                txtAlert.setText(getString(R.string.alarm_repeat)+daysOfWeek.toString(getActivity(), true));
             }
             sbOpen.setChecked(!remind.isClose);
             if (sbOpen.isChecked()) {
@@ -168,7 +168,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
                     layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_border_blue_alarm));
                 }
                 txtAlarmTime.setTextColor(getResources().getColor(R.color.btn_blue));
-                txtAlamTitle.setTextColor(getResources().getColor(R.color.text_black));
+                txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep));
                 txtAlert.setTextColor(getResources().getColor(R.color.text_black));
                 txtRepeat.setTextColor(getResources().getColor(R.color.text_black));
             } else {
