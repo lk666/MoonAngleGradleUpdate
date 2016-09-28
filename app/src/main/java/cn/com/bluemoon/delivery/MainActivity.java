@@ -46,8 +46,6 @@ import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.common.ScanCodeActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
@@ -59,10 +57,12 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
@@ -534,6 +534,13 @@ public class MainActivity extends SlidingActivity {
         item.setIconImg(listRight.get(2).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
+
+        item = new UserRight();
+        item.setMenuCode(MenuCode.pack.toString());
+        item.setMenuName(getString(R.string.pack_menu_name));
+        item.setIconImg(listRight.get(0).getIconImg());
+        item.setGroupNum(1);
+        listRight.add(item);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -811,6 +818,8 @@ public class MainActivity extends SlidingActivity {
             }
             else if  (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
                 CloseBoxTabActivity.actionStart(main);
+            } else if  (MenuCode.pack.toString().equals(userRight.getMenuCode())) {
+                PackTabActivity.actionStart(main);
             }
 
             //此处添加模块判断

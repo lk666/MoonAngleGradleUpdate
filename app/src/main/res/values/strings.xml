@@ -954,5 +954,12 @@
     <string name="sign_history_total">共%s箱</string>
     <string name="sign_history_back_orderNum">还衣单数量：</string>
     <string name="sign_history_receiver">签收人：%s</string>
-    
+
+
+
+    <!--还衣单打包-->
+    <string name="pack_menu_name">还衣单打包</string>
+    <string name="title_pack">待打包</string>
+    <string name="title_box">待装箱</string>
+    <string name="title_history">历史</string>
 </resources>
