@@ -14,14 +14,13 @@ import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
  */
 public class CloseBoxTabActivity extends BaseTabActivity {
 
-    // TODO: lk 2016/9/14 图标
     public static void actionStart(Context context) {
         ArrayList<TabState> tabs = new ArrayList<>();
         tabs.add(new TabState(CloseBoxFragment.class,
-                R.drawable.tab_stock_selector,
+                R.drawable.tab_close_box_selector,
                 R.string.close_box_title));
         tabs.add(new TabState(CloseBoxHistoryFragment.class,
-                R.drawable.tab_my_warehouse_selector,
+                R.drawable.tab_history,
                 R.string.close_box_history));
         actionStart(context, tabs, CloseBoxTabActivity.class);
     }
