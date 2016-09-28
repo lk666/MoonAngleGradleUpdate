@@ -159,7 +159,7 @@ public class AlarmModifyActivity extends BaseActivity {
         edTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                edTitle.setSelection(edTitle.getText().length());
+
             }
 
             @Override
@@ -170,13 +170,14 @@ public class AlarmModifyActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 remind.setRemindTitle(edTitle.getText().toString());
+                edTitle.setSelection(edTitle.getText().length());
             }
         });
 
         edContent.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                edContent.setSelection(edContent.getText().length());
+
             }
 
             @Override
@@ -187,6 +188,7 @@ public class AlarmModifyActivity extends BaseActivity {
             @Override
             public void afterTextChanged(Editable s) {
                 remind.setRemindContent(edContent.getText().toString());
+                edContent.setSelection(edContent.getText().length());
             }
         });
 
