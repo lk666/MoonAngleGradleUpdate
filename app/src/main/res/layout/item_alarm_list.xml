@@ -89,7 +89,7 @@
 
             <include
                 android:id="@+id/sb_open"
-                layout="@layout/widget_switch_button_yes_no" />
+                layout="@layout/widget_switch_button_open_close" />
         </LinearLayout>
 
     </LinearLayout>
