@@ -27,6 +27,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
@@ -77,6 +78,14 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
 
     @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+//        ptrlv.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+//        ptrlv.setDividerDrawable(getResources().getDrawable(R.drawable.div_left_padding_16));
+        ptrlv.getRefreshableView().setDividerHeight(getResources().getDimensionPixelSize(R.dimen
+                .div_height_none));
+    }
+
+    @Override
     protected void onBeforeCreateView() {
         super.onBeforeCreateView();
         IntentFilter filter = new IntentFilter();
@@ -105,6 +114,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     public void initData() {
+        ptrlv.setDividerDrawable(getResources().getDrawable(R.drawable.bg_white));
         ptrlv.setBackgroundColor(getResources().getColor(R.color.view_bg));
         adapter = getNewAdapter();
 
@@ -148,7 +158,6 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             LinearLayout layoutAlarm = getViewById(R.id.layout_alarm);
             TextView txtAlarmTime = getViewById(R.id.txt_alarm_time);
             TextView txtAlamTitle = getViewById(R.id.txt_alarm_title);
-            TextView txtRepeat = getViewById(R.id.txt_repeat);
             TextView txtAlert = getViewById(R.id.txt_repeat_content);
             cn.com.bluemoon.lib.view.switchbutton.SwitchButton sbOpen = getViewById(R.id.sb_open);
 
@@ -170,7 +179,6 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
                 txtAlarmTime.setTextColor(getResources().getColor(R.color.btn_blue));
                 txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep));
                 txtAlert.setTextColor(getResources().getColor(R.color.text_black));
-                txtRepeat.setTextColor(getResources().getColor(R.color.text_black));
             } else {
                 if (Build.VERSION.SDK_INT > 15) {
                     layoutAlarm.setBackground(getResources().getDrawable(R.drawable.btn_border_grey_alarm));
@@ -181,7 +189,6 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
                 txtAlarmTime.setTextColor(getResources().getColor(R.color.text_grep_a));
                 txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep_a));
                 txtAlert.setTextColor(getResources().getColor(R.color.text_grep_a));
-                txtRepeat.setTextColor(getResources().getColor(R.color.text_grep_a));
             }
 
 

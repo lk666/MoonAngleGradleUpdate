@@ -38,6 +38,7 @@
     <dimen name="div_btn_clothes_book_in">18dp</dimen>
 
     <!--分割线高度-->
+    <dimen name="div_height_none">0dp</dimen>
     <dimen name="div_height">0.5dp</dimen>
     <!--登录按钮平移距离-->
     <dimen name="translation_x">20dp</dimen>
