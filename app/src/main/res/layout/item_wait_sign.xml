@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/view_bg">
+
+    <TextView
+        android:id="@+id/tv_carriage_code"
+        style="@style/txt_title_15"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="12dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/wait_sign_carriage_code"
+        android:textSize="@dimen/text_size_17" />
+
+    <View
+        android:id="@+id/div1"
+        style="@style/line_solid_padding_left_style"
+        android:layout_below="@+id/tv_carriage_code" />
+
+    <Button
+        android:id="@+id/btn_sign"
+        style="@style/btn_red4"
+        android:layout_width="66dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/div1"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
+        android:text="@string/wait_sign_btn_sign"
+        android:textSize="@dimen/text_size_13" />
+
+    <TextView
+        android:id="@+id/tv_sign"
+        style="@style/txt_content_11"
+        android:layout_width="80dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/btn_sign"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center"
+        android:text="@string/wait_sign_scan_tag" />
+
+    <TextView
+        android:id="@+id/tv_carriage_people_name"
+        style="@style/txt_title_13"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/div1"
+        android:layout_marginLeft="12dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textSize="@dimen/text_size_17" />
+
+    <TextView
+        android:id="@+id/tv_carriage_phone"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignTop="@+id/tv_carriage_people_name"
+        android:layout_marginLeft="18dp"
+        android:layout_marginTop="10dp"
+        android:layout_toLeftOf="@+id/btn_sign"
+        android:layout_toRightOf="@+id/tv_carriage_people_name"
+        android:autoLink="phone"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/text_blue"
+        android:textColorLink="@color/text_blue"
+        android:textSize="@dimen/text_size_17" />
+
+    <View
+        android:id="@+id/div2"
+        style="@style/line_solid_padding_left_style"
+        android:layout_below="@+id/tv_carriage_people_name" />
+
+    <TextView
+        android:id="@+id/tv_seal_tags"
+        style="@style/txt_title_13"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@id/div2"
+        android:layout_marginLeft="12dp"
+        android:ellipsize="end"
+        android:text="@string/wait_sign_seal_tags"
+        android:gravity="center_vertical"
+        android:singleLine="true"/>
+
+    <View
+        android:id="@+id/div3"
+        style="@style/line_solid_padding_left_style"
+        android:layout_below="@+id/tv_seal_tags"
+        android:layout_marginLeft="0dp" />
+
+    <cn.com.bluemoon.delivery.ui.NoScrollListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/div3"
+        android:divider="@drawable/div_left_padding_12"
+        android:dividerHeight="@dimen/div_height"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/page_bg_f2"
+        android:layout_below="@+id/lv" />
+</RelativeLayout>
+

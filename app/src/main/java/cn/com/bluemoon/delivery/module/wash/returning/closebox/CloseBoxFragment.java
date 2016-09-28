@@ -134,6 +134,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         pageFlag = 0;
         ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox, getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
+        setAmount();
     }
 
     @Override
@@ -150,7 +151,6 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         super.showEmptyView();
         // 可在此处设置head等
         setHeadViewVisibility(View.VISIBLE);
-        getBaseTabActivity().setAmount(0, 0);
     }
 
     @Override
@@ -166,7 +166,6 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         // 列表数据刷新，如可在此处设置head等
         setHeadViewVisibility(View.VISIBLE);
         setHeadCOntent(totalCount, waitInbox, waitInboxCount);
-        getBaseTabActivity().setAmount(0, waitInboxCount);
     }
 
     @Override

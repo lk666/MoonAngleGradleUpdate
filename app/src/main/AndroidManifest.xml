@@ -420,18 +420,14 @@
             android:name=".module.wash.returning.manager.CustomerRefuseActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
         <activity
             android:name=".module.wash.returning.manager.RefuseDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
         <activity
             android:name=".module.wash.returning.manager.DeliveryDetailActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-
-
+            android:theme="@style/App.Base.Theme" />
 
         <service android:name=".module.card.LocationSvc" />
 
@@ -570,6 +566,18 @@
             android:name=".module.wash.returning.closebox.CloseBoxListActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".module.wash.returning.transportreceive.TransportReceiveTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.transportreceive.ScanReceiveSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity 
+            android:name=".module.wash.returning.driver.HistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
     </application>
 
 </manifest>

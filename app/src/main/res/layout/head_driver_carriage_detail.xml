@@ -12,7 +12,6 @@
         android:gravity="center_vertical"
         android:textColor="@color/text_black"
         android:textSize="@dimen/text_size_17"
-        android:text="@string/driver_transport_code"
         />
     <View
         android:id="@+id/line"
@@ -29,7 +28,6 @@
         android:layout_marginLeft="12dp"
         android:textColor="@color/text_black_light"
         android:textSize="@dimen/text_size_13"
-        android:text="@string/driver_box_num"
         />
 
     <TextView
@@ -41,7 +39,10 @@
         android:layout_marginLeft="125dp"
         android:textColor="@color/text_black_light"
         android:textSize="@dimen/text_size_13"
-        android:text="@string/driver_real_box_num"
         />
+
+    <View style="@style/line_solid_f2_style"
+        android:layout_height="2dp"
+        android:layout_below="@id/txt_box_num"/>
 
 </RelativeLayout>

@@ -214,7 +214,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         }
 
         if (amount > 0) {
-            amountTvs.get(index).setText(String.valueOf(amount));
+            amountTvs.get(index).setText(amount<100?String.valueOf(amount):"99+");
             amountTvs.get(index).setVisibility(View.VISIBLE);
         } else {
             amountTvs.get(index).setVisibility(View.GONE);
@@ -298,7 +298,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
      */
     final public void getAmount() {
         if(getModeType()!=null){
-            ReturningApi.queryCornerNum(getToken(), getModeType().name(), getNewHandler(REQUESTCODE_MODE, ResultCornerNum.class));
+            ReturningApi.queryCornerNum(getModeType().name(),getToken(), getNewHandler(REQUESTCODE_MODE, ResultCornerNum.class));
         }
     }
 
@@ -318,8 +318,9 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         if(requestCode == REQUESTCODE_MODE){
             List<CornerNum> list = ((ResultCornerNum) resultBase).getModelCountList();
             String[] strs = getModeType().getStrs();
+            int size = strs.length;
             for (CornerNum item : list) {
-                for (int i=0;i<strs.length;i++) {
+                for (int i=0;i<size;i++) {
                     if (strs[i].equals(item.getType())) {
                         setAmount(i, item.getTypeCount());
                     }

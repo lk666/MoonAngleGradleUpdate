@@ -1,10 +1,12 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.closebox;
 
+import java.io.Serializable;
+
 /**
  * {@link ResultCloseBoxHistoryList#tagList}数据项
  * Created by lk on 2016/9/14.
  */
-public class TagItem {
+public class TagItem implements Serializable {
     /**
      * 还衣单数量
      */

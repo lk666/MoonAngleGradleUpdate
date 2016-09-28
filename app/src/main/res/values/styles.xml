@@ -86,6 +86,13 @@
         <item name="android:layerType">software</item>
     </style>
 
+    <!-- listView 分割线 -->
+    <style name="line_solid_f2_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">8dp</item>
+        <item name="android:background">@color/page_bg_f2</item>
+    </style>
+
     <style name="row_style_no_padding">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">44dp</item>

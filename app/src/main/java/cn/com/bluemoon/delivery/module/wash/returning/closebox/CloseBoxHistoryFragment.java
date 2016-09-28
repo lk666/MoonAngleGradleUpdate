@@ -60,7 +60,7 @@ public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        SingleTimerFilterWindow popupWindow = new SingleTimerFilterWindow(getActivity(), new
+        SingleTimerFilterWindow popupWindow = new SingleTimerFilterWindow(getActivity(), opTime, new
                 SingleTimerFilterWindow.FilterListener() {
                     @Override
                     public void onOkClick(long time) {
