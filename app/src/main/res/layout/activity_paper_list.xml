@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fefefe"
+    android:background="@drawable/view_bg"
     android:orientation="horizontal">
 
         <ListView
@@ -23,7 +23,6 @@
             android:layout_height="match_parent"
             android:layout_weight="1"
             android:groupIndicator="@null"
-            android:background="#fefefe"
             android:cacheColorHint="#00000000"
             android:divider="@color/line_soild_bg"
             android:dividerHeight="0.5dp"
@@ -38,7 +37,6 @@
             android:scrollbars="none"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:background="#fefefe"
             android:fadingEdge="none"
             ptr:ptrMode="both"
             ptr:ptrAnimationStyle="flip"
