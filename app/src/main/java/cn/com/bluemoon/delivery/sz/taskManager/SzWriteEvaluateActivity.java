@@ -16,7 +16,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -25,10 +24,10 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.List;
 
 import butterknife.Bind;
@@ -330,7 +329,13 @@ public class SzWriteEvaluateActivity extends BaseActivity {
         }
 
         if (isFirstLayoutBtns) {
-            layoutBottomBtnArea();
+            mHandle.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    layoutBottomBtnArea();
+                }
+            }, 100);
+
             isFirstLayoutBtns = false;
         }
 
@@ -469,9 +474,7 @@ public class SzWriteEvaluateActivity extends BaseActivity {
             default:
                 break;
         }
-
     }
-
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
@@ -526,14 +529,35 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     public int getLayoutHeight() {
         Rect frame = new Rect();
         getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-        int statusBarHeight = frame.top;
-        int titleBar_height = measureViewHeight(getActionBar().getCustomView());
+//        int statusBarHeight = frame.top;
+//        int statusBarHeight = UIUtil.getNavigationBarHeight(this);
+        int statusBarHeight = getStatusBarHeight(this);
+//        int titleBar_height = measureViewHeight(getActionBar().getCustomView());
+        int titleBar_height = getActionBar().getHeight();
         int rl_user_data_height = measureViewHeight(rl_user_data);
-        int user_task_lv_height = getListviewTotalHeight(user_task_lv);
+//        int user_task_lv_height = getListviewTotalHeight(user_task_lv);
+        int user_task_lv_height = evaluateadapter.getItemsTotalHeight() + (user_task_lv.getDividerHeight() * (evaluateadapter.getCount() - 1));
         int ll_bottom_btn_area_height = measureViewHeight(btnAreaLl);
-        int totalHeight = statusBarHeight + titleBar_height + rl_user_data_height + user_task_lv_height + ll_bottom_btn_area_height * 2 + DisplayUtil.dip2px(this, 10);
+        int totalHeight = statusBarHeight + titleBar_height + rl_user_data_height + user_task_lv_height + ll_bottom_btn_area_height + DisplayUtil.dip2px(this, 10);
         LogUtil.i("statusBarHeight:" + statusBarHeight + "--titleBar_height:" + titleBar_height + "--rl_user_data_height:" + rl_user_data_height + "--user_task_lv_height:" + user_task_lv_height + "--ll_bottom_btn_area_height:" + ll_bottom_btn_area_height);
         return totalHeight;
+    }
+
+    public static int getStatusBarHeight(Context context) {
+        Class<?> c = null;
+        Object obj = null;
+        Field field = null;
+        int x = 0, statusBarHeight = 0;
+        try {
+            c = Class.forName("com.android.internal.R$dimen");
+            obj = c.newInstance();
+            field = c.getField("status_bar_height");
+            x = Integer.parseInt(field.get(obj).toString());
+            statusBarHeight = context.getResources().getDimensionPixelSize(x);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return statusBarHeight;
     }
 
     private int measureViewHeight(View view) {
@@ -544,17 +568,33 @@ public class SzWriteEvaluateActivity extends BaseActivity {
     }
 
     public int getListviewTotalHeight(ListView listView) {
-        ListAdapter listAdapter = listView.getAdapter();
-        if (listAdapter == null) {
+//        ListAdapter listAdapter = listView.getAdapter();
+//        if (listAdapter == null) {
+//            return 0;
+//        }
+//        int totalHeight = 0;
+//        for (int i = 0; i < listAdapter.getCount(); i++) {
+//            View listItem = listAdapter.getView(i, null, listView);
+//            listItem.measure(0, 0);
+//            totalHeight += listItem.getMeasuredHeight();
+//        }
+//        return totalHeight;
+
+//        ListAdapter mAdapter = listView.getAdapter();
+        if (evaluateadapter == null) {
             return 0;
         }
         int totalHeight = 0;
-        for (int i = 0; i < listAdapter.getCount(); i++) {
-            View listItem = listAdapter.getView(i, null, listView);
-            listItem.measure(0, 0);
-            totalHeight += listItem.getMeasuredHeight();
+        for (int i = 0; i < evaluateadapter.getCount(); i++) {
+            View mView = evaluateadapter.getView(i, null, listView);
+            mView.measure(
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                    View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+//            totalHeight += mView.getMeasuredHeight() + DisplayUtil.dip2px(listView.getContext(), 20);
+            totalHeight += mView.getMeasuredHeight();
         }
-        return totalHeight;
+        int totalheight = totalHeight + (listView.getDividerHeight() * (evaluateadapter.getCount() - 1));
+        return totalheight;
     }
 
     @Override

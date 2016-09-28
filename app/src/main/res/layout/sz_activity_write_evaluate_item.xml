@@ -382,10 +382,11 @@
         <RelativeLayout
             android:id="@+id/do_evaluate_content_rl"
             android:layout_width="match_parent"
-            android:layout_height="44dp"
+            android:layout_height="wrap_content"
             android:paddingRight="@dimen/space_15">
 
             <TextView
+                android:id="@+id/evaluate_content_left_label"
                 android:layout_width="65dp"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -405,15 +406,18 @@
 
             <TextView
                 android:id="@+id/do_evaluate_content_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_toLeftOf="@+id/evaluate_content_right_icon"
+                android:layout_toRightOf="@+id/evaluate_content_left_label"
                 android:ellipsize="end"
-                android:gravity="center"
-                android:maxLines="3"
-                android:maxWidth="200dp"
-                android:text="@string/sz_do_task_evaluate_content_label2"
+                android:hint="@string/sz_do_task_evaluate_content_label2"
+                android:textColorHint="@color/gray_deep"
+                android:gravity="right|center"
+                android:paddingBottom="8dp"
+                android:paddingTop="8dp"
+                android:text=""
                 android:textColor="@color/gray_deep"
                 android:textSize="@dimen/text_size_12" />
 
