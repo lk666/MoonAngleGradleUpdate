@@ -36,7 +36,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
 
     private static final String EXTRA_BOX_CODE = "EXTRA_BOX_CODE";
     private static final int REQUEST_CODE_QUERY_LIST = 0x777;
-    private static final int REQUEST_CODE_SCANE_CODE = 0x778;
+    private static final int REQUEST_CODE_SCAN_CODE = 0x778;
     @Bind(R.id.tv_count)
     TextView tvCount;
     @Bind(R.id.btn_print_tag)
@@ -149,17 +149,19 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
             // TODO: lk 2016/9/28 打印封箱条
             case R.id.btn_print_tag:
                 break;
-            // todo 扫描封箱条
+            // 扫描封箱条
             case R.id.btn_scan:
+                ScanCloseBoxSignActivity.actionStart(this, null, REQUEST_CODE_SCAN_CODE,
+                        boxCode, list);
                 break;
         }
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // todo 扫码返回
-        if (requestCode == REQUEST_CODE_SCANE_CODE) {
-
+        //  扫码完成
+        if (requestCode == REQUEST_CODE_SCAN_CODE && resultCode == RESULT_OK) {
+            finish();
         }
     }
 

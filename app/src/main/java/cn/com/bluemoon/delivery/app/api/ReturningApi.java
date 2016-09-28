@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.app.api;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -615,6 +616,24 @@ public class ReturningApi extends DeliveryApi {
         params.put("sginFinishTime", sginFinishTime);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/carriageReceive/queryReceiveHistoryList%s", handler);
+    }
+
+    /**
+     * 4.4封箱-扫描封箱标签
+     *
+     * @param boxCode     衣物箱号 String
+     * @param tagCodeList 封箱条码 List<String>
+     * @param token       登录凭证(必填) String
+     */
+    public static void scanCloseBoxSign(String boxCode, ArrayList<String> tagCodeList, String token, AsyncHttpResponseHandler handler) {
+        if (null == boxCode || null == tagCodeList || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("boxCode", boxCode);
+        params.put("tagCodeList", tagCodeList);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/scanCloseBoxSign%s", handler);
     }
 
 }

@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.closebox;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 
 /**
@@ -43,6 +45,19 @@ public class CloseBoxTag implements Serializable {
      * 村
      */
     private String village;
+    /**
+     * 是否已被扫描
+     */
+    @JSONField(serialize = false)
+    private boolean isScaned = false;
+
+    public boolean isScaned() {
+        return isScaned;
+    }
+
+    public void setScaned(boolean scaned) {
+        isScaned = scaned;
+    }
 
     public String getAddress() {
         return address;

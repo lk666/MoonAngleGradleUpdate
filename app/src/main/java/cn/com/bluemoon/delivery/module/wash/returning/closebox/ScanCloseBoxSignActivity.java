@@ -10,18 +10,19 @@ import java.util.ArrayList;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.closebox.CloseBoxTag;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 
 /**
  * 扫描还衣单标签
  */
-public class ScanBackOrderActivity extends BaseScanCodeActivity {
+public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
 
     public static final String EXTRA_LIST = "LIST";
     private static final int REQUEST_CODE = 0x777;
     private static final String EXTRA_BOX_CODE = "EXTRA_BOX_CODE";
 
-    private ArrayList<BackOrderItem> list = new ArrayList<>();
+    private ArrayList<CloseBoxTag> list = new ArrayList<>();
     private String boxCode;
     private String backOrderCode;
 
@@ -29,12 +30,12 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
      * 扫描界面调起方法
      */
     public static void actionStart(Activity context, Fragment fragment, int requestCode,
-                                   String boxCode, ArrayList<BackOrderItem> list) {
-        Intent intent = new Intent(context, ScanBackOrderActivity.class);
+                                   String boxCode, ArrayList<CloseBoxTag> list) {
+        Intent intent = new Intent(context, ScanCloseBoxSignActivity.class);
         intent.putExtra("title", context.getString(R.string
-                .close_box_scan_back_code_title));
+                .close_box_tag_scan_tag));
         intent.putExtra("code", context.getString(R.string
-                .close_box_scan_back_code));
+                .close_box_scan_tag_code));
         intent.putExtra("btnString", context.getString(R.string
                 .with_order_collect_manual_input_code_btn));
         intent.putExtra(EXTRA_LIST, list);
@@ -50,7 +51,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         if (getIntent().hasExtra(EXTRA_LIST)) {
-            list = (ArrayList<BackOrderItem>) getIntent().getSerializableExtra(EXTRA_LIST);
+            list = (ArrayList<CloseBoxTag>) getIntent().getSerializableExtra(EXTRA_LIST);
         }
         if (getIntent().hasExtra(EXTRA_BOX_CODE)) {
             boxCode = getIntent().getStringExtra(EXTRA_BOX_CODE);
@@ -66,34 +67,12 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
         if (check(str)) {
             // 服务端校验
             showWaitDialog();
-            backOrderCode = str;
-            ReturningApi.scanBackOrder(str, boxCode, getToken(), getNewHandler
-                    (REQUEST_CODE, ResultBase.class));
-        } else {
-            checkFinished();
-        }
-    }
-
-    @Override
-    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        for (BackOrderItem item : list) {
-            if (item.code.equals(backOrderCode)) {
-                item.state = 1;
-                break;
+            ArrayList<String> l = new ArrayList<>();
+            for (CloseBoxTag tag : list) {
+                l.add(tag.getTagCode());
             }
-        }
-
-        toast(getString(R.string.scan_succeed));
-        checkFinished();
-    }
-
-    /**
-     * 判断是否已完成
-     */
-    private void checkFinished() {
-        if (isScanFinished()) {
-            toast(getString(R.string.scan_finish));
-            finish();
+            ReturningApi.scanCloseBoxSign(boxCode, l, getToken(), getNewHandler
+                    (REQUEST_CODE, ResultBase.class));
         } else {
             startDelay();
         }
@@ -102,33 +81,40 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     /**
      * 本地检查
      *
-     * @return 是否继续服务端校验
+     * @return 是否已完成本地校验
      */
     private boolean check(String code) {
+        // 扫的码是否正确
         boolean isIn = false;
-        for (BackOrderItem item : list) {
-            if (item.code.equals(code)) {
+        for (CloseBoxTag item : list) {
+            if (item.getTagCode().equals(code)) {
                 isIn = true;
-                if (item.state == 1) {
-                    toast(getString(R.string.duplicate_code));
+                if (item.isScaned()) {
+                    toast(getString(R.string.duplicate_tag_code));
                     return false;
                 }
+                item.setScaned(true);
                 break;
             }
         }
         if (!isIn) {
-            toast(getString(R.string.not_in_code));
+            toast(getString(R.string.not_in_tag_code));
             return false;
         }
-        return true;
+
+
+        toast(String.format(getString(R.string.close_box_success), code));
+
+        // 是否全部扫完
+        return isScanFinished();
     }
 
     /**
      * 是否已完成扫描
      */
     private boolean isScanFinished() {
-        for (BackOrderItem item : list) {
-            if (item.state != 1) {
+        for (CloseBoxTag item : list) {
+            if (!item.isScaned()) {
                 return false;
             }
         }
@@ -136,10 +122,9 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     }
 
     @Override
-    public void finish() {
-        Intent i = new Intent();
-        i.putExtra(EXTRA_LIST, list);
-        setResult(Activity.RESULT_OK, i);
-        super.finish();
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        toast(getString(R.string.close_box_finish));
+        setResult(RESULT_OK);
+        finish();
     }
 }

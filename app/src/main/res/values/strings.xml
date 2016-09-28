@@ -866,7 +866,7 @@
     <string name="total_amount2">共%s单</string>
     <string name="code_scan">请扫描</string>
 
-    <!--待封箱-->
+    <!--车辆承运封箱-->
     <string name="close_box_title">待封箱</string>
     <string name="close_box_history">历史</string>
     <string name="close_box_pending_box">待封箱：%s</string>
@@ -898,6 +898,12 @@
     <string name="close_box_tag_print_tag">打印封箱条</string>
     <string name="close_box_tag_scan_tag">扫描封箱标签</string>
     <string name="close_box_detail_tag_code">封 箱 条 码：</string>
+    <string name="close_box_scan_tag_code">箱内的封箱标签</string>
+    <string name="duplicate_tag_code">该封箱标签重复扫描</string>
+    <string name="not_in_tag_code"> 当前所扫标签错误，请扫描正确封箱标签</string>
+    <string name="close_box_finish">封箱成功</string>
+    <string name="close_box_success">封箱条%s扫描成功</string>
+
 
     <!--入柜-->
     <string name="incabinet_cloth_title">扫描衣物编码</string>
