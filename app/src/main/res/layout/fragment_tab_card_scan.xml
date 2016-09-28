@@ -98,7 +98,7 @@
                 android:layout_below="@id/txt_scan"
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/txt_scan_go"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/btn_right_go" />
 
         </RelativeLayout>
@@ -155,7 +155,7 @@
                 android:layout_below="@id/txt_input"
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/txt_input_go"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/btn_right_go" />
 
         </RelativeLayout>
@@ -213,7 +213,7 @@
                 android:layout_below="@id/txt_reset"
                 android:layout_marginTop="8dp"
                 android:layout_toRightOf="@id/txt_reset_go"
-                android:scaleType="centerCrop"
+                android:scaleType="fitCenter"
                 android:src="@mipmap/btn_right_go" />
 
         </RelativeLayout>

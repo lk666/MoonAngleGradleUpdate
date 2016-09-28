@@ -178,10 +178,10 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
                     layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_border_grey_alarm));
                 }
 
-                txtAlarmTime.setTextColor(getResources().getColor(R.color.text_grep));
-                txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep));
-                txtAlert.setTextColor(getResources().getColor(R.color.text_grep));
-                txtRepeat.setTextColor(getResources().getColor(R.color.text_grep));
+                txtAlarmTime.setTextColor(getResources().getColor(R.color.text_grep_a));
+                txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep_a));
+                txtAlert.setTextColor(getResources().getColor(R.color.text_grep_a));
+                txtRepeat.setTextColor(getResources().getColor(R.color.text_grep_a));
             }
 
 

@@ -113,7 +113,7 @@ public class ResetPswActivity extends BaseActivity {
             ResultVailCode vailCodeResult = (ResultVailCode) result;
             toast(vailCodeResult.getResponseMsg());
             startTime(vailCodeResult.getTime());
-        }else if(requestCode == 1){
+        }else{
             txtToast.setText(result.getResponseMsg());
             ViewUtil.showSubmitAmin(btnSubmit, txtToast);
         }
