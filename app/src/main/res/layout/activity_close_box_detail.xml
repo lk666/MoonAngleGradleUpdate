@@ -22,7 +22,5 @@
         android:layout_height="match_parent"
         android:cacheColorHint="@color/transparent"
         android:dividerHeight="0dp"
-        android:footerDividersEnabled="false"
-        android:headerDividersEnabled="false"
         android:listSelector="@drawable/view_bg" />
 </LinearLayout>
