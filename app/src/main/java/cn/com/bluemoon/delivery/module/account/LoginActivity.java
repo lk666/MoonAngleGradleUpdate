@@ -112,7 +112,6 @@ public class LoginActivity extends BaseActivity {
             ViewUtil.showSubmitAmin(btnLogin, txtToast);
             return;
         }
-        showWaitDialog();
         DeliveryApi.ssoLogin(name, psw, getNewHandler(0, ResultToken.class));
     }
 

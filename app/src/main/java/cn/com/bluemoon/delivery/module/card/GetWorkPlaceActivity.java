@@ -40,7 +40,7 @@ public class GetWorkPlaceActivity extends BaseActivity implements OnListItemClic
     @Bind(R.id.search_view)
     CommonSearchView searchView;
     @Bind(R.id.listView_history)
-    ListView listViewHistory;
+    PullToRefreshListView listViewHistory;
     @Bind(R.id.listview_workplace)
     PullToRefreshListView listviewWorkplace;
     private GetWordPlaceAdapter getWordPlaceAdapter;
