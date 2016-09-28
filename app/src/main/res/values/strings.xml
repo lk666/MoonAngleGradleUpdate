@@ -897,6 +897,7 @@
     <string name="close_box_tag_count">收衣来源数量：%s</string>
     <string name="close_box_tag_print_tag">打印封箱条</string>
     <string name="close_box_tag_scan_tag">扫描封箱条</string>
+    <string name="close_box_detail_tag_code">封 箱 条 码：</string>
 
     <!--入柜-->
     <string name="incabinet_cloth_title">扫描衣物编码</string>
@@ -954,5 +955,12 @@
     <string name="sign_history_total">共%s箱</string>
     <string name="sign_history_back_orderNum">还衣单数量：</string>
     <string name="sign_history_receiver">签收人：%s</string>
-    
+
+
+
+    <!--还衣单打包-->
+    <string name="pack_menu_name">还衣单打包</string>
+    <string name="title_pack">待打包</string>
+    <string name="title_box">待装箱</string>
+    <string name="title_history">历史</string>
 </resources>

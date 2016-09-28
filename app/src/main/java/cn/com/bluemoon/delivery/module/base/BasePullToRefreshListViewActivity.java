@@ -47,7 +47,7 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
         List dataList = getGetMoreList(result);
         // 判断数据是否为空
         if (dataList == null || dataList.isEmpty()) {
-//                    showEmptyView();
+            toast(getString(R.string.card_no_list_data));
         } else {
             setGetMoreList(dataList);
         }
@@ -96,7 +96,10 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
     final protected List<ITEM> getList() {
         return list;
     }
-    final protected ADAPTER getAdapter() { return adapter;}
+
+    final protected ADAPTER getAdapter() {
+        return adapter;
+    }
 
     ///////////// 可选重写 ////////////////
 

@@ -513,24 +513,6 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 4.7获取封箱详情
-     *
-     * @param tagCode 封箱条码 String
-     * @param token   登录凭证(必填) String
-     */
-    public static void queryCloseBoxDetail(String tagCode, String token, AsyncHttpResponseHandler
-            handler) {
-        if (null == tagCode || null == token) {
-            return;
-        }
-        Map<String, Object> params = new HashMap<>();
-        params.put("tagCode", tagCode);
-        params.put(TOKEN, token);
-        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxDetail%s",
-                handler);
-    }
-
-    /**
      * 4.2获取衣物箱还衣单列表(扫描)
      *
      * @param boxCode 衣物箱号(必填) String
