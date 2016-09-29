@@ -16,7 +16,7 @@ import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 
 /**
- * 扫描还衣单标签
+ * 扫描封箱标签
  */
 public class ScanReceiveSignActivity extends BaseScanCodeActivity {
 

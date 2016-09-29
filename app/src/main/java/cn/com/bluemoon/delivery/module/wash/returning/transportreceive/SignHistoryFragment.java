@@ -228,6 +228,13 @@ public class SignHistoryFragment extends BasePullToRefreshListViewFragment {
             TextView tvReceiverSignTime = getViewById(R.id.tv_receiver_sign_time);
             TextView tvReceiver = getViewById(R.id.tv_receiver);
 
+            View div = getViewById(R.id.div);
+
+            if (position < getCount() - 1) {
+                div.setVisibility(View.VISIBLE);
+            } else {
+                div.setVisibility(View.GONE);
+            }
 
             tvBackOrderNum.setText(String.valueOf(item.getBackOrderNum()));
             tvTagCode.setText(String.format(getString(R.string.wait_sign_tag_code),
