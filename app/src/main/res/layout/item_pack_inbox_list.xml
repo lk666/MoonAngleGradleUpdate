@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/view_bg"
+    >
+    <TextView
+        android:id="@+id/txt_back_code"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginLeft="12dp"
+        android:gravity="center_vertical"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_size_17"
+        />
+    <View
+        android:id="@+id/line"
+        style="@style/line_solid_style"
+        android:layout_marginLeft="12dp"
+        android:layout_below="@id/txt_back_code"/>
+
+    <TextView
+        android:id="@+id/txt_box"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_below="@id/line"
+        android:gravity="center"
+        android:layout_marginLeft="12dp"
+        android:textColor="@color/text_black_light"
+        android:text="@string/pack_inbox_box_code"
+        android:textSize="@dimen/text_size_15"
+        />
+
+    <TextView
+        android:id="@+id/txt_box_code"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_below="@id/line"
+        android:gravity="center_vertical"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:textColor="@color/text_black_light"
+        android:textSize="@dimen/text_size_15"
+        />
+
+    <View style="@style/line_solid_f2_style"
+        android:layout_height="@dimen/div_height_8"
+        android:layout_below="@id/txt_box"/>
+
+</RelativeLayout>

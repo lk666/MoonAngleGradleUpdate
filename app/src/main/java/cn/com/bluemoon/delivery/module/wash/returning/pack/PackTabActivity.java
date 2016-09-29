@@ -22,10 +22,9 @@ public class PackTabActivity extends BaseTabActivity {
         tabs.add(new TabState(CloseBoxFragment.class,
                 R.drawable.tab_pack_selector,
                 R.string.title_pack));
-        tabs.add(new TabState(CloseBoxHistoryFragment.class,
+        tabs.add(new TabState(WaitInboxFragment.class,
                 R.drawable.tab_box_selector,
                 R.string.title_box));
-
         tabs.add(new TabState(CloseBoxHistoryFragment.class,
                 R.drawable.tab_history,
                 R.string.title_history));
@@ -34,6 +33,6 @@ public class PackTabActivity extends BaseTabActivity {
 
     @Override
     protected WashModeType getModeType() {
-        return WashModeType.CLOSE_BOX_MODEL;
+        return WashModeType.CABINET_BACK_ORDER_MODEL;
     }
 }
