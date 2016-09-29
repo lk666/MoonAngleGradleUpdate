@@ -52,13 +52,12 @@
     <LinearLayout
         android:id="@+id/layout_scan"
         android:layout_width="match_parent"
-
         android:layout_height="0dp"
         android:layout_weight="1"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/btn_background_punch"
+        android:background="@mipmap/icon_mask"
         android:gravity="center">
 
         <ImageView
@@ -115,7 +114,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
-        android:background="@drawable/btn_background_punch"
+        android:background="@mipmap/icon_mask"
         android:gravity="center">
 
         <ImageView
@@ -173,7 +172,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="15dp"
         android:layout_marginBottom="20dp"
-        android:background="@drawable/btn_background_punch"
+        android:background="@mipmap/icon_mask"
         android:gravity="center">
 
         <ImageView

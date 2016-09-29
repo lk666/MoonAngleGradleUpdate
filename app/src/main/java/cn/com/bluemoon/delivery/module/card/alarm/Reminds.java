@@ -99,7 +99,7 @@ public class Reminds {
      */
     public static long setAlarm(Context context, Remind alarm) {
 
-        LogUtils.d("setAlarm", String.format("Remind id {}  is {}", alarm.getRemindId(), !alarm.isClose));
+        LogUtils.d("setAlarm", String.format("Remind id %s  is %s}", alarm.getRemindId(), !alarm.isClose));
         long timeInMillis = calculateAlarm(alarm);
         ContentValues values = createContentValues(alarm);
         ContentResolver resolver = context.getContentResolver();
@@ -139,7 +139,7 @@ public class Reminds {
 
     public static void enableAlarm(
             final Context context, final long id, boolean enabled) {
-        LogUtils.d("enableAlarm", String.format("Remind id {}  is {}", id, enabled));
+        LogUtils.d("enableAlarm", String.format("Remind id %s  is %s", id, enabled));
         enableAlarmInternal(context, id, enabled);
         setNextAlert(context);
 
