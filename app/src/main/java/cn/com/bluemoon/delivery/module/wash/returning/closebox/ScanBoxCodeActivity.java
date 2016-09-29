@@ -22,7 +22,6 @@ public class ScanBoxCodeActivity extends BaseScanCodeActivity {
                 boxCode, ScanBoxCodeActivity.class, requestCode);
     }
 
-
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
         if (str != null && str.equals(getCode())) {

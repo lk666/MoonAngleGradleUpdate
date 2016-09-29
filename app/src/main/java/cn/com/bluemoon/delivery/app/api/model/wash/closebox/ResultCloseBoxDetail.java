@@ -15,25 +15,9 @@ public class ResultCloseBoxDetail extends ResultBase {
      */
     private int backOrderNum;
     /**
-     * 衣物总数量
+     * 衣物箱号
      */
-    private int clothesNum;
-    /**
-     * 收衣来源
-     */
-    private String clothesSource;
-    /**
-     * 封箱人
-     */
-    private String opName;
-    /**
-     * 封箱时间
-     */
-    private long opTime;
-    /**
-     * 还衣方式
-     */
-    private String outWays;
+    private String boxCode;
     /**
      * 详细地址
      */
@@ -58,19 +42,10 @@ public class ResultCloseBoxDetail extends ResultBase {
      * 乡
      */
     private String streetVillage;
-
     /**
-     * 衣物箱号
+     * 封箱标签
      */
-    private String boxCode;
-
-    public String getBoxCode() {
-        return boxCode;
-    }
-
-    public void setBoxCode(String boxCode) {
-        this.boxCode = boxCode;
-    }
+    private String tagCode;
 
     public int getBackOrderNum() {
         return backOrderNum;
@@ -80,44 +55,12 @@ public class ResultCloseBoxDetail extends ResultBase {
         this.backOrderNum = backOrderNum;
     }
 
-    public int getClothesNum() {
-        return clothesNum;
+    public String getBoxCode() {
+        return boxCode;
     }
 
-    public void setClothesNum(int clothesNum) {
-        this.clothesNum = clothesNum;
-    }
-
-    public String getClothesSource() {
-        return clothesSource;
-    }
-
-    public void setClothesSource(String clothesSource) {
-        this.clothesSource = clothesSource;
-    }
-
-    public String getOpName() {
-        return opName;
-    }
-
-    public void setOpName(String opName) {
-        this.opName = opName;
-    }
-
-    public long getOpTime() {
-        return opTime;
-    }
-
-    public void setOpTime(long opTime) {
-        this.opTime = opTime;
-    }
-
-    public String getOutWays() {
-        return outWays;
-    }
-
-    public void setOutWays(String outWays) {
-        this.outWays = outWays;
+    public void setBoxCode(String boxCode) {
+        this.boxCode = boxCode;
     }
 
     public String getSourceAddress() {
@@ -166,5 +109,13 @@ public class ResultCloseBoxDetail extends ResultBase {
 
     public void setStreetVillage(String streetVillage) {
         this.streetVillage = streetVillage;
+    }
+
+    public String getTagCode() {
+        return tagCode;
+    }
+
+    public void setTagCode(String tagCode) {
+        this.tagCode = tagCode;
     }
 }

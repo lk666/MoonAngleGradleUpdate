@@ -78,7 +78,7 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
     protected void setActionBar(CommonActionBar titleBar) {
         titleBar.getImgLeftView().setVisibility(View.GONE);
 
-        titleBar.getImgRightView().setImageResource(R.mipmap.ewmtxm);
+        titleBar.getImgRightView().setImageResource(R.mipmap.ic_scan);
         titleBar.getImgRightView().setVisibility(View.VISIBLE);
     }
 
@@ -109,6 +109,24 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
         setData(obj);
     }
 
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        super.onSuccessException(requestCode, t);
+        finish();
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        finish();
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        finish();
+    }
+
     private void setData(ResultClothesBoxBackOrderList result) {
         if (result == null) {
             return;
@@ -136,7 +154,11 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
     @OnClick(R.id.btn_print)
     public void onClick() {
         // 打印封箱条
-        CloseBoxListActivity.actionStart(this, boxCode);
+        ArrayList<String> l = new ArrayList<>();
+        for (BackOrderItem order : list) {
+            l.add(order.code);
+        }
+        CloseBoxListActivity.actionStart(this, boxCode, l);
         finish();
     }
 

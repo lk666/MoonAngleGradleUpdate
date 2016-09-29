@@ -24,7 +24,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 /**
- * 待封箱界面
+ * 待签收界面
  * Created by lk on 2016/9/14.
  */
 public class WaitSignFragment extends BasePullToRefreshListViewFragment {

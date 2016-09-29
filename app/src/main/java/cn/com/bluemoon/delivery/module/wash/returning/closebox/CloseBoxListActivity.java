@@ -37,6 +37,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
     private static final String EXTRA_BOX_CODE = "EXTRA_BOX_CODE";
     private static final int REQUEST_CODE_QUERY_LIST = 0x777;
     private static final int REQUEST_CODE_SCAN_CODE = 0x778;
+    private static final String EXTRA_LIST = "EXTRA_LIST";
     @Bind(R.id.tv_count)
     TextView tvCount;
     @Bind(R.id.btn_print_tag)
@@ -55,9 +56,12 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
 
     private ItemAdapter adapter;
 
-    public static void actionStart(Context context, String boxCode) {
+    private ArrayList<String> backOrderCodes = new ArrayList<>();
+
+    public static void actionStart(Context context, String boxCode, ArrayList<String> backOrderCodes) {
         Intent intent = new Intent(context, CloseBoxListActivity.class);
         intent.putExtra(EXTRA_BOX_CODE, boxCode);
+        intent.putExtra(EXTRA_LIST, backOrderCodes);
         context.startActivity(intent);
     }
 
@@ -71,6 +75,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
         if (TextUtils.isEmpty(boxCode)) {
             boxCode = "";
         }
+        backOrderCodes = getIntent().getStringArrayListExtra(EXTRA_LIST);
     }
 
     @Override
@@ -91,7 +96,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
     @Override
     public void initData() {
         showWaitDialog();
-        ReturningApi.queryCloseBoxList(boxCode, getToken(), getNewHandler
+        ReturningApi.queryCloseBoxList(backOrderCodes, boxCode, getToken(), getNewHandler
                 (REQUEST_CODE_QUERY_LIST, ResultCloseBoxList.class));
     }
 
@@ -99,24 +104,6 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ResultCloseBoxList obj = (ResultCloseBoxList) result;
         setData(obj);
-    }
-
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
-        setData(null);
-    }
-
-    @Override
-    public void onSuccessException(int requestCode, Throwable t) {
-        super.onSuccessException(requestCode, t);
-        setData(null);
-    }
-
-    @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        setData(null);
     }
 
     private void setData(ResultCloseBoxList result) {
@@ -166,9 +153,6 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
     }
 
     class ItemAdapter extends BaseListAdapter<CloseBoxTag> {
-
-        private final int IV_TAG = 0x123;
-
         public ItemAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
         }
@@ -191,11 +175,12 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
             TextView tvBoxCode = getViewById(R.id.tv_box_code);
             View div = getViewById(R.id.div);
 
-            tvIndex.setText(String.format("%s/%s", position, getCount()));
+            tvIndex.setText(String.format("%s/%s", position + 1, getCount()));
 
             tvTagCode.setText(item.getTagCode());
-            tvMainAddress.setText(String.format("%s %s /%s", item.getProvince(), item.getCity(), item.getCounty()));
-            tvDetailAddress.setText(item.getAddress());
+
+            tvMainAddress.setText(String.format("%s %s %s", item.getProvince(), item.getCity(), item.getCounty()));
+            tvDetailAddress.setText(String.format("%s%s%s", item.getStreet(), item.getVillage(), item.getAddress()));
 
             tvBackOrderNum.setText(String.format(getString(R.string.close_box_back_detail_order_num),
                     String.valueOf(item.getBackOrderNum())));
@@ -208,15 +193,15 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
                 div.setVisibility(View.GONE);
             }
 
-            ivCodeBar.setTag(IV_TAG, String.valueOf(position));
+            ivCodeBar.setTag(R.id.tag_position, String.valueOf(position));
 
             ThreadPool.PICTURE_THREAD_POOL.execute(new ExRunable(new Feedback() {
                 @Override
                 public void feedback(Object obj) {
                     if (ivCodeBar != null) {
                         ImageTag imageTag = (ImageTag) obj;
-                        if (imageTag != null && imageTag.tag.equals(ivCodeBar.getTag(IV_TAG))) {
-                            ivCodeBar.setImageBitmap((Bitmap) obj);
+                        if (imageTag != null && imageTag.tag.equals(ivCodeBar.getTag(R.id.tag_position))) {
+                            ivCodeBar.setImageBitmap(imageTag.bm);
                         }
                     }
                 }

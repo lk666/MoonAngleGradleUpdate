@@ -497,7 +497,7 @@ public class MainActivity extends SlidingActivity {
 
         UserRight item = new UserRight();
         item.setMenuCode(MenuCode.closebox.toString());
-        item.setMenuName(getString(R.string.close_box_title));
+        item.setMenuName("车辆承运封箱");
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
