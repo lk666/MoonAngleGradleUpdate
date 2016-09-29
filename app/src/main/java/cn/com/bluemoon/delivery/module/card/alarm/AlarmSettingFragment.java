@@ -114,7 +114,6 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     public void initData() {
-        ptrlv.setDividerDrawable(getResources().getDrawable(R.drawable.bg_white));
         ptrlv.setBackgroundColor(getResources().getColor(R.color.view_bg));
         adapter = getNewAdapter();
 
