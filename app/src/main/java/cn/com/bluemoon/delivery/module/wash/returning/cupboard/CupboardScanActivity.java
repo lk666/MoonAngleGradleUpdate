@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.wash.returning.incabinet;
+package cn.com.bluemoon.delivery.module.wash.returning.cupboard;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -13,15 +13,13 @@ import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.wash.driver.ClothCenter;
 import cn.com.bluemoon.delivery.app.api.model.wash.driver.DriverBox;
-import cn.com.bluemoon.delivery.app.api.model.wash.driver.DriverCarriage;
 import cn.com.bluemoon.delivery.app.api.model.wash.driver.ResultCarriageDetail;
 import cn.com.bluemoon.delivery.app.api.model.wash.incabinet.ResultCupboard;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 
 
-public class CabinetScanActivity extends BaseScanCodeActivity {
+public class CupboardScanActivity extends BaseScanCodeActivity {
 
     /*入柜扫描*/
     public final static int MODE_CABINET = 0;
@@ -37,7 +35,7 @@ public class CabinetScanActivity extends BaseScanCodeActivity {
     private ArrayList<String> tags;
 
     public static void actStart(Activity context) {
-        Intent intent = new Intent(context, CabinetScanActivity.class);
+        Intent intent = new Intent(context, CupboardScanActivity.class);
         intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cloth_title));
         intent.putExtra("mode", MODE_CABINET);
         intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
@@ -45,7 +43,7 @@ public class CabinetScanActivity extends BaseScanCodeActivity {
     }
 
     public static void actStart(Fragment fragment, String carriageAddressId, ArrayList<String> tags) {
-        Intent intent = new Intent(fragment.getActivity(), CabinetScanActivity.class);
+        Intent intent = new Intent(fragment.getActivity(), CupboardScanActivity.class);
         intent.putExtra("title", AppContext.getInstance().getString(R.string.driver_send_scan_title));
         intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_RECEIVER);
@@ -55,7 +53,7 @@ public class CabinetScanActivity extends BaseScanCodeActivity {
     }
 
     public static void actStart(Activity context, ResultCarriageDetail carriageDetail) {
-        Intent intent = new Intent(context, CabinetScanActivity.class);
+        Intent intent = new Intent(context, CupboardScanActivity.class);
         intent.putExtra("title", AppContext.getInstance().getString(R.string.driver_carriage_scan_title));
         intent.putExtra("mode", MODE_DRIVER);
         intent.putExtra("item", carriageDetail);
@@ -65,6 +63,11 @@ public class CabinetScanActivity extends BaseScanCodeActivity {
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
+        if(TextUtils.isEmpty(str)){
+            toast(getString(R.string.scan_fail));
+            startDelay();
+            return;
+        }
         switch (mode) {
             case MODE_CABINET:
                 if (TextUtils.isEmpty(cupboardCode)) {
