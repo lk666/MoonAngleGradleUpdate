@@ -203,14 +203,14 @@ public class Reminds {
                     Remind a = new Remind(cursor);
                     // A time of 0 indicates this is a repeating alarm, so
                     // calculate the time to get the next alert.
-                    if (a.getRemindTime() == 0) {
+                   // if (a.getRemindTime() == 0) {
                         a.setRemindTime(calculateAlarm(a));
-                    } else if (a.getRemindTime() < now) {
-                        LogUtils.v("calculateNextAlert", "Disabling expired alarm set for ");
-                        // Expired alarm, disable it and move along.
-                        enableAlarmInternal(context, a, false);
-                        continue;
-                    }
+//                    } else if (a.getRemindTime() < now) {
+//                        LogUtils.v("calculateNextAlert", "Disabling expired alarm set for ");
+//                        // Expired alarm, disable it and move along.
+//                        enableAlarmInternal(context, a, false);
+//                        continue;
+//                    }
                     if (a.getRemindTime() < minTime) {
                         minTime = a.getRemindTime();
                         alarm = a;

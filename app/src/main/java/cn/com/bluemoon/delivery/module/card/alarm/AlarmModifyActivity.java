@@ -246,6 +246,7 @@ public class AlarmModifyActivity extends BaseActivity {
         txtError.setText("");
         showWaitDialog();
         if (remind.getRemindId() == -1) {
+            remind.setRemindTime(Reminds.calculateAlarm(remind));
             DeliveryApi.addRemind(getToken(), remind, getNewHandler(0, ResultRemindId.class));
         } else {
             DeliveryApi.updateRemind(getToken(), remind, getNewHandler(1, ResultBase.class));
