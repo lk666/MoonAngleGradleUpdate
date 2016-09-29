@@ -553,18 +553,21 @@ public class ReturningApi extends DeliveryApi {
     /**
      * 4.3获取打印封箱条列表
      *
-     * @param boxCode 衣物箱号 String
-     * @param token   登录凭证(必填) String
+     * @param backOrderList 还衣单号列表 ArrayList<String>
+     * @param boxCode       衣物箱号 String
+     * @param token         登录凭证(必填) String
      */
-    public static void queryCloseBoxList(String boxCode, String token, AsyncHttpResponseHandler handler) {
-        if (null == boxCode || null == token) {
+    public static void queryCloseBoxList(ArrayList<String> backOrderList, String boxCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderList || null == boxCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
+        params.put("backOrderList", backOrderList);
         params.put("boxCode", boxCode);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxList%s", handler);
     }
+
 
     /**
      * 6.1获取待签收列表
@@ -634,6 +637,22 @@ public class ReturningApi extends DeliveryApi {
         params.put("tagCodeList", tagCodeList);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/closeBox/scanCloseBoxSign%s", handler);
+    }
+
+    /**
+     * 4.7获取封箱详情
+     *
+     * @param tagId 封箱id(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryCloseBoxDetail(String tagId, String token, AsyncHttpResponseHandler handler) {
+        if (null == tagId || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("tagId", tagId);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxDetail%s", handler);
     }
 
 }

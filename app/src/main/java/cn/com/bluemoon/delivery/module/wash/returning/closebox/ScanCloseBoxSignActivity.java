@@ -14,7 +14,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.closebox.CloseBoxTag;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 
 /**
- * 扫描还衣单标签
+ * 扫描还封箱标签
  */
 public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
 
@@ -24,7 +24,6 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
 
     private ArrayList<CloseBoxTag> list = new ArrayList<>();
     private String boxCode;
-    private String backOrderCode;
 
     /**
      * 扫描界面调起方法
@@ -101,7 +100,6 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
             toast(getString(R.string.not_in_tag_code));
             return false;
         }
-
 
         toast(String.format(getString(R.string.close_box_success), code));
 

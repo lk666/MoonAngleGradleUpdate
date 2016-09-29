@@ -119,8 +119,6 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
-        // ptrlv.getRefreshableView().setHeaderDividersEnabled(false); 无效
-        // ptrlv.getRefreshableView().setFooterDividersEnabled(false);
     }
 
     @Override
