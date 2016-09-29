@@ -46,13 +46,13 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 public abstract class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
         BaseMainInterface, IHttpRespone {
     @Bind(android.R.id.tabhost)
-    FragmentTabHost tabhost;
+    protected FragmentTabHost tabhost;
 
     private ProgressDialog waitDialog;
     private LayoutInflater layoutInflater;
 
     private List<TabState> tabs;
-    private List<TextView> amountTvs;
+    protected List<TextView> amountTvs;
 
     protected static void actionStart(Context context, ArrayList<TabState> tabs, Class clazz) {
         Intent intent = new Intent(context, clazz);
