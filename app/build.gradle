@@ -23,8 +23,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 19
-        versionName "4.2.2"
+        versionCode 22
+        versionName "4.3.1"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
     }
@@ -32,7 +32,7 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
-            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL", "\"http://192.168.240.15:8080/mockjsdata/27/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""
@@ -50,7 +50,7 @@ android {
         }
         release {
             buildConfigField("boolean", "RELEASE", "true")
-            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL", "\"http://192.168.240.15:8080/mockjsdata/27/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""

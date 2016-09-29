@@ -18,7 +18,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.driver.TagBox;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -87,7 +87,7 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
     @Override
     public void onItemClick(Object item, View view, int position) {
         ClothCenter clothCenter = (ClothCenter) item;
-        CabinetScanActivity.actStart(this, clothCenter.getCarriageAddressId(), getTagBoxList(clothCenter.getTagList()));
+        CupboardScanActivity.actStart(this, clothCenter.getCarriageAddressId(), getTagBoxList(clothCenter.getTagList()));
     }
 
 

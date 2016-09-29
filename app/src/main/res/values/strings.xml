@@ -28,6 +28,7 @@
     <string name="main_tab_no_data">此功能需要更新版本才能使用！</string>
 
     <string name="refreshing">努力加载中！</string>
+    <string name="scan_fail">扫描失败，请重新扫描</string>
 
     <!-- main tab -->
     <string name="main_tab_qrcode">我的二维码</string>
@@ -908,7 +909,7 @@
     <!--入柜-->
     <string name="incabinet_cloth_title">扫描衣物编码</string>
     <string name="incabinet_cabinet_title">扫描分拨柜标签</string>
-    <string name="incabinet_cabinet_error">柜号错误!请扫描%s</string>
+    <string name="incabinet_cabinet_error">柜号错误!请扫描【%s】</string>
 
     <!--司机承运-->
     <string name="driver_carriage_detail_title">承运单详情查看</string>
@@ -928,10 +929,10 @@
     <string name="driver_btn_load_finish">装车完成</string>
     <string name="driver_tab_wait_load">待装车</string>
     <string name="driver_tab_wait_send">待送达</string>
-    <string name="driver_scan_repeat">该条码重复扫描</string>
-    <string name="driver_scan_not_exist">该箱不属于此承运单,请扫描正确条码</string>
-    <string name="driver_scan_success">扫描成功</string>
-    <string name="driver_scan_finish">扫描完成</string>
+    <string name="driver_scan_repeat">该标签重复扫描</string>
+    <string name="driver_scan_not_exist">该衣物箱不属于此承运单！请扫描正确标签</string>
+    <string name="driver_scan_success">扫描成功！</string>
+    <string name="driver_scan_finish">扫描完成！</string>
     <string name="driver_btn_receiver">确认收货人</string>
     <string name="driver_box_num_all">共%S箱</string>
     <string name="driver_tag_code">封箱条码-%s</string>

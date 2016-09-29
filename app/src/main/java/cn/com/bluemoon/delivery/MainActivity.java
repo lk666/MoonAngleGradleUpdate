@@ -60,7 +60,7 @@ import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
@@ -806,7 +806,7 @@ public class MainActivity extends SlidingActivity {
 
             // TODO: lk 2016/9/14 洗衣服务还衣
             else if(MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())){
-                CabinetScanActivity.actStart(main);
+                CupboardScanActivity.actStart(main);
             } else if(MenuCode.wash_driver.toString().equals(userRight.getMenuCode())){
                 DriverTabActivity.actionStart(main);
             } else if(MenuCode.express_sealing.toString().equals(userRight.getMenuCode())){
