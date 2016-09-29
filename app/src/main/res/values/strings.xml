@@ -962,4 +962,8 @@
     <string name="title_pack">待打包</string>
     <string name="title_box">待装箱</string>
     <string name="title_history">历史</string>
+    <string name="pack_order_num">共%1$d单</string>
+    <string name="pack_pending_pack_num">共%1$d单</string>
+
+
 </resources>
