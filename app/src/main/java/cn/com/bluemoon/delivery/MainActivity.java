@@ -59,8 +59,9 @@ import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
@@ -148,7 +149,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-             PublicUtil.openScanView(main, null, null, 0);
+                PublicUtil.openScanView(main, null, null, 0);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -458,7 +459,7 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    if(!BuildConfig.RELEASE){
+                    if (!BuildConfig.RELEASE) {
                         mockData();
                     }
                     setMenu();
@@ -538,6 +539,13 @@ public class MainActivity extends SlidingActivity {
         item = new UserRight();
         item.setMenuCode(MenuCode.pack.toString());
         item.setMenuName(getString(R.string.pack_menu_name));
+        item.setIconImg(listRight.get(0).getIconImg());
+        item.setGroupNum(1);
+        listRight.add(item);
+
+        item = new UserRight();
+        item.setMenuCode(MenuCode.clothes_check.toString());
+        item.setMenuName("衣物清点");
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
@@ -805,21 +813,22 @@ public class MainActivity extends SlidingActivity {
             }
 
             // TODO: lk 2016/9/14 洗衣服务还衣
-            else if(MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())){
+            else if (MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())) {
                 CupboardScanActivity.actStart(main);
-            } else if(MenuCode.wash_driver.toString().equals(userRight.getMenuCode())){
+            } else if (MenuCode.wash_driver.toString().equals(userRight.getMenuCode())) {
                 DriverTabActivity.actionStart(main);
-            } else if(MenuCode.express_sealing.toString().equals(userRight.getMenuCode())){
+            } else if (MenuCode.express_sealing.toString().equals(userRight.getMenuCode())) {
                 //TODO
-            } else if(MenuCode.return_manger.toString().equals(userRight.getMenuCode())){
+            } else if (MenuCode.return_manger.toString().equals(userRight.getMenuCode())) {
                 ReturnMangerTabActivity.actionStart(this);
-            } else if(MenuCode.transport_receive.toString().equals(userRight.getMenuCode())){
+            } else if (MenuCode.transport_receive.toString().equals(userRight.getMenuCode())) {
                 TransportReceiveTabActivity.actionStart(this);
-            }
-            else if  (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
                 CloseBoxTabActivity.actionStart(main);
-            } else if  (MenuCode.pack.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.pack.toString().equals(userRight.getMenuCode())) {
                 PackTabActivity.actionStart(main);
+            } else if (MenuCode.clothes_check.toString().equals(userRight.getMenuCode())) {
+                ClothesCheckTabActivity.actionStart(main);
             }
 
             //此处添加模块判断
@@ -828,9 +837,7 @@ public class MainActivity extends SlidingActivity {
                                 + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(main),
                         userRight.getMenuName(), false);
-            }
-
-            else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                 //click empty
             } else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
@@ -921,9 +928,9 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-    public static void actStart(Context context,String jumpCode) {
+    public static void actStart(Context context, String jumpCode) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        intent.putExtra(Constants.KEY_JUMP, jumpCode);
         context.startActivity(intent);
     }
 

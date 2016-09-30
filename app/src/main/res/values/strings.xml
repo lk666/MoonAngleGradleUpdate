@@ -867,7 +867,7 @@
     <string name="total_amount2">共%s单</string>
     <string name="code_scan">请扫描</string>
 
-    <!--车辆承运封箱-->
+    <!--承运封箱-->
     <string name="close_box_title">待封箱</string>
     <string name="close_box_history">历史</string>
     <string name="close_box_pending_box">待封箱：%s</string>
@@ -963,11 +963,18 @@
     <string name="sign_history_back_orderNum">还衣单数量：</string>
     <string name="sign_history_receiver">签收人：%s</string>
 
-
-
     <!--还衣单打包-->
     <string name="pack_menu_name">还衣单打包</string>
     <string name="title_pack">待打包</string>
     <string name="title_box">待装箱</string>
     <string name="title_history">历史</string>
+
+    <!--衣物清点-->
+    <string name="clothes_check_title">衣物清点</string>
+    <string name="clothes_check_history_title">清点历史</string>
+    <string name="clothes_check_history_type_back_order">还衣单清点</string>
+    <string name="clothes_check_history_abnormal">异常</string>
+    <string name="clothes_check_history_back_order_num">还衣单数量：%s</string>
+    <string name="clothes_check_history_clothes_num">衣物数量：%s</string>
+    <string name="back_order_code">还衣单号-%s</string>
 </resources>

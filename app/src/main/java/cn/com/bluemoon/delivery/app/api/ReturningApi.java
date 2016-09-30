@@ -655,4 +655,24 @@ public class ReturningApi extends DeliveryApi {
         postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxDetail%s", handler);
     }
 
+    /**
+     * 8.5获取清点历史列表
+     *
+     * @param opTimeBegain 清点操作时间 long
+     * @param opTimeEnd    清点操作时间 long
+     * @param pageFlag     分页时间戳(分页标志) long
+     * @param token        登录凭证(必填) String
+     */
+    public static void checkHistoryList(long opTimeBegain, long opTimeEnd, long pageFlag, String token, AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("opTimeBegain", opTimeBegain);
+        params.put("opTimeEnd", opTimeEnd);
+        params.put("pageFlag", pageFlag);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/clothesCheck/checkHistoryList%s", handler);
+    }
+
 }

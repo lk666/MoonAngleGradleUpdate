@@ -12,5 +12,7 @@ public enum MenuCode {
 	closebox,
 	pack,
 	wash_cabinet,wash_driver,express_sealing,return_manger,transport_receive
+	, clothes_check
+
 }
 
