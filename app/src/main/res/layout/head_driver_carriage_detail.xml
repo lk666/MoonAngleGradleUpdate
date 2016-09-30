@@ -36,7 +36,8 @@
         android:layout_height="30dp"
         android:layout_below="@id/line"
         android:gravity="center"
-        android:layout_marginLeft="125dp"
+        android:layout_toRightOf="@id/txt_box_num"
+        android:layout_marginLeft="40dp"
         android:textColor="@color/text_black_light"
         android:textSize="@dimen/text_size_13"
         />

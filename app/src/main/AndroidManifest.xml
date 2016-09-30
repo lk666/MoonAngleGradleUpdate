@@ -428,8 +428,6 @@
             android:name=".module.wash.returning.manager.DeliveryDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
-
         <activity
             android:name=".module.wash.returning.pack.PackTabActivity"
             android:screenOrientation="portrait"
@@ -580,12 +578,16 @@
             android:name=".module.wash.returning.transportreceive.ScanReceiveSignActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-        <activity 
+        <activity
             android:name=".module.wash.returning.driver.HistoryDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.wash.returning.closebox.ScanCloseBoxSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.pack.ScanPackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
     </application>

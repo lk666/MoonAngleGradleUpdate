@@ -943,7 +943,7 @@
     <string name="driver_order_num">共%s单</string>
     <string name="driver_box_code3">封箱标签-%s</string>
     <string name="driver_receiver">签收人：%s</string>
-    
+
     <!--承运收货-->
     <string name="wait_sign_title">待签收</string>
     <string name="wait_sign_carriage_code">承运单号-%s</string>
@@ -965,7 +965,6 @@
     <string name="sign_history_receiver">签收人：%s</string>
 
 
-
     <!--还衣单打包-->
     <string name="pack_menu_name">还衣单打包</string>
     <string name="title_pack">待打包</string>
@@ -974,4 +973,7 @@
     <string name="pack_inbox">装箱</string>
     <string name="pack_inbox_back_code">还衣单号 %s</string>
     <string name="pack_inbox_box_code">分配箱号</string>
+    <string name="pack_box_error">衣物箱标签错误!请扫描【%s】</string>
+    <string name="pack_get_error_data">获取还衣单号或衣物箱号失败！</string>
+
 </resources>
