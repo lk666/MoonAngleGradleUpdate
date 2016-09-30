@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tv_index"
+        style="@style/txt_content_13"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="right"
+        android:layout_marginRight="16dp"
+        android:gravity="bottom"
+        android:paddingBottom="6dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/border_white_shape_10"
+        android:padding="16dp">
+
+        <ImageView
+            android:id="@+id/iv_code_bar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right" />
+
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_bluemoon_logo" />
+
+        <TextView
+            android:id="@+id/tv_tag_code_title"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_code_bar"
+            android:layout_marginTop="16dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_detail_tag_code" />
+
+        <TextView
+            android:id="@+id/tv_tag_code"
+            style="@style/txt_title_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tag_code_title"
+            android:background="@color/page_bg_f2"
+            android:textSize="@dimen/text_size_25" />
+
+        <TextView
+            android:id="@+id/tv_address_title"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tag_code"
+            android:layout_marginTop="8dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_tag_detail_address_title" />
+
+        <TextView
+            android:id="@+id/tv_main_address"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_address_title"
+            android:background="@color/page_bg_f2" />
+
+        <TextView
+            android:id="@+id/tv_detail_address"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_main_address"
+            android:background="@color/page_bg_f2" />
+
+        <TextView
+            android:id="@+id/tv_back_order_num"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_detail_address"
+            android:layout_marginTop="8dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_back_detail_order_num" />
+
+        <TextView
+            android:id="@+id/tv_box_code"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_back_order_num"
+            android:layout_marginTop="8dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_tag_detail_box_code" />
+    </RelativeLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="21dp" />
+
+    <View
+        android:id="@+id/div"
+        style="@style/line_dotted_style"
+        android:layout_width="40dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/dotted_line_6" />
+</LinearLayout>

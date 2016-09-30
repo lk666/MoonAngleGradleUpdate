@@ -26,22 +26,25 @@ import cn.com.bluemoon.lib.utils.threadhelper.ThreadPool;
 public class CloseBoxDetailActivity extends BaseActivity {
 
     private final static String EXTRA_TAG_CODE = "EXTRA_TAG_CODE";
-    private final static int REQUEST_CODE_QUERY_CLOSE_BOX_DETAIL = 0x777;
-
-    private String tagCode;
-
+    private final static int REQUEST_CODE_QUERY = 0x777;
     @Bind(R.id.iv_code_bar)
     ImageView ivCodeBar;
+    @Bind(R.id.tv_tag_code_title)
+    TextView tvTagCodeTitle;
     @Bind(R.id.tv_tag_code)
     TextView tvTagCode;
-    @Bind(R.id.tv_address)
-    TextView tvAddress;
-    @Bind(R.id.tv_address_detail)
-    TextView tvAddressDetail;
+    @Bind(R.id.tv_address_title)
+    TextView tvAddressTitle;
+    @Bind(R.id.tv_main_address)
+    TextView tvMainAddress;
+    @Bind(R.id.tv_detail_address)
+    TextView tvDetailAddress;
     @Bind(R.id.tv_back_order_num)
     TextView tvBackOrderNum;
     @Bind(R.id.tv_box_code)
     TextView tvBoxCode;
+
+    private String tagCode;
 
     public static void actionStart(Context context, String tagCode) {
         Intent intent = new Intent(context, CloseBoxDetailActivity.class);
@@ -75,25 +78,26 @@ public class CloseBoxDetailActivity extends BaseActivity {
     protected void setActionBar(CommonActionBar actionBar) {
         super.setActionBar(actionBar);
 
-        actionBar.getImgRightView().setImageResource(R.mipmap.ic_print);
+        actionBar.getImgRightView().setImageResource(R.mipmap.ic_print_white);
         actionBar.getImgRightView().setVisibility(View.VISIBLE);
     }
 
     @Override
     protected void onActionBarBtnRightClick() {
-        // TODO: lk 2016/9/20 点击重新打印
-        toast("重新打印" + tagCode);
+        // TODO: lk 2016/9/20 点击打印
+        toast("打印" + tagCode);
     }
 
     @Override
     public void initView() {
+
     }
 
     @Override
     public void initData() {
         showWaitDialog();
         ReturningApi.queryCloseBoxDetail(tagCode, getToken(), getNewHandler
-                (REQUEST_CODE_QUERY_CLOSE_BOX_DETAIL, ResultCloseBoxDetail.class));
+                (REQUEST_CODE_QUERY, ResultCloseBoxDetail.class));
     }
 
     @Override
@@ -102,52 +106,24 @@ public class CloseBoxDetailActivity extends BaseActivity {
         setData(obj);
     }
 
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
-        setData(null);
-    }
+    private void setData(ResultCloseBoxDetail item) {
 
-    @Override
-    public void onSuccessException(int requestCode, Throwable t) {
-        super.onSuccessException(requestCode, t);
-        setData(null);
-    }
+        tvTagCode.setText(item.getTagCode());
+        tvMainAddress.setText(String.format("%s %s %s", item.getSourceProvince(), item.getSourceCity(), item.getSourceCounty()));
+        tvDetailAddress.setText(String.format("%s%s%s", item.getSourceStreet(), item.getStreetVillage(), item.getSourceAddress()));
 
-    @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        setData(null);
-    }
-
-    private void setData(ResultCloseBoxDetail result) {
-        tvTagCode.setText(String.format(getString(R.string.close_box_tag_detail_code), tagCode));
-
-        if (result == null) {
-            tvAddress.setText("");
-            tvAddressDetail.setText("");
-            tvBackOrderNum.setText(R.string.close_box_back_order_num);
-            tvBoxCode.setText(R.string.close_box_tag_detail_box_code);
-        } else {
-            tvAddress.setText(String.format("%s %s %s", result.getSourceProvince(), result
-                    .getSourceCity(), result.getSourceCounty()));
-            tvAddressDetail.setText(result.getSourceAddress());
-            tvBackOrderNum.setText(String.format(getString(R.string
-                            .close_box_back_detail_order_num),
-
-                    result.getBackOrderNum()));
-            tvBoxCode.setText(String.format(getString(R.string.close_box_tag_detail_box_code),
-                    result
-                            .getBoxCode()));
-        }
+        tvBackOrderNum.setText(String.format(getString(R.string.close_box_back_detail_order_num),
+                String.valueOf(item.getBackOrderNum())));
+        tvBoxCode.setText(String.format(getString(R.string.close_box_tag_detail_box_code),
+                String.valueOf(item.getBoxCode())));
 
         ThreadPool.PICTURE_THREAD_POOL.execute(new ExRunable(new Feedback() {
             @Override
             public void feedback(Object obj) {
-                if (ivCodeBar != null) {
+                if (ivCodeBar != null && obj != null) {
                     ivCodeBar.setImageBitmap((Bitmap) obj);
-                }
 
+                }
             }
         }) {
             @Override
@@ -156,4 +132,5 @@ public class CloseBoxDetailActivity extends BaseActivity {
             }
         });
     }
+
 }

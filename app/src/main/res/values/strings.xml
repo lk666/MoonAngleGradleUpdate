@@ -21,6 +21,7 @@
     <string name="app_name">月亮天使</string>
     <string name="test_name">(%s)测试</string>
     <string name="none">无</string>
+    <string name="none2">暂无</string>
     <string name="start_error">启动异常</string>
     <string name="order_refresh">重新加载</string>
     <string name="order_null_content">加载失败，请检查您当前的网络环境</string>
@@ -28,6 +29,7 @@
     <string name="main_tab_no_data">此功能需要更新版本才能使用！</string>
 
     <string name="refreshing">努力加载中！</string>
+    <string name="scan_fail">扫描失败，请重新扫描</string>
 
     <!-- main tab -->
     <string name="main_tab_qrcode">我的二维码</string>
@@ -866,7 +868,7 @@
     <string name="total_amount2">共%s单</string>
     <string name="code_scan">请扫描</string>
 
-    <!--待封箱-->
+    <!--车辆承运封箱-->
     <string name="close_box_title">待封箱</string>
     <string name="close_box_history">历史</string>
     <string name="close_box_pending_box">待封箱：%s</string>
@@ -896,12 +898,19 @@
     <string name="scan_succeed">扫描成功</string>
     <string name="close_box_tag_count">收衣来源数量：%s</string>
     <string name="close_box_tag_print_tag">打印封箱条</string>
-    <string name="close_box_tag_scan_tag">扫描封箱条</string>
+    <string name="close_box_tag_scan_tag">扫描封箱标签</string>
+    <string name="close_box_detail_tag_code">封 箱 条 码：</string>
+    <string name="close_box_scan_tag_code">箱内的封箱标签</string>
+    <string name="duplicate_tag_code">该封箱标签重复扫描</string>
+    <string name="not_in_tag_code"> 当前所扫标签错误，请扫描正确封箱标签</string>
+    <string name="close_box_finish">封箱成功</string>
+    <string name="close_box_success">封箱条%s扫描成功</string>
+
 
     <!--入柜-->
     <string name="incabinet_cloth_title">扫描衣物编码</string>
     <string name="incabinet_cabinet_title">扫描分拨柜标签</string>
-    <string name="incabinet_cabinet_error">柜号错误!请扫描%s</string>
+    <string name="incabinet_cabinet_error">柜号错误!请扫描【%s】</string>
 
     <!--司机承运-->
     <string name="driver_carriage_detail_title">承运单详情查看</string>
@@ -921,10 +930,10 @@
     <string name="driver_btn_load_finish">装车完成</string>
     <string name="driver_tab_wait_load">待装车</string>
     <string name="driver_tab_wait_send">待送达</string>
-    <string name="driver_scan_repeat">该条码重复扫描</string>
-    <string name="driver_scan_not_exist">该箱不属于此承运单,请扫描正确条码</string>
-    <string name="driver_scan_success">扫描成功</string>
-    <string name="driver_scan_finish">扫描完成</string>
+    <string name="driver_scan_repeat">该标签重复扫描</string>
+    <string name="driver_scan_not_exist">该衣物箱不属于此承运单！请扫描正确标签</string>
+    <string name="driver_scan_success">扫描成功！</string>
+    <string name="driver_scan_finish">扫描完成！</string>
     <string name="driver_btn_receiver">确认收货人</string>
     <string name="driver_box_num_all">共%S箱</string>
     <string name="driver_tag_code">封箱条码-%s</string>
@@ -962,6 +971,9 @@
     <string name="title_pack">待打包</string>
     <string name="title_box">待装箱</string>
     <string name="title_history">历史</string>
+    <string name="pack_inbox">装箱</string>
+    <string name="pack_inbox_back_code">还衣单号 %s</string>
+    <string name="pack_inbox_box_code">分配箱号</string>
     <string name="pack_order_num">共%1$d单</string>
     <string name="pack_pending_pack_num">共%1$d单</string>
 

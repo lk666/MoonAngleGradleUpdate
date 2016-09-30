@@ -2,12 +2,13 @@ package cn.com.bluemoon.delivery.app.api.model.wash.closebox;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**
- * {@link cn.com.bluemoon.delivery.app.api.ReturningApi#queryCloseBoxList(String, String, AsyncHttpResponseHandler)}
+ * {@link cn.com.bluemoon.delivery.app.api.ReturningApi#queryCloseBoxList(ArrayList, String, String, AsyncHttpResponseHandler)}
  * 服务器返回json
  * Created by lk on 2016/9/22.
  */

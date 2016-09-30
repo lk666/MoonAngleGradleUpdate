@@ -23,9 +23,8 @@ import cn.com.bluemoon.delivery.app.api.model.wash.driver.ResultCarriageDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.incabinet.CabinetScanActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
@@ -77,7 +76,7 @@ public class TransportListActivity extends BaseActivity {
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
-        CabinetScanActivity.actStart(this,carriageDetail);
+        CupboardScanActivity.actStart(this, carriageDetail);
     }
 
     @Override

@@ -40,11 +40,5 @@
         android:dividerHeight="@dimen/div_height"
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false" />
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="8dp"
-        android:layout_below="@+id/lv"
-        android:background="@color/page_bg_f2" />
 </RelativeLayout>
 

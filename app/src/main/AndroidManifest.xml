@@ -529,7 +529,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".module.wash.returning.incabinet.CabinetScanActivity"
+            android:name=".module.wash.returning.cupboard.CupboardScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
@@ -582,6 +582,10 @@
             android:theme="@style/App.Base.Theme" />
         <activity 
             android:name=".module.wash.returning.driver.HistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.closebox.ScanCloseBoxSignActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
     </application>

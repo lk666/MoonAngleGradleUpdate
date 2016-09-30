@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.app.api;
 
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -513,24 +514,6 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 4.7获取封箱详情
-     *
-     * @param tagCode 封箱条码 String
-     * @param token   登录凭证(必填) String
-     */
-    public static void queryCloseBoxDetail(String tagCode, String token, AsyncHttpResponseHandler
-            handler) {
-        if (null == tagCode || null == token) {
-            return;
-        }
-        Map<String, Object> params = new HashMap<>();
-        params.put("tagCode", tagCode);
-        params.put(TOKEN, token);
-        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxDetail%s",
-                handler);
-    }
-
-    /**
      * 4.2获取衣物箱还衣单列表(扫描)
      *
      * @param boxCode 衣物箱号(必填) String
@@ -570,18 +553,21 @@ public class ReturningApi extends DeliveryApi {
     /**
      * 4.3获取打印封箱条列表
      *
-     * @param boxCode 衣物箱号 String
-     * @param token   登录凭证(必填) String
+     * @param backOrderList 还衣单号列表 ArrayList<String>
+     * @param boxCode       衣物箱号 String
+     * @param token         登录凭证(必填) String
      */
-    public static void queryCloseBoxList(String boxCode, String token, AsyncHttpResponseHandler handler) {
-        if (null == boxCode || null == token) {
+    public static void queryCloseBoxList(ArrayList<String> backOrderList, String boxCode, String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderList || null == boxCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
+        params.put("backOrderList", backOrderList);
         params.put("boxCode", boxCode);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxList%s", handler);
     }
+
 
     /**
      * 6.1获取待签收列表
@@ -633,6 +619,187 @@ public class ReturningApi extends DeliveryApi {
         params.put("sginFinishTime", sginFinishTime);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/carriageReceive/queryReceiveHistoryList%s", handler);
+    }
+
+    /**
+     * 4.4封箱-扫描封箱标签
+     *
+     * @param boxCode     衣物箱号 String
+     * @param tagCodeList 封箱条码 List<String>
+     * @param token       登录凭证(必填) String
+     */
+    public static void scanCloseBoxSign(String boxCode, ArrayList<String> tagCodeList, String token, AsyncHttpResponseHandler handler) {
+        if (null == boxCode || null == tagCodeList || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("boxCode", boxCode);
+        params.put("tagCodeList", tagCodeList);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/scanCloseBoxSign%s", handler);
+    }
+
+    /**
+     * 4.7获取封箱详情
+     *
+     * @param tagId 封箱id(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryCloseBoxDetail(String tagId, String token, AsyncHttpResponseHandler handler) {
+        if (null == tagId || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("tagId", tagId);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/closeBox/queryCloseBoxDetail%s", handler);
+    }
+
+    /**
+     *3.1获取待打包列表(ResultWaitPackage)
+     * @param backOrderStatus 还衣单状态（待打包） String
+     * @param pageFlag 分页时间戳(分页标志) long
+     * @param region 区域 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryWaitPackageList(String backOrderStatus,long pageFlag,String region,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderStatus||null == region||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderStatus",backOrderStatus);
+        params.put("pageFlag",pageFlag);
+        params.put("region",region);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/queryWaitPackageList%s", handler);
+    }
+
+    /**
+     *3.2还衣单衣物列表(ResultBackOrderClothes)
+     * @param cupboardCode 分拨柜号（必填） String
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryBackOrderClothesList(String cupboardCode,String token,AsyncHttpResponseHandler handler){
+        if(null == cupboardCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("cupboardCode",cupboardCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/queryBackOrderClothesList%s", handler);
+    }
+
+    /**
+     *3.3扫描衣物编码
+     * @param backOrderCode 还衣单号(必填) String
+     * @param clothesCode 衣物编号(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanClothesCode(String backOrderCode,String clothesCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == clothesCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("clothesCode",clothesCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/scanClothesCode%s", handler);
+    }
+
+    /**
+     *3.4查询还衣单详情（打印，历史详情）(ResultBackOrderDetail)
+     * @param backOrderCode 还衣单号(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryBackOrderDetail2(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/queryBackOrderDetail%s", handler);
+    }
+
+    /**
+     *3.5打包-扫描还衣单标签(ResultScanBoxCode)
+     * @param backOrderCode 还衣单号(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanPackageBackOrder(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/scanPackageBackOrder%s", handler);
+    }
+
+
+
+    /**
+     *3.6获取待装箱列表(ResultWaitInbox)
+     * @param pageFlag 分页时间戳(分页标志) int
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryWaitInboxList(long pageFlag,String token,AsyncHttpResponseHandler handler){
+        if(null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("pageFlag",pageFlag);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/queryWaitInboxList%s", handler);
+    }
+
+    /**
+     *3.7入箱-扫描还衣单标签(ResultScanBoxCode)
+     * @param backOrderCode 还衣单号(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanBackOrder(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/scanBackOrder%s", handler);
+    }
+
+    /**
+     *3.8入箱-扫描衣物箱标签
+     * @param backOrderCode 还衣单号(必填) String
+     * @param boxCode 衣物箱号(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void scanClothesBox(String backOrderCode,String boxCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == boxCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("boxCode",boxCode);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/scanClothesBox%s", handler);
+    }
+
+    /**
+     *3.9获取装箱历史列表(ResultInboxHistory)
+     * @param opTime 入箱日期 int
+     * @param pageFlag 分页时间戳(分页标志) int
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryInboxHistoryList(long opTime,long pageFlag,String token,AsyncHttpResponseHandler handler){
+        if(null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("opTime",opTime);
+        params.put("pageFlag",pageFlag);
+        params.put(TOKEN,token);
+        postRequest(params, "washingService-controller/wash/backOrder/queryInboxHistoryList%s", handler);
     }
 
 }

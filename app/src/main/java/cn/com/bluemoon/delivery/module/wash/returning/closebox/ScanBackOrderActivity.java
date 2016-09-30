@@ -87,18 +87,6 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
         checkFinished();
     }
 
-    @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        checkFinished();
-    }
-
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
-        checkFinished();
-    }
-
     /**
      * 判断是否已完成
      */

@@ -1,74 +1,95 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2"
-    android:gravity="center_horizontal"
-    android:orientation="vertical"
-    android:paddingLeft="50dp"
-    android:paddingRight="50dp"
-    android:paddingTop="80dp">
+    android:background="@drawable/view_bg"
+    android:layout_height="match_parent">
 
-    <ImageView
-        android:id="@+id/iv_code_bar"
-        android:layout_width="80dp"
-        android:layout_height="80dp"/>
-
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:scaleType="centerInside"
-        android:src="@mipmap/ic_bluemoon_logo"/>
-
-    <TextView
-        android:id="@+id/tv_tag_code"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="@string/close_box_tag_detail_code"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/text_size_15"
-        android:textStyle="bold"/>
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="28dp"
+        android:layout_marginRight="28dp"
+        android:background="@drawable/border_white_shape_10"
+        android:padding="16dp">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="14dp"
-        android:text="@string/close_box_tag_detail_address_title"
-        android:textColor="@color/text_black_light"
-        android:textSize="@dimen/text_size_15"/>
+        <ImageView
+            android:id="@+id/iv_code_bar"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="right" />
 
-    <TextView
-        android:id="@+id/tv_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_black_light"
-        android:textSize="@dimen/text_size_15"/>
+        <ImageView
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:scaleType="centerInside"
+            android:src="@mipmap/ic_bluemoon_logo" />
 
-    <TextView
-        android:id="@+id/tv_address_detail"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/text_black_light"
-        android:textSize="@dimen/text_size_15"/>
+        <TextView
+            android:id="@+id/tv_tag_code_title"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/iv_code_bar"
+            android:layout_marginTop="16dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_detail_tag_code" />
 
-    <TextView
-        android:id="@+id/tv_back_order_num"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/close_box_back_order_num"
-        android:textColor="@color/text_black_light"
-        android:textSize="@dimen/text_size_15"/>
+        <TextView
+            android:id="@+id/tv_tag_code"
+            style="@style/txt_title_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tag_code_title"
+            android:background="@color/page_bg_f2"
+            android:textSize="@dimen/text_size_25" />
 
-    <TextView
-        android:id="@+id/tv_box_code"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="12dp"
-        android:text="@string/close_box_tag_detail_box_code"
-        android:textColor="@color/text_black_light"
-        android:textSize="@dimen/text_size_15"/>
-</LinearLayout>
+        <TextView
+            android:id="@+id/tv_address_title"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_tag_code"
+            android:layout_marginTop="8dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_tag_detail_address_title" />
+
+        <TextView
+            android:id="@+id/tv_main_address"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_address_title"
+            android:background="@color/page_bg_f2" />
+
+        <TextView
+            android:id="@+id/tv_detail_address"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_main_address"
+            android:background="@color/page_bg_f2" />
+
+        <TextView
+            android:id="@+id/tv_back_order_num"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_detail_address"
+            android:layout_marginTop="8dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_back_detail_order_num" />
+
+        <TextView
+            android:id="@+id/tv_box_code"
+            style="@style/txt_content_15"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/tv_back_order_num"
+            android:layout_marginTop="8dp"
+            android:background="@color/page_bg_f2"
+            android:text="@string/close_box_tag_detail_box_code" />
+    </RelativeLayout>
+
+</RelativeLayout>

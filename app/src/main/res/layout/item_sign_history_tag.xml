@@ -55,7 +55,7 @@
         android:layout_marginRight="12dp"
         android:ellipsize="end"
         android:gravity="right|center_vertical"
-        android:singleLine="true"/>
+        android:singleLine="true" />
 
     <TextView
         android:id="@+id/tv_receiver"
@@ -70,5 +70,11 @@
         android:singleLine="true"
         android:text="@string/sign_history_receiver" />
 
+    <View
+        android:id="@+id/div"
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:layout_below="@+id/tv_receiver"
+        android:background="@color/page_bg_f2" />
 </RelativeLayout>
 
