@@ -1,8 +1,7 @@
-package cn.com.bluemoon.delivery.app.api.model.wash.closebox;
+package cn.com.bluemoon.delivery.app.api.model.wash.transportreceive;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 承运单

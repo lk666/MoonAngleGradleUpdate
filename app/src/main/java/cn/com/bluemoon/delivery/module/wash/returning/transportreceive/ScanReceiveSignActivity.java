@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.wash.closebox.CarriageTag;
+import cn.com.bluemoon.delivery.app.api.model.wash.transportreceive.CarriageTag;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 
