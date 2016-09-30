@@ -7,7 +7,7 @@ import java.util.List;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**
- * {@link cn.com.bluemoon.delivery.app.api.ReturningApi#queryWaitCloseBoxList(long, String, boolean, AsyncHttpResponseHandler)}
+ * {@link cn.com.bluemoon.delivery.app.api.ReturningApi#queryWaitCloseBoxList(long, String, String, AsyncHttpResponseHandler)}
  * 服务器返回json
  * Created by lk on 2016/9/14.
  */

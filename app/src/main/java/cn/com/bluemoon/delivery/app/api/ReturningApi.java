@@ -251,9 +251,9 @@ public class ReturningApi extends DeliveryApi {
      *
      * @param pageFalg  分页时间戳(分页标志) long
      * @param token     登录凭证(必填) String
-     * @param waitInbox 待封箱 boolean
+     * @param waitInbox 待封箱 String
      */
-    public static void queryWaitCloseBoxList(long pageFalg, String token, boolean waitInbox,
+    public static void queryWaitCloseBoxList(long pageFalg, String token, String waitInbox,
                                              AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
@@ -673,6 +673,24 @@ public class ReturningApi extends DeliveryApi {
         params.put("pageFlag", pageFlag);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/clothesCheck/checkHistoryList%s", handler);
+    }
+
+    /**
+     * 8.6衣物历史清点详情
+     *
+     * @param backOrderCode 还衣单号 String
+     * @param checkLogId    清点历史主表id String
+     * @param token         登录凭证(必填) String
+     */
+    public static void queryClothesCheckHistoryDetail(String backOrderCode, String checkLogId, String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderCode || null == checkLogId || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode", backOrderCode);
+        params.put("checkLogId", checkLogId);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/clothesCheck/queryClothesCheckHistoryDetail%s", handler);
     }
 
 }

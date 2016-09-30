@@ -132,7 +132,7 @@ public class ClothesCheckFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox, getNewHandler
+        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? "HISTORY_WAIT_SEALED_BOX" : "", getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
         setAmount();
     }
@@ -236,7 +236,7 @@ public class ClothesCheckFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox, getNewHandler
+        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ? "HISTORY_WAIT_SEALED_BOX" : "", getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
     }
 

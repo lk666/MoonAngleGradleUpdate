@@ -228,7 +228,7 @@ public class ClothesCheckHistoryFragment extends BasePullToRefreshListViewFragme
             }
             // 衣物清点
             else {
-
+                ClothesCheckHistoryDetailActivity.actionStart(getActivity(), this, item.getCheckLogId(), item.getSourceCode());
             }
         }
     }

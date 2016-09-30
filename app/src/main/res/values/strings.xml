@@ -977,4 +977,8 @@
     <string name="clothes_check_history_back_order_num">还衣单数量：%s</string>
     <string name="clothes_check_history_clothes_num">衣物数量：%s</string>
     <string name="back_order_code">还衣单号-%s</string>
+    <string name="clothes_check_history_time">清点时间</string>
+    <string name="clothes_check_history_back_order_error">还衣单异常</string>
+    <string name="clothes_check_detail">衣物清点详情</string>
+    <string name="clothes_check_detail_code">衣物编码-%s</string>
 </resources>
