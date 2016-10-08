@@ -12,8 +12,8 @@ import java.util.List;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.wash.closebox.BoxItem;
-import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ResultWaitCloseBoxList;
+import cn.com.bluemoon.delivery.app.api.model.wash.pack.CabinetItem;
+import cn.com.bluemoon.delivery.app.api.model.wash.pack.ResultWaitPackage;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -30,15 +30,16 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     private View viewPopStart;
     private TextView txtCount;
     private TextView txtPendingPack;
+
     /**
      * 是否显示待封箱
      */
-    private boolean waitInbox = true;
+    private boolean waitPack = true;
 
     /**
      * 待装箱数
      */
-    private int waitInboxCount;
+    private int waitPackCount;
     /**
      * 总箱数
      */
@@ -48,6 +49,8 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
      * 分页标识
      */
     private long pageFlag = 0;
+
+    private String region="";
 
     @Override
     protected String getTitleString() {
@@ -72,11 +75,11 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void onActionBarBtnRightClick() {
         WaitCloseBoxFilterWindow popupWindow = new WaitCloseBoxFilterWindow(getActivity(),
-                waitInbox, new WaitCloseBoxFilterWindow.FilterListener() {
+                waitPack, new WaitCloseBoxFilterWindow.FilterListener() {
 
             @Override
             public void onOkClick(boolean flag) {
-                waitInbox = flag;
+                waitPack = flag;
                 initData();
             }
         });
@@ -85,7 +88,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected int getHeadLayoutId() {
-        return R.layout.head_fragment_tab_close_box;
+        return R.layout.head_fragment_tab_pack;
     }
 
     @Override
@@ -95,20 +98,20 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
         viewPopStart = headView.findViewById(R.id.view_pop_start);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
         txtPendingPack = (TextView) headView.findViewById(R.id.txt_pending_pack);
-        waitInbox = true;
-        waitInboxCount = 0;
+        waitPack = true;
+        waitPackCount = 0;
         totalCount = 0;
-        setHeadCOntent(0, true, 0);
+        setHeadContent(0, true, 0);
         setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     /**
      * 设置头部
      */
-    private void setHeadCOntent(int count, boolean showPending, int pending) {
+    private void setHeadContent(int count, boolean showPending, int pending) {
         txtCount.setText(String.format(getString(R.string.pack_order_num), count));
         if (showPending) {
-            txtPendingPack.setText(String.format(getString(R.string.pack_pending_pack_num),
+            txtPendingPack.setText(String.format(getString(R.string.pack_pending_num),
                     pending));
         } else {
             txtPendingPack.setText("");
@@ -130,18 +133,19 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        ReturningApi.queryWaitPackageList(orderStatus, 0,"" ,getToken(), getNewHandler
-                (requestCode, ResultWaitCloseBoxList.class));
+        region="";
+        ReturningApi.queryWaitPackageList(orderStatus, pageFlag,region ,getToken(), getNewHandler
+                (requestCode, ResultWaitPackage.class));
         setAmount();
     }
 
     @Override
-    protected List<BoxItem> getGetDataList(ResultBase result) {
-        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
-        waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getInboxSum();
+    protected List<CabinetItem> getGetDataList(ResultBase result) {
+        ResultWaitPackage resultObj = (ResultWaitPackage) result;
+        waitPackCount = resultObj.getWaitPackCount();
+        totalCount = resultObj.getCabinetCount();
         pageFlag = resultObj.getPageFlag();
-        return resultObj.getInboxList();
+        return resultObj.getCabinetList();
     }
 
     @Override
@@ -163,44 +167,44 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
         super.showRefreshView();
         // 列表数据刷新，如可在此处设置head等
         setHeadViewVisibility(View.VISIBLE);
-        setHeadCOntent(totalCount, waitInbox, waitInboxCount);
+        setHeadContent(totalCount, waitPack, waitPackCount);
     }
 
     @Override
-    protected BoxItemAdapter getNewAdapter() {
-        return new BoxItemAdapter(getActivity(), this);
+    protected CabinetItemAdapter getNewAdapter() {
+        return new CabinetItemAdapter(getActivity(), this);
     }
 
-    class BoxItemAdapter extends BaseListAdapter<BoxItem> {
+    class CabinetItemAdapter extends BaseListAdapter<CabinetItem> {
 
-        public BoxItemAdapter(Context context, OnListItemClickListener listener) {
+        public CabinetItemAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
         }
 
         @Override
         protected int getLayoutId() {
-            return R.layout.item_close_box_pending;
+            return R.layout.item_pack_pending;
         }
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            BoxItem item = (BoxItem) getItem(position);
+            CabinetItem item = (CabinetItem) getItem(position);
 
-            TextView tvBoxCode = getViewById(R.id.tv_box_tag_code);
-            Button btnCloseBox = getViewById(R.id.btn_close_box);
-            TextView tvTotal = getViewById(R.id.tv_back_order_num);
+            TextView tvPackCode = getViewById(R.id.tv_pack_code);
+            Button btnPackBox = getViewById(R.id.btn_pack);
+            TextView tvTotal = getViewById(R.id.tv_pack_order_num);
             TextView tvFinish = getViewById(R.id.tv_clothes_num);
 
-            tvBoxCode.setText(item.getBoxCode());
-            tvTotal.setText(String.valueOf(item.getBackOrderNum()));
-            tvFinish.setText(String.valueOf(item.getBackOrderIntoNum()));
-            if (item.getBackOrderIntoNum() != item.getBackOrderNum()) {
-                btnCloseBox.setVisibility(View.GONE);
+            tvPackCode.setText(item.getCupboardCode());
+            tvTotal.setText(String.valueOf(item.getCapacity()));
+            tvFinish.setText(String.valueOf(item.getActInNum()));
+            if (item.getCapacity() != item.getActInNum()) {
+                btnPackBox.setVisibility(View.GONE);
             } else {
-                btnCloseBox.setVisibility(View.VISIBLE);
+                btnPackBox.setVisibility(View.VISIBLE);
             }
 
-            setClickEvent(isNew, position, btnCloseBox);
+            setClickEvent(isNew, position, btnPackBox);
         }
     }
 
@@ -225,17 +229,17 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     public void onItemClick(Object obj, View view, int position) {
-        BoxItem item = (BoxItem) obj;
+        CabinetItem item = (CabinetItem) obj;
         if (null != item) {
-            ScanBoxCodeActivity.actionStart(getActivity(), this, item.getBoxCode(),
+            ScanBoxCodeActivity.actionStart(getActivity(), this, item.getCupboardCode(),
                     REQUEST_CODE_SCANE_BOX_CODE);
         }
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-//        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox, getNewHandler
-//                (requestCode, ResultWaitCloseBoxList.class));
+        ReturningApi.queryWaitPackageList(orderStatus, pageFlag,region ,getToken(), getNewHandler
+                (requestCode, ResultWaitPackage.class));
     }
 
     /**
@@ -244,11 +248,11 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
      * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
      */
     @Override
-    protected List<BoxItem> getGetMoreList(ResultBase result) {
-        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
-        waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getInboxSum();
+    protected List<CabinetItem> getGetMoreList(ResultBase result) {
+        ResultWaitPackage resultObj = (ResultWaitPackage) result;
+        waitPackCount = resultObj.getWaitPackCount();
+        totalCount = resultObj.getCabinetCount();
         pageFlag = resultObj.getPageFlag();
-        return resultObj.getInboxList();
+        return resultObj.getCabinetList();
     }
 }

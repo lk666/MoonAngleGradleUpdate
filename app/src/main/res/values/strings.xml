@@ -975,6 +975,10 @@
     <string name="pack_inbox_box_code">分配箱号</string>
     <string name="pack_box_error">衣物箱标签错误!请扫描【%s】</string>
     <string name="pack_get_error_data">获取还衣单号或衣物箱号失败！</string>
+    <string name="btn_pack_desc">打  包</string>
+    <string name="pack_pending_num">待打包：%1$d</string>
+    <string name="pack_pending_total">规划数量：</string>
+    <string name="pack_pending_finish">实际入柜：</string>
 
 
     <!--衣物清点-->
