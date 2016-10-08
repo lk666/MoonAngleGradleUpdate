@@ -540,7 +540,11 @@
     <string name="every_day">每天</string>
     <string name="never">一次</string>
     <string name="alarm_topic_txt">标题</string>
+    <string name="alarm_topic_default">记得打卡哦！</string>
     <string name="alarm_topic_txt_hint">嗨，给该条提醒取个标题吧！</string>
+    <string name="alarm_topic_error">嗨，给该条提醒取个标题吧！</string>
+    <string name="alarm_content_default">打卡提醒</string>
+    <string name="alarm_content_error">别忘了设定提醒的内容哦！</string>
     <string name="alarm_content_txt">内容</string>
     <string name="alarm_content_text_hint">别忘了设定提醒的内容哦!</string>
 

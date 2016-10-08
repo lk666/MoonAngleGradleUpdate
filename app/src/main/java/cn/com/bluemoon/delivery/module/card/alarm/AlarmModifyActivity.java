@@ -29,6 +29,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.selectordialog.OnSelectChangedListener;
 import cn.com.bluemoon.delivery.ui.selectordialog.SimpleWheelView;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
@@ -156,6 +157,7 @@ public class AlarmModifyActivity extends BaseActivity {
         txtRepeat.setText(days.toString(this, true));
         edTitle.setText(remind.getRemindTitle());
         edContent.setText(remind.getRemindContent());
+        edTitle.setSelection(edTitle.getText().length());
         edTitle.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -198,6 +200,7 @@ public class AlarmModifyActivity extends BaseActivity {
                 DaysOfWeekActivity.startAction(AlarmModifyActivity.this, remind.getRemindWeek());
             }
         });
+
     }
 
     @Override
@@ -231,6 +234,12 @@ public class AlarmModifyActivity extends BaseActivity {
         showTextAmin(txtError);
     }
 
+    public void showError(String errorMsg){
+        txtError.setText(errorMsg);
+        showBtnAmin(btnSave);
+        showTextAmin(txtError);
+    }
+
     public static void showTextAmin(View view){
         ViewUtil.setViewVisibility(view, View.VISIBLE);
         ObjectAnimator.ofFloat(view, "alpha", 1.0f, 0.0f).setDuration(3000).start();
@@ -244,6 +253,15 @@ public class AlarmModifyActivity extends BaseActivity {
     @OnClick(R.id.btn_save)
     void saveRemind(View view) {
         txtError.setText("");
+
+        if(StringUtil.isEmptyString(remind.getRemindTitle())){
+            showError(getString(R.string.alarm_topic_error));
+            return;
+        }else if(StringUtil.isEmptyString(remind.getRemindContent())){
+            showError(getString(R.string.alarm_content_error));
+            return;
+        }
+
         showWaitDialog();
         if (remind.getRemindId() == -1) {
             remind.setRemindTime(Reminds.calculateAlarm(remind));
@@ -263,6 +281,8 @@ public class AlarmModifyActivity extends BaseActivity {
 
     public static void startAction(Fragment fragment) {
         Remind remind = new Remind();
+        remind.setRemindTitle(fragment.getString(R.string.alarm_topic_default));
+        remind.setRemindContent(fragment.getString(R.string.alarm_content_default));
         startAction(fragment, remind);
     }
 
