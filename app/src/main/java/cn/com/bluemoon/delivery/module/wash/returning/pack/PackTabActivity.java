@@ -8,7 +8,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxFragment;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxHistoryFragment;
 
 /**
@@ -19,7 +18,7 @@ public class PackTabActivity extends BaseTabActivity {
     //
     public static void actionStart(Context context) {
         ArrayList<TabState> tabs = new ArrayList<>();
-        tabs.add(new TabState(CloseBoxFragment.class,
+        tabs.add(new TabState(PackFragment.class,
                 R.drawable.tab_pack_selector,
                 R.string.title_pack));
         tabs.add(new TabState(WaitInboxFragment.class,
