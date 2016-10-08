@@ -25,6 +25,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 
 public class PackFragment extends BasePullToRefreshListViewFragment {
+    private final String orderStatus ="WAIT_PACKED";
     private static final int REQUEST_CODE_SCANE_BOX_CODE = 0x777;
     private View viewPopStart;
     private TextView txtCount;
@@ -129,7 +130,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox, getNewHandler
+        ReturningApi.queryWaitPackageList(orderStatus, 0,"" ,getToken(), getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
         setAmount();
     }
@@ -233,8 +234,8 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox, getNewHandler
-                (requestCode, ResultWaitCloseBoxList.class));
+//        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox, getNewHandler
+//                (requestCode, ResultWaitCloseBoxList.class));
     }
 
     /**
