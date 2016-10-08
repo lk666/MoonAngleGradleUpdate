@@ -71,10 +71,10 @@ public class Reminds {
     }
 
     // Private method to get a more limited set of alarms from the database.
-    private static Cursor getFilteredAlarmsCursor(
+    public static Cursor getFilteredAlarmsCursor(
             ContentResolver contentResolver) {
         return contentResolver.query(Constants.ALARM_CONTENT_URI, Constants.ALARM_QUERY_COLUMNS, Constants.WHERE_ENABLE,
-                null, null);
+                null, Constants.Fillter_SORT_ORDER);
     }
 
 
