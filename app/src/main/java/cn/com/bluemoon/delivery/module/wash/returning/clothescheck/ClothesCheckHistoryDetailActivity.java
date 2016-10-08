@@ -145,6 +145,12 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
 
         clothesAdapter.setList(result.getClothesList());
         clothesAdapter.notifyDataSetChanged();
+        scMain.post(new Runnable() {
+            @Override
+            public void run() {
+                scMain.scrollTo(0, 0);
+            }
+        });
     }
 
     class ImgAdapter extends BaseListAdapter<String> {

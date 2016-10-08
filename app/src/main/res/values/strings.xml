@@ -997,4 +997,6 @@
     <string name="pack_pending_pack_num">共%1$d单</string>
 
 
+    <string name="back_order_check_detail">还衣单清点详情</string>
+    <string name="back_order">还衣单</string>
 </resources>

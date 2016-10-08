@@ -598,6 +598,10 @@
             android:name=".module.wash.returning.clothescheck.ClothesCheckHistoryDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.BackOrderCheckHistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
     </application>
 
 </manifest>

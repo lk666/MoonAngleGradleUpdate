@@ -222,9 +222,9 @@ public class ClothesCheckHistoryFragment extends BasePullToRefreshListViewFragme
     public void onItemClick(Object obj, View view, int position) {
         CheckLog item = (CheckLog) obj;
         if (null != item) {
-            // todo 还衣单清点
+            // 还衣单清点
             if (item.getSourceType().equals(CheckLog.INVENTORY_SEALED_BOX)) {
-
+                BackOrderCheckHistoryDetailActivity.actionStart(getActivity(), this, item.getCheckLogId());
             }
             // 衣物清点
             else {
