@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.wash.returning.closebox;
+package cn.com.bluemoon.delivery.module.wash.returning.clothescheck;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
@@ -17,15 +17,17 @@ import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ResultWaitCloseBoxLi
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.ScanBoxCodeActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.WaitCloseBoxFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 /**
- * 待封箱界面
+ * 衣物清点
  * Created by lk on 2016/9/14.
  */
-public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
+public class ClothesCheckFragment extends BasePullToRefreshListViewFragment {
     private static final int REQUEST_CODE_SCANE_BOX_CODE = 0x777;
     private View viewPopStart;
     private TextView txtCount;

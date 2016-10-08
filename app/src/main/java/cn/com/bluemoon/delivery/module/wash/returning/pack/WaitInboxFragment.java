@@ -52,6 +52,7 @@ public class WaitInboxFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
+        ScanPackActivity.actStart(this);
     }
 
     @Override
