@@ -1,0 +1,94 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/view_bg">
+
+    <ImageView
+        android:id="@+id/iv_right"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="15dp"
+        android:scaleType="centerInside"
+        android:src="@mipmap/icon_right"/>
+
+    <TextView
+        android:id="@+id/tv_box_tag_code"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="15dp"
+        android:layout_toLeftOf="@+id/iv_right"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_size_17"/>
+
+    <View
+        android:id="@+id/div"
+        style="@style/line_solid_style"
+        android:layout_below="@+id/tv_box_tag_code"
+        android:layout_marginLeft="12dp"
+        android:layout_marginTop="15dp"/>
+
+    <TextView
+        android:id="@+id/tv_back_order_num_title"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_below="@+id/div"
+        android:layout_marginLeft="12dp"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/pack_back_box_code"
+        android:textColor="@color/text_black_light"
+        android:textSize="@dimen/text_size_15"/>
+
+    <TextView
+        android:id="@+id/tv_back_order_num"
+        android:layout_width="47dp"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/tv_back_order_num_title"
+        android:layout_toRightOf="@+id/tv_back_order_num_title"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_size_15"/>
+
+    <TextView
+        android:id="@+id/tv_clothes_num_title"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/tv_back_order_num_title"
+        android:layout_marginLeft="25dp"
+        android:layout_toRightOf="@+id/tv_back_order_num"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:text="@string/pack_back_order_num"
+        android:textColor="@color/text_black_light"
+        android:textSize="@dimen/text_size_15"/>
+
+    <TextView
+        android:id="@+id/tv_clothes_num"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_alignTop="@+id/tv_back_order_num_title"
+        android:layout_toRightOf="@+id/tv_clothes_num_title"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:singleLine="true"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_size_15"/>
+
+    <View
+        style="@style/line_solid_style"
+        android:layout_height="6dp"
+        android:layout_below="@+id/tv_back_order_num_title"
+        android:background="@color/page_bg_f2"/>
+
+</RelativeLayout>
