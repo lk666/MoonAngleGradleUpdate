@@ -16,15 +16,15 @@ public class DialogUtil extends LibDialogUtil {
 
     public static QRCodeDialog showCodeDialog(Activity context, String title,
                                               String code, String str) {
-        return showCodeDialog(context, title, null, code, str, null, PublicUtil.getPhotoPath(), null);
+        return showCodeDialog(context,code,null,title,str, null,null);
     }
 
     public static ImageDialog showPictureDialog(Activity context, String imgUrl) {
-        return showPictureDialog(context, null, imgUrl, PublicUtil.getPhotoPath(), null);
+        return showPictureDialog(context, null, imgUrl, null);
     }
 
     public static ImageDialog showPictureDialog(Activity context, Bitmap bit) {
-        return showPictureDialog(context, bit, null, PublicUtil.getPhotoPath(), null);
+        return showPictureDialog(context, bit, null,null);
     }
 
     /**
