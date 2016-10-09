@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/rl_taskItem"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white_bg"
+    android:minHeight="44dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp">
+
+        <!--android:layout_centerVertical="true"-->
+    <TextView
+        android:id="@+id/tv_leftName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:minWidth="60dp"
+        android:layout_marginTop="@dimen/space_14"
+        android:textColor="@color/task_item_left_text_color"
+        android:text="评价人："
+        />
+
+    <TextView
+        android:id="@+id/tv_rightContent"
+        android:layout_toRightOf="@+id/tv_leftName"
+        android:layout_toLeftOf="@+id/iv_arrow"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:textColor="@color/task_item_right_text_color"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:paddingTop="9dp"
+        android:paddingBottom="9dp"
+        android:text=""
+        android:ems="8"
+        android:textColorHint="@color/task_item_hint_color"
+        android:hint="123"
+        android:ellipsize="end"
+        />
+
+    <ImageView
+        android:id="@+id/iv_arrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/icon_right"
+        android:layout_alignParentRight="true"
+
+        android:layout_centerVertical="true"
+        />
+
+
+</RelativeLayout>
+
+
+
+

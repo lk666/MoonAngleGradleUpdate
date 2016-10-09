@@ -7,6 +7,8 @@ public class PreUtils {
 
 	private static final String BIND_FLAG = "bind_flag";
 
+	public static final String PREFERENCES = "AlarmClock";
+
 	public static boolean isBind(Context context)
 	{
 		SharedPreferences sp = context.getSharedPreferences("pre_tuisong",

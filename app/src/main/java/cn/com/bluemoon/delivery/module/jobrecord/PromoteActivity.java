@@ -68,6 +68,19 @@ public class PromoteActivity extends Activity implements CommonSearchView.Search
         adapter = new PromoteAdapter(this);
         listview.setAdapter(adapter);
         PublicUtil.setEmptyView(listview, null, new CommonEmptyView.EmptyListener() {
+
+//            @Override
+//            public void onSearch(CommonSearchView view,String str) {
+//                searchKey = str;
+//                searchView.hideHistoryView();
+//                DeliveryApi.getPromoteList(ClientStateManager.getLoginToken(PromoteActivity.this), searchKey, 0, getPromoteListHandler);
+//            }
+//
+//            @Override
+//            public void onCancel(CommonSearchView view) {
+//                searchView.hideHistoryView();
+//                searchKey = "";
+//            }
             @Override
             public void onRefresh() {
                 isPullDown = false;

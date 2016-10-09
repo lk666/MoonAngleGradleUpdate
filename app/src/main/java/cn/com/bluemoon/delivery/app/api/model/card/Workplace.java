@@ -12,7 +12,6 @@ public class Workplace implements Serializable{
     private String cityName;
     private String countyName;
     private String address;
-    private boolean isSelect;
 
     public String getAddress() {
         return address;
@@ -20,14 +19,6 @@ public class Workplace implements Serializable{
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public boolean isSelect() {
-        return isSelect;
-    }
-
-    public void setIsSelect(boolean isSelect) {
-        this.isSelect = isSelect;
     }
 
     public String getWorkplaceCode() {

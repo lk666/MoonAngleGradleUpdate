@@ -58,6 +58,8 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
+import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -72,7 +74,6 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
-import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
@@ -109,7 +110,7 @@ public class MainActivity extends SlidingActivity {
         PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
                 PushUtils.getMetaValue(this, "api_key"));
 
-        setContentView(R.layout.main);
+        setContentView(R.layout.activity_main);
         main = this;
         initMenu();
         if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
@@ -143,7 +144,10 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-             PublicUtil.openScanCard(main, null, null, 0);
+             PublicUtil.openScanView(main, null, null, 0);
+//                PublicUtil.openScanTicket(main,"dlsafdsfds","23432432",0,4);
+//                PublicUtil.openNewScan(main,"123","3243242",0,4);
+//                PublicUtil.openNewScanOrder(main,null,"123","3243242",0,4);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -399,22 +403,7 @@ public class MainActivity extends SlidingActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(main);
-            dialog.setTitle(R.string.app_name);
-            dialog.setMessage(R.string.exit_app_dialog_msg);
-            dialog.setPositiveButton(R.string.btn_ok,
-                    new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog,
-                                            int which) {
-                            finish();
-                            manager.finishAllActivity();
-                            MobclickAgent.onProfileSignOff();
-                        }
-                    });
-            dialog.setNegativeButton(R.string.btn_cancel, null);
-            dialog.show();
+            DialogUtil.getExitDialog(this).show();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -626,9 +615,8 @@ public class MainActivity extends SlidingActivity {
             switch (requestCode) {
                 case 0:
                     if (data == null) return;
-                    String result = data.getStringExtra(LibConstants.SCAN_RESULT);
+//                    String result = data.getStringExtra(LibConstants.SCAN_RESULT);
 //                    PublicUtil.showToast(result);
-                    PublicUtil.showMessage(main, result);
                     break;
             }
         }
@@ -758,7 +746,13 @@ public class MainActivity extends SlidingActivity {
                         userRight.getMenuName(), false);
             } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
                 //click empty
-            } else {
+            } else if ("scheduleSys".equals(userRight.getMenuCode())) {
+                intent = new Intent(main, SzSchedualActivity.class);
+                startActivity(intent);
+            }else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, SzTaskActivity.class);
+                startActivity(intent);
+            }else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
             }
         } catch (Exception ex) {

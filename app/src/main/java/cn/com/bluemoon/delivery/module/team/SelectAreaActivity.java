@@ -229,6 +229,23 @@ public class SelectAreaActivity extends Activity implements CommonSearchView.Sea
         setTotalNum(items);
     }
 
+    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
+        @Override
+        public void onSearch(CommonSearchView view,String str) {
+            content = str;
+            pullDown = false;
+            pullUp = false;
+            getData();
+            searchView.hideHistoryView();
+        }
+
+        @Override
+        public void onCancel(CommonSearchView view) {
+            searchView.hideHistoryView();
+        }
+
+    };
+
     @Override
     public void onPause() {
         super.onPause();

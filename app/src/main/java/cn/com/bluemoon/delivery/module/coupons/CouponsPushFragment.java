@@ -313,7 +313,7 @@ public class CouponsPushFragment extends Fragment implements OnClickListener {
 
 
         } else if (v == layoutConsumer) {
-            PublicUtil.openScanCard(mContext, CouponsPushFragment.this,
+            PublicUtil.openScanView(mContext, CouponsPushFragment.this,
                     getString(R.string.coupons_scan_code_title), Constants.REQUEST_SCAN);
 
         } else if (v == btnCancel && !submitControl) {

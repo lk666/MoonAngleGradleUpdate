@@ -5,7 +5,9 @@
     <color name="view_bg">#ffffff</color>
     <color name="title_background">#ff1fb8ff</color> <!-- 顶部标题栏 蓝色 -->
     <color name="page_bg_f2">#f2f2f2</color> <!-- 页面带灰色背景 -->
+    <color name="page_bg_f8">#f8f8f8</color> <!-- 套餐明细带灰色背景 -->
     <color name="page_bg_ed">#ededed</color> <!-- 页面带灰色背景 -->
+    <color name="page_bg_fb">#fbfbfb</color> <!-- 页面带灰色背景 -->
     <color name="item_bg_f5">#f5f5f5</color> <!-- 页面带灰色背景 -->
     <color name="transparent">#0000</color><!-- 透明 -->
     <color name="line_dotted_bg">#ebebeb</color><!-- 分割线 虚线  颜色 -->
@@ -21,6 +23,8 @@
     <color name="slide_menu2">#0d4362</color><!-- 侧滑背景 -->
     <color name="slide_menu_text_color">#7ea1b4</color><!-- 侧滑文字 -->
 
+    <color name="blue_deep">#1ca6e5</color><!--渐变深蓝色-->
+
 
 
     <!-- 文字颜色规范 -->
@@ -33,7 +37,10 @@
     <color name="text_blue_light">#0a58f1</color><!-- 蓝色文字 -->
     <color name="text_blue_deep">#0058f1</color><!-- 蓝色文字 -->
     <color name="text_set_hint">#bebebe</color><!-- 设置横条右边的提示语颜色 -->
-
+    <color name="text_back_white">#f8f8f8</color><!--幽灵白 -->
+    <color name="text_back_grep">#f3f3f3</color><!--幽灵白 -->
+    <color name="text_back_grep_a">#f2f2f2</color><!--幽灵白 -->
+    <color name="text_grep_a">#aaaaaa</color>
     <!-- 按钮颜色 -->
     <color name="btn_red">#ff6c47</color><!-- 红色 -->
     <color name="btn_red_pressed">#e56140</color><!-- 点击红色 -->
@@ -51,5 +58,32 @@
     <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
     <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
 
+    <!-- 科技馆检票 -->
+    <color name="tiket_content_bg">#99011930</color>
+    <color name="tiket_content_color">#d9d9d9</color>
     <!-- 洗衣服务分割线颜色 -->
+
+    <!-- 深圳 日期选择器 -->
+    <color name="province_line_border">#D0D0D0</color>
+    <color name="login_button_normal">#169fff</color>
+    <color name="login_button_pressed">#1073b9</color>
+    <!-- 深圳 -->
+    <color name="sz_alert_color">#FF8027</color>
+    <color name="sz_font_yellow">#FF8027</color>
+    <color name="sz_font_normal">#464646</color>
+    <color name="sz_font_gray">#A0A0A0</color>
+    <color name="sz_font_blue">#00C9FB</color>
+    <color name="sz_line">#f5f5f5</color>
+    <color name="sz_blue">#4d1fb8ff</color>
+    <color name="sz_siderbar_blue">#1fb8fe</color>
+
+    <!--sz task color-->
+    <color name="sz_gray_background">#F0F0F0</color>
+    <color name="task_item_left_text_color">#333333</color>
+    <color name="task_item_right_text_color">#888888</color>
+    <color name="task_item_hint_color">#DBDBDB</color>
+
+    <color name="sz_task_evaluate_text_color">#888888</color>
+    <color name="sz_task_backgroud_color">#888888</color>
+    <color name="sz_divider_gray_background">#F0F0F0</color>
 </resources>

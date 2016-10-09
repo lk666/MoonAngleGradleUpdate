@@ -28,4 +28,61 @@
         <!--ExtraTextNumberWheelView专用，选中时显示的特定后缀-->
         <attr name="extra" format="string"/>
     </declare-styleable>
+
+    <declare-styleable name="TopArcLayout">
+        <!--圆弧形渐变区高度-->
+        <attr name="strokeThiness" format="dimension"/>
+        <!--圆弧形半径-->
+        <attr name="radius" format="dimension"/>
+        <!--圆弧形渐变区顶部颜色，即渐变结束色-->
+        <attr name="endColor" format="color"/>
+        <!--圆弧形渐变区底部颜色，即渐变开始色-->
+        <attr name="startColor" format="color"/>
+        <!--背景色-->
+        <attr name="viewBg" format="color"/>
+    </declare-styleable>
+
+    <declare-styleable name="ArrowTextView">
+        <attr name="arrowRadius" format="dimension" />
+        <attr name="arrowWidth" format="dimension" />
+        <attr name="arrowInWidth" format="dimension" />
+        <attr name="arrowBg" format="color" />
+    </declare-styleable>
+    <declare-styleable name="MySetItemView">
+        <attr name="setMyLeftDrawable" format="reference" />
+        <attr name="setMyHintColor" format="color" />
+        <attr name="setMyContentColor" format="color" />
+        <attr name="setMyContentTxt" format="string" />
+        <attr name="setMyHintTxt" format="string" />
+        <attr name="setMyRightVisible" format="boolean" />
+    </declare-styleable>
+
+    <!--sz tasttextview-->
+    <declare-styleable name="TaskTextView">
+        <attr name="rt_line_lenght" format="integer" />
+        <attr name="rt_max_lenght" format="integer" />
+        <attr name="text_size_left" format="dimension" />
+        <attr name="text_size_right" format="dimension" />
+        <attr name="tv_height" format="dimension" />
+        <attr name="text_right" format="string" />
+        <attr name="text_left" format="string" />
+        <attr name="text_right_hint" format="string" />
+        <attr name="text_left_hint" format="string" />
+        <attr name="rt_gravityStyle" format="enum">
+            <enum name="left" value="0"></enum>
+            <enum name="right" value="1"></enum>
+        </attr>
+        <attr name="hideArrow" format="enum">
+            <enum name="gone" value="0"></enum>
+            <enum name="visible" value="1"></enum>
+        </attr>
+    </declare-styleable>
+
+    <!--圆形imageview-->
+    <declare-styleable name="roundedimageview">
+        <attr name="border_thickness" format="dimension" />
+        <attr name="border_inside_color" format="color" />
+        <attr name="border_outside_color" format="color" />
+        <attr name="is_draw_border" format="boolean" />
+    </declare-styleable>
 </resources>

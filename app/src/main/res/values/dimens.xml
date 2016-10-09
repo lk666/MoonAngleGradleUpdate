@@ -30,11 +30,28 @@
     <dimen name="linepaddingtxt2">0dp</dimen>
     <dimen name="linepaddingtxt3">5dp</dimen>
     <dimen name="linepaddingtxt4">5dp</dimen>
+    <dimen name="linepaddingtxt5">2dp</dimen>
+    <dimen name="linepaddingtxt6">7dp</dimen>
 
     <dimen name="shadow_width">15dp</dimen>
 
     <dimen name="div_btn_clothes_book_in">18dp</dimen>
 
     <!--分割线高度-->
+    <dimen name="div_height_none">0dp</dimen>
     <dimen name="div_height">0.5dp</dimen>
+    <!--登录按钮平移距离-->
+    <dimen name="translation_x">20dp</dimen>
+
+    <!--sz jiangyuehue-->
+    <dimen name="activity_meeting_times_titelWidth">60dp</dimen>
+    <dimen name="activity_meeting_times_titelHeight_bar">25dp</dimen>
+    <dimen name="activity_meeting_times_titelHeight">40dp</dimen>
+    <dimen name="activity_meeting_times_titelWidth2">100dp</dimen>
+    <dimen name="activity_meeting_times_textSize">10sp</dimen>
+
+
+    <dimen name="sz_seekbar_thumb_normal">25dp</dimen>
+    <dimen name="sz_seekbar_thumb_press">40dp</dimen>
+    <dimen name="setting_item_height">50dp</dimen>
 </resources>

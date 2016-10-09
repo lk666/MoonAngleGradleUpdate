@@ -1,0 +1,42 @@
+{
+    "isSuccess": true,
+    "mainTypeNews": [
+        {
+            "msgId": 23,
+            "msgInfo": "哈哈，才此次的辅导辅导辅导",
+            "msgTime": "2016-08-16 16:25",
+            "msgCounts": 3,
+            "msgType": "1000"
+        },
+        {
+            "msgId": 0,
+            "msgInfo": "",
+            "msgTime": "2016-08-16 16:25",
+            "msgCounts": 0,
+            "msgType": "2000"
+        },
+        {
+            "msgId": 0,
+            "msgInfo": "",
+            "msgTime": "2016-08-16 16:25",
+            "msgCounts": 0,
+            "msgType": "3000"
+        },
+        {
+            "msgId": 0,
+            "msgInfo": "",
+            "msgTime": "2016-08-16 16:25",
+            "msgCounts": 0,
+            "msgType": "4000"
+        },
+        {
+            "msgId": 0,
+            "msgInfo": "",
+            "msgTime": "2016-08-16 16:25",
+            "msgCounts": 0,
+            "msgType": "5000"
+        }
+    ],
+    "responseCode": 100,
+    "responseMsg": "OK"
+}

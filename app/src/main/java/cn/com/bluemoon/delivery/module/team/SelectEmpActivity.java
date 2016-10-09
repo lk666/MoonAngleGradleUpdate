@@ -111,6 +111,20 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
         listview.setAdapter(adapter);
     }
 
+    CommonSearchView.SearchViewListener searchViewListener = new CommonSearchView.SearchViewListener() {
+        @Override
+        public void onSearch(CommonSearchView view,String str) {
+            getData();
+            searchView.hideHistoryView();
+        }
+
+        @Override
+        public void onCancel(CommonSearchView view) {
+            searchView.hideHistoryView();
+        }
+
+    };
+
     private void initCustomActionBar() {
         new CommonActionBar(getActionBar(), new IActionBarListener() {
 

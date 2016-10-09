@@ -191,20 +191,20 @@
 
             <Button
                 android:id="@+id/delivery_sms"
-                android:layout_width="90dp"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:background="@drawable/btn_border_red"
                 android:layout_marginRight="10dp"
                 android:layout_marginLeft="15dp"
                 android:layout_gravity="center"
                 android:textColor="@color/text_red"
-                android:textSize="15sp"
+                android:textSize="14sp"
                 android:text="@string/pending_order_receive_sign_sms_title" />
 
 
             <Button
                 android:id="@+id/delivery_action"
-                android:layout_width="90dp"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:background="@drawable/btn_red_shape"
                 android:layout_marginTop="20dp"
@@ -240,7 +240,7 @@
             android:id="@+id/txt_totalAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="14dp"
             android:layout_toRightOf="@id/txt_cateAmount"
             android:textColor="@color/text_grep"
             android:textSize="12sp" />
@@ -249,8 +249,8 @@
             android:id="@+id/txt_totalPrice"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@id/txt_totalAmount"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/txt_cateAmount"
             android:textColor="@color/text_grep"
             android:textSize="12sp" />
         
@@ -260,6 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="15dp"
+            android:layout_centerVertical="true"
             android:textColor="@color/text_grep"
             android:text="@string/pending_order_edit_appointment"
             android:textSize="12sp" />

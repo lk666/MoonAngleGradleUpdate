@@ -1,5 +1,4 @@
 import java.text.SimpleDateFormat
-
 apply plugin: 'com.android.application'
 def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
 def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
@@ -7,7 +6,7 @@ def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
     return df.format(new Date()) }
 android {
     compileSdkVersion 21
-    buildToolsVersion '23.0.3'
+    buildToolsVersion "23.0.3"
 
     signingConfigs {
         release {
@@ -22,8 +21,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 20
-        versionName "4.2.4"
+        versionCode 21
+        versionName "4.3.0"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
     }
@@ -32,9 +31,11 @@ android {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
             buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""
+            buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://tmallapi.bluemoon.com.cn/%s\""
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
@@ -50,9 +51,11 @@ android {
         release {
             buildConfigField("boolean", "RELEASE", "true")
             buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""
+            buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://mallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -107,6 +110,7 @@ dependencies {
     compile project(':BlueMoonSDK')
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'junit:junit:4.12'
+    compile 'org.greenrobot:eventbus:3.0.0'
 }
 
 

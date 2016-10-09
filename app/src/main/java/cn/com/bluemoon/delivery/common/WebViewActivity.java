@@ -125,9 +125,14 @@ public class WebViewActivity extends Activity implements OnClickListener{
 		});
 
 		WebSettings webSetting = moonWebView.getSettings();
+		webSetting.setJavaScriptEnabled(true);//设置可执行js脚本
+		webSetting.setUseWideViewPort(true);//设置网页适应手机屏幕
+		webSetting.setLoadWithOverviewMode(true);
+		webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+		webSetting.setDisplayZoomControls(false);//隐藏缩放按钮
+		webSetting.setAllowFileAccess(true); // 允许访问文件
 		webSetting.setDomStorageEnabled(true);
 		webSetting.setDatabaseEnabled(true);
-		webSetting.setJavaScriptEnabled(true);
 		webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
 		moonWebView.setWebChromeClient(new WebChromeClient() {
 
@@ -277,7 +282,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 
 		@Override
 		public void scan(WebView view,String title, String callbackName) {
-			PublicUtil.openScanCard(aty, null,title, Constants.REQUEST_SCAN);
+			PublicUtil.openScanView(aty, null, title, Constants.REQUEST_SCAN);
 			scanCallbackName = callbackName;
 		}
 

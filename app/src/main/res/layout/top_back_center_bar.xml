@@ -53,7 +53,8 @@
         android:paddingRight="10dp"
         android:textColor="@color/view_bg"
         android:textSize="@dimen/text_size_large_16"
-        android:visibility="gone" />
+        android:visibility="gone"
+        />
 
     <cn.com.bluemoon.lib.view.ImageViewForClick
         android:id="@+id/img_right"

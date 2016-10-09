@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.inventory;
 
 
 import android.content.Context;
+import android.content.Intent;
 
 import java.util.ArrayList;
 
@@ -38,4 +39,24 @@ public class InventoryTabActivity extends BaseTabActivity {
         }
         actionStart(context, tabs, InventoryTabActivity.class);
     }
+
+    public void TabTo(int index) {
+        tabhost.setCurrentTab(index);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == RESULT_OK) {
+            int count = Integer.parseInt(amountTvs.get(0).getText().toString());
+            if (count > 1) {
+                count = count - 1;
+                setAmount(0,count);
+            } else {
+                setAmount(0,0);
+            }
+            TabTo(1);
+        }
+    }
+
 }

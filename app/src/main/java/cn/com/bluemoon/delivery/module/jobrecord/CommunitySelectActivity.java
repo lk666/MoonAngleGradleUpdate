@@ -104,6 +104,22 @@ public class CommunitySelectActivity extends Activity implements CommonSearchVie
         });
 
         searchView.setListHistory(ClientStateManager.getHistory(ClientStateManager.COMMUNITY_KEY));
+        searchView.hideHistoryView();
+        searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
+            @Override
+            public void onSearch(CommonSearchView view,String str) {
+                searchKey = str;
+                searchView.hideHistoryView();
+                DeliveryApi.getBpList(ClientStateManager.getLoginToken(CommunitySelectActivity.this), searchKey, 0, getBpListHandler);
+            }
+
+            @Override
+            public void onCancel(CommonSearchView view) {
+                searchView.hideHistoryView();
+                searchKey = "";
+            }
+        });
+
         searchView.setSearchViewListener(this);
         listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override

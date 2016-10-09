@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+    <TextView
+        android:id="@+id/subject_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="主题：哈哈哈哈"
+        style="@style/sz_txt"/>
+
+    <TextView
+        android:id="@+id/address_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="地点：哈哈哈哈"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/time_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="时间：2016年12月12日 12:00"
+        android:textColor="@color/sz_font_yellow"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/create_people_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="发起人：哈哈哈哈"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/speech_people_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="演讲人：哈哈哈哈"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/join_people_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="参与者：哈哈哈哈，哈哈，啊哈哈"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/record_people_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="记录者：哈哈哈哈"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/comment_people_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="评审员：哈哈哈哈"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/content_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="内容：XXXXXXXXXXXXX"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/type_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="类型：XXXXXXXXXXXXX"
+        style="@style/sz_txt_margin_top"/>
+
+    <TextView
+        android:id="@+id/adjust_tv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="时间可调：可调整"
+        style="@style/sz_txt_margin_top"/>
+</LinearLayout>
+

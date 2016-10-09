@@ -26,6 +26,7 @@ import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -147,7 +148,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
                     }
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
-                    PublicUtil.showToastServerBusy();
+//                    PublicUtil.showToastServerBusy();
                     iHttpRespone.onSuccessException(getReqCode(), e);
                 }
             }
@@ -155,10 +156,13 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
             @Override
             public void onFailure(int statusCode, Header[] headers,
                                   String responseString, Throwable throwable) {
+//                LogUtils.e(getDefaultTag(), throwable.getMessage()+responseString);
+
+                LogUtil.i("================"+throwable.getMessage()+responseString);
+
                 if (iHttpRespone == null) {
                     return;
                 }
-                LogUtils.e(getDefaultTag(), throwable.getMessage());
                 hideWaitDialog();
                 iHttpRespone.onFailureResponse(getReqCode(), throwable);
             }
@@ -283,6 +287,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     /**
      * 请求返回非OK
      */
+    @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         PublicUtil.showErrorMsg(aty, result);
     }

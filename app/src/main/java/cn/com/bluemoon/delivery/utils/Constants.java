@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.utils;
 
+import android.net.Uri;
 import android.os.Environment;
 
 import java.util.HashMap;
@@ -41,6 +42,24 @@ public class Constants {
 
     public final static String DES = "DES";
 
+    public static final Uri ALARM_CONTENT_URI =
+            Uri.parse("content://cn.com.bluemoon.delivery/alarm");
+
+
+    public static final String[] ALARM_QUERY_COLUMNS = {
+            "remindId", "hour", "minute", "remindWeek", "remindTime",
+            "isClose", "remindTitle", "remindContent" };
+
+
+
+    public static final String DEFAULT_SORT_ORDER =
+              "isClose ASC,hour, minute ASC";
+
+    public static final String Fillter_SORT_ORDER =
+            "remindWeek ASC";
+
+    public static final String WHERE_ENABLE =  " isClose = 0";
+
     /************************
      * location
      ***************************/
@@ -67,7 +86,6 @@ public class Constants {
      * account
      *******************/
 
-    public static final int MODE_PERSON = 0x07;
     public static final int MODE_GENERAL = 0x08;
     public static final int MODE_CHECK = 0x09;
 
