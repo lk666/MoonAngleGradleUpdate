@@ -130,10 +130,10 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 break;
             case MODE_PACK:
                 if (boxCode.equals(str)) {
-                    showWaitDialog();
-                    ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler(2, ResultBase.class));
+                  //  showWaitDialog();
+                  //  ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler(2, ResultBase.class));
                 } else {
-                    toast(getString(R.string.pack_box_error, boxCode));
+                    toast(getString(R.string.close_box_scan_pack_code_error, boxCode));
                     startDelay();
                 }
                 break;
