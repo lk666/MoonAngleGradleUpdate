@@ -190,7 +190,7 @@ public class OrderDetailActivity extends BaseActivity {
 				PackageAdapter adapter = new PackageAdapter(OrderDetailActivity.this, null);
 				adapter.setList(packages);
 				listviewPackageDetail.setAdapter(adapter);
-				LibViewUtil.setListViewHeight(listviewPackageDetail);
+//				LibViewUtil.setListViewHeight(listviewPackageDetail);
 			} else {
 				layoutPackage.setVisibility(View.GONE);
 			}
