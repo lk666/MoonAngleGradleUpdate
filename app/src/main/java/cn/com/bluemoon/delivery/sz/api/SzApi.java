@@ -30,6 +30,7 @@ public class SzApi {
     public static String CLIENT = "android";
     private static String FORMAT = "json";
     private static String APP_TYPE = "moonAngel";
+
     private static boolean isDebug = false;
 
     static {
