@@ -35,7 +35,7 @@ android {
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""
-            buildConfigField "String", "API_URL_SZ", "\"http://192.168.237.2/%s\""
+            buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://tmallapi.bluemoon.com.cn/%s\""
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
@@ -55,7 +55,7 @@ android {
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""
-            buildConfigField "String", "API_URL_SZ", "\"http://192.168.237.2/%s\""
+            buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://mallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
@@ -69,7 +69,6 @@ android {
                     }
                 }
             }
-
         }
     }
 

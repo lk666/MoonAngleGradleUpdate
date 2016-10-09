@@ -26,27 +26,27 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 public class SzApi {
 
     public static  String URL = "http://192.168.237.2/%s";
-
     public static AsyncHttpClient client = null;
-
     public static String CLIENT = "android";
     private static String FORMAT = "json";
     private static String APP_TYPE = "moonAngel";
-
     private static boolean isDebug = false;
-
 
     static {
         client = new AsyncHttpClient();
         client.setConnectTimeout(20000);
         client.setResponseTimeout(20000);
 
+		if(BuildConfig.RELEASE)
+			isDebug=false;
+		else
+			isDebug=true;
+
     }
 
 	public static String getAbsoluteApiUrl(String partUrl) {
-		String url = String.format(BuildConfig.API_URL_SZ, partUrl);
-		 LogUtil.d("getAbsoluteApiUrl BASE_URL:" + url);
-		return url;
+		 LogUtil.d("getAbsoluteApiUrl BASE_URL:" + String.format(BuildConfig.API_URL_SZ, partUrl));
+		return String.format(BuildConfig.API_URL_SZ, partUrl);
 	}
 
 	public static String getMockUrl(String partUrl) {
@@ -259,6 +259,7 @@ public class SzApi {
     }
 
     public static void requestLog(Map<String, Object> params,String url){
+        LogUtil.e("isDebug:"+isDebug);
         LogUtil.e("========url========");
         LogUtil.e(url);
         LogUtil.e("========request========");
