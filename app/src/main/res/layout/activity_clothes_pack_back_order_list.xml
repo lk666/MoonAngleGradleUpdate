@@ -17,7 +17,7 @@
             android:layout_height="match_parent"
             android:gravity="center_vertical"
             android:paddingLeft="12dp"
-            android:text="@string/close_box_back_order_box_code"
+            android:text="@string/pack_back_order_clothes_code"
             android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_15"/>
 
@@ -27,7 +27,7 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="12dp"
             android:gravity="right|center_vertical"
-            android:text="@string/close_box_back_detail_order_num"
+            android:text="@string/pack_back_order_clothes_count"
             android:textColor="@color/view_bg"
             android:textSize="@dimen/text_size_15"/>
     </LinearLayout>
