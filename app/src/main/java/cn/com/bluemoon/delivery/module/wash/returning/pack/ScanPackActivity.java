@@ -22,9 +22,12 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     public final static int MODE_INBOX = 0;
     /*单独装箱扫描*/
     public final static int MODE_SINGER = 1;
+    /*待打包扫描分拨柜*/
+    public final static int MODE_PACK=2;
     private int mode;
     private String backOrderCode;
     private String boxCode;
+    private String region;
     private TextView txtTitle;
 
     /*从待装箱跳转过来*/
@@ -33,6 +36,18 @@ public class ScanPackActivity extends BaseScanCodeActivity {
         intent.putExtra("title", AppContext.getInstance().getString(R.string.close_box_scan_back_code_title));
         intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_INBOX);
+        fragment.startActivityForResult(intent, 0);
+    }
+
+
+    /*从待打包跳转过来*/
+    public static void actStart(Fragment fragment,String boxCode,String region) {
+        Intent intent = new Intent(fragment.getActivity(), ScanPackActivity.class);
+        intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cabinet_title));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("mode", MODE_PACK);
+        intent.putExtra("region", region);
+        intent.putExtra("code", boxCode);
         fragment.startActivityForResult(intent, 0);
     }
 
@@ -62,6 +77,14 @@ public class ScanPackActivity extends BaseScanCodeActivity {
             boxCode = getIntent().getStringExtra("code");
             if (TextUtils.isEmpty(backOrderCode) || TextUtils.isEmpty(boxCode)) {
                 toast(getString(R.string.pack_get_error_data));
+                finish();
+                return;
+            }
+        }else if(MODE_PACK == mode){
+            region = getIntent().getStringExtra("region");
+            boxCode = getIntent().getStringExtra("code");
+            if (TextUtils.isEmpty(region) || TextUtils.isEmpty(boxCode)) {
+                toast(getString(R.string.pack_get_box_error_data));
                 finish();
                 return;
             }
@@ -97,6 +120,15 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 }
                 break;
             case MODE_SINGER:
+                if (boxCode.equals(str)) {
+                    showWaitDialog();
+                    ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler(2, ResultBase.class));
+                } else {
+                    toast(getString(R.string.pack_box_error, boxCode));
+                    startDelay();
+                }
+                break;
+            case MODE_PACK:
                 if (boxCode.equals(str)) {
                     showWaitDialog();
                     ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler(2, ResultBase.class));

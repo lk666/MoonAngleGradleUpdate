@@ -971,6 +971,7 @@
     <string name="title_pack">待打包</string>
     <string name="title_box">待装箱</string>
     <string name="title_history">历史</string>
+    <string name="title_back_detail">还衣单详情</string>
     <string name="pack_inbox">装箱</string>
     <string name="pack_inbox_back_code">还衣单号 %s</string>
     <string name="pack_inbox_box_code">分配箱号</string>
@@ -978,6 +979,24 @@
     <string name="pack_get_error_data">获取还衣单号或衣物箱号失败！</string>
     <string name="pack_order_num">共%1$d单</string>
     <string name="pack_pending_pack_num">共%1$d单</string>
+    <string name="btn_pack_desc">打  包</string>
+    <string name="pack_pending_num">待打包：%1$d</string>
+    <string name="pack_pending_total">规划数量：</string>
+    <string name="pack_pending_finish">实际入柜：</string>
+    <string name="pack_order_num">共%1$d单</string>
+    <string name="pack_get_box_error_data">获取区域或分拨柜号失败！</string>
+    <string name="pack_back_order_code">还衣单号%1$s</string>
+    <string name="pack_back_box_code">箱号：</string>
+    <string name="pack_back_order_num">衣服数量：</string>
+
+
+
+    <string name="pack_back_box_user">收件人：%1$s</string>
+    <string name="pack_back_order_phone">联系方式：%1$s</string>
+    <string name="pack_back_box_address">收货地址：</string>
+    <string name="pack_back_order_clothes_num">衣物数量：共%1$d件</string>
+    <string name="pack_back_order_clothes_num2">折叠%1$d件  悬挂%2$d件</string>
+    <string name="pack_back_order_clothes_resource">衣物来源：%1$s</string>
 
 
     <!--衣物清点-->
