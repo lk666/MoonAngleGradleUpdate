@@ -668,6 +668,7 @@
     <string name="clothing_book_in_phote">衣物照片</string>
     <string name="clothing_book_in_phote_hint">首张为正面整体照，其他拍摄瑕疵部位</string>
     <string name="clothing_book_in_phote_most">(最多10张)</string>
+    <string name="clothing_book_in_phote_most_5">(最多5张)</string>
     <string name="clothing_book_delete_hint">确认删除该衣物信息？</string>
 
 
@@ -975,6 +976,8 @@
     <string name="pack_inbox_box_code">分配箱号</string>
     <string name="pack_box_error">衣物箱标签错误!请扫描【%s】</string>
     <string name="pack_get_error_data">获取还衣单号或衣物箱号失败！</string>
+    <string name="pack_order_num">共%1$d单</string>
+    <string name="pack_pending_pack_num">共%1$d单</string>
 
 
     <!--衣物清点-->
@@ -989,10 +992,15 @@
     <string name="clothes_check_history_back_order_error">还衣单异常</string>
     <string name="clothes_check_detail">衣物清点详情</string>
     <string name="clothes_check_detail_code">衣物编码-%s</string>
-    <string name="pack_order_num">共%1$d单</string>
-    <string name="pack_pending_pack_num">共%1$d单</string>
-
-
     <string name="back_order_check_detail">还衣单清点详情</string>
     <string name="back_order">还衣单</string>
+    <string name="back_order_check">清点还衣单</string>
+    <string name="clothes_check">清点衣物</string>
+    <string name="scan_back_order_code">扫描还衣单标签</string>
+    <string name="abnormal_hint">还衣单异常描述，至少5个子，最多100字</string>
+    <string name="check_finish">清点完成</string>
+    <string name="clothes_check_list_title">衣物清单</string>
+    <string name="clothes_check_not_in">该编码不属于当前还衣单，请重新扫描</string>
+    <string name="clothes_check_finish">该还衣单衣物已清点完成</string>
+
 </resources>

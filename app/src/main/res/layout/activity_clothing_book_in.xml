@@ -245,7 +245,7 @@
             android:id="@+id/sgv_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/view_bg"
+            android:background="@drawable/view_bg"
             android:cacheColorHint="@color/transparent"
             android:clipToPadding="false"
             android:divider="@null"

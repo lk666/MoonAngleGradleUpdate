@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.clothescheck;
 
-import java.io.Serializable;
+import com.alibaba.fastjson.annotation.JSONField;
 
-// TODO: lk 2016/9/30 数据分包
+import java.io.Serializable;
 
 /**
  * 衣物
@@ -18,6 +18,20 @@ public class Clothes implements Serializable {
      * 图片
      */
     private String imagePath;
+
+    /**
+     * 是否已被扫描
+     */
+    @JSONField(serialize = false)
+    private boolean isScaned = false;
+
+    public boolean isScaned() {
+        return isScaned;
+    }
+
+    public void setScaned(boolean scaned) {
+        isScaned = scaned;
+    }
 
     public String getClothesCode() {
         return clothesCode;

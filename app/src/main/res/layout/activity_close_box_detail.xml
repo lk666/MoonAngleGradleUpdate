@@ -7,7 +7,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
+        android:layout_marginTop="44dp"
         android:layout_marginLeft="28dp"
         android:layout_marginRight="28dp"
         android:background="@drawable/border_white_shape_10"

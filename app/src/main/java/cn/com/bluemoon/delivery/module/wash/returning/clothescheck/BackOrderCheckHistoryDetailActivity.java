@@ -133,8 +133,7 @@ public class BackOrderCheckHistoryDetailActivity extends BaseActivity implements
             if (item.isAbnormal()) {
                 iv.setImageResource(R.mipmap.ic_abnormal);
             } else {
-                // TODO: lk 2016/10/8 正常
-                iv.setImageResource(R.mipmap.ic_checked_green);
+                iv.setImageResource(R.mipmap.ic_normal);
             }
             setClickEvent(isNew, position, convertView);
         }
