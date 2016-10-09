@@ -26,15 +26,11 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 public class SzApi {
 
     public static  String URL = "http://192.168.237.2/%s";
-
     public static AsyncHttpClient client = null;
-
     public static String CLIENT = "android";
     private static String FORMAT = "json";
     private static String APP_TYPE = "moonAngel";
-
     private static boolean isDebug = false;
-
 
     static {
         client = new AsyncHttpClient();
