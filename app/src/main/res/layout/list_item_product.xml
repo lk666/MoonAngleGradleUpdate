@@ -89,7 +89,7 @@
             android:textSize="12sp"
             android:text="@string/order_package_detail"
             d:arrowBg="@color/page_bg_f8"/>
-        <ListView
+        <cn.com.bluemoon.delivery.ui.NoScrollListView
             android:id="@+id/listview_package_detail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

@@ -2,13 +2,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white_bg"
+            android:background="#fefefe"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:focusableInTouchMode="true"
+        android:focusable="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -21,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:background="#fefefe"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
@@ -50,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="@color/white"
+                android:background="#fefefe"
                 android:orientation="vertical"
                 android:paddingLeft="10dp">
 
@@ -119,7 +121,7 @@
                 android:id="@+id/layout_warehouse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="#fefefe"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp">
 
@@ -142,7 +144,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
+                android:background="#fefefe"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
@@ -273,7 +275,7 @@
                     android:id="@+id/listview_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="#fefefe"
                     android:dividerHeight="0dp"
                     android:fadingEdge="none"
                     android:layerType="software"
