@@ -14,7 +14,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.closebox.CloseBoxTag;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 
 /**
- * 扫描还封箱标签
+ * 扫描封箱标签
  */
 public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
 

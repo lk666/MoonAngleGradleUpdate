@@ -143,8 +143,5 @@
                 android:stretchMode="columnWidth"
                 android:verticalSpacing="15dp" />
         </LinearLayout>
-
     </LinearLayout>
-
-
 </ScrollView>

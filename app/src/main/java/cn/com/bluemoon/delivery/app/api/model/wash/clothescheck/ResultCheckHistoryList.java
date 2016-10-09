@@ -19,7 +19,6 @@ public class ResultCheckHistoryList extends ResultBase {
      */
     private long pageFlag;
 
-
     /**
      * 筛选清点总数
      */

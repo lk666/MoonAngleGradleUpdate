@@ -5,12 +5,13 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
+import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 
 /**
  * 最后一项为添加照片的adapter，当达到最大数目时，隐藏最后一项
@@ -22,8 +23,22 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
      */
     public final static String ADD_IMG_ID = "ADD_IMG_ID";
 
+    /**
+     * 提示信息，默认为:(最多10张)
+     */
+    private String addMsg;
+
     public AddPhotoAdapter(Context context, OnListItemClickListener listener) {
+        this(context, listener, null);
+    }
+
+    public AddPhotoAdapter(Context context, OnListItemClickListener listener, String addMsg) {
         super(context, listener);
+        if (addMsg != null) {
+            this.addMsg = addMsg;
+        } else {
+            this.addMsg = context.getString(R.string.clothing_book_in_phote_most);
+        }
     }
 
     @Override
@@ -41,6 +56,7 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
         ImageView ivPic = ViewHolder.get(convertView, R.id.iv_pic);
         ImageView ivDelete = ViewHolder.get(convertView, R.id.iv_delete);
         View rlAdd = ViewHolder.get(convertView, R.id.rl_add);
+        TextView tv = ViewHolder.get(convertView, R.id.tv_msg);
 
         // 添加相片按钮
         if (pic.getImgId().equals(ADD_IMG_ID)) {
@@ -56,6 +72,10 @@ public class AddPhotoAdapter extends BaseListAdapter<ClothingPic> {
             rlAdd.setVisibility(View.GONE);
             ivDelete.setVisibility(View.VISIBLE);
             ivPic.setVisibility(View.VISIBLE);
+        }
+
+        if (isNew) {
+            tv.setText(addMsg);
         }
 
         setClickEvent(isNew, position, ivPic, ivDelete, rlAdd);
