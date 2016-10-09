@@ -981,7 +981,7 @@
     <string name="pack_pending_total">规划数量：</string>
     <string name="pack_pending_finish">实际入柜：</string>
     <string name="pack_order_num">共%1$d单</string>
-
+    <string name="pack_get_box_error_data">获取区域或分拨柜号失败！</string>
     <string name="pack_back_order_code">还衣单号%1$s</string>
     <string name="pack_back_box_code">箱号：</string>
     <string name="pack_back_order_num">衣服数量：</string>
