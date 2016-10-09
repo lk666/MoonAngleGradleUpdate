@@ -95,13 +95,10 @@ public class CouponsRecordFragment extends Fragment {
         if (StringUtils.isEmpty(mYear) || StringUtils.isEmpty(mMon) || StringUtils.isEmpty(mDay)) {
             setCurDate();
         }
-        long date;
-        if (Integer.valueOf(mMon) <= 8) {
-            date = Long.valueOf(mYear + "0" + (Integer.valueOf(mMon) + 1) + mDay + "000001");
-        } else {
-            date = Long.valueOf(mYear + (Integer.valueOf(mMon) + 1) + mDay + "000001");
-        }
-        return DateUtil.getTimeByCustTime(date);
+        Calendar calendar = Calendar.getInstance(Locale.CHINA);
+        calendar.set(Integer.parseInt(mYear),Integer.parseInt(mMon),Integer.parseInt(mDay));
+//        LogUtils.d(DateUtil.getTime(calendar.getTimeInMillis(),"yyyy-MM-dd HH:mm:ss"));
+        return calendar.getTimeInMillis();
     }
 
     private void initCustomActionBar() {
