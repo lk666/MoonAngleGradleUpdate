@@ -996,4 +996,22 @@ public class ReturningApi extends DeliveryApi {
         postRequest(params, "washingService-controller/wash/clothesCheck/scanBackClothesOrder%s",
                 handler);
     }
+
+    /**
+     * 8.1还衣清点-封箱标签
+     *
+     * @param tagCode 封箱条码 String
+     * @param token   登录凭证(必填) String
+     */
+    public static void closeBoxSign(String tagCode, String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == tagCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("tagCode", tagCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/clothesCheck/closeBoxSign%s", handler);
+    }
+
 }

@@ -47,8 +47,9 @@ public class ClothesCheckFragment extends BaseFragment {
     @OnClick({R.id.btn_back_order_check, R.id.btn_clothes_check})
     public void onClick(View view) {
         switch (view.getId()) {
-            // todo 清点还衣单
+            //  清点还衣单
             case R.id.btn_back_order_check:
+                ScanTagCodeActivity.actionStart(getActivity(), this);
                 break;
             // 清点衣物
             case R.id.btn_clothes_check:

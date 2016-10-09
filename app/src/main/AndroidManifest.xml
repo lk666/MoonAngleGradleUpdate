@@ -621,6 +621,15 @@
             android:name=".module.wash.returning.clothescheck.ScanClothesCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.BackOrderListDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ScanTagCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
     </application>
 
 </manifest>
