@@ -53,7 +53,7 @@ public class Constants {
 
 
     public static final String DEFAULT_SORT_ORDER =
-              "hour, minute ASC";
+              "isClose ASC,hour, minute ASC";
 
     public static final String Fillter_SORT_ORDER =
             "remindWeek ASC";

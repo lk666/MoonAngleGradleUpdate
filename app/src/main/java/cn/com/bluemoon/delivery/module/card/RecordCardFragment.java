@@ -58,6 +58,7 @@ public class RecordCardFragment extends BasePullToRefreshListViewFragment {
         super.initHeadViewEvent(headView);
         txtTime = (TextView) headView.findViewById(R.id.txt_time);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
+        setEmptyViewMsg(getString(R.string.empty_hint3,getTitleString()));
     }
 
     @Override
