@@ -205,11 +205,9 @@ public class BackOrderListDetailActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        if (item instanceof BackOrder) {
-            //            ClothesCheckHistoryDetailActivity.actionStart(this, null, checkLogId, (
-            // (BackOrder)
-            //                    item).getBackOrderCode());
-            // TODO: lk 2016/10/9 还衣单详情
+        if (item instanceof CheckBackOrder) {
+            // 还衣单详情
+            BackOrderDetailActivity.actionStart(this, ((CheckBackOrder) item).getBackOrderCode());
         }
     }
 }

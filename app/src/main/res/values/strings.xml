@@ -990,7 +990,6 @@
     <string name="pack_back_order_num">衣服数量：</string>
 
 
-
     <string name="pack_back_box_user">收件人：%1$s</string>
     <string name="pack_back_order_phone">联系方式：%1$s</string>
     <string name="pack_back_box_address">收货地址：</string>
@@ -1023,5 +1022,6 @@
     <string name="clothes_check_finish">该还衣单衣物已清点完成</string>
     <string name="back_order_check_list_title">还衣单清单</string>
     <string name="scan_tag">扫描封箱标签</string>
+    <string name="back_order_detail_title">还衣单详情</string>
 
 </resources>
