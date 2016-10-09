@@ -969,6 +969,7 @@
 
     <!--还衣单打包-->
     <string name="pack_menu_name">还衣单打包</string>
+    <string name="title_packing">打包</string>
     <string name="title_pack">待打包</string>
     <string name="title_box">待装箱</string>
     <string name="title_history">历史</string>
@@ -987,7 +988,7 @@
     <string name="pack_back_order_code">还衣单号%1$s</string>
     <string name="pack_back_box_code">箱号：</string>
     <string name="pack_back_order_num">衣服数量：</string>
-
+     <string name="pack_order_num">共%1$d单</string>
 
 
     <string name="pack_back_box_user">收件人：%1$s</string>
@@ -997,6 +998,8 @@
     <string name="pack_back_order_clothes_num2">折叠%1$d件  悬挂%2$d件</string>
     <string name="pack_back_order_clothes_resource">衣物来源：%1$s</string>
 
+    <string name="pack_back_order_clothes_code">还衣单-%1$s</string>
+    <string name="pack_back_order_clothes_count">衣物数量：%1$d</string>
 
     <!--衣物清点-->
     <string name="clothes_check_title">衣物清点</string>

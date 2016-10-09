@@ -4,6 +4,7 @@ package cn.com.bluemoon.delivery.app.api.model.wash.pack;
  * Created by bm on 2016/9/29.
  */
 public class ClothesItem {
+    public boolean isCheck;
     /** 衣物编码 */
     private String clothesCode;
     /** 衣物图片地址 */
