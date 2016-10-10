@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.wash.returning.pack;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -28,12 +27,8 @@ import cn.com.bluemoon.delivery.app.api.model.wash.pack.ResultBackOrderClothes;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
  * Created by allenli on 2016/10/9.
@@ -43,7 +38,7 @@ public class BackOrderClothesActivity extends BaseActivity implements
 
     private static final String EXTRA_CUPBOARD_CODE = "EXTRA_CUPBOARD_CODE";
     private static final int REQUEST_CODE_QUERY_LIST = 0x777;
-    private static final int REQUEST_CODE_MANUAL = 0x33;
+    private static final int REQUEST_CODE_SCANE_BACK_ORDER = 0x778;
 
     @Bind(R.id.tv_code_box)
     TextView tvCodeBox;
@@ -97,7 +92,8 @@ public class BackOrderClothesActivity extends BaseActivity implements
 
     @Override
     protected void onActionBarBtnRightClick() {
-        goScanCode();
+        ScanBackClothesActivity.actionStart(this, REQUEST_CODE_SCANE_BACK_ORDER,
+                cupboardCode, list);
     }
 
     @Override
@@ -165,71 +161,27 @@ public class BackOrderClothesActivity extends BaseActivity implements
         finish();
     }
 
-    private void goScanCode() {
-        PublicUtil.openClothScan(BackOrderClothesActivity.this,
-                getString(R.string.coupons_scan_code_title),
-                getString(R.string.with_order_collect_manual_input_code_btn),
-                Constants.REQUEST_SCAN);
-    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
+        //  扫码返回
+        if (requestCode == REQUEST_CODE_SCANE_BACK_ORDER) {
+            ArrayList<ClothesItem> l = (ArrayList<ClothesItem>) data.getSerializableExtra
+                    (ScanBackClothesActivity.EXTRA_LIST);
 
-        switch (requestCode) {
-            case Constants.REQUEST_SCAN:
-                // 扫码返回
-                if (resultCode == Activity.RESULT_OK) {
-                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    handleScaneCodeBack(resultStr);
-                }
-                //   跳转到手动输入
-                else if (resultCode == Constants.RESULT_SCAN) {
-                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
-                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
-                }
-                break;
+            list.clear();
+            if (l != null) {
+                list.addAll(l);
+            }
+            adapter.notifyDataSetChanged();
 
-            // 手动输入返回
-            case REQUEST_CODE_MANUAL:
-                // 数字码返回
-                if (resultCode == Activity.RESULT_OK) {
-                    String resultStr = data.getStringExtra(ManualInputCodeActivity
-                            .RESULT_EXTRA_CODE);
-                    handleScaneCodeBack(resultStr);
-                }
-                //  跳转到扫码输入
-                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
-                    goScanCode();
-                }
-                break;
-        }
-    }
-
-    private void handleScaneCodeBack(String code) {
-
-        int checkNum = 0;
-        if (null != list && list.size() > 0) {
-            boolean isRefresh = false;
-            for (ClothesItem info : list) {
-                if (info.getClothesCode().equals(code)) {
-                    info.isCheck = true;
-                    isRefresh = true;
-                }
-
-                if (info.isCheck) {
-                    checkNum++;
+            int visibility = View.VISIBLE;
+            for (ClothesItem item : list) {
+                if (!item.isCheck) {
+                    visibility = View.GONE;
                 }
             }
-            if (isRefresh) {
-                adapter.notifyDataSetChanged();
-            }
-        }
-        if (checkNum == list.size()) {
-            btnPrint.setVisibility(View.VISIBLE);
+            btnPrint.setVisibility(visibility);
         }
     }
 
