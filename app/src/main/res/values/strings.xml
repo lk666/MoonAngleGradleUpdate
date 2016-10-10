@@ -1023,5 +1023,11 @@
     <string name="back_order_check_list_title">还衣单清单</string>
     <string name="scan_tag">扫描封箱标签</string>
     <string name="back_order_detail_title">还衣单详情</string>
+    <string name="scan_back_order_detail_dialog_msg">还衣单是否异常？</string>
+    <string name="continue_scan">继续扫描</string>
+    <string name="scan_back_order_detail_dialog_abnormal">异常记录</string>
+    <string name="back_order_check_not_in">该还衣单不属于当前衣物箱，请重新扫描</string>
+    <string name="duplicate_abnormal">该还衣单已标记异常</string>
+    <string name="back_order_check_finish">该箱还衣单已清点完成</string>
 
 </resources>

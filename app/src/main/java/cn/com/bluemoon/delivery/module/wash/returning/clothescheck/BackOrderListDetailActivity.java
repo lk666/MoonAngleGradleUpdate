@@ -97,8 +97,7 @@ public class BackOrderListDetailActivity extends BaseActivity implements
 
     @Override
     protected void onActionBarBtnRightClick() {
-        //        ScanClothesCodeActivity.actionStart(this, null, REQUEST_CODE_SCAN, BACK_ORDERS);
-        // TODO: lk 2016/10/9 扫码
+        ScanBackOrderActivity.actionStart(this, null, REQUEST_CODE_SCAN, tagCode, list);
     }
 
     @Override

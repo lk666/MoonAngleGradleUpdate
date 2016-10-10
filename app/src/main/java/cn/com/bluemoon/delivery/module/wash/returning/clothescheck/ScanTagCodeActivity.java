@@ -40,7 +40,7 @@ public class ScanTagCodeActivity extends BaseScanCodeActivity {
     protected void onResult(String str, String type, Bitmap barcode) {
         if (TextUtils.isEmpty(str)) {
             toast(getString(R.string.scan_fail));
-            startDelay();
+            resumeScan();
             return;
         }
 
