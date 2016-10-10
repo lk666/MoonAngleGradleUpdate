@@ -1017,7 +1017,7 @@
     <string name="back_order_check">清点还衣单</string>
     <string name="clothes_check">清点衣物</string>
     <string name="scan_back_order_code">扫描还衣单标签</string>
-    <string name="abnormal_hint">还衣单异常描述，至少5个子，最多100字</string>
+    <string name="abnormal_hint">还衣单异常描述，至少5个字，最多100字</string>
     <string name="check_finish">清点完成</string>
     <string name="clothes_check_list_title">衣物清单</string>
     <string name="clothes_check_not_in">该编码不属于当前还衣单，请重新扫描</string>
