@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.card;
 
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
@@ -42,6 +43,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class PunchCardFragment extends Fragment implements OnClickListener {
@@ -160,8 +162,19 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
             Intent intent = new Intent(mContext, PunchCardOndutyActivity.class);
             startActivityForResult(intent, 1);
         }else  if(v == layoutReset){
-            progressDialog.show();
-            mLocationClient.start();
+
+            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(getActivity());
+            dialog.setMessage(getString(R.string.btn_reset_confirm));
+            dialog.setPositiveButton(R.string.btn_cancel,null);
+            dialog.setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    progressDialog.show();
+                    mLocationClient.start();
+                }
+            });
+            dialog.show();
+
 
         }
     }

@@ -104,7 +104,7 @@
     <string name="btn_later">稍后</string>
     <string name="btn_setting">设置</string>
     <string name="btn_search">搜索</string>
-
+    <string name="btn_reset_confirm">确定今天休息么？</string>
     <!-- promt messsage -->
     <string name="request_server_busy">服务器繁忙，请稍后再试</string>
     <string name="request_server_overtime">连接不上服务器，请检查网络再试</string>
