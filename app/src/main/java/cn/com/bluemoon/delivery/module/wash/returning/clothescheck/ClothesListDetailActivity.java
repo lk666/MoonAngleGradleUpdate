@@ -350,6 +350,7 @@ public class ClothesListDetailActivity extends BaseActivity implements
                 imgs.add(u);
             }
         }
+        showWaitDialog();
         ReturningApi.scanBackClothesOrder(backOrderCode, imgs, etAbnormal.getText().toString(),
                 getToken(), getNewHandler(REQUEST_CODE_FINISH, ResultBase.class));
 

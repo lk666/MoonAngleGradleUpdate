@@ -39,6 +39,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     public static final String EXTRA_LIST = "LIST";
     private static final int REQUEST_CODE_SCAN_BACK_ORDER = 0x777;
     private static final int REQUEST_CODE_UPLOAD_IMG = 0x666;
+    private static final int REQUEST_CODE_ABNORMAL = 0x555;
 
     private ArrayList<CheckBackOrder> list = new ArrayList<>();
     private String tagCode;
@@ -145,6 +146,18 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                 imgAdapter.notifyDataSetChanged();
                 PublicUtil.showToast(getString(R.string.upload_success));
                 break;
+
+            // 异常确认
+            case REQUEST_CODE_ABNORMAL:
+                for (CheckBackOrder item : list) {
+                    if (item.getBackOrderCode().equals(backOrderCode)) {
+                        item.setCheckStatus(CheckBackOrder.EXCEPTION);
+                        break;
+                    }
+                }
+
+                checkFinished();
+                break;
         }
     }
 
@@ -172,7 +185,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                         takePhotoPop = new TakePhotoPopView(ScanBackOrderActivity.this, Constants
                                 .TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
                     }
-                    // TODO: lk 2016/10/10 等集成进来使用新的图片选择 
+                    // TODO: lk 2016/10/10 等集成进来使用新的图片选择
                     takePhotoPop.getPic(view);
                 }
 
@@ -270,8 +283,21 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        toast("上传异常信息");
-                        // TODO: lk 2016/10/10
+                        //上传异常信息
+
+
+                        ArrayList<UploadImage> imgs = new ArrayList<>();
+                        for (ClothingPic c : abnormalImgs) {
+                            if (!c.getImgId().equals(AddPhotoAdapter.ADD_IMG_ID)) {
+                                UploadImage u = new UploadImage(c.getImgPath());
+                                imgs.add(u);
+                            }
+                        }
+
+                        showWaitDialog();
+                        ReturningApi.scanBackOrder(backOrderCode, imgs,
+                                etAbnormal.getText().toString(), getToken(),
+                                getNewHandler(REQUEST_CODE_ABNORMAL, ResultBase.class));
                     }
                 });
         dialog.setPositiveButtonBg(R.drawable.dialog_btn_f2f2f2_left);

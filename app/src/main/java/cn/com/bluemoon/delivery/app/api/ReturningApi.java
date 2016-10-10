@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import Decoder.BASE64Encoder;
+import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.CheckBackOrder;
 import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.UploadImage;
 import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ImageInfo;
 
@@ -1012,6 +1013,48 @@ public class ReturningApi extends DeliveryApi {
         params.put("tagCode", tagCode);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/clothesCheck/closeBoxSign%s", handler);
+    }
+
+    /**
+     * 8.2还衣清点-扫描还衣单异常确认
+     *
+     * @param backOrderCode 还衣单号 String
+     * @param images        图片
+     * @param issueDesc     问题描述 String
+     * @param token         登录凭证(必填) String
+     */
+    public static void scanBackOrder(String backOrderCode, ArrayList<UploadImage> images,
+                                     String issueDesc, String token, AsyncHttpResponseHandler
+                                             handler) {
+        if (null == backOrderCode || null == images || null == issueDesc
+                || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode", backOrderCode);
+        params.put("images", images);
+        params.put("issueDesc", issueDesc);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/clothesCheck/scanBackOrder%s", handler);
+    }
+
+    /**
+     * 8.3还衣单清点-清点完成
+     *
+     * @param backOrderList   还衣单清点状态列表
+     * @param tagCode       封箱条码 String
+     * @param token         登录凭证(必填) String
+     */
+    public static void checkComplete(ArrayList<CheckBackOrder> backOrderList, String tagCode,
+                                     String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderList || null == tagCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderList", backOrderList);
+        params.put("tagCode", tagCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/clothesCheck/checkComplete%s", handler);
     }
 
 }
