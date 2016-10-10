@@ -17,7 +17,6 @@ import cn.com.bluemoon.delivery.app.api.model.wash.pack.ResultWaitPackage;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.ScanBoxCodeActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.WaitCloseBoxFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -231,8 +230,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     public void onItemClick(Object obj, View view, int position) {
         CabinetItem item = (CabinetItem) obj;
         if (null != item) {
-            ScanBoxCodeActivity.actionStart(getActivity(), this, item.getCupboardCode(),
-                    REQUEST_CODE_SCANE_BOX_CODE);
+            ScanPackActivity.actStart(this,item.getCupboardCode(),item.getRegion());
         }
     }
 
