@@ -18,17 +18,18 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.ResultUploadExceptionImage;
+import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
+import cn.com.bluemoon.delivery.common.photopicker.SelectModel;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingPic;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ScrollGridView;
-import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
 /**
  * 扫描还衣单标签(还衣单清点)
@@ -39,6 +40,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     public static final String EXTRA_LIST = "LIST";
     private static final int REQUEST_CODE_SCAN_BACK_ORDER = 0x777;
     private static final int REQUEST_CODE_UPLOAD_IMG = 0x666;
+    private static final int REQUEST_CODE_TAKE_IMG = 0x444;
     private static final int REQUEST_CODE_ABNORMAL = 0x555;
 
     private ArrayList<CheckBackOrder> list = new ArrayList<>();
@@ -171,8 +173,6 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
         }
     }
 
-    private TakePhotoPopView takePhotoPop;
-
     private OnListItemClickListener onImgClickListener = new OnListItemClickListener() {
         @Override
         public void onItemClick(Object item, View view, int position) {
@@ -181,12 +181,8 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                 ClothingPic pic = (ClothingPic) item;
                 // 添加相片按钮
                 if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
-                    if (takePhotoPop == null) {
-                        takePhotoPop = new TakePhotoPopView(ScanBackOrderActivity.this, Constants
-                                .TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
-                    }
-                    // TODO: lk 2016/10/10 等集成进来使用新的图片选择
-                    takePhotoPop.getPic(view);
+                    PhotoPickerActivity.actStart(ScanBackOrderActivity.this, SelectModel.SINGLE, 1,
+                            true, REQUEST_CODE_TAKE_IMG);
                 }
 
                 // 已上传图片
@@ -222,17 +218,11 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
 
         switch (requestCode) {
             // 拍照
-            case Constants.TAKE_PIC_RESULT:
-                if (takePhotoPop != null) {
-                    Bitmap bm = takePhotoPop.getTakeImageBitmap();
-                    uploadImg(bm);
-                }
-                break;
-
-            // 选择照片
-            case Constants.CHOSE_PIC_RESULT:
-                if (takePhotoPop != null) {
-                    Bitmap bm = takePhotoPop.getPickImageBitmap(data);
+            case REQUEST_CODE_TAKE_IMG:
+                ArrayList<String> resultList = data.getStringArrayListExtra(PhotoPickerActivity
+                        .EXTRA_RESULT);
+                if (resultList != null && resultList.size() > 0) {
+                    Bitmap bm = LibImageUtil.getImgScale(resultList.get(0), 300, false);
                     uploadImg(bm);
                 }
                 break;
@@ -284,7 +274,14 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //上传异常信息
-
+                        String str = etAbnormal.getText().toString();
+                        if (str == null) {
+                            return;
+                        }
+                        if (str.length() < 5) {
+                            toast(getString(R.string.abnormal_hint));
+                            return;
+                        }
 
                         ArrayList<UploadImage> imgs = new ArrayList<>();
                         for (ClothingPic c : abnormalImgs) {
@@ -295,8 +292,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                         }
 
                         showWaitDialog();
-                        ReturningApi.scanBackOrder(backOrderCode, imgs,
-                                etAbnormal.getText().toString(), getToken(),
+                        ReturningApi.scanBackOrder(backOrderCode, imgs, str, getToken(),
                                 getNewHandler(REQUEST_CODE_ABNORMAL, ResultBase.class));
                     }
                 });
