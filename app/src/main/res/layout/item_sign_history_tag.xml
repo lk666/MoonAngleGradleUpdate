@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/view_bg">
 
     <TextView
         android:id="@+id/tv_back_order_num_title"
@@ -10,7 +11,7 @@
         android:layout_height="40dp"
         android:layout_marginLeft="12dp"
         android:gravity="center_vertical"
-        android:text="@string/sign_history_back_orderNum" />
+        android:text="@string/sign_history_back_orderNum"/>
 
     <TextView
         android:id="@+id/tv_back_order_num"
@@ -20,12 +21,12 @@
         android:layout_toRightOf="@+id/tv_back_order_num_title"
         android:ellipsize="end"
         android:gravity="center_vertical"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <View
         android:id="@+id/div1"
         style="@style/line_solid_padding_left_style"
-        android:layout_below="@+id/tv_back_order_num_title" />
+        android:layout_below="@+id/tv_back_order_num_title"/>
 
     <TextView
         android:id="@+id/tv_tag_code"
@@ -37,12 +38,12 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:text="@string/wait_sign_tag_code" />
+        android:text="@string/wait_sign_tag_code"/>
 
     <View
         android:id="@+id/div2"
         style="@style/line_solid_padding_left_style"
-        android:layout_below="@+id/tv_tag_code" />
+        android:layout_below="@+id/tv_tag_code"/>
 
     <TextView
         android:id="@+id/tv_receiver_sign_time"
@@ -55,7 +56,7 @@
         android:layout_marginRight="12dp"
         android:ellipsize="end"
         android:gravity="right|center_vertical"
-        android:singleLine="true" />
+        android:singleLine="true"/>
 
     <TextView
         android:id="@+id/tv_receiver"
@@ -68,13 +69,13 @@
         android:ellipsize="end"
         android:gravity="center_vertical"
         android:singleLine="true"
-        android:text="@string/sign_history_receiver" />
+        android:text="@string/sign_history_receiver"/>
 
     <View
         android:id="@+id/div"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:layout_below="@+id/tv_receiver"
-        android:background="@color/page_bg_f2" />
+        android:background="@color/page_bg_f2"/>
 </RelativeLayout>
 
