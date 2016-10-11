@@ -9,7 +9,7 @@ import java.util.Map;
 
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.UploadImage;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ImageInfo;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
 
 /**
  * 还衣API
@@ -327,6 +327,53 @@ public class ReturningApi extends DeliveryApi {
         postMockRequest(params,
                 "washingService-controller/wash/backOrderManage/queryBackOrderList%s", handler);
     }
+    /**
+     *7.1获取快递公司列表
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryExpressList(String token,AsyncHttpResponseHandler handler){
+        if(null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/express/queryExpressList%s", handler);
+    }
+
+    /**
+     *7.4获取快递记录
+     * @param closeBoxTime 封箱时间 int
+     * @param pageFlag 分页时间戳(分页标志) int
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryExpressLog(long closeBoxTime,long pageFlag,String token,AsyncHttpResponseHandler handler){
+        if(null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("closeBoxTime",closeBoxTime);
+        params.put("pageFlag",pageFlag);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/express/queryExpressLog%s", handler);
+    }
+
+    /**
+     *7.5获取快递详情
+     * @param expressCode 快递单号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void queryExpressDetail(String expressCode,String token,AsyncHttpResponseHandler handler){
+        if(null == expressCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("expressCode",expressCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/express/queryExpressDetail%s", handler);
+    }
+
+
+
 
     /**
      * 7.6查看物流
@@ -382,6 +429,23 @@ public class ReturningApi extends DeliveryApi {
         postMockRequest(params, "washingService-controller/wash/backOrderManage/confirmReceive%s" +
                 "", handler);
     }
+
+    /**
+     *9.6还衣管理-待还衣去还衣
+     * @param backOrderCode 还衣单号 String
+     * @param token 登录凭证(必填) String
+     */
+    public static void returnClothes(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("token",token);
+        postMockRequest(params, "washingService-controller/wash/backOrderManage/returnClothes%s", handler);
+    }
+
+
 
 
     /**

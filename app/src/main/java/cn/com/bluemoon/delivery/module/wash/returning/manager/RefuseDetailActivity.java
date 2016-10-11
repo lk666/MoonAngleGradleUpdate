@@ -1,17 +1,13 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
-import android.os.Bundle;
 import android.widget.TextView;
 
-import org.kymjs.kjframe.KJBitmap;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultRefuseDetail;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultRefuseDetail;
 import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
@@ -57,7 +53,7 @@ public class RefuseDetailActivity extends BaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         hideWaitDialog();
         ResultRefuseDetail r = (ResultRefuseDetail) result;
-        gridView.setList(r.getImagePaths());
+        gridView.loadAdpater(r.getImagePaths(), false);
         txtCode.setText("衣物编码-"+clothesCode);
         txtTime.setText(DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss"));
         txtReason.setText(r.getRefuseIssueDesc());

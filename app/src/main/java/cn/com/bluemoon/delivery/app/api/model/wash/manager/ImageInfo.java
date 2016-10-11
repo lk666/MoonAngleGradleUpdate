@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.wash.returning.manager.model;
+package cn.com.bluemoon.delivery.app.api.model.wash.manager;
 
 /**
  * Created by ljl on 2016/9/22.

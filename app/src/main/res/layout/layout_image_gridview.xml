@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<cn.com.bluemoon.delivery.ui.ImageGridView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/gridview_img"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/view_bg"
+    android:columnWidth="60dp"
+    android:horizontalSpacing="16dp"
+    android:listSelector="@color/view_bg"
+    android:numColumns="auto_fit"
+    android:paddingBottom="10dp"
+    android:paddingLeft="16dp"
+    android:paddingRight="16dp"
+    android:paddingTop="10dp"
+    android:scrollbars="none"
+    android:stretchMode="none"
+    android:verticalSpacing="10dp"/>
