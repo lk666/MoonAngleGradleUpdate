@@ -23,7 +23,11 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     /*单独装箱扫描*/
     public final static int MODE_SINGER = 1;
     /*待打包扫描分拨柜*/
-    public final static int MODE_PACK=2;
+    public final static int MODE_PACK = 2;
+
+    /*打印扫描标签*/
+    public final static int MODE_PRINT = 3;
+
     private int mode;
     private String backOrderCode;
     private String boxCode;
@@ -41,7 +45,7 @@ public class ScanPackActivity extends BaseScanCodeActivity {
 
 
     /*从待打包跳转过来*/
-    public static void actStart(Fragment fragment,String boxCode,String region) {
+    public static void actStart(Fragment fragment, String boxCode, String region) {
         Intent intent = new Intent(fragment.getActivity(), ScanPackActivity.class);
         intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cabinet_title));
         intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
@@ -50,6 +54,17 @@ public class ScanPackActivity extends BaseScanCodeActivity {
         intent.putExtra("code", boxCode);
         fragment.startActivityForResult(intent, 0);
     }
+
+    /*从待打包跳转过来*/
+    public static void actStart(Activity activity, String cupboardCode) {
+        Intent intent = new Intent(activity, ScanPackActivity.class);
+        intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cloth_title));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("mode", MODE_PRINT);
+        intent.putExtra("code", cupboardCode);
+        activity.startActivityForResult(intent, 0);
+    }
+
 
     /**
      * 从待打包跳转过来
@@ -80,11 +95,18 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 finish();
                 return;
             }
-        }else if(MODE_PACK == mode){
+        } else if (MODE_PACK == mode) {
             region = getIntent().getStringExtra("region");
             boxCode = getIntent().getStringExtra("code");
             if (TextUtils.isEmpty(region) || TextUtils.isEmpty(boxCode)) {
                 toast(getString(R.string.pack_get_box_error_data));
+                finish();
+                return;
+            }
+        } else if (MODE_PRINT == mode) {
+            boxCode = getIntent().getStringExtra("code");
+            if (TextUtils.isEmpty(boxCode)) {
+                toast(getString(R.string.pack_get_cupboard_code_error_data));
                 finish();
                 return;
             }
@@ -130,10 +152,20 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 break;
             case MODE_PACK:
                 if (boxCode.equals(str)) {
-                    BackOrderClothesActivity.actionStart(this,boxCode);
+                    BackOrderClothesActivity.actionStart(this, boxCode);
                     finish();
                 } else {
                     toast(getString(R.string.close_box_scan_pack_code_error, boxCode));
+                    startDelay();
+                }
+                break;
+            case MODE_PRINT:
+                if (boxCode.equals(str)) {
+                  //  BackOrderClothesActivity.actionStart(this, boxCode);
+                    setResult(RESULT_OK);
+                    finish();
+                } else {
+                    toast(getString(R.string.close_box_scan_box_code_error, boxCode));
                     startDelay();
                 }
                 break;

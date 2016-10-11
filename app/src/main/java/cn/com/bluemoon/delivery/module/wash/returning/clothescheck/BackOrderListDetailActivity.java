@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.clothescheck.BackOrder;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
@@ -115,7 +116,6 @@ public class BackOrderListDetailActivity extends BaseActivity implements
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
-
             // 清点完成
             case REQUEST_CODE_FINISH:
                 finish();
@@ -165,11 +165,9 @@ public class BackOrderListDetailActivity extends BaseActivity implements
 
     @OnClick(R.id.btn_finish)
     public void onClick() {
-        // todo 点击清点完成
-
-        //        ReturningApi.scanBackClothesOrder(backOrderCode, imgs, etAbnormal.getText()
-        // .toString(),
-        //                getToken(), getNewHandler(REQUEST_CODE_FINISH, ResultBase.class));
+        //  点击清点完成
+        ReturningApi.checkComplete(list, tagCode, getToken(),
+                getNewHandler(REQUEST_CODE_FINISH, ResultBase.class));
 
     }
 
