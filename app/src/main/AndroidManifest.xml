@@ -444,6 +444,16 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
 
+        <activity
+            android:name=".module.wash.returning.pack.ScanBackClothesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name=".module.wash.returning.pack.PackFinishActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+
         <service android:name=".module.card.LocationSvc" />
 
         <!-- push应用定义消息receiver声明 -->
@@ -601,7 +611,10 @@
             android:name=".module.wash.returning.pack.ScanPackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
-
+        <activity
+            android:name=".module.wash.returning.pack.PackPrintActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
         <!--衣物清点-->
         <activity
             android:name=".module.wash.returning.clothescheck.ClothesCheckTabActivity"
