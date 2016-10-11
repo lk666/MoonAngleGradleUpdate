@@ -80,6 +80,49 @@ public class SimpleWheelView extends View {
      * 选中的时候字体
      */
     private float selectedFont = 22.0f;
+
+    /**
+     * 设置{@link #unitHeight}
+     */
+    public void setUnitHeight(int unitHeight) {
+        this.unitHeight = unitHeight;
+    }
+
+    /**
+     * 设置{@link #itemNumber}
+     */
+    public void setItemNumber(int itemNumber) {
+        this.itemNumber = itemNumber;
+    }
+
+    /**
+     * 设置{@link #normalColor}
+     */
+    public void setNormalColor(int normalColor) {
+        this.normalColor = normalColor;
+    }
+
+    /**
+     * 设置{@link #normalFont}
+     */
+    public void setNormalFont(float normalFont) {
+        this.normalFont = normalFont;
+    }
+
+    /**
+     * 设置{@link #selectedColor}
+     */
+    public void setSelectedColor(int selectedColor) {
+        this.selectedColor = selectedColor;
+    }
+
+    /**
+     * 设置{@link #selectedFont}
+     */
+    public void setSelectedFont(float selectedFont) {
+        this.selectedFont = selectedFont;
+    }
+
     /**
      * 单元格高度
      */
@@ -155,13 +198,16 @@ public class SimpleWheelView extends View {
      */
     protected void initAttr(Context context, AttributeSet attrs) {
         TypedArray attribute = context.obtainStyledAttributes(attrs, R.styleable.SimpleWheelView);
-        unitHeight = (int) attribute.getDimension(R.styleable.SimpleWheelView_unitHeight, unitHeight);
+        unitHeight = (int) attribute.getDimension(R.styleable.SimpleWheelView_unitHeight,
+                unitHeight);
         itemNumber = attribute.getInt(R.styleable.SimpleWheelView_itemNumber, itemNumber);
 
         normalFont = attribute.getDimension(R.styleable.SimpleWheelView_normalTextSize, normalFont);
-        selectedFont = attribute.getDimension(R.styleable.SimpleWheelView_selectedTextSize, selectedFont);
+        selectedFont = attribute.getDimension(R.styleable.SimpleWheelView_selectedTextSize,
+                selectedFont);
         normalColor = attribute.getColor(R.styleable.SimpleWheelView_normalTextColor, normalColor);
-        selectedColor = attribute.getColor(R.styleable.SimpleWheelView_selectedTextColor, selectedColor);
+        selectedColor = attribute.getColor(R.styleable.SimpleWheelView_selectedTextColor,
+                selectedColor);
 
         isLoop = attribute.getBoolean(R.styleable.SimpleWheelView_isLoop, false);
         isEnable = attribute.getBoolean(R.styleable.SimpleWheelView_isEnable, true);
@@ -585,7 +631,7 @@ public class SimpleWheelView extends View {
      * 滑动结束后，自动滚动到最近的选项
      */
     private void toSelectedZoom() {
-//        Log.e("toSelectedZoom", "toSelectedZoom" + Thread.currentThread().getId());
+        //        Log.e("toSelectedZoom", "toSelectedZoom" + Thread.currentThread().getId());
         handler.sendEmptyMessage(BALANCE);
     }
 
