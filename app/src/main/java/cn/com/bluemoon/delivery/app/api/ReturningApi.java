@@ -23,7 +23,7 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 1.1功能角标统计查询
+     * 1.1功能角标统计查询(ResultCornerNum)
      *
      * @param modelType 角标模块类型（必填） String
      * @param token     登录凭证(必填) String
@@ -40,7 +40,7 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 1.2上传异常图片（签名图片）
+     * 1.2上传异常图片（签名图片）(ResultUploadExceptionImage)
      *
      * @param file     文件流
      * @param fileName 文件名 (UUID.randomUUID() + ".png")
@@ -64,7 +64,7 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 1.3获取打包区域列表
+     * 1.3获取打包区域列表(ResultAreaList)
      *
      * @param token 登录凭证(必填) String
      */

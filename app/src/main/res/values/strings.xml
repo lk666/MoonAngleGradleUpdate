@@ -989,6 +989,8 @@
     <string name="pack_back_box_code">箱号：</string>
     <string name="pack_back_order_num">衣服数量：</string>
      <string name="pack_order_num">共%1$d单</string>
+    <string name="pack_region">区域</string>
+    <string name="pack_select">--请选择--</string>
 
     <string name="pack_back_box_user">收件人：%1$s</string>
     <string name="pack_back_order_phone">联系方式：%1$s</string>

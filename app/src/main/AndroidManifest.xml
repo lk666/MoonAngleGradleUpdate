@@ -99,15 +99,15 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".common.ScanActivity"
+            android:name=".common.qrcode.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".common.ScanInputActivity"
+            android:name=".common.qrcode.ScanInputActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".common.ScanCodeActivity"
+            android:name=".common.qrcode.ScanCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
@@ -546,7 +546,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".common.InputCodeActivity"
+            android:name=".common.qrcode.InputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
