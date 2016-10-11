@@ -44,7 +44,7 @@ public class LogisticsActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return "查看物流";
+        return getString(R.string.manage_show_logistics);
     }
 
     @Override

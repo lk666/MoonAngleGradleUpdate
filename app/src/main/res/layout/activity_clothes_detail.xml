@@ -91,7 +91,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="15dp"
-        android:text="衣物照片"
+        android:text="@string/manage_clothes_photo"
         android:textColor="@color/text_grep"
         android:textSize="15sp"/>
 
@@ -109,7 +109,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="12dp"
-            android:text="洗涤结果："
+            android:text="@string/manage_wash_result"
             android:textColor="@color/text_black"
             android:textSize="15sp"/>
 

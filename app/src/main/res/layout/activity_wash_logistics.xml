@@ -28,7 +28,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="物流状态："
+                    android:text="@string/manage_ligistics_state"
                     android:textColor="@color/text_black_light"
                     android:textSize="15sp"/>
 
@@ -48,7 +48,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="承运来源："
+                    android:text="@string/manage_ligistics_source"
                     android:textColor="@color/text_black_light"
                     android:textSize="15sp"/>
 
@@ -68,7 +68,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="快递单号："
+                    android:text="@string/manage_ligistics_code"
                     android:textColor="@color/text_black_light"
                     android:textSize="15sp"/>
 

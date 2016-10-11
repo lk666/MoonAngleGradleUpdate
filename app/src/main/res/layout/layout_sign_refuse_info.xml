@@ -18,7 +18,7 @@
             android:layout_marginLeft="12dp"
             android:layout_weight="1"
             android:gravity="center_vertical"
-            android:text="签收信息"
+            android:text="@string/manage_sign_info"
             android:textColor="@color/text_black"
             android:textSize="15sp"/>
         <cn.com.bluemoon.delivery.ui.UpDownTextView
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:paddingTop="10dp"
             android:textSize="11sp"
-            android:text="签名"
+            android:text="@string/manage_sign"
         android:textColor="@color/text_grep"/>
         <ImageView
             android:id="@+id/img_sign"
@@ -90,7 +90,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_weight="1"
                 android:gravity="center_vertical"
-                android:text="消费者拒签"
+                android:text="@string/manage_customer_refuse"
                 android:textColor="@color/text_black"
                 android:textSize="15sp"/>
             <cn.com.bluemoon.delivery.ui.UpDownTextView

@@ -14,7 +14,7 @@
             android:id="@+id/txt_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="衣物签收"
+            android:text="@string/manage_clothes_sign"
             android:textColor="@color/text_black"
             android:layout_centerHorizontal="true"
             android:textSize="17sp"/>
@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="14sp"
             android:textSize="15sp"
-            android:text="签名"
+            android:text="@string/manage_sign"
             android:layout_toRightOf="@id/txt_title"
             android:layout_centerVertical="true"
             android:textColor="@color/text_blue"/>
@@ -43,7 +43,7 @@
             android:textColor="@color/text_black"
             android:textSize="15sp"
             android:checked="true"
-            android:text="本人签收"/>
+            android:text="@string/manage_sign_by_self"/>
         <RadioButton
             android:id="@+id/radio2"
             android:layout_width="wrap_content"
@@ -51,7 +51,7 @@
             android:textColor="@color/text_black"
             android:textSize="15sp"
             android:layout_marginTop="26dp"
-            android:text="他人签收"/>
+            android:text="@string/manage_sign_by_others"/>
     </RadioGroup>
 
 </LinearLayout>

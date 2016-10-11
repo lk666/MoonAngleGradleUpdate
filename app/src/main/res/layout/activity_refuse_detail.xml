@@ -24,7 +24,7 @@
       android:layout_weight="1"
       android:textColor="@color/text_black"
       android:layout_marginLeft="12dp"
-      android:text="拒签时间"
+      android:text="@string/manage_refuse_time"
       android:textSize="15sp"/>
   <TextView
       android:id="@+id/txt_time"
@@ -47,7 +47,7 @@
       android:layout_height="wrap_content"
       android:textColor="@color/text_black"
       android:layout_marginLeft="12dp"
-      android:text="拒签原因"
+      android:text="@string/manage_refuse_reason2"
       android:textSize="15sp"/>
   <include layout="@layout/red_star"/>
  </LinearLayout>
@@ -81,7 +81,7 @@
        android:layout_height="wrap_content"
        android:textColor="@color/text_black"
        android:layout_marginLeft="12dp"
-       android:text="衣物照片"
+       android:text="@string/manage_clothes_photo"
        android:textSize="15sp"/>
   <include layout="@layout/red_star"/>
   <TextView
@@ -89,7 +89,7 @@
       android:layout_height="wrap_content"
       android:textColor="@color/text_black_light"
       android:layout_marginLeft="10dp"
-      android:text="上传1-5张拒绝接收衣物相关照片"
+      android:text="@string/manage_upload_max"
       android:textSize="11sp"/>
  </LinearLayout>
 

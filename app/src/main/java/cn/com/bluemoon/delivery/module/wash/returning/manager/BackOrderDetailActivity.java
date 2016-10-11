@@ -93,7 +93,7 @@ public class BackOrderDetailActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return "还衣单详情";
+        return getString(R.string.manage_return_clothes_detial_title);
     }
 
     @Override
@@ -168,7 +168,7 @@ public class BackOrderDetailActivity extends BaseActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ResultBackOrderDetail r = (ResultBackOrderDetail) result;
-        txtNo.setText("还衣单号：" + backOrderCode);
+        txtNo.setText(getString(R.string.manage_clothes_code, backOrderCode));
         txtCustomerName.setText(name);
         txtMobilePhone.setText(phone);
         txtMobilePhone.setOnClickListener(new View.OnClickListener() {
@@ -195,8 +195,8 @@ public class BackOrderDetailActivity extends BaseActivity {
 
         if (isHistory){
             layoutSignRefuse.setVisibility(View.VISIBLE);
-            txtType.setText("签收方式：" + r.getSignName());
-            txtTime.setText("签收时间：" + DateUtil.getTime(r.getSignTime(), "yyyy-MMdd HH:mm:ss"));
+            txtType.setText(getString(R.string.manage_sign_type, r.getSignName()));
+            txtTime.setText(getString(R.string.manage_sign_time, DateUtil.getTime(r.getSignTime(), "yyyy-MMdd HH:mm:ss")));
             kj.display(imgSign, r.getSignImagePath());
 
             List<ResultBackOrderDetail.RefuseListBean> list = r.getRefuseList();
@@ -264,8 +264,8 @@ public class BackOrderDetailActivity extends BaseActivity {
             TextView txtTime = getViewById(R.id.txt_time);
             TextView txtReason = getViewById(R.id.txt_reason);
             ImageGridView gridviewImg = getViewById(R.id.gridview_img);
-            txtCode.setText("衣物编码：" + r.getRefuseClothesCode());
-            txtTime.setText("签收时间"+DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss"));
+            txtCode.setText(getString(R.string.manage_clothes_no,r.getRefuseClothesCode()));
+            txtTime.setText(getString(R.string.manage_sign_type2, DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss")));
             txtReason.setText(r.getRefuseIssueDesc());
             gridviewImg.loadAdpater(r.getRefuseImagePaths(), false);
 

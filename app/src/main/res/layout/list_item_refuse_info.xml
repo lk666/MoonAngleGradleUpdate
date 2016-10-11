@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/text_grep"
-            android:text="拒签原因："
+            android:text="@string/manage_refuse_reason"
             android:textSize="11sp"/>
         <TextView
             android:id="@+id/txt_reason"
@@ -50,7 +50,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_grep"
-        android:text="照片"
+        android:text="@string/manage_photo"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="13dp"
         android:textSize="11sp"/>

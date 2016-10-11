@@ -1070,6 +1070,55 @@
     <string name="return_amount">还衣单数量：</string>
     <string name="query_logistics">查看物流</string>
 
+    <!--还衣管理-->
+    <string name="manage_return_clothes_detial_title">还衣单详情</string>
+    <string name="manage_clothes_code">还衣单号：%s</string>
+    <string name="manage_sign_type">签收方式：%s</string>
+    <string name="manage_sign_time">签收时间：%s</string>
+    <string name="manage_clothes_no">衣物编码：%s</string>
+    <string name="manage_sign_type2">签收时间%s</string>
+    <string name="manage_urgent">加急</string>
+    <string name="manage_mark">备注</string>
+    <string name="manage_sign_info">签收信息</string>
+    <string name="manage_sign">签名</string>
+    <string name="manage_customer_refuse">消费者拒签</string>
+    <string name="manage_refuse_reason">拒签原因：</string>
+    <string name="manage_photo">照片</string>
+    <string name="manage_clothes_detail_title">衣物详情</string>
+    <string name="manage_clothes_code2">衣物条码：%s</string>
+    <string name="manage_remark">备注：%s</string>
+    <string name="manage_flaw_des">瑕疵信息：%s</string>
+    <string name="manage_clothes_photo">衣物照片</string>
+    <string name="manage_wash_result">洗涤结果：</string>
+    <string name="manage_customer_refuse_title">消费者拒签</string>
+    <string name="manage_show_refuse">查看拒签</string>
+    <string name="manage_refuse">拒签</string>
+    <string name="manage_delivery_title">收货详情</string>
+    <string name="manage_return_clothes_code">还衣单：%s</string>
+    <string name="manage_customer_name">收货人：%s</string>
+    <string name="manage_show_logistics">查看物流</string>
+    <string name="manage_ligistics_state">物流状态：</string>
+    <string name="manage_ligistics_source">承运来源：</string>
+    <string name="manage_ligistics_code">快递单号：</string>
+    <string name="manage_not_sign">没签名点完成该提示什么文本？</string>
+    <string name="manage_refuse_info_title">拒签信息</string>
+    <string name="manage_clothes_code3">衣物编码-%s</string>
+    <string name="manage_refuse_time">拒签时间</string>
+    <string name="manage_refuse_reason2">拒签原因</string>
+    <string name="manage_upload_max">上传1-5张拒绝接收衣物相关照片</string>
+    <string name="manage_go_return">去还衣</string>
+    <string name="manage_clothes_amount">衣物数量：%s</string>
+    <string name="manage_return_time">预约还衣时间：%s</string>
+    <string name="manage_clothes_num">还衣单号：%s</string>
+    <string name="manage_clothes_detail">还衣单详情</string>
+    <string name="manage_finish">已完成</string>
+    <string name="manage_sign2">签收</string>
+    <string name="manage_show_refuse_sign">查看拒签</string>
+    <string name="manage_not_sign2">还没签名呢</string>
+    <string name="manage_clothes_sign">衣物签收</string>
+    <string name="manage_sign_by_self">本人签收</string>
+    <string name="manage_sign_by_others">他人签收</string>
+
     <string name="image">图片</string>
     <string name="all_image">所有图片</string>
     <string name="preview">预览</string>
@@ -1079,5 +1128,6 @@
     <string name="done">完成</string>
     <string name="done_with_count">完成(%1$d/%2$d)</string>
     <string name="image_index">%1$d/%2$d</string>
+
 
 </resources>

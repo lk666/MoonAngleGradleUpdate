@@ -30,7 +30,7 @@ public class CustomerRefuseActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return "消费者拒签";
+        return getString(R.string.manage_customer_refuse_title);
     }
 
     @Override
@@ -86,11 +86,11 @@ public class CustomerRefuseActivity extends BaseActivity {
             txtCode.setText(r.getClothesCode());
             txtName.setText(r.getClothesName());
             if (r.isIsRefuse()) {
-                btnRefuse.setText("查看拒签");
+                btnRefuse.setText(R.string.manage_show_refuse);
                 btnRefuse.setTextColor(getResources().getColor(R.color.text_grep));
                 btnRefuse.setBackgroundResource(R.drawable.btn_border_grep_shape4);
             } else {
-                btnRefuse.setText("拒签");
+                btnRefuse.setText(R.string.manage_refuse);
                 btnRefuse.setTextColor(getResources().getColor(R.color.text_blue));
                 btnRefuse.setBackgroundResource(R.drawable.btn_border_blue_shape4);
             }

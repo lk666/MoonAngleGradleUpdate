@@ -137,7 +137,7 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
                     setResult(1, intent);
                     finish();
                 } else {
-                    toast("没签名点完成该提示什么文本？");
+                    toast(getString(R.string.manage_not_sign));
                 }
                 break;
         }

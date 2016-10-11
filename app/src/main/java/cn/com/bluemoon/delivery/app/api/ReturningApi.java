@@ -61,7 +61,7 @@ public class ReturningApi extends DeliveryApi {
         params.put(TOKEN, token);
         params.put("fileData", fileString);
         params.put("fileName", fileName);
-        postMockRequest(params, "washingService-controller/wash/uploadExceptionImage%s", handler);
+        postRequest(params, "washingService-controller/wash/uploadExceptionImage%s", handler);
     }
 
     /**
@@ -299,7 +299,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("pageFalg", pageFalg);
         params.put("token", token);
-        postMockRequest(params,
+        postRequest(params,
                 "washingService-controller/wash/backOrderManage/queryExpressReceiveList%s",
                 handler);
     }
@@ -325,7 +325,7 @@ public class ReturningApi extends DeliveryApi {
         params.put("signEndTime", signEndTime);
         params.put("signStartTime", signStartTime);
         params.put("token", token);
-        postMockRequest(params,
+        postRequest(params,
                 "washingService-controller/wash/backOrderManage/queryBackOrderList%s", handler);
     }
     /**
@@ -338,7 +338,7 @@ public class ReturningApi extends DeliveryApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put("token",token);
-        postMockRequest(params, "washingService-controller/wash/express/queryExpressList%s", handler);
+        postRequest(params, "washingService-controller/wash/express/queryExpressList%s", handler);
     }
 
     /**
@@ -355,7 +355,7 @@ public class ReturningApi extends DeliveryApi {
         params.put("closeBoxTime",closeBoxTime);
         params.put("pageFlag",pageFlag);
         params.put("token",token);
-        postMockRequest(params, "washingService-controller/wash/express/queryExpressLog%s", handler);
+        postRequest(params, "washingService-controller/wash/express/queryExpressLog%s", handler);
     }
 
     /**
@@ -370,7 +370,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("expressCode",expressCode);
         params.put("token",token);
-        postMockRequest(params, "washingService-controller/wash/express/queryExpressDetail%s", handler);
+        postRequest(params, "washingService-controller/wash/express/queryExpressDetail%s", handler);
     }
 
 
@@ -392,7 +392,7 @@ public class ReturningApi extends DeliveryApi {
         params.put("companyCode", companyCode);
         params.put("expressCode", expressCode);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/express/seeExpress%s", handler);
+        postRequest(params, "washingService-controller/wash/express/seeExpress%s", handler);
     }
 
     /**
@@ -409,7 +409,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("backOrderCode", backOrderCode);
         params.put("token", token);
-        postMockRequest(params,
+        postRequest(params,
                 "washingService-controller/wash/backOrderManage/queryBackOrderDetail%s", handler);
     }
 
@@ -427,7 +427,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("expressCode", expressCode);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/confirmReceive%s" +
+        postRequest(params, "washingService-controller/wash/backOrderManage/confirmReceive%s" +
                 "", handler);
     }
 
@@ -443,7 +443,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("backOrderCode",backOrderCode);
         params.put("token",token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/returnClothes%s", handler);
+        postRequest(params, "washingService-controller/wash/backOrderManage/returnClothes%s", handler);
     }
 
 
@@ -470,7 +470,7 @@ public class ReturningApi extends DeliveryApi {
         params.put("signFileName", signFileName);
         params.put("signImagePath", signImagePath);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/backOrderSign%s",
+        postRequest(params, "washingService-controller/wash/backOrderManage/backOrderSign%s",
                 handler);
     }
 
@@ -489,7 +489,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("backOrderCode", backOrderCode);
         params.put("token", token);
-        postMockRequest(params,
+        postRequest(params,
                 "washingService-controller/wash/backOrderManage/returnClothesHistoryList%s",
                 handler);
     }
@@ -509,7 +509,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("clothesCode", clothesCode);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/clothesDetail%s",
+        postRequest(params, "washingService-controller/wash/backOrderManage/clothesDetail%s",
                 handler);
     }
 
@@ -527,7 +527,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("backOrderCode", backOrderCode);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/refuseSignList%s" +
+        postRequest(params, "washingService-controller/wash/backOrderManage/refuseSignList%s" +
                 "", handler);
     }
 
@@ -557,7 +557,7 @@ public class ReturningApi extends DeliveryApi {
         params.put("refuseIssueDesc", refuseIssueDesc);
         params.put("refuseTagTime", refuseTagTime);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/refuseSign%s",
+        postRequest(params, "washingService-controller/wash/backOrderManage/refuseSign%s",
                 handler);
     }
 
@@ -575,7 +575,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("clothesCode", clothesCode);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/refuseSignDetail" +
+        postRequest(params, "washingService-controller/wash/backOrderManage/refuseSignDetail" +
                 "%s", handler);
     }
 
@@ -593,7 +593,7 @@ public class ReturningApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("expressCode", expressCode);
         params.put("token", token);
-        postMockRequest(params, "washingService-controller/wash/backOrderManage/seeExpressDetail" +
+        postRequest(params, "washingService-controller/wash/backOrderManage/seeExpressDetail" +
                 "%s", handler);
     }
 

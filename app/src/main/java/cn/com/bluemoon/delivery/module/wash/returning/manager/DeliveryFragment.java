@@ -83,6 +83,7 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
+        setAmount();
         pageFlag = 0;
         ReturningApi.queryExpressReceiveList(0, getToken(), getNewHandler(requestCode, ResultExpress.class));
     }
@@ -104,6 +105,7 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
             getList().remove(index);
             getAdapter().notifyDataSetChanged();
             toast(result.getResponseMsg());
+            setAmount();
         }
     }
 

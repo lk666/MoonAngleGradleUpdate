@@ -86,6 +86,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
+        setAmount();
         pageFlag = 0;
         ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, getToken(), getNewHandler(requestCode, ResultBackOrder.class));
     }
@@ -142,30 +143,28 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
             TextView txtUrgent = getViewById(R.id.txt_urgent);
 
             btnAction.setVisibility(View.VISIBLE);
-            btnAction.setText("签收");
+            btnAction.setText(R.string.manage_sign2);
             btnRefuseSign.setVisibility(View.VISIBLE);
             final ResultBackOrder.BackOrderListBean result = list.get(position);
             if (result.isIsRefuse()) {
-                btnRefuseSign.setText("查看拒签");
+                btnRefuseSign.setText(R.string.manage_show_refuse_sign);
             } else {
-                btnRefuseSign.setText("消费者拒签");
+                btnRefuseSign.setText(R.string.manage_customer_refuse);
             }
             txtCustomerName.setText(result.getCustomerName());
             txtMobilePhone.setText(result.getCustomerPhone());
             txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtMobilePhone.getPaint().setAntiAlias(true);
             txtAddress.setText(result.getAddress());
-            txtTotalAmount.setText("衣物数量：" + result.getClothesNum());
+            txtTotalAmount.setText(getString(R.string.manage_clothes_amount, result.getClothesNum()));
 
             if (result.isIsUrgent()) {
                 layoutUrgent.setVisibility(View.VISIBLE);
-                txtUrgent.setText("预约还衣时间：" + DateUtil.getTime(result.getAppointBackTime(), "yyyy-MM-dd  HH:mm"));
+                txtUrgent.setText(getString(R.string.manage_return_time, DateUtil.getTime(result.getAppointBackTime(), "yyyy-MM-dd  HH:mm")));
             } else {
                 layoutUrgent.setVisibility(View.GONE);
             }
-
-            txtNo.setText("还衣单号：" + result.getBackOrderCode());
-            //txtNumber.setText("还衣单数量：" + result.getBackOrderNum());
+            txtNo.setText(getString(R.string.manage_clothes_num, result.getBackOrderCode()));
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -188,7 +187,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (StringUtils.isEmpty(fileName)) {
-                                        longToast("还没签名呢");
+                                        longToast(context.getString(R.string.manage_not_sign2));
                                     } else {
                                         RadioGroup rg = (RadioGroup)view.findViewById(R.id.rg_type);
                                         int checkId = rg.getCheckedRadioButtonId();

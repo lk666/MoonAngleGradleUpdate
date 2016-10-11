@@ -116,8 +116,9 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
             img1.setVisibility(View.GONE);
             if (result.getSignTime() > 0) {
                 txtStatus.setVisibility(View.VISIBLE);
-                txtStatus.setText("已完成");
-                txtSignTime.setText("签收时间："+ DateUtil.getTime(result.getSignTime(),"yyyy-MM-dd HH:mm:ss"));
+                txtStatus.setText(R.string.manage_finish);
+                txtSignTime.setText(context.getString(R.string.manage_sign_time,
+                        DateUtil.getTime(result.getSignTime(),"yyyy-MM-dd HH:mm:ss")));
             } else {
                 txtStatus.setVisibility(View.GONE);
             }
@@ -128,7 +129,8 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
             txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtMobilePhone.getPaint().setAntiAlias(true);
             txtAddress.setText(result.getAddress());
-            txtTotalAmount.setText("衣物数量：" + result.getClothesNum());
+            txtTotalAmount.setText(context.getString(R.string.manage_clothes_amount,
+                    result.getClothesNum()));
 
             if (result.isIsUrgent()) {
                 txtUrgent.setVisibility(View.VISIBLE);
@@ -136,8 +138,7 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
                 txtUrgent.setVisibility(View.GONE);
             }
             txtSignTime.setVisibility(View.VISIBLE);
-            txtNo.setText("还衣单号：" + result.getBackOrderCode());
-            //txtNumber.setText("还衣单数量：" + result.getBackOrderNum());
+            txtNo.setText(context.getString(R.string.manage_clothes_num,result.getBackOrderCode()));
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
