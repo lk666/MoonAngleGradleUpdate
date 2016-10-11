@@ -7,7 +7,7 @@ def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
     df.setTimeZone(TimeZone.getDefault())
     return df.format(new Date()) }
 android {
-    compileSdkVersion 21
+    compileSdkVersion 22
     buildToolsVersion '23.0.3'
 
     signingConfigs {
@@ -108,6 +108,9 @@ dependencies {
     compile project(':BlueMoonSDK')
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'junit:junit:4.12'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.android.support:appcompat-v7:22.+'
+    compile 'com.github.chrisbanes.photoview:library:+'
 }
 
 

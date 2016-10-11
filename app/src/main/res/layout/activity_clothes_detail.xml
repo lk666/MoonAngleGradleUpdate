@@ -95,23 +95,7 @@
         android:textColor="@color/text_grep"
         android:textSize="15sp"/>
 
-    <cn.com.bluemoon.delivery.ui.ImageGridView
-        android:id="@+id/gridview_img"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        android:columnWidth="60dp"
-        android:horizontalSpacing="16dp"
-        android:listSelector="@color/white"
-        android:numColumns="auto_fit"
-        android:paddingBottom="10dp"
-        android:paddingLeft="16dp"
-        android:paddingRight="16dp"
-        android:paddingTop="10dp"
-        android:scrollbars="none"
-        android:stretchMode="none"
-        android:verticalSpacing="10dp"/>
-
+    <include layout="@layout/layout_image_gridview"/>
 
     <LinearLayout
         android:layout_width="match_parent"

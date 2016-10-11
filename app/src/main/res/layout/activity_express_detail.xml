@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="12sp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_black_15sp"
+                    android:text="@string/express_company"/>
+
+                <TextView
+                    android:id="@+id/txt_company"
+                    style="@style/text_grep_15sp_hint"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_e5"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_black_15sp"
+                    android:text="@string/express_number"/>
+
+                <TextView
+                    android:id="@+id/txt_delivery_num"
+                    style="@style/text_grep_15sp_hint"/>
+
+                <TextView
+                    android:id="@+id/txt_logistics"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="@string/query_logistics"
+                    android:layout_marginRight="12sp"
+                    android:textColor="@color/title_background"
+                    android:textSize="15sp"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_e5"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_black_15sp"
+                    android:text="@string/express_customer_num"/>
+
+                <TextView
+                    android:id="@+id/txt_emy_num"
+                    style="@style/text_grep_15sp_hint"
+                    android:text="@string/express_customer_num"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_e5"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_black_15sp"
+                    android:text="@string/express_customer_name"/>
+                <TextView
+                    android:id="@+id/txt_delivery_name"
+                    style="@style/text_grep_15sp_hint"
+                    android:text="@string/express_customer_num"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:layout_marginLeft="12sp"
+            android:layout_marginRight="12sp">
+
+            <TextView
+                android:id="@+id/txt_amount"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="right|center_vertical"
+                android:textColor="@color/text_black"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/txt_index"
+                    android:layout_width="60dp"
+                    android:layout_height="44dp"
+                    android:gravity="center"
+                    android:text="@string/return_index_num"
+                    android:textColor="@color/text_black_light"
+                    android:textSize="15sp"/>
+
+                <View
+                    android:layout_width="0.5dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@color/line_soild_bg"/>
+
+                <TextView
+                    android:id="@+id/txt_no"
+                    android:layout_width="0dp"
+                    android:layout_height="44dp"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="@string/return_clothes_num"
+                    android:textColor="@color/text_black_light"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line_view"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="@color/line_soild_bg"/>
+
+            <ListView
+                android:id="@+id/list_return_number"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/view_bg"
+                android:divider="@null"
+                android:dividerHeight="0dp"
+                android:fadingEdge="none"
+                android:overScrollMode="never"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</ScrollView>

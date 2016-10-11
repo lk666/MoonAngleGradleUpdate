@@ -16,7 +16,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultRefuseSign;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultRefuseSign;
 
 /**
  * Created by ljl on 2016/9/21.

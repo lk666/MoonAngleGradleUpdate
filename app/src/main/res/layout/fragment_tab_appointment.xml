@@ -22,6 +22,6 @@
         ptr:ptrAnimationStyle="flip"
         ptr:ptrHeaderSubTextColor="@color/text_black"
         ptr:ptrHeaderTextColor="@color/text_black"
-        ptr:ptrMode="pullFromStart" />
+        ptr:ptrMode="disabled" />
 
 </LinearLayout>

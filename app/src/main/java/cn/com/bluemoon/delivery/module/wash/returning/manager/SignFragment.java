@@ -16,10 +16,8 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.io.File;
 import java.util.List;
 import java.util.UUID;
-import java.util.zip.Inflater;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -28,7 +26,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.ResultUploadExceptionImage;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultBackOrder;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultBackOrder;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;

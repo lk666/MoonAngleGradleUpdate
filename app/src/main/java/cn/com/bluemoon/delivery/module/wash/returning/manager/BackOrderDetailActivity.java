@@ -22,8 +22,8 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultBackOrder;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultBackOrderDetail;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultBackOrder;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultBackOrderDetail;
 import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.ui.UpDownTextView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
@@ -267,7 +267,7 @@ public class BackOrderDetailActivity extends BaseActivity {
             txtCode.setText("衣物编码：" + r.getRefuseClothesCode());
             txtTime.setText("签收时间"+DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss"));
             txtReason.setText(r.getRefuseIssueDesc());
-            gridviewImg.setList(r.getRefuseImagePaths());
+            gridviewImg.loadAdpater(r.getRefuseImagePaths(), false);
 
         }
     }
