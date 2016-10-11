@@ -107,7 +107,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
             List<Region> list = ((ResultAreaList)result).getRegionList();
             regionList = new ArrayList<>();
             for (Region region:list){
-                regionList.add(region.getRegion());
+                regionList.add(region.getRegion()+regionList.size());
             }
         }
     }
