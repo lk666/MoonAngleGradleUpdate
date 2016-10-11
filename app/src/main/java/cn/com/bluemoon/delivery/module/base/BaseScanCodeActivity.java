@@ -14,7 +14,7 @@ import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.common.InputCodeActivity;
+import cn.com.bluemoon.delivery.common.qrcode.InputCodeActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
@@ -100,7 +100,7 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
     /*公共方法*/
 
     /**
-     * 获取code
+     * 获取顶部code
      */
     final protected String getCode() {
         return txtCode.getText().toString();

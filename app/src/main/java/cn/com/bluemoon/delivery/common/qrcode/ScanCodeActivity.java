@@ -1,12 +1,10 @@
-package cn.com.bluemoon.delivery.common;
+package cn.com.bluemoon.delivery.common.qrcode;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
-import android.view.View;
 
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
-import cn.com.bluemoon.delivery.utils.Constants;
 
 /**
  *返回码的内容key值为Constants.RESULT_CODE

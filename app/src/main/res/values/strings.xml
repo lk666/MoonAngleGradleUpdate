@@ -985,10 +985,14 @@
     <string name="pack_pending_total">规划数量：</string>
     <string name="pack_pending_finish">实际入柜：</string>
     <string name="pack_get_box_error_data">获取区域或分拨柜号失败！</string>
+    <string name="pack_get_cupboard_code_error_data">获取还衣单失败！</string>
     <string name="pack_back_order_code">还衣单号%1$s</string>
     <string name="pack_back_box_code">箱号：</string>
     <string name="pack_back_order_num">衣服数量：</string>
      <string name="pack_order_num">共%1$d单</string>
+    <string name="pack_region">区域</string>
+    <string name="pack_select">--请选择--</string>
+    <string name="btn_scan_tag">扫描标签</string>
 
     <string name="pack_back_box_user">收件人：%1$s</string>
     <string name="pack_back_order_phone">联系方式：%1$s</string>
@@ -999,7 +1003,13 @@
 
     <string name="pack_back_order_clothes_code">还衣单-%1$s</string>
     <string name="pack_back_order_clothes_count">衣物数量：%1$d</string>
+    <string name="pack_tag_print_tag">打印还衣单标签</string>
 
+    <string name="pack_finish_tag">包装完成</string>
+    <string name="pack_finish_box_tag">分配箱号</string>
+    <string name="pack_finish_no_box_tag">未分配箱号</string>
+    <string name="pack_finish_btn_back">返回</string>
+    <string name="pack_finish_btn_to_box">去装箱</string>
     <!--衣物清点-->
     <string name="clothes_check_title">衣物清点</string>
     <string name="clothes_check_history_title">清点历史</string>
@@ -1017,7 +1027,7 @@
     <string name="back_order_check">清点还衣单</string>
     <string name="clothes_check">清点衣物</string>
     <string name="scan_back_order_code">扫描还衣单标签</string>
-    <string name="abnormal_hint">还衣单异常描述，至少5个子，最多100字</string>
+    <string name="abnormal_hint">还衣单异常描述，至少5个字，最多100字</string>
     <string name="check_finish">清点完成</string>
     <string name="clothes_check_list_title">衣物清单</string>
     <string name="clothes_check_not_in">该编码不属于当前还衣单，请重新扫描</string>

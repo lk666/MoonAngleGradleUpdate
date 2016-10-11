@@ -142,7 +142,7 @@ public class BackOrderClothesActivity extends BaseActivity implements
 
         tvCodeBox.setText(String.format(getString(R.string.pack_back_order_clothes_code),
                 cupboardCode));
-        tvBackNum.setText(String.format(getString(R.string.pack_back_order_clothes_code), result.getClothesList().size()));
+        tvBackNum.setText(String.format(getString(R.string.pack_back_order_clothes_count), result.getClothesList().size()));
         btnPrint.setVisibility(View.GONE);
         list.clear();
         list.addAll(result.getClothesList());
@@ -152,12 +152,7 @@ public class BackOrderClothesActivity extends BaseActivity implements
     @OnClick(R.id.btn_print)
     public void onClick() {
         // 打印封箱条
-        ArrayList<String> l = new ArrayList<>();
-        for (ClothesItem order : list) {
-            l.add(order.getClothesCode());
-        }
-
-       // CloseBoxListActivity.actionStart(this, cupboardCode, l);
+        PackPrintActivity.actionStart(this, cupboardCode);
         finish();
     }
 

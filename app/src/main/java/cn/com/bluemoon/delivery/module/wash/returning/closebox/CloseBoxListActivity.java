@@ -181,13 +181,20 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
 
             tvTagCode.setText(item.getTagCode());
 
-            tvMainAddress.setText(String.format("%s %s %s", item.getProvince(), item.getCity(),
-                    item.getCounty()));
-            tvDetailAddress.setText(String.format("%s%s%s", item.getStreet(), item.getVillage(),
-                    item.getAddress()));
+            if (TextUtils.isEmpty(item.getReceiver()) && TextUtils.isEmpty(item.getReceiverPhone
+                    ())) {
+                tvMainAddress.setText(String.format("%s %s %s", item.getProvince(), item.getCity(),
+                        item.getCounty()));
+                tvDetailAddress.setText(String.format("%s%s%s", item.getStreet(), item.getVillage(),
+                        item.getAddress()));
+            } else {
+                tvMainAddress.setText(item.getReceiver());
+                tvDetailAddress.setText(item.getReceiverPhone());
+            }
+
 
             tvBackOrderNum.setText(String.format(getString(R.string
-                    .close_box_back_detail_order_num),
+                            .close_box_back_detail_order_num),
                     String.valueOf(item.getBackOrderNum())));
             tvBoxCode.setText(String.format(getString(R.string.close_box_tag_detail_box_code),
                     String.valueOf(item.getBoxCode())));

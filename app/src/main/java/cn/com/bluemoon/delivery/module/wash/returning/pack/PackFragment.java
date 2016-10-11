@@ -7,11 +7,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.address.ResultArea;
+import cn.com.bluemoon.delivery.app.api.model.wash.Region;
+import cn.com.bluemoon.delivery.app.api.model.wash.ResultAreaList;
 import cn.com.bluemoon.delivery.app.api.model.wash.pack.CabinetItem;
 import cn.com.bluemoon.delivery.app.api.model.wash.pack.ResultWaitPackage;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
@@ -51,6 +55,16 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     private String region="";
 
+    private List<String> regionList;
+
+    @Override
+    protected void onBeforeCreateView() {
+        super.onBeforeCreateView();
+        if(regionList==null){
+            ReturningApi.queryAreaList(getToken(),getNewHandler(0, ResultAreaList.class));
+        }
+    }
+
     @Override
     protected String getTitleString() {
         return getString(R.string.title_pack);
@@ -73,16 +87,29 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        WaitCloseBoxFilterWindow popupWindow = new WaitCloseBoxFilterWindow(getActivity(),
-                waitPack, new WaitCloseBoxFilterWindow.FilterListener() {
+        WaitPackFilterWindow popupWindow = new WaitPackFilterWindow(getActivity(),regionList,
+                waitPack, new WaitPackFilterWindow.FilterListener() {
 
             @Override
-            public void onOkClick(boolean flag) {
+            public void onOkClick(String str,boolean flag) {
+                region = str;
                 waitPack = flag;
                 initData();
             }
         });
         popupWindow.showPopwindow(viewPopStart);
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        if(requestCode == 0){
+            List<Region> list = ((ResultAreaList)result).getRegionList();
+            regionList = new ArrayList<>();
+            for (Region region:list){
+                regionList.add(region.getRegion());
+            }
+        }
     }
 
     @Override

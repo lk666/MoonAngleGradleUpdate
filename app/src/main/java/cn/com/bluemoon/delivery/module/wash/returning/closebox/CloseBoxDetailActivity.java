@@ -33,8 +33,6 @@ public class CloseBoxDetailActivity extends BaseActivity {
     TextView tvTagCodeTitle;
     @Bind(R.id.tv_tag_code)
     TextView tvTagCode;
-    @Bind(R.id.tv_address_title)
-    TextView tvAddressTitle;
     @Bind(R.id.tv_main_address)
     TextView tvMainAddress;
     @Bind(R.id.tv_detail_address)
@@ -109,8 +107,16 @@ public class CloseBoxDetailActivity extends BaseActivity {
     private void setData(ResultCloseBoxDetail item) {
 
         tvTagCode.setText(item.getTagCode());
-        tvMainAddress.setText(String.format("%s %s %s", item.getSourceProvince(), item.getSourceCity(), item.getSourceCounty()));
-        tvDetailAddress.setText(String.format("%s%s%s", item.getSourceStreet(), item.getStreetVillage(), item.getSourceAddress()));
+
+        if (TextUtils.isEmpty(item.getReceiver()) && TextUtils.isEmpty(item.getReceiverPhone())) {
+            tvMainAddress.setText(String.format("%s %s %s", item.getSourceProvince(), item
+                    .getSourceCity(), item.getSourceCounty()));
+            tvDetailAddress.setText(String.format("%s%s%s", item.getSourceStreet(), item
+                    .getStreetVillage(), item.getSourceAddress()));
+        } else {
+            tvMainAddress.setText(item.getReceiver());
+            tvDetailAddress.setText(item.getReceiverPhone());
+        }
 
         tvBackOrderNum.setText(String.format(getString(R.string.close_box_back_detail_order_num),
                 String.valueOf(item.getBackOrderNum())));

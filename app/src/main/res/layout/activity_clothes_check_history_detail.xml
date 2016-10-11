@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/sc_main"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2">
+            android:id="@+id/sc_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 android:ellipsize="end"
                 android:gravity="center_vertical"
                 android:singleLine="true"
-                android:text="@string/back_order_code" />
+                android:text="@string/back_order_code"/>
 
             <TextView
                 android:id="@+id/tv_count"
@@ -34,7 +34,7 @@
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
                 android:gravity="right|center_vertical"
-                android:text="@string/clothes_check_history_clothes_num" />
+                android:text="@string/clothes_check_history_clothes_num"/>
         </LinearLayout>
 
         <LinearLayout
@@ -49,7 +49,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
                 android:gravity="center_vertical"
-                android:text="@string/clothes_check_history_time" />
+                android:text="@string/clothes_check_history_time"/>
 
             <TextView
                 android:id="@+id/tv_time"
@@ -58,12 +58,12 @@
                 android:layout_height="match_parent"
                 android:layout_marginLeft="12dp"
                 android:layout_marginRight="12dp"
-                android:gravity="right|center_vertical" />
+                android:gravity="right|center_vertical"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
-            android:layout_height="6dp" />
+            android:layout_height="6dp"/>
 
         <cn.com.bluemoon.delivery.ui.NoScrollListView
             android:id="@+id/lv"
@@ -71,7 +71,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/view_bg"
             android:divider="@drawable/div_left_padding_12"
-            android:dividerHeight="0.5dp" />
+            android:dividerHeight="0.5dp"/>
 
 
         <LinearLayout
@@ -83,7 +83,8 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="6dp" />
+                android:layout_height="6dp"
+                android:background="@color/page_bg_f2"/>
 
             <TextView
                 style="@style/txt_title_15"
@@ -91,12 +92,12 @@
                 android:layout_height="44dp"
                 android:layout_marginLeft="12dp"
                 android:gravity="center_vertical"
-                android:text="@string/clothes_check_history_back_order_error" />
+                android:text="@string/clothes_check_history_back_order_error"/>
 
 
             <View
                 style="@style/line_solid_style"
-                android:layout_marginLeft="12dp" />
+                android:layout_marginLeft="12dp"/>
 
             <TextView
                 android:id="@+id/tv_error"
@@ -107,7 +108,7 @@
                 android:layout_marginRight="12dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="12dp"
-                android:paddingTop="12dp" />
+                android:paddingTop="12dp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -122,7 +123,7 @@
                 android:layout_height="44dp"
                 android:gravity="center_vertical"
                 android:paddingLeft="12dp"
-                android:text="@string/upload_image_txt" />
+                android:text="@string/upload_image_txt"/>
 
             <cn.com.bluemoon.lib.view.ScrollGridView
                 android:id="@+id/sgv_photo"
@@ -141,7 +142,7 @@
                 android:paddingTop="15dp"
                 android:scrollbars="none"
                 android:stretchMode="columnWidth"
-                android:verticalSpacing="15dp" />
+                android:verticalSpacing="15dp"/>
         </LinearLayout>
     </LinearLayout>
 </ScrollView>

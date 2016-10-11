@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.common;
+package cn.com.bluemoon.delivery.common.qrcode;
 
 import android.app.Activity;
 import android.graphics.Bitmap;
@@ -11,6 +11,9 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseScanActivity;
 
+/**
+ * 默认简单扫描界面
+ */
 public class ScanActivity extends BaseScanActivity {
 
     @Bind(R.id.txt_title)

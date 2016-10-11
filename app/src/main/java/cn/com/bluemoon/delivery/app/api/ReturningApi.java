@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 
 import Decoder.BASE64Encoder;
+import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.CheckBackOrder;
 import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.UploadImage;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
 
@@ -23,7 +24,7 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 1.1功能角标统计查询
+     * 1.1功能角标统计查询(ResultCornerNum)
      *
      * @param modelType 角标模块类型（必填） String
      * @param token     登录凭证(必填) String
@@ -40,7 +41,7 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 1.2上传异常图片（签名图片）
+     * 1.2上传异常图片（签名图片）(ResultUploadExceptionImage)
      *
      * @param file     文件流
      * @param fileName 文件名 (UUID.randomUUID() + ".png")
@@ -64,7 +65,7 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
-     * 1.3获取打包区域列表
+     * 1.3获取打包区域列表(ResultAreaList)
      *
      * @param token 登录凭证(必填) String
      */
@@ -1076,6 +1077,48 @@ public class ReturningApi extends DeliveryApi {
         params.put("tagCode", tagCode);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/clothesCheck/closeBoxSign%s", handler);
+    }
+
+    /**
+     * 8.2还衣清点-扫描还衣单异常确认
+     *
+     * @param backOrderCode 还衣单号 String
+     * @param images        图片
+     * @param issueDesc     问题描述 String
+     * @param token         登录凭证(必填) String
+     */
+    public static void scanBackOrder(String backOrderCode, ArrayList<UploadImage> images,
+                                     String issueDesc, String token, AsyncHttpResponseHandler
+                                             handler) {
+        if (null == backOrderCode || null == images || null == issueDesc
+                || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode", backOrderCode);
+        params.put("images", images);
+        params.put("issueDesc", issueDesc);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/clothesCheck/scanBackOrder%s", handler);
+    }
+
+    /**
+     * 8.3还衣单清点-清点完成
+     *
+     * @param backOrderList   还衣单清点状态列表
+     * @param tagCode       封箱条码 String
+     * @param token         登录凭证(必填) String
+     */
+    public static void checkComplete(ArrayList<CheckBackOrder> backOrderList, String tagCode,
+                                     String token, AsyncHttpResponseHandler handler) {
+        if (null == backOrderList || null == tagCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderList", backOrderList);
+        params.put("tagCode", tagCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/clothesCheck/checkComplete%s", handler);
     }
 
 }

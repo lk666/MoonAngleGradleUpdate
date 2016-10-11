@@ -1,44 +1,20 @@
 package cn.com.bluemoon.delivery.app.api.model.wash;
 
 /**
- * {@link ResultAreaList#inboxList}数据项
+ * {@link ResultAreaList#regionList}数据项
  * Created by lk on 2016/9/14.
  */
 public class Region {
     /**
-     * 已入箱还衣单
+     * 区域
      */
-    private int backOrderIntoNum;
-    /**
-     * 规划还衣单数
-     */
-    private int backOrderNum;
-    /**
-     * 衣物箱号
-     */
-    private String boxCode;
+    private String region;
 
-    public int getBackOrderIntoNum() {
-        return backOrderIntoNum;
+    public String getRegion() {
+        return region;
     }
 
-    public void setBackOrderIntoNum(int backOrderIntoNum) {
-        this.backOrderIntoNum = backOrderIntoNum;
-    }
-
-    public int getBackOrderNum() {
-        return backOrderNum;
-    }
-
-    public void setBackOrderNum(int backOrderNum) {
-        this.backOrderNum = backOrderNum;
-    }
-
-    public String getBoxCode() {
-        return boxCode;
-    }
-
-    public void setBoxCode(String boxCode) {
-        this.boxCode = boxCode;
+    public void setRegion(String region) {
+        this.region = region;
     }
 }

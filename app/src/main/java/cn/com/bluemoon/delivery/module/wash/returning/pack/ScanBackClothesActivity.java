@@ -73,7 +73,6 @@ public class ScanBackClothesActivity extends BaseScanCodeActivity {
         for (ClothesItem item : list) {
             if (item.getClothesCode().equals(backOrderCode)) {
                 item.isCheck = true;
-                break;
             }
         }
 

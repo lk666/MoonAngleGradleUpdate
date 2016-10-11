@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.account;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Handler;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -141,29 +142,30 @@ public class SettingInfoActivity extends KJActivity {
 		}
 	}
 
-	private void setCacheSize() {
-		new Thread(new Runnable() {
+	private void setCacheSize()
+	{
+		CacheAsyncTask cacheAsyncTask = new CacheAsyncTask();
+		cacheAsyncTask.execute();
+	}
 
-			@Override
-			public void run() {
-				// TODO Auto-generated method stub
-				try {
-					size = CacheManager.getBlueMoonCacheSize(aty);
-				} catch (Exception e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-				Handler handler = new Handler(getMainLooper());
-				handler.post(new Runnable() {
+	private class CacheAsyncTask extends AsyncTask<Void,Void,String> {
 
-					@Override
-					public void run() {
-						// TODO Auto-generated method stub
-						txtCache.setText(size);
-					}
-				});
+
+		@Override
+		protected String doInBackground(Void... params) {
+			try {
+				size = CacheManager.getBlueMoonCacheSize(aty);
+			} catch (Exception e) {
+				e.printStackTrace();
 			}
-		}).start();
+			return size;
+		}
+
+		@Override
+		protected void onPostExecute(String s) {
+			super.onPostExecute(s);
+			txtCache.setText(s);
+		}
 	}
 
 	private void initCustomActionBar() {

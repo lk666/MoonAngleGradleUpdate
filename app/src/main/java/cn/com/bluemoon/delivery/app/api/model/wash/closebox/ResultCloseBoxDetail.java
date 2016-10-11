@@ -18,6 +18,16 @@ public class ResultCloseBoxDetail extends ResultBase {
      * 衣物箱号
      */
     private String boxCode;
+
+    /**
+     * 接收人
+     */
+    private String receiver;
+    /**
+     * 接收人联系方式
+     */
+    private String receiverPhone;
+
     /**
      * 详细地址
      */
@@ -117,5 +127,21 @@ public class ResultCloseBoxDetail extends ResultBase {
 
     public void setTagCode(String tagCode) {
         this.tagCode = tagCode;
+    }
+
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
     }
 }

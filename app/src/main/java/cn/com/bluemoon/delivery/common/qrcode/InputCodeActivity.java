@@ -7,7 +7,7 @@
  * @version 1.0
  * @date: 2016/1/13
  */
-package cn.com.bluemoon.delivery.common;
+package cn.com.bluemoon.delivery.common.qrcode;
 
 
 import android.app.Activity;
