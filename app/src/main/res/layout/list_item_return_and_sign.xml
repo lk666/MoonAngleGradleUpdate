@@ -26,7 +26,7 @@
             android:id="@+id/txt_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="还衣单详情"
+            android:text="@string/manage_clothes_detail"
             android:layout_gravity="center"
             android:textColor="@color/text_black"
             android:textSize="13sp" />
@@ -57,7 +57,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="2dp"
-            android:text="加急"
+            android:text="@string/manage_urgent"
             android:layout_marginRight="5dp"
             android:textColor="@color/white"
             android:background="@mipmap/red_arrow"
@@ -116,7 +116,7 @@
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="5dp"
                     android:textColor="@color/text_red"
-                    android:text="加急"
+                    android:text="@string/manage_urgent"
                     android:textSize="13sp" />
             </LinearLayout>
 

@@ -29,7 +29,7 @@ public class RefuseDetailActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return "拒签信息";
+        return getString(R.string.manage_refuse_info_title);
     }
 
     @Override
@@ -54,7 +54,7 @@ public class RefuseDetailActivity extends BaseActivity {
         hideWaitDialog();
         ResultRefuseDetail r = (ResultRefuseDetail) result;
         gridView.loadAdpater(r.getImagePaths(), false);
-        txtCode.setText("衣物编码-"+clothesCode);
+        txtCode.setText(getString(R.string.manage_clothes_code3, clothesCode));
         txtTime.setText(DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss"));
         txtReason.setText(r.getRefuseIssueDesc());
     }

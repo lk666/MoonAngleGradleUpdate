@@ -70,6 +70,7 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
+        setAmount();
         pageFlag = 0;
         ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, getToken(),
                 getNewHandler(requestCode, ResultBackOrder.class));
@@ -111,24 +112,24 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
             TextView txtUrgent = getViewById(R.id.txt_urgent);
 
             btnAction.setVisibility(View.VISIBLE);
-            btnAction.setText("去还衣");
+            btnAction.setText(R.string.manage_go_return);
             final ResultBackOrder.BackOrderListBean result = list.get(position);
             txtCustomerName.setText(result.getCustomerName());
             txtMobilePhone.setText(result.getCustomerPhone());
             txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtMobilePhone.getPaint().setAntiAlias(true);
             txtAddress.setText(result.getAddress());
-            txtTotalAmount.setText("衣物数量：" + result.getClothesNum());
+            txtTotalAmount.setText(context.getString(R.string.manage_clothes_amount, result.getClothesNum()));
 
             if (result.isIsUrgent()) {
                 layoutUrgent.setVisibility(View.VISIBLE);
-                txtUrgent.setText("预约还衣时间：" + DateUtil.getTime(result.getAppointBackTime(), "yyyy-MM-dd  HH:mm"));
+                txtUrgent.setText(context.getString(R.string.manage_return_time,
+                        DateUtil.getTime(result.getAppointBackTime(), "yyyy-MM-dd  HH:mm")));
             } else {
                 layoutUrgent.setVisibility(View.GONE);
             }
 
-            txtNo.setText("还衣单号：" + result.getBackOrderCode());
-            //txtNumber.setText("还衣单数量：" + result.getBackOrderNum());
+            txtNo.setText(context.getString(R.string.manage_clothes_num, result.getBackOrderCode()));
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -137,6 +138,7 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
                             BackOrderDetailActivity.actStart(getActivity(), result, false);
                             break;
                         case R.id.btn_action:
+                            //TODO
                             longToast("btn");
                             break;
                         case R.id.txt_mobilePhone:

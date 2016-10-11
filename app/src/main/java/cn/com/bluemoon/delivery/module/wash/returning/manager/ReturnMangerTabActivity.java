@@ -6,30 +6,28 @@ import android.content.Context;
 import java.util.ArrayList;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.entity.DrawableTabState;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
-import cn.com.bluemoon.delivery.module.storage.StockFragment;
-import cn.com.bluemoon.delivery.module.storage.WarehouseFragment;
 
 public class ReturnMangerTabActivity extends BaseTabActivity {
 
 	public static void actionStart(Context context){
 		ArrayList<TabState> tabs = new ArrayList<>();
-		tabs.add(new TabState(DeliveryFragment.class,
-				R.drawable.tab_stock_selector,
+		tabs.add(new DrawableTabState(DeliveryFragment.class,R.mipmap.tab_return_delivery_selected, R.mipmap.tab_return_delivery_normal,
 				R.string.manger_tab_1));
-		tabs.add(new TabState(ReturnFragment.class,
-				R.drawable.tab_my_warehouse_selector,
+		tabs.add(new DrawableTabState(ReturnFragment.class,R.mipmap.tab_return_sign_selected, R.mipmap.tab_return_sign_normal,
 				R.string.manger_tab_2));
-		tabs.add(new TabState(SignFragment.class,
-				R.drawable.tab_my_warehouse_selector,
+		tabs.add(new DrawableTabState(SignFragment.class,R.mipmap.tab_return_alreay_selected, R.mipmap.tab_return_alreay_normal,
 				R.string.manger_tab_3));
-
-
-		tabs.add(new TabState(ReturnHistoryFragment.class,
-				R.drawable.tab_my_warehouse_selector,
+		tabs.add(new DrawableTabState(ReturnHistoryFragment.class,R.mipmap.tab_history_normal, R.mipmap.tab_history_disable,
 				R.string.manger_tab_4));
 		actionStart(context, tabs, ReturnMangerTabActivity.class);
 	}
 
+	@Override
+	protected WashModeType getModeType() {
+		return WashModeType.BACK_ORDER_MANAGE_MODEL;
+	}
 }

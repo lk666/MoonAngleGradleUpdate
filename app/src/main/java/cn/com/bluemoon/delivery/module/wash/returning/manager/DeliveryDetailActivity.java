@@ -33,7 +33,7 @@ public class DeliveryDetailActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return "收货详情";
+        return getString(R.string.manage_delivery_title);
     }
 
     @Override
@@ -86,8 +86,8 @@ public class DeliveryDetailActivity extends BaseActivity {
             TextView txtCustomerName = getViewById(R.id.txt_customer_name);
             TextView txtAddress = getViewById(R.id.txt_address);
 
-            txtReturnCode.setText("还衣单：" + r.getBackOrderCode());
-            txtCustomerName.setText("收货人："+r.getCustomerName());
+            txtReturnCode.setText(getString(R.string.manage_return_clothes_code, r.getBackOrderCode()));
+            txtCustomerName.setText(getString(R.string.manage_customer_name, r.getCustomerName()));
             txtAddress.setText(r.getProvince() + "  " + r.getCity() + "  "
                     + r.getVillage() + "  " + r.getStreet() + "  " + r.getAddress());
 

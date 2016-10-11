@@ -28,5 +28,4 @@ public class TabState implements Serializable {
     public int getContent() {
         return content;
     }
-
 }

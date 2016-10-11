@@ -44,7 +44,7 @@ public class ClothesDetailActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return "衣物详情";
+        return getString(R.string.manage_clothes_detail_title);
     }
 
     @Override
@@ -67,12 +67,12 @@ public class ClothesDetailActivity extends BaseActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ResultClothesDetail r = (ResultClothesDetail) result;
-        txtCode.setText("衣物条码：" + clothesCode);
-        txtRemark.setText("备注："+r.getRemark());
+        txtCode.setText(getString(R.string.manage_clothes_code2, clothesCode));
+        txtRemark.setText(getString(R.string.manage_remark, r.getRemark()));
         txtType.setText(r.getTypeName());
         if (StringUtils.isNotBlank(r.getFlawDesc())) {
             txtInfo.setVisibility(View.VISIBLE);
-            txtInfo.setText("瑕疵信息："+r.getFlawDesc());
+            txtInfo.setText(getString(R.string.manage_flaw_des, r.getFlawDesc()));
         } else {
             txtInfo.setVisibility(View.GONE);
         }
