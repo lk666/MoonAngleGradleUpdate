@@ -1025,12 +1025,55 @@
     <string name="back_order_check">清点还衣单</string>
     <string name="clothes_check">清点衣物</string>
     <string name="scan_back_order_code">扫描还衣单标签</string>
-    <string name="abnormal_hint">还衣单异常描述，至少5个子，最多100字</string>
+    <string name="abnormal_hint">还衣单异常描述，至少5个字，最多100字</string>
     <string name="check_finish">清点完成</string>
     <string name="clothes_check_list_title">衣物清单</string>
     <string name="clothes_check_not_in">该编码不属于当前还衣单，请重新扫描</string>
     <string name="clothes_check_finish">该还衣单衣物已清点完成</string>
     <string name="back_order_check_list_title">还衣单清单</string>
     <string name="scan_tag">扫描封箱标签</string>
+    <string name="back_order_detail_title">还衣单详情</string>
+    <string name="scan_back_order_detail_dialog_msg">还衣单是否异常？</string>
+    <string name="continue_scan">继续扫描</string>
+    <string name="scan_back_order_detail_dialog_abnormal">异常记录</string>
+    <string name="back_order_check_not_in">该还衣单不属于当前衣物箱，请重新扫描</string>
+    <string name="duplicate_abnormal">该还衣单已标记异常</string>
+    <string name="back_order_check_finish">该箱还衣单已清点完成</string>
+
+    <!--快速封箱-->
+    <string name="express_close_box_tab1">快递封箱</string>
+    <string name="express_close_box_tab2">快递记录</string>
+    <string name="express_number_detail">快递单详情</string>
+    <string name="express_company">快递公司</string>
+    <string name="express_number">快递单号</string>
+    <string name="express_customer_num">收货人编号</string>
+    <string name="express_customer_name">收货人</string>
+    <string name="please_select_company">请选择快递公司</string>
+    <string name="select_company">选择快递公司</string>
+    <string name="please_scan_delivery_num">请扫描/输入快递单号</string>
+    <string name="delivery_emy_num">收货员工编号</string>
+    <string name="delivery_customer_name2">收货人姓名</string>
+    <string name="delivery_customer_name3">收货人：</string>
+    <string name="add_return_clothes_num">添加还衣单</string>
+    <string name="return_clothes_num">还衣单号</string>
+    <string name="return_index_num">序号</string>
+    <string name="delete_return_clothes">删 除</string>
+    <string name="btn_delivery_ok">快递确认封箱</string>
+    <string name="scan_delivery_title">扫描快递单</string>
+    <string name="scan_clothes_num_title">扫描还衣单标签</string>
+    <string name="input_by_hand">手动输入</string>
+    <string name="query_emy_num">查询</string>
+    <string name="return_amount">还衣单数量：</string>
+    <string name="query_logistics">查看物流</string>
+
+    <string name="image">图片</string>
+    <string name="all_image">所有图片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">无法启用系统相机</string>
+    <string name="image_number">%s张</string>
+    <string name="image_max">你最多只能选择%s张图片</string>
+    <string name="done">完成</string>
+    <string name="done_with_count">完成(%1$d/%2$d)</string>
+    <string name="image_index">%1$d/%2$d</string>
 
 </resources>

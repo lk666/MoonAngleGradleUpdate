@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.wash.returning.manager.model;
+package cn.com.bluemoon.delivery.app.api.model.wash.manager;
 
 import java.util.List;
 
@@ -11,6 +11,15 @@ public class ResultExpress extends ResultBase{
 
 
     private int pageFlag;
+    private int expressSum;
+
+    public int getExpressSum() {
+        return expressSum;
+    }
+
+    public void setExpressSum(int expressSum) {
+        this.expressSum = expressSum;
+    }
 
     private List<ExpressListBean> expressList;
 
@@ -35,6 +44,25 @@ public class ResultExpress extends ResultBase{
         private String companyCode;
         private String companyName;
         private String expressCode;
+        private String receiver;//	收货人
+        private String receiverCode; //编号
+
+        public String getReceiver() {
+            return receiver;
+        }
+
+        public void setReceiver(String receiver) {
+            this.receiver = receiver;
+        }
+
+        public String getReceiverCode() {
+            return receiverCode;
+        }
+
+        public void setReceiverCode(String receiverCode) {
+            this.receiverCode = receiverCode;
+        }
+
 
         public int getBackOrderNum() {
             return backOrderNum;

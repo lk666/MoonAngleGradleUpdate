@@ -104,7 +104,7 @@ public class ScanReceiveSignActivity extends BaseScanCodeActivity {
                     new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            startDelay();
+                            resumeScan();
                         }
                     });
         }
@@ -112,13 +112,16 @@ public class ScanReceiveSignActivity extends BaseScanCodeActivity {
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
         checkFinished();
     }
 
     @Override
     public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
+        checkFinished();
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
         checkFinished();
     }
 

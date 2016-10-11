@@ -130,8 +130,8 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? "HISTORY_WAIT_SEALED_BOX" : "", getNewHandler
-                (requestCode, ResultWaitCloseBoxList.class));
+        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? "FILTER_WAIT_SEALED_BOX" : "",
+                getNewHandler(requestCode, ResultWaitCloseBoxList.class));
         setAmount();
     }
 
@@ -234,7 +234,8 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ? "HISTORY_WAIT_SEALED_BOX" : "", getNewHandler
+        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ?
+                "HISTORY_WAIT_SEALED_BOX" : "", getNewHandler
                 (requestCode, ResultWaitCloseBoxList.class));
     }
 

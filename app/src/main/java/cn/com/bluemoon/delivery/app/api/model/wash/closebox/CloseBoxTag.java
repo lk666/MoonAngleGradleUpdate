@@ -17,6 +17,15 @@ public class CloseBoxTag implements Serializable {
      * 还衣单数量
      */
     private int backOrderNum;
+
+    /**
+     * 接收人
+     */
+    private String receiver;
+    /**
+     * 接收人联系方式
+     */
+    private String receiverPhone;
     /**
      * 衣物箱号
      */
@@ -131,4 +140,19 @@ public class CloseBoxTag implements Serializable {
         this.village = village;
     }
 
+    public String getReceiver() {
+        return receiver;
+    }
+
+    public void setReceiver(String receiver) {
+        this.receiver = receiver;
+    }
+
+    public String getReceiverPhone() {
+        return receiverPhone;
+    }
+
+    public void setReceiverPhone(String receiverPhone) {
+        this.receiverPhone = receiverPhone;
+    }
 }

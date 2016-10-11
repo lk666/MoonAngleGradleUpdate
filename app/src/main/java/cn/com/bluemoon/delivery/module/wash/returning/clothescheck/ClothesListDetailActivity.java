@@ -350,6 +350,7 @@ public class ClothesListDetailActivity extends BaseActivity implements
                 imgs.add(u);
             }
         }
+        showWaitDialog();
         ReturningApi.scanBackClothesOrder(backOrderCode, imgs, etAbnormal.getText().toString(),
                 getToken(), getNewHandler(REQUEST_CODE_FINISH, ResultBase.class));
 
@@ -412,7 +413,6 @@ public class ClothesListDetailActivity extends BaseActivity implements
                 switch (view.getId()) {
                     //  删除图片（本地删除）
                     case R.id.iv_delete:
-                        showWaitDialog();
                         abnormalImgs.remove(position);
                         if (!AddPhotoAdapter.ADD_IMG_ID.equals(
                                 abnormalImgs.get(abnormalImgs.size() - 1).getImgId())) {

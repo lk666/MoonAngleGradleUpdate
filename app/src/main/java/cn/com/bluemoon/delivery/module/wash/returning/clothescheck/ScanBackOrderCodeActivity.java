@@ -11,7 +11,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 
 /**
- * 扫描还衣单标签
+ * 扫描还衣单标签(衣物清点)
  */
 public class ScanBackOrderCodeActivity extends BaseScanCodeActivity {
 

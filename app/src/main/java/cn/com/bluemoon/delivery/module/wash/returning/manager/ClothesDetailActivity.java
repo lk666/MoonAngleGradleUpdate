@@ -15,7 +15,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.model.ResultClothesDetail;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultClothesDetail;
 import cn.com.bluemoon.delivery.ui.ImageGridView;
 
 /**
@@ -88,7 +88,7 @@ public class ClothesDetailActivity extends BaseActivity {
             for (ResultClothesDetail.ClothesImgBean img : imgs) {
                 paths.add(img.getImgPath());
             }
-            gridviewImg.setList(paths);
+            gridviewImg.loadAdpater(paths, false);
         }
         btnClean.setVisibility(View.VISIBLE);
         btnClean.setText(r.getWashResult());

@@ -640,6 +640,37 @@
             android:name=".module.wash.returning.clothescheck.ScanClothesCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.BackOrderListDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ScanTagCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.BackOrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ScanBackOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.expressclosebox.ExpressCompanyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".common.photopicker.PhotoPreviewActivity"
+            android:theme="@style/PhotoPickerTheme"/>
+        <activity
+            android:name=".common.photopicker.PhotoPickerActivity"
+            android:theme="@style/PhotoPickerTheme"/>
     </application>
 
 </manifest>
