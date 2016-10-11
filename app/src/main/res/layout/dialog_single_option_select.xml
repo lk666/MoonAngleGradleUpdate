@@ -49,46 +49,19 @@
         android:layout_height="145dp"
         android:background="@drawable/view_bg">
 
-        <cn.com.bluemoon.delivery.ui.selectordialog.ExtraTextNumberWheelView
-            android:id="@+id/nwv_hour"
-            android:layout_width="80dp"
+        <cn.com.bluemoon.delivery.ui.selectordialog.SimpleWheelView
+            android:id="@+id/wheel"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/center"
-            app:extra="时"
-            app:isLoop="true"
+            android:layout_centerInParent="true"
+            app:isLoop="false"
             app:itemNumber="3"
-            app:normalTextColor="#b2b2b2"
+            app:normalTextColor="@color/text_black_light"
             app:normalTextSize="14sp"
             app:selectedTextColor="@color/text_black"
-            app:selectedTextSize="18sp"
+            app:selectedTextSize="28sp"
             app:unitHeight="34dp"
             />
-
-        <View
-            android:id="@+id/center"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"/>
-
-        <cn.com.bluemoon.delivery.ui.selectordialog.ExtraTextNumberWheelView
-            android:id="@+id/nwv_minute"
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="20dp"
-            android:layout_toRightOf="@+id/center"
-            app:extra="分"
-            app:isLoop="true"
-            app:itemNumber="3"
-            app:normalTextColor="#b2b2b2"
-            app:normalTextSize="14sp"
-            app:selectedTextColor="@color/text_black"
-            app:selectedTextSize="18sp"
-            app:unitHeight="34dp"
-            />
-
 
         <ImageView
             android:layout_width="wrap_content"

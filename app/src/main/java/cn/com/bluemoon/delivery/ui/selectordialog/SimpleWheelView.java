@@ -82,48 +82,6 @@ public class SimpleWheelView extends View {
     private float selectedFont = 22.0f;
 
     /**
-     * 设置{@link #unitHeight}
-     */
-    public void setUnitHeight(int unitHeight) {
-        this.unitHeight = unitHeight;
-    }
-
-    /**
-     * 设置{@link #itemNumber}
-     */
-    public void setItemNumber(int itemNumber) {
-        this.itemNumber = itemNumber;
-    }
-
-    /**
-     * 设置{@link #normalColor}
-     */
-    public void setNormalColor(int normalColor) {
-        this.normalColor = normalColor;
-    }
-
-    /**
-     * 设置{@link #normalFont}
-     */
-    public void setNormalFont(float normalFont) {
-        this.normalFont = normalFont;
-    }
-
-    /**
-     * 设置{@link #selectedColor}
-     */
-    public void setSelectedColor(int selectedColor) {
-        this.selectedColor = selectedColor;
-    }
-
-    /**
-     * 设置{@link #selectedFont}
-     */
-    public void setSelectedFont(float selectedFont) {
-        this.selectedFont = selectedFont;
-    }
-
-    /**
      * 单元格高度
      */
     private int unitHeight = 50;
