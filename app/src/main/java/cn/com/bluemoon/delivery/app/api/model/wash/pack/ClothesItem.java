@@ -1,9 +1,11 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.pack;
 
+import java.io.Serializable;
+
 /**
  * Created by bm on 2016/9/29.
  */
-public class ClothesItem {
+public class ClothesItem implements Serializable {
     public boolean isCheck;
     /** 衣物编码 */
     private String clothesCode;
