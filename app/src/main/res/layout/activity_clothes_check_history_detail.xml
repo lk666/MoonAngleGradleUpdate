@@ -135,7 +135,7 @@
                 android:divider="@null"
                 android:gravity="center"
                 android:horizontalSpacing="15dp"
-                android:numColumns="auto"
+                android:numColumns="4"
                 android:paddingBottom="15dp"
                 android:paddingLeft="15dp"
                 android:paddingRight="15dp"
