@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -30,7 +31,7 @@ public class SingleOptionSelectDialog extends Dialog {
     /**
      * 设置数据
      */
-    private ArrayList<String> dataList;
+    private List<String> dataList;
 
     private OnButtonClickListener listener;
 
@@ -46,9 +47,9 @@ public class SingleOptionSelectDialog extends Dialog {
      * @param defIndex 默认选中项
      * @param listener 点击按钮时的回调
      */
-    public SingleOptionSelectDialog(Context context, String title, ArrayList<String> dataList,
+    public SingleOptionSelectDialog(Context context, String title, List<String> dataList,
                                     int defIndex, OnButtonClickListener listener) {
-        super(context, R.style.Dialog);
+        super(context, R.style.Translucent_Dialog);
         this.dataList = dataList;
         this.title = title;
         this.listener = listener;

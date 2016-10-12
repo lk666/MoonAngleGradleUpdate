@@ -36,8 +36,8 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultStorehouse;
-import cn.com.bluemoon.delivery.app.api.model.Storehouse;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultStorehouse;
+import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;

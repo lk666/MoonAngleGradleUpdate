@@ -25,7 +25,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 import cn.com.bluemoon.lib.view.CommonTimePickerDialog;

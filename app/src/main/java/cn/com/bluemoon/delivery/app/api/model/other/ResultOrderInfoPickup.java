@@ -6,10 +6,12 @@
  * @version 1.0
  * @date: 2016/3/2/
  */
-package cn.com.bluemoon.delivery.app.api.model;
+package cn.com.bluemoon.delivery.app.api.model.other;
 
 import java.io.Serializable;
 import java.util.List;
+
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 public class ResultOrderInfoPickup extends ResultBase implements Serializable{
 	

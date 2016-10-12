@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -63,7 +64,7 @@ public class SimpleWheelView extends View {
     /**
      * 设置数据
      */
-    private ArrayList<String> dataList;
+    private List<String> dataList;
     /**
      * 用于记录滑动距离的临时坐标变量
      */
@@ -712,7 +713,7 @@ public class SimpleWheelView extends View {
      * @param data          新数据
      * @param selectedIndex 选中项
      */
-    public void initData(ArrayList<String> data, int selectedIndex) {
+    public void initData(List<String> data, int selectedIndex) {
         if (selectedIndex < 0 || (data != null && selectedIndex >= data.size())) {
             throw new IndexOutOfBoundsException();
         }

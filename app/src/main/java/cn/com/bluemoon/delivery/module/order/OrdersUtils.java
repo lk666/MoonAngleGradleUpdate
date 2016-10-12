@@ -16,9 +16,9 @@ import android.widget.TextView;
 import org.apache.commons.lang3.StringUtils;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.OrderVo;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
-import cn.com.bluemoon.delivery.app.api.model.Storehouse;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfoPickup;
+import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 
 /**
  * @author Administrator

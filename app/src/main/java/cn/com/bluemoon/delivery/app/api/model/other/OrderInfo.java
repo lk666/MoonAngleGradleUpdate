@@ -1,26 +1,78 @@
-package cn.com.bluemoon.delivery.app.api.model;  
+package cn.com.bluemoon.delivery.app.api.model.other;
 
-import java.io.Serializable;
+import java.util.List;
 
-public class OrderVo implements Serializable {
-	private String dispatchId;
-	private String orderId;
-	private String orderSource;
-	private String payOrderTime;
-	private String subscribeTime;
-	private String customerName;
-	private String mobilePhone;
-	private String region;
-	private String address;
-	private int cateAmount;
-	private int totalAmount;
-	private String totalPrice;
-	private String storehouseCode;
-	private String storehouseName;
-	private String storechargeCode;
-	private String storechargeName;
-	private int returnState;
-	private int exchangeState;
+
+public class OrderInfo {
+	private String  dispatchId;
+	private String  orderId;
+	private String  source;
+	private String  payOrderTime;
+	private String  subscribeTime;
+	private String  deliveryTime;
+	private String  signTime;
+	private String  customerName;
+	private String  mobilePhone;
+	private String  region;
+	private String  address;
+	private int  cateAmount;
+	private int  totalAmount;
+	private String  totalPrice;
+	private String  storehouseCode;
+	private String  storehouseName;
+	private String  storechargeCode;
+	private String  storechargeName;
+	private String  storechargeMobileno;
+	private int  returnState;
+	private int  exchangeState;
+	private List<Product>  productList;
+	private String dispatchStatus;
+	private String nickName;
+	private String nickPhone;
+	
+	
+	/**  
+	 * nickName.  
+	 *  
+	 * @return  the nickName  
+	 * @since   JDK 1.6  
+	 */
+	public String getNickName() {
+		return nickName;
+	}
+	/**  
+	 * nickName.  
+	 *  
+	 * @param   nickName    the nickName to set  
+	 * @since   JDK 1.6  
+	 */
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	/**  
+	 * nickPhone.  
+	 *  
+	 * @return  the nickPhone  
+	 * @since   JDK 1.6  
+	 */
+	public String getNickPhone() {
+		return nickPhone;
+	}
+	/**  
+	 * nickPhone.  
+	 *  
+	 * @param   nickPhone    the nickPhone to set  
+	 * @since   JDK 1.6  
+	 */
+	public void setNickPhone(String nickPhone) {
+		this.nickPhone = nickPhone;
+	}
+	public String getDispatchStatus() {
+		return dispatchStatus;
+	}
+	public void setDispatchStatus(String dispatchStatus) {
+		this.dispatchStatus = dispatchStatus;
+	}
 	/**  
 	 * dispatchId.  
 	 *  
@@ -63,17 +115,14 @@ public class OrderVo implements Serializable {
 	 * @return  the orderSource  
 	 * @since   JDK 1.6  
 	 */
-	public String getOrderSource() {
-		return orderSource;
+	public String getSource() {
+		return source;
 	}
 	/**  
 	 * orderSource.  
-	 *  
-	 * @param   orderSource    the orderSource to set  
-	 * @since   JDK 1.6  
 	 */
-	public void setOrderSource(String orderSource) {
-		this.orderSource = orderSource;
+	public void setSource(String source) {
+		this.source = source;
 	}
 	/**  
 	 * payOrderTime.  
@@ -110,6 +159,42 @@ public class OrderVo implements Serializable {
 	 */
 	public void setSubscribeTime(String subscribeTime) {
 		this.subscribeTime = subscribeTime;
+	}
+	/**  
+	 * deliveryTime.  
+	 *  
+	 * @return  the deliveryTime  
+	 * @since   JDK 1.6  
+	 */
+	public String getDeliveryTime() {
+		return deliveryTime;
+	}
+	/**  
+	 * deliveryTime.  
+	 *  
+	 * @param   deliveryTime    the deliveryTime to set  
+	 * @since   JDK 1.6  
+	 */
+	public void setDeliveryTime(String deliveryTime) {
+		this.deliveryTime = deliveryTime;
+	}
+	/**  
+	 * signTime.  
+	 *  
+	 * @return  the signTime  
+	 * @since   JDK 1.6  
+	 */
+	public String getSignTime() {
+		return signTime;
+	}
+	/**  
+	 * signTime.  
+	 *  
+	 * @param   signTime    the signTime to set  
+	 * @since   JDK 1.6  
+	 */
+	public void setSignTime(String signTime) {
+		this.signTime = signTime;
 	}
 	/**  
 	 * customerName.  
@@ -310,6 +395,24 @@ public class OrderVo implements Serializable {
 		this.storechargeName = storechargeName;
 	}
 	/**  
+	 * storechargeMobileno.  
+	 *  
+	 * @return  the storechargeMobileno  
+	 * @since   JDK 1.6  
+	 */
+	public String getStorechargeMobileno() {
+		return storechargeMobileno;
+	}
+	/**  
+	 * storechargeMobileno.  
+	 *  
+	 * @param   storechargeMobileno    the storechargeMobileno to set  
+	 * @since   JDK 1.6  
+	 */
+	public void setStorechargeMobileno(String storechargeMobileno) {
+		this.storechargeMobileno = storechargeMobileno;
+	}
+	/**  
 	 * returnState.  
 	 *  
 	 * @return  the returnState  
@@ -344,6 +447,24 @@ public class OrderVo implements Serializable {
 	 */
 	public void setExchangeState(int exchangeState) {
 		this.exchangeState = exchangeState;
+	}
+	/**  
+	 * productList.  
+	 *  
+	 * @return  the productList  
+	 * @since   JDK 1.6  
+	 */
+	public List<Product> getProductList() {
+		return productList;
+	}
+	/**  
+	 * productList.  
+	 *  
+	 * @param   productList    the productList to set  
+	 * @since   JDK 1.6  
+	 */
+	public void setProductList(List<Product> productList) {
+		this.productList = productList;
 	}
 
 }
