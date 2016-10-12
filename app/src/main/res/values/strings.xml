@@ -877,10 +877,10 @@
     <string name="close_box_pending_finish">已入箱还衣单：</string>
     <string name="close_box_close_box">封箱</string>
     <string name="close_box_history_title">封箱历史</string>
-    <string name="close_box_tag_code">封箱条码 %s</string>
+    <string name="close_box_tag_code">封箱标签 %s</string>
     <string name="close_box_back_order_num">还衣单数量：</string>
     <string name="close_box_clothes_num">衣物数量：</string>
-    <string name="close_box_tag_detail_code">封箱条码：%s</string>
+    <string name="close_box_tag_detail_code">封箱标签：%s</string>
     <string name="close_box_back_detail_order_num">还衣单数量：%s</string>
     <string name="close_box_tag_detail_address_title">送达方：</string>
     <string name="close_box_tag_detail_box_code">箱号：%s</string>
@@ -938,7 +938,7 @@
     <string name="driver_scan_finish">扫描完成！</string>
     <string name="driver_btn_receiver">确认收货人</string>
     <string name="driver_box_num_all">共%S箱</string>
-    <string name="driver_tag_code">封箱条码-%s</string>
+    <string name="driver_tag_code">封箱标签-%s</string>
     <string name="driver_box_code2">箱号：%s</string>
     <string name="driver_cloth_num">还衣单：%s</string>
     <string name="driver_carriage_time">承运收货时间：%s</string>

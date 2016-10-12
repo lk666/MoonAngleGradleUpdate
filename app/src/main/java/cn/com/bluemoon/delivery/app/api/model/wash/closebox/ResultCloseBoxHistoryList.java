@@ -21,7 +21,7 @@ public class ResultCloseBoxHistoryList extends ResultBase {
      */
     private int pageFlag;
     /**
-     * 封箱条码历史列表
+     * 封箱标签历史列表
      */
     private List<TagItem> tagList;
 

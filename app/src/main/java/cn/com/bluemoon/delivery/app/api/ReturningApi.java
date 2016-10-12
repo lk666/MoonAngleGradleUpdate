@@ -210,7 +210,7 @@ public class ReturningApi extends DeliveryApi {
      *
      * @param angleCode         员工编号（必填） String
      * @param carriageAddressId 承运单明细id（必填） String
-     * @param tagCodeList       封箱条码（必填） List<String>
+     * @param tagCodeList       封箱标签（必填） List<String>
      * @param token             登录凭证(必填) String
      */
     public static void scanReceiver(String angleCode, String carriageAddressId, List<String>
@@ -599,7 +599,7 @@ public class ReturningApi extends DeliveryApi {
 
 
     /**
-     * 4.6获取封箱条码历史列表
+     * 4.6获取封箱标签历史列表
      *
      * @param opTime   封箱时间 long
      * @param pageFalg 分页时间戳(分页标志) long
@@ -737,7 +737,7 @@ public class ReturningApi extends DeliveryApi {
      * 4.4封箱-扫描封箱标签
      *
      * @param boxCode     衣物箱号 String
-     * @param tagCodeList 封箱条码 List<String>
+     * @param tagCodeList 封箱标签 List<String>
      * @param token       登录凭证(必填) String
      */
     public static void scanCloseBoxSign(String boxCode, ArrayList<String> tagCodeList, String
@@ -1065,7 +1065,7 @@ public class ReturningApi extends DeliveryApi {
     /**
      * 8.1还衣清点-封箱标签
      *
-     * @param tagCode 封箱条码 String
+     * @param tagCode 封箱标签 String
      * @param token   登录凭证(必填) String
      */
     public static void closeBoxSign(String tagCode, String token, AsyncHttpResponseHandler
@@ -1106,7 +1106,7 @@ public class ReturningApi extends DeliveryApi {
      * 8.3还衣单清点-清点完成
      *
      * @param backOrderList   还衣单清点状态列表
-     * @param tagCode       封箱条码 String
+     * @param tagCode       封箱标签 String
      * @param token         登录凭证(必填) String
      */
     public static void checkComplete(ArrayList<CheckBackOrder> backOrderList, String tagCode,
