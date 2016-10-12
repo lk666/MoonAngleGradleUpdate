@@ -18,6 +18,8 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.TextArea;
+import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.selectordialog.ISecectedItem;
 import cn.com.bluemoon.lib.view.selectordialog.SelectOptionsDialog;
 
@@ -27,9 +29,9 @@ import cn.com.bluemoon.lib.view.selectordialog.SelectOptionsDialog;
 public class WaitPackFilterWindow extends PopupWindow {
     private CheckBox cbWaitInbox;
     private TextView txtRegion;
-    private Context contextt;
+    private Context context;
     private FilterListener listener;
-    private List<TextArea> list;
+    private List<String> list;
 
     /**
      * 是否显示待封箱
@@ -38,18 +40,11 @@ public class WaitPackFilterWindow extends PopupWindow {
 
     public WaitPackFilterWindow(Context context, List<String> list, boolean waitInbox,
                                 FilterListener listener) {
-        this.contextt = context;
+        this.context = context;
         this.listener = listener;
         this.waitInbox = waitInbox;
-        setList(list);
+        this.list = list;
         init();
-    }
-
-    private void setList(List<String> strs) {
-        list = new ArrayList<>();
-        for (String str : strs) {
-            list.add(new TextArea(str + list.size()));
-        }
     }
 
     private void setWaitInbox(boolean waitInbox) {
@@ -60,7 +55,7 @@ public class WaitPackFilterWindow extends PopupWindow {
     }
 
     private void init() {
-        LayoutInflater inflater = LayoutInflater.from(contextt);
+        LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.dialog_wait_pack_filter, null);
 
         LinearLayout llMain = (LinearLayout) view.findViewById(R.id.ll_main);
@@ -71,10 +66,10 @@ public class WaitPackFilterWindow extends PopupWindow {
         setOutsideTouchable(true);
         setContentView(view);
 
-        setBackgroundDrawable(new ColorDrawable(contextt.getResources().getColor(R.color
+        setBackgroundDrawable(new ColorDrawable(context.getResources().getColor(R.color
                 .transparent_65)));
 
-        llMain.startAnimation(AnimationUtils.loadAnimation(contextt, R.anim.push_top_in));
+        llMain.startAnimation(AnimationUtils.loadAnimation(context, R.anim.push_top_in));
 
         txtRegion = (TextView) view.findViewById(R.id.txt_region);
         Button btnConfirm = (Button) view.findViewById(R.id.btn_confirm);
@@ -119,35 +114,24 @@ public class WaitPackFilterWindow extends PopupWindow {
     }
 
     private void showSelectView(){
-        List<TextArea>[] iList = new ArrayList[1];
-        iList[0] = list;
-        int index = list.size()>5?2:list.size()/2-1;
-        new SelectOptionsDialog(contextt, 5, iList, new
-                int[]{index}, new
-                SelectOptionsDialog.ISelectOptionsDialog() {
-                    @Override
-                    public void OnSelectedChanged(List<ISecectedItem> selectedObj) {
+        if(list==null||list.size()==0){
+            ViewUtil.toast(context.getString(R.string.pack_area_select_error));
+            return;
+        }
+        int index = list.size()>3?1:0;
+        new SingleOptionSelectDialog(context, "",
+                list, index, new SingleOptionSelectDialog.OnButtonClickListener() {
+            @Override
+            public void onOKButtonClick(int index, String text) {
+                txtRegion.setText(text);
+            }
 
-                    }
+            @Override
+            public void onCancleButtonClick() {
 
-                    @Override
-                    public void onOutsideClick() {
+            }
+        }).show();
 
-                    }
-
-                    @Override
-                    public void onOKButtonClick(List<ISecectedItem> selectedObj) {
-                        if (selectedObj != null) {
-                            String str = selectedObj.get(0).getShowText();
-                            txtRegion.setText(str);
-                        }
-                    }
-
-                    @Override
-                    public void onClearButtonClick() {
-
-                    }
-                }).show();
     }
 
     public void showPopwindow(View popStart) {

@@ -993,6 +993,8 @@
     <string name="pack_region">区域</string>
     <string name="pack_select">--请选择--</string>
     <string name="btn_scan_tag">扫描标签</string>
+    <string name="pack_region_select">区域选择</string>
+    <string name="pack_area_select_error">没有可选择区域！</string>
 
     <string name="pack_back_box_user">收件人：%1$s</string>
     <string name="pack_back_order_phone">联系方式：%1$s</string>
