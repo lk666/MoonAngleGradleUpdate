@@ -39,7 +39,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.MenuBean;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
-import cn.com.bluemoon.delivery.app.api.model.ResultAngelQr;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
@@ -175,7 +175,7 @@ public class MainActivity extends SlidingActivity {
         scrollViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                txtTips.setVisibility(View.GONE);
+//                txtTips.setVisibility(View.GONE);
                 DeliveryApi.getAppRights(token, appRightsHandler);
                 DeliveryApi.getNewMessage(token, newMessageHandler);
             }

@@ -1,4 +1,6 @@
-package cn.com.bluemoon.delivery.app.api.model;  
+package cn.com.bluemoon.delivery.app.api.model.other;
+
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 public class ResultAngelQr extends ResultBase {
 	private String orgCode;

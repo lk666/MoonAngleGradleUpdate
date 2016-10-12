@@ -18,11 +18,11 @@ import org.kymjs.kjframe.utils.StringUtils;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.AppointmentInfo;
-import cn.com.bluemoon.delivery.app.api.model.ResultAppointmentInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.AppointmentInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultAppointmentInfo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.TicketType;
-import cn.com.bluemoon.delivery.app.api.model.VenueInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.TicketType;
+import cn.com.bluemoon.delivery.app.api.model.other.VenueInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;

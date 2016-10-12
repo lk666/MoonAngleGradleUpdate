@@ -25,8 +25,8 @@ import org.kymjs.kjframe.utils.StringUtils;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.OrderInfo;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.adapter.OrderProductAdapter;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;

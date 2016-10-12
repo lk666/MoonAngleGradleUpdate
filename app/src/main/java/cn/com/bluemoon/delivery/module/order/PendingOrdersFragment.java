@@ -27,8 +27,8 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.OrderVo;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderVo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;

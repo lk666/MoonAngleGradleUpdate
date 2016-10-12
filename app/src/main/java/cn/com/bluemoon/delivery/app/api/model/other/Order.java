@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.app.api.model;  
+package cn.com.bluemoon.delivery.app.api.model.other;
 
 
 public class Order {

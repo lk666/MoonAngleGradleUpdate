@@ -1,7 +1,9 @@
-package cn.com.bluemoon.delivery.app.api.model;
+package cn.com.bluemoon.delivery.app.api.model.other;
 
 import java.io.Serializable;
 import java.util.List;
+
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 public class TicketCountJsonResult extends ResultBase implements Serializable{
 

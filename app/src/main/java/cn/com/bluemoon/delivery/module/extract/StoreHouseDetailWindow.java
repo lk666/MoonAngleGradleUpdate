@@ -20,7 +20,7 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfoPickup;
 
 public class StoreHouseDetailWindow extends PopupWindow {
 

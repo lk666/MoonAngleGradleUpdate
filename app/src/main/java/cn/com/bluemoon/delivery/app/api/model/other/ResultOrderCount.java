@@ -1,6 +1,8 @@
-package cn.com.bluemoon.delivery.app.api.model;  
+package cn.com.bluemoon.delivery.app.api.model.other;
 
 import java.io.Serializable;
+
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 
 public class ResultOrderCount extends ResultBase implements Serializable {

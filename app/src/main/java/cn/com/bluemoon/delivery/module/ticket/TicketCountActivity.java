@@ -22,12 +22,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.ResultVenueInfo;
-import cn.com.bluemoon.delivery.app.api.model.VenueInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultVenueInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.VenueInfo;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;

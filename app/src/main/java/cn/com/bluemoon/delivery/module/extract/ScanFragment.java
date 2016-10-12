@@ -27,7 +27,7 @@ import org.apache.http.protocol.HTTP;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfoPickup;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;

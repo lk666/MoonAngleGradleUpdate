@@ -25,8 +25,8 @@ import org.apache.http.protocol.HTTP;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.HistoryOrderType;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderCount;
+import cn.com.bluemoon.delivery.app.api.model.other.HistoryOrderType;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderCount;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderState;
 import cn.com.bluemoon.delivery.utils.Constants;
