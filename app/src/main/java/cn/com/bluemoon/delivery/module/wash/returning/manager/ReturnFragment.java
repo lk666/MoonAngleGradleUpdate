@@ -29,6 +29,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 public class ReturnFragment extends BasePullToRefreshListViewFragment {
 
     private long pageFlag = 0;
+    private int index;
     private final String TYPE = "BACK_ORDER_WAIT_ACCEPTORDER";
 
     @Override
@@ -86,6 +87,20 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
     public void onItemClick(Object item, View view, int position) {
 
     }
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        if (requestCode == 1) {
+            getList().remove(index);
+            getAdapter().notifyDataSetChanged();
+            toast(result.getResponseMsg());
+            setAmount();
+            if (getList().isEmpty()) {
+                initData();
+            }
+        }
+    }
+
 
     class SignAdapter extends BaseListAdapter<ResultBackOrder.BackOrderListBean> {
 
@@ -100,7 +115,7 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
         }
 
         @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+        protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
             TextView txtNo = getViewById(R.id.txt_no);
             LinearLayout layoutDetail = getViewById(R.id.layout_detail);
             TextView txtCustomerName = getViewById(R.id.txt_customerName);
@@ -138,8 +153,9 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
                             BackOrderDetailActivity.actStart(getActivity(), result, false);
                             break;
                         case R.id.btn_action:
-                            //TODO
-                            longToast("btn");
+                            showWaitDialog();
+                            index = position;
+                            ReturningApi.returnClothes(result.getBackOrderCode(), getToken(), getNewHandler(1, ResultBase.class));
                             break;
                         case R.id.txt_mobilePhone:
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());

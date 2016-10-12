@@ -34,6 +34,7 @@
     <color name="text_set_hint">#bebebe</color><!-- 设置横条右边的提示语颜色 -->
     <color name="text_set_hint2">#bdbdbd</color>
     <color name="text_white_light">#ccfefefe</color>
+    <color name="text_green">#66bb6a</color>
 
     <!-- 按钮颜色 -->
     <color name="btn_red">#ff6c47</color><!-- 红色 -->

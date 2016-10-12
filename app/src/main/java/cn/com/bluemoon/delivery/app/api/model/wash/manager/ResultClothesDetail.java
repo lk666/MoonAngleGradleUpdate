@@ -20,6 +20,16 @@ public class ResultClothesDetail extends ResultBase{
     private int isUrgent;
     private String clothesName;
 
+    public String getStainMakeup() {
+        return stainMakeup;
+    }
+
+    public void setStainMakeup(String stainMakeup) {
+        this.stainMakeup = stainMakeup;
+    }
+
+    private String stainMakeup;
+
     private List<ClothesImgBean> clothesImg;
 
     public String getRemark() {

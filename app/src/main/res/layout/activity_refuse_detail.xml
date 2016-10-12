@@ -67,7 +67,23 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:padding="12dp"
+      android:visibility="gone"
       android:textColor="@color/text_black_light"
+      android:textSize="13sp"/>
+
+  <cn.com.bluemoon.lib.view.CommonClearEditText
+      android:id="@+id/et_reason"
+      android:layout_width="match_parent"
+      android:layout_height="44dp"
+      android:padding="12dp"
+      android:drawablePadding="5dp"
+      android:background="@null"
+      android:gravity="right"
+      android:visibility="gone"
+      android:singleLine="true"
+      android:textColor="@color/text_black_light"
+      android:textColorHint="@color/text_grep"
+      android:hint="@string/manage_refuse_reason_hint"
       android:textSize="13sp"/>
 
  </LinearLayout>
@@ -94,5 +110,17 @@
  </LinearLayout>
 
  <include layout="@layout/layout_image_gridview"/>
+ 
+ <Button
+     android:id="@+id/btn_save"
+     android:layout_width="100dp"
+     android:layout_height="45dp"
+     android:layout_marginTop="30dp"
+     android:visibility="gone"
+     android:layout_gravity="center_horizontal"
+     android:text="@string/manage_refuse_btn"
+     android:textColor="@color/white"
+     android:textSize="17sp"
+     android:background="@drawable/btn_red_shape4"/>
 
  </LinearLayout>

@@ -99,7 +99,7 @@
                         android:layout_height="20dp"
                         android:background="@drawable/btn_border_blue_shape4"
                         android:text="@string/query_emy_num"
-                        android:textColor="@color/text_blue"
+                        android:textColor="#2abbfe"
                         android:textSize="13sp"/>
                 </LinearLayout>
 

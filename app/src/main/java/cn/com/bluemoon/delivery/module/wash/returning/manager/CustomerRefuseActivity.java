@@ -99,6 +99,7 @@ public class CustomerRefuseActivity extends BaseActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent(CustomerRefuseActivity.this, RefuseDetailActivity.class);
                     intent.putExtra("clothesCode", r.getClothesCode());
+                    intent.putExtra("isSave", !r.isIsRefuse());
                     startActivityForResult(intent, 1);
                 }
             });

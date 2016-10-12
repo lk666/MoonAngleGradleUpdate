@@ -13,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 
 import com.bumptech.glide.Glide;
 
@@ -140,18 +141,24 @@ public class ImageGridView extends GridView{
 
             convertView = LayoutInflater.from(mContext).inflate( R.layout.image_gridview_item, null);
 
-            final ImageView imgWork = (ImageView) convertView.findViewById(R.id.img_promote);
+            final ImageView imgUpload = (ImageView) convertView.findViewById(R.id.img_upload);
+            final RelativeLayout layoutAdd = (RelativeLayout) convertView.findViewById(R.id.rl_add);
+            final ImageView ivAdd = (ImageView) convertView.findViewById(R.id.iv_add);
             final String path = imagePaths.get(position);
             if (path.equals(ICON_URL)){
-                imgWork.setImageResource(R.mipmap.addpic);
+                imgUpload.setVisibility(GONE);
+                layoutAdd.setVisibility(VISIBLE);
+                ivAdd.setImageResource(R.mipmap.ic_camera);
             }else {
+                imgUpload.setVisibility(VISIBLE);
+                layoutAdd.setVisibility(GONE);
                 Glide.with(mContext)
                         .load(path)
                         .placeholder(R.mipmap.place_holder)
                         .error(R.mipmap.place_holder)
                         .centerCrop()
                         .crossFade()
-                        .into(imgWork);
+                        .into(imgUpload);
             }
             return convertView;
         }

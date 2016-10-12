@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.wash.returning.expressclosebox;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -16,7 +17,9 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultExpress;
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.SingleTimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -26,8 +29,10 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 public class ExpressHistoryFragment extends BasePullToRefreshListViewFragment {
 
     private long pageFlag = 0;
-    private long closeBoxTime = 0;
-    private int index;
+    private long opTime = 0;
+    private View viewPopStart;
+    private TextView tvDate;
+    private TextView tvTotal;
 
     @Override
     protected String getTitleString() {
@@ -37,6 +42,53 @@ public class ExpressHistoryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected void setActionBar(CommonActionBar actionBar) {
         super.setActionBar(actionBar);
+        actionBar.getTvRightView().setText(R.string.btn_txt_fillter);
+        actionBar.getTvRightView().setCompoundDrawablePadding(10);
+
+        Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
+        assert drawableFillter != null;
+        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
+                .getMinimumHeight());
+        actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
+        actionBar.getTvRightView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        SingleTimerFilterWindow popupWindow = new SingleTimerFilterWindow(getActivity(), opTime, new
+                SingleTimerFilterWindow.FilterListener() {
+                    @Override
+                    public void onOkClick(long time) {
+                        opTime = time;
+                        setHead(View.VISIBLE);
+                        initData();
+                    }
+                });
+        popupWindow.showPopwindow(viewPopStart);
+    }
+
+    private void setHead(int visibility) {
+        if (visibility == View.VISIBLE && opTime > 0) {
+            setHeadViewVisibility(View.VISIBLE);
+            tvDate.setText(DateUtil.getTime(opTime, "yyyy/MM/dd"));
+        } else {
+            setHeadViewVisibility(View.GONE);
+            tvTotal.setText(getString(R.string.pack_order_num, 0));
+        }
+    }
+
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_fragment_tab_pack_history;
+    }
+
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
+        viewPopStart = headView.findViewById(R.id.view_pop_start);
+        tvDate = (TextView) headView.findViewById(R.id.tv_date);
+        tvTotal = (TextView) headView.findViewById(R.id.tv_total);
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     @Override
@@ -55,6 +107,9 @@ public class ExpressHistoryFragment extends BasePullToRefreshListViewFragment {
     protected List getGetDataList(ResultBase result) {
         ResultExpress r = (ResultExpress) result;
         pageFlag = r.getPageFlag();
+        if (r.getExpressList() != null && !r.getExpressList().isEmpty()) {
+            tvTotal.setText(getString(R.string.order_boxes_num, r.getExpressList().size()));
+        }
         return r.getExpressList();
     }
 
@@ -68,17 +123,18 @@ public class ExpressHistoryFragment extends BasePullToRefreshListViewFragment {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+        opTime = 0;
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         pageFlag = 0;
-        ReturningApi.queryExpressLog(closeBoxTime, 0, getToken(), getNewHandler(requestCode, ResultExpress.class));
+        ReturningApi.queryExpressLog(opTime, 0, getToken(), getNewHandler(requestCode, ResultExpress.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryExpressLog(closeBoxTime, pageFlag, getToken(), getNewHandler(requestCode, ResultExpress.class));
+        ReturningApi.queryExpressLog(opTime, pageFlag, getToken(), getNewHandler(requestCode, ResultExpress.class));
     }
 
     @Override

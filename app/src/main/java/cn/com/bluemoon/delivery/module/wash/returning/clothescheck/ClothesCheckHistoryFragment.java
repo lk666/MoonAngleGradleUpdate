@@ -91,7 +91,7 @@ public class ClothesCheckHistoryFragment extends BasePullToRefreshListViewFragme
     private void setHead(int visibility) {
         if (visibility == View.VISIBLE && startTime < endTime) {
             setHeadViewVisibility(View.VISIBLE);
-            tvDate.setText(String.format("%s至%s", DateUtil.getTime(startTime, "yyyy/MM/dd"),
+            tvDate.setText(getString(R.string.start_to_end, DateUtil.getTime(startTime, "yyyy/MM/dd"),
                     DateUtil.getTime(endTime, "yyyy/MM/dd")));
         } else {
             setHeadViewVisibility(View.GONE);

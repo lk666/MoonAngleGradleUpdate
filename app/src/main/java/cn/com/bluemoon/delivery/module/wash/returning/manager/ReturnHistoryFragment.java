@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.wash.returning.manager;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -18,10 +19,13 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultBackOrder;
+import cn.com.bluemoon.delivery.module.order.TimerFilterWindow;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibDateUtil;
 
 /**
  * Created by ljl on 2016/9/19.
@@ -31,10 +35,73 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
     private long pageFlag = 0;
 
     private final String TYPE = "BACK_ORDER_ALREADY_SIGN";
+    private long startTime = 0;
+    private long endTime = 0;
+    private View viewPopStart;
+    private TextView tvDate;
 
     @Override
     protected String getTitleString() {
         return getString(R.string.manger_tab_4);
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar actionBar) {
+        super.setActionBar(actionBar);
+
+        actionBar.getTvRightView().setText(R.string.btn_txt_fillter);
+        actionBar.getTvRightView().setCompoundDrawablePadding(10);
+
+        Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
+        assert drawableFillter != null;
+        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
+                .getMinimumHeight());
+        actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
+        actionBar.getTvRightView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new
+                TimerFilterWindow.TimerFilterListener() {
+                    @Override
+                    public void callBack(long startDate, long endDate) {
+                        if (startDate >= 0 && endDate >= startDate) {
+                            startTime = LibDateUtil.getTimeByCustTime(startDate);
+                            endTime = LibDateUtil.getTimeByCustTime(endDate);
+                            if (startTime == 0 && endTime == 0) {
+                                return;
+                            }
+                            setHead(View.VISIBLE);
+                            initData();
+                        }
+                    }
+                });
+
+        popupWindow.showPopwindow(viewPopStart);
+    }
+
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_fragment_tab_clothes_check_history;
+    }
+
+    private void setHead(int visibility) {
+        if (visibility == View.VISIBLE && startTime < endTime) {
+            setHeadViewVisibility(View.VISIBLE);
+            tvDate.setText(getString(R.string.start_to_end, DateUtil.getTime(startTime, "yyyy/MM/dd"),
+                    DateUtil.getTime(endTime, "yyyy/MM/dd")));
+        } else {
+            setHeadViewVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
+        viewPopStart = headView.findViewById(R.id.view_pop_start);
+        tvDate = (TextView) headView.findViewById(R.id.tv_date);
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
 
@@ -67,17 +134,19 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+        startTime = 0;
+        endTime = 0;
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         pageFlag = 0;
-        ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, getToken(), getNewHandler(requestCode, ResultBackOrder.class));
+        ReturningApi.queryBackOrderList(TYPE, 0, endTime, startTime, getToken(), getNewHandler(requestCode, ResultBackOrder.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryBackOrderList(TYPE, pageFlag, 0, 0, getToken(), getNewHandler(requestCode, ResultBackOrder.class));
+        ReturningApi.queryBackOrderList(TYPE, pageFlag, endTime, startTime, getToken(), getNewHandler(requestCode, ResultBackOrder.class));
     }
 
     @Override

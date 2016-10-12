@@ -25,8 +25,10 @@ public class ClothesDetailActivity extends BaseActivity {
 
     @Bind(R.id.txt_code)
     TextView txtCode;
-    @Bind(R.id.txt_info)
-    TextView txtInfo;
+    @Bind(R.id.txt_stain_info)
+    TextView txtStainInfo;
+    @Bind(R.id.txt_flaw_info)
+    TextView txtFlawInfo;
     @Bind(R.id.img_stain)
     ImageView imgStain;
     @Bind(R.id.img_flaw)
@@ -71,10 +73,16 @@ public class ClothesDetailActivity extends BaseActivity {
         txtRemark.setText(getString(R.string.manage_remark, r.getRemark()));
         txtType.setText(r.getTypeName());
         if (StringUtils.isNotBlank(r.getFlawDesc())) {
-            txtInfo.setVisibility(View.VISIBLE);
-            txtInfo.setText(getString(R.string.manage_flaw_des, r.getFlawDesc()));
+            txtFlawInfo.setVisibility(View.VISIBLE);
+            txtFlawInfo.setText(getString(R.string.manage_flaw_des, r.getFlawDesc()));
         } else {
-            txtInfo.setVisibility(View.GONE);
+            txtFlawInfo.setVisibility(View.GONE);
+        }
+        if (StringUtils.isNotBlank(r.getStainMakeup())) {
+            txtStainInfo.setVisibility(View.VISIBLE);
+            txtStainInfo.setText(getString(R.string.manage_stain_des, r.getStainMakeup()));
+        } else {
+            txtStainInfo.setVisibility(View.GONE);
         }
         if (r.getHasFlaw() == 1) {
             imgFlaw.setVisibility(View.VISIBLE);

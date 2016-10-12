@@ -20,8 +20,10 @@ import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultExpress;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
  * Created by ljl on 2016/9/19.
@@ -45,7 +47,7 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
         rightImg.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                longToast("scan");
+                PublicUtil.openNewScanView(DeliveryFragment.this, getString(R.string.scan_delivery_title), getString(R.string.input_by_hand), null, 1);
             }
         });
     }
@@ -106,6 +108,22 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
             getAdapter().notifyDataSetChanged();
             toast(result.getResponseMsg());
             setAmount();
+            if (getList().isEmpty()) {
+                initData();
+            }
+        } else if (requestCode == 2) {
+            toast(result.getResponseMsg());
+            initData();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && data != null) {
+            String number = data.getStringExtra(LibConstants.SCAN_RESULT);
+            showWaitDialog();
+            ReturningApi.confirmReceive(number, getToken(), getNewHandler(2, ResultBase.class));
         }
     }
 

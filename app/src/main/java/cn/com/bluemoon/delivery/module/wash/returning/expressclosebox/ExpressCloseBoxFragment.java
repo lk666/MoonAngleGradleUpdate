@@ -98,12 +98,10 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             companyCode = data.getStringExtra("companyCode");
             companyName = data.getStringExtra("companyName");
             txtCompany.setText(companyName);
-        }
-        if (requestCode == 3) {
+        } else if (data != null && requestCode == 3) {
             String number = data.getStringExtra(LibConstants.SCAN_RESULT);
             etDeliveryNum.setText(number);
-        }
-        if (requestCode == 2) {
+        } else if (data != null && requestCode == 2) {
             //List<String> numbers = data.getStringArrayListExtra("numbers");
             final List<String> numbers = new ArrayList<>();
             numbers.add("569865895489069506509");
