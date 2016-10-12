@@ -16,7 +16,7 @@ public class TagItem implements Serializable {
      */
     private int clothesNum;
     /**
-     * 封箱条码
+     * 封箱标签
      */
     private String tagCode;
 

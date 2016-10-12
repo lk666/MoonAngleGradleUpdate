@@ -21,7 +21,7 @@ public class ResultCloseBoxHistoryDetail extends ResultBase {
      */
     private long opTime;
     /**
-     * 封箱条码
+     * 封箱标签
      */
     private String tagCode;
 
