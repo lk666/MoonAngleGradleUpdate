@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
+
 import cn.com.bluemoon.delivery.R;
 
 /**
@@ -54,9 +56,9 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoPage
      * @param paths 图片地址
      * @param currentItem 当前点击图片
      */
-    public static void actStart(Context context, ArrayList<String> paths, int currentItem) {
+    public static void actStart(Context context, List<String> paths, int currentItem) {
         Intent intent = new Intent(context, PhotoPreviewActivity.class);
-        intent.putStringArrayListExtra(EXTRA_PHOTOS, paths);
+        intent.putStringArrayListExtra(EXTRA_PHOTOS, (ArrayList<String>) paths);
         intent.putExtra(EXTRA_CURRENT_ITEM, currentItem);
         intent.putExtra(IS_DELETE, false);
         context.startActivity(intent);

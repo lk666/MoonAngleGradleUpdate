@@ -1121,6 +1121,10 @@
     <string name="manage_sign_by_self">本人签收</string>
     <string name="manage_sign_by_others">他人签收</string>
     <string name="manage_refuse_reason_hint">请输入拒绝接受的原因，5-100字以内</string>
+    <string name="manage_refuse_this_clothes_txt">是否确认拒绝此件衣物？</string>
+    <string name="manage_get_clothes_code_txt">是否接受此还衣单？</string>
+    <string name="manage_get_produce_txt">确认收货？</string>
+    <string name="clothing_book_in_phote_most_many">(最多%s张)</string>
 
     <string name="image">图片</string>
     <string name="all_image">所有图片</string>

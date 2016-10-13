@@ -5,16 +5,15 @@
               android:background="@drawable/btn_white"
               android:clickable="true"
               android:orientation="vertical"
-              android:paddingBottom="15dp"
-              android:paddingLeft="12sp"
-              android:paddingRight="12sp"
+              android:paddingBottom="3dp"
               android:paddingTop="15sp">
 
     <TextView
         android:id="@+id/txt_code"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:paddingLeft="16dp"
+        android:layout_marginRight="16dp"
         android:textColor="@color/text_grep"
         android:textSize="11sp"/>
 
@@ -22,7 +21,8 @@
         android:id="@+id/txt_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:paddingLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="10dp"
         android:textColor="@color/text_grep"
         android:textSize="11sp"/>
@@ -30,7 +30,8 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="12dp"
+        android:paddingLeft="16dp"
+        android:layout_marginRight="16dp"
         android:layout_marginTop="10dp">
         <TextView
             android:layout_width="wrap_content"
@@ -50,9 +51,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textColor="@color/text_grep"
+        android:paddingLeft="16dp"
         android:text="@string/manage_photo"
         android:layout_marginTop="6dp"
-        android:layout_marginBottom="13dp"
+        android:layout_marginBottom="3dp"
         android:textSize="11sp"/>
     <include layout="@layout/layout_image_gridview"/>
 
