@@ -45,7 +45,11 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
             if(Reminds.ALARM_ALERT_ACTION.equals(intent.getAction())) {
                 try {
-                    remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
+                  //  remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
+                    long remindId = intent.getLongExtra(Reminds.ALARM_INTENT_EXTRA, 0);
+                    if (remindId != 0) {
+                        remind = Reminds.getRemind(context.getContentResolver(), remindId);
+                    }
                 } catch (Exception ex) {
 
                 }

@@ -28,7 +28,11 @@ public class AlarmReceiver extends BroadcastReceiver {
 
 
             try {
-                remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
+                //  remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
+                long remindId = intent.getLongExtra(Reminds.ALARM_INTENT_EXTRA, 0);
+                if (remindId != 0) {
+                    remind = Reminds.getRemind(context.getContentResolver(), remindId);
+                }
             } catch (Exception ex) {
 
             }
@@ -59,7 +63,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                         Calendar c = Calendar.getInstance();
                         c.setTimeInMillis(System.currentTimeMillis());
                         int today = (c.get(Calendar.DAY_OF_WEEK) + 5) % 7;
-                        DaysOfWeek daysOfWeek =  new DaysOfWeek(remindTemp.getRemindWeek());
+                        DaysOfWeek daysOfWeek = new DaysOfWeek(remindTemp.getRemindWeek());
 
                         if (daysOfWeek.isSet(today)) {
                             RemindControl(context, remindTemp);

@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
-import android.os.Bundle;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.TextHttpResponseHandler;
@@ -244,10 +243,10 @@ public class Reminds {
                 context.getSystemService(Context.ALARM_SERVICE);
 
         Intent intent = new Intent(ALARM_ALERT_ACTION);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable(ALARM_INTENT_EXTRA, remind);
-        intent.putExtras(bundle);
-
+       // Bundle bundle = new Bundle();
+      //  bundle.putSerializable(ALARM_INTENT_EXTRA, remind);
+     //   intent.putExtras(bundle);
+        intent.putExtra(ALARM_INTENT_EXTRA,remind.getRemindId());
         PendingIntent sender = PendingIntent.getBroadcast(
                 context, 0, intent, PendingIntent.FLAG_CANCEL_CURRENT);
 
