@@ -11,14 +11,16 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.kymjs.kjframe.KJBitmap;
+import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.common.photopicker.PhotoPreviewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -76,7 +78,6 @@ public class BackOrderDetailActivity extends BaseActivity {
     private String phone;
     private String address;
     private boolean isUrgent;
-    KJBitmap kj = new KJBitmap();
     private List<ResultBackOrderDetail.RefuseListBean> refuseList;
 
     public static void actStart(Activity activity, ResultBackOrder.BackOrderListBean result, boolean isHistory) {
@@ -167,7 +168,7 @@ public class BackOrderDetailActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultBackOrderDetail r = (ResultBackOrderDetail) result;
+        final ResultBackOrderDetail r = (ResultBackOrderDetail) result;
         txtNo.setText(getString(R.string.manage_clothes_code, backOrderCode));
         txtCustomerName.setText(name);
         txtMobilePhone.setText(phone);
@@ -197,7 +198,15 @@ public class BackOrderDetailActivity extends BaseActivity {
             layoutSignRefuse.setVisibility(View.VISIBLE);
             txtType.setText(getString(R.string.manage_sign_type, r.getSignName()));
             txtTime.setText(getString(R.string.manage_sign_time, DateUtil.getTime(r.getSignTime(), "yyyy-MMdd HH:mm:ss")));
-            kj.display(imgSign, r.getSignImagePath());
+            Glide.with(this).load(r.getSignImagePath()).into(imgSign);
+            imgSign.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    List<String> imgList = new ArrayList<>();
+                    imgList.add(r.getSignImagePath());
+                    PhotoPreviewActivity.actStart(BackOrderDetailActivity.this, imgList, 1);
+                }
+            });
 
             List<ResultBackOrderDetail.RefuseListBean> list = r.getRefuseList();
             if (list != null && !list.isEmpty()) {
@@ -209,10 +218,11 @@ public class BackOrderDetailActivity extends BaseActivity {
 
 
     class ClothesAdapter extends BaseListAdapter<ResultBackOrderDetail.ClothesListBean> {
-
+        private Context mContext;
 
         public ClothesAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
+            mContext = context;
         }
 
         @Override
@@ -228,7 +238,7 @@ public class BackOrderDetailActivity extends BaseActivity {
             TextView txtType = getViewById(R.id.txt_type);
             TextView txtName = getViewById(R.id.txt_name);
             ImageView imgClothes = getViewById(R.id.img_clothes);
-            kj.display(imgClothes, r.getImgPath());
+            Glide.with(mContext).load(r.getImgPath()).into(imgClothes);
             txtCode.setText(r.getClothesName());
             txtType.setText(r.getTypeName());
             txtName.setText(r.getClothesName());

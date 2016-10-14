@@ -14,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
@@ -144,11 +145,13 @@ public class ImageGridView extends GridView{
             final ImageView imgUpload = (ImageView) convertView.findViewById(R.id.img_upload);
             final RelativeLayout layoutAdd = (RelativeLayout) convertView.findViewById(R.id.rl_add);
             final ImageView ivAdd = (ImageView) convertView.findViewById(R.id.iv_add);
+            final TextView txtMsg = (TextView) convertView.findViewById(R.id.tv_msg);
             final String path = imagePaths.get(position);
             if (path.equals(ICON_URL)){
                 imgUpload.setVisibility(GONE);
                 layoutAdd.setVisibility(VISIBLE);
                 ivAdd.setImageResource(R.mipmap.ic_camera);
+                txtMsg.setText(mContext.getString(R.string.clothing_book_in_phote_most_many, maxSize));
             }else {
                 imgUpload.setVisibility(VISIBLE);
                 layoutAdd.setVisibility(GONE);

@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
@@ -22,6 +23,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * Created by ljl on 2016/9/19.
@@ -153,9 +155,17 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
                             BackOrderDetailActivity.actStart(getActivity(), result, false);
                             break;
                         case R.id.btn_action:
-                            showWaitDialog();
-                            index = position;
-                            ReturningApi.returnClothes(result.getBackOrderCode(), getToken(), getNewHandler(1, ResultBase.class));
+                            new CommonAlertDialog.Builder(getActivity())
+                                    .setMessage(getString(R.string.manage_get_clothes_code_txt))
+                                    .setPositiveButton(R.string.btn_cancel, null)
+                                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            showWaitDialog();
+                                            index = position;
+                                            ReturningApi.returnClothes(result.getBackOrderCode(), getToken(), getNewHandler(1, ResultBase.class));
+                                        }
+                                    }).show();
                             break;
                         case R.id.txt_mobilePhone:
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());

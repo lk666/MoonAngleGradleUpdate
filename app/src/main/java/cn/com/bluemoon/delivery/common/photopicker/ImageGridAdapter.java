@@ -112,6 +112,12 @@ public class ImageGridAdapter extends BaseListAdapter<Image> {
     }
 
     @Override
+    public void setList(List<Image> list) {
+        super.setList(list);
+        notifyDataSetChanged();
+    }
+
+    @Override
     public int getViewTypeCount() {
         return 2;
     }

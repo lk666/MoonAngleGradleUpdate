@@ -195,9 +195,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
                     dimissFolderList();
                 } else {
                     showFolderList();
-                    int index = mFolderAdapter.getSelectIndex();
-                    index = index == 0 ? index : index - 1;
-                    folderListView.setSelection(index);
                 }
             }
         });
@@ -319,7 +316,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
                     }
                     complete();
                     break;
-                //TODO
                 // 预览照片
                 case PhotoPreviewActivity.REQUEST_PREVIEW:
                     ArrayList<String> pathArr = data.getStringArrayListExtra(PhotoPreviewActivity.EXTRA_RESULT);

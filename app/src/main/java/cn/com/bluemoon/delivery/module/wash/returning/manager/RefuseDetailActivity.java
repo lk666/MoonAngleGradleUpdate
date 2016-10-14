@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
@@ -19,6 +20,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultRefuseDetail;
 import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * Created by ljl on 2016/9/212.
@@ -37,6 +39,12 @@ public class RefuseDetailActivity extends BaseActivity {
     TextView etReason;
     @Bind(R.id.btn_save)
     Button btnSave;
+    @Bind(R.id.txt_upload_hint)
+    TextView txtUploadHint;
+    @Bind(R.id.star)
+    TextView star;
+    @Bind(R.id.star1)
+    TextView star1;
     private String clothesCode;
     private List<String> imagePaths = new ArrayList<>();
 
@@ -61,11 +69,29 @@ public class RefuseDetailActivity extends BaseActivity {
             gridView.loadAdpater(imagePaths, true);
             txtTime.setText(DateUtil.getTime(new Date().getTime(), "yyyy-MM-dd HH:mm:ss"));
         } else {
+            txtUploadHint.setVisibility(View.GONE);
+            star1.setVisibility(View.GONE);
+            star.setVisibility(View.GONE);
             txtReason.setVisibility(View.VISIBLE);
             showWaitDialog();
             ReturningApi.refuseSignDetail(clothesCode, getToken(), getNewHandler(1, ResultRefuseDetail.class));
         }
         txtCode.setText(getString(R.string.manage_clothes_code3, clothesCode));
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                new CommonAlertDialog.Builder(RefuseDetailActivity.this)
+                        .setMessage(getString(R.string.manage_refuse_this_clothes_txt))
+                        .setPositiveButton(R.string.btn_cancel, null)
+                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        finish();
+                    }
+                }).show();
+            }
+        });
+
     }
 
     @Override
