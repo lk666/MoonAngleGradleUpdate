@@ -17,11 +17,10 @@ import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
  * Created by lk on 2016/9/18.
  */
 public class ReturningApi extends DeliveryApi {
-    // TODO: lk 2016/9/14 暂时全部用的是mock数据，过后删掉
-    protected static void postRequest(Map<String, Object> params, String subUrl,
+    /*protected static void postRequest(Map<String, Object> params, String subUrl,
                                       AsyncHttpResponseHandler handler) {
-        postMockRequest(params, subUrl, handler);
-    }
+        postRequest(params, subUrl, handler);
+    }*/
 
     /**
      * 1.1功能角标统计查询(ResultCornerNum)
