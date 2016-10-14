@@ -59,7 +59,7 @@
             app:normalTextColor="@color/text_black_light"
             app:normalTextSize="14sp"
             app:selectedTextColor="@color/text_black"
-            app:selectedTextSize="28sp"
+            app:selectedTextSize="17sp"
             app:unitHeight="34dp"
             />
 
