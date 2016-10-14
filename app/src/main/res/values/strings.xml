@@ -1102,7 +1102,8 @@
     <string name="manage_ligistics_state">物流状态：</string>
     <string name="manage_ligistics_source">承运来源：</string>
     <string name="manage_ligistics_code">快递单号：</string>
-    <string name="manage_not_sign">没签名点完成该提示什么文本？</string>
+    <string name="manage_not_sign">请先签名</string>
+    <string name="manage_not_selecte_img">请先选择图片</string>
     <string name="manage_refuse_info_title">拒签信息</string>
     <string name="manage_clothes_code3">衣物编码-%s</string>
     <string name="manage_refuse_time">拒签时间</string>
@@ -1116,15 +1117,16 @@
     <string name="manage_finish">已完成</string>
     <string name="manage_sign2">签收</string>
     <string name="manage_show_refuse_sign">查看拒签</string>
-    <string name="manage_not_sign2">还没签名呢</string>
     <string name="manage_clothes_sign">衣物签收</string>
     <string name="manage_sign_by_self">本人签收</string>
     <string name="manage_sign_by_others">他人签收</string>
     <string name="manage_refuse_reason_hint">请输入拒绝接受的原因，5-100字以内</string>
+    <string name="manage_refuse_reason_tips">请输入5-100字以内</string>
     <string name="manage_refuse_this_clothes_txt">是否确认拒绝此件衣物？</string>
-    <string name="manage_get_clothes_code_txt">是否接受此还衣单？</string>
+    <string name="manage_get_clothes_code_txt">是否接收此还衣单？</string>
     <string name="manage_get_produce_txt">确认收货？</string>
     <string name="clothing_book_in_phote_most_many">(最多%s张)</string>
+    <string name="manage_refuse_btn">确认拒签</string>
 
     <string name="image">图片</string>
     <string name="all_image">所有图片</string>
@@ -1135,7 +1137,6 @@
     <string name="done">完成</string>
     <string name="done_with_count">完成(%1$d/%2$d)</string>
     <string name="image_index">%1$d/%2$d</string>
-    <string name="manage_refuse_btn">确认拒签</string>
 
 
 </resources>

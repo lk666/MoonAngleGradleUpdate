@@ -26,6 +26,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
+import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 /**
  * Created by ljl on 2016/9/19.
@@ -156,9 +157,10 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
 
     class SignAdapter extends BaseListAdapter<ResultBackOrder.BackOrderListBean> {
 
-
+        private Context mContext;
         public SignAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
+            mContext = context;
         }
 
         @Override
@@ -186,6 +188,7 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
             if (result.getSignTime() > 0) {
                 txtStatus.setVisibility(View.VISIBLE);
                 txtStatus.setText(R.string.manage_finish);
+                txtStatus.setTextColor(mContext.getResources().getColor(R.color.text_black_light));
                 txtSignTime.setText(context.getString(R.string.manage_sign_time,
                         DateUtil.getTime(result.getSignTime(),"yyyy-MM-dd HH:mm:ss")));
             } else {
