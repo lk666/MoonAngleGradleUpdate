@@ -118,7 +118,7 @@ public class WaitPackFilterWindow extends PopupWindow {
             ViewUtil.toast(context.getString(R.string.pack_area_select_error));
             return;
         }
-        int index = list.size()>3?1:0;
+        int index = list.size()>2?1:0;
         new SingleOptionSelectDialog(context, "",
                 list, index, new SingleOptionSelectDialog.OnButtonClickListener() {
             @Override
