@@ -80,15 +80,25 @@ public class RefuseDetailActivity extends BaseActivity {
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new CommonAlertDialog.Builder(RefuseDetailActivity.this)
-                        .setMessage(getString(R.string.manage_refuse_this_clothes_txt))
-                        .setPositiveButton(R.string.btn_cancel, null)
-                        .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        finish();
-                    }
-                }).show();
+                String reason = etReason.getText().toString();
+                if (reason == null || reason.length() < 5) {
+                    toast(getString(R.string.manage_refuse_reason_tips));
+                } else if (imagePaths.size() == 1) {
+                    toast(getString(R.string.manage_not_selecte_img));
+                } else {
+                    new CommonAlertDialog.Builder(RefuseDetailActivity.this)
+                            .setMessage(getString(R.string.manage_refuse_this_clothes_txt))
+                            .setPositiveButton(R.string.btn_cancel, null)
+                            .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    //TODO
+                                    //ReturningApi.uploadImage();
+                                    finish();
+                                }
+                            }).show();
+                }
+
             }
         });
 

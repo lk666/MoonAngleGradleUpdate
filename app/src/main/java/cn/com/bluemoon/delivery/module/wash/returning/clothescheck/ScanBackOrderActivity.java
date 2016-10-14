@@ -234,7 +234,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
      */
     private void uploadImg(Bitmap bm) {
         showWaitDialog();
-        ReturningApi.uploadExceptionImage(FileUtil.getBytes(bm), UUID.randomUUID() + ".png",
+        ReturningApi.uploadImage(FileUtil.getBytes(bm), UUID.randomUUID() + ".png",
                 getToken(), getNewHandler(REQUEST_CODE_UPLOAD_IMG,
                         ResultUploadExceptionImage.class));
     }

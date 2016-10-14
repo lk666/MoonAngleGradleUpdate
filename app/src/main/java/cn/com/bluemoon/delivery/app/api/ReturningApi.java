@@ -47,8 +47,8 @@ public class ReturningApi extends DeliveryApi {
      * @param fileName 文件名 (UUID.randomUUID() + ".png")
      * @param token    登录凭证(必填) String
      */
-    public static void uploadExceptionImage(byte[] file, String fileName, String token,
-                                            AsyncHttpResponseHandler
+    public static void uploadImage(byte[] file, String fileName, String token,
+                                   AsyncHttpResponseHandler
                                                     handler) {
         if (null == token || null == file || null == fileName) {
             return;

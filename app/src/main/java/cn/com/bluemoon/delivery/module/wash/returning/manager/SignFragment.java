@@ -187,7 +187,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (StringUtils.isEmpty(fileName)) {
-                                        longToast(context.getString(R.string.manage_not_sign2));
+                                        longToast(context.getString(R.string.manage_not_sign));
                                     } else {
                                         RadioGroup rg = (RadioGroup)view.findViewById(R.id.rg_type);
                                         int checkId = rg.getCheckedRadioButtonId();
@@ -202,7 +202,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                                         //upload sign image
                                         byte[] bytes = FileUtil.getBytes(BitmapFactory.decodeFile(fileName));
                                         uploadFileName = UUID.randomUUID() + ".png";
-                                        ReturningApi.uploadExceptionImage(bytes, uploadFileName, getToken(), getNewHandler(2, ResultUploadExceptionImage.class));
+                                        ReturningApi.uploadImage(bytes, uploadFileName, getToken(), getNewHandler(2, ResultUploadExceptionImage.class));
 
                                     }
                                 }
