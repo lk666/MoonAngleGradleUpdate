@@ -1,11 +1,8 @@
 package cn.com.bluemoon.delivery.ui;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
-import android.content.Intent;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,27 +15,24 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.apache.commons.lang3.StringUtils;
-import org.json.JSONArray;
-import org.kymjs.kjframe.KJBitmap;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.common.ShowMultipleImageActivity;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPreviewActivity;
 import cn.com.bluemoon.delivery.common.photopicker.SelectModel;
+import cn.com.bluemoon.delivery.utils.Constants;
 
 /**
  * Created by ljl on 2016/9/21.
  */
-public class ImageGridView extends GridView{
+public class ImageGridView extends GridView {
     private Context mContext;
     private int maxSize = 5;
     private final String ICON_URL = "000000";
     private ArrayList<String> imagePaths = new ArrayList<>();
+
     public ImageGridView(Context context, AttributeSet attrs) {
         super(context, attrs);
         mContext = context;
@@ -61,36 +55,39 @@ public class ImageGridView extends GridView{
         this.maxSize = size;
     }
 
-    public void loadAdpater(List<String> paths,final boolean isAdd){
-        if (imagePaths!=null&& imagePaths.size()>0){
+    public void loadAdpater(List<String> paths, final boolean isAdd) {
+        if (imagePaths != null && imagePaths.size() > 0) {
             imagePaths.clear();
         }
-        if (paths != null && paths.contains(ICON_URL)){
+        if (paths != null && paths.contains(ICON_URL)) {
             paths.remove(ICON_URL);
-        } else if(paths == null){
+        } else if (paths == null) {
             paths = new ArrayList<>();
         }
         if (isAdd) {
             paths.add(ICON_URL);
         }
         imagePaths.addAll(paths);
-        if(imagePaths.size() > maxSize){
-            imagePaths.remove(imagePaths.size()-1);
+        if (imagePaths.size() > maxSize) {
+            imagePaths.remove(imagePaths.size() - 1);
         }
-        ImageAdapter gridAdapter  = new ImageAdapter(mContext,imagePaths);
+        ImageAdapter gridAdapter = new ImageAdapter(mContext, imagePaths);
         this.setAdapter(gridAdapter);
         this.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (imagePaths != null && imagePaths.size() > 0) {
                     String imgs = (String) parent.getItemAtPosition(position);
-                    if (ICON_URL.equals(imgs) ){
+                    if (ICON_URL.equals(imgs)) {
                         if (mContext instanceof Activity) {
-                            PhotoPickerActivity.actStart((Activity) mContext, SelectModel.MULTI, maxSize - imagePaths.size() + 1, true, 10);
+                            PhotoPickerActivity.actStart((Activity) mContext, SelectModel.MULTI,
+                                    maxSize - imagePaths.size() + 1, true, Constants
+                                            .REQUEST_ADD_IMG);
                         }
-                    }else{
+                    } else {
                         if (isAdd) {
-                            PhotoPreviewActivity.actStart((Activity)mContext, imagePaths, position, 20);
+                            PhotoPreviewActivity.actStart((Activity) mContext, imagePaths, position,
+                                    Constants.REQUEST_PREVIEW_IMG);
                         } else {
                             PhotoPreviewActivity.actStart(mContext, imagePaths, position);
                         }
@@ -120,6 +117,7 @@ public class ImageGridView extends GridView{
             mContext = context;
             this.imagePaths = imagePaths;
         }
+
         @Override
         public int getCount() {
             return imagePaths.size();
@@ -140,19 +138,20 @@ public class ImageGridView extends GridView{
         @Override
         public View getView(final int position, View convertView, ViewGroup parent) {
 
-            convertView = LayoutInflater.from(mContext).inflate( R.layout.image_gridview_item, null);
+            convertView = LayoutInflater.from(mContext).inflate(R.layout.image_gridview_item, null);
 
             final ImageView imgUpload = (ImageView) convertView.findViewById(R.id.img_upload);
             final RelativeLayout layoutAdd = (RelativeLayout) convertView.findViewById(R.id.rl_add);
             final ImageView ivAdd = (ImageView) convertView.findViewById(R.id.iv_add);
             final TextView txtMsg = (TextView) convertView.findViewById(R.id.tv_msg);
             final String path = imagePaths.get(position);
-            if (path.equals(ICON_URL)){
+            if (path.equals(ICON_URL)) {
                 imgUpload.setVisibility(GONE);
                 layoutAdd.setVisibility(VISIBLE);
                 ivAdd.setImageResource(R.mipmap.ic_camera);
-                txtMsg.setText(mContext.getString(R.string.clothing_book_in_phote_most_many, maxSize));
-            }else {
+                txtMsg.setText(mContext.getString(R.string.clothing_book_in_phote_most_many,
+                        maxSize));
+            } else {
                 imgUpload.setVisibility(VISIBLE);
                 layoutAdd.setVisibility(GONE);
                 Glide.with(mContext)

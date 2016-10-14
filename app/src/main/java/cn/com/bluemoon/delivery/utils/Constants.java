@@ -7,6 +7,7 @@ import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
 
 public class Constants {
 
@@ -147,4 +148,12 @@ public class Constants {
 	public final static String WORKTYPE_PART = "partTime";
 
 	public final static long LARGETIME = 253402185600000l;
+    /**
+     * {@link cn.com.bluemoon.delivery.ui.ImageGridView}点击添加按钮时的requestcode
+     */
+    public static final int REQUEST_ADD_IMG = 10;
+    /**
+     * {@link cn.com.bluemoon.delivery.ui.ImageGridView}点击图片时的requestcode
+     */
+    public static final int REQUEST_PREVIEW_IMG = 20;
 }
