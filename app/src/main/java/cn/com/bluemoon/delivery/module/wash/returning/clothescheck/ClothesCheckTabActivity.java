@@ -9,7 +9,7 @@ import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 
 /**
- * 车辆承运封箱
+ * 衣物清点
  */
 public class ClothesCheckTabActivity extends BaseTabActivity {
 

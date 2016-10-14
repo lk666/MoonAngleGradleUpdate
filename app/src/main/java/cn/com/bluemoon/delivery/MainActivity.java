@@ -497,59 +497,6 @@ public class MainActivity extends SlidingActivity {
 //        item.setGroupNum(1);
 //        listRight.add(item);
 
-        UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.closebox.toString());
-        item.setMenuName("车辆承运封箱");
-        item.setIconImg(listRight.get(0).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
-
-        UserRight item1 = new UserRight();
-        item1.setMenuCode(MenuCode.wash_cabinet.toString());
-        item1.setMenuName("入柜管理");
-        item1.setIconImg(listRight.get(0).getIconImg());
-        item1.setGroupNum(1);
-        listRight.add(item1);
-
-        UserRight item2 = new UserRight();
-        item2.setMenuCode(MenuCode.wash_driver.toString());
-        item2.setMenuName("司机承运");
-        item2.setIconImg(listRight.get(0).getIconImg());
-        item2.setGroupNum(1);
-        listRight.add(item2);
-        item = new UserRight();
-        item.setMenuCode(MenuCode.express_sealing.toString());
-        item.setMenuName("快递封箱");
-        item.setIconImg(listRight.get(2).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
-        item = new UserRight();
-        item.setMenuCode(MenuCode.return_manger.toString());
-        item.setMenuName("还衣管理");
-        item.setIconImg(listRight.get(2).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
-
-        item = new UserRight();
-        item.setMenuCode(MenuCode.transport_receive.toString());
-        item.setMenuName("承运收货");
-        item.setIconImg(listRight.get(2).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
-
-        item = new UserRight();
-        item.setMenuCode(MenuCode.pack.toString());
-        item.setMenuName(getString(R.string.pack_menu_name));
-        item.setIconImg(listRight.get(0).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
-
-        item = new UserRight();
-        item.setMenuCode(MenuCode.clothes_check.toString());
-        item.setMenuName("衣物清点");
-        item.setIconImg(listRight.get(0).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -814,21 +761,21 @@ public class MainActivity extends SlidingActivity {
             }
 
             // TODO: lk 2016/9/14 洗衣服务还衣
-            else if (MenuCode.wash_cabinet.toString().equals(userRight.getMenuCode())) {
+            else if (MenuCode.wash_cabinet_manager.toString().equals(userRight.getMenuCode())) {
                 CupboardScanActivity.actStart(main);
-            } else if (MenuCode.wash_driver.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_transport.toString().equals(userRight.getMenuCode())) {
                 DriverTabActivity.actionStart(main);
-            } else if (MenuCode.express_sealing.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_express_close_box.toString().equals(userRight.getMenuCode())) {
                 ExpressCloseBoxTabActivity.actionStart(this);
-            } else if (MenuCode.return_manger.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode())) {
                 ReturnMangerTabActivity.actionStart(this);
-            } else if (MenuCode.transport_receive.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_transport_sign.toString().equals(userRight.getMenuCode())) {
                 TransportReceiveTabActivity.actionStart(this);
-            } else if (MenuCode.closebox.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode())) {
                 CloseBoxTabActivity.actionStart(main);
-            } else if (MenuCode.pack.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_back_order_package.toString().equals(userRight.getMenuCode())) {
                 PackTabActivity.actionStart(main);
-            } else if (MenuCode.clothes_check.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_clothes_check.toString().equals(userRight.getMenuCode())) {
                 ClothesCheckTabActivity.actionStart(main);
             }
 
