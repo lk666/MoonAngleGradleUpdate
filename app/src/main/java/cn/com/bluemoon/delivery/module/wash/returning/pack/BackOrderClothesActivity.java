@@ -49,6 +49,7 @@ public class BackOrderClothesActivity extends BaseActivity implements
     @Bind(R.id.btn_print)
     Button btnPrint;
     private String cupboardCode;
+    private String clothesOrder;
 
     /**
      * 数据
@@ -93,7 +94,7 @@ public class BackOrderClothesActivity extends BaseActivity implements
     @Override
     protected void onActionBarBtnRightClick() {
         ScanBackClothesActivity.actionStart(this, REQUEST_CODE_SCANE_BACK_ORDER,
-                cupboardCode, list);
+                clothesOrder, list);
     }
 
     @Override
@@ -139,9 +140,9 @@ public class BackOrderClothesActivity extends BaseActivity implements
         if (result == null || null == result.getClothesList()) {
             return;
         }
-
+        clothesOrder = result.getBackOrderCode();
         tvCodeBox.setText(String.format(getString(R.string.pack_back_order_clothes_code),
-                cupboardCode));
+                clothesOrder));
         tvBackNum.setText(String.format(getString(R.string.pack_back_order_clothes_count), result.getClothesList().size()));
         btnPrint.setVisibility(View.GONE);
         list.clear();
@@ -152,7 +153,7 @@ public class BackOrderClothesActivity extends BaseActivity implements
     @OnClick(R.id.btn_print)
     public void onClick() {
         // 打印封箱条
-        PackPrintActivity.actionStart(this, cupboardCode);
+        PackPrintActivity.actionStart(this, clothesOrder);
         finish();
     }
 

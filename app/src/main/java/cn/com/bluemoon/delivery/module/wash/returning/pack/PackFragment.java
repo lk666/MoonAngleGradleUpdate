@@ -13,7 +13,6 @@ import java.util.List;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.address.ResultArea;
 import cn.com.bluemoon.delivery.app.api.model.wash.Region;
 import cn.com.bluemoon.delivery.app.api.model.wash.ResultAreaList;
 import cn.com.bluemoon.delivery.app.api.model.wash.pack.CabinetItem;
@@ -21,14 +20,13 @@ import cn.com.bluemoon.delivery.app.api.model.wash.pack.ResultWaitPackage;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.WaitCloseBoxFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 
 public class PackFragment extends BasePullToRefreshListViewFragment {
-    private final String orderStatus ="WAIT_PACKED";
+    private final String orderStatus ="FILTER_WAIT_PACKAGE";
     private static final int REQUEST_CODE_SCANE_BOX_CODE = 0x777;
     private View viewPopStart;
     private TextView txtCount;
@@ -159,7 +157,6 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        region="";
         ReturningApi.queryWaitPackageList(orderStatus, pageFlag,region ,getToken(), getNewHandler
                 (requestCode, ResultWaitPackage.class));
         setAmount();
