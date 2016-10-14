@@ -29,6 +29,7 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * Created by allenli on 2016/10/9.
@@ -203,13 +204,15 @@ public class BackOrderClothesActivity extends BaseActivity implements
             if (item.isCheck) {
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.scaned);
                 ivScan.setImageDrawable(drawable);
-                Bitmap backDrawable = KJFUtil.getUtil().getKJB().getMemoryCache(item.getClothesImgPath());
+                if(!StringUtil.isEmptyString(item.getClothesImgPath())) {
+                    Bitmap backDrawable = KJFUtil.getUtil().getKJB().getMemoryCache(item.getClothesImgPath());
 
-                if (null != backDrawable) {
-                    if (SystemTool.getSDKVersion() >= 16) {
-                        ivScan.setBackground(new BitmapDrawable(ivScan.getResources(), backDrawable));
-                    } else {
-                        ivScan.setBackgroundDrawable(new BitmapDrawable(ivScan.getResources(), backDrawable));
+                    if (null != backDrawable) {
+                        if (SystemTool.getSDKVersion() >= 16) {
+                            ivScan.setBackground(new BitmapDrawable(ivScan.getResources(), backDrawable));
+                        } else {
+                            ivScan.setBackgroundDrawable(new BitmapDrawable(ivScan.getResources(), backDrawable));
+                        }
                     }
                 }
 
