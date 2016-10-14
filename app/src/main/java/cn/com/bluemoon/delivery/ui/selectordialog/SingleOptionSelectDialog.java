@@ -102,7 +102,7 @@ public class SingleOptionSelectDialog extends Dialog {
             case R.id.btn_ok:
                 if (listener != null) {
                     dismiss();
-                    listener.onOKButtonClick(defIndex, dataList.get(defIndex));
+                    listener.onOKButtonClick(selectedIndex, dataList.get(selectedIndex));
                 }
                 break;
             case R.id.rl_main:
