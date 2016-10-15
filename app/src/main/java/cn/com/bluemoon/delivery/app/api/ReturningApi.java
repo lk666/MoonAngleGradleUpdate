@@ -341,6 +341,54 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
+     * 7.2快递封箱-扫描还衣单
+     *
+     * @param backOrderCode 还衣单号 String
+     * @param boxCode       衣物箱号 String
+     * @param token         登录凭证(必填) String
+     */
+    public static void scanExpressBackOrder(String backOrderCode, String boxCode, String token,
+                                     AsyncHttpResponseHandler handler) {
+        if (null == backOrderCode || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode", backOrderCode);
+        params.put("boxCode", boxCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/express/scanBackOrder%s", handler);
+    }
+
+
+    /**
+     *7.3确认封箱
+     * @param backOrderCodeList 还衣单号列表(必填) List<String>
+     * @param boxCode 衣物箱号(必填) String
+     * @param companyCode 快递公司编码(必填) String
+     * @param companyName 快递公司名称(必填) String
+     * @param empCode 员工编号(必填) String
+     * @param empName 员工名称(必填) String
+     * @param expressCode 快递单号(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void closeBox(List<String> backOrderCodeList,String boxCode,String companyCode,String companyName,String empCode,
+                                String empName,String expressCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCodeList||null == boxCode||null == companyCode||null == companyName||null == empCode||null == empName||null == expressCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCodeList",backOrderCodeList);
+        params.put("boxCode",boxCode);
+        params.put("companyCode",companyCode);
+        params.put("companyName",companyName);
+        params.put("empCode",empCode);
+        params.put("empName",empName);
+        params.put("expressCode",expressCode);
+        params.put("token",token);
+        postRequest(params, "washingService-controller/wash/express/closeBox%s", handler);
+    }
+
+    /**
      *7.4获取快递记录
      * @param closeBoxTime 封箱时间 int
      * @param pageFlag 分页时间戳(分页标志) int
