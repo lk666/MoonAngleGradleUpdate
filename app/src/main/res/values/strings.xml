@@ -1002,7 +1002,7 @@
     <string name="pack_back_order_clothes_num">衣物数量：共%1$d件</string>
     <string name="pack_back_order_clothes_num2">折叠%1$d件  悬挂%2$d件</string>
     <string name="pack_back_order_clothes_resource">衣物来源：%1$s</string>
-
+    <string name="print_pack_tag">打印标签</string>
     <string name="pack_back_order_clothes_code">还衣单-%1$s</string>
     <string name="pack_back_order_clothes_count">衣物数量：%1$d</string>
     <string name="pack_tag_print_tag">打印还衣单标签</string>
