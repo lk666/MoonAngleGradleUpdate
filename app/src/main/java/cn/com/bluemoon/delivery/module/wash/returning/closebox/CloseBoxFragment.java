@@ -130,13 +130,36 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? "FILTER_WAIT_SEALED_BOX" : "",
+        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? FILTER_WAIT_SEALED_BOX : "",
                 getNewHandler(requestCode, ResultWaitCloseBoxList.class));
         setAmount();
     }
 
     @Override
     protected List<BoxItem> getGetDataList(ResultBase result) {
+        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
+        waitInboxCount = resultObj.getWaitInboxCount();
+        totalCount = resultObj.getInboxSum();
+        pageFlag = resultObj.getPageFlag();
+        return resultObj.getInboxList();
+    }
+
+    public final static String FILTER_WAIT_SEALED_BOX = "FILTER_WAIT_SEALED_BOX";
+
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ?
+                FILTER_WAIT_SEALED_BOX : "", getNewHandler
+                (requestCode, ResultWaitCloseBoxList.class));
+    }
+
+    /**
+     * Mode不包含上拉加载时，可这样重写此方法
+     *
+     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
+     */
+    @Override
+    protected List<BoxItem> getGetMoreList(ResultBase result) {
         ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
         waitInboxCount = resultObj.getWaitInboxCount();
         totalCount = resultObj.getInboxSum();
@@ -230,26 +253,5 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
             ScanBoxCodeActivity.actionStart(getActivity(), this, item.getBoxCode(),
                     REQUEST_CODE_SCANE_BOX_CODE);
         }
-    }
-
-    @Override
-    protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ?
-                "HISTORY_WAIT_SEALED_BOX" : "", getNewHandler
-                (requestCode, ResultWaitCloseBoxList.class));
-    }
-
-    /**
-     * Mode不包含上拉加载时，可这样重写此方法
-     *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
-     */
-    @Override
-    protected List<BoxItem> getGetMoreList(ResultBase result) {
-        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
-        waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getInboxSum();
-        pageFlag = resultObj.getPageFlag();
-        return resultObj.getInboxList();
     }
 }

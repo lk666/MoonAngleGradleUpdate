@@ -19,6 +19,10 @@ public class TagItem implements Serializable {
      * 封箱标签
      */
     private String tagCode;
+    /**
+     * 封箱id
+     */
+    private String tagId;
 
     public int getClothesNum() {
         return clothesNum;
@@ -42,5 +46,13 @@ public class TagItem implements Serializable {
 
     public void setBackOrderNum(int backOrderNum) {
         this.backOrderNum = backOrderNum;
+    }
+
+    public String getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(String tagId) {
+        this.tagId = tagId;
     }
 }
