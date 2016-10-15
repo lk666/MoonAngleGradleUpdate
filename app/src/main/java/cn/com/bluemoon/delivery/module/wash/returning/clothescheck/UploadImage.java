@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.clothescheck;
 
+import com.alibaba.fastjson.annotation.JSONField;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -15,10 +17,15 @@ public class UploadImage implements Serializable {
      * 图片路径
      */
     private String imagePath;
+    /**
+     * 本地图片路径
+     */
+    @JSONField(serialize = false)
+    private String localImagePath;
 
-    public UploadImage(String imagePath) {
+    public UploadImage(String localImagePath) {
         this.fileName = UUID.randomUUID() + ".png";
-        this.imagePath = imagePath;
+        this.localImagePath = localImagePath;
     }
 
     public String getImagePath() {
@@ -38,4 +45,11 @@ public class UploadImage implements Serializable {
     }
 
 
+    public String getLocalImagePath() {
+        return localImagePath;
+    }
+
+    public void setLocalImagePath(String localImagePath) {
+        this.localImagePath = localImagePath;
+    }
 }

@@ -25,7 +25,7 @@ import cn.com.bluemoon.lib.utils.threadhelper.ThreadPool;
  */
 public class CloseBoxDetailActivity extends BaseActivity {
 
-    private final static String EXTRA_TAG_CODE = "EXTRA_TAG_CODE";
+    private final static String EXTRA_TAG_ID = "EXTRA_TAG_ID";
     private final static int REQUEST_CODE_QUERY = 0x777;
     @Bind(R.id.iv_code_bar)
     ImageView ivCodeBar;
@@ -42,11 +42,11 @@ public class CloseBoxDetailActivity extends BaseActivity {
     @Bind(R.id.tv_box_code)
     TextView tvBoxCode;
 
-    private String tagCode;
+    private String tagId;
 
     public static void actionStart(Context context, String tagCode) {
         Intent intent = new Intent(context, CloseBoxDetailActivity.class);
-        intent.putExtra(EXTRA_TAG_CODE, tagCode);
+        intent.putExtra(EXTRA_TAG_ID, tagCode);
         context.startActivity(intent);
     }
 
@@ -55,10 +55,10 @@ public class CloseBoxDetailActivity extends BaseActivity {
         super.onBeforeSetContentLayout();
 
         if (getIntent() != null) {
-            tagCode = getIntent().getStringExtra(EXTRA_TAG_CODE);
+            tagId = getIntent().getStringExtra(EXTRA_TAG_ID);
         }
-        if (TextUtils.isEmpty(tagCode)) {
-            tagCode = "";
+        if (TextUtils.isEmpty(tagId)) {
+            tagId = "";
         }
     }
 
@@ -83,7 +83,7 @@ public class CloseBoxDetailActivity extends BaseActivity {
     @Override
     protected void onActionBarBtnRightClick() {
         // TODO: lk 2016/9/20 点击打印
-        toast("打印" + tagCode);
+        toast("打印" + tvTagCode.getText().toString());
     }
 
     @Override
@@ -94,7 +94,7 @@ public class CloseBoxDetailActivity extends BaseActivity {
     @Override
     public void initData() {
         showWaitDialog();
-        ReturningApi.queryCloseBoxDetail(tagCode, getToken(), getNewHandler
+        ReturningApi.queryCloseBoxDetail(tagId, getToken(), getNewHandler
                 (REQUEST_CODE_QUERY, ResultCloseBoxDetail.class));
     }
 
@@ -104,7 +104,7 @@ public class CloseBoxDetailActivity extends BaseActivity {
         setData(obj);
     }
 
-    private void setData(ResultCloseBoxDetail item) {
+    private void setData(final ResultCloseBoxDetail item) {
 
         tvTagCode.setText(item.getTagCode());
 
@@ -134,7 +134,7 @@ public class CloseBoxDetailActivity extends BaseActivity {
         }) {
             @Override
             public Object execute() {
-                return BarcodeUtil.createQRCode(tagCode);
+                return BarcodeUtil.createQRCode(item.getTagCode());
             }
         });
     }

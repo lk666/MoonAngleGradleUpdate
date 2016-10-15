@@ -12,6 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -21,11 +24,11 @@ import cn.com.bluemoon.delivery.app.api.model.wash.clothescheck.ResultClothesChe
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
-import cn.com.bluemoon.lib.view.ScrollGridView;
 
 /**
  * 衣物清点详情
@@ -48,8 +51,8 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
     TextView tvError;
     @Bind(R.id.ll_error_txt)
     LinearLayout llErrorTxt;
-    @Bind(R.id.sgv_photo)
-    ScrollGridView sgvPhoto;
+    @Bind(R.id.gridview_img)
+    ImageGridView gridviewImg;
     @Bind(R.id.ll_error_img)
     LinearLayout llErrorImg;
     @Bind(R.id.sc_main)
@@ -57,11 +60,12 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
 
     private String backOrderCode;
     private String checkLogId;
+    private List<String> paths;
 
-    private ImgAdapter imgAdapter;
     private ClothesAdapter clothesAdapter;
 
-    public static void actionStart(Activity activity, Fragment fragment, String checkLogId, String backOrderCode) {
+    public static void actionStart(Activity activity, Fragment fragment, String checkLogId,
+                                   String backOrderCode) {
         Intent intent = new Intent(activity, ClothesCheckHistoryDetailActivity.class);
         intent.putExtra(EXTRA_BACK_ORDER_CODE, backOrderCode);
         intent.putExtra(EXTRA_CHECK_LOG_ID, checkLogId);
@@ -97,10 +101,11 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
 
     @Override
     public void initView() {
-        imgAdapter = new ImgAdapter(this, this);
         clothesAdapter = new ClothesAdapter(this, this);
         lv.setAdapter(clothesAdapter);
-        sgvPhoto.setAdapter(imgAdapter);
+
+        paths = new ArrayList<>();
+        gridviewImg.loadAdpater(paths, false);
     }
 
     @Override
@@ -139,8 +144,9 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
             llErrorImg.setVisibility(View.GONE);
         } else {
             llErrorImg.setVisibility(View.VISIBLE);
-            imgAdapter.setList(result.getImagePathList());
-            imgAdapter.notifyDataSetChanged();
+
+            paths = result.getImagePathList();
+            gridviewImg.loadAdpater(paths, false);
         }
 
         clothesAdapter.setList(result.getClothesList());
@@ -151,27 +157,6 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
                 scMain.scrollTo(0, 0);
             }
         });
-    }
-
-    class ImgAdapter extends BaseListAdapter<String> {
-        public ImgAdapter(Context context, OnListItemClickListener listener) {
-            super(context, listener);
-        }
-
-        @Override
-        protected int getLayoutId() {
-            return R.layout.item_clothes_img;
-        }
-
-        @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            String item = (String) getItem(position);
-
-            ImageView iv = getViewById(R.id.iv_pic);
-            ImageLoaderUtil.displayImage(item, iv);
-
-            setClickEvent(isNew, position, iv);
-        }
     }
 
     class ClothesAdapter extends BaseListAdapter<Clothes> {
@@ -200,12 +185,9 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        String imgPath;
         if (item instanceof Clothes) {
-            imgPath = ((Clothes) item).getImagePath();
-        } else {
-            imgPath = item.toString();
+            DialogUtil.showPictureDialog(this, ((Clothes) item).getImagePath());
         }
-        DialogUtil.showPictureDialog(this, imgPath);
+
     }
 }

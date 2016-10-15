@@ -17,9 +17,9 @@ public class ReturnMangerTabActivity extends BaseTabActivity {
 		ArrayList<TabState> tabs = new ArrayList<>();
 		tabs.add(new DrawableTabState(DeliveryFragment.class,R.mipmap.tab_return_delivery_selected, R.mipmap.tab_return_delivery_normal,
 				R.string.manger_tab_1));
-		tabs.add(new DrawableTabState(ReturnFragment.class,R.mipmap.tab_return_sign_selected, R.mipmap.tab_return_sign_normal,
+		tabs.add(new DrawableTabState(ReturnFragment.class,R.mipmap.tab_return_alreay_selected, R.mipmap.tab_return_alreay_normal,
 				R.string.manger_tab_2));
-		tabs.add(new DrawableTabState(SignFragment.class,R.mipmap.tab_return_alreay_selected, R.mipmap.tab_return_alreay_normal,
+		tabs.add(new DrawableTabState(SignFragment.class,R.mipmap.tab_return_sign_selected, R.mipmap.tab_return_sign_normal,
 				R.string.manger_tab_3));
 		tabs.add(new DrawableTabState(ReturnHistoryFragment.class,R.mipmap.tab_history_normal, R.mipmap.tab_history_disable,
 				R.string.manger_tab_4));
