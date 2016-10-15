@@ -1069,6 +1069,9 @@
     <string name="query_emy_num">查询</string>
     <string name="return_amount">还衣单数量：</string>
     <string name="query_logistics">查看物流</string>
+    <string name="close_box_clothes_code_is_empty">未添加还衣单，请添加后再确认</string>
+    <string name="emp_name_is_empty">请填写收货人姓名</string>
+    <string name="emp_code_is_empty">请填写收货人编号</string>
 
     <!--还衣管理-->
     <string name="manage_return_clothes_detial_title">还衣单详情</string>
