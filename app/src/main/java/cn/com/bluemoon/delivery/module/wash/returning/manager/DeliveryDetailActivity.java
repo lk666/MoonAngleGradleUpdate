@@ -28,7 +28,6 @@ public class DeliveryDetailActivity extends BaseActivity {
     ListView listView;
     private String expressCode;
     private String expressName;
-    private int count;
 
 
     @Override
@@ -46,7 +45,6 @@ public class DeliveryDetailActivity extends BaseActivity {
         showWaitDialog();
         expressCode = getIntent().getStringExtra("expressCode");
         expressName = getIntent().getStringExtra("expressName");
-        count = getIntent().getIntExtra("count", 0);
         ReturningApi.seeExpressDetail(expressCode, getToken(), getNewHandler(1, ResultBackOrder.class));
     }
 
@@ -60,7 +58,7 @@ public class DeliveryDetailActivity extends BaseActivity {
         hideWaitDialog();
         ResultBackOrder r = (ResultBackOrder) result;
         txtCode.setText(expressName + "-" + expressCode);
-        txtCount.setText(getString(R.string.total_amount2, count));
+        txtCount.setText(getString(R.string.total_amount2, r.getBackOrderList().size()));
         DeliveryListAdapter adapter = new DeliveryListAdapter(this, null);
         adapter.setList(r.getBackOrderList());
         listView.setAdapter(adapter);

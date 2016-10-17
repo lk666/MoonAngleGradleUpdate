@@ -103,6 +103,7 @@
 
         <!--》》》》》》》》备注-->
         <LinearLayout
+            android:id="@+id/layout_buyer_msg"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_marginTop="8dp"

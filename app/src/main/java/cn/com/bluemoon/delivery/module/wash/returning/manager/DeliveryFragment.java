@@ -149,7 +149,7 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
             Button receivingOrdersAction = getViewById(R.id.receiving_orders_action);
             final ResultExpress.ExpressListBean result = list.get(position);
             txtNo.setText(result.getCompanyName() + "：" + result.getExpressCode());
-            txtNumber.setText("还衣单数量："+result.getBackOrderNum());
+            txtNumber.setText(context.getString(R.string.manage_clothes_amount2, result.getBackOrderNum()));
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

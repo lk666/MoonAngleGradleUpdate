@@ -81,10 +81,10 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                 break;
             case R.id.img_add:
             case R.id.txt_add:
-                BackClothesScanActivity.actStart(this, getString(R.string.scan_clothes_num_title),getString(R.string.input_by_hand), null, boxCode, 2);
+                BackClothesScanActivity.actStart(this, getString(R.string.scan_clothes_num_title),getString(R.string.input_by_hand), null, boxCode, codes,2);
                 break;
             case R.id.img_scan:
-                PublicUtil.openNewScanView(this, getString(R.string.scan_clothes_num_title), getString(R.string.input_by_hand), null, 3);
+                PublicUtil.openNewScanView(this, getString(R.string.scan_delivery_title), getString(R.string.input_by_hand), null, 3);
                 break;
             case R.id.btn_query:
                 String empCode = etEmpNum.getText().toString();
@@ -135,6 +135,8 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             toast(result.getResponseMsg());
             codes.clear();
             adapter.notifyDataSetChanged();
+            txtAmount.setText(getString(R.string.total_amount2, codes.size()));
+            layoutClothesList.setVisibility(View.GONE);
             txtCompany.setText("");
             etExpressCode.setText("");
             etEmpNum.setText("");
@@ -156,6 +158,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             List<String> codeList = data.getStringArrayListExtra("codes");
             if (codeList != null && !codeList.isEmpty()) {
                 boxCode = data.getStringExtra("boxCode");
+                codes.clear();
                 codes.addAll(codeList);
                 txtAmount.setText(getString(R.string.total_amount2, codes.size()));
                 layoutClothesList.setVisibility(View.VISIBLE);

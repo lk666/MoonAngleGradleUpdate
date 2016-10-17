@@ -70,7 +70,12 @@ public class ClothesDetailActivity extends BaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ResultClothesDetail r = (ResultClothesDetail) result;
         txtCode.setText(getString(R.string.manage_clothes_code2, clothesCode));
-        txtRemark.setText(getString(R.string.manage_remark, r.getRemark()));
+        if (StringUtils.isNotBlank(r.getRemark())) {
+            txtRemark.setText(getString(R.string.manage_remark, r.getRemark()));
+        } else {
+            txtRemark.setVisibility(View.GONE);
+        }
+
         txtType.setText(r.getTypeName());
         if (StringUtils.isNotBlank(r.getFlawDesc())) {
             txtFlawInfo.setVisibility(View.VISIBLE);

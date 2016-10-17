@@ -17,7 +17,7 @@ import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
  * Created by ljl on 2016/10/15.
  */
 public class BackClothesScanActivity extends BaseScanCodeActivity{
-    private List<String> codes = new ArrayList<>();
+    private static List<String> codes;
     private static String boxCode;
     private String backCode;
     /**
@@ -27,9 +27,15 @@ public class BackClothesScanActivity extends BaseScanCodeActivity{
      * @param code 标题下面的编码，null则不显示
      * @param requestCode
      */
-    public static void actStart(Fragment fragment, String title, String btnString, String code, String boxCode, int requestCode) {
+
+    public static void actStart(Fragment fragment, String title, String btnString, String code, String boxCode, List<String> codeList,int requestCode) {
         actStart(fragment, title, btnString, code, BackClothesScanActivity.class, requestCode);
         BackClothesScanActivity.boxCode = boxCode;
+        if (codeList == null) {
+            BackClothesScanActivity.codes = new ArrayList<>();
+        } else {
+            BackClothesScanActivity.codes = codeList;
+        }
     }
 
     @Override
@@ -48,7 +54,7 @@ public class BackClothesScanActivity extends BaseScanCodeActivity{
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ResultScanBackOrder resultScanBackOrder = (ResultScanBackOrder) result;
         BackClothesScanActivity.boxCode = resultScanBackOrder.getBoxCode();
-        codes.add(backCode);
+        codes.add(0,backCode);
         toast(getString(R.string.scan_succeed));
         resumeScan();
     }

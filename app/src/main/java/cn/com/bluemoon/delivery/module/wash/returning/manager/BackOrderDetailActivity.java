@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -72,6 +74,8 @@ public class BackOrderDetailActivity extends BaseActivity {
     ListView listviewRefuse;
     @Bind(R.id.layout_refuse)
     LinearLayout layoutRefuse;
+    @Bind(R.id.layout_buyer_msg)
+    LinearLayout layoutBuyerMsg;
     private String backOrderCode;
     private boolean isHistory;
     private String name;
@@ -85,7 +89,7 @@ public class BackOrderDetailActivity extends BaseActivity {
         intent.putExtra("backOrderCode", result.getBackOrderCode());
         intent.putExtra("name", result.getCustomerName());
         intent.putExtra("phone", result.getCustomerPhone());
-        intent.putExtra("address", result.getAddress());
+        intent.putExtra("address", result.getCustomerAddress());
         intent.putExtra("isUrgent", result.isIsUrgent());
         intent.putExtra("isHistory", true);
         activity.startActivity(intent);
@@ -187,14 +191,18 @@ public class BackOrderDetailActivity extends BaseActivity {
             txtUrgent.setVisibility(View.GONE);
         }
         txtCount.setText(getString(R.string.total_amount, r.getClothesList().size()));
-        txtRemark.setText(r.getBuyerMessage());
+        if (StringUtils.isNotBlank(r.getBuyerMessage())) {
+            txtRemark.setText(r.getBuyerMessage());
+        } else {
+            layoutBuyerMsg.setVisibility(View.GONE);
+        }
 
         ClothesAdapter clothesAdapter = new ClothesAdapter(BackOrderDetailActivity.this, null);
         clothesAdapter.setList(r.getClothesList());
         listviewClothes.setAdapter(clothesAdapter);
         LibViewUtil.setListViewHeight2(listviewClothes);
 
-        if (isHistory){
+        if (isHistory && StringUtils.isNotBlank(r.getSignName())){
             layoutSignRefuse.setVisibility(View.VISIBLE);
             txtType.setText(getString(R.string.manage_sign_type, r.getSignName()));
             txtTime.setText(getString(R.string.manage_sign_time, DateUtil.getTime(r.getSignTime(), "yyyy-MMdd HH:mm:ss")));
@@ -239,7 +247,7 @@ public class BackOrderDetailActivity extends BaseActivity {
             TextView txtName = getViewById(R.id.txt_name);
             ImageView imgClothes = getViewById(R.id.img_clothes);
             Glide.with(mContext).load(r.getImgPath()).into(imgClothes);
-            txtCode.setText(r.getClothesName());
+            txtCode.setText(r.getClothesCode());
             txtType.setText(r.getTypeName());
             txtName.setText(r.getClothesName());
 
@@ -275,7 +283,7 @@ public class BackOrderDetailActivity extends BaseActivity {
             TextView txtReason = getViewById(R.id.txt_reason);
             ImageGridView gridviewImg = getViewById(R.id.gridview_img);
             txtCode.setText(getString(R.string.manage_clothes_no,r.getRefuseClothesCode()));
-            txtTime.setText(getString(R.string.manage_sign_type2, DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss")));
+            txtTime.setText(getString(R.string.manage_refuse_time2, DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss")));
             txtReason.setText(r.getRefuseIssueDesc());
             gridviewImg.loadAdpater(r.getRefuseImagePaths(), false);
 

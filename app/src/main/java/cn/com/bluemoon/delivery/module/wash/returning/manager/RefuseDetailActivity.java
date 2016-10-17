@@ -14,6 +14,8 @@ import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
+import cn.com.bluemoon.delivery.common.UploadImageManager;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPreviewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
@@ -47,6 +49,7 @@ public class RefuseDetailActivity extends BaseActivity {
     TextView star1;
     private String clothesCode;
     private List<String> imagePaths = new ArrayList<>();
+    private UploadImageManager uploadImageManager;
 
 
     @Override
@@ -77,10 +80,11 @@ public class RefuseDetailActivity extends BaseActivity {
             ReturningApi.refuseSignDetail(clothesCode, getToken(), getNewHandler(1, ResultRefuseDetail.class));
         }
         txtCode.setText(getString(R.string.manage_clothes_code3, clothesCode));
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String reason = etReason.getText().toString();
+                final String reason = etReason.getText().toString();
                 if (reason == null || reason.length() < 5) {
                     toast(getString(R.string.manage_refuse_reason_tips));
                 } else if (imagePaths.size() == 1) {
@@ -92,9 +96,23 @@ public class RefuseDetailActivity extends BaseActivity {
                             .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    //TODO
-                                    //ReturningApi.uploadImage();
-                                    finish();
+                                    btnSave.setClickable(false);
+                                    showWaitDialog();
+                                    if (uploadImageManager == null) {
+                                        uploadImageManager = new UploadImageManager(RefuseDetailActivity.this, imagePaths, new UploadImageManager.UploadResultListener() {
+                                            @Override
+                                            public void uploadResult(boolean success, List<ImageInfo> imgPaths) {
+                                                if (success) {
+                                                    ReturningApi.refuseSign(clothesCode, imgPaths, reason, getToken(), getNewHandler(2, ResultBase.class));
+                                                } else {
+                                                    hideWaitDialog();
+                                                    btnSave.setClickable(true);
+                                                }
+                                            }
+                                        });
+                                    }
+                                    uploadImageManager.upload();
+
                                 }
                             }).show();
                 }
@@ -112,10 +130,17 @@ public class RefuseDetailActivity extends BaseActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         hideWaitDialog();
-        ResultRefuseDetail r = (ResultRefuseDetail) result;
-        gridView.loadAdpater(r.getImagePaths(), false);
-        txtReason.setText(r.getRefuseIssueDesc());
-        txtTime.setText(DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss"));
+        if (requestCode == 1) {
+            ResultRefuseDetail r = (ResultRefuseDetail) result;
+            gridView.loadAdpater(r.getImagePaths(), false);
+            txtReason.setText(r.getRefuseIssueDesc());
+            txtTime.setText(DateUtil.getTime(r.getRefuseTagTime(), "yyyy-MM-dd HH:mm:ss"));
+        } else if (requestCode == 2) {
+            toast(result.getResponseMsg());
+            setResult(RESULT_OK);
+            finish();
+        }
+
     }
 
     @Override

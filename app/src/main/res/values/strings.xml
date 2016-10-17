@@ -719,8 +719,8 @@
     <string name="title_create_collect_order">创建收衣订单</string>
     <string name="create_collect_order_customer_name">姓名</string>
     <string name="create_collect_order_customer_name_hint">请输入消费者姓名</string>
-    <string name="create_collect_order_customer_phone">手机</string>
-    <string name="create_collect_order_customer_phone_hint">请输入消费者手机号码</string>
+    <string name="create_collect_order_customer_phone">联系方式</string>
+    <string name="create_collect_order_customer_phone_hint">请输入消费者联系方式</string>
     <string name="create_collect_order_province_county">所在区域</string>
     <string name="create_collect_order_province_county_hint">请选择市区</string>
     <string name="create_collect_order_street_village">乡镇/街道+村/社区</string>
@@ -741,7 +741,8 @@
 
     <!--必填字段错误提示-->
     <string name="btn_check_err_name_empty">姓名不能为空</string>
-    <string name="btn_check_err_phone_empty">手机不能为空</string>
+    <string name="btn_check_err_phone_empty">联系方式不能为空哦</string>
+    <string name="btn_check_err_phone">请输入正确的联系方式</string>
     <string name="btn_check_err_province_etc_empty">所在区域不能为空</string>
     <string name="btn_check_err_address_empty">详细地址不能为空</string>
     <string name="btn_check_err_collect_empty">收衣明细不能为空</string>
@@ -859,7 +860,7 @@
     <string name="code_content">请将二维码或条形码至于框内</string>
 
     <!--wash returning-->
-    <string name="manual_sign">手动签名</string>
+    <string name="manual_sign">手写签名</string>
     <string name="manger_tab_1">快递收货</string>
     <string name="manger_tab_2">待还衣</string>
     <string name="manger_tab_3">待签收</string>
@@ -1079,7 +1080,7 @@
     <string name="manage_sign_type">签收方式：%s</string>
     <string name="manage_sign_time">签收时间：%s</string>
     <string name="manage_clothes_no">衣物编码：%s</string>
-    <string name="manage_sign_type2">签收时间%s</string>
+    <string name="manage_refuse_time2">拒签时间：%s</string>
     <string name="start_to_end">%1$s至%2$s</string>
     <string name="manage_urgent">加急</string>
     <string name="manage_mark">备注</string>
@@ -1130,6 +1131,7 @@
     <string name="manage_get_produce_txt">确认收货？</string>
     <string name="clothing_book_in_phote_most_many">(最多%s张)</string>
     <string name="manage_refuse_btn">确认拒签</string>
+    <string name="manage_clothes_amount2">还衣单数量：%s</string>
 
     <string name="image">图片</string>
     <string name="all_image">所有图片</string>

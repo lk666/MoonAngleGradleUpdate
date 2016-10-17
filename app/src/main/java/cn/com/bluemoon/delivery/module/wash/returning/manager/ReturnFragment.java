@@ -135,7 +135,7 @@ public class ReturnFragment extends BasePullToRefreshListViewFragment {
             txtMobilePhone.setText(result.getCustomerPhone());
             txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtMobilePhone.getPaint().setAntiAlias(true);
-            txtAddress.setText(result.getAddress());
+            txtAddress.setText(result.getCustomerAddress());
             txtTotalAmount.setText(context.getString(R.string.manage_clothes_amount, result.getClothesNum()));
 
             if (result.isIsUrgent()) {
