@@ -98,16 +98,16 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         waitInbox = false;
         waitInboxCount = 0;
         totalCount = 0;
-        setHeadCOntent(0, true, 0);
+        setHeadCOntent(0, waitInbox, 0);
         setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     /**
      * 设置头部
      */
-    private void setHeadCOntent(int count, boolean showPending, int pending) {
+    private void setHeadCOntent(int count, boolean waitInbox, int pending) {
         txtCount.setText(String.format(getString(R.string.order_boxes_num), count));
-        if (showPending) {
+        if (!waitInbox) {
             txtPendingBox.setText(String.format(getString(R.string.close_box_pending_box),
                     pending));
         } else {
@@ -139,7 +139,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected List<BoxItem> getGetDataList(ResultBase result) {
         ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
         waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getInboxSum();
+        totalCount = resultObj.getBoxSum();
         pageFlag = resultObj.getPageFlag();
         return resultObj.getInboxList();
     }
@@ -162,7 +162,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected List<BoxItem> getGetMoreList(ResultBase result) {
         ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
         waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getInboxSum();
+        totalCount = resultObj.getBoxSum();
         pageFlag = resultObj.getPageFlag();
         return resultObj.getInboxList();
     }
