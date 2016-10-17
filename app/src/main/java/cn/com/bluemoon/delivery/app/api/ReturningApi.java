@@ -583,26 +583,18 @@ public class ReturningApi extends DeliveryApi {
      *
      * @param clothesCode     衣物编码 String
      * @param refuseImages    图片id List<object>
-     * @param fileName        文件名称 String
-     * @param imagePath       文件路径 String
      * @param refuseIssueDesc 拒签原因 String
-     * @param refuseTagTime   拒签时间 String
      * @param token           登录凭证(必填) String
      */
-    public static void refuseSign(String clothesCode, List<ImageInfo> refuseImages, String
-            fileName, String imagePath, String refuseIssueDesc, String refuseTagTime, String
+    public static void refuseSign(String clothesCode, List<ImageInfo> refuseImages, String refuseIssueDesc, String
                                           token, AsyncHttpResponseHandler handler) {
-        if (null == clothesCode || null == refuseImages || null == fileName || null == imagePath
-                || null == refuseIssueDesc || null == refuseTagTime || null == token) {
+        if (null == clothesCode || null == refuseImages ||  null == refuseIssueDesc || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put("clothesCode", clothesCode);
         params.put("refuseImages", refuseImages);
-        params.put("fileName", fileName);
-        params.put("imagePath", imagePath);
         params.put("refuseIssueDesc", refuseIssueDesc);
-        params.put("refuseTagTime", refuseTagTime);
         params.put("token", token);
         postRequest(params, "washingService-controller/wash/backOrderManage/refuseSign%s",
                 handler);

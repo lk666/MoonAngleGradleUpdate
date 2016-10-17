@@ -21,7 +21,7 @@ public class ResultRefuseSign extends ResultBase{
 
     public static class ClothesListBean {
         private String clothesCode;
-        private boolean isRefuse;
+        private boolean refuse;
         private String clothesName;
 
         public String getClothesCode() {
@@ -32,12 +32,12 @@ public class ResultRefuseSign extends ResultBase{
             this.clothesCode = clothesCode;
         }
 
-        public boolean isIsRefuse() {
-            return isRefuse;
+        public boolean getRefuse() {
+            return refuse;
         }
 
-        public void setIsRefuse(boolean isRefuse) {
-            this.isRefuse = isRefuse;
+        public void setRefuse(boolean refuse) {
+            this.refuse = refuse;
         }
 
         public String getClothesName() {

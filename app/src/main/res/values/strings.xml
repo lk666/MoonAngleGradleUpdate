@@ -858,7 +858,7 @@
     <string name="code_content">请将二维码或条形码至于框内</string>
 
     <!--wash returning-->
-    <string name="manual_sign">手动签名</string>
+    <string name="manual_sign">手写签名</string>
     <string name="manger_tab_1">快递收货</string>
     <string name="manger_tab_2">待还衣</string>
     <string name="manger_tab_3">待签收</string>
@@ -1079,7 +1079,7 @@
     <string name="manage_sign_type">签收方式：%s</string>
     <string name="manage_sign_time">签收时间：%s</string>
     <string name="manage_clothes_no">衣物编码：%s</string>
-    <string name="manage_sign_type2">签收时间%s</string>
+    <string name="manage_refuse_time2">拒签时间：%s</string>
     <string name="start_to_end">%1$s至%2$s</string>
     <string name="manage_urgent">加急</string>
     <string name="manage_mark">备注</string>
@@ -1130,6 +1130,7 @@
     <string name="manage_get_produce_txt">确认收货？</string>
     <string name="clothing_book_in_phote_most_many">(最多%s张)</string>
     <string name="manage_refuse_btn">确认拒签</string>
+    <string name="manage_clothes_amount2">还衣单数量：%s</string>
 
     <string name="image">图片</string>
     <string name="all_image">所有图片</string>

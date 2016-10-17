@@ -10,15 +10,14 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 public class ResultBackOrder extends ResultBase{
 
 
-    private int pageFlag;
-
+    private long pageFlag;
     private List<BackOrderListBean> backOrderList;
 
-    public int getPageFlag() {
+    public long getPageFlag() {
         return pageFlag;
     }
 
-    public void setPageFlag(int pageFlag) {
+    public void setPageFlag(long pageFlag) {
         this.pageFlag = pageFlag;
     }
 
@@ -31,60 +30,27 @@ public class ResultBackOrder extends ResultBase{
     }
 
     public static class BackOrderListBean {
-        private String customerName;
-        private String city;
-        private String province;
-        private int clothesNum;
+        private String backOrderCode;
         private String address;
-        private boolean isRefuse;
-        private String customerPhone;
-        private String street;
-        private boolean isUrgent;
+        private String city;
         private String county;
+        private String customerName;
+        private String province;
+        private String street;
         private String village;
         private long appointBackTime;
-        private String backOrderCode;
-
-        public long getSignTime() {
-            return signTime;
-        }
-
-        public void setSignTime(long signTime) {
-            this.signTime = signTime;
-        }
-
+        private int clothesNum;
+        private String customerPhone;
+        private boolean isUrgent;
+        private boolean isRefuse;
         private long signTime;
 
-        public String getCustomerName() {
-            return customerName;
+        public String getBackOrderCode() {
+            return backOrderCode;
         }
 
-        public void setCustomerName(String customerName) {
-            this.customerName = customerName;
-        }
-
-        public String getCity() {
-            return city;
-        }
-
-        public void setCity(String city) {
-            this.city = city;
-        }
-
-        public String getProvince() {
-            return province;
-        }
-
-        public void setProvince(String province) {
-            this.province = province;
-        }
-
-        public int getClothesNum() {
-            return clothesNum;
-        }
-
-        public void setClothesNum(int clothesNum) {
-            this.clothesNum = clothesNum;
+        public void setBackOrderCode(String backOrderCode) {
+            this.backOrderCode = backOrderCode;
         }
 
         public String getAddress() {
@@ -95,36 +61,12 @@ public class ResultBackOrder extends ResultBase{
             this.address = address;
         }
 
-        public boolean isIsRefuse() {
-            return isRefuse;
+        public String getCity() {
+            return city;
         }
 
-        public void setIsRefuse(boolean isRefuse) {
-            this.isRefuse = isRefuse;
-        }
-
-        public String getCustomerPhone() {
-            return customerPhone;
-        }
-
-        public void setCustomerPhone(String customerPhone) {
-            this.customerPhone = customerPhone;
-        }
-
-        public String getStreet() {
-            return street;
-        }
-
-        public void setStreet(String street) {
-            this.street = street;
-        }
-
-        public boolean isIsUrgent() {
-            return isUrgent;
-        }
-
-        public void setIsUrgent(boolean isUrgent) {
-            this.isUrgent = isUrgent;
+        public void setCity(String city) {
+            this.city = city;
         }
 
         public String getCounty() {
@@ -133,6 +75,30 @@ public class ResultBackOrder extends ResultBase{
 
         public void setCounty(String county) {
             this.county = county;
+        }
+
+        public String getCustomerName() {
+            return customerName;
+        }
+
+        public void setCustomerName(String customerName) {
+            this.customerName = customerName;
+        }
+
+        public String getProvince() {
+            return province;
+        }
+
+        public void setProvince(String province) {
+            this.province = province;
+        }
+
+        public String getStreet() {
+            return street;
+        }
+
+        public void setStreet(String street) {
+            this.street = street;
         }
 
         public String getVillage() {
@@ -151,12 +117,49 @@ public class ResultBackOrder extends ResultBase{
             this.appointBackTime = appointBackTime;
         }
 
-        public String getBackOrderCode() {
-            return backOrderCode;
+        public int getClothesNum() {
+            return clothesNum;
         }
 
-        public void setBackOrderCode(String backOrderCode) {
-            this.backOrderCode = backOrderCode;
+        public void setClothesNum(int clothesNum) {
+            this.clothesNum = clothesNum;
         }
+
+        public String getCustomerPhone() {
+            return customerPhone;
+        }
+
+        public void setCustomerPhone(String customerPhone) {
+            this.customerPhone = customerPhone;
+        }
+
+        public boolean isIsUrgent() {
+            return isUrgent;
+        }
+
+        public void setIsUrgent(boolean isUrgent) {
+            this.isUrgent = isUrgent;
+        }
+
+        public boolean isIsRefuse() {
+            return isRefuse;
+        }
+
+        public void setIsRefuse(boolean isRefuse) {
+            this.isRefuse = isRefuse;
+        }
+
+        public long getSignTime() {
+            return signTime;
+        }
+
+        public void setSignTime(long signTime) {
+            this.signTime = signTime;
+        }
+
+        public String getCustomerAddress() {
+            return province + city +county + street + village + address;
+        }
+
     }
 }

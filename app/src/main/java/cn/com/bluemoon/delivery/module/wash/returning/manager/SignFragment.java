@@ -108,12 +108,12 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
             deleteSignImage();
             ResultUploadExceptionImage r = (ResultUploadExceptionImage)result;
             ReturningApi.backOrderSign(backOrderCode, isSingeName, uploadFileName, r.getImgPath(), getToken(), getNewHandler(3, ResultBase.class));
-        }
-        if (requestCode == 3) {
+        } else if (requestCode == 3) {
             hideWaitDialog();
             getList().remove(index);
             getAdapter().notifyDataSetChanged();
             toast(result.getResponseMsg());
+            setAmount();
         }
     }
 
@@ -155,7 +155,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
             txtMobilePhone.setText(result.getCustomerPhone());
             txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtMobilePhone.getPaint().setAntiAlias(true);
-            txtAddress.setText(result.getAddress());
+            txtAddress.setText(result.getCustomerAddress());
             txtTotalAmount.setText(getString(R.string.manage_clothes_amount, result.getClothesNum()));
 
             if (result.isIsUrgent()) {
@@ -219,6 +219,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                             PublicUtil.showCallPhoneDialog2(getActivity(), result.getCustomerPhone());
                             break;
                         case R.id.btn_refuse_sign:
+                            index = position;
                             Intent intent = new Intent(getActivity(), CustomerRefuseActivity.class);
                             intent.putExtra("backOrderCode", result.getBackOrderCode());
                             SignFragment.this.startActivityForResult(intent, 2);
@@ -245,6 +246,12 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && data != null) {
             fileName = data.getStringExtra("fileName");
+        } else if (requestCode == 2 && resultCode == 1) {
+            ResultBackOrder.BackOrderListBean bean = (ResultBackOrder.BackOrderListBean)getList().get(index);
+            if (!bean.isIsRefuse()) {
+                bean.setIsRefuse(true);
+                getAdapter().notifyDataSetChanged();
+            }
         }
     }
 }

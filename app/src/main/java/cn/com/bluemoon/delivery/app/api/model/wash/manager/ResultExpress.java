@@ -10,7 +10,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 public class ResultExpress extends ResultBase{
 
 
-    private int pageFlag;
+    private long pageFlag;
     private int expressSum;
 
     public int getExpressSum() {
@@ -23,11 +23,11 @@ public class ResultExpress extends ResultBase{
 
     private List<ExpressListBean> expressList;
 
-    public int getPageFlag() {
+    public long getPageFlag() {
         return pageFlag;
     }
 
-    public void setPageFlag(int pageFlag) {
+    public void setPageFlag(long pageFlag) {
         this.pageFlag = pageFlag;
     }
 
