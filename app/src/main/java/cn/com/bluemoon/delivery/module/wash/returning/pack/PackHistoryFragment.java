@@ -114,6 +114,7 @@ public class PackHistoryFragment extends BasePullToRefreshListViewFragment {
         pageFlag = 0;
         ReturningApi.queryInboxHistoryList(opTime, pageFlag, getToken(), getNewHandler
                 (requestCode, ResultInboxHistory.class));
+        setAmount();
     }
 
     @Override

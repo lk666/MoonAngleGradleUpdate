@@ -119,6 +119,7 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         pageFlag = 0;
         ReturningApi.queryCarriageHistoryList(0, chooseTime, getToken(), getNewHandler(requestCode, ResultCarriageHistory.class));
+        setAmount();
     }
 
     @Override

@@ -185,6 +185,7 @@ public class TransportListActivity extends BaseActivity {
             setAdapter(carriageDetail.getBoxList());
         } else if (requestCode == 1) {
 //            toast(result.getResponseMsg());
+            setResult(RESULT_OK);
             finish();
             toast(R.string.driver_btn_load_finish);
         }

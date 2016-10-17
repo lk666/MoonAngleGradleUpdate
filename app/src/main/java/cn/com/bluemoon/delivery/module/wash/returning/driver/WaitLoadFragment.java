@@ -1,6 +1,8 @@
 package cn.com.bluemoon.delivery.module.wash.returning.driver;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -33,6 +35,7 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
+        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     @Override
@@ -106,6 +109,14 @@ public class WaitLoadFragment extends BasePullToRefreshListViewFragment {
             txtBoxNum.setText(getString(R.string.driver_box_num,item.getBoxNum()));
             txtLoadAddress.setText(getString(R.string.driver_load_address, item.getCenterName()));
             setClickEvent(isNew, position, txtTransportCode, btnLoad);
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode== Activity.RESULT_OK&&requestCode==0){
+            initData();
         }
     }
 }

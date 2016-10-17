@@ -250,7 +250,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     public void onItemClick(Object obj, View view, int position) {
         BoxItem item = (BoxItem) obj;
         if (null != item) {
-            ScanBoxCodeActivity.actionStart(getActivity(), this, item.getBoxCode(),
+            ScanBoxCodeActivity.actionStart(this, item.getBoxCode(),
                     REQUEST_CODE_SCANE_BOX_CODE);
         }
     }
