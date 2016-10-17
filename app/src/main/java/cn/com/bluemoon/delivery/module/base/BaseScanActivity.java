@@ -15,21 +15,21 @@ import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
 import butterknife.ButterKnife;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.qrcode.BaseCaptureActivity;
-import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.lib.qrcode.BaseCaptureActivity;
 
 
 /**
@@ -101,7 +101,8 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     }
 
     private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
-                                                final IHttpRespone iHttpRespone) {
+                                                final IHttpRespone iHttpRespone,
+                                                final boolean isShowDialog) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
                 HTTP.UTF_8, this, requestcode, clazz) {
 
@@ -112,7 +113,9 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
                 }
                 LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
                         " " + "result = " + responseString);
-                hideWaitDialog();
+                if (isShowDialog) {
+                    hideWaitDialog();
+                }
                 try {
                     Object resultObj;
                     resultObj = JSON.parseObject(responseString, getClazz());
@@ -122,6 +125,9 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
                             iHttpRespone.onSuccessResponse(getReqCode(), responseString,
                                     resultBase);
                         } else {
+                            if (!isShowDialog) {
+                                hideWaitDialog();
+                            }
                             iHttpRespone.onErrorResponse(getReqCode(), resultBase);
                         }
                     } else {
@@ -129,6 +135,9 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
                     }
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
+                    if (!isShowDialog) {
+                        hideWaitDialog();
+                    }
                     iHttpRespone.onSuccessException(getReqCode(), e);
                 }
             }
@@ -161,7 +170,15 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
      */
     @Override
     final public AsyncHttpResponseHandler getNewHandler(final int requestcode, final Class clazz) {
-        return getHandler(requestcode, clazz, this);
+        return getHandler(requestcode, clazz, this, true);
+    }
+
+    /**
+     * 在调用DeliveryApi的方法时使用
+     */
+    final public AsyncHttpResponseHandler getNewHandler(final int requestcode, final Class clazz,
+                                                        boolean isShowDialog) {
+        return getHandler(requestcode, clazz, this, isShowDialog);
     }
 
     /**
@@ -252,12 +269,13 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
 
     /**
      * 延时启动
+     *
      * @param time
      */
-    final protected void startDelay(long time){
-        if(time <=0){
+    final protected void startDelay(long time) {
+        if (time <= 0) {
             resumeScan();
-        }else{
+        } else {
             showWaitDialog();
             handler.postDelayed(new Runnable() {
                 @Override
@@ -273,7 +291,7 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     /**
      * 延时启动，默认1秒
      */
-    final protected void startDelay(){
+    final protected void startDelay() {
         startDelay(1000);
     }
 

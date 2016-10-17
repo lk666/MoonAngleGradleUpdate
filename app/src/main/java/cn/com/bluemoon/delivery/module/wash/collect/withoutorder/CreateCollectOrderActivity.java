@@ -29,6 +29,8 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -44,12 +46,10 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.SelectAddressByDepthActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo
-        .CreateClothesInfoActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo
-        .ModifyClothesInfoActivity;
 import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo.CreateClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -289,11 +289,17 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      */
     private boolean checkBtnFinish() {
         String errStr = null;
+        String phone = etPhone.getText().toString();
+        Pattern pattern = Pattern.compile("^(1|0)\\d{10}$");
+        Matcher matcher = pattern.matcher(phone);
         if (TextUtils.isEmpty(etName.getText().toString())) {
             errStr = getString(R.string.btn_check_err_name_empty);
         } else if (TextUtils.isEmpty(etPhone.getText().toString())) {
             errStr = getString(R.string.btn_check_err_phone_empty);
-        } else if (TextUtils.isEmpty(province) || TextUtils.isEmpty(city) || TextUtils.isEmpty
+        }else if(!matcher.matches()) {
+            errStr = getString(R.string.btn_check_err_phone);
+        }
+        else if (TextUtils.isEmpty(province) || TextUtils.isEmpty(city) || TextUtils.isEmpty
                 (county)) {
             errStr = getString(R.string.btn_check_err_province_etc_empty);
         } else if (TextUtils.isEmpty(etAddress.getText().toString())) {

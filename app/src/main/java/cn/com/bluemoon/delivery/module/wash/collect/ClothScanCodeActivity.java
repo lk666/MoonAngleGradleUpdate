@@ -21,7 +21,7 @@ public class ClothScanCodeActivity extends BaseScanCodeActivity {
      * @param requestCode
      */
     public static void actStart(Activity context, Fragment fragment, String title, String btnString,String code, int requestCode) {
-        actStart(context,fragment,title,btnString,code,ClothScanCodeActivity.class,requestCode);
+        actStart(fragment,title,btnString,code,ClothScanCodeActivity.class,requestCode);
     }
 
     @Override

@@ -91,7 +91,7 @@
     <View
         style="@style/line_solid_style"
         android:layout_height="6dp"
-        android:layout_below="@+id/tv_back_order_num_title"
+        android:layout_below="@+id/tv_pack_num_title"
         android:background="@color/page_bg_f2"/>
 
 </RelativeLayout>

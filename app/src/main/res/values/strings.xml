@@ -719,8 +719,8 @@
     <string name="title_create_collect_order">创建收衣订单</string>
     <string name="create_collect_order_customer_name">姓名</string>
     <string name="create_collect_order_customer_name_hint">请输入消费者姓名</string>
-    <string name="create_collect_order_customer_phone">手机</string>
-    <string name="create_collect_order_customer_phone_hint">请输入消费者手机号码</string>
+    <string name="create_collect_order_customer_phone">联系方式</string>
+    <string name="create_collect_order_customer_phone_hint">请输入消费者联系方式</string>
     <string name="create_collect_order_province_county">所在区域</string>
     <string name="create_collect_order_province_county_hint">请选择市区</string>
     <string name="create_collect_order_street_village">乡镇/街道+村/社区</string>
@@ -741,7 +741,8 @@
 
     <!--必填字段错误提示-->
     <string name="btn_check_err_name_empty">姓名不能为空</string>
-    <string name="btn_check_err_phone_empty">手机不能为空</string>
+    <string name="btn_check_err_phone_empty">联系方式不能为空哦</string>
+    <string name="btn_check_err_phone">请输入正确的联系方式</string>
     <string name="btn_check_err_province_etc_empty">所在区域不能为空</string>
     <string name="btn_check_err_address_empty">详细地址不能为空</string>
     <string name="btn_check_err_collect_empty">收衣明细不能为空</string>

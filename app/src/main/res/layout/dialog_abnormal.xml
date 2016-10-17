@@ -18,6 +18,6 @@
         android:singleLine="false"/>
 
 
-    <include layout="@layout/layout_image_gridview"/>
+    <include layout="@layout/layout_image_gridview_3"/>
 
 </LinearLayout>
