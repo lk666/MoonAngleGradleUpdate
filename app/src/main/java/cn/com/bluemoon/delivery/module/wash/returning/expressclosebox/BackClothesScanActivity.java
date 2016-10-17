@@ -29,7 +29,7 @@ public class BackClothesScanActivity extends BaseScanCodeActivity{
      */
 
     public static void actStart(Fragment fragment, String title, String btnString, String code, String boxCode, List<String> codeList,int requestCode) {
-        actStart(null, fragment, title, btnString, code, BackClothesScanActivity.class, requestCode);
+        actStart(fragment, title, btnString, code, BackClothesScanActivity.class, requestCode);
         BackClothesScanActivity.boxCode = boxCode;
         if (codeList == null) {
             BackClothesScanActivity.codes = new ArrayList<>();

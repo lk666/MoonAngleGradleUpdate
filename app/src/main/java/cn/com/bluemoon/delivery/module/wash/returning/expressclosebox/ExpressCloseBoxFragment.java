@@ -135,6 +135,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             toast(result.getResponseMsg());
             codes.clear();
             adapter.notifyDataSetChanged();
+            txtAmount.setText(getString(R.string.total_amount2, codes.size()));
             layoutClothesList.setVisibility(View.GONE);
             txtCompany.setText("");
             etExpressCode.setText("");
