@@ -214,6 +214,7 @@ public class ClothesListDetailActivity extends BaseActivity implements
                 break;
             // 清点完成
             case REQUEST_CODE_FINISH:
+                hideWaitDialog();
                 finish();
         }
     }
@@ -301,12 +302,12 @@ public class ClothesListDetailActivity extends BaseActivity implements
             }
         }
 
+        showWaitDialog();
         continueFinish();
     }
 
     private void continueFinish() {
         if (uploadImg()) {
-            showWaitDialog();
             ReturningApi.scanBackClothesOrder(backOrderCode, imgs, etAbnormal.getText().toString(),
                     getToken(), getNewHandler(REQUEST_CODE_FINISH, ResultBase.class));
         }
@@ -322,12 +323,11 @@ public class ClothesListDetailActivity extends BaseActivity implements
      */
     private boolean uploadImg() {
         if (curUploadPosition < imgs.size()) {
-            showWaitDialog();
             UploadImage img = imgs.get(curUploadPosition);
             ReturningApi.uploadImage(FileUtil.getBytes(LibImageUtil.getImgScale(img
                             .getLocalImagePath(), 300, false)),
                     img.getFileName(), getToken(), getNewHandler(REQUEST_CODE_UPLOAD_IMG,
-                            ResultUploadExceptionImage.class));
+                            ResultUploadExceptionImage.class, false));
             return false;
         }
         return true;

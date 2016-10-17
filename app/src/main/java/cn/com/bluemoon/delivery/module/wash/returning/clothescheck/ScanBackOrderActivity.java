@@ -153,7 +153,10 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                         break;
                     }
                 }
-
+                hideWaitDialog();
+                if (dialogAbnormal != null) {
+                    dialogAbnormal.dismiss();
+                }
                 checkFinished();
                 break;
         }
@@ -166,9 +169,8 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
 
     private void continueAbnormal() {
         if (uploadImg()) {
-            showWaitDialog();
             ReturningApi.scanBackOrder(backOrderCode, imgs, issueDesc, getToken(),
-                    getNewHandler(REQUEST_CODE_ABNORMAL, ResultBase.class));
+                    getNewHandler(REQUEST_CODE_ABNORMAL, ResultBase.class, false));
         }
     }
 
@@ -192,12 +194,11 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
      */
     private boolean uploadImg() {
         if (curUploadPosition < imgs.size()) {
-            showWaitDialog();
             UploadImage img = imgs.get(curUploadPosition);
             ReturningApi.uploadImage(FileUtil.getBytes(LibImageUtil.getImgScale(img
                             .getLocalImagePath(), 300, false)),
                     img.getFileName(), getToken(), getNewHandler(REQUEST_CODE_UPLOAD_IMG,
-                            ResultUploadExceptionImage.class));
+                            ResultUploadExceptionImage.class, false));
             return false;
         }
         return true;
@@ -206,6 +207,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     private List<String> paths;
     private EditText etAbnormal;
     private ImageGridView gridviewImg;
+    private DialogInterface dialogAbnormal;
 
     /**
      * 显示异常记录弹窗
@@ -224,6 +226,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                 new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
                         checkFinished();
                     }
                 });
@@ -248,9 +251,12 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                             }
                         }
                         issueDesc = str;
+                        showWaitDialog();
+                        dialogAbnormal = dialog;
                         continueAbnormal();
                     }
                 });
+        dialog.setDismissable(false);
         dialog.setPositiveButtonBg(R.drawable.dialog_btn_f2f2f2_left);
         dialog.setNegativeButtonBg(R.drawable.dialog_btn_f2f2f2_right);
         dialog.setMainBg(R.drawable.dialog_f2f2f2_bg);
