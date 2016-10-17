@@ -89,7 +89,7 @@
                     android:layout_weight="1"
                     android:background="@drawable/btn_blue_shape_large"
                     android:text="@string/btn_ok_space"
-                    android:textColor="#fefefe"
+                    android:textColor="@color/view_bg"
                     android:textSize="@dimen/text_size_15"/>
             </LinearLayout>
         </LinearLayout>
