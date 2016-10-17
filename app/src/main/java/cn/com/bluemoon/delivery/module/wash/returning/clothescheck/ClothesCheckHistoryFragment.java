@@ -207,7 +207,7 @@ public class ClothesCheckHistoryFragment extends BasePullToRefreshListViewFragme
                 tvNum.setText(String.format(getString(R.string.clothes_check_history_clothes_num), item.getSourceDetailNum()));
             }
 
-            if (item.isAbnormal()) {
+            if (item.isAbnormal) {
                 tvAbnormal.setVisibility(View.VISIBLE);
             } else {
                 tvAbnormal.setVisibility(View.GONE);

@@ -34,7 +34,7 @@
             android:gravity="center"
             android:paddingLeft="8dp"
             android:paddingRight="8dp"
-            android:text="@string/close_box_tag_print_tag"
+            android:text="@string/close_box_back_order_print"
             android:textColor="@color/btn_blue"
             android:textSize="@dimen/text_size_13" />
     </LinearLayout>

@@ -77,7 +77,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="@drawable/btn_border_blue"
-                    android:text="@string/reset"
+                    android:text="@string/reset_space"
                     android:textColor="@color/btn_blue"
                     android:textSize="@dimen/text_size_15"/>
 
@@ -88,7 +88,7 @@
                     android:layout_marginLeft="8dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_blue_shape_large"
-                    android:text="@string/btn_ok"
+                    android:text="@string/btn_ok_space"
                     android:textColor="#fefefe"
                     android:textSize="@dimen/text_size_15"/>
             </LinearLayout>

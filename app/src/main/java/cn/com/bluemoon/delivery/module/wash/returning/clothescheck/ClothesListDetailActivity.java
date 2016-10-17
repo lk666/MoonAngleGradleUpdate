@@ -362,16 +362,13 @@ public class ClothesListDetailActivity extends BaseActivity implements
                 ivScan.setVisibility(View.GONE);
             }
 
-            setClickEvent(isNew, position, iv, ivScan);
+//            setClickEvent(isNew, position, iv, ivScan);
         }
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        // 列表衣物图片
-        if (item instanceof Clothes) {
-            DialogUtil.showPictureDialog(this, ((Clothes) item).getImagePath());
-        }
+
     }
 
 }

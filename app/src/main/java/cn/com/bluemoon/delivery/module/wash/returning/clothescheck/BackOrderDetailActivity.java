@@ -150,15 +150,12 @@ public class BackOrderDetailActivity extends BaseActivity implements
 
             ImageLoaderUtil.displayImage(item.getImagePath(), iv);
 
-            setClickEvent(isNew, position, iv);
+//            setClickEvent(isNew, position, iv);
         }
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        // 列表衣物图片
-        if (item instanceof Clothes) {
-            DialogUtil.showPictureDialog(this, ((Clothes) item).getImagePath());
-        }
+
     }
 }

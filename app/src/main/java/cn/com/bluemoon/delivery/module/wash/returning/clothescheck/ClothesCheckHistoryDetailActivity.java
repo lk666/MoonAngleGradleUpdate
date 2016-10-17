@@ -179,15 +179,12 @@ public class ClothesCheckHistoryDetailActivity extends BaseActivity implements
             tvCode.setText(String.format(getString(R.string.clothes_check_detail_code),
                     item.getClothesCode()));
             ImageLoaderUtil.displayImage(item.getImagePath(), iv);
-            setClickEvent(isNew, position, iv);
+//            setClickEvent(isNew, position, iv);
         }
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        if (item instanceof Clothes) {
-            DialogUtil.showPictureDialog(this, ((Clothes) item).getImagePath());
-        }
 
     }
 }

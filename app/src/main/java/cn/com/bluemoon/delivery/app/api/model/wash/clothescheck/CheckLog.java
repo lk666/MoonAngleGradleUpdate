@@ -23,7 +23,7 @@ public class CheckLog implements Serializable {
     /**
      * 是否异常
      */
-    private boolean isAbnormal;
+    public boolean isAbnormal;
     /**
      * 操作时间
      */
@@ -56,14 +56,6 @@ public class CheckLog implements Serializable {
 
     public void setCheckLogId(String checkLogId) {
         this.checkLogId = checkLogId;
-    }
-
-    public boolean isAbnormal() {
-        return isAbnormal;
-    }
-
-    public void setAbnormal(boolean abnormal) {
-        isAbnormal = abnormal;
     }
 
     public long getOpTime() {
