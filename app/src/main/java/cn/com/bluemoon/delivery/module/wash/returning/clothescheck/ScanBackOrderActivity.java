@@ -214,7 +214,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_abnormal, null);
         etAbnormal = (EditText) view.findViewById(R.id.et_abnormal);
         gridviewImg = (ImageGridView) view.findViewById(R.id.gridview_img);
-
+        imgs = null;
         paths = new ArrayList<>();
         gridviewImg.loadAdpater(paths, true);
 
@@ -237,16 +237,17 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                             toast(getString(R.string.abnormal_hint));
                             return;
                         }
-
-                        imgs = new ArrayList<>();
-                        curUploadPosition = 0;
-                        for (String c : paths) {
-                            if (!ImageGridView.ICON_ADD.equals(c)) {
-                                UploadImage u = new UploadImage(c);
-                                imgs.add(u);
+                        if (imgs == null) {
+                            imgs = new ArrayList<>();
+                            curUploadPosition = 0;
+                            for (String c : paths) {
+                                if (!ImageGridView.ICON_ADD.equals(c)) {
+                                    UploadImage u = new UploadImage(c);
+                                    imgs.add(u);
+                                }
                             }
                         }
-
+                        issueDesc = str;
                         continueAbnormal();
                     }
                 });

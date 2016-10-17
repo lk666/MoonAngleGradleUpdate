@@ -33,7 +33,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     /**
      * 是否显示待封箱
      */
-    private boolean waitInbox = true;
+    private boolean waitInbox = false;
 
     /**
      * 待装箱数
@@ -95,7 +95,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         viewPopStart = headView.findViewById(R.id.view_pop_start);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
         txtPendingBox = (TextView) headView.findViewById(R.id.txt_pending_box);
-        waitInbox = true;
+        waitInbox = false;
         waitInboxCount = 0;
         totalCount = 0;
         setHeadCOntent(0, true, 0);
