@@ -25,7 +25,7 @@ public class ResultWaitCloseBoxList extends ResultBase {
     /**
      * 待封箱总数
      */
-    private int inboxSum;
+    private int boxSum;
     /**
      * 分页时间戳(分页标志)
      */
@@ -47,12 +47,12 @@ public class ResultWaitCloseBoxList extends ResultBase {
         this.inboxList = inboxList;
     }
 
-    public int getInboxSum() {
-        return inboxSum;
+    public int getBoxSum() {
+        return boxSum;
     }
 
-    public void setInboxSum(int inboxSum) {
-        this.inboxSum = inboxSum;
+    public void setBoxSum(int boxSum) {
+        this.boxSum = boxSum;
     }
 
     public long getPageFlag() {

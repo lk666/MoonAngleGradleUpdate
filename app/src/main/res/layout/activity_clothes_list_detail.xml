@@ -117,23 +117,7 @@
                     android:paddingLeft="12dp"
                     android:text="@string/upload_image_txt"/>
 
-                <cn.com.bluemoon.lib.view.ScrollGridView
-                    android:id="@+id/sgv_photo"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/view_bg"
-                    android:cacheColorHint="@color/transparent"
-                    android:clipToPadding="false"
-                    android:divider="@null"
-                    android:gravity="center"
-                    android:horizontalSpacing="6dp"
-                    android:numColumns="4"
-                    android:paddingBottom="10dp"
-                    android:paddingLeft="16dp"
-                    android:paddingRight="6dp"
-                    android:scrollbars="none"
-                    android:stretchMode="columnWidth"
-                    android:verticalSpacing="6dp"/>
+                <include layout="@layout/layout_image_gridview"/>
             </LinearLayout>
 
             <View

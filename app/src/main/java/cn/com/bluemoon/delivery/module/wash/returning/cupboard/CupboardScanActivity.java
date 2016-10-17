@@ -122,6 +122,7 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
             startDelay();
         } else if (requestCode == 2) {
             toast(result.getResponseMsg());
+            setResult(RESULT_OK);
             finish();
         }
     }

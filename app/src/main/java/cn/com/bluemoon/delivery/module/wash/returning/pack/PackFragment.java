@@ -35,7 +35,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     /**
      * 是否显示待封箱
      */
-    private boolean waitPack = true;
+    private boolean waitPack;
 
     /**
      * 待装箱数
@@ -122,19 +122,19 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
         viewPopStart = headView.findViewById(R.id.view_pop_start);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
         txtPendingPack = (TextView) headView.findViewById(R.id.txt_pending_pack);
-        waitPack = true;
+        waitPack = false;
         waitPackCount = 0;
         totalCount = 0;
-        setHeadContent(0, true, 0);
+        setHeadContent(0, waitPack, 0);
         setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     /**
      * 设置头部
      */
-    private void setHeadContent(int count, boolean showPending, int pending) {
+    private void setHeadContent(int count, boolean waitPack, int pending) {
         txtCount.setText(String.format(getString(R.string.pack_order_num), count));
-        if (showPending) {
+        if (!waitPack) {
             txtPendingPack.setText(String.format(getString(R.string.pack_pending_num),
                     pending));
         } else {

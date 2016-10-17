@@ -19,7 +19,7 @@ public class ResultCloseBoxHistoryList extends ResultBase {
     /**
      * 分页时间戳(分页标志)
      */
-    private int pageFlag;
+    private long pageFlag;
     /**
      * 封箱标签历史列表
      */
@@ -33,11 +33,11 @@ public class ResultCloseBoxHistoryList extends ResultBase {
         this.inboxSum = inboxSum;
     }
 
-    public int getPageFlag() {
+    public long getPageFlag() {
         return pageFlag;
     }
 
-    public void setPageFlag(int pageFlag) {
+    public void setPageFlag(long pageFlag) {
         this.pageFlag = pageFlag;
     }
 

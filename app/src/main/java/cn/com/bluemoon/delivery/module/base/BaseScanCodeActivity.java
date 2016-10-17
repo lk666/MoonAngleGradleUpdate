@@ -30,12 +30,22 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
     @Bind(R.id.layout_code)
     RelativeLayout layoutCode;
 
-    public static void actStart(Activity context,Fragment fragment,String title, String btnString,String code, Class clazz, int requestCode) {
+    private static void actStart(Activity context,Fragment fragment,String title, String btnString,String code, Class clazz, int requestCode) {
+        Intent intent;
         if(fragment!=null){
-            actStart(fragment,title,btnString,code,clazz,requestCode);
+            intent = new Intent(fragment.getActivity(), clazz);
         }else{
-            actStart(context,title,btnString,code,clazz,requestCode);
+            intent = new Intent(context, clazz);
         }
+        intent.putExtra("title", title);
+        intent.putExtra("code", code);
+        intent.putExtra("btnString", btnString);
+        if(fragment!=null){
+            fragment.startActivityForResult(intent, requestCode);
+        }else{
+            context.startActivityForResult(intent, requestCode);
+        }
+
     }
 
     /**
@@ -48,22 +58,14 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
      * @param requestCode
      */
     public static void actStart(Activity context,String title, String btnString,String code, Class clazz, int requestCode) {
-        Intent intent = new Intent(context, clazz);
-        intent.putExtra("title", title);
-        intent.putExtra("code", code);
-        intent.putExtra("btnString", btnString);
-        context.startActivityForResult(intent, requestCode);
+        actStart(context,null,title,btnString,code,clazz,requestCode);
     }
 
     /**
      * fragment扫描界面调起方法
      */
     public static void actStart(Fragment fragment, String title, String btnString,String code, Class clazz, int requestCode) {
-        Intent intent = new Intent(fragment.getActivity(), clazz);
-        intent.putExtra("title", title);
-        intent.putExtra("code", code);
-        intent.putExtra("btnString", btnString);
-        fragment.startActivityForResult(intent, requestCode);
+        actStart(null,fragment,title,btnString,code,clazz,requestCode);
     }
 
     /*必须重写*/

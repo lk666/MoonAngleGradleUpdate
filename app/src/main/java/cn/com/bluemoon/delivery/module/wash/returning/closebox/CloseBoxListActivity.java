@@ -166,7 +166,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
         @Override
         protected void setView(final int position, View convertView, ViewGroup parent, boolean
                 isNew) {
-            CloseBoxTag item = (CloseBoxTag) getItem(position);
+            final CloseBoxTag item = (CloseBoxTag) getItem(position);
 
             TextView tvIndex = getViewById(R.id.tv_index);
             final ImageView ivCodeBar = getViewById(R.id.iv_code_bar);
@@ -222,7 +222,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
                 @Override
                 public Object execute() {
                     String curTag = String.valueOf(position);
-                    return new ImageTag(BarcodeUtil.createQRCode(boxCode), curTag);
+                    return new ImageTag(BarcodeUtil.createQRCode(item.getTagCode()), curTag);
                 }
             });
         }

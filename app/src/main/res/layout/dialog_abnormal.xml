@@ -17,19 +17,7 @@
         android:padding="12dp"
         android:singleLine="false"/>
 
-    <cn.com.bluemoon.lib.view.ScrollGridView
-        android:id="@+id/sgv_photo"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="@color/transparent"
-        android:clipToPadding="false"
-        android:divider="@null"
-        android:gravity="center"
-        android:layout_marginTop="10dp"
-        android:horizontalSpacing="12dp"
-        android:numColumns="3"
-        android:scrollbars="none"
-        android:stretchMode="columnWidth"
-        android:verticalSpacing="12dp"/>
+
+    <include layout="@layout/layout_image_gridview_3"/>
 
 </LinearLayout>

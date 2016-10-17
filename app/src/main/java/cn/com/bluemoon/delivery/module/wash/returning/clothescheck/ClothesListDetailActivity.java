@@ -1,9 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.clothescheck;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Gravity;
@@ -19,7 +17,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -29,20 +26,19 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.ResultUploadExceptionImage;
 import cn.com.bluemoon.delivery.app.api.model.wash.clothescheck.Clothes;
 import cn.com.bluemoon.delivery.app.api.model.wash.clothescheck.ResultBackOrderDetail;
+import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
+import cn.com.bluemoon.delivery.common.photopicker.PhotoPreviewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.collect.AddPhotoAdapter;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothingPic;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
-import cn.com.bluemoon.lib.view.ScrollGridView;
-import cn.com.bluemoon.lib.view.TakePhotoPopView;
+import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
@@ -56,7 +52,6 @@ public class ClothesListDetailActivity extends BaseActivity implements
     private static final int REQUEST_CODE_SCAN = 0x666;
     private static final int REQUEST_CODE_UPLOAD_IMG = 0x555;
     private static final int REQUEST_CODE_FINISH = 0x444;
-    private static final int MAX_UPLOAD_IMG = 5;
     @Bind(R.id.tv_back_order_code)
     TextView tvBackOrderCode;
     @Bind(R.id.tv_count)
@@ -67,8 +62,8 @@ public class ClothesListDetailActivity extends BaseActivity implements
     EditText etAbnormal;
     @Bind(R.id.ll_abnormal_txt)
     LinearLayout llAbnormalTxt;
-    @Bind(R.id.sgv_photo)
-    ScrollGridView sgvPhoto;
+    @Bind(R.id.gridview_img)
+    ImageGridView gridviewImg;
     @Bind(R.id.ll_abnormal_img)
     LinearLayout llAbnormalImg;
     @Bind(R.id.sc_main)
@@ -81,19 +76,14 @@ public class ClothesListDetailActivity extends BaseActivity implements
 
     private String backOrderCode;
 
+    private List<String> paths;
+
     /**
      * 数据
      */
     private ArrayList<Clothes> list = new ArrayList<>();
 
     private ItemAdapter adapter;
-    private AddPhotoAdapter imgAdapter;
-
-    private TakePhotoPopView takePhotoPop;
-    /**
-     * 异常图片列表
-     */
-    private List<ClothingPic> abnormalImgs;
 
     public static void actionStart(Context context, String backOrderCode) {
         Intent intent = new Intent(context, ClothesListDetailActivity.class);
@@ -138,10 +128,8 @@ public class ClothesListDetailActivity extends BaseActivity implements
         adapter = new ItemAdapter(this, this);
         adapter.setList(list);
         lv.setAdapter(adapter);
-
-        imgAdapter = new AddPhotoAdapter(this, this,
-                getString(R.string.clothing_book_in_phote_most_5));
-        sgvPhoto.setAdapter(imgAdapter);
+        paths = new ArrayList<>();
+        gridviewImg.loadAdpater(paths, true);
 
         cbAbnormal.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -178,26 +166,6 @@ public class ClothesListDetailActivity extends BaseActivity implements
                 checkFinish();
             }
         });
-    }
-
-    /**
-     * 异常图片初始化
-     */
-    private void initClothesImgList() {
-        abnormalImgs = new ArrayList<>();
-        addAddImage();
-        imgAdapter.setList(abnormalImgs);
-        imgAdapter.notifyDataSetChanged();
-    }
-
-    /**
-     * 上传图片
-     */
-    private void uploadImg(Bitmap bm) {
-        showWaitDialog();
-        ReturningApi.uploadImage(FileUtil.getBytes(bm), UUID.randomUUID() + ".png",
-                getToken(), getNewHandler(REQUEST_CODE_UPLOAD_IMG,
-                        ResultUploadExceptionImage.class));
     }
 
     /**
@@ -240,18 +208,13 @@ public class ClothesListDetailActivity extends BaseActivity implements
             // 上传图片
             case REQUEST_CODE_UPLOAD_IMG:
                 ResultUploadExceptionImage pic = (ResultUploadExceptionImage) result;
-                ClothingPic cp = new ClothingPic();
-                cp.setImgPath(pic.getImgPath());
-                cp.setImgId("");
-                abnormalImgs.add(abnormalImgs.size() - 1, cp);
-                if (abnormalImgs.size() > MAX_UPLOAD_IMG) {
-                    abnormalImgs.remove(abnormalImgs.size() - 1);
-                }
-                imgAdapter.notifyDataSetChanged();
-                PublicUtil.showToast(getString(R.string.upload_success));
+                imgs.get(curUploadPosition).setImagePath(pic.getImgPath());
+                curUploadPosition++;
+                continueFinish();
                 break;
             // 清点完成
             case REQUEST_CODE_FINISH:
+                hideWaitDialog();
                 finish();
         }
     }
@@ -261,9 +224,11 @@ public class ClothesListDetailActivity extends BaseActivity implements
             return;
         }
 
-        btnFinish.setVisibility(View.GONE);
+        imgs = null;
+        paths = new ArrayList<>();
+        gridviewImg.loadAdpater(paths, true);
 
-        initClothesImgList();
+        btnFinish.setVisibility(View.GONE);
 
         cbAbnormal.setChecked(false);
         llAbnormalTxt.setVisibility(View.GONE);
@@ -309,51 +274,63 @@ public class ClothesListDetailActivity extends BaseActivity implements
             return;
         }
 
-        if (resultCode == Activity.RESULT_CANCELED) {
-            return;
-        }
-
-        switch (requestCode) {
-            // 拍照
-            case Constants.TAKE_PIC_RESULT:
-                if (takePhotoPop != null) {
-                    Bitmap bm = takePhotoPop.getTakeImageBitmap();
-                    uploadImg(bm);
-                }
-                break;
-
-            // 选择照片
-            case Constants.CHOSE_PIC_RESULT:
-                if (takePhotoPop != null) {
-                    Bitmap bm = takePhotoPop.getPickImageBitmap(data);
-                    uploadImg(bm);
-                }
-                break;
+        // 图片控件
+        if (requestCode == Constants.REQUEST_ADD_IMG && data != null) {
+            List<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
+            paths.addAll(list);
+            gridviewImg.loadAdpater(paths, true);
+        } else if (requestCode == Constants.REQUEST_PREVIEW_IMG && data != null) {
+            paths = data.getStringArrayListExtra(PhotoPreviewActivity.EXTRA_RESULT);
+            gridviewImg.loadAdpater(paths, true);
         }
     }
 
-    private void addAddImage() {
-        if (abnormalImgs.size() < MAX_UPLOAD_IMG) {
-            ClothingPic addPic = new ClothingPic();
-            addPic.setImgId(AddPhotoAdapter.ADD_IMG_ID);
-            abnormalImgs.add(addPic);
-        }
-    }
+    // 待上传的图片列表
+    private ArrayList<UploadImage> imgs;
 
     @OnClick(R.id.btn_finish)
     public void onClick() {
-        //  点击清点完成
-        ArrayList<UploadImage> imgs = new ArrayList<>();
-        for (ClothingPic c : abnormalImgs) {
-            if (!c.getImgId().equals(AddPhotoAdapter.ADD_IMG_ID)) {
-                UploadImage u = new UploadImage(c.getImgPath());
-                imgs.add(u);
+        //  点击清点完成，先一张张上传图片
+        if (imgs == null) {
+            imgs = new ArrayList<>();
+            curUploadPosition = 0;
+            for (String c : paths) {
+                if (!ImageGridView.ICON_ADD.equals(c)) {
+                    UploadImage u = new UploadImage(c);
+                    imgs.add(u);
+                }
             }
         }
-        showWaitDialog();
-        ReturningApi.scanBackClothesOrder(backOrderCode, imgs, etAbnormal.getText().toString(),
-                getToken(), getNewHandler(REQUEST_CODE_FINISH, ResultBase.class));
 
+        showWaitDialog();
+        continueFinish();
+    }
+
+    private void continueFinish() {
+        if (uploadImg()) {
+            ReturningApi.scanBackClothesOrder(backOrderCode, imgs, etAbnormal.getText().toString(),
+                    getToken(), getNewHandler(REQUEST_CODE_FINISH, ResultBase.class));
+        }
+    }
+
+    /**
+     * 当前上传图片到的位置（当前位置未上传）
+     */
+    private int curUploadPosition = 0;
+
+    /**
+     * 上传图片，若列表中的已全部上传完，返回true;
+     */
+    private boolean uploadImg() {
+        if (curUploadPosition < imgs.size()) {
+            UploadImage img = imgs.get(curUploadPosition);
+            ReturningApi.uploadImage(FileUtil.getBytes(LibImageUtil.getImgScale(img
+                            .getLocalImagePath(), 300, false)),
+                    img.getFileName(), getToken(), getNewHandler(REQUEST_CODE_UPLOAD_IMG,
+                            ResultUploadExceptionImage.class, false));
+            return false;
+        }
+        return true;
     }
 
     class ItemAdapter extends BaseListAdapter<Clothes> {
@@ -394,38 +371,6 @@ public class ClothesListDetailActivity extends BaseActivity implements
         // 列表衣物图片
         if (item instanceof Clothes) {
             DialogUtil.showPictureDialog(this, ((Clothes) item).getImagePath());
-        }
-
-        // 上传图片
-        else if (item instanceof ClothingPic) {
-            ClothingPic pic = (ClothingPic) item;
-            // 添加相片按钮
-            if (AddPhotoAdapter.ADD_IMG_ID.equals(pic.getImgId())) {
-                if (takePhotoPop == null) {
-                    takePhotoPop = new TakePhotoPopView(this, Constants
-                            .TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
-                }
-                takePhotoPop.getPic(view);
-            }
-
-            // 已上传图片
-            else {
-                switch (view.getId()) {
-                    //  删除图片（本地删除）
-                    case R.id.iv_delete:
-                        abnormalImgs.remove(position);
-                        if (!AddPhotoAdapter.ADD_IMG_ID.equals(
-                                abnormalImgs.get(abnormalImgs.size() - 1).getImgId())) {
-                            addAddImage();
-                        }
-                        imgAdapter.notifyDataSetChanged();
-                        break;
-                    case R.id.iv_pic:
-                        DialogUtil.showPictureDialog(this, pic.getImgPath());
-                    default:
-                        break;
-                }
-            }
         }
     }
 

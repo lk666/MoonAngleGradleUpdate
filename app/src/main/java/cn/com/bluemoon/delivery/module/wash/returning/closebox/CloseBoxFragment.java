@@ -33,7 +33,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     /**
      * 是否显示待封箱
      */
-    private boolean waitInbox = true;
+    private boolean waitInbox = false;
 
     /**
      * 待装箱数
@@ -95,19 +95,19 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         viewPopStart = headView.findViewById(R.id.view_pop_start);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
         txtPendingBox = (TextView) headView.findViewById(R.id.txt_pending_box);
-        waitInbox = true;
+        waitInbox = false;
         waitInboxCount = 0;
         totalCount = 0;
-        setHeadCOntent(0, true, 0);
+        setHeadCOntent(0, waitInbox, 0);
         setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     /**
      * 设置头部
      */
-    private void setHeadCOntent(int count, boolean showPending, int pending) {
+    private void setHeadCOntent(int count, boolean waitInbox, int pending) {
         txtCount.setText(String.format(getString(R.string.order_boxes_num), count));
-        if (showPending) {
+        if (!waitInbox) {
             txtPendingBox.setText(String.format(getString(R.string.close_box_pending_box),
                     pending));
         } else {
@@ -130,7 +130,7 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? "FILTER_WAIT_SEALED_BOX" : "",
+        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? FILTER_WAIT_SEALED_BOX : "",
                 getNewHandler(requestCode, ResultWaitCloseBoxList.class));
         setAmount();
     }
@@ -139,7 +139,30 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     protected List<BoxItem> getGetDataList(ResultBase result) {
         ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
         waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getInboxSum();
+        totalCount = resultObj.getBoxSum();
+        pageFlag = resultObj.getPageFlag();
+        return resultObj.getInboxList();
+    }
+
+    public final static String FILTER_WAIT_SEALED_BOX = "FILTER_WAIT_SEALED_BOX";
+
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ?
+                FILTER_WAIT_SEALED_BOX : "", getNewHandler
+                (requestCode, ResultWaitCloseBoxList.class));
+    }
+
+    /**
+     * Mode不包含上拉加载时，可这样重写此方法
+     *
+     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
+     */
+    @Override
+    protected List<BoxItem> getGetMoreList(ResultBase result) {
+        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
+        waitInboxCount = resultObj.getWaitInboxCount();
+        totalCount = resultObj.getBoxSum();
         pageFlag = resultObj.getPageFlag();
         return resultObj.getInboxList();
     }
@@ -227,29 +250,8 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
     public void onItemClick(Object obj, View view, int position) {
         BoxItem item = (BoxItem) obj;
         if (null != item) {
-            ScanBoxCodeActivity.actionStart(getActivity(), this, item.getBoxCode(),
+            ScanBoxCodeActivity.actionStart(this, item.getBoxCode(),
                     REQUEST_CODE_SCANE_BOX_CODE);
         }
-    }
-
-    @Override
-    protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ?
-                "HISTORY_WAIT_SEALED_BOX" : "", getNewHandler
-                (requestCode, ResultWaitCloseBoxList.class));
-    }
-
-    /**
-     * Mode不包含上拉加载时，可这样重写此方法
-     *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
-     */
-    @Override
-    protected List<BoxItem> getGetMoreList(ResultBase result) {
-        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
-        waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getInboxSum();
-        pageFlag = resultObj.getPageFlag();
-        return resultObj.getInboxList();
     }
 }

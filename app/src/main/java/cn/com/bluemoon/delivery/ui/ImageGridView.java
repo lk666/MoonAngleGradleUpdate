@@ -30,7 +30,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 public class ImageGridView extends GridView {
     private Context mContext;
     private int maxSize = 5;
-    private final String ICON_URL = "000000";
+    public static final String ICON_ADD = "000000";
     private ArrayList<String> imagePaths = new ArrayList<>();
 
     public ImageGridView(Context context, AttributeSet attrs) {
@@ -59,16 +59,16 @@ public class ImageGridView extends GridView {
         if (imagePaths != null && imagePaths.size() > 0) {
             imagePaths.clear();
         }
-        if (paths != null && paths.contains(ICON_URL)) {
-            paths.remove(ICON_URL);
+        if (paths != null && paths.contains(ICON_ADD)) {
+            paths.remove(ICON_ADD);
         } else if (paths == null) {
             paths = new ArrayList<>();
         }
         if (isAdd) {
-            paths.add(ICON_URL);
+            paths.add(ICON_ADD);
         }
         imagePaths.addAll(paths);
-        if (imagePaths.size() > maxSize) {
+        while (imagePaths.size() > maxSize) {
             imagePaths.remove(imagePaths.size() - 1);
         }
         ImageAdapter gridAdapter = new ImageAdapter(mContext, imagePaths);
@@ -78,7 +78,7 @@ public class ImageGridView extends GridView {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (imagePaths != null && imagePaths.size() > 0) {
                     String imgs = (String) parent.getItemAtPosition(position);
-                    if (ICON_URL.equals(imgs)) {
+                    if (ICON_ADD.equals(imgs)) {
                         if (mContext instanceof Activity) {
                             PhotoPickerActivity.actStart((Activity) mContext, SelectModel.MULTI,
                                     maxSize - imagePaths.size() + 1, true, Constants
@@ -145,7 +145,7 @@ public class ImageGridView extends GridView {
             final ImageView ivAdd = (ImageView) convertView.findViewById(R.id.iv_add);
             final TextView txtMsg = (TextView) convertView.findViewById(R.id.tv_msg);
             final String path = imagePaths.get(position);
-            if (path.equals(ICON_URL)) {
+            if (path.equals(ICON_ADD)) {
                 imgUpload.setVisibility(GONE);
                 layoutAdd.setVisibility(VISIBLE);
                 ivAdd.setImageResource(R.mipmap.ic_camera);

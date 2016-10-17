@@ -1,26 +1,25 @@
 package cn.com.bluemoon.delivery.module.wash.returning.expressclosebox;
 
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
-import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.order.OrdersUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.swipe.menu.SwipeMenu;
@@ -37,9 +36,9 @@ import cn.com.bluemoon.lib.view.ClearEditText;
 public class ExpressCloseBoxFragment extends BaseFragment {
 
     @Bind(R.id.et_delivery_num)
-    ClearEditText etDeliveryNum;
+    ClearEditText etExpressCode;
     @Bind(R.id.et_emy_num)
-    ClearEditText etEmyNum;
+    ClearEditText etEmpNum;
     @Bind(R.id.et_delivery_name)
     ClearEditText etDeliveryName;
     @Bind(R.id.txt_company)
@@ -50,12 +49,16 @@ public class ExpressCloseBoxFragment extends BaseFragment {
     Button btnQuery;
     @Bind(R.id.line_dotted)
     View lineDotted;
+    @Bind(R.id.txt_amount)
+    TextView txtAmount;
     @Bind(R.id.layout_clothes_list)
     LinearLayout layoutClothesList;
 
     private String companyCode;
     private String companyName;
-    ClothesNoAdapter adapter;
+    private ClothesNoAdapter adapter;
+    private List<String> codes = new ArrayList<>();
+    private String boxCode;
 
     @Override
     protected String getTitleString() {
@@ -78,17 +81,65 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                 break;
             case R.id.img_add:
             case R.id.txt_add:
-                PublicUtil.openNewScanView(this, getString(R.string.scan_delivery_title), getString(R.string.input_by_hand), null, 2);
+                BackClothesScanActivity.actStart(this, getString(R.string.scan_clothes_num_title),getString(R.string.input_by_hand), null, boxCode, 2);
                 break;
             case R.id.img_scan:
                 PublicUtil.openNewScanView(this, getString(R.string.scan_clothes_num_title), getString(R.string.input_by_hand), null, 3);
+                break;
+            case R.id.btn_query:
+                String empCode = etEmpNum.getText().toString();
+                if (StringUtils.isNotBlank(empCode)) {
+                    showWaitDialog();
+                    DeliveryApi.getEmp(getToken(), empCode, getNewHandler(1, ResultUserInfo.class));
+                }
+                break;
+            case R.id.btn_ok:
+                empCode = etEmpNum.getText().toString();
+                String empName = etDeliveryName.getText().toString();
+                String companyName = txtCompany.getText().toString();
+                String expressCode = etExpressCode.getText().toString();
+                if (!StringUtils.isNotBlank(companyName)) {
+                    toast(getString(R.string.please_select_company));
+                    return;
+                }
+                if (!StringUtils.isNotBlank(expressCode)) {
+                    toast(getString(R.string.please_scan_delivery_num));
+                    return;
+                }
+                if (!StringUtils.isNotBlank(empCode)) {
+                    toast(getString(R.string.emp_code_is_empty));
+                    return;
+                }
+                if (!StringUtils.isNotBlank(empName)) {
+                    toast(getString(R.string.emp_name_is_empty));
+                    return;
+                }
+                if (codes.size() == 0) {
+                    toast(getString(R.string.close_box_clothes_code_is_empty));
+                    return;
+                }
+                showWaitDialog();
+                ReturningApi.closeBox(codes, boxCode, companyCode, companyName,empCode,
+                        empName,expressCode,getToken(), getNewHandler(2, ResultBase.class));
                 break;
         }
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
+        hideWaitDialog();
+        if (requestCode == 1) {
+            ResultUserInfo info = (ResultUserInfo) result;
+            etDeliveryName.setText(info.getEmpName());
+        } else if (requestCode == 2) {
+            toast(result.getResponseMsg());
+            codes.clear();
+            adapter.notifyDataSetChanged();
+            txtCompany.setText("");
+            etExpressCode.setText("");
+            etEmpNum.setText("");
+            etDeliveryName.setText("");
+        }
     }
 
     @Override
@@ -100,14 +151,13 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             txtCompany.setText(companyName);
         } else if (data != null && requestCode == 3) {
             String number = data.getStringExtra(LibConstants.SCAN_RESULT);
-            etDeliveryNum.setText(number);
+            etExpressCode.setText(number);
         } else if (data != null && requestCode == 2) {
-            //List<String> numbers = data.getStringArrayListExtra("numbers");
-            final List<String> numbers = new ArrayList<>();
-            numbers.add("569865895489069506509");
-            numbers.add("569865895489069506509");
-            numbers.add("569865895489069506509");
-            if (numbers != null && !numbers.isEmpty()) {
+            List<String> codeList = data.getStringArrayListExtra("codes");
+            if (codeList != null && !codeList.isEmpty()) {
+                boxCode = data.getStringExtra("boxCode");
+                codes.addAll(codeList);
+                txtAmount.setText(getString(R.string.total_amount2, codes.size()));
                 layoutClothesList.setVisibility(View.VISIBLE);
                 SwipeMenuCreator creator = new SwipeMenuCreator() {
                     @Override
@@ -127,8 +177,10 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                     public boolean onMenuItemClick(int position, SwipeMenu menu,
                                                    int index) {
                         if (index == 0) {
-                            numbers.remove(position);
-                            if (numbers.isEmpty()) {
+                            codes.remove(position);
+                            txtAmount.setText(getString(R.string.total_amount2, codes.size()));
+                            if (codes.isEmpty()) {
+                                boxCode = null;
                                 layoutClothesList.setVisibility(View.GONE);
                             } else {
                                 adapter.notifyDataSetChanged();
@@ -140,7 +192,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                 });
                 listReturnNumber.setPullRefreshEnable(false);
                 adapter = new ClothesNoAdapter(getActivity());
-                adapter.setList(numbers);
+                adapter.setList(codes);
                 listReturnNumber.setAdapter(adapter);
                 LibViewUtil.setListViewHeight2(listReturnNumber);
             }
@@ -149,7 +201,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
 
     @Override
     public void initView() {
-
+        txtAmount.setText(getString(R.string.total_amount2, 0));
     }
 
     @Override
