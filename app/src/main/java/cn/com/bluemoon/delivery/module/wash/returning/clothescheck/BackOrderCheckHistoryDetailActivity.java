@@ -135,15 +135,15 @@ public class BackOrderCheckHistoryDetailActivity extends BaseActivity implements
             } else {
                 iv.setImageResource(R.mipmap.ic_normal);
             }
-            setClickEvent(isNew, position, convertView);
+//            setClickEvent(isNew, position, convertView);
         }
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        if (item instanceof BackOrder) {
+        /*if (item instanceof BackOrder) {
             ClothesCheckHistoryDetailActivity.actionStart(this, null, checkLogId, ((BackOrder)
                     item).getBackOrderCode());
-        }
+        }*/
     }
 }

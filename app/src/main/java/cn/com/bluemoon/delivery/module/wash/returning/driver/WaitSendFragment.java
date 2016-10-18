@@ -33,14 +33,13 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.driver_send_title);
+        return getString(R.string.driver_tab_wait_send);
     }
 
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     @Override

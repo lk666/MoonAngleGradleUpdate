@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.wash.returning.pack;
 
 import android.content.Context;
 import android.graphics.drawable.Drawable;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -85,7 +86,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        WaitPackFilterWindow popupWindow = new WaitPackFilterWindow(getActivity(),regionList,
+        WaitPackFilterWindow popupWindow = new WaitPackFilterWindow(getActivity(),regionList,region,
                 waitPack, new WaitPackFilterWindow.FilterListener() {
 
             @Override
@@ -122,24 +123,17 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
         viewPopStart = headView.findViewById(R.id.view_pop_start);
         txtCount = (TextView) headView.findViewById(R.id.txt_count);
         txtPendingPack = (TextView) headView.findViewById(R.id.txt_pending_pack);
-        waitPack = false;
         waitPackCount = 0;
         totalCount = 0;
-        setHeadContent(0, waitPack, 0);
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
+        setHeadContent(0, region,waitPack, 0);
     }
 
     /**
      * 设置头部
      */
-    private void setHeadContent(int count, boolean waitPack, int pending) {
-        txtCount.setText(String.format(getString(R.string.pack_order_num), count));
-        if (!waitPack) {
-            txtPendingPack.setText(String.format(getString(R.string.pack_pending_num),
-                    pending));
-        } else {
-            txtPendingPack.setText("");
-        }
+    private void setHeadContent(int count, String region,boolean waitPack, int pending) {
+        txtCount.setText(TextUtils.isEmpty(region)?getString(R.string.pack_order_num, count):region);
+        txtPendingPack.setText(TextUtils.isEmpty(region)&&waitPack?"":getString(R.string.pack_pending_num, pending));
     }
 
     @Override
@@ -176,6 +170,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
         super.showEmptyView();
         // 可在此处设置head等
         setHeadViewVisibility(View.VISIBLE);
+        setHeadContent(totalCount, region,waitPack, waitPackCount);
     }
 
     @Override
@@ -190,7 +185,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
         super.showRefreshView();
         // 列表数据刷新，如可在此处设置head等
         setHeadViewVisibility(View.VISIBLE);
-        setHeadContent(totalCount, waitPack, waitPackCount);
+        setHeadContent(totalCount, region,waitPack, waitPackCount);
     }
 
     @Override

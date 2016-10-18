@@ -99,7 +99,6 @@ public class CloseBoxFragment extends BasePullToRefreshListViewFragment {
         waitInboxCount = 0;
         totalCount = 0;
         setHeadCOntent(0, waitInbox, 0);
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     /**

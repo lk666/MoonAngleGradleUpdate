@@ -102,7 +102,6 @@ public class ReturnHistoryFragment extends BasePullToRefreshListViewFragment {
         super.initHeadViewEvent(headView);
         viewPopStart = headView.findViewById(R.id.view_pop_start);
         tvDate = (TextView) headView.findViewById(R.id.tv_date);
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
 

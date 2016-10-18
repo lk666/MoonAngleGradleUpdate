@@ -106,7 +106,6 @@ public class SuspenseFragment extends BasePullToRefreshListViewFragment {
 
         setCountAndPrice(0, null, 0);
 
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     private void setCountAndPrice(int size, String price, double boxes) {

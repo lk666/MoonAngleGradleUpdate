@@ -58,12 +58,19 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
                 getMore();
             }
         });
-
+        initEmptyMsg();
         initPtr(ptr);
         initHeadView();
 
         LibViewUtil.setViewVisibility(ptr, View.GONE);
         setHeadViewVisibility(View.GONE);
+    }
+
+    /**
+     * 初始化空数据页文字
+     */
+    private void initEmptyMsg() {
+        setEmptyViewMsg(getEmptyMsg());
     }
 
     /**
@@ -204,6 +211,13 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
     }
 
     ///////////// 可选重写 ////////////////
+
+    /**
+     * 获取空数据页文案
+     */
+    protected String getEmptyMsg(){
+        return getString(R.string.empty_hint3,getTitleString()==null?"":getTitleString());
+    }
 
     /**
      * 获取头部的layoutId
