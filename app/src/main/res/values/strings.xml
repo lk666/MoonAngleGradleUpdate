@@ -1119,7 +1119,7 @@
     <string name="manage_clothes_num">还衣单号：%s</string>
     <string name="manage_clothes_detail">还衣单详情</string>
     <string name="manage_finish">已完成</string>
-    <string name="manage_sign2">签收</string>
+    <string name="manage_sign2">签  收</string>
     <string name="manage_show_refuse_sign">查看拒签</string>
     <string name="manage_clothes_sign">衣物签收</string>
     <string name="manage_sign_by_self">本人签收</string>

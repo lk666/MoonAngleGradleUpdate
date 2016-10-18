@@ -399,7 +399,7 @@
         <activity
             android:name=".module.wash.returning.manager.ManualSignActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar" />
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
             android:name=".module.wash.returning.manager.ReturnMangerTabActivity"
             android:screenOrientation="portrait"

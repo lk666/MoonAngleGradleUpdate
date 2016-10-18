@@ -102,17 +102,14 @@ public class UpDownTextView extends LinearLayout {
         this.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                isUp = !isUp;
-                changeStatus(isUp);
-                if (listener != null) {
-                    listener.onClick(isUp, index);
-                }
+                changeStatus();
             }
         });
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void changeStatus (boolean isUp) {
+    public void changeStatus () {
+        isUp = !isUp;
         if (isUp) {
             if (StringUtils.isNotBlank(downText))
                 textView.setText(downText);
@@ -145,6 +142,9 @@ public class UpDownTextView extends LinearLayout {
         animation.setDuration(100);
         animation.setFillAfter(true);
         imageView.startAnimation(animation);
+        if (listener != null) {
+            listener.onClick(isUp, index);
+        }
     }
 
     public interface ClickListener {

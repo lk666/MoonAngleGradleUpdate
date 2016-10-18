@@ -76,6 +76,12 @@ public class BackOrderDetailActivity extends BaseActivity {
     LinearLayout layoutRefuse;
     @Bind(R.id.layout_buyer_msg)
     LinearLayout layoutBuyerMsg;
+    @Bind(R.id.layout_open1)
+    LinearLayout layoutOpen1;
+    @Bind(R.id.layout_open2)
+    LinearLayout layoutOpen2;
+    @Bind(R.id.layout_open3)
+    LinearLayout layoutOpen3;
     private String backOrderCode;
     private boolean isHistory;
     private String name;
@@ -154,6 +160,21 @@ public class BackOrderDetailActivity extends BaseActivity {
         txtOpen1.setListener(listener, 1);
         txtOpen2.setListener(listener, 2);
         txtOpen3.setListener(listener, 3);
+        View.OnClickListener clickListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (view == layoutOpen1) {
+                    txtOpen1.changeStatus();
+                } else if (view == layoutOpen2) {
+                    txtOpen2.changeStatus();
+                }else if (view == layoutOpen3) {
+                    txtOpen3.changeStatus();
+                }
+            }
+        };
+        layoutOpen1.setOnClickListener(clickListener);
+        layoutOpen2.setOnClickListener(clickListener);
+        layoutOpen3.setOnClickListener(clickListener);
         name = getIntent().getStringExtra("name");
         phone = getIntent().getStringExtra("phone");
         address = getIntent().getStringExtra("address");

@@ -17,6 +17,7 @@ import android.graphics.Path;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.support.v4.app.Fragment;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -42,9 +43,12 @@ import cn.com.bluemoon.lib.utils.LibImageUtil;
 /**
  * Created by liangjiangli on 2016/9/5.
  */
-public class ManualSignActivity extends BaseActivity implements OnGesturePerformedListener {
+public class ManualSignActivity extends BaseActivity implements OnGesturePerformedListener,GestureOverlayView.OnGestureListener {
     @Bind(R.id.gesture)
     GestureOverlayView mDrawGestureView;
+    @Bind(R.id.layout_sign)
+    LinearLayout layoutSign;
+    private boolean hasSign;
 
     private static ArrayList<GestureStroke> strokes;
 
@@ -93,6 +97,7 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
 
         //绑定监听器
         mDrawGestureView.addOnGesturePerformedListener(this);
+        mDrawGestureView.addOnGestureListener(this);
     }
 
     @OnClick({R.id.btn_back, R.id.btn_reset, R.id.txt_finish})
@@ -102,13 +107,15 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
                 finish();
                 break;
             case R.id.btn_reset:
+                hasSign = false;
+                layoutSign.setVisibility(View.VISIBLE);
                 mDrawGestureView.setBackgroundColor(Color.WHITE);
-                mDrawGestureView.setFadeOffset(100);//清除前设置时间间隔缩小
+                mDrawGestureView.setFadeOffset(10);//清除前设置时间间隔缩小
                 mDrawGestureView.clear(true);
                 mDrawGestureView.setFadeOffset(36000000);//清楚后恢复时间间隔
                 break;
             case R.id.txt_finish:
-                if (mDrawGestureView.getGesture() != null) {
+                if (mDrawGestureView.getGesture() != null && hasSign) {
                     int width = mDrawGestureView.getMeasuredWidth();
                     int height = mDrawGestureView.getMeasuredHeight();
                     Bitmap bitmap = Bitmap.createBitmap(width, height,Bitmap.Config.ARGB_8888);
@@ -173,6 +180,7 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
         super.onDestroy();
         //移除绑定的监听器
         mDrawGestureView.removeOnGesturePerformedListener(this);
+        mDrawGestureView.removeOnGestureListener(this);
     }
 
     @Override
@@ -185,4 +193,26 @@ public class ManualSignActivity extends BaseActivity implements OnGesturePerform
 
     }
 
+    @Override
+    public void onGestureStarted(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public void onGesture(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
+        if (!hasSign) {
+            hasSign = true;
+            layoutSign.setVisibility(View.GONE);
+        }
+    }
+
+    @Override
+    public void onGestureEnded(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
+
+    }
+
+    @Override
+    public void onGestureCancelled(GestureOverlayView gestureOverlayView, MotionEvent motionEvent) {
+
+    }
 }
