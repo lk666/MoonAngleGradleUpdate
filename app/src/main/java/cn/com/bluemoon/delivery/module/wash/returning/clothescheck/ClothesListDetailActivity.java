@@ -35,7 +35,6 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.utils.LibImageUtil;
@@ -172,21 +171,20 @@ public class ClothesListDetailActivity extends BaseActivity implements
      * 检查完成按钮是否可见
      */
     private void checkFinish() {
-        String txt = etAbnormal.getText().toString();
-        // 有异常，且文字大于等于5
-        if (cbAbnormal.isChecked() && txt.length() < 5) {
-            btnFinish.setVisibility(View.GONE);
+        // 有异常
+        if (cbAbnormal.isChecked()) {
+            btnFinish.setVisibility(View.VISIBLE);
             return;
-        }
-
-        // 全部已扫描
-        for (Clothes c : list) {
-            if (!c.isScaned()) {
-                btnFinish.setVisibility(View.GONE);
-                return;
+        } else {
+            // 全部已扫描
+            for (Clothes c : list) {
+                if (!c.isScaned()) {
+                    btnFinish.setVisibility(View.GONE);
+                    return;
+                }
             }
+            btnFinish.setVisibility(View.VISIBLE);
         }
-        btnFinish.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -290,6 +288,13 @@ public class ClothesListDetailActivity extends BaseActivity implements
 
     @OnClick(R.id.btn_finish)
     public void onClick() {
+
+        String txt = etAbnormal.getText().toString();
+        if (txt.length() < 5) {
+            toast(R.string.manage_refuse_reason_tips);
+            return;
+        }
+
         //  点击清点完成，先一张张上传图片
         if (imgs == null) {
             imgs = new ArrayList<>();
@@ -362,7 +367,7 @@ public class ClothesListDetailActivity extends BaseActivity implements
                 ivScan.setVisibility(View.GONE);
             }
 
-//            setClickEvent(isNew, position, iv, ivScan);
+            //            setClickEvent(isNew, position, iv, ivScan);
         }
     }
 
