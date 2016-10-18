@@ -54,7 +54,6 @@ public class CarriageHistoryFragment extends BasePullToRefreshListViewFragment {
         txtTime = (TextView) headView.findViewById(R.id.txt_count);
         txtCount = (TextView) headView.findViewById(R.id.txt_pending_box);
         setHeadViewVisibility(View.GONE);
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     @Override

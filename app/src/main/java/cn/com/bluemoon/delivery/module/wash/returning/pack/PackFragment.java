@@ -126,7 +126,6 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
         waitPackCount = 0;
         totalCount = 0;
         setHeadContent(0, waitPack, 0);
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     /**

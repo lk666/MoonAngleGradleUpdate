@@ -95,7 +95,6 @@ public class CloseBoxHistoryFragment extends BasePullToRefreshListViewFragment {
         viewPopStart = headView.findViewById(R.id.view_pop_start);
         tvDate = (TextView) headView.findViewById(R.id.tv_date);
         tvTotal = (TextView) headView.findViewById(R.id.tv_total);
-        setEmptyViewMsg(String.format(getString(R.string.current_no_some_data), getTitleString()));
     }
 
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
