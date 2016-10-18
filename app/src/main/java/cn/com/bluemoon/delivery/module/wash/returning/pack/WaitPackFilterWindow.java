@@ -32,18 +32,21 @@ public class WaitPackFilterWindow extends PopupWindow {
     private Context context;
     private FilterListener listener;
     private List<String> list;
+    private String region;
 
     /**
      * 是否显示待封箱
      */
     private boolean waitInbox = true;
 
-    public WaitPackFilterWindow(Context context, List<String> list, boolean waitInbox,
+    public WaitPackFilterWindow(Context context, List<String> list,String region,boolean
+            waitInbox,
                                 FilterListener listener) {
         this.context = context;
         this.listener = listener;
         this.waitInbox = waitInbox;
         this.list = list;
+        this.region = region;
         init();
     }
 
@@ -77,6 +80,7 @@ public class WaitPackFilterWindow extends PopupWindow {
         cbWaitInbox = (CheckBox) view.findViewById(R.id.cb_waitInbox);
 
         cbWaitInbox.setChecked(waitInbox);
+        txtRegion.setText(region);
         view.setOnClickListener(new OnClickListener() {
 
             @Override
@@ -94,7 +98,7 @@ public class WaitPackFilterWindow extends PopupWindow {
         btnReset.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                cbWaitInbox.setChecked(waitInbox);
+                cbWaitInbox.setChecked(false);
                 txtRegion.setText("");
             }
         });
@@ -107,18 +111,19 @@ public class WaitPackFilterWindow extends PopupWindow {
                     return;
                 }
                 waitInbox = cbWaitInbox.isChecked();
-                listener.onOkClick(txtRegion.getText().toString(), waitInbox);
+                region = txtRegion.getText().toString();
+                listener.onOkClick(region, waitInbox);
                 dismiss();
             }
         });
     }
 
-    private void showSelectView(){
-        if(list==null||list.size()==0){
+    private void showSelectView() {
+        if (list == null || list.size() == 0) {
             ViewUtil.toast(context.getString(R.string.pack_area_select_error));
             return;
         }
-        int index = list.size()>2?1:0;
+        int index = list.size() > 2 ? 1 : 0;
         new SingleOptionSelectDialog(context, "",
                 list, index, new SingleOptionSelectDialog.OnButtonClickListener() {
             @Override
