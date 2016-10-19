@@ -183,7 +183,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                             });
                             //show sign dialog
                             new CommonAlertDialog.Builder(getActivity()).setView(view)
-                                    .setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                                    .setNegativeButton(R.string.confirm_with_space, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     if (StringUtils.isEmpty(fileName)) {
@@ -206,7 +206,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
 
                                     }
                                 }
-                            }).setDismissable(false).setPositiveButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                            }).setDismissable(false).setPositiveButton(R.string.cancel_with_space, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     deleteSignImage();

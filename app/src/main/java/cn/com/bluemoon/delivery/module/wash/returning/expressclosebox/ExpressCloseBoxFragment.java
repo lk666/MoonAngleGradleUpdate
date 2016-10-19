@@ -51,8 +51,6 @@ public class ExpressCloseBoxFragment extends BaseFragment {
     View lineDotted;
     @Bind(R.id.txt_amount)
     TextView txtAmount;
-    @Bind(R.id.layout_clothes_list)
-    LinearLayout layoutClothesList;
 
     private String companyCode;
     private String companyName;
@@ -136,7 +134,6 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             codes.clear();
             adapter.notifyDataSetChanged();
             txtAmount.setText(getString(R.string.total_amount2, codes.size()));
-            layoutClothesList.setVisibility(View.GONE);
             txtCompany.setText("");
             etExpressCode.setText("");
             etEmpNum.setText("");
@@ -161,7 +158,6 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                 codes.clear();
                 codes.addAll(codeList);
                 txtAmount.setText(getString(R.string.total_amount2, codes.size()));
-                layoutClothesList.setVisibility(View.VISIBLE);
                 SwipeMenuCreator creator = new SwipeMenuCreator() {
                     @Override
                     public void create(SwipeMenu menu) {
@@ -184,7 +180,6 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                             txtAmount.setText(getString(R.string.total_amount2, codes.size()));
                             if (codes.isEmpty()) {
                                 boxCode = null;
-                                layoutClothesList.setVisibility(View.GONE);
                             } else {
                                 adapter.notifyDataSetChanged();
                                 LibViewUtil.setListViewHeight2(listReturnNumber);

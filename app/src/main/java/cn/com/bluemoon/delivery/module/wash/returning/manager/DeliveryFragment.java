@@ -149,7 +149,7 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
             Button receivingOrdersAction = getViewById(R.id.receiving_orders_action);
             final ResultExpress.ExpressListBean result = list.get(position);
             txtNo.setText(result.getCompanyName() + "：" + result.getExpressCode());
-            txtNumber.setText(context.getString(R.string.manage_clothes_amount2, result.getBackOrderNum()));
+            txtNumber.setText(String.valueOf(result.getBackOrderNum()));
             View.OnClickListener listener = new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -168,8 +168,8 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
                         case R.id.receiving_orders_action :
                             new CommonAlertDialog.Builder(getActivity())
                                     .setMessage(getString(R.string.manage_get_produce_txt))
-                                    .setPositiveButton(R.string.btn_cancel, null)
-                                    .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    .setPositiveButton(R.string.cancel_with_space, null)
+                                    .setNegativeButton(R.string.confirm_with_space, new DialogInterface.OnClickListener() {
                                         @Override
                                         public void onClick(DialogInterface dialogInterface, int i) {
                                             showWaitDialog();

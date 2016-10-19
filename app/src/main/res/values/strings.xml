@@ -298,6 +298,8 @@
 
     <string name="dialog_confirm">确定</string>
     <string name="dialog_cancel">取消</string>
+    <string name="confirm_with_space">确&#160;定</string>
+    <string name="cancel_with_space">取&#160;消</string>
     <string name="detail_order_deliver">待发货详情</string>
     <string name="detail_order_deliver_end">已发货详情</string>
     <string name="detail_order_deliver_should">应发：</string>
@@ -845,6 +847,7 @@
     <string name="reset_space">重  置</string>
     <string name="back">返回</string>
     <string name="finish">完成</string>
+    <string name="finish_with_space">完&#160;&#160;成</string>
     <string name="order_detail_default_diff_num">0</string>
     <string name="date_to">—</string>
     <string name="total_receive_boxes_num" formatted="false">共收%s箱(%s支)</string>
@@ -1098,13 +1101,13 @@
     <string name="manage_wash_result">洗涤结果：</string>
     <string name="manage_customer_refuse_title">消费者拒签</string>
     <string name="manage_show_refuse">查看拒签</string>
-    <string name="manage_refuse">拒签</string>
+    <string name="manage_refuse">拒&#160;&#160;签</string>
     <string name="manage_delivery_title">收货详情</string>
     <string name="manage_return_clothes_code">还衣单：%s</string>
     <string name="manage_customer_name">收货人：%s</string>
     <string name="manage_show_logistics">查看物流</string>
     <string name="manage_ligistics_state">物流状态：</string>
-    <string name="manage_ligistics_source">承运来源：</string>
+    <string name="manage_ligistics_source">快递公司：</string>
     <string name="manage_ligistics_code">快递单号：</string>
     <string name="manage_not_sign">请先签名</string>
     <string name="manage_not_selecte_img">请先选择图片</string>
@@ -1119,7 +1122,7 @@
     <string name="manage_clothes_num">还衣单号：%s</string>
     <string name="manage_clothes_detail">还衣单详情</string>
     <string name="manage_finish">已完成</string>
-    <string name="manage_sign2">签  收</string>
+    <string name="manage_sign2">签&#160;&#160;收</string>
     <string name="manage_show_refuse_sign">查看拒签</string>
     <string name="manage_clothes_sign">衣物签收</string>
     <string name="manage_sign_by_self">本人签收</string>
@@ -1131,7 +1134,7 @@
     <string name="manage_get_produce_txt">确认收货？</string>
     <string name="clothing_book_in_phote_most_many">(最多%s张)</string>
     <string name="manage_refuse_btn">确认拒签</string>
-    <string name="manage_clothes_amount2">还衣单数量：%s</string>
+    <string name="manage_clothes_amount2">还衣单数量：</string>
     <string name="manage_show_express">查看物流</string>
     <string name="manage_comfire_delivery">确认收货</string>
 

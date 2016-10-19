@@ -159,10 +159,8 @@
                     android:textSize="15sp"/>
             </LinearLayout>
             <LinearLayout
-                android:id="@+id/layout_clothes_list"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="gone"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -206,7 +204,7 @@
                     android:id="@+id/list_return_number"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/view_bg"
+                    android:background="@drawable/view_bg"
                     android:divider="@null"
                     android:dividerHeight="0dp"
                     android:fadingEdge="none"

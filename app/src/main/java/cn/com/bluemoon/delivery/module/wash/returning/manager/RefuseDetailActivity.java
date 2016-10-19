@@ -92,8 +92,8 @@ public class RefuseDetailActivity extends BaseActivity {
                 } else {
                     new CommonAlertDialog.Builder(RefuseDetailActivity.this)
                             .setMessage(getString(R.string.manage_refuse_this_clothes_txt))
-                            .setPositiveButton(R.string.btn_cancel, null)
-                            .setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            .setPositiveButton(R.string.cancel_with_space, null)
+                            .setNegativeButton(R.string.confirm_with_space, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
                                     btnSave.setClickable(false);

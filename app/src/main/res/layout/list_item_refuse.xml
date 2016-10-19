@@ -37,7 +37,7 @@
         android:id="@+id/btn_refuse"
         android:layout_width="wrap_content"
         android:layout_height="30dp"
-        android:textColor="@color/text_blue"
+        android:textColor="@color/btn_blue"
         android:layout_gravity="center_vertical"
         android:paddingLeft="2dp"
         android:paddingRight="2dp"
