@@ -38,7 +38,7 @@
             android:id="@+id/listView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/view_bg"
             android:divider="@drawable/line_solid_divider_match"
             android:dividerHeight="8dp"
             android:listSelector="@color/white"/>

@@ -12,10 +12,10 @@
             android:id="@+id/listview_refuse"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="@drawable/view_bg"
             android:divider="@drawable/line_solid_divider"
             android:dividerHeight="0.5dp"
-            android:listSelector="@color/white"/>
+            android:listSelector="@drawable/view_bg"/>
     </LinearLayout>
     
     <Button

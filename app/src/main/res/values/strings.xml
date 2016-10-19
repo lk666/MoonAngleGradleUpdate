@@ -1132,6 +1132,8 @@
     <string name="clothing_book_in_phote_most_many">(最多%s张)</string>
     <string name="manage_refuse_btn">确认拒签</string>
     <string name="manage_clothes_amount2">还衣单数量：%s</string>
+    <string name="manage_show_express">查看物流</string>
+    <string name="manage_comfire_delivery">确认收货</string>
 
     <string name="image">图片</string>
     <string name="all_image">所有图片</string>
