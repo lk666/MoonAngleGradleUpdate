@@ -130,6 +130,11 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     /**
      * 设置头部
+     * 四种状态：
+     *（1）：默认显示：共X单（左边）   待打包：X
+     *（2）：筛选区域，不勾选待打包：X区（左边） 待打包：X
+     *（3）：不筛选区域，勾选待打包：共X单（左边）
+     *（4）：筛选区域，勾选待打包：X区（左边）   待打包：X
      */
     private void setHeadContent(int count, String region,boolean waitPack, int pending) {
         txtCount.setText(TextUtils.isEmpty(region)?getString(R.string.pack_order_num, count):region);
