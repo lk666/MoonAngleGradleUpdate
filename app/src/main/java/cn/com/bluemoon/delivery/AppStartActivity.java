@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.SystemClock;
 
 import com.alibaba.fastjson.JSON;
+import com.igexin.sdk.PushManager;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -39,7 +40,6 @@ public class AppStartActivity extends Activity {
     private long splashScreenStartTime = 0;
     private SplashScreenTimerTask splashScreenTimerTask = null;
     private static Version lastSuccessfulCheckVersionResponse = null;
-    // private RetrieveVersionInfo retrieveVersionInfo = null;
     private AppStartActivity main;
     private String jumpCode = "";
 
@@ -49,11 +49,15 @@ public class AppStartActivity extends Activity {
         main = this;
         setContentView(R.layout.activity_start);
         init();
-        LocationService locationService = ((AppContext) getApplication()).locationService;
-        locationService.start();
     }
 
     private void init() {
+        //推送初始化
+        PushManager.getInstance().initialize(this.getApplicationContext());
+        //百度定位初始化
+        LocationService locationService = ((AppContext) getApplication()).locationService;
+        locationService.start();
+
         if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
             jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
         }
@@ -70,16 +74,13 @@ public class AppStartActivity extends Activity {
         } else {
             if (lastSuccessfulCheckVersionResponse != null
                     && SystemClock.elapsedRealtime()
-                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants.FORCE_CHECK_VERSION_TIME) {
+                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants
+                    .FORCE_CHECK_VERSION_TIME) {
                 LogUtils.d("test",
                         "timestamp < Constants.FORCE_CHECK_VERSION_TIME");
                 showDialog(lastSuccessfulCheckVersionResponse);
             } else {
-                // retrieveVersionInfo = new RetrieveVersionInfo();
-                // retrieveVersionInfo.execute();
-
                 DeliveryApi.getLastVersion(checkVersionHandler);
-
             }
         }
     }
@@ -87,9 +88,6 @@ public class AppStartActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-        // if (retrieveVersionInfo != null &&
-        // !retrieveVersionInfo.isCancelled())
-        // retrieveVersionInfo.cancel(false);
         if (splashScreenTimerTask != null
                 && !splashScreenTimerTask.isCancelled())
             splashScreenTimerTask.cancel(false);
@@ -109,7 +107,8 @@ public class AppStartActivity extends Activity {
 
         if (lastSuccessfulCheckVersionResponse != null) {
             boolean forceCheckVersionTimeOver = SystemClock.elapsedRealtime()
-                    - lastSuccessfulCheckVersionResponse.getTimestamp() > Constants.FORCE_CHECK_VERSION_TIME;
+                    - lastSuccessfulCheckVersionResponse.getTimestamp() > Constants
+                    .FORCE_CHECK_VERSION_TIME;
 
             boolean isMustUpdateVersion = LibVersionUtils.isMustUpdateVersion(
                     currentVersion, lastSuccessfulCheckVersionResponse
@@ -307,7 +306,8 @@ public class AppStartActivity extends Activity {
 
                                                         @Override
                                                         public void run() {
-                                                            ViewUtil.toast(getString(R.string.new_version_error));
+                                                            ViewUtil.toast(getString(R.string
+                                                                    .new_version_error));
                                                         }
                                                     });
                                                 }

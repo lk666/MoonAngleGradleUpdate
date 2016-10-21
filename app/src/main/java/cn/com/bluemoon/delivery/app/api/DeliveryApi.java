@@ -101,8 +101,7 @@ public class DeliveryApi {
         Map<String, String> params = new HashMap<>();
         params.put("account", account);
         params.put("password", passwordEncrypt);
-        params.put("deviceNum",
-                ClientStateManager.getChannelId(AppContext.getInstance()));
+        params.put("deviceNum",ClientStateManager.getClientId());
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/ssoLogin%s",
                 ApiClientHelper.getParamUrl());
@@ -138,8 +137,7 @@ public class DeliveryApi {
 
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("deviceNum",
-                ClientStateManager.getChannelId(AppContext.getInstance()));
+        params.put("deviceNum",ClientStateManager.getClientId());
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/logout%s",
@@ -233,9 +231,8 @@ public class DeliveryApi {
      **********************************/
 
 
-
-    public static void rejectOrder(String token,String orderId,String orderSource,
-                                     AsyncHttpResponseHandler handler) {
+    public static void rejectOrder(String token, String orderId, String orderSource,
+                                   AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
@@ -252,8 +249,7 @@ public class DeliveryApi {
     }
 
 
-
-	/* 2.2.1获取各类型订单的数量 */
+    /* 2.2.1获取各类型订单的数量 */
     /* 返回： ResultOrderCount */
     public static void getOrderCount(String token,
                                      AsyncHttpResponseHandler handler) {
@@ -980,7 +976,6 @@ public class DeliveryApi {
     }
 
 
-
     /*发送代签收验证码 */
     /* 返回： Result */
     public static void resendReceiveCode(String token, String orderId, AsyncHttpResponseHandler
@@ -998,7 +993,6 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
-
 
 
     /* 正常品/不良品 库存详情查询 */
@@ -1092,7 +1086,7 @@ public class DeliveryApi {
     /*2.9.3.1上班打卡 */
     /* 返回： ResultBase */
     public static void addPunchCardIn(String token, PunchCard punchCard, String workTask,
-                                         AsyncHttpResponseHandler handler) {
+                                      AsyncHttpResponseHandler handler) {
 
         if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
             return;
@@ -1121,7 +1115,7 @@ public class DeliveryApi {
     /*2.9.3.2下班打卡 */
     /* 返回： ResultBase */
     public static void addPunchCardOut(String token, PunchCard punchCard, String workTask,
-                                         AsyncHttpResponseHandler handler) {
+                                       AsyncHttpResponseHandler handler) {
 
         if (null == token || punchCard == null || StringUtil.isEmpty(workTask)) {
             return;
@@ -1256,7 +1250,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.13 展示打卡记录 */
-	/* 返回： ResultPunchCardList */
+    /* 返回： ResultPunchCardList */
     public static void getPunchCardList(String token, long timestamp, AsyncHttpResponseHandler
             handler) {
         if (null == token) {
@@ -2643,20 +2637,19 @@ public class DeliveryApi {
      * 查询提醒记录列表
      **********************************/
 
-    public static void nowRest(String token,PunchCard punchCard,
-                                     AsyncHttpResponseHandler handler) {
+    public static void nowRest(String token, PunchCard punchCard,
+                               AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put(	"punchCard", 	punchCard);
+        params.put("punchCard", punchCard);
         postRequest(params, "bluemoon-control/attendance/nowRest%s", handler);
     }
 
 
-
- /*2.0_新增提醒接口*/
+    /*2.0_新增提醒接口*/
     /* 返回： ResultRemind */
     public static void getRemindList(String token,
                                      AsyncHttpResponseHandler handler) {
