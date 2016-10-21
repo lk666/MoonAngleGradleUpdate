@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.view.Gravity;
@@ -98,4 +99,27 @@ public class DialogUtil extends LibDialogUtil {
         return dialog;
     }
 
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PublicUtil.callPhone(aty, Constants.SERVICE_PHONE);
+                    }
+                });
+        dialog.show();
+    }
+
+    /**
+     * 显示promrt对话框
+     */
+    public static void showInfoDialog(Context context, String content, String txtLeftBtn,
+                                      String txtRightBtn,
+                                      DialogInterface.OnClickListener listenerLeftBtn,
+                                      DialogInterface.OnClickListener listenerRightBtn) {
+        CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(context);
+
+        dialog.setMessageSize(14);
+        dialog.setMessage(content);
+        dialog.setPositiveButton(txtLeftBtn, listenerLeftBtn);
+        dialog.setNegativeButton(txtRightBtn, listenerRightBtn);
+        dialog.show();
+    }
 }

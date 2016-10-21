@@ -36,9 +36,10 @@ import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.common.ScanActivity;
-import cn.com.bluemoon.delivery.common.ScanCodeActivity;
-import cn.com.bluemoon.delivery.common.ScanInputActivity;
+import cn.com.bluemoon.delivery.common.qrcode.ScanCodeActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.ClothScanCodeActivity;
+import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
+import cn.com.bluemoon.delivery.common.qrcode.ScanInputActivity;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
@@ -101,35 +102,32 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openScanOrder(Activity aty, Fragment fragment, String title,
                                      String btnString, int requestCode, int resultCode) {
-        ScanInputActivity.actStart(aty,fragment,title,btnString,requestCode,resultCode);
+        ScanInputActivity.actStart(aty, fragment, title, btnString, requestCode, resultCode);
     }
 
     /**
-     * 打开新扫描界面
+     * 洗衣服务扫描界面
      *
-     * @param resultCode 大于1的正整数
      */
-    public static void openNewScanOrder(Activity aty, Fragment fragment, String title,
-                                        String btnString, int requestCode, int resultCode) {
-        ScanCodeActivity.actStart(aty,fragment,title,btnString,requestCode,resultCode);
+    public static void openClothScan(Activity aty, Fragment fragment, String title,
+                                     String btnString, int requestCode) {
+        ClothScanCodeActivity.actStart(aty, fragment, title, btnString, null, requestCode);
     }
 
     /**
-     * 打开扫描界面
+     * 洗衣服务扫描界面
      *
-     * @param resultCode 大于1的正整数
      */
-    public static void openNewScan(Activity aty, String title,
-                                   String btnString, int requestCode, int resultCode) {
-        openNewScanOrder(aty,null,title,btnString,requestCode,resultCode);
+    public static void openClothScan(Activity aty, String title,String btnString, int requestCode) {
+        openClothScan(aty, null, title, btnString, requestCode);
     }
 
     public static void openScanTicket(Activity aty, String ticketName,
                                       String ticketCount, int requestCode, int resultCode) {
-        ScanInputActivity.actStart(aty,null,
+        ScanInputActivity.actStart(aty, null,
                 aty.getString(R.string.ticket_check_title),
                 aty.getString(R.string.ticket_code_btn_text),
-                ticketName,ticketCount,requestCode,resultCode);
+                ticketName, ticketCount, requestCode, resultCode);
     }
 
     /**
@@ -137,6 +135,20 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openScanView(Activity aty, Fragment fragment, String title, int requestCode) {
         ScanActivity.actStart(aty,fragment,title,requestCode);
+    }
+
+    /**
+     * 最新的统一扫描界面
+     */
+    public static void openNewScanView(Activity aty,String title,String btnString,String code,int requestCode) {
+        ScanCodeActivity.actStart(aty,title,btnString,code, requestCode);
+    }
+
+    /**
+     * 最新的统一扫描界面
+     */
+    public static void openNewScanView(Fragment fragment, String title,String btnString,String code,int requestCode) {
+        ScanCodeActivity.actStart(fragment, title,btnString,code, requestCode);
     }
 
     public static String genApiSign(String[] params) {

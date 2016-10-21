@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:ptr="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/layout_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="#fefefe">
+
+        <TextView
+            android:id="@+id/txt_transport_code"
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:layout_marginLeft="12dp"
+            android:gravity="center_vertical"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_17" />
+
+        <View
+            android:id="@+id/line"
+            style="@style/line_solid_light_style"
+            android:layout_below="@id/txt_transport_code"
+            android:layout_marginLeft="12dp" />
+
+        <TextView
+            android:id="@+id/txt_box_num"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/line"
+            android:layout_marginLeft="12dp"
+            android:gravity="center"
+            android:textColor="@color/text_black_light"
+            android:textSize="@dimen/text_size_13" />
+
+        <TextView
+            android:id="@+id/txt_real_box_num"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:layout_below="@id/line"
+            android:layout_toRightOf="@id/txt_box_num"
+            android:layout_marginLeft="40dp"
+            android:gravity="center"
+            android:textColor="@color/text_black_light"
+            android:textSize="@dimen/text_size_13"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        android:id="@+id/ptrlv"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@null"
+        android:dividerHeight="@dimen/div_height_8"
+        android:scrollbars="none"
+        android:layout_marginTop="2dp"
+        ptr:ptrMode="disabled"
+        />
+
+    <Button
+        android:id="@+id/btn_load_finish"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/btn_red_shape_large"
+        android:textSize="@dimen/text_size_17"
+        android:textColor="@color/view_bg"
+        android:visibility="gone"
+        android:text="@string/driver_btn_load_finish" />
+
+    <cn.com.bluemoon.lib.view.CommonEmptyView
+        android:id="@+id/layout_empty"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone"/>
+</LinearLayout>
+
+

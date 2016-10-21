@@ -1,6 +1,6 @@
 package cn.com.bluemoon.delivery.module.order;
 
-import cn.com.bluemoon.delivery.app.api.model.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 
 /**  
  * ClassName:OrderChoiseDateInterface <br/>  

@@ -62,12 +62,19 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
                 getMore();
             }
         });
-
+        initEmptyMsg();
         initPtr(ptr);
         initHeadView();
 
         LibViewUtil.setViewVisibility(ptr, View.GONE);
         setHeadViewVisibility(View.GONE);
+    }
+
+    /**
+     * 初始化空数据页文字
+     */
+    private void initEmptyMsg() {
+        setEmptyViewMsg(getEmptyMsg());
     }
 
     /**
@@ -129,7 +136,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
      * 加载更多
      */
     final protected void getMore() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
+        // LibViewUtil.setChildEnableRecursion(ptr, false);
         invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE);
     }
 
@@ -137,12 +144,12 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
      * 获取界面数据（刷新界面）
      */
     final protected void getData() {
-        LibViewUtil.setChildEnableRecursion(ptr, false);
+        // LibViewUtil.setChildEnableRecursion(ptr, false);
         invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA);
     }
 
     /**
-     * 显示内容页
+     * 重新获取数据时，显示内容页
      */
     protected void showRefreshView() {
         LibViewUtil.setViewVisibility(errorView, View.GONE);
@@ -209,6 +216,12 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
     ///////////// 可选重写 ////////////////
 
     /**
+     * 获取空数据页文案
+     */
+    protected String getEmptyMsg(){
+        return getString(R.string.empty_hint3,getTitleString()==null?"":getTitleString());
+    }
+    /**
      * 获取头部的layoutId
      */
     protected int getHeadLayoutId() {
@@ -234,13 +247,13 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
             // 刷新数据
             case HTTP_REQUEST_CODE_GET_DATA:
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 setGetData(result);
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 setGetMore(result);
                 break;
             default:
@@ -255,14 +268,14 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
             case HTTP_REQUEST_CODE_GET_DATA:
                 PublicUtil.showToastServerBusy();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 PublicUtil.showToastServerBusy();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;
@@ -276,14 +289,14 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
             case HTTP_REQUEST_CODE_GET_DATA:
                 PublicUtil.showToastServerOvertime();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 PublicUtil.showToastServerOvertime();
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;
@@ -297,14 +310,14 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
             case HTTP_REQUEST_CODE_GET_DATA:
                 PublicUtil.showErrorMsg(getActivity(), result);
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 showNetErrorView();
                 break;
             // 加载更多数据
             case HTTP_REQUEST_CODE_GET_MORE:
                 PublicUtil.showErrorMsg(getActivity(), result);
                 ptr.onRefreshComplete();
-                LibViewUtil.setChildEnableRecursion(ptr, true);
+                // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
                 break;

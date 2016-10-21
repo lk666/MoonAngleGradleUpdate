@@ -12,7 +12,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
-            android:background="#fefefe"
+            android:background="@drawable/view_bg"
             android:clickable="true"
             android:orientation="vertical"
             android:paddingTop="15dp">
@@ -97,7 +97,7 @@
                     android:layout_height="35dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_border_blue"
-                    android:text="@string/reset"
+                    android:text="@string/reset_space"
                     android:textColor="@color/btn_blue" />
 
                 <Button
@@ -107,8 +107,8 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_blue_shape_large"
-                    android:text="@string/btn_ok"
-                    android:textColor="#fefefe" />
+                    android:text="@string/btn_ok_space"
+                    android:textColor="@color/view_bg" />
             </LinearLayout>
         </LinearLayout>
 

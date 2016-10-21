@@ -8,6 +8,7 @@ import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
 
 public class Constants {
 
@@ -78,6 +79,10 @@ public class Constants {
      * code scan
      ***********************/
     public static final int REQUEST_SCAN = 0x00;
+
+    public static final int RESULT_SCAN = 0x04;
+    public static final int RESULT_INPUT = 0x05;
+    public static final String RESULT_CODE = "code";
 
     public static final int TAKE_PIC_RESULT = 0x01;
     public static final int CHOSE_PIC_RESULT = 0x02;
@@ -161,4 +166,12 @@ public class Constants {
 	public final static String WORKTYPE_PART = "partTime";
 
 	public final static long LARGETIME = 253402185600000l;
+    /**
+     * {@link cn.com.bluemoon.delivery.ui.ImageGridView}点击添加按钮时的requestcode
+     */
+    public static final int REQUEST_ADD_IMG = 10;
+    /**
+     * {@link cn.com.bluemoon.delivery.ui.ImageGridView}点击图片时的requestcode
+     */
+    public static final int REQUEST_PREVIEW_IMG = 20;
 }

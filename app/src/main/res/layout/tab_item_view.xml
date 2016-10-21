@@ -3,7 +3,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:gravity="center"
-    android:background="#fefefe"
+    android:background="@drawable/view_bg"
     android:orientation="vertical" >
     <include layout="@layout/line_solid_view_d7"/>
     <FrameLayout 

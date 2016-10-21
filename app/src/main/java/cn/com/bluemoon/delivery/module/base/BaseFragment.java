@@ -247,6 +247,13 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
             isCancelable) {
         return aty.showWaitDialog(message, viewId, isCancelable);
     }
+
+    /**
+     * 获取角标数量并设置
+     */
+    final protected void setAmount(){
+        aty.getAmount();
+    }
     ///////////// 可选重写 ////////////////
 
     /**

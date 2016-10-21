@@ -107,7 +107,8 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
     }
 
     private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
-                                                final IHttpRespone iHttpRespone) {
+                                                final IHttpRespone iHttpRespone,
+                                                final boolean isShowDialog) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
                 HTTP.UTF_8, this, requestcode, clazz) {
 
@@ -118,7 +119,9 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
                 }
                 LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
                         " " + "result = " + responseString);
-                hideWaitDialog();
+                if (isShowDialog) {
+                    hideWaitDialog();
+                }
                 try {
                     Object resultObj;
                     resultObj = JSON.parseObject(responseString, getClazz());
@@ -128,6 +131,9 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
                             iHttpRespone.onSuccessResponse(getReqCode(), responseString,
                                     resultBase);
                         } else {
+                            if (isShowDialog) {
+                                hideWaitDialog();
+                            }
                             iHttpRespone.onErrorResponse(getReqCode(), resultBase);
                         }
                     } else {
@@ -135,6 +141,9 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
                     }
                 } catch (Exception e) {
                     LogUtils.e(getDefaultTag(), e.getMessage());
+                    if (isShowDialog) {
+                        hideWaitDialog();
+                    }
                     iHttpRespone.onSuccessException(getReqCode(), e);
                 }
             }
@@ -167,7 +176,15 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
      */
     @Override
     final public AsyncHttpResponseHandler getNewHandler(final int requestcode, final Class clazz) {
-        return getHandler(requestcode, clazz, this);
+        return getHandler(requestcode, clazz, this, true);
+    }
+
+    /**
+     * 在调用DeliveryApi的方法时使用
+     */
+    final public AsyncHttpResponseHandler getNewHandler(final int requestcode, final Class clazz,
+                                                        boolean isShowDialog) {
+        return getHandler(requestcode, clazz, this, isShowDialog);
     }
 
     /**

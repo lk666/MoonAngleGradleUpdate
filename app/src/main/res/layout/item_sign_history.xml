@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_total"
+        style="@style/txt_content_15"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_alignParentRight="true"
+        android:background="@color/page_bg_f2"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:paddingRight="12dp"
+        android:singleLine="true"
+        android:text="@string/sign_history_total" />
+
+    <TextView
+        android:id="@+id/tv_carriage_code"
+        style="@style/txt_content_15"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_toLeftOf="@+id/tv_total"
+        android:background="@color/page_bg_f2"
+        android:ellipsize="end"
+        android:gravity="center_vertical"
+        android:paddingLeft="12dp"
+        android:singleLine="true"
+        android:text="@string/wait_sign_carriage_code" />
+
+    <cn.com.bluemoon.delivery.ui.NoScrollListView
+        android:id="@+id/lv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_carriage_code"
+        android:background="@drawable/view_bg"
+        android:divider="@color/line_soild_bg"
+        android:dividerHeight="@dimen/div_height"
+        android:footerDividersEnabled="false"
+        android:headerDividersEnabled="false" />
+</RelativeLayout>
+

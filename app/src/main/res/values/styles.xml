@@ -16,6 +16,13 @@
   -->
     </style>
 
+    <style name="popwindow_anim_style">
+        <item name="android:windowEnterAnimation">@anim/slide_in_from_bottom</item>
+        <!-- 指定显示的动画xml -->
+        <item name="android:windowExitAnimation">@anim/slide_out_to_bottom</item>
+        <!-- 指定消失的动画xml -->
+    </style>
+
 
     <style name="edittext_fill">
         <item name="android:layout_width">fill_parent</item>
@@ -37,6 +44,13 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">0.5dp</item>
         <item name="android:background">@color/line_soild_bg</item>
+    </style>
+
+    <!-- 浅色实线 -->
+    <style name="line_solid_light_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">0.5dp</item>
+        <item name="android:background">@color/page_bg_ed</item>
     </style>
 
     <!-- 浅色实线 -->
@@ -84,6 +98,13 @@
         <item name="android:layerType">software</item>
     </style>
 
+    <!-- listView 分割线 -->
+    <style name="line_solid_f2_style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">8dp</item>
+        <item name="android:background">@color/page_bg_f2</item>
+    </style>
+
     <style name="row_style_no_padding">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">44dp</item>
@@ -124,7 +145,7 @@
 
     <style name="btn_red4" parent="btn_red">
         <item name="android:background">@drawable/btn_red_shape4</item>
-        <item name="android:textColor">@color/white_bg</item>
+        <item name="android:textColor">@color/view_bg</item>
     </style>
 
     <style name="btn_red_large">
@@ -164,6 +185,38 @@
         <item name="android:padding">10dp</item>
     </style>
 
+    <style name="text_black_15sp">
+        <item name="android:layout_width">85dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textColor">@color/text_black</item>
+    </style>
+    <style name="text_grep_15sp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textColor">@color/text_grep</item>
+    </style>
+    <style name="text_grep_15sp_hint">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">44dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:background">@null</item>
+        <item name="android:textColorHint">@color/text_grep</item>
+        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:textColor">@color/text_black_light</item>
+    </style>
+    <style name="text_black_light_15sp">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_15</item>
+        <item name="android:textColor">@color/text_black_light</item>
+    </style>
+
     <style name="account_set_img_style">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -188,6 +241,20 @@
     <style name="App.Base.Theme" parent="android:Theme.Holo">
         <item name="android:actionBarSize">50dip</item>
     </style>
+
+    <style name="PhotoPickerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@color/photopicker_background</item>
+        <item name="actionMenuTextAppearance">@style/ActionMenuTextStyle</item>
+    </style>
+
+    <!-- 设置PhotoPickerTheme ActionBar菜单字体 -->
+    <style name="ActionMenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
+        <item name="android:textSize">@dimen/action_text_size</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+
 
     <style name="DialogStyle" parent="@android:style/Theme.Dialog">
         <item name="android:windowFrame">@null</item>
@@ -321,6 +388,16 @@
         <item name="android:windowNoTitle">true</item><!--无标题-->
         <item name="android:windowBackground">@color/black_transparent</item><!--背景透明-->
         <item name="android:backgroundDimEnabled">true</item><!--模糊-->
+    </style>
+
+    <!-- 自定义全屏对话框 -->
+    <style name="Translucent_Dialog" parent="android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item><!--边框-->
+        <item name="android:windowIsFloating">true</item><!--是否浮现在activity之上-->
+        <item name="android:windowIsTranslucent">false</item><!--半透明-->
+        <item name="android:windowNoTitle">true</item><!--无标题-->
+        <item name="android:windowBackground">@color/transparent</item><!--背景透明-->
+        <item name="android:backgroundDimEnabled">false</item><!--模糊-->
     </style>
 
     <style name="btn_date_style">

@@ -1,15 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <color name="white_bg">#fffefefe</color><!--白色背景，暂时解决纯白色在Holo下变半透明黑的问题 -->
-    <color name="view_bg">#ffffff</color>
+    <color name="view_bg">#fefefe</color><!--白色背景，暂时解决纯白色在Holo下变半透明黑的问题 -->
     <color name="title_background">#ff1fb8ff</color> <!-- 顶部标题栏 蓝色 -->
     <color name="page_bg_f2">#f2f2f2</color> <!-- 页面带灰色背景 -->
     <color name="page_bg_f8">#f8f8f8</color> <!-- 套餐明细带灰色背景 -->
     <color name="page_bg_ed">#ededed</color> <!-- 页面带灰色背景 -->
     <color name="page_bg_fb">#fbfbfb</color> <!-- 页面带灰色背景 -->
     <color name="item_bg_f5">#f5f5f5</color> <!-- 页面带灰色背景 -->
-    <color name="transparent">#0000</color><!-- 透明 -->
+    <color name="transparent">#00000000</color><!-- 透明 -->
     <color name="line_dotted_bg">#ebebeb</color><!-- 分割线 虚线  颜色 -->
     <color name="line_soild_bg">#e5e5e5</color> <!-- 实线 -->
     <color name="line_solid_deep_bg">#d7d7d7</color> <!-- 深色实线 -->
@@ -37,6 +36,10 @@
     <color name="text_blue_light">#0a58f1</color><!-- 蓝色文字 -->
     <color name="text_blue_deep">#0058f1</color><!-- 蓝色文字 -->
     <color name="text_set_hint">#bebebe</color><!-- 设置横条右边的提示语颜色 -->
+    <color name="text_set_hint2">#bdbdbd</color>
+    <color name="text_white_light">#ccfefefe</color>
+    <color name="text_green">#66bb6a</color>
+
     <color name="text_back_white">#f8f8f8</color><!--幽灵白 -->
     <color name="text_back_grep">#f3f3f3</color><!--幽灵白 -->
     <color name="text_back_grep_a">#f2f2f2</color><!--幽灵白 -->
@@ -56,6 +59,7 @@
     <!-- 点击灰色 -->
 
     <color name="black_transparent">#CC000000</color><!-- 黑色透明80% -->
+    <color name="transparent_65">#65000000</color><!-- 黑色透明40% -->
     <color name="text_deliver_bottom">#cccccc</color><!--发货底部文字颜色-浅灰色 -->
 
     <!-- 科技馆检票 -->
@@ -86,4 +90,6 @@
     <color name="sz_task_evaluate_text_color">#888888</color>
     <color name="sz_task_backgroud_color">#888888</color>
     <color name="sz_divider_gray_background">#F0F0F0</color>
+
+    <color name="photopicker_background">#181819</color>
 </resources>

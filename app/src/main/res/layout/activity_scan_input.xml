@@ -17,15 +17,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         scan:marginTop="150dp"
-        scan:rectWidth="220dp"
-        scan:rectHeight="220dp"
+        scan:rectWidth="200dp"
+        scan:rectHeight="200dp"
         />
 
     <TextView
         android:id="@+id/txt_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/white_bg"
+        android:textColor="@color/view_bg"
         android:textSize="@dimen/text_size_17"
         android:background="@color/tiket_content_bg"
         android:padding="10dp"
@@ -55,7 +55,7 @@
         android:drawableLeft="@mipmap/scan_number"
         android:drawablePadding="15dp"
         android:background="@drawable/btn_blue_shape"
-        android:textColor="@color/white_bg"
+        android:textColor="@color/view_bg"
         android:textSize="@dimen/text_size_15"
         />
 

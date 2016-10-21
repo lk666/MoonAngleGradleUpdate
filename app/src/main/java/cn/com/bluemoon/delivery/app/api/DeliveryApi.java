@@ -15,8 +15,8 @@ import java.util.UUID;
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfoPickup;
-import cn.com.bluemoon.delivery.app.api.model.Storehouse;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfoPickup;
+import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
@@ -96,8 +96,6 @@ public class DeliveryApi {
 
         String passwordEncrypt = DES.encrypt(password, Constants.DES_KEY);
 
-//        LogUtil.v("================================"+passwordEncrypt);
-
         Map<String, String> params = new HashMap<>();
         params.put("account", account);
         params.put("password", passwordEncrypt);
@@ -107,8 +105,6 @@ public class DeliveryApi {
         String url = String.format("bluemoon-control/user/ssoLogin%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
-
-
     }
 
     /* 2.1.2 获取用户信息 */
@@ -1256,7 +1252,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.13 展示打卡记录 */
-	/* 返回： ResultPunchCardList */
+    /* 返回： ResultPunchCardList */
     public static void getPunchCardList(String token, long timestamp, AsyncHttpResponseHandler
             handler) {
         if (null == token) {
@@ -2638,13 +2634,86 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /**
+     * 2.2获取订单详情，测试用
+     *
+     * @param outerCode 洗衣服务订单号(必填) String
+     * @param token     登录凭证(必填) String
+     */
+    public static void _getOuterOrderInfo(String outerCode, String token,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == outerCode || null == token) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/getOrderInfo%s",
+                ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, handler);
+    }
+
+    /**
+     * 5.3获取活动列表 ，测试用
+     */
+    public static void _getActivityInfos(String token,
+                                         AsyncHttpResponseHandler handler) {
+        if (StringUtil.isEmpty(token)) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+
+        postRequest(params, "washingService-controller/wash/activity/getActivityInfos%s", handler);
+    }
+
+    /**
+     * 2.5 收衣记录，测试用
+     */
+	/*返回：ResultCollectInfo*/
+    public static void _collectInfoRecord(String token, long startDate, long endDate,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        postRequest(params, "washingService-controller/wash/collectInfoRecord%s", handler);
+    }
+
+
+    /**
+     * 5.8收衣记录，测试用
+     */
+	/*返回：ResultCollectInfo*/
+    public static void _collectInfoRecord2(String token, long startDate, long endDate,
+                                           AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("startDate", startDate);
+        params.put("endDate", endDate);
+        postRequest(params, "washingService-controller/wash/activity/collectInfoRecord%s", handler);
+    }
 
     /************************
      * 查询提醒记录列表
      **********************************/
 
     public static void nowRest(String token,PunchCard punchCard,
-                                     AsyncHttpResponseHandler handler) {
+                               AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -2656,7 +2725,7 @@ public class DeliveryApi {
 
 
 
- /*2.0_新增提醒接口*/
+    /*2.0_新增提醒接口*/
     /* 返回： ResultRemind */
     public static void getRemindList(String token,
                                      AsyncHttpResponseHandler handler) {

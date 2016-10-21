@@ -15,7 +15,7 @@ import org.kymjs.kjframe.KJBitmap;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.Product;
+import cn.com.bluemoon.delivery.app.api.model.other.Product;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 

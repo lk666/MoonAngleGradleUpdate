@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/page_bg_f2"
+              android:orientation="vertical">
+
+    <cn.com.bluemoon.delivery.ui.LeftSlideScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:overScrollMode="never"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <LinearLayout
+                android:id="@+id/layout_company"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:paddingLeft="12sp"
+                android:paddingRight="12sp"
+                android:background="@drawable/btn_white"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/text_black_15sp"
+                    android:text="@string/express_company"/>
+
+                <TextView
+                    android:id="@+id/txt_company"
+                    style="@style/text_grep_15sp_hint"
+                    android:hint="@string/please_select_company"/>
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:src="@mipmap/icon_right"/>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingLeft="12sp">
+                <include layout="@layout/line_solid_view_e5"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="12sp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_black_15sp"
+                        android:text="@string/express_number"/>
+
+                    <cn.com.bluemoon.lib.view.ClearEditText
+                        android:id="@+id/et_delivery_num"
+                        style="@style/text_grep_15sp_hint"
+                        android:layout_marginRight="12sp"
+                        android:textCursorDrawable="@null"
+                        android:singleLine="true"
+                        android:hint="@string/please_scan_delivery_num"/>
+
+                    <ImageView
+                        android:id="@+id/img_scan"
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@mipmap/icon_scan"
+                        />
+                </LinearLayout>
+
+                <include layout="@layout/line_solid_view_e5"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="12sp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_black_15sp"
+                        android:text="@string/express_customer_num"/>
+
+                    <cn.com.bluemoon.lib.view.ClearEditText
+                        android:id="@+id/et_emy_num"
+                        style="@style/text_grep_15sp_hint"
+                        android:inputType="numberSigned"
+                        android:textCursorDrawable="@null"
+                        android:layout_marginRight="12sp"
+
+                        android:singleLine="true"
+                        android:hint="@string/delivery_emy_num"/>
+
+                    <Button
+                        android:id="@+id/btn_query"
+                        android:layout_width="48dp"
+                        android:layout_height="20dp"
+                        android:background="@drawable/btn_border_blue_shape4"
+                        android:text="@string/query_emy_num"
+                        android:textColor="#2abbfe"
+                        android:textSize="13sp"/>
+                </LinearLayout>
+
+                <include layout="@layout/line_solid_view_e5"/>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingRight="12sp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        style="@style/text_black_15sp"
+                        android:text="@string/express_customer_name"/>
+
+                    <cn.com.bluemoon.lib.view.ClearEditText
+                        android:id="@+id/et_delivery_name"
+                        style="@style/text_grep_15sp_hint"
+                        android:textCursorDrawable="@null"
+                        android:singleLine="true"
+                        android:hint="@string/delivery_customer_name2"/>
+                </LinearLayout>
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginLeft="12sp"
+                android:layout_marginRight="12sp"
+                android:gravity="center_vertical">
+
+                <ImageView
+                    android:id="@+id/img_add"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@mipmap/add_normal3"/>
+
+                <TextView
+                    android:id="@+id/txt_add"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="8dp"
+                    android:layout_weight="1"
+                    android:text="@string/add_return_clothes_num"
+                    android:textColor="@color/btn_blue"
+                    android:textSize="15sp"/>
+
+                <TextView
+                    android:id="@+id/txt_amount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_black"
+                    android:textSize="15sp"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:background="@color/white"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/txt_index"
+                        android:layout_width="60dp"
+                        android:layout_height="44dp"
+                        android:gravity="center"
+                        android:textColor="@color/text_black_light"
+                        android:text="@string/return_index_num"
+                        android:textSize="15sp"/>
+
+                    <View
+                        android:layout_width="0.5dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginBottom="5dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@color/line_soild_bg"/>
+
+                    <TextView
+                        android:id="@+id/txt_no"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:textColor="@color/text_black_light"
+                        android:text="@string/return_clothes_num"
+                        android:textSize="15sp"/>
+                </LinearLayout>
+                <View
+                    android:id="@+id/line_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/line_soild_bg"/>
+                <cn.com.bluemoon.lib.swipe.menu.SwipeMenuListView
+                    android:id="@+id/list_return_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/view_bg"
+                    android:divider="@null"
+                    android:dividerHeight="0dp"
+                    android:fadingEdge="none"
+                    android:overScrollMode="never" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </cn.com.bluemoon.delivery.ui.LeftSlideScrollView>
+
+    <Button
+        android:id="@+id/btn_ok"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/btn_red_shape4"
+        android:textColor="@color/white"
+        android:text="@string/btn_delivery_ok"
+        android:textSize="17sp"/>
+
+
+</LinearLayout>

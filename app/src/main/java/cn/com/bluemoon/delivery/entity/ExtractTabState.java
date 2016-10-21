@@ -8,7 +8,7 @@ public enum ExtractTabState {
 
 	SCAN(ScanFragment.class, R.drawable.extract_tab_scan, R.string.tab_bottom_scan_code_text),
 
-	HISTORY(HistoryFragment.class, R.drawable.extract_tab_history,R.string.tab_bottom_show_history_text);
+	HISTORY(HistoryFragment.class, R.drawable.tab_history,R.string.tab_bottom_show_history_text);
 
 	//STOREHOUSE(StoreHouseFragment.class, R.drawable.extract_tab_storehouse, R.string.tab_bottom_storehouse_text);
 	

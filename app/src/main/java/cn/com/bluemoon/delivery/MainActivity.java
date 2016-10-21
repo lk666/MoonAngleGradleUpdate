@@ -39,14 +39,13 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.MenuBean;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
-import cn.com.bluemoon.delivery.app.api.model.ResultAngelQr;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
@@ -58,6 +57,15 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
@@ -144,10 +152,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-             PublicUtil.openScanView(main, null, null, 0);
-//                PublicUtil.openScanTicket(main,"dlsafdsfds","23432432",0,4);
-//                PublicUtil.openNewScan(main,"123","3243242",0,4);
-//                PublicUtil.openNewScanOrder(main,null,"123","3243242",0,4);
+                PublicUtil.openScanView(main, null, null, 0);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -172,7 +177,7 @@ public class MainActivity extends SlidingActivity {
         scrollViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                txtTips.setVisibility(View.GONE);
+//                txtTips.setVisibility(View.GONE);
                 DeliveryApi.getAppRights(token, appRightsHandler);
                 DeliveryApi.getNewMessage(token, newMessageHandler);
             }
@@ -403,7 +408,7 @@ public class MainActivity extends SlidingActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            DialogUtil.getExitDialog(this).show();
+            DialogUtil.getExitDialog(this).show();    dialog.show();
             return true;
         }
         return super.onKeyDown(keyCode, event);
@@ -442,9 +447,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    /*if(!BuildConfig.RELEASE){
+                    if (!BuildConfig.RELEASE) {
                         mockData();
-                    }*/
+                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -739,7 +744,27 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MyTeamActivity.class);
                 startActivity(intent);
-            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+            }
+            else if (MenuCode.wash_cabinet_manager.toString().equals(userRight.getMenuCode())) {
+                CupboardScanActivity.actStart(main);
+            } else if (MenuCode.wash_transport.toString().equals(userRight.getMenuCode())) {
+                DriverTabActivity.actionStart(main);
+            } else if (MenuCode.wash_express_close_box.toString().equals(userRight.getMenuCode())) {
+                ExpressCloseBoxTabActivity.actionStart(this);
+            } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode())) {
+                ReturnMangerTabActivity.actionStart(this);
+            } else if (MenuCode.wash_transport_sign.toString().equals(userRight.getMenuCode())) {
+                TransportReceiveTabActivity.actionStart(this);
+            } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode())) {
+                CloseBoxTabActivity.actionStart(main);
+            } else if (MenuCode.wash_back_order_package.toString().equals(userRight.getMenuCode())) {
+                PackTabActivity.actionStart(main);
+            } else if (MenuCode.wash_clothes_check.toString().equals(userRight.getMenuCode())) {
+                ClothesCheckTabActivity.actionStart(main);
+            }
+
+            //此处添加模块判断
+            else if (!TextUtils.isEmpty(userRight.getUrl())) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(main),
@@ -841,9 +866,9 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-    public static void actStart(Context context,String jumpCode) {
+    public static void actStart(Context context, String jumpCode) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        intent.putExtra(Constants.KEY_JUMP, jumpCode);
         context.startActivity(intent);
     }
 

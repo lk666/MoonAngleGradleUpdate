@@ -5,8 +5,8 @@ def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
     df.setTimeZone(TimeZone.getDefault())
     return df.format(new Date()) }
 android {
-    compileSdkVersion 21
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 22
+    buildToolsVersion '23.0.3'
 
     signingConfigs {
         release {
@@ -21,8 +21,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 12
         targetSdkVersion 21
-        versionCode 22
-        versionName "4.3.1"
+        versionCode 24
+        versionName "4.4.0"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
     }
@@ -30,7 +30,7 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
-            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL", "\"http://192.168.240.15:8080/mockjsdata/27/%s\""
             buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
@@ -50,7 +50,7 @@ android {
         }
         release {
             buildConfigField("boolean", "RELEASE", "true")
-            buildConfigField "String", "MOCK_URL", "\"http://tmallapi.bluemoon.com.cn:9002/mockjsdata/4/%s\""
+            buildConfigField "String", "MOCK_URL", "\"http://192.168.240.15:8080/mockjsdata/27/%s\""
             buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
@@ -111,6 +111,9 @@ dependencies {
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.bumptech.glide:glide:3.6.1'
+    compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.github.chrisbanes.photoview:library:1.2.4'
 }
 
 

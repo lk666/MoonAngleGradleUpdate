@@ -18,7 +18,7 @@
         android:background="@color/bar_blue"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
-        android:textColor="@color/white_bg"/>
+        android:textColor="@color/view_bg"/>
 
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
         xmlns:ptr="http://schemas.android.com/apk/res-auto"

@@ -43,3 +43,5 @@ Thumbs.db
 
 #NDK
 obj
+/app/app.iml
+Would skip repository BlueMoonSDK/

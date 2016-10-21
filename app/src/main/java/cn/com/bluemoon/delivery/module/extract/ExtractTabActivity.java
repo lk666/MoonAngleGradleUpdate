@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.HistoryOrderType;
+import cn.com.bluemoon.delivery.app.api.model.other.HistoryOrderType;
 import cn.com.bluemoon.delivery.entity.ExtractTabState;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 

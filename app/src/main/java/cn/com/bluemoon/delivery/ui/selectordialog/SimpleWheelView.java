@@ -16,6 +16,7 @@ import android.view.MotionEvent;
 import android.view.View;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -63,7 +64,7 @@ public class SimpleWheelView extends View {
     /**
      * 设置数据
      */
-    private ArrayList<String> dataList;
+    private List<String> dataList;
     /**
      * 用于记录滑动距离的临时坐标变量
      */
@@ -80,6 +81,7 @@ public class SimpleWheelView extends View {
      * 选中的时候字体
      */
     private float selectedFont = 22.0f;
+
     /**
      * 单元格高度
      */
@@ -155,13 +157,16 @@ public class SimpleWheelView extends View {
      */
     protected void initAttr(Context context, AttributeSet attrs) {
         TypedArray attribute = context.obtainStyledAttributes(attrs, R.styleable.SimpleWheelView);
-        unitHeight = (int) attribute.getDimension(R.styleable.SimpleWheelView_unitHeight, unitHeight);
+        unitHeight = (int) attribute.getDimension(R.styleable.SimpleWheelView_unitHeight,
+                unitHeight);
         itemNumber = attribute.getInt(R.styleable.SimpleWheelView_itemNumber, itemNumber);
 
         normalFont = attribute.getDimension(R.styleable.SimpleWheelView_normalTextSize, normalFont);
-        selectedFont = attribute.getDimension(R.styleable.SimpleWheelView_selectedTextSize, selectedFont);
+        selectedFont = attribute.getDimension(R.styleable.SimpleWheelView_selectedTextSize,
+                selectedFont);
         normalColor = attribute.getColor(R.styleable.SimpleWheelView_normalTextColor, normalColor);
-        selectedColor = attribute.getColor(R.styleable.SimpleWheelView_selectedTextColor, selectedColor);
+        selectedColor = attribute.getColor(R.styleable.SimpleWheelView_selectedTextColor,
+                selectedColor);
 
         isLoop = attribute.getBoolean(R.styleable.SimpleWheelView_isLoop, false);
         isEnable = attribute.getBoolean(R.styleable.SimpleWheelView_isEnable, true);
@@ -585,7 +590,7 @@ public class SimpleWheelView extends View {
      * 滑动结束后，自动滚动到最近的选项
      */
     private void toSelectedZoom() {
-//        Log.e("toSelectedZoom", "toSelectedZoom" + Thread.currentThread().getId());
+        //        Log.e("toSelectedZoom", "toSelectedZoom" + Thread.currentThread().getId());
         handler.sendEmptyMessage(BALANCE);
     }
 
@@ -708,7 +713,7 @@ public class SimpleWheelView extends View {
      * @param data          新数据
      * @param selectedIndex 选中项
      */
-    public void initData(ArrayList<String> data, int selectedIndex) {
+    public void initData(List<String> data, int selectedIndex) {
         if (selectedIndex < 0 || (data != null && selectedIndex >= data.size())) {
             throw new IndexOutOfBoundsException();
         }
