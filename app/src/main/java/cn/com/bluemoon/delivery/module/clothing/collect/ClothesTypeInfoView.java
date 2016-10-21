@@ -46,7 +46,7 @@ public class ClothesTypeInfoView extends FrameLayout {
         colorSelected = getContext().getResources().getColor(R.color.text_red);
         colorNormal = getContext().getResources().getColor(R.color.text_black_light);
 
-        bgColorSelected = getContext().getResources().getColor(R.color.white_bg);
+        bgColorSelected = getContext().getResources().getColor(R.color.white);
         bgColorNormal = getContext().getResources().getColor(R.color.transparent);
 
         LayoutInflater inflater = LayoutInflater.from(getContext());

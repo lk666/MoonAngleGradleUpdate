@@ -263,7 +263,7 @@ public class SelectEmpActivity extends Activity implements CommonSearchView.Sear
                 txtName.setTextColor(getResources().getColor(R.color.text_grep));
                 txtContent.setVisibility(View.VISIBLE);
                 checkBox.setButtonDrawable(R.mipmap.checkbox_disable);
-                convertView.setBackgroundColor(getResources().getColor(R.color.view_bg));
+                convertView.setBackgroundColor(getResources().getColor(R.color.white));
                 txtContent.setText(StringUtil.getStringParams(item.getBpCode(), item.getBpName()));
             }
             if (item.isCheck()) {

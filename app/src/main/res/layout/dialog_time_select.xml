@@ -47,7 +47,7 @@
         android:id="@+id/rl_wheel"
         android:layout_width="match_parent"
         android:layout_height="145dp"
-        android:background="@color/white_bg">
+        android:background="@color/white">
 
         <cn.com.bluemoon.delivery.ui.selectordialog.ExtraTextNumberWheelView
             android:id="@+id/nwv_hour"
@@ -56,7 +56,7 @@
             android:layout_centerVertical="true"
             android:layout_marginRight="20dp"
             android:layout_toLeftOf="@+id/center"
-            android:background="@color/white_bg"
+            android:background="@color/white"
             app:extra="时"
             app:isLoop="true"
             app:itemNumber="3"
@@ -80,7 +80,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="20dp"
             android:layout_toRightOf="@+id/center"
-            android:background="@color/white_bg"
+            android:background="@color/white"
             app:extra="分"
             app:isLoop="true"
             app:itemNumber="3"

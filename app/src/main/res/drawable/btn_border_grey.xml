@@ -9,7 +9,7 @@
             <stroke android:width="0.5dp" android:color="@color/text_grep" />
         </shape></item>
     <item android:state_focused="true"><shape>
-            <solid android:color="@color/view_bg" />
+            <solid android:color="@color/white" />
 
             <corners android:radius="2dip" />
 

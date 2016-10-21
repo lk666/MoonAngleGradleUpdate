@@ -7,7 +7,7 @@
      <LinearLayout
          style="@style/multi_row_style"
          android:orientation="vertical"
-         android:background="@color/view_bg"
+         android:background="@color/white"
          android:paddingTop="12dp"
          android:paddingBottom="12dp"
          >

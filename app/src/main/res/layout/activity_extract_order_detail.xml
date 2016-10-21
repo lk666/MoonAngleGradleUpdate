@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fefefe"
+    android:background="@color/white"
     android:orientation="vertical" >
     <View android:id="@+id/view_pop_start" 
         android:layout_width="match_parent"
@@ -73,7 +73,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -119,7 +119,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -169,7 +169,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -194,7 +194,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:visibility="gone"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="vertical" >
 
                     <ImageView
@@ -249,7 +249,7 @@
                 android:id="@+id/listview_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:orientation="vertical"
@@ -261,7 +261,7 @@
                 android:id="@+id/tv_total_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:gravity="right"
                 android:paddingTop="5dp"
                 android:layout_marginRight="10dp"
@@ -279,7 +279,7 @@
                 android:padding="10dp"
                 android:background="@drawable/btn_red_shape"
                 android:text="@string/extract_comfire_btn"
-                android:textColor="@color/view_bg"
+                android:textColor="@color/white"
                 android:textSize="@dimen/text_size_17" />
         </LinearLayout>
     </ScrollView>

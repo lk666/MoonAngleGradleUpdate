@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fefefe"
+    android:background="@color/white"
     android:orientation="vertical" >
     <ScrollView
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:focusable="true"
                 android:focusableInTouchMode="true"
                 android:orientation="vertical"
@@ -43,7 +43,7 @@
                     f:horizontalSpacing="10dp"
                     f:orientation="horizontal"
                     f:verticalSpacing="10dp"
-                    f:txtColorChecked="#fefefe"
+                    f:txtColorChecked="@color/white"
                     f:bgChecked="@drawable/btn_red_shape_large" />
 
                 <EditText

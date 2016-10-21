@@ -3,6 +3,6 @@
     <!--设置点击时的颜色-->
     <item android:drawable="@color/grep" android:state_pressed="true"/>
     <!--设置没有点击时的颜色-->
-    <item android:drawable="@color/white_bg"/>
+    <item android:drawable="@color/white"/>
 
 </selector>

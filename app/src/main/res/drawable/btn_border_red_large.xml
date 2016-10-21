@@ -19,7 +19,7 @@
     </shape></item>
 
     <item><shape>
-        <solid android:color="@color/view_bg" />
+        <solid android:color="@color/white" />
 
         <corners android:radius="6dp" />
 

@@ -2,7 +2,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#fefefe"
+            android:background="@color/white"
             android:scrollbarStyle="outsideOverlay"
             android:scrollbars="none">
 
@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="45dp"
                 android:layout_marginTop="10dp"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
@@ -52,7 +52,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:orientation="vertical"
                 android:paddingLeft="10dp">
 
@@ -121,7 +121,7 @@
                 android:id="@+id/layout_warehouse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp">
 
@@ -144,7 +144,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingBottom="15dp"
@@ -275,7 +275,7 @@
                     android:id="@+id/listview_product"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:dividerHeight="0dp"
                     android:fadingEdge="none"
                     android:layerType="software"

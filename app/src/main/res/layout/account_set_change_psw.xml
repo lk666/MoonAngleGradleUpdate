@@ -8,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fefefe"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView
@@ -117,7 +117,7 @@
             android:background="@drawable/btn_red_shape_circle"
             android:gravity="center"
             android:text="@string/login_submit"
-            android:textColor="@color/view_bg"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 

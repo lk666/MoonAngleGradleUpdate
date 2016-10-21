@@ -124,7 +124,7 @@
 
     <style name="btn_red4" parent="btn_red">
         <item name="android:background">@drawable/btn_red_shape4</item>
-        <item name="android:textColor">@color/white_bg</item>
+        <item name="android:textColor">@color/white</item>
     </style>
 
     <style name="btn_red_large">
@@ -376,7 +376,7 @@
     <style name="sz_task_quality_score_itemview_rl">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">40dp</item>
-        <item name="android:background">@color/white_bg</item>
+        <item name="android:background">@color/white</item>
         <item name="android:paddingLeft">10dp</item>
         <item name="android:paddingRight">10dp</item>
     </style>

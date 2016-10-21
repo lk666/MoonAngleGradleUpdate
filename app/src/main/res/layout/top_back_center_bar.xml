@@ -24,7 +24,7 @@
         android:layout_centerVertical="true"
         android:gravity="center"
         android:padding="10dp"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_large_16"
         android:visibility="gone" />
 
@@ -38,7 +38,7 @@
         android:maxWidth="300dp"
         android:minWidth="150dp"
         android:singleLine="true"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <cn.com.bluemoon.lib.view.TextViewForClick
@@ -51,7 +51,7 @@
         android:orientation="horizontal"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_large_16"
         android:visibility="gone"
         />

@@ -9,7 +9,7 @@
         android:id="@+id/layout_phone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#fefefe"
+        android:background="@color/white"
         android:orientation="vertical">
 
         <TextView
@@ -108,7 +108,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginRight="10dp"
                     android:background="@drawable/btn_blue_shape"
-                    android:textColor="@color/view_bg"
+                    android:textColor="@color/white"
                     android:text="@string/login_get_code"
                     android:textSize="@dimen/text_size_12" >
                 </Button>
@@ -194,7 +194,7 @@
             android:background="@drawable/btn_red_shape_circle"
             android:gravity="center"
             android:text="@string/login_submit"
-            android:textColor="@color/view_bg"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_16" />
     </LinearLayout>
 

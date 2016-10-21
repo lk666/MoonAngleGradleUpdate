@@ -349,7 +349,7 @@ public class PaperListActivity extends Activity {
                         R.color.text_blue));
 
                 holder.txtMenu.setTextColor(getResources().getColor(
-                        R.color.view_bg));
+                        R.color.white));
 
                 if(position==0){
                     holder.imgIcon.setBackgroundResource(R.mipmap.collect_white);

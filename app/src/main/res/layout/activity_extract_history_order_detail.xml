@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fefefe"
+    android:background="@color/white"
     android:orientation="vertical" >
 
     <ScrollView
@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:clickable="true"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -65,13 +65,13 @@
                         android:paddingLeft="10dp"
                         android:paddingRight="10dp"
                         android:scaleType="fitXY"
-                        android:background="#fefefe"
+                        android:background="@color/white"
                         android:src="@mipmap/dotted_line_bg" />
                 <!-- 负责人 -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -112,7 +112,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -149,7 +149,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -201,7 +201,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="horizontal" >
 
                     <TextView
@@ -225,7 +225,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="vertical" >
 
                     <ImageView
@@ -283,7 +283,7 @@
                 android:id="@+id/listview_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:dividerHeight="0dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
@@ -298,7 +298,7 @@
                 android:id="@+id/tv_total_price"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:gravity="right"
                 android:paddingRight="10dp"
                 android:paddingTop="5dp"

@@ -14,7 +14,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white_bg"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -48,7 +48,7 @@
                     android:background="@drawable/btn_red_shape_large"
                     android:enabled="false"
                     android:text="@string/clothing_btn_search"
-                    android:textColor="@color/view_bg"
+                    android:textColor="@color/white"
                     android:textSize="@dimen/text_size_15"/>
 
                 <EditText

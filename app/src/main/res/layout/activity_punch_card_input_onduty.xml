@@ -28,7 +28,7 @@
         android:layout_marginLeft="25dp"
         android:layout_marginTop="12dp"
         android:layout_marginBottom="15dp"
-        android:textColor="#fefefe"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_15"
         android:text="@string/card_btn_punch_card"
         android:background="@drawable/btn_red_shape_large"/>

@@ -55,7 +55,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/white_bg"
+        android:background="@color/white"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         >
@@ -121,7 +121,7 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/white_bg"
+        android:background="@color/white"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"
         >
@@ -207,7 +207,7 @@
         android:id="@+id/iv_taskDelete"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_bg"
+        android:background="@color/white"
         android:src="@mipmap/icon_sz_task_delete"
         android:scaleType="centerInside"
         android:minHeight="32dp"
