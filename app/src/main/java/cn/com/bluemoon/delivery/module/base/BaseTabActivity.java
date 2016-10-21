@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.base;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentTabHost;
@@ -25,10 +26,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.CornerNum;
+import cn.com.bluemoon.delivery.app.api.model.wash.ResultCornerNum;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.ArgumentTabState;
+import cn.com.bluemoon.delivery.entity.DrawableTabState;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
@@ -47,6 +53,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         BaseMainInterface, IHttpRespone {
     @Bind(android.R.id.tabhost)
     protected FragmentTabHost tabhost;
+    private static final int REQUESTCODE_MODE = 10;
 
     private ProgressDialog waitDialog;
     private LayoutInflater layoutInflater;
@@ -99,16 +106,23 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     public void initData() {
         for (int i = 0; i < tabs.size(); i++) {
             TabState ts = tabs.get(i);
+            View view;
+            if (ts instanceof DrawableTabState) {
+                DrawableTabState dts = (DrawableTabState) ts;
+                view = getTabItemView(dts.getImgNormal(), dts.getImgSelected(), getResources().getString(dts.getContent()));
+            } else {
+                view = getTabItemView(ts.getImage(), getResources().getString(ts.getContent()));
+            }
             TabHost.TabSpec tabSpec = tabhost.newTabSpec(getResources()
                     .getString(ts.getContent()))
-                    .setIndicator(getTabItemView(ts.getImage(),
-                            getResources().getString(ts.getContent())));
+                    .setIndicator(view);
 
             Bundle bundle = new Bundle();
             if (ts instanceof ArgumentTabState) {
                 bundle.putSerializable(BaseFragment.EXTRA_BUNDLE_DATA,
                         ((ArgumentTabState) ts).getBundleData());
             }
+
 
             tabhost.addTab(tabSpec, ts.getClazz(), bundle);
         }
@@ -118,6 +132,21 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         View view = layoutInflater.inflate(R.layout.tab_item_view, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
         imageView.setImageResource(resId);
+        TextView textView = (TextView) view.findViewById(R.id.textview);
+        textView.setText(content);
+        amountTvs.add((TextView) view.findViewById(R.id.txt_count));
+        return view;
+    }
+
+    private View getTabItemView(int normal, int selected, String content) {
+        View view = layoutInflater.inflate(R.layout.tab_item_view, null);
+        ImageView imageView = (ImageView) view.findViewById(R.id.imageview);
+        StateListDrawable drawable = new StateListDrawable();
+        drawable.addState(new int[]{android.R.attr.state_selected},
+                getResources().getDrawable(selected));
+        drawable.addState(new int[]{},
+                getResources().getDrawable(normal));
+        imageView.setImageDrawable(drawable);
         TextView textView = (TextView) view.findViewById(R.id.textview);
         textView.setText(content);
         amountTvs.add((TextView) view.findViewById(R.id.txt_count));
@@ -209,7 +238,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         }
 
         if (amount > 0) {
-            amountTvs.get(index).setText(String.valueOf(amount));
+            amountTvs.get(index).setText(amount < 100 ? String.valueOf(amount) : "99+");
             amountTvs.get(index).setVisibility(View.VISIBLE);
         } else {
             amountTvs.get(index).setVisibility(View.GONE);
@@ -288,6 +317,15 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         }
     }
 
+    /**
+     * 获取并设置角标数量的方法
+     */
+    final public void getAmount() {
+        if (getModeType() != null) {
+            ReturningApi.queryCornerNum(getModeType().name(), getToken(), getNewHandler(REQUESTCODE_MODE, ResultCornerNum.class));
+        }
+    }
+
     ///////////// 可选重写 ////////////////
 
     /**
@@ -301,7 +339,18 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
      * 请求成功
      */
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
-
+        if (requestCode == REQUESTCODE_MODE) {
+            List<CornerNum> list = ((ResultCornerNum) resultBase).getModelCountList();
+            String[] strs = getModeType().getStrs();
+            int size = strs.length;
+            for (CornerNum item : list) {
+                for (int i = 0; i < size; i++) {
+                    if (strs[i].equals(item.getType())) {
+                        setAmount(i, item.getTypeCount());
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -322,5 +371,14 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         PublicUtil.showToastServerBusy();
+    }
+
+    /**
+     * 获取角标模块类型WashModeType
+     *
+     * @return
+     */
+    protected WashModeType getModeType() {
+        return null;
     }
 }

@@ -38,7 +38,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class DeliveryApi {
 
-    private static final String TOKEN = "token";
+    protected static final String TOKEN = "token";
 
     /**
      * 提交http请求
@@ -47,7 +47,7 @@ public class DeliveryApi {
      * @param subUrl  请求的url子部
      * @param handler 回调
      */
-    private static void postRequest(Map<String, Object> params, String subUrl,
+    protected static void postRequest(Map<String, Object> params, String subUrl,
                                     AsyncHttpResponseHandler handler) {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(subUrl, ApiClientHelper.getParamUrl());
@@ -59,27 +59,6 @@ public class DeliveryApi {
 
         ApiHttpClient.post(context, url, jsonString, handler);
     }
-
-    /**
-     * 提交http请求
-     *
-     * @param params  参数列表
-     * @param subUrl  请求的url子部
-     * @param handler 回调
-     */
-    private static void postMockRequest(Map<String, Object> params, String subUrl,
-                                        AsyncHttpResponseHandler handler) {
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
-
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
-        }
-
-        ApiHttpClient.postMock(context, url, jsonString, handler);
-    }
-
 
     /************************
      * 2.1 用户相关

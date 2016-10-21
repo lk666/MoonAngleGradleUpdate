@@ -176,15 +176,15 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".common.ScanActivity"
+            android:name=".common.qrcode.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar" />
         <activity
-            android:name=".common.ScanInputActivity"
+            android:name=".common.qrcode.ScanInputActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".common.ScanCodeActivity"
+            android:name=".common.qrcode.ScanCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
@@ -349,70 +349,70 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".module.clothing.collect.ClothingTabActivity"
+            android:name=".module.wash.collect.ClothingTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".module.clothing.collect.withorder.WithOrderCollectBookInActivity"
+            android:name=".module.wash.collect.withorder.WithOrderCollectBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withorder.ClothingDeliverActivity"
+            android:name=".module.wash.collect.withorder.ClothingDeliverActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustNothing|stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.ClothesDetailActivity"
+            android:name=".module.wash.collect.ClothesDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-            android:name=".module.clothing.collect.withorder.ClothingDeliverConfirmActivity"
+            android:name=".module.wash.collect.withorder.ClothingDeliverConfirmActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.ClothingRecordDetailActivity"
+            android:name=".module.wash.collect.ClothingRecordDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withoutorder.ActivityDetailActivity"
+            android:name=".module.wash.collect.withoutorder.ActivityDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withorder.ClothingBookInActivity"
+            android:name=".module.wash.collect.withorder.ClothingBookInActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withorder.ManualInputCodeActivity"
+            android:name=".module.wash.collect.withorder.ManualInputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withorder.WithOrderOuterDetailActivity"
+            android:name=".module.wash.collect.withorder.WithOrderOuterDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withoutorder.ActivityDescActivity"
+            android:name=".module.wash.collect.withoutorder.ActivityDescActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withoutorder.CreateCollectOrderActivity"
+            android:name=".module.wash.collect.withoutorder.CreateCollectOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
+            android:name=".module.wash.collect.withoutorder.clothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
         <activity
-            android:name=".module.clothing.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
+            android:name=".module.wash.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
@@ -503,7 +503,185 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.cupboard.CupboardScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.ManualSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
+        <activity
+            android:name=".module.wash.returning.manager.ReturnMangerTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.LogisticsActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.BackOrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.ClothesDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.CustomerRefuseActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.RefuseDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.manager.DeliveryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.pack.PackTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
 
+        <activity
+            android:name=".module.wash.returning.pack.PackDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name=".module.wash.returning.pack.BackOrderClothesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden" />
+
+        <activity
+            android:name=".module.wash.returning.pack.ScanBackClothesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name=".module.wash.returning.pack.PackFinishActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
+            android:name=".module.wash.returning.closebox.CloseBoxDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.closebox.ScanBoxCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.closebox.ClothesBoxBackOrderListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.driver.DriverTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.driver.CarriageDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.driver.TransportListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.closebox.ScanBackOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.closebox.CloseBoxListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <activity
+            android:name=".module.wash.returning.transportreceive.TransportReceiveTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.transportreceive.ScanReceiveSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.driver.HistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.closebox.ScanCloseBoxSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.pack.ScanPackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.pack.PackPrintActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar" />
+        <!--衣物清点-->
+        <activity
+            android:name=".module.wash.returning.clothescheck.ClothesCheckTabActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ClothesCheckHistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.BackOrderCheckHistoryDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ScanBackOrderCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ClothesListDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ScanClothesCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.BackOrderListDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ScanTagCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.BackOrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.clothescheck.ScanBackOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.expressclosebox.ExpressCompanyActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.expressclosebox.ExpressDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.returning.expressclosebox.BackClothesScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
         <service android:name=".module.card.LocationSvc" />
 
         <!-- push应用定义消息receiver声明 -->
