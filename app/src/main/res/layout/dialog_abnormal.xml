@@ -9,7 +9,7 @@
         android:id="@+id/et_abnormal"
         style="@style/txt_input_content_13"
         android:layout_height="110dp"
-        android:background="@drawable/view_bg"
+        android:background="@color/white"
         android:layout_marginLeft="0dp"
         android:gravity="left"
         android:hint="@string/abnormal_hint"

@@ -42,7 +42,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="50dp"
             android:layout_gravity="bottom"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:divider="@drawable/div_left_right_padding_10"
             android:dividerHeight="1dp"/>
 

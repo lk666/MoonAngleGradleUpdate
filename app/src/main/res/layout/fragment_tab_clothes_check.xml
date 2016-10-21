@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/view_bg">
+    android:background="@color/white">
 
     <View
         android:id="@+id/div"
@@ -18,7 +18,7 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_blue_shape_large"
         android:text="@string/back_order_check"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_19" />
 
     <Button
@@ -29,6 +29,6 @@
         android:layout_centerHorizontal="true"
         android:background="@drawable/btn_blue_shape_large"
         android:text="@string/clothes_check"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_19" />
 </RelativeLayout>

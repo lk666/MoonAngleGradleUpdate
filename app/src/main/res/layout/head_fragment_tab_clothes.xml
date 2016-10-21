@@ -18,6 +18,6 @@
         android:background="@color/bar_blue"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
-        android:textColor="@color/view_bg"/>
+        android:textColor="@color/white"/>
 
 </LinearLayout>

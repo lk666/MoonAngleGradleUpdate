@@ -15,7 +15,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/view_bg">
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/tv_number"
@@ -136,7 +136,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:divider="@color/page_bg_f2"
             android:dividerHeight="8dp"
             android:footerDividersEnabled="false"

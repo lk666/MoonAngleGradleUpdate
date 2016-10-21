@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tv_carriage_code"
-        android:background="@drawable/view_bg"
+        android:background="@color/white"
         android:divider="@color/line_soild_bg"
         android:dividerHeight="@dimen/div_height"
         android:footerDividersEnabled="false"

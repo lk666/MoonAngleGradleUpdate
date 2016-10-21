@@ -28,7 +28,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:background="#fefefe"
+                    android:background="@color/white"
                     android:orientation="vertical" >
 
                     <LinearLayout
@@ -66,7 +66,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:paddingLeft="10dp"
                 android:paddingTop="8dp"
                 android:paddingRight="10dp"
@@ -90,7 +90,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:paddingLeft="10dp"
                 android:paddingRight="10dp"
                 android:paddingBottom="@dimen/linepaddingtxt2"
@@ -121,7 +121,7 @@
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
                 android:gravity="center"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:orientation="horizontal">
                 <TextView
                     android:layout_width="wrap_content"
@@ -154,7 +154,7 @@
             <cn.com.bluemoon.lib.tagview.TagListView
                 xmlns:f="http://schemas.android.com/apk/res-auto"
                 android:id="@+id/tag_listview"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
@@ -315,7 +315,7 @@
                 android:layout_weight="1"
                 android:background="@drawable/btn_red_shape"
                 android:text="@string/btn_finish_puncard"
-                android:textColor="#fefefe"
+                android:textColor="@color/white"
                 android:textSize="15sp" />
         </LinearLayout>
     </ScrollView>

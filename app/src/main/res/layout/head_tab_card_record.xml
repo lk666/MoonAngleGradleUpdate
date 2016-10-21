@@ -14,7 +14,7 @@
         android:layout_weight="1"
         android:singleLine="true"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_15" />
 
     <TextView
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_marginRight="10dp"
         android:singleLine="true"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_15" />
 
 </LinearLayout>

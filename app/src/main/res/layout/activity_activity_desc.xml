@@ -13,7 +13,7 @@
         style="@style/txt_title_13"
         android:layout_width="match_parent"
         android:layout_height="44dp"
-        android:background="@color/view_bg"
+        android:background="@color/white"
         android:gravity="center_vertical"
         android:paddingLeft="12dp"
         android:paddingRight="12dp"/>
@@ -46,6 +46,6 @@
         android:layout_marginTop="40dp"
         android:background="@drawable/btn_red_shape_large"
         android:text="@string/with_order_collect_btn_start_collect"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="17sp"/>
 </LinearLayout>

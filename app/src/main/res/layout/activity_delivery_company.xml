@@ -9,7 +9,7 @@
         android:id="@+id/list_company"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fefefe"
+        android:background="@color/white"
         android:layout_weight="1"/>
 
 </LinearLayout>

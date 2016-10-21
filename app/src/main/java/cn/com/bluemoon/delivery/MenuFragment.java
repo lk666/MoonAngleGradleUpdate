@@ -70,7 +70,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         LinearLayout layoutEmpty = (LinearLayout) view.findViewById(R.id.layout_empty);
 
         View line = view.findViewById(R.id.view_line);
-        line.getBackground().setAlpha(255 * 3 / 10);
+        line.getBackground().mutate().setAlpha(255 * 3 / 10);
         layoutEmpty.setOnClickListener(this);
         layoutChangePwd.setOnClickListener(this);
         layoutExit.setOnClickListener(this);

@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/view_bg"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <LinearLayout
@@ -49,7 +49,7 @@
         android:cacheColorHint="@color/transparent"
         android:divider="@null"
         android:dividerHeight="0dp"
-        android:listSelector="@drawable/view_bg" />
+        android:listSelector="@color/white" />
 
     <Button
         android:id="@+id/btn_scan"

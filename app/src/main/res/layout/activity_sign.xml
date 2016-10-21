@@ -32,7 +32,7 @@
         android:layout_below="@id/et_number"
         android:background="@drawable/btn_blue_shape"
         android:text="@string/btn_ok"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="18sp" />
 
     <cn.com.bluemoon.delivery.ui.IconButton
@@ -45,7 +45,7 @@
         android:background="@drawable/btn_blue_shape"
         android:drawableLeft="@mipmap/qrcode_icon"
         android:text="@string/coupons_scan_code_title"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="14sp"
         app:iconPadding="5dp" />
 

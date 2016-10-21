@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="20dp"
-    android:background="#fefefe"
+    android:background="@color/white"
     android:orientation="vertical">
 
     <View style="@style/line_solid_deep_style" />

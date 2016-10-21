@@ -17,7 +17,7 @@
             android:id="@+id/txt_bpname1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fefefe"
+            android:background="@color/white"
             android:lineSpacingExtra="8dp"
             android:paddingBottom="@dimen/linepaddingtxt4"
             android:paddingLeft="10dp"
@@ -30,7 +30,7 @@
             android:id="@+id/txt_bpname"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fefefe"
+            android:background="@color/white"
             android:lineSpacingExtra="8dp"
             android:paddingBottom="@dimen/linepaddingtxt4"
             android:paddingLeft="10dp"
@@ -54,7 +54,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fefefe"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -183,7 +183,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fefefe"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -344,7 +344,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fefefe"
+            android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
@@ -448,7 +448,7 @@
                 android:columnWidth="70dp"
                 android:horizontalSpacing="10dp"
                 android:listSelector="@color/white"
-                android:background="#fefefe"
+                android:background="@color/white"
                 android:numColumns="auto_fit"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"

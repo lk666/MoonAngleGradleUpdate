@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/view_bg"
+        android:background="@color/white"
         app:isLoop="true"
         app:itemNumber="7"
         app:normalTextSize="14sp"

@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:visibility="gone"
-        android:background="#fefefe">
+        android:background="@color/white">
 
         <TextView
             android:id="@+id/txt_transport_code"
@@ -74,7 +74,7 @@
         android:layout_marginRight="8dp"
         android:background="@drawable/btn_red_shape_large"
         android:textSize="@dimen/text_size_17"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:visibility="gone"
         android:text="@string/driver_btn_load_finish" />
 

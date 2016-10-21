@@ -6,7 +6,7 @@
     android:gravity="center"
     android:focusableInTouchMode="true"
     android:focusable="true"
-    android:background="#fefefe"
+    android:background="@color/white"
     android:padding="50dp">
 
     <EditText
@@ -35,7 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_blue_shape"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:text="获取资料"/>
 
     <Button
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
         android:background="@drawable/btn_red_shape"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:text="退出登录"/>
 
 </LinearLayout>

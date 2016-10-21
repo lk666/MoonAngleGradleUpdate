@@ -34,7 +34,7 @@
             android:layout_height="wrap_content"
             android:text="@string/code_scan"
             android:layout_marginTop="15dp"
-            android:textColor="@color/view_bg"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_17"
             android:layout_centerHorizontal="true"
             />
@@ -114,7 +114,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_red_shape"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_17"
         android:visibility="gone"
         />

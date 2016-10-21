@@ -29,7 +29,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
@@ -38,7 +38,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@color/view_bg"
+                android:background="@color/white"
                 android:gravity="center_vertical"
                 android:text="@string/clothing_book_in_name"
                 android:textColor="@color/text_black"
@@ -58,7 +58,7 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="112dp"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:paddingLeft="10dp"
             android:scrollbarAlwaysDrawHorizontalTrack="false"
             android:scrollbars="none">
@@ -76,7 +76,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
@@ -108,7 +108,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
@@ -143,7 +143,7 @@
             style="@style/txt_input_content_13"
             android:layout_height="44dp"
             android:layout_marginLeft="0dp"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:hint="@string/clothing_book_in_falw_hint"
             android:paddingLeft="16dp"
             android:paddingRight="16dp"
@@ -157,7 +157,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="44dp"
-            android:background="@color/view_bg"
+            android:background="@color/white"
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="16dp"
@@ -190,7 +190,7 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/view_bg">
+            android:background="@color/white">
 
             <TextView
                 android:id="@+id/tv_backup"
@@ -245,7 +245,7 @@
             android:id="@+id/sgv_photo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/view_bg"
+            android:background="@color/white"
             android:cacheColorHint="@color/transparent"
             android:clipToPadding="false"
             android:divider="@null"

@@ -15,7 +15,7 @@
         android:id="@+id/user_task_lv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white_bg"
+        android:background="@color/white"
         android:divider="@color/sz_gray_background"
         android:dividerHeight="10dp"
         android:scrollbars="none" />

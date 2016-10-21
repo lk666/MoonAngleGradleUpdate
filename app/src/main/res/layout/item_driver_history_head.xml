@@ -11,7 +11,7 @@
         android:layout_marginLeft="12dp"
         android:gravity="center_vertical"
         android:text="2093/23/2"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_15" />
 
     <TextView
@@ -22,7 +22,7 @@
         android:layout_marginRight="12dp"
         android:gravity="center_vertical"
         android:text="@string/driver_order_num"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_15" />
 
 </RelativeLayout>

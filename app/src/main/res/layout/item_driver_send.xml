@@ -2,7 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fefefe"
+    android:background="@color/white"
     >
 
     <TextView
@@ -73,7 +73,7 @@
             android:layout_width="90dp"
             android:layout_height="35dp"
             android:text="@string/driver_btn_receiver"
-            android:textColor="@color/view_bg"
+            android:textColor="@color/white"
             android:textSize="@dimen/text_size_15"
             android:background="@drawable/btn_red_shape4"
             />

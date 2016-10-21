@@ -14,6 +14,6 @@
         android:layout_gravity="bottom"
         android:dividerHeight="1dp"
         android:divider="@drawable/div_left_right_padding_10"
-        android:background="@color/view_bg"/>
+        android:background="@color/white"/>
 
 </LinearLayout>

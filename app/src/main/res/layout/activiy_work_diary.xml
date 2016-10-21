@@ -2,15 +2,15 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fefefe"
+    android:background="@color/white"
     android:orientation="vertical">
     <ListView
         android:id="@+id/listview_work_diary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fefefe"
+        android:background="@color/white"
         android:dividerHeight="0dp"
-        android:listSelector="@color/view_bg"
+        android:listSelector="@color/white"
         android:fadingEdge="none"
         android:layerType="software"
         android:layout_weight="1"
@@ -47,7 +47,7 @@
             android:layout_height="match_parent"
             android:text="@string/btn_ok_with_space"
             android:textSize="15sp"
-            android:textColor="@color/view_bg"
+            android:textColor="@color/white"
             android:background="@drawable/btn_red"/>
 
     </LinearLayout>

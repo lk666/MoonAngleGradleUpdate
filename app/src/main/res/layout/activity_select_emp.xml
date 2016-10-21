@@ -36,7 +36,7 @@
         android:layout_marginTop="12dp"
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/view_bg"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_15"
         android:background="@drawable/btn_red_shape_large"
         android:text="@string/btn_ok"
