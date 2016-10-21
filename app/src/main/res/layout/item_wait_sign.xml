@@ -23,7 +23,6 @@
 
     <Button
         android:id="@+id/btn_sign"
-        style="@style/btn_red4"
         android:layout_width="66dp"
         android:layout_height="30dp"
         android:layout_alignParentRight="true"
@@ -31,7 +30,9 @@
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
         android:layout_marginTop="6dp"
+        android:background="@drawable/btn_red_shape4"
         android:text="@string/wait_sign_btn_sign"
+        android:textColor="@color/white"
         android:textSize="@dimen/text_size_13" />
 
     <TextView
