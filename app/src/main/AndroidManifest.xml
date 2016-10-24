@@ -689,6 +689,14 @@
             android:name=".module.wash.returning.expressclosebox.BackClothesScanActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".common.photopicker.PhotoPreviewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhotoPickerTheme"/>
+        <activity
+            android:name=".common.photopicker.PhotoPickerActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/PhotoPickerTheme"/>
         <service android:name=".module.card.LocationSvc" />
 
         <!-- push应用定义消息receiver声明 -->
