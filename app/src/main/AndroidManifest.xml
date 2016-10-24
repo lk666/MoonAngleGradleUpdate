@@ -697,6 +697,10 @@
             android:name=".common.photopicker.PhotoPickerActivity"
             android:screenOrientation="portrait"
             android:theme="@style/PhotoPickerTheme"/>
+        <activity
+            android:name=".module.wash.collect.ClothScanCodeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
         <service android:name=".module.card.LocationSvc" />
 
         <!-- push应用定义消息receiver声明 -->
