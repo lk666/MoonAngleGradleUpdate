@@ -226,7 +226,7 @@ public class BackOrderDetailActivity extends BaseActivity {
         if (isHistory && StringUtils.isNotBlank(r.getSignName())){
             layoutSignRefuse.setVisibility(View.VISIBLE);
             txtType.setText(getString(R.string.manage_sign_type, r.getSignName()));
-            txtTime.setText(getString(R.string.manage_sign_time, DateUtil.getTime(r.getSignTime(), "yyyy-MMdd HH:mm:ss")));
+            txtTime.setText(getString(R.string.manage_sign_time, DateUtil.getTime(r.getSignTime(), "yyyy-MM-dd HH:mm:ss")));
             Glide.with(this).load(r.getSignImagePath()).into(imgSign);
             imgSign.setOnClickListener(new View.OnClickListener() {
                 @Override
