@@ -817,13 +817,15 @@ public class ReturningApi extends DeliveryApi {
      * @param region          区域 String
      * @param token           登录凭证(必填) String
      */
-    public static void queryWaitPackageList(String backOrderStatus, long pageFlag, String region,
+    public static void queryWaitPackageList(String backOrderStatus, boolean tag, long pageFlag, String region,
                                             String token, AsyncHttpResponseHandler handler) {
         if (null == backOrderStatus || null == region || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("backOrderStatus", backOrderStatus);
+        if (tag) {
+            params.put("backOrderStatus", backOrderStatus);
+        }
         params.put("pageFlag", pageFlag);
         params.put("region", region);
         params.put(TOKEN, token);

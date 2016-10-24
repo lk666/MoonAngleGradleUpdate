@@ -36,7 +36,7 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
 
     public static void actStart(Activity context) {
         Intent intent = new Intent(context, CupboardScanActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cloth_title));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cabinet_title));
         intent.putExtra("mode", MODE_CABINET);
         intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
         context.startActivityForResult(intent, 0);

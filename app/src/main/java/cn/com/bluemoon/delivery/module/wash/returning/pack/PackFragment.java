@@ -156,7 +156,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         isFirstTimeLoad = true;
         pageFlag = 0;
-        ReturningApi.queryWaitPackageList(orderStatus, pageFlag,region ,getToken(), getNewHandler
+        ReturningApi.queryWaitPackageList(orderStatus, waitPack, pageFlag,region ,getToken(), getNewHandler
                 (requestCode, ResultWaitPackage.class));
         setAmount();
     }
@@ -260,7 +260,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitPackageList(orderStatus, pageFlag,region ,getToken(), getNewHandler
+        ReturningApi.queryWaitPackageList(orderStatus, waitPack, pageFlag,region ,getToken(), getNewHandler
                 (requestCode, ResultWaitPackage.class));
     }
 

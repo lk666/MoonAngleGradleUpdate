@@ -922,7 +922,7 @@
     <string name="code_title">扫一扫</string>
     <string name="code_qr">二维码</string>
     <string name="code_bar">条形码</string>
-    <string name="code_content">请将二维码或条形码至于框内</string>
+    <string name="code_content">请将二维码或条形码置于框内</string>
     <!--sz meeting-->
     <string name="sz_meeting_schedual_add_meeting">安排会议</string>
     <string name="sz_meeting_wait_schedual_msg">待办日程消息</string>
