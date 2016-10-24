@@ -2,15 +2,14 @@ package cn.com.bluemoon.delivery.module.order;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AbsListView.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -26,14 +25,16 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.List;
 
+import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -45,7 +46,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class PendingOrdersFragment extends Fragment {
+public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
     private String TAG = "PendingOrdersFragment";
     private PullToRefreshListView listView;
     private OrdersAdapter ordersAdapter;
@@ -54,11 +55,7 @@ public class PendingOrdersFragment extends Fragment {
     private CommonProgressDialog progressDialog;
     private boolean lock;
     private OrderVo orderClicked;
-
-    public void onAttach(android.app.Activity activity) {
-        super.onAttach(activity);
-        this.mContext = (OrdersTabActivity) activity;
-    }
+    private long pageFlag;
 
     ;
 
@@ -198,92 +195,97 @@ public class PendingOrdersFragment extends Fragment {
         MobclickAgent.onPageEnd(TAG);
     }
 
-    private void initCustomActionBar() {
-        CommonActionBar mActionbar = new CommonActionBar(mContext.getActionBar(), new
-                IActionBarListener() {
+    @Override
+    protected int getLayoutId() {
+        return R.layout.fragment_tab_orders;
+    }
 
-                    @Override
-                    public void onBtnRight(View v) {
-
-                    }
-
-                    @Override
-                    public void onBtnLeft(View v) {
-                        mContext.finish();
-                    }
-
-                    @Override
-                    public void setTitle(TextView v) {
-                        v.setText(getText(R.string.tab_orders));
-                    }
-
-                });
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.tab_orders);
     }
 
 
-    public class OrdersAdapter extends BaseAdapter {
-        private Context mContext;
-        private LayoutInflater mInflater;
-        private int layoutID;
+    @Override
+    protected BaseListAdapter getNewAdapter() {
+        return null;
+    }
 
-        public OrdersAdapter(Context context, int layoutID) {
-            this.mInflater = LayoutInflater.from(context);
-            this.layoutID = layoutID;
-            this.mContext = context;
+    @Override
+    protected List getGetMoreList(ResultBase result) {
+        ResultOrderVo r = (ResultOrderVo) result;
+        pageFlag = r.getPageFlag();
+        return r.getItemList();
+    }
+
+    @Override
+    protected List getGetDataList(ResultBase result) {
+        ResultOrderVo r = (ResultOrderVo) result;
+        pageFlag = r.getPageFlag();
+        return r.getItemList();
+    }
+
+    @Override
+    protected PullToRefreshBase.Mode getMode() {
+        return PullToRefreshBase.Mode.BOTH;
+    }
+
+    @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+        ptrlv.getRefreshableView().setDivider(null);
+        ptrlv.getRefreshableView().setDividerHeight(0);
+        ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+    }
+
+    @Override
+    protected void invokeGetDataDeliveryApi(int requestCode) {
+        setAmount2();
+        pageFlag = 0;
+        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGORDERS, getNewHandler(requestCode, ResultOrderVo.class));
+    }
+
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGORDERS,
+                getNewHandler(requestCode, ResultOrderVo.class));
+    }
+
+
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+
+    }
+
+
+    public class OrdersAdapter extends BaseListAdapter<OrderVo> {
+
+        public OrdersAdapter(Context context) {
+            super(context, null);
         }
 
         @Override
-        public int getCount() {
-            if (orderList != null && orderList.size() == 0) {
-                this.layoutID = R.layout.layout_no_data;
-                return 1;
-            }
-            return orderList.size();
+        protected int getLayoutId() {
+            return R.layout.order_list_item;
         }
 
         @Override
-        public OrderVo getItem(int position) {
-            return orderList.get(position);
-        }
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            TextView txtDispatchId = getViewById(R.id.txt_dispatchId);
+            TextView txtDetail = getViewById(R.id.txt_detail);
+            LinearLayout layoutDetail = getViewById(R.id.layout_detail);
+            TextView txtPaytime = getViewById(R.id.txt_paytime);
+            TextView txtAddress = getViewById(R.id.txt_address);
+            Button receivingOrdersAction = getViewById(R.id.receiving_orders_action);
+            TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
+            TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
+            TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
+            TextView txtRefuseOrder = getViewById(R.id.txt_refuse_order);
+            View lineDotted = getViewById(R.id.line_dotted);
+            final OrderVo order = list.get(position);
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null || (orderList != null && orderList.size() == 0)) {
-                convertView = mInflater.inflate(layoutID, null);
-            }
-            if (orderList != null && orderList.size() == 0) {
-                TextView txtContent = ViewHolder.get(convertView, R.id.txt_content);
-                LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, listView.getHeight());
-                convertView.setLayoutParams(params);
-
-                txtContent.setText(R.string.pending_order_get_null);
-                return convertView;
-            }
-            final OrderVo order = orderList.get(position);
-            TextView txtDispatchId = ViewHolder.get(convertView, R.id.txt_dispatchId);
-            TextView txtAddress = ViewHolder.get(convertView, R.id.txt_address);
-            LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
-            TextView txtPaytime = ViewHolder.get(convertView, R.id.txt_paytime);
-            Button receivingOrders = ViewHolder.get(convertView, R.id.receiving_orders_action);
-            TextView txtRefuseOrder = ViewHolder.get(convertView, R.id.txt_refuse_order);
-            txtPaytime.setText(String.format(getString(R.string.pending_order_pay_time), order.getPayOrderTime()));
-            txtDispatchId.setText(order.getOrderId());
-            txtAddress.setText(String.format("%s%s", order.getRegion(), order.getAddress()));
-            TextView txtCateAmount = ViewHolder.get(convertView, R.id.txt_cateAmount);
-            TextView txtTotalAmount = ViewHolder.get(convertView, R.id.txt_totalAmount);
-            TextView txtTotalPrice = ViewHolder.get(convertView, R.id.txt_totalPrice);
-
-            txtCateAmount.setText(String.format(getString(R.string.pending_order_total_kinds),order.getCateAmount()));
-            txtTotalAmount.setText(String.format(getString(R.string.pending_order_total_amount),order.getTotalAmount()));
+            txtCateAmount.setText(String.format(getString(R.string.pending_order_total_kinds), order.getCateAmount()));
+            txtTotalAmount.setText(String.format(getString(R.string.pending_order_total_amount), order.getTotalAmount()));
             txtTotalPrice.setText(String.format(getString(R.string.pending_order_total_price), StringUtil.formatPrice(order.getTotalPrice())));
-
-
-
 
 
             txtRefuseOrder.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -315,7 +317,7 @@ public class PendingOrdersFragment extends Fragment {
                     PublicUtil.showOrderDetailView(mContext, order.getOrderId());
                 }
             });
-            receivingOrders.setOnClickListener(new OnClickListener() {
+            receivingOrdersAction.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if (!lock) {
@@ -327,13 +329,10 @@ public class PendingOrdersFragment extends Fragment {
                     }
                 }
             });
-            return convertView;
+
         }
+
     }
 
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
 
 }

@@ -312,6 +312,17 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         }
     }
 
+    /**
+     * 获取并设置角标数量的方法
+     */
+    final public void setAmountList(List<Integer> amountList) {
+        if (amountList != null && !amountList.isEmpty()) {
+            for (int i = 0; i < amountList.size(); i++) {
+                setAmount(i, amountList.get(i));
+            }
+        }
+    }
+
     ///////////// 可选重写 ////////////////
 
     /**
@@ -346,5 +357,13 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         PublicUtil.showToastServerBusy();
+    }
+
+    /**
+     * 通过API获取顺序角标
+     *
+     * @return
+     */
+    protected void getAmountList() {
     }
 }

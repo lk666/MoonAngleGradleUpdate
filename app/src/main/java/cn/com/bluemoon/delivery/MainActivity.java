@@ -684,8 +684,7 @@ public class MainActivity extends SlidingActivity {
         try {
             Intent intent;
             if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, OrdersTabActivity.class);
-                startActivity(intent);
+                OrdersTabActivity.actionStart(main);
             } else if (MenuCode.site_sign.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, ExtractTabActivity.class);
                 startActivity(intent);
