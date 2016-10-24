@@ -244,7 +244,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                             imgs = new ArrayList<>();
                             curUploadPosition = 0;
                             for (String c : paths) {
-                                if (!ImageGridView.ICON_ADD.equals(c)) {
+                                if (!Constants.ICON_ADD.equals(c)) {
                                     UploadImage u = new UploadImage(c);
                                     imgs.add(u);
                                 }
