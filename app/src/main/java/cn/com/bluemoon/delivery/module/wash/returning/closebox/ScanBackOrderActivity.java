@@ -33,8 +33,8 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
         Intent intent = new Intent(context, ScanBackOrderActivity.class);
         intent.putExtra("title", context.getString(R.string
                 .close_box_scan_back_code_title));
-        intent.putExtra("code", context.getString(R.string
-                .close_box_scan_back_code));
+        intent.putExtra("code", String.format(context.getString(R.string
+                .close_box_scan_back_code), boxCode));
         intent.putExtra("btnString", context.getString(R.string
                 .with_order_collect_manual_input_code_btn));
         intent.putExtra(EXTRA_LIST, list);
