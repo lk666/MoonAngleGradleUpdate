@@ -125,6 +125,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
 
 
             tabhost.addTab(tabSpec, ts.getClazz(), bundle);
+            tabhost.setCurrentTab(getCurrentIndex());
         }
     }
 
@@ -380,5 +381,9 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
      */
     protected WashModeType getModeType() {
         return null;
+    }
+
+    protected int getCurrentIndex() {
+        return 0;
     }
 }
