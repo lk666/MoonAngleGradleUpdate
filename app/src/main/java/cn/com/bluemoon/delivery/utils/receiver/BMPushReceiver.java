@@ -5,14 +5,20 @@ import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSON;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.List;
 
 import cn.com.bluemoon.delivery.AppStartActivity;
+import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
+import cn.com.bluemoon.delivery.app.api.model.PushItem;
+import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
@@ -27,7 +33,9 @@ import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.delivery.utils.manager.NotificationUtil;
 
 /**
  * Created by bm on 2016/10/19.
@@ -36,43 +44,59 @@ public class BMPushReceiver extends PushGTReceiver {
 
     @Override
     protected void onClientId(Context context, String clientId) {
-        if (!TextUtils.isEmpty(clientId)&&!ClientStateManager.getClientId().equals(clientId)) {
+        if (!TextUtils.isEmpty(clientId)) {
             ClientStateManager.setClientId(clientId);
         }
     }
 
     @Override
-    protected void onResult(Context context,String data, boolean isSuccess) {
+    protected void onResult(Context context, String data, boolean isSuccess) {
         LogUtils.d(TAG, data);
-        ViewUtil.toast(context,data);
 
-        String view = null;
-        if(!TextUtils.isEmpty(data)) {
-            JSONObject customJson;
+        if (!TextUtils.isEmpty(data)) {
             try {
-                customJson = new JSONObject(data);
-                if (!customJson.isNull("view")) {
-                    view = customJson.getString("view");
+                PushItem item = JSON.parseObject(data, PushItem.class);
+                if (item != null) {
+                    /*展示通知消息*/
+                    showNotification(context, item);
+                    /*更新桌面图标数字*/
+                    PublicUtil.setMainAmount(context, item.getContParam().getNum());
                 }
-            } catch (JSONException e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
-        updateContent(context, view);
+
     }
 
     /**
      * 处理跳转逻辑
+     *
      * @param context
-     * @param menuCode
+     * @param item
      */
-    private void updateContent(Context context, String menuCode) {
-        LogUtils.d(TAG, "updateContent");
+    private void showNotification(Context context, PushItem item) {
+        if (item == null) {
+            return;
+        }
+        String title = item.getTitle();
+        String content = item.getDescription();
+        String menuCode = item.getContParam().getView();
+        String url = item.getContParam().getUrl();
+        LogUtils.d(TAG, "updateContent:" + menuCode);
         String token = ClientStateManager.getLoginToken();
-        Intent intent = new Intent();
 
+        Intent intent = new Intent();
         if (isAppRunning(context) && !TextUtils.isEmpty(menuCode) && !TextUtils.isEmpty(token)) {
-            if (MenuCode.dispatch.toString().equals(menuCode)) {
+            // TODO: 2016/10/24 网页跳转 
+            if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
+                intent.setClass(context, WebViewActivity.class);
+                intent.putExtra("url", url + (!url.contains("?") ? "?" : "&") +
+                        "token=" + token);
+                intent.putExtra("back", false);
+            }
+            // TODO: 2016/10/24 原生跳转
+            else if (MenuCode.dispatch.toString().equals(menuCode)) {
                 intent.setClass(context, OrdersTabActivity.class);
             } else if (MenuCode.site_sign.toString().equals(menuCode)) {
                 intent.setClass(context, ExtractTabActivity.class);
@@ -106,27 +130,31 @@ public class BMPushReceiver extends PushGTReceiver {
                 intent.setClass(context, MyTeamActivity.class);
             }
             // TODO: lk 2016/6/12 收衣管理是否需要？
-			else if (MenuCode.receive_clothes_manager.toString().equals(menuCode)) {
+            else if (MenuCode.receive_clothes_manager.toString().equals(menuCode)) {
                 intent.setClass(context, ClothingTabActivity.class);
                 intent.putExtra("type", ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
             } else if (MenuCode.activity_collect_clothes.toString().equals(menuCode)) {
                 intent.setClass(context, ClothingTabActivity.class);
                 intent.putExtra("type", ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
-            }else {
+            } else {
                 intent.setClass(context, AppStartActivity.class);
-                intent.putExtra(Constants.KEY_JUMP, menuCode);
+                intent.putExtra(Constants.PUSH_VIEW, menuCode);
             }
         } else {
-            intent.setClass(context, AppStartActivity.class);
-            intent.putExtra(Constants.KEY_JUMP, menuCode);
+            intent.setClass(context, MainActivity.class);
+            intent.putExtra(Constants.PUSH_VIEW, menuCode);
+            if(Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)){
+                intent.putExtra(Constants.PUSH_URL, url);
+            }
         }
-
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        context.startActivity(intent);
+        //展示消息通知
+        NotificationUtil.simpleNotify(context,title,content,intent);
     }
 
     /**
      * 判断程序是否启动
+     *
      * @param context
      * @return
      */

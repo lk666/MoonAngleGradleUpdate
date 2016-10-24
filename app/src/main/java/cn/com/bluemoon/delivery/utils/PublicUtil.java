@@ -101,7 +101,7 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openScanOrder(Activity aty, Fragment fragment, String title,
                                      String btnString, int requestCode, int resultCode) {
-        ScanInputActivity.actStart(aty,fragment,title,btnString,requestCode,resultCode);
+        ScanInputActivity.actStart(aty, fragment, title, btnString, requestCode, resultCode);
     }
 
     /**
@@ -121,15 +121,15 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openNewScan(Activity aty, String title,
                                    String btnString, int requestCode, int resultCode) {
-        openNewScanOrder(aty,null,title,btnString,requestCode,resultCode);
+        openNewScanOrder(aty, null, title, btnString, requestCode, resultCode);
     }
 
     public static void openScanTicket(Activity aty, String ticketName,
                                       String ticketCount, int requestCode, int resultCode) {
-        ScanInputActivity.actStart(aty,null,
+        ScanInputActivity.actStart(aty, null,
                 aty.getString(R.string.ticket_check_title),
                 aty.getString(R.string.ticket_code_btn_text),
-                ticketName,ticketCount,requestCode,resultCode);
+                ticketName, ticketCount, requestCode, resultCode);
     }
 
     /**
@@ -372,7 +372,7 @@ public class PublicUtil extends LibPublicUtil {
 //        Intent intent = new Intent(aty, CardTabActivity.class);
 //        intent.putExtra("isPunchCard", isPunchCard);
 //        aty.startActivity(intent);
-        CardTabActivity.actionStart(aty,isPunchCard);
+        CardTabActivity.actionStart(aty, isPunchCard);
 
     }
 
@@ -531,5 +531,33 @@ public class PublicUtil extends LibPublicUtil {
         });
 
     }
+
+    /**
+     * 获取intent的值
+     * @param intent
+     * @param key
+     * @return
+     */
+    public static String getExtraValue(Intent intent, String key) {
+        return intent == null ? null : intent.getStringExtra(key);
+    }
+
+    public static String getPushView(Intent intent) {
+        return getExtraValue(intent,Constants.PUSH_VIEW);
+    }
+
+    public static String getPushUrl(Intent intent) {
+        return getExtraValue(intent,Constants.PUSH_URL);
+    }
+
+    public static void setMainAmount(Context context,int count){
+        LogUtils.d("更新桌面角标：" + count);
+        if(count != ClientStateManager.getMenuNum()){
+            ClientStateManager.setMenuNum(count);
+            ViewUtil.toast("更改桌面角标："+count);
+            // TODO: 2016/10/24  更新桌面角标数字
+        }
+    }
+
 
 }

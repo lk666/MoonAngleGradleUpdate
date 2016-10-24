@@ -27,7 +27,7 @@ android {
 
         /*个推*/
         manifestPlaceholders = [
-                GETUI_APP_ID    : "korgLHBD3Rr7VUUr5HVZ786",
+                GETUI_APP_ID    : "korgLHBDRr7VUUr5HVZ786",
                 GETUI_APP_KEY   : "7QUf6nD1IK7cq9mpsSLRh",
                 GETUI_APP_SECRET: "AKugN7Wq7N9J2jQdrJdg62",
                 PACKAGE_NAME    : applicationId

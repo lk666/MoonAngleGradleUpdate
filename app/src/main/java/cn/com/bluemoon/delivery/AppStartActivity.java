@@ -1,12 +1,21 @@
 package cn.com.bluemoon.delivery;
 
+import android.*;
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.igexin.sdk.PushManager;
@@ -24,6 +33,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -41,7 +51,23 @@ public class AppStartActivity extends Activity {
     private SplashScreenTimerTask splashScreenTimerTask = null;
     private static Version lastSuccessfulCheckVersionResponse = null;
     private AppStartActivity main;
-    private String jumpCode = "";
+    private String view;
+    private String url;
+
+    public static void actStart(Context context,String view,String url) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        if(!TextUtils.isEmpty(view)){
+            intent.putExtra(Constants.PUSH_VIEW, view);
+        }
+        if(!TextUtils.isEmpty(url)){
+            intent.putExtra(Constants.PUSH_URL, url);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void actStart(Context context) {
+        actStart(context, null, null);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +78,35 @@ public class AppStartActivity extends Activity {
     }
 
     private void init() {
-        //推送初始化
-        PushManager.getInstance().initialize(this.getApplicationContext());
+        //获取推送内容
+        view = PublicUtil.getPushView(getIntent());
+        url = PublicUtil.getPushUrl(getIntent());
+
+        initPush();
+
         //百度定位初始化
         LocationService locationService = ((AppContext) getApplication()).locationService;
         locationService.start();
+    }
 
-        if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
-            jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
+    private void initPush(){
+        /*SDK初始化开始*/
+        // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
+        PackageManager pkgManager = getPackageManager();
+        // 读写 sd card 权限非常重要, android6.0默认禁止的, 建议初始化之前就弹窗让用户赋予该权限
+        boolean sdCardWritePermission =
+                pkgManager.checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        // read phone state用于获取 imei 设备信息
+        boolean phoneSatePermission =
+                pkgManager.checkPermission(android.Manifest.permission.READ_PHONE_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= 23 && !sdCardWritePermission || !phoneSatePermission) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission
+                    .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, 0);
+        } else {
+            // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
+            PushManager.getInstance().initialize(this.getApplicationContext());
         }
+        /*SDK初始化结束*/
     }
 
     @Override
@@ -232,9 +278,9 @@ public class AppStartActivity extends Activity {
                             .getLoginToken();
 
                     if (!StringUtil.isEmpty(token)) {
-                        MainActivity.actStart(main, jumpCode);
+                        MainActivity.actStart(main, view,url);
                     } else {
-                        LoginActivity.actStart(main, jumpCode);
+                        LoginActivity.actStart(main, view,url);
                         if (LibFileUtil.checkExternalSDExists()) {
                             File file = new File(Constants.PATH_PHOTO);
                             if (!file.exists()) {
@@ -335,4 +381,5 @@ public class AppStartActivity extends Activity {
                         }).show();
 
     }
+
 }

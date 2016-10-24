@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
+import com.igexin.sdk.PushManager;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
@@ -58,6 +59,7 @@ import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -66,7 +68,9 @@ import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
+import cn.com.bluemoon.delivery.utils.manager.NotificationUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
@@ -98,7 +102,8 @@ public class MainActivity extends SlidingActivity {
 //    private Map<Integer, View> map = new HashMap<Integer, View>();
 //    private KJBitmap kjb;
 
-    private String jumpCode = "";
+    private String view;
+    private String url;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -107,9 +112,8 @@ public class MainActivity extends SlidingActivity {
         setContentView(R.layout.activity_main);
         main = this;
         initMenu();
-        if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
-            jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
-        }
+        view = PublicUtil.getPushView(getIntent());
+        url = PublicUtil.getPushUrl(getIntent());
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
@@ -139,9 +143,6 @@ public class MainActivity extends SlidingActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
              PublicUtil.openScanView(main, null, null, 0);
-//                PublicUtil.openScanTicket(main,"dlsafdsfds","23432432",0,4);
-//                PublicUtil.openNewScan(main,"123","3243242",0,4);
-//                PublicUtil.openNewScanOrder(main,null,"123","3243242",0,4);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -176,6 +177,7 @@ public class MainActivity extends SlidingActivity {
         if (progressDialog != null) progressDialog.show();
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
+
     }
 
     public void openQcode() {
@@ -264,12 +266,15 @@ public class MainActivity extends SlidingActivity {
     private void setAmount(List<ModelNum> modelNums) {
 
         if (modelNums != null && listRight != null) {
+            int sum = 0;
             for (UserRight right : listRight) {
                 boolean isExit = false;
                 for (ModelNum num : modelNums) {
                     if (right.getMenuCode().equals(num.getMenuId())) {
                         right.setAmount(num.getNum());
+                        sum += num.getNum();
                         isExit = true;
+                        break;
                     }
                 }
                 if (!isExit) {
@@ -277,6 +282,7 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             setMenu();
+            PublicUtil.setMainAmount(main,sum);
         }
     }
 
@@ -323,22 +329,23 @@ public class MainActivity extends SlidingActivity {
             gridViewAdapter.setList(list);
             gridViewAdapter.notifyDataSetChanged();
         }
-        if (!TextUtils.isEmpty(jumpCode)) {
-            jump(jumpCode);
+        if (!TextUtils.isEmpty(view)) {
+            jump(view, url);
         }
 
     }
 
-    private void jump(String menuCode) {
+    private void jump(String menuCode,String menuUrl) {
         UserRight userRight = new UserRight();
         userRight.setMenuCode(menuCode);
         userRight.setMenuName("");
         userRight.setIconImg("");
         userRight.setIconResId(0);
-        userRight.setUrl("");
+        userRight.setUrl(menuUrl);
         userRight.setMenuId("");
         clickGridView(userRight);
-        jumpCode = "";
+        view = null;
+        url = null;
     }
 
 
@@ -408,9 +415,8 @@ public class MainActivity extends SlidingActivity {
         super.onNewIntent(intent);
         isDestory = false;
         if (listRight != null) listRight.clear();
-        if (intent != null && intent.hasExtra(Constants.KEY_JUMP)) {
-            jumpCode = intent.getStringExtra(Constants.KEY_JUMP);
-        }
+        view = PublicUtil.getExtraValue(intent,Constants.PUSH_VIEW);
+        url = PublicUtil.getExtraValue(intent,Constants.PUSH_URL);
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
@@ -704,8 +710,8 @@ public class MainActivity extends SlidingActivity {
                 startActivity(intent);
             } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
                 PublicUtil.openWebView(main, userRight.getUrl()
-                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
-                                + "token=" + ClientStateManager.getLoginToken(main),
+                                + (!userRight.getUrl().contains("?") ? "?" : "&")
+                                + "token=" + ClientStateManager.getLoginToken(),
                         userRight.getMenuName(), false, true);
             } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MessageListActivity.class);
@@ -732,20 +738,22 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MyTeamActivity.class);
                 startActivity(intent);
-            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
-                PublicUtil.openWebView(main, userRight.getUrl()
-                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
-                                + "token=" + ClientStateManager.getLoginToken(main),
-                        userRight.getMenuName(), false);
-            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
-                //click empty
+            } else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
+                intent = new Intent(main, SzTaskActivity.class);
+                startActivity(intent);
             } else if ("scheduleSys".equals(userRight.getMenuCode())) {
                 intent = new Intent(main, SzSchedualActivity.class);
                 startActivity(intent);
-            }else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, SzTaskActivity.class);
-                startActivity(intent);
-            }else {
+            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+                String url = userRight.getUrl()
+                        + (!userRight.getUrl().contains("?") ? "?" : "&")
+                        + "token=" + ClientStateManager.getLoginToken();
+                PublicUtil.openWebView(main,url ,userRight.getMenuName(), false);
+                LogUtils.d("openUrl:"+url);
+
+            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+                //click empty
+            } else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
             }
         } catch (Exception ex) {
@@ -834,10 +842,19 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-    public static void actStart(Context context,String jumpCode) {
+    public static void actStart(Context context,String view,String url) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        if(!TextUtils.isEmpty(view)){
+            intent.putExtra(Constants.PUSH_VIEW, view);
+        }
+        if(!TextUtils.isEmpty(url)){
+            intent.putExtra(Constants.PUSH_URL, url);
+        }
         context.startActivity(intent);
+    }
+
+    public static void actStart(Context context) {
+        actStart(context, null, null);
     }
 
 
