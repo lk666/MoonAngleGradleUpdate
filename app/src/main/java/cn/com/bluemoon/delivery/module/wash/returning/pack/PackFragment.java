@@ -218,7 +218,7 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
             TextView tvTotal = getViewById(R.id.tv_pack_order_num);
             TextView tvFinish = getViewById(R.id.tv_clothes_num);
 
-            tvPackCode.setText(item.getCupboardCode());
+            tvPackCode.setText(String.format(getString(R.string.pack_code_display),item.getRegion(),item.getCupboardCode()));
             tvTotal.setText(String.valueOf(item.getCapacity()));
             tvFinish.setText(String.valueOf(item.getActInNum()));
             if (item.getCapacity() != item.getActInNum()) {
