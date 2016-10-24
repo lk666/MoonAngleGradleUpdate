@@ -164,7 +164,7 @@
     <string name="new_version_alert_title">升级提示</string>
     <string name="yes">是</string>
     <string name="no">否</string>
-    <string name="ok">确 认</string>
+    <string name="ok">确&#160;认</string>
 
     <string name="pending_order_detail">订单详情</string>
     <string name="pending_order_pay_time">付款时间：%s</string>
@@ -311,6 +311,8 @@
 
     <string name="dialog_confirm">确定</string>
     <string name="dialog_cancel">取消</string>
+    <string name="confirm_with_space">确&#160;定</string>
+    <string name="cancel_with_space">取&#160;消</string>
     <string name="detail_order_deliver">待发货详情</string>
     <string name="detail_order_deliver_end">已发货详情</string>
     <string name="detail_order_deliver_should">应发：</string>

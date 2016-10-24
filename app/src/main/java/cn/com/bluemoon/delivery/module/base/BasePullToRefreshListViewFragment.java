@@ -96,6 +96,10 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
         return list;
     }
 
+    final protected ADAPTER getAdapter() {
+        return adapter;
+    }
+
     ///////////// 可选重写 ////////////////
 
     /**

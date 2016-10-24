@@ -74,13 +74,13 @@ public class PendingDeliveryFragment extends Fragment {
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				mContext.setAmountShow();
-				DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext), OrderType.PENDINGDELIVERY, getOrdersHandler);
+				//mContext.setAmountShow();
+				DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),0, OrderType.PENDINGDELIVERY, getOrdersHandler);
 			}
 		});
 		progressDialog.show();
-		mContext.setAmountShow();
-		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext), OrderType.PENDINGDELIVERY, getOrdersHandler);
+		//mContext.setAmountShow();
+		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),0, OrderType.PENDINGDELIVERY, getOrdersHandler);
 		return v;
 	}
 	
@@ -142,7 +142,7 @@ public class PendingDeliveryFragment extends Fragment {
 			try {
 				ResultBase result = JSON.parseObject(responseString, ResultBase.class);
 				if(result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
-					mContext.setAmountShow();
+					//mContext.setAmountShow();
 					PublicUtil.showToast(mContext, result.getResponseMsg());
 					orderList.remove(orderClicked);
 					ordersAdapter.notifyDataSetChanged();

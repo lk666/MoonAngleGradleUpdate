@@ -78,15 +78,15 @@ public class PendingAppointmentFragment extends Fragment {
 
 			@Override
 			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				mContext.setAmountShow();
+				//mContext.setAmountShow();
 				DeliveryApi.getOrdersByType(
-						ClientStateManager.getLoginToken(mContext),
+						ClientStateManager.getLoginToken(mContext),0,
 						OrderType.PENDINGAPPOINTMENT, getOrdersHandler);
 			}
 		});
 		progressDialog.show();
-		mContext.setAmountShow();
-		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),
+		//mContext.setAmountShow();
+		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),9,
 				OrderType.PENDINGAPPOINTMENT, getOrdersHandler);
 		return v;
 	}
@@ -343,7 +343,7 @@ public class PendingAppointmentFragment extends Fragment {
 						ResultOrderVo.class);
 				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
 					PublicUtil.showToast(mContext, result.getResponseMsg());
-					mContext.setAmountShow();
+					//mContext.setAmountShow();
 					orderList.remove(orderCancel);
 					ordersAdapter.notifyDataSetChanged();
 				} else {
@@ -405,7 +405,7 @@ public class PendingAppointmentFragment extends Fragment {
 						ResultOrderVo.class);
 				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
 					PublicUtil.showToast(mContext, result.getResponseMsg());
-					mContext.setAmountShow();
+					//mContext.setAmountShow();
 					orderList.remove(orderAppointment);
 					ordersAdapter.notifyDataSetChanged();
 				} else {

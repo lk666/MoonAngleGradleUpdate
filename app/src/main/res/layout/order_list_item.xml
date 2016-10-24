@@ -19,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/text_black"
-            android:text="C160160"
             android:textSize="@dimen/text_size_17" />
 
         <TextView

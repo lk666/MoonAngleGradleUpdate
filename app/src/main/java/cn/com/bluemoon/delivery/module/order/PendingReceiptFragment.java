@@ -87,8 +87,8 @@ public class PendingReceiptFragment extends Fragment implements
 		listView.setXListViewListener(this);
 		//initList();
 		progressDialog.show();
-		mContext.setAmountShow();
-		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),
+		//mContext.setAmountShow();
+		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),0,
 				OrderType.PENDINGRECEIPT, getOrdersHandler);
 		return v;
 	}
@@ -148,7 +148,7 @@ public class PendingReceiptFragment extends Fragment implements
 			if(resultCode == Activity.RESULT_OK){
 
 				PublicUtil.showToast(getString(R.string.pending_order_return_sucessful));
-				mContext.setAmountShow();
+				//mContext.setAmountShow();
 				orderList.remove(orderClicked);
 				if (orderList != null && orderList.size() > 0) {
 					ordersAdapter.notifyDataSetChanged();
@@ -179,7 +179,7 @@ public class PendingReceiptFragment extends Fragment implements
 				intent.putExtra("orderId", orderClicked.getOrderId());
 				PendingReceiptFragment.this.startActivityForResult(intent, Constants.REQUEST_SCAN);
 			} else if (resultCode == 2) {
-				mContext.setAmountShow();
+				//mContext.setAmountShow();
 				orderList.remove(orderClicked);
 				if (orderList != null && orderList.size() > 0) {
 					ordersAdapter.notifyDataSetChanged();
@@ -202,7 +202,7 @@ public class PendingReceiptFragment extends Fragment implements
 				ResultBase result = JSON.parseObject(responseString, ResultBase.class);
 				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
 					PublicUtil.showToast(result.getResponseMsg());
-					mContext.setAmountShow();
+					//mContext.setAmountShow();
 					orderList.remove(orderClicked);
 					if (orderList != null && orderList.size() > 0) {
 						ordersAdapter.notifyDataSetChanged();
@@ -476,8 +476,8 @@ public class PendingReceiptFragment extends Fragment implements
 
 	@Override
 	public void onDTListRefresh() {
-		mContext.setAmountShow();
-		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),
+		//mContext.setAmountShow();
+		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),0,
 				OrderType.PENDINGRECEIPT, getOrdersHandler);
 	}
 
