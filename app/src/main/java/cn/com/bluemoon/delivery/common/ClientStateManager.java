@@ -34,7 +34,7 @@ public class ClientStateManager {
     private static final String LATITUDE = "LATITUDE";
     private static final String LONGITUDE = "LONGITUDE";
     private static final String ALTITUDE = "ALTITUDE";
-    private static final String ACTION_MENU_CODE = "ACTION_MENU_CODE";
+    private static final String MENU_NUM = "MENU_NUM";
     public static final String PROMOTE_KEY = "PROMOTE_KEY";
     public static final String COMMUNITY_KEY = "COMMUNITY_KEY";
     public static final String HISTORY_GROUP = "HISTORY_GROUP";
@@ -307,21 +307,21 @@ public class ClientStateManager {
     }
 
     /**
-     * 设置推送过来的菜单Code
+     * 桌面角标数量
      * @return
      */
-    public static String getActionMenuCode() {
+    public static int getMenuNum() {
 
         SharedPreferences pref = PreferenceManager
                 .getDefaultSharedPreferences(AppContext.getInstance());
-        return pref.getString(ALTITUDE, "0");
+        return pref.getInt(MENU_NUM,0);
     }
 
-    public static boolean setActionMenuCode(String menuCode) {
+    public static boolean setMenuNum(int menuNum) {
         try {
             SharedPreferences pref = PreferenceManager
                     .getDefaultSharedPreferences(AppContext.getInstance());
-            pref.edit().putString(ALTITUDE, menuCode).commit();
+            pref.edit().putInt(MENU_NUM, menuNum).commit();
         } catch (Exception e) {
             return false;
         }

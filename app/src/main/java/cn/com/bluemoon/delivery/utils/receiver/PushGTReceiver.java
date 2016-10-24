@@ -10,6 +10,7 @@ import com.igexin.sdk.PushConsts;
 import com.igexin.sdk.PushManager;
 
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 public abstract class PushGTReceiver extends BroadcastReceiver {
 
@@ -49,11 +50,12 @@ public abstract class PushGTReceiver extends BroadcastReceiver {
                 // 获取ClientID(CID)
                 // 第三方应用需要将CID上传到第三方服务器，并且将当前用户帐号和CID进行关联，以便日后通过用户帐号查找CID进行消息推送
                 String cid = bundle.getString("clientid");
+                LogUtils.d(TAG, "cid : " + cid);
                 onClientId(context, cid);
                 break;
             case PushConsts.GET_SDKONLINESTATE:
                 boolean online = bundle.getBoolean("onlineState");
-                Log.d("GetuiSdkDemo", "online = " + online);
+                Log.d(TAG, "online = " + online);
                 onSdkOnlineState(context, online);
                 break;
 
@@ -112,7 +114,7 @@ public abstract class PushGTReceiver extends BroadcastReceiver {
                 break;
             case PushConsts.THIRDPART_FEEDBACK:
 
-                String appid2 = bundle.getString("appid");
+                /*String appid2 = bundle.getString("appid");
                 String taskid2 = bundle.getString("taskid");
                 String actionid2 = bundle.getString("actionid");
                 String result2 = bundle.getString("result");
@@ -120,7 +122,7 @@ public abstract class PushGTReceiver extends BroadcastReceiver {
 
                 LogUtils.d(TAG, "appid：" + appid2 + "\n" + "taskid：" + taskid2 + "\n" +
                         "actionid：" + actionid2 + "\n" + "result：" + result2 + "\n" +
-                        "timestamp：" + timestamp2);
+                        "timestamp：" + timestamp2);*/
 
                 break;
 
