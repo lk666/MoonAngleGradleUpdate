@@ -30,4 +30,9 @@ public class ReturnMangerTabActivity extends BaseTabActivity {
 	protected WashModeType getModeType() {
 		return WashModeType.BACK_ORDER_MANAGE_MODEL;
 	}
+
+	@Override
+	protected int getCurrentIndex() {
+		return 1;
+	}
 }
