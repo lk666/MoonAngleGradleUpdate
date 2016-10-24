@@ -174,4 +174,6 @@ public class Constants {
      * {@link cn.com.bluemoon.delivery.ui.ImageGridView}点击图片时的requestcode
      */
     public static final int REQUEST_PREVIEW_IMG = 20;
+
+    public static final String ICON_ADD = "000000"; //图片选择默认URL
 }

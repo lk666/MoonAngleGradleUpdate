@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.utils.Constants;
 
 /**
  * Created by foamtrace on 2016/10/09
@@ -75,8 +76,8 @@ public class PhotoPreviewActivity extends AppCompatActivity implements PhotoPage
         paths = new ArrayList<>();
         ArrayList<String> pathArr = getIntent().getStringArrayListExtra(EXTRA_PHOTOS);
         if(pathArr != null){
-            if (pathArr != null && pathArr.contains("000000")){
-                pathArr.remove("000000");
+            if (pathArr != null && pathArr.contains(Constants.ICON_ADD)){
+                pathArr.remove(Constants.ICON_ADD);
             }
             paths.addAll(pathArr);
         }

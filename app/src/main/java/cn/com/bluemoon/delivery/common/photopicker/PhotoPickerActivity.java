@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 public class PhotoPickerActivity extends AppCompatActivity {
@@ -418,8 +419,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
      * 刷新操作按钮状态
      */
     private void refreshActionStatus(){
-        if(resultList.contains("000000")){
-            resultList.remove("000000");
+        if(resultList.contains(Constants.ICON_ADD)){
+            resultList.remove(Constants.ICON_ADD);
         }
         String text = getString(R.string.done_with_count, resultList.size(), mDesireImageCount);
         menuDoneItem.setTitle(text);

@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.common;
+package cn.com.bluemoon.delivery.utils.manager;
 
 import android.content.Context;
 
@@ -16,6 +16,8 @@ import java.util.UUID;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.wash.ResultUploadExceptionImage;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -41,8 +43,8 @@ public class UploadImageManager {
     public void upload() {
         fileName = UUID.randomUUID() + ".png";
         if (paths != null && !paths.isEmpty()) {
-            if (paths.contains("000000")) {
-                paths.remove("000000");
+            if (paths.contains(Constants.ICON_ADD)) {
+                paths.remove(Constants.ICON_ADD);
             }
             uploadApi();
         }
@@ -91,7 +93,7 @@ public class UploadImageManager {
     };
 
     public interface UploadResultListener {
-        abstract void uploadResult(boolean success, List<ImageInfo> imgPaths);
+        void uploadResult(boolean success, List<ImageInfo> imgPaths);
     }
 
 }

@@ -15,7 +15,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
-import cn.com.bluemoon.delivery.common.UploadImageManager;
+import cn.com.bluemoon.delivery.utils.manager.UploadImageManager;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPreviewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
