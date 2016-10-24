@@ -180,10 +180,9 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                             txtAmount.setText(getString(R.string.total_amount2, codes.size()));
                             if (codes.isEmpty()) {
                                 boxCode = null;
-                            } else {
-                                adapter.notifyDataSetChanged();
-                                LibViewUtil.setListViewHeight2(listReturnNumber);
                             }
+                            adapter.notifyDataSetChanged();
+                            LibViewUtil.setListViewHeight2(listReturnNumber);
                         }
                         return false;
                     }
