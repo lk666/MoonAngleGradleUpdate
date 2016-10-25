@@ -57,7 +57,7 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.BOTH;
+        return PullToRefreshBase.Mode.PULL_FROM_START;
     }
 
     @Override
@@ -89,6 +89,9 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
             getAdapter().notifyDataSetChanged();
             toast(result.getResponseMsg());
             setAmount2();
+            if (getList().isEmpty()) {
+                initData();
+            }
         }
     }
 
@@ -147,7 +150,7 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
             txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
             txtPaytime.setText(String.format(getString(R.string.pending_order_pay_time), order.getPayOrderTime()));
-            txtDispatchId.setText(order.getOrderId());
+            txtDispatchId.setText(order.getDispatchId());
             txtAddress.setText(order.getAddress());
 
 

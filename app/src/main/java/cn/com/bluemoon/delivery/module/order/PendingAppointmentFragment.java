@@ -1,19 +1,16 @@
 package cn.com.bluemoon.delivery.module.order;
 
+import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -34,395 +31,221 @@ import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
 import cn.com.bluemoon.delivery.app.api.model.Storehouse;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class PendingAppointmentFragment extends Fragment {
-	private String TAG = "PendingAppointmentFragment";
-	private PullToRefreshListView listView;
-	private OrdersAdapter ordersAdapter;
-	private List<OrderVo> orderList;
-	private OrdersTabActivity mContext;
-	private CommonProgressDialog progressDialog;
-	private boolean lock;
-	private OrderVo orderCancel;
-	private OrderVo orderAppointment;
-	private OrderVo orderEdit;
-	View popStart;
+public class PendingAppointmentFragment extends BasePullToRefreshListViewFragment {
+    private long pageFlag;
+    private int clickIndex;
+    private View viewPopStart;
+    private Activity mContext;
 
-	public void onAttach(android.app.Activity activity) {
-		super.onAttach(activity);
-		this.mContext = (OrdersTabActivity) activity;
-	};
+    @Override
+    protected void onBeforeCreateView() {
+        super.onBeforeCreateView();
+        mContext = getActivity();
+    }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		initCustomActionBar();
-		progressDialog = new CommonProgressDialog(mContext);
-		View v = inflater.inflate(R.layout.fragment_tab_appointment, container,
-				false);
-		listView = (PullToRefreshListView) v.findViewById(R.id.listview_orders);
-		popStart = v.findViewById(R.id.view_pop_start);
-		listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.tab_appointment);
+    }
 
-			@Override
-			public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-				//mContext.setAmountShow();
-				DeliveryApi.getOrdersByType(
-						ClientStateManager.getLoginToken(mContext),0,
-						OrderType.PENDINGAPPOINTMENT, getOrdersHandler);
-			}
-		});
-		progressDialog.show();
-		//mContext.setAmountShow();
-		DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext),9,
-				OrderType.PENDINGAPPOINTMENT, getOrdersHandler);
-		return v;
-	}
-	
-	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == 1) {
-			int index = orderList.indexOf(orderEdit);
-			Storehouse storehouse = (Storehouse) data.getSerializableExtra("storehouse");
-			if (orderEdit != null && storehouse != null) {
-				orderEdit.setStorechargeCode(storehouse.getStorechargeCode());
-				orderEdit.setStorechargeName(storehouse.getStorechargeName());
-				orderEdit.setStorehouseCode(storehouse.getStorehouseCode());
-				orderEdit.setStorehouseName(storehouse.getStorehouseName());
-				orderList.set(index, orderEdit);
-				ordersAdapter.notifyDataSetChanged();
-			}
-		}
-	}
+    @Override
+    protected BaseListAdapter getNewAdapter() {
+        return new OrdersAdapter(mContext);
+    }
 
-	private void initCustomActionBar() {
-		CommonActionBar mActionbar = new CommonActionBar(mContext.getActionBar(),
-				new IActionBarListener() {
+    @Override
+    protected List getGetMoreList(ResultBase result) {
+        ResultOrderVo r = (ResultOrderVo) result;
+        pageFlag = r.getPageFlag();
+        return r.getItemList();
+    }
 
-					@Override
-					public void onBtnRight(View v) {
+    @Override
+    protected List getGetDataList(ResultBase result) {
+        ResultOrderVo r = (ResultOrderVo) result;
+        pageFlag = r.getPageFlag();
+        return r.getItemList();
+    }
 
-					}
+    @Override
+    protected PullToRefreshBase.Mode getMode() {
+        return PullToRefreshBase.Mode.PULL_FROM_START;
+    }
 
-					@Override
-					public void onBtnLeft(View v) {
-						mContext.finish();
-					}
+    @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+        ptrlv.getRefreshableView().setDivider(null);
+        ptrlv.getRefreshableView().setDividerHeight(0);
+        ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+    }
 
-					@Override
-					public void setTitle(TextView v) {
-						v.setText(getText(R.string.tab_appointment));
-					}
+    @Override
+    protected void invokeGetDataDeliveryApi(int requestCode) {
+        setAmount2();
+        pageFlag = 0;
+        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
+    }
 
-				});
-	}
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT,
+                getNewHandler(requestCode, ResultOrderVo.class));
+    }
 
-	class OrdersAdapter extends BaseAdapter {
-		private OrdersTabActivity mContext;
-		private LayoutInflater mInflater;
-		private int layoutID;
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        if (requestCode ==1 || requestCode == 2) {
+            hideWaitDialog();
+            getList().remove(clickIndex);
+            getAdapter().notifyDataSetChanged();
+            toast(result.getResponseMsg());
+            setAmount2();
+            if (getList().isEmpty()) {
+                initData();
+            }
+        }
+    }
 
-		public OrdersAdapter(OrdersTabActivity context, int layoutID) {
-			this.mInflater = LayoutInflater.from(context);
-			this.layoutID = layoutID;
-			this.mContext = context;
-		}
+    @Override
+    public void onItemClick(Object item, View view, int position) {
 
-		@Override
-		public int getCount() {
-			if (orderList != null && orderList.size() == 0) {
-				this.layoutID = R.layout.layout_no_data;
-				return 1;
-			}
-			return orderList.size();
-		}
+    }
 
-		@Override
-		public OrderVo getItem(int position) {
-			return orderList.get(position);
-		}
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_fragment_tab_appointment;
+    }
 
-		@Override
-		public long getItemId(int position) {
-			return position;
-		}
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
+        viewPopStart = headView.findViewById(R.id.view_pop_start);
+    }
 
-		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			if (convertView == null
-					|| (orderList != null && orderList.size() == 0)) {
-				convertView = mInflater.inflate(layoutID, null);
-			}
-			if (orderList != null && orderList.size() == 0) {
-				TextView txtContent = ViewHolder.get(convertView,
-						R.id.txt_content);
-				LayoutParams params = new LayoutParams(
-						LayoutParams.MATCH_PARENT, listView.getHeight());
-				convertView.setLayoutParams(params);
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 1) {
+            Storehouse storehouse = (Storehouse) data.getSerializableExtra("storehouse");
+            if (storehouse != null) {
+                OrderVo orderVo = (OrderVo)getList().get(clickIndex);
+                orderVo.setStorechargeCode(storehouse.getStorechargeCode());
+                orderVo.setStorechargeName(storehouse.getStorechargeName());
+                orderVo.setStorehouseCode(storehouse.getStorehouseCode());
+                orderVo.setStorehouseName(storehouse.getStorehouseName());
+                getAdapter().notifyDataSetChanged();
+            }
+        }
+    }
 
-				txtContent.setText(R.string.pending_order_appointment_null);
-				return convertView;
-			}
-			final OrderVo order = orderList.get(position);
-			TextView txtDispatchId = ViewHolder.get(convertView,
-					R.id.txt_dispatchId);
-			TextView txtAddress = ViewHolder.get(convertView, R.id.txt_address);
-			TextView txtCateAmount = ViewHolder.get(convertView,
-					R.id.txt_cateAmount);
-			TextView txtTotalAmount = ViewHolder.get(convertView,
-					R.id.txt_totalAmount);
-			TextView txtTotalPrice = ViewHolder.get(convertView,
-					R.id.txt_totalPrice);
-			TextView txtCustomerName = ViewHolder.get(convertView,
-					R.id.txt_customerName);
-			final TextView txtMobilePhone = ViewHolder.get(convertView,
-					R.id.txt_mobilePhone);
-			TextView txtPayOrderTime = ViewHolder.get(convertView,
-					R.id.txt_paytime);
-			final LinearLayout layoutDetail = ViewHolder.get(convertView,
-					R.id.layout_detail);
-			final LinearLayout layoutStorehouse = ViewHolder.get(convertView,
-					R.id.layout_storehouse);
-			TextView txtStorehouse = ViewHolder.get(convertView,
-					R.id.txt_storehouse);
-			final Button appointmentOrder = ViewHolder.get(convertView,
-					R.id.appointment_action);
+    public class OrdersAdapter extends BaseListAdapter<OrderVo> {
+        public OrdersAdapter(Context context) {
+            super(context, null);
+        }
 
-			final TextView txtCancleOrder = ViewHolder.get(convertView,
-					R.id.txt_cancle_order);
-			txtCancleOrder.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-			txtCancleOrder.getPaint().setAntiAlias(true);
-			txtCustomerName.setText(OrdersUtils.formatLongString(
-					order.getCustomerName(), txtCustomerName));
-			txtMobilePhone.setText(order.getMobilePhone());
-			txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-			txtMobilePhone.getPaint().setAntiAlias(true);
-			OnClickListener listener = new OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					if (!lock) {
-						lock = true;
-						if (v == txtMobilePhone) {
-							PublicUtil.showCallPhoneDialog(mContext, order.getMobilePhone());
-							lock = false;
-						} else if (v == appointmentOrder) {
-							orderAppointment = order;
-							ChoiceOrderDatePopupWindow popupWindow = new ChoiceOrderDatePopupWindow(
-									mContext, orderAppointment,
-									orderChoiceDateListener);
-							popupWindow.showPopwindow(popStart);
-							lock=false;
-						} else if (v == layoutStorehouse) {
-							orderEdit = order;
-							Intent intent = new Intent();
-							intent.setClass(mContext,
-									SelectStoreHouseActivity.class);
-							intent.putExtra("dispatchId", order.getDispatchId());
-							intent.putExtra("code", order.getStorehouseCode());
-							PendingAppointmentFragment.this.startActivityForResult(intent, 0);
-							lock = false;
-						} else if (v == layoutDetail) {
-							PublicUtil.showOrderDetailView(mContext, order.getOrderId());
-							lock = false;
-						} else if (v == txtCancleOrder) {
-							new CommonAlertDialog.Builder(mContext)
-							.setMessage(R.string.pending_order_get_or_not)
-							.setNegativeButton(R.string.yes,
-									new DialogInterface.OnClickListener() {
+        @Override
+        protected int getLayoutId() {
+            return R.layout.order_list_item2;
+        }
 
-										@Override
-										public void onClick(DialogInterface dialog,
-												int which) {
-											orderCancel = order;
-											progressDialog.show();
-											DeliveryApi.cancelAppointmentOrder(
-													ClientStateManager.getLoginToken(mContext),
-													order.getOrderId(), cancelOrderHandler);
-										}
-									}).setPositiveButton(R.string.no, null)
-							.show();
-							lock = false;
-						} else {
-							lock = false;
-						}
-					}
-				}
-			};
-			txtCancleOrder.setOnClickListener(listener);
-			txtMobilePhone.setOnClickListener(listener);
-			appointmentOrder.setOnClickListener(listener);
-			txtPayOrderTime.setText(String.format(
-					getString(R.string.pending_order_pay_time),
-					order.getPayOrderTime()));
-			txtStorehouse.setText(OrdersUtils.getStorehouseString(order,
-					mContext));
-			layoutStorehouse.setOnClickListener(listener);
+        @Override
+        protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
+            TextView txtDispatchId = getViewById(R.id.txt_dispatchId);
+            final LinearLayout layoutDetail = getViewById(R.id.layout_detail);
+            TextView txtStorehouse = getViewById(R.id.txt_storehouse);
+            final LinearLayout layoutStorehouse = getViewById(R.id.layout_storehouse);
+            TextView txtPaytime = getViewById(R.id.txt_paytime);
+            TextView txtCustomerName = getViewById(R.id.txt_customerName);
+            final TextView txtMobilePhone = getViewById(R.id.txt_mobilePhone);
+            TextView txtAddress = getViewById(R.id.txt_address);
+            final Button appointmentAction = getViewById(R.id.appointment_action);
+            TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
+            TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
+            TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
+            final TextView txtCancleOrder = getViewById(R.id.txt_cancle_order);
+            final OrderVo order = list.get(position);
 
-			txtDispatchId.setText(order.getOrderId());
-			txtAddress.setText(String.format("%s%s", order.getRegion(),
-					order.getAddress()));
-			txtCateAmount.setText(String.format(
-					getString(R.string.pending_order_total_kinds),
-					order.getCateAmount()));
-			txtTotalAmount.setText(String.format(
-					getString(R.string.pending_order_total_amount),
-					order.getTotalAmount()));
-			txtTotalPrice.setText(String.format(
-					getString(R.string.pending_order_total_price),
-					StringUtil.formatPrice(order.getTotalPrice())));
+            txtCancleOrder.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            txtCancleOrder.getPaint().setAntiAlias(true);
+            txtCustomerName.setText(OrdersUtils.formatLongString(
+                    order.getCustomerName(), txtCustomerName));
+            txtMobilePhone.setText(order.getMobilePhone());
+            txtMobilePhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+            txtMobilePhone.getPaint().setAntiAlias(true);
+            OnClickListener listener = new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickIndex = position;
+                    if (v == txtMobilePhone) {
+                        PublicUtil.showCallPhoneDialog(mContext, order.getMobilePhone());
+                    } else if (v == appointmentAction) {
+                        ChoiceOrderDatePopupWindow popupWindow = new ChoiceOrderDatePopupWindow(mContext, order,
+                                orderChoiceDateListener);
+                        popupWindow.showAsDropDown(viewPopStart);
+                    } else if (v == layoutStorehouse) {
+                        Intent intent = new Intent();
+                        intent.setClass(mContext,SelectStoreHouseActivity.class);
+                        intent.putExtra("dispatchId", order.getDispatchId());
+                        intent.putExtra("code", order.getStorehouseCode());
+                        PendingAppointmentFragment.this.startActivityForResult(intent, 0);
+                    } else if (v == layoutDetail) {
+                        PublicUtil.showOrderDetailView(mContext, order.getOrderId());
+                    } else if (v == txtCancleOrder) {
+                        new CommonAlertDialog.Builder(mContext)
+                                .setMessage(R.string.pending_order_get_or_not)
+                                .setNegativeButton(R.string.yes,
+                                        new DialogInterface.OnClickListener() {
 
-			layoutDetail.setOnClickListener(listener);
+                                            @Override
+                                            public void onClick(DialogInterface dialog,
+                                                                int which) {
+                                                showWaitDialog();
+                                                DeliveryApi.cancelAppointmentOrder(getToken(),order.getOrderId(), getNewHandler(1, ResultBase.class));
+                                            }
+                                        }).setPositiveButton(R.string.no, null)
+                                .show();
+                    }
 
-			return convertView;
+                }
+            };
+            txtCancleOrder.setOnClickListener(listener);
+            txtMobilePhone.setOnClickListener(listener);
+            appointmentAction.setOnClickListener(listener);
+            txtPaytime.setText(getString(R.string.pending_order_pay_time, order.getPayOrderTime()));
+            txtStorehouse.setText(OrdersUtils.getStorehouseString(order, mContext));
+            layoutStorehouse.setOnClickListener(listener);
 
-		}
-	}
+            txtDispatchId.setText(order.getOrderId());
+            txtAddress.setText(order.getAddress());
+            txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
+            txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
+            txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
+            layoutDetail.setOnClickListener(listener);
+        }
+    }
 
-	AsyncHttpResponseHandler getOrdersHandler = new TextHttpResponseHandler(
-			HTTP.UTF_8) {
 
-		@Override
-		public void onSuccess(int statusCode, Header[] headers,
-				String responseString) {
-			LogUtils.d("test", "getOrdersHandler result = " + responseString);
-			progressDialog.dismiss();
-			listView.onRefreshComplete();
-			try {
-				ResultOrderVo result = JSON.parseObject(responseString,
-						ResultOrderVo.class);
-				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-					orderList = result.getItemList();
-					ordersAdapter = new OrdersAdapter(mContext,
-							R.layout.order_list_item2);
-					listView.setAdapter(ordersAdapter);
-				} else {
-					PublicUtil.showErrorMsg(mContext, result);
-				}
-			} catch (Exception e) {
-				PublicUtil.showToastServerBusy(mContext);
-			}
-		}
 
-		@Override
-		public void onFailure(int statusCode, Header[] headers,
-				String responseString, Throwable throwable) {
-			LogUtils.d("test", "getOrdersHandler result failed. statusCode="
-					+ statusCode);
-			progressDialog.dismiss();
-			listView.onRefreshComplete();
-			PublicUtil.showToastServerOvertime(mContext);
-		}
-	};
+    IOrderChoiceDateListener orderChoiceDateListener = new IOrderChoiceDateListener() {
 
-	AsyncHttpResponseHandler cancelOrderHandler = new TextHttpResponseHandler(
-			HTTP.UTF_8) {
+        @Override
+        public void Choise(OrderVo orderVo, long time, String formatTime) {
+            showWaitDialog();
+            DeliveryApi.updateOrAppointmentDeliveryTime(ClientStateManager.getLoginToken(mContext), orderVo.getOrderId(), time,
+                    OrderType.PENDINGAPPOINTMENT.getType(), getNewHandler(2, ResultBase.class));
 
-		@Override
-		public void onSuccess(int statusCode, Header[] headers,
-				String responseString) {
-			LogUtils.d("test", "cancelOrderHandler result = " + responseString);
-			lock = false;
-			progressDialog.dismiss();
-			try {
-				ResultOrderVo result = JSON.parseObject(responseString,
-						ResultOrderVo.class);
-				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-					PublicUtil.showToast(mContext, result.getResponseMsg());
-					//mContext.setAmountShow();
-					orderList.remove(orderCancel);
-					ordersAdapter.notifyDataSetChanged();
-				} else {
-					PublicUtil.showErrorMsg(mContext, result);
-				}
-			} catch (Exception e) {
-				PublicUtil.showToastServerBusy(mContext);
-			}
-		}
-
-		@Override
-		public void onFailure(int statusCode, Header[] headers,
-				String responseString, Throwable throwable) {
-			lock = false;
-			progressDialog.dismiss();
-			PublicUtil.showToastServerOvertime(mContext);
-		}
-	};
-
-	public void onResume() {
-		super.onResume();
-		MobclickAgent.onPageStart(TAG);
-	}
-
-	public void onPause() {
-		super.onPause();
-		MobclickAgent.onPageEnd(TAG);
-		if (progressDialog != null) {
-			progressDialog.dismiss();
-		}
-	}
-
-	IOrderChoiceDateListener orderChoiceDateListener = new IOrderChoiceDateListener() {
-
-		@Override
-		public void Choise(OrderVo orderVo,long time,String formatTime) {
-
-			progressDialog.show();
-			DeliveryApi.updateOrAppointmentDeliveryTime(ClientStateManager.getLoginToken(mContext), orderVo.getOrderId(),time, 
-					OrderType.PENDINGAPPOINTMENT.getType(), appointOrderHandler);
-			// TODO Auto-generated method stub
-
-		}
-	};
-	
-	
-	
-	AsyncHttpResponseHandler appointOrderHandler = new TextHttpResponseHandler(
-			HTTP.UTF_8) {
-
-		@Override
-		public void onSuccess(int statusCode, Header[] headers,
-				String responseString) {
-			LogUtils.d("test", "appointOrderHandler result = " + responseString);
-			
-			progressDialog.dismiss();
-			try {
-				ResultBase result = JSON.parseObject(responseString,
-						ResultOrderVo.class);
-				if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-					PublicUtil.showToast(mContext, result.getResponseMsg());
-					//mContext.setAmountShow();
-					orderList.remove(orderAppointment);
-					ordersAdapter.notifyDataSetChanged();
-				} else {
-					PublicUtil.showErrorMsg(mContext, result);
-				}
-			} catch (Exception e) {
-				PublicUtil.showToastServerBusy(mContext);
-			}
-		}
-
-		@Override
-		public void onFailure(int statusCode, Header[] headers,
-				String responseString, Throwable throwable) {
-			lock = false;
-			progressDialog.dismiss();
-			PublicUtil.showToastServerOvertime(mContext);
-		}
-	};
+        }
+    };
 
 }
