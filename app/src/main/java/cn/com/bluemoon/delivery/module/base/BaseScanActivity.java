@@ -11,6 +11,7 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
@@ -54,10 +55,10 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
         ButterKnife.bind(this);
         handler = new Handler();
     }
-
+    private CommonActionBar titleBar;
     private void initCustomActionBar() {
         if (!TextUtils.isEmpty(getTitleString())) {
-            CommonActionBar titleBar = new CommonActionBar(getActionBar(), new IActionBarListener
+            titleBar = new CommonActionBar(getActionBar(), new IActionBarListener
                     () {
 
                 @Override
@@ -77,6 +78,12 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
 
             });
             setActionBar(titleBar);
+        }
+    }
+
+    final protected void setTitle(String title) {
+        if(titleBar != null && StringUtils.isNotBlank(title)){
+            titleBar.getTitleView().setText(title);
         }
     }
 
