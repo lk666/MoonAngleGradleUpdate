@@ -113,7 +113,7 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
             ResultCupboard cupboard = (ResultCupboard) result;
             cupboardCode = cupboard.getCupboardCode();
             setTxtCode(cupboardCode);
-            setTitle(getString(R.string.incabinet_cabinet_title));
+            setTxtTitle(getString(R.string.incabinet_cabinet_title));
             startDelay();
         } else if (requestCode == 1) {
             toast(result.getResponseMsg());

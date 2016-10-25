@@ -23,11 +23,11 @@ public class ScanBoxCodeActivity extends BaseScanCodeActivity {
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
-        if (str != null && str.equals(getCode())) {
-            ClothesBoxBackOrderListActivity.actionStart(this, getCode());
+        if (str != null && str.equals(getTxtCode())) {
+            ClothesBoxBackOrderListActivity.actionStart(this, getTxtCode());
             finish();
         } else {
-            toast(String.format(getString(R.string.close_box_scan_box_code_error), getCode()));
+            toast(String.format(getString(R.string.close_box_scan_box_code_error), getTxtCode()));
         }
     }
 }

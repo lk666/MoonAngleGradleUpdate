@@ -30,7 +30,7 @@ public class ScanCheckCodeActivity extends BaseScanCodeActivity {
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
-        if(!str.equals(getCode())){
+        if(!str.equals(getTxtCode())){
             startDelay();
         }else{
             finishWithData(str,type);

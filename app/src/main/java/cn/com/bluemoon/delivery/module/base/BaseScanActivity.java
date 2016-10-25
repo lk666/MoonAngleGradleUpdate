@@ -55,7 +55,9 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
         ButterKnife.bind(this);
         handler = new Handler();
     }
+
     private CommonActionBar titleBar;
+
     private void initCustomActionBar() {
         if (!TextUtils.isEmpty(getTitleString())) {
             titleBar = new CommonActionBar(getActionBar(), new IActionBarListener
@@ -78,12 +80,6 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
 
             });
             setActionBar(titleBar);
-        }
-    }
-
-    final protected void setTitle(String title) {
-        if(titleBar != null && StringUtils.isNotBlank(title)){
-            titleBar.getTitleView().setText(title);
         }
     }
 
@@ -300,6 +296,26 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
      */
     final protected void startDelay() {
         startDelay(1000);
+    }
+
+    /**
+     * 设置标题
+     *
+     * @param title
+     */
+    final protected void setTxtTitle(String title) {
+        if (titleBar != null && StringUtils.isNotBlank(title)) {
+            titleBar.getTitleView().setText(title);
+        }
+    }
+
+    /**
+     * 获取最新标题
+     *
+     * @return
+     */
+    final protected String getTxtTitle() {
+        return titleBar == null ? null : titleBar.getTitleView().getText().toString();
     }
 
     ///////////// 可选重写 ////////////////

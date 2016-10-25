@@ -30,42 +30,45 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
     @Bind(R.id.layout_code)
     RelativeLayout layoutCode;
 
-    private static void actStart(Activity context,Fragment fragment,String title, String btnString,String code, Class clazz, int requestCode) {
+    private static void actStart(Activity context, Fragment fragment, String title, String
+            btnString, String code, Class clazz, int requestCode) {
         Intent intent;
-        if(fragment!=null){
+        if (fragment != null) {
             intent = new Intent(fragment.getActivity(), clazz);
-        }else{
+        } else {
             intent = new Intent(context, clazz);
         }
         intent.putExtra("title", title);
         intent.putExtra("code", code);
         intent.putExtra("btnString", btnString);
-        if(fragment!=null){
+        if (fragment != null) {
             fragment.startActivityForResult(intent, requestCode);
-        }else{
+        } else {
             context.startActivityForResult(intent, requestCode);
         }
-
     }
 
     /**
      * Activity扫描界面调起方法
+     *
      * @param context
-     * @param title 界面标题，默认标题为“扫一扫”
-     * @param btnString 手动输入按钮的问题，null则不显示
-     * @param code 标题下面的编码，null则不显示
+     * @param title       界面标题，默认标题为“扫一扫”
+     * @param btnString   手动输入按钮的问题，null则不显示
+     * @param code        标题下面的编码，null则不显示
      * @param clazz
      * @param requestCode
      */
-    public static void actStart(Activity context,String title, String btnString,String code, Class clazz, int requestCode) {
-        actStart(context,null,title,btnString,code,clazz,requestCode);
+    public static void actStart(Activity context, String title, String btnString, String code,
+                                Class clazz, int requestCode) {
+        actStart(context, null, title, btnString, code, clazz, requestCode);
     }
 
     /**
      * fragment扫描界面调起方法
      */
-    public static void actStart(Fragment fragment, String title, String btnString,String code, Class clazz, int requestCode) {
-        actStart(null,fragment,title,btnString,code,clazz,requestCode);
+    public static void actStart(Fragment fragment, String title, String btnString, String code,
+                                Class clazz, int requestCode) {
+        actStart(null, fragment, title, btnString, code, clazz, requestCode);
     }
 
     /*必须重写*/
@@ -74,8 +77,9 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
      * 返回结果事件重写
      * 注：如果需要连续扫描：
      * 处理完数据需要继续扫描时再调用resumeScan或startDelay方法调起扫描；
-     * @param str  返回的扫描内容
-     * @param type 二维码类型
+     *
+     * @param str     返回的扫描内容
+     * @param type    二维码类型
      * @param barcode 扫描区域的图像
      */
     @Override
@@ -87,7 +91,7 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
      * 手动输入的点击事件处理,默认返回resultCode == Constants.RESULT_SCAN
      */
     protected void onBtnClick(View view) {
-        InputCodeActivity.actStart(this, 0, InputCodeActivity.class);
+        InputCodeActivity.actStart(this,getTxtTitle(), getTxtCode(), 0);
     }
 
     /**
@@ -104,7 +108,7 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
     /**
      * 获取顶部code
      */
-    final protected String getCode() {
+    final protected String getTxtCode() {
         return txtCode.getText().toString();
     }
 
@@ -118,7 +122,7 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
             btnInput.setText(btnString);
             ViewUtil.setViewVisibility(btnInput, View.VISIBLE);
         } else {
-            ViewUtil.setViewVisibility(layoutCode, View.GONE);
+            ViewUtil.setViewVisibility(btnInput, View.GONE);
         }
     }
 

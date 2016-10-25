@@ -174,14 +174,14 @@ public class ScanPackActivity extends BaseScanCodeActivity {
             ResultScanBoxCode scanBoxCode = (ResultScanBoxCode) result;
             boxCode = scanBoxCode.getBoxCode();
             setTxtCode(boxCode);
-            setTitle(getString(R.string.close_box_scan_box_code_title));
+            setTxtTitle(getString(R.string.close_box_scan_box_code_title));
             startDelay();
         } else if (requestCode == 1) {
             toast(result.getResponseMsg());
             boxCode = null;
             backOrderCode = null;
             clearTxtCode();
-            setTitle(getString(R.string.close_box_scan_back_code_title));
+            setTxtTitle(getString(R.string.close_box_scan_back_code_title));
             startDelay();
         } else if (requestCode == 2) {
             toast(result.getResponseMsg());

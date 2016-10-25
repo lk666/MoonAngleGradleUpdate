@@ -16,6 +16,8 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -25,6 +27,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.IconButton;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.view.ClearEditText;
 
@@ -38,27 +41,44 @@ public class InputCodeActivity extends BaseActivity {
     IconButton btnScan;
     @Bind(R.id.et_number)
     ClearEditText etNumber;
+    @Bind(R.id.txt_code)
+    TextView txtCode;
+    @Bind(R.id.layout_code)
+    RelativeLayout layoutCode;
     private String title;
     private String hint;
     private String btnString;
+    private String code;
 
-
-    public static void actStart(Activity context,String title,String hint,String btnString,int requestCode,Class clazz){
-        Intent intent = new Intent(context,clazz);
-        if(!TextUtils.isEmpty(title)){
-            intent.putExtra("title",title);
+    public static void actStart(Activity context, String title, String hint, String btnString,
+                                String code, int requestCode) {
+        Intent intent = new Intent(context, InputCodeActivity.class);
+        if (!TextUtils.isEmpty(title)) {
+            intent.putExtra("title", title);
         }
-        if(!TextUtils.isEmpty(hint)){
-            intent.putExtra("hint",hint);
+        if (!TextUtils.isEmpty(hint)) {
+            intent.putExtra("hint", hint);
         }
-        if(!TextUtils.isEmpty(btnString)){
-            intent.putExtra("btnString",btnString);
+        if (!TextUtils.isEmpty(btnString)) {
+            intent.putExtra("btnString", btnString);
+        }
+        if (!TextUtils.isEmpty(code)) {
+            intent.putExtra("code", code);
         }
         context.startActivityForResult(intent, requestCode);
     }
 
-    public static void actStart(Activity context,int requestCode,Class clazz){
-        actStart(context,null,null,null,requestCode,clazz);
+    public static void actStart(Activity context, String title, String hint, String btnString,
+                                int requestCode) {
+        actStart(context, title, hint, btnString, null, requestCode);
+    }
+
+    public static void actStart(Activity context, String title,String code,int requestCode) {
+        actStart(context, title, null, null, code, requestCode);
+    }
+
+    public static void actStart(Activity context, int requestCode) {
+        actStart(context, null, null, null, requestCode);
     }
 
     @Override
@@ -67,6 +87,7 @@ public class InputCodeActivity extends BaseActivity {
         title = getIntent().getStringExtra("title");
         hint = getIntent().getStringExtra("hint");
         btnString = getIntent().getStringExtra("btnString");
+        code = getIntent().getStringExtra("code");
     }
 
     @Override
@@ -76,21 +97,22 @@ public class InputCodeActivity extends BaseActivity {
 
     @Override
     final protected String getTitleString() {
-        if(TextUtils.isEmpty(title)){
+        if (TextUtils.isEmpty(title)) {
             return getString(R.string.with_order_collect_manual_input_code_btn);
-        }else{
+        } else {
             return title;
         }
     }
 
     @Override
     final public void initView() {
-        if(!TextUtils.isEmpty(hint)){
+        if (!TextUtils.isEmpty(hint)) {
             setInputHint(hint);
         }
-        if(!TextUtils.isEmpty(btnString)){
+        if (!TextUtils.isEmpty(btnString)) {
             setScanTxt(btnString);
         }
+        setTxtCode(code);
         checkBtnState();
         etNumber.setCallBack(new CommonEditTextCallBack() {
             @Override
@@ -138,19 +160,21 @@ public class InputCodeActivity extends BaseActivity {
     }
 
     //可重写
+
     /**
      * 点击扫描按钮，返回resultCode为Constants.RESULT_INPUT
      */
-    protected void clickScan(){
+    protected void clickScan() {
         setResult(Constants.RESULT_INPUT);
         finish();
     }
 
     /**
      * 点击确定输入按钮,默认返回输入内容，key值为onstants.RESULT_CODE
+     *
      * @param code
      */
-    protected void clickInput(String code){
+    protected void clickInput(String code) {
         Intent resultIntent = new Intent();
         resultIntent.putExtra(Constants.RESULT_CODE, code);
         setResult(RESULT_OK, resultIntent);
@@ -158,20 +182,37 @@ public class InputCodeActivity extends BaseActivity {
     }
 
     //公共方法
+
     /**
      * 设置扫描按钮的文字
+     *
      * @param scanTxt
      */
-    final protected void setScanTxt(String scanTxt){
+    final protected void setScanTxt(String scanTxt) {
         btnScan.setText(scanTxt);
     }
 
     /**
      * 设置输入框的提示文字
+     *
      * @param inputHint
      */
-    final protected void setInputHint(String inputHint){
+    final protected void setInputHint(String inputHint) {
         etNumber.setHint(inputHint);
+    }
+
+    /**
+     * 设置顶部显示的内容
+     *
+     * @param code null则不显示
+     */
+    final protected void setTxtCode(String code) {
+        if (!TextUtils.isEmpty(code)) {
+            txtCode.setText(code);
+            ViewUtil.setViewVisibility(layoutCode, View.VISIBLE);
+        } else {
+            ViewUtil.setViewVisibility(layoutCode, View.GONE);
+        }
     }
 
 }
