@@ -523,7 +523,7 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar.Fullscreen" />
         <activity
-            android:name=".module.wash.returning.manager.ReturnMangerTabActivity"
+            android:name=".module.wash.returning.manager.ReturnManagerTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity

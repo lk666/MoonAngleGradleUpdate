@@ -184,28 +184,29 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                             //show sign dialog
                             new CommonAlertDialog.Builder(getActivity()).setView(view)
                                     .setNegativeButton(R.string.confirm_with_space, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    if (StringUtils.isEmpty(fileName)) {
-                                        longToast(context.getString(R.string.manage_not_sign));
-                                    } else {
-                                        RadioGroup rg = (RadioGroup)view.findViewById(R.id.rg_type);
-                                        int checkId = rg.getCheckedRadioButtonId();
-                                        isSingeName = true;
-                                        if (checkId == R.id.radio2) {
-                                            isSingeName = false;
-                                        }
-                                        dialog.dismiss();
-                                        showWaitDialog();
-                                        index = position;
-                                        backOrderCode = result.getBackOrderCode();
-                                        //upload sign image
-                                        byte[] bytes = FileUtil.getBytes(BitmapFactory.decodeFile(fileName));
-                                        uploadFileName = UUID.randomUUID() + ".png";
-                                        ReturningApi.uploadImage(bytes, uploadFileName, getToken(), getNewHandler(2, ResultUploadExceptionImage.class));
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
 
-                                    }
-                                }
+                                            RadioGroup rg = (RadioGroup) view.findViewById(R.id.rg_type);
+                                            int checkId = rg.getCheckedRadioButtonId();
+                                            isSingeName = true;
+                                            if (checkId == R.id.radio2) {
+                                                isSingeName = false;
+                                            }
+                                            dialog.dismiss();
+                                            showWaitDialog();
+                                            index = position;
+                                            backOrderCode = result.getBackOrderCode();
+                                            if (StringUtils.isEmpty(fileName)) {
+                                                ReturningApi.backOrderSign(backOrderCode, isSingeName, "", "", getToken(), getNewHandler(3, ResultBase.class));
+                                            } else {
+                                                //upload sign image
+                                                byte[] bytes = FileUtil.getBytes(BitmapFactory.decodeFile(fileName));
+                                                uploadFileName = UUID.randomUUID() + ".png";
+                                                ReturningApi.uploadImage(bytes, uploadFileName, getToken(), getNewHandler(2, ResultUploadExceptionImage.class));
+                                            }
+
+                                        }
                             }).setDismissable(false).setPositiveButton(R.string.cancel_with_space, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {

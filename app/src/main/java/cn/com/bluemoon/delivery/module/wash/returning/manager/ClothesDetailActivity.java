@@ -51,7 +51,7 @@ public class ClothesDetailActivity extends BaseActivity {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_clothes_detail;
+        return R.layout.activity_manager_clothes_detail;
     }
 
     @Override

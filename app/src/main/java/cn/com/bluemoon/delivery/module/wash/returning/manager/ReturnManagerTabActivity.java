@@ -11,7 +11,7 @@ import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 
-public class ReturnMangerTabActivity extends BaseTabActivity {
+public class ReturnManagerTabActivity extends BaseTabActivity {
 
 	public static void actionStart(Context context){
 		ArrayList<TabState> tabs = new ArrayList<>();
@@ -23,7 +23,7 @@ public class ReturnMangerTabActivity extends BaseTabActivity {
 				R.string.manger_tab_3));
 		tabs.add(new DrawableTabState(ReturnHistoryFragment.class,R.mipmap.tab_history_normal, R.mipmap.tab_history_disable,
 				R.string.manger_tab_4));
-		actionStart(context, tabs, ReturnMangerTabActivity.class);
+		actionStart(context, tabs, ReturnManagerTabActivity.class);
 	}
 
 	@Override

@@ -63,7 +63,7 @@ import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckT
 import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnMangerTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
@@ -755,7 +755,7 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.wash_express_close_box.toString().equals(userRight.getMenuCode())) {
                 ExpressCloseBoxTabActivity.actionStart(this);
             } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode())) {
-                ReturnMangerTabActivity.actionStart(this);
+                ReturnManagerTabActivity.actionStart(this);
             } else if (MenuCode.wash_transport_sign.toString().equals(userRight.getMenuCode())) {
                 TransportReceiveTabActivity.actionStart(this);
             } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode())) {

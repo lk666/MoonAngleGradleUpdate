@@ -507,8 +507,7 @@ public class ReturningApi extends DeliveryApi {
      */
     public static void backOrderSign(String backOrderCode, boolean isSignName, String
             signFileName, String signImagePath, String token, AsyncHttpResponseHandler handler) {
-        if (null == backOrderCode || null == signFileName || null == signImagePath || null ==
-                token) {
+        if (null == backOrderCode ||  null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -823,9 +822,7 @@ public class ReturningApi extends DeliveryApi {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        if (tag) {
-            params.put("backOrderStatus", backOrderStatus);
-        }
+        params.put("backOrderStatus", tag ? backOrderStatus : "");
         params.put("pageFlag", pageFlag);
         params.put("region", region);
         params.put(TOKEN, token);

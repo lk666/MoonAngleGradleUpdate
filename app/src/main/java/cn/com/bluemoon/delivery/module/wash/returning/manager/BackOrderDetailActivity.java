@@ -32,6 +32,7 @@ import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.ui.UpDownTextView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
@@ -66,6 +67,8 @@ public class BackOrderDetailActivity extends BaseActivity {
     TextView txtType;
     @Bind(R.id.txt_time)
     TextView txtTime;
+    @Bind(R.id.txt_sign)
+    TextView txtSign;
     @Bind(R.id.img_sign)
     ImageView imgSign;
     @Bind(R.id.txt_open3)
@@ -227,16 +230,19 @@ public class BackOrderDetailActivity extends BaseActivity {
             layoutSignRefuse.setVisibility(View.VISIBLE);
             txtType.setText(getString(R.string.manage_sign_type, r.getSignName()));
             txtTime.setText(getString(R.string.manage_sign_time, DateUtil.getTime(r.getSignTime(), "yyyy-MM-dd HH:mm:ss")));
-            Glide.with(this).load(r.getSignImagePath()).into(imgSign);
-            imgSign.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    List<String> imgList = new ArrayList<>();
-                    imgList.add(r.getSignImagePath());
-                    PhotoPreviewActivity.actStart(BackOrderDetailActivity.this, imgList, 1);
-                }
-            });
-
+            if (StringUtils.isNotBlank(r.getSignImagePath())) {
+                txtSign.setVisibility(View.VISIBLE);
+                imgSign.setVisibility(View.VISIBLE);
+                Glide.with(this).load(r.getSignImagePath()).into(imgSign);
+                imgSign.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        List<String> imgList = new ArrayList<>();
+                        imgList.add(r.getSignImagePath());
+                        PhotoPreviewActivity.actStart(BackOrderDetailActivity.this, imgList, 1);
+                    }
+                });
+            }
             List<ResultBackOrderDetail.RefuseListBean> list = r.getRefuseList();
             if (list != null && !list.isEmpty()) {
                 layoutRefuse.setVisibility(View.VISIBLE);
