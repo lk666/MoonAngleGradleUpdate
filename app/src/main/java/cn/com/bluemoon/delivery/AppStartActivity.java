@@ -1,12 +1,10 @@
 package cn.com.bluemoon.delivery;
 
-import android.*;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -15,7 +13,6 @@ import android.os.Handler;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.alibaba.fastjson.JSON;
 import com.igexin.sdk.PushManager;
@@ -33,14 +30,13 @@ import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
-import cn.com.bluemoon.delivery.sz.util.LogUtil;
-import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.UpdateManager;
+import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -56,10 +52,8 @@ public class AppStartActivity extends Activity {
 
     public static void actStart(Context context,String view,String url) {
         Intent intent = new Intent(context, LoginActivity.class);
-        if(!TextUtils.isEmpty(view)){
-            intent.putExtra(Constants.PUSH_VIEW, view);
-        }
-        if(!TextUtils.isEmpty(url)){
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        if(Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url)){
             intent.putExtra(Constants.PUSH_URL, url);
         }
         context.startActivity(intent);
@@ -122,8 +116,7 @@ public class AppStartActivity extends Activity {
                     && SystemClock.elapsedRealtime()
                     - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants
                     .FORCE_CHECK_VERSION_TIME) {
-                LogUtils.d("test",
-                        "timestamp < Constants.FORCE_CHECK_VERSION_TIME");
+                LogUtils.d("timestamp < Constants.FORCE_CHECK_VERSION_TIME");
                 showDialog(lastSuccessfulCheckVersionResponse);
             } else {
                 DeliveryApi.getLastVersion(checkVersionHandler);
@@ -162,16 +155,14 @@ public class AppStartActivity extends Activity {
                             .valueOf(lastSuccessfulCheckVersionResponse
                                     .getMustUpdate()));
             boolean skip = !forceCheckVersionTimeOver && !isMustUpdateVersion;
-            LogUtils.d(
-                    "test",
-                    "forceCheckVersionTimeOver = "
+            LogUtils.d("forceCheckVersionTimeOver = "
                             + String.valueOf(forceCheckVersionTimeOver)
                             + ", isMustUpateVersion = "
                             + String.valueOf(isMustUpdateVersion) + "");
             return skip;
         } else {
 
-            LogUtils.i("test", "Has not check version before, can not skip");
+            LogUtils.i("Has not check version before, can not skip");
             return false;
         }
     }
@@ -182,7 +173,7 @@ public class AppStartActivity extends Activity {
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            LogUtils.d("test", "appStartCheckVersion result = "
+            LogUtils.d("appStartCheckVersion result = "
                     + responseString);
 
             ResultVersionInfo result = JSON.parseObject(responseString,
@@ -203,7 +194,7 @@ public class AppStartActivity extends Activity {
 
             gotoNextActivity();
 
-            LogUtils.d("test", "appStartCheckVersion result = "
+            LogUtils.d("appStartCheckVersion result = "
                     + responseString + throwable.getMessage());
         }
     };

@@ -21,7 +21,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.igexin.sdk.PushManager;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
@@ -59,7 +58,6 @@ import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
-import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -68,9 +66,7 @@ import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
-import cn.com.bluemoon.delivery.utils.manager.NotificationUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
@@ -344,8 +340,6 @@ public class MainActivity extends SlidingActivity {
         userRight.setUrl(menuUrl);
         userRight.setMenuId("");
         clickGridView(userRight);
-        view = null;
-        url = null;
     }
 
 
@@ -398,6 +392,8 @@ public class MainActivity extends SlidingActivity {
         MobclickAgent.onPause(this);
         if (progressDialog != null)
             progressDialog.dismiss();
+        view = null;
+        url = null;
     }
 
     @Override
@@ -687,6 +683,7 @@ public class MainActivity extends SlidingActivity {
         if (PublicUtil.isFastDoubleClick(1000)) {
             return;
         }
+        LogUtils.d("view:"+userRight.getMenuCode());
         try {
             Intent intent;
             if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
@@ -845,12 +842,8 @@ public class MainActivity extends SlidingActivity {
 
     public static void actStart(Context context,String view,String url) {
         Intent intent = new Intent(context, MainActivity.class);
-        if(!TextUtils.isEmpty(view)){
-            intent.putExtra(Constants.PUSH_VIEW, view);
-        }
-        if(!TextUtils.isEmpty(url)){
-            intent.putExtra(Constants.PUSH_URL, url);
-        }
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        intent.putExtra(Constants.PUSH_URL, url);
         context.startActivity(intent);
     }
 

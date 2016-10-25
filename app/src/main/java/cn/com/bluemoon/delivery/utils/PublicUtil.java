@@ -43,6 +43,7 @@ import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
 import cn.com.bluemoon.delivery.module.order.OrderDetailActivity;
+import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
@@ -554,8 +555,8 @@ public class PublicUtil extends LibPublicUtil {
         LogUtils.d("更新桌面角标：" + count);
         if(count != ClientStateManager.getMenuNum()){
             ClientStateManager.setMenuNum(count);
-            ViewUtil.toast("更改桌面角标："+count);
             // TODO: 2016/10/24  更新桌面角标数字
+            BadgeUtil.applyCount(context,count);
         }
     }
 

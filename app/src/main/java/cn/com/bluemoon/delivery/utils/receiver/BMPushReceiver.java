@@ -7,16 +7,12 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.util.List;
 
 import cn.com.bluemoon.delivery.AppStartActivity;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.app.api.model.PushItem;
-import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
@@ -34,8 +30,7 @@ import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.ViewUtil;
-import cn.com.bluemoon.delivery.utils.manager.NotificationUtil;
+import cn.com.bluemoon.delivery.utils.NotificationUtil;
 
 /**
  * Created by bm on 2016/10/19.
@@ -70,7 +65,7 @@ public class BMPushReceiver extends PushGTReceiver {
     }
 
     /**
-     * 处理跳转逻辑
+     * 获取带点击事件的通知
      *
      * @param context
      * @param item
@@ -86,62 +81,62 @@ public class BMPushReceiver extends PushGTReceiver {
         LogUtils.d(TAG, "updateContent:" + menuCode);
         String token = ClientStateManager.getLoginToken();
 
-        Intent intent = new Intent();
+        Intent intent ;
         if (isAppRunning(context) && !TextUtils.isEmpty(menuCode) && !TextUtils.isEmpty(token)) {
             // TODO: 2016/10/24 网页跳转 
             if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
-                intent.setClass(context, WebViewActivity.class);
+                intent = new Intent(context, WebViewActivity.class);
                 intent.putExtra("url", url + (!url.contains("?") ? "?" : "&") +
                         "token=" + token);
                 intent.putExtra("back", false);
             }
             // TODO: 2016/10/24 原生跳转
             else if (MenuCode.dispatch.toString().equals(menuCode)) {
-                intent.setClass(context, OrdersTabActivity.class);
+                intent = new Intent(context, OrdersTabActivity.class);
             } else if (MenuCode.site_sign.toString().equals(menuCode)) {
-                intent.setClass(context, ExtractTabActivity.class);
+                intent = new Intent(context, ExtractTabActivity.class);
             } else if (MenuCode.check_in.toString().equals(menuCode)) {
-                intent.setClass(context, TicketChooseActivity.class);
+                intent = new Intent(context, TicketChooseActivity.class);
             } else if (MenuCode.card_coupons.toString().equals(menuCode)) {
-                intent.setClass(context, CouponsTabActivity.class);
+                intent = new Intent(context, CouponsTabActivity.class);
             }
             // TODO: 2016/10/19 仓库管理
             else if (MenuCode.mall_erp_delivery.toString().equals(menuCode)) {
-                intent.setClass(context, InventoryTabActivity.class);
+                intent = new Intent(context, InventoryTabActivity.class);
                 intent.putExtra("type", InventoryTabActivity.DELIVERY_MANAGEMENT);
             } else if (MenuCode.mall_erp_receipt.toString().equals(menuCode)) {
-                intent.setClass(context, InventoryTabActivity.class);
+                intent = new Intent(context, InventoryTabActivity.class);
                 intent.putExtra("type", InventoryTabActivity.RECEIVE_MANAGEMENT);
             } else if (MenuCode.mall_erp_stock.toString().equals(menuCode)) {
-                intent.setClass(context, StorageTabActivity.class);
+                intent = new Intent(context, StorageTabActivity.class);
             }
             // TODO: 2016/10/19 知识库
             else if (MenuCode.my_news.toString().equals(menuCode)) {
-                intent.setClass(context, MessageListActivity.class);
+                intent = new Intent(context, MessageListActivity.class);
             } else if (MenuCode.my_inform.toString().equals(menuCode)) {
-                intent.setClass(context, NoticeListActivity.class);
+                intent = new Intent(context, NoticeListActivity.class);
             } else if (MenuCode.knowledge_base.toString().equals(menuCode)) {
-                intent.setClass(context, PaperListActivity.class);
+                intent = new Intent(context, PaperListActivity.class);
             }
             // TODO: 2016/10/19 CEO
             else if (MenuCode.promote_file.toString().equals(menuCode)) {
-                intent.setClass(context, PromoteActivity.class);
+                intent = new Intent(context, PromoteActivity.class);
             } else if (MenuCode.my_team.toString().equals(menuCode)) {
-                intent.setClass(context, MyTeamActivity.class);
+                intent = new Intent(context, MyTeamActivity.class);
             }
             // TODO: lk 2016/6/12 收衣管理是否需要？
             else if (MenuCode.receive_clothes_manager.toString().equals(menuCode)) {
-                intent.setClass(context, ClothingTabActivity.class);
+                intent = new Intent(context, ClothingTabActivity.class);
                 intent.putExtra("type", ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
             } else if (MenuCode.activity_collect_clothes.toString().equals(menuCode)) {
-                intent.setClass(context, ClothingTabActivity.class);
+                intent = new Intent(context, ClothingTabActivity.class);
                 intent.putExtra("type", ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
             } else {
-                intent.setClass(context, AppStartActivity.class);
+                intent = new Intent(context, MainActivity.class);
                 intent.putExtra(Constants.PUSH_VIEW, menuCode);
             }
         } else {
-            intent.setClass(context, MainActivity.class);
+            intent = new Intent(context, AppStartActivity.class);
             intent.putExtra(Constants.PUSH_VIEW, menuCode);
             if(Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)){
                 intent.putExtra(Constants.PUSH_URL, url);
@@ -149,7 +144,7 @@ public class BMPushReceiver extends PushGTReceiver {
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         //展示消息通知
-        NotificationUtil.simpleNotify(context,title,content,intent);
+        NotificationUtil.showSimpleNotify(context,title,content,intent);
     }
 
     /**

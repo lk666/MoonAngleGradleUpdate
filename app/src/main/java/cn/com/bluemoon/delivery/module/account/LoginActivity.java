@@ -56,7 +56,7 @@ public class LoginActivity extends BaseActivity {
         try {
                 Reminds.SynAlarm(this);
         }catch (Exception ex){
-            LogUtils.e("LoginActivity","Syn Alarms Error",ex);
+            LogUtils.e(getDefaultTag(),"Syn Alarms Error",ex);
         }
     }
 
@@ -148,12 +148,8 @@ public class LoginActivity extends BaseActivity {
 
     public static void actStart(Context context,String view,String url) {
         Intent intent = new Intent(context, LoginActivity.class);
-        if(!TextUtils.isEmpty(view)){
-            intent.putExtra(Constants.PUSH_VIEW, view);
-        }
-        if(!TextUtils.isEmpty(url)){
-            intent.putExtra(Constants.PUSH_URL, url);
-        }
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        intent.putExtra(Constants.PUSH_URL, url);
         context.startActivity(intent);
     }
 

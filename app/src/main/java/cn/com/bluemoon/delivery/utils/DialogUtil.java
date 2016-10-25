@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.view.Gravity;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.manager.CacheManager;
 import cn.com.bluemoon.lib.utils.LibDialogUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -92,6 +93,7 @@ public class DialogUtil extends LibDialogUtil {
                     public void onClick(DialogInterface dialog,
                                         int which) {
                         aty.finish();
+                        ActivityManager.getInstance().finishAllActivity();
                     }
                 });
         dialog.setNegativeButton(R.string.btn_cancel_space, null);
