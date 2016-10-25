@@ -110,7 +110,7 @@ public class OrderDetailActivity extends BaseActivity {
 		txtWarehouse.setText(OrdersUtils.getWarehouseStr(item, this));
 		txtCustomerName.setText(item.getCustomerName());
 		txtPhone.setText(item.getMobilePhone());
-		txtAddress.setText(String.format("%s%s", item.getRegion(), item.getAddress()));
+		txtAddress.setText(item.getAddress());
 		txtTotalPrice.setText(getString(R.string.extract_order_total_pay, PublicUtil.getPriceFrom(item.getTotalPrice())));
 		if (item.getProductList() != null) {
 			ProductAdapter adapter = new ProductAdapter(this, null);

@@ -268,16 +268,17 @@ public class DeliveryApi {
 
     /* 2.2.2 根据类型获取订单列表 */
     /* 返回： ResultOrderVo */
-    public static void getOrdersByType(String token, OrderType type,
+    public static void getOrdersByType(String token, long pageFlag,OrderType type,
                                        AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
         }
 
-        Map<String, String> params = new HashMap<>();
+        Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("type", type.getType());
+        params.put("pageFlag", pageFlag);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/order/getOrdersByType%s",
                 ApiClientHelper.getParamUrl());
