@@ -9,12 +9,13 @@
         android:id="@+id/layout_code"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         >
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/code_scan"
-            android:layout_marginTop="15dp"
+            android:layout_marginTop="25dp"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_17"
             android:layout_centerHorizontal="true"
@@ -25,7 +26,7 @@
             android:layout_height="wrap_content"
             android:singleLine="true"
             android:ellipsize="end"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="60dp"
             android:textColor="@color/text_red"
             android:textSize="@dimen/text_size_27"
             android:layout_centerHorizontal="true"
