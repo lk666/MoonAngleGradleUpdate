@@ -32,7 +32,6 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     private String backOrderCode;
     private String boxCode;
     private String region;
-    private TextView txtTitle;
 
     /*从待装箱跳转过来*/
     public static void actStart(Fragment fragment) {
@@ -113,11 +112,6 @@ public class ScanPackActivity extends BaseScanCodeActivity {
         }
     }
 
-    @Override
-    protected void setActionBar(CommonActionBar titleBar) {
-        super.setActionBar(titleBar);
-        txtTitle = titleBar.getTitleView();
-    }
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
@@ -180,14 +174,14 @@ public class ScanPackActivity extends BaseScanCodeActivity {
             ResultScanBoxCode scanBoxCode = (ResultScanBoxCode) result;
             boxCode = scanBoxCode.getBoxCode();
             setTxtCode(boxCode);
-            txtTitle.setText(R.string.close_box_scan_box_code_title);
+            setTitle(getString(R.string.close_box_scan_box_code_title));
             startDelay();
         } else if (requestCode == 1) {
             toast(result.getResponseMsg());
             boxCode = null;
             backOrderCode = null;
             clearTxtCode();
-            txtTitle.setText(R.string.close_box_scan_back_code_title);
+            setTitle(getString(R.string.close_box_scan_back_code_title));
             startDelay();
         } else if (requestCode == 2) {
             toast(result.getResponseMsg());
