@@ -1,6 +1,7 @@
 package cn.com.bluemoon.lib.badger.impl;
 
 import android.annotation.TargetApi;
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -16,10 +17,11 @@ import java.lang.reflect.Method;
 import java.util.Collections;
 import java.util.List;
 
-import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
+import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.badger.interf.Badger;
 import cn.com.bluemoon.lib.badger.util.BroadcastHelper;
 import cn.com.bluemoon.lib.badger.util.CloseHelper;
+import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
  * Created by NingSo on 2016/10/14.上午10:09
@@ -43,7 +45,9 @@ public class OPPOHomeBader implements Badger {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+        BadgeUtil.showNotification(context, notification);
+
         if (badgeCount == 0) {
             badgeCount = -1;
         }

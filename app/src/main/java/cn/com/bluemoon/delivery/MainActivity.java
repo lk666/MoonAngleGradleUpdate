@@ -95,12 +95,6 @@ public class MainActivity extends SlidingActivity {
     private GridViewAdapter gridViewAdapter;
     private CommonEmptyView emptyView;
 
-//    private Map<Integer, View> map = new HashMap<Integer, View>();
-//    private KJBitmap kjb;
-
-    private String view;
-    private String url;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -108,8 +102,6 @@ public class MainActivity extends SlidingActivity {
         setContentView(R.layout.activity_main);
         main = this;
         initMenu();
-        view = PublicUtil.getPushView(getIntent());
-        url = PublicUtil.getPushUrl(getIntent());
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
@@ -173,6 +165,8 @@ public class MainActivity extends SlidingActivity {
         if (progressDialog != null) progressDialog.show();
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
+
+        jump(getIntent());
 
     }
 
@@ -325,21 +319,24 @@ public class MainActivity extends SlidingActivity {
             gridViewAdapter.setList(list);
             gridViewAdapter.notifyDataSetChanged();
         }
-        if (!TextUtils.isEmpty(view)) {
-            jump(view, url);
-        }
+
 
     }
 
-    private void jump(String menuCode,String menuUrl) {
-        UserRight userRight = new UserRight();
-        userRight.setMenuCode(menuCode);
-        userRight.setMenuName("");
-        userRight.setIconImg("");
-        userRight.setIconResId(0);
-        userRight.setUrl(menuUrl);
-        userRight.setMenuId("");
-        clickGridView(userRight);
+    private void jump(Intent intent) {
+        String view = PublicUtil.getPushView(intent);
+        String url = PublicUtil.getPushUrl(intent);
+        if((!TextUtils.isEmpty(view)&&!Constants.PUSH_H5.equals(view))
+                ||(Constants.PUSH_H5.equals(view)&&!TextUtils.isEmpty(url))){
+            UserRight userRight = new UserRight();
+            userRight.setMenuCode(view);
+            userRight.setMenuName("");
+            userRight.setIconImg("");
+            userRight.setIconResId(0);
+            userRight.setMenuId("");
+            userRight.setUrl(url);
+            clickGridView(userRight);
+        }
     }
 
 
@@ -392,8 +389,6 @@ public class MainActivity extends SlidingActivity {
         MobclickAgent.onPause(this);
         if (progressDialog != null)
             progressDialog.dismiss();
-        view = null;
-        url = null;
     }
 
     @Override
@@ -411,8 +406,6 @@ public class MainActivity extends SlidingActivity {
         super.onNewIntent(intent);
         isDestory = false;
         if (listRight != null) listRight.clear();
-        view = PublicUtil.getExtraValue(intent,Constants.PUSH_VIEW);
-        url = PublicUtil.getExtraValue(intent,Constants.PUSH_URL);
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
@@ -420,6 +413,7 @@ public class MainActivity extends SlidingActivity {
         }
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
+        jump(intent);
 
     }
 

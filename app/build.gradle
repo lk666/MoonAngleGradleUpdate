@@ -27,9 +27,9 @@ android {
 
         /*个推*/
         manifestPlaceholders = [
-                GETUI_APP_ID    : "korgLHBDRr7VUUr5HVZ786",
-                GETUI_APP_KEY   : "7QUf6nD1IK7cq9mpsSLRh",
-                GETUI_APP_SECRET: "AKugN7Wq7N9J2jQdrJdg62",
+                GETUI_APP_ID    : "pEvvQdiNbwAkKpPFIH67G1",
+                GETUI_APP_KEY   : "48F1zr3EV59dSUCEiICEC2",
+                GETUI_APP_SECRET: "4YzSLDklzJAdISZQCG5Or6",
                 PACKAGE_NAME    : applicationId
         ]
         ndk {
