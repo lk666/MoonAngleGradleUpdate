@@ -72,7 +72,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.PULL_FROM_START;
+        return PullToRefreshBase.Mode.BOTH;
     }
 
     @Override
