@@ -284,6 +284,24 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
+    /* 2.2.2 根据类型获取订单列表 */
+    /* 返回： ResultOrderVo */
+    public static void getOrdersByTypeByPager(String token, long pageFlag,OrderType type,
+                                       AsyncHttpResponseHandler handler) {
+
+        if (null == token) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("type", type.getType());
+        params.put("timestamp", pageFlag);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/order/getOrdersByTypeByPager%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
 
     /* 2.2.3 根据外部订单编号获取订单详情 */
     /* 返回： ResultOrderInfo */

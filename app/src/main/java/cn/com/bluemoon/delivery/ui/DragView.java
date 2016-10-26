@@ -166,17 +166,17 @@ public class DragView extends RelativeLayout implements View.OnClickListener {
 
     @Override
     public void onClick(View v) {
-        if (mDragStateListener != null) {
-            if (v == fgView) {
-                if (isOpen()) {
-                    closeAnim();
-                    return;
-                }
+        if (v == fgView) {
+            if (mDragStateListener != null) {
                 mDragStateListener.onForegroundViewClick(DragView.this, v);
-            } else {
+            }
+
+        } else {
+            if (mDragStateListener != null) {
                 mDragStateListener.onBackgroundViewClick(DragView.this, v);
             }
         }
+
     }
 
     public interface DragStateListener {

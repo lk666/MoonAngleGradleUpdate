@@ -5,33 +5,26 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
 import cn.com.bluemoon.delivery.app.api.model.Storehouse;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -61,20 +54,20 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected List getGetMoreList(ResultBase result) {
         ResultOrderVo r = (ResultOrderVo) result;
-        pageFlag = r.getPageFlag();
+        pageFlag = r.getTimestamp();
         return r.getItemList();
     }
 
     @Override
     protected List getGetDataList(ResultBase result) {
         ResultOrderVo r = (ResultOrderVo) result;
-        pageFlag = r.getPageFlag();
+        pageFlag = r.getTimestamp();
         return r.getItemList();
     }
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.PULL_FROM_START;
+        return PullToRefreshBase.Mode.BOTH;
     }
 
     @Override
@@ -88,12 +81,12 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
-        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGDELIVERY, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGDELIVERY, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGDELIVERY,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGDELIVERY,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 

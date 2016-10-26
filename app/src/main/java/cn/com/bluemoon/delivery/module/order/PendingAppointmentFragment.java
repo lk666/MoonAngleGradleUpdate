@@ -13,14 +13,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -33,8 +25,6 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -66,20 +56,20 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
     @Override
     protected List getGetMoreList(ResultBase result) {
         ResultOrderVo r = (ResultOrderVo) result;
-        pageFlag = r.getPageFlag();
+        pageFlag = r.getTimestamp();
         return r.getItemList();
     }
 
     @Override
     protected List getGetDataList(ResultBase result) {
         ResultOrderVo r = (ResultOrderVo) result;
-        pageFlag = r.getPageFlag();
+        pageFlag = r.getTimestamp();
         return r.getItemList();
     }
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.PULL_FROM_START;
+        return PullToRefreshBase.Mode.BOTH;
     }
 
     @Override
@@ -93,12 +83,12 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
-        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 

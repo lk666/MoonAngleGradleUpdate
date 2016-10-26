@@ -4,7 +4,7 @@ import java.util.List;
 
 public class ResultOrderVo extends ResultBase {
     private List<OrderVo> itemList;
-    private long pageFlag;
+    private long timestamp;
 
     /**
      * itemList.
@@ -26,12 +26,12 @@ public class ResultOrderVo extends ResultBase {
         this.itemList = itemList;
     }
 
-    public long getPageFlag() {
-        return pageFlag;
+    public long getTimestamp() {
+        return timestamp;
     }
 
-    public void setPageFlag(long pageFlag) {
-        this.pageFlag = pageFlag;
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
     }
 }
   

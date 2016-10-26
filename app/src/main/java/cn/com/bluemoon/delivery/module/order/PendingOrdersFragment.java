@@ -44,20 +44,20 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected List getGetMoreList(ResultBase result) {
         ResultOrderVo r = (ResultOrderVo) result;
-        pageFlag = r.getPageFlag();
+        pageFlag = r.getTimestamp();
         return r.getItemList();
     }
 
     @Override
     protected List getGetDataList(ResultBase result) {
         ResultOrderVo r = (ResultOrderVo) result;
-        pageFlag = r.getPageFlag();
+        pageFlag = r.getTimestamp();
         return r.getItemList();
     }
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.PULL_FROM_START;
+        return PullToRefreshBase.Mode.BOTH;
     }
 
     @Override
@@ -71,12 +71,12 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
-        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGORDERS, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGORDERS, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByType(getToken(), pageFlag, OrderType.PENDINGORDERS,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGORDERS,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 

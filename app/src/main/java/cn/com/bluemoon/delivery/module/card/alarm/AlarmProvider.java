@@ -146,17 +146,21 @@ public class AlarmProvider extends ContentProvider {
         }
 
         ContentValues values = new ContentValues(initialValues);
+        try {
+            SQLiteDatabase db = mOpenHelper.getWritableDatabase();
+            long rowId = db.insert("alarms", "remindContent", values);
+            if (rowId < 0) {
+                throw new SQLException("Failed to insert row into " + url);
+            }
+            LogUtils.v("insert alarm", "Added alarm rowId = " + rowId);
 
-        SQLiteDatabase db = mOpenHelper.getWritableDatabase();
-        long rowId = db.insert("alarms", "remindContent", values);
-        if (rowId < 0) {
-            throw new SQLException("Failed to insert row into " + url);
+            Uri newUrl = ContentUris.withAppendedId(Constants.ALARM_CONTENT_URI, rowId);
+            getContext().getContentResolver().notifyChange(newUrl, null);
+            return newUrl;
+        } catch (Exception ex) {
+            return null;
         }
-        LogUtils.v("insert alarm", "Added alarm rowId = " + rowId);
 
-        Uri newUrl = ContentUris.withAppendedId(Constants.ALARM_CONTENT_URI, rowId);
-        getContext().getContentResolver().notifyChange(newUrl, null);
-        return newUrl;
     }
 
     public int delete(Uri url, String where, String[] whereArgs) {
