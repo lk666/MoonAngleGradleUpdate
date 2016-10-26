@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Paint;
 import android.location.LocationManager;
 import android.support.v4.app.Fragment;
@@ -551,9 +553,29 @@ public class PublicUtil extends LibPublicUtil {
         return getExtraValue(intent,Constants.PUSH_URL);
     }
 
+    /**
+     * find the home launcher Package
+     *
+     * @param context
+     * @return
+     */
+    public static String findLauncherPackage(Context context) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        return resolveInfo.activityInfo.packageName;
+    }
+
+    /**
+     * 更新桌面角标
+     * @param context
+     * @param count
+     */
     public static void setMainAmount(Context context,int count){
-        LogUtils.d("更新桌面角标：" + count);
+        LogUtils.d("badge count ：" + count);
         if(count != ClientStateManager.getMenuNum()){
+            LogUtils.d("update badge count ：" + count);
             ClientStateManager.setMenuNum(count);
             // TODO: 2016/10/24  更新桌面角标数字
             BadgeUtil.applyCount(context,count);

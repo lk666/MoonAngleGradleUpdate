@@ -90,7 +90,7 @@ public class BMPushReceiver extends PushGTReceiver {
                         "token=" + token);
                 intent.putExtra("back", false);
             }
-            // TODO: 2016/10/24 原生跳转
+            /*// TODO: 2016/10/24 原生跳转
             else if (MenuCode.dispatch.toString().equals(menuCode)) {
                 intent = new Intent(context, OrdersTabActivity.class);
             } else if (MenuCode.site_sign.toString().equals(menuCode)) {
@@ -131,7 +131,9 @@ public class BMPushReceiver extends PushGTReceiver {
             } else if (MenuCode.activity_collect_clothes.toString().equals(menuCode)) {
                 intent = new Intent(context, ClothingTabActivity.class);
                 intent.putExtra("type", ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
-            } else {
+            } */
+            // TODO: 2016/10/25 统一跳转到Main
+            else {
                 intent = new Intent(context, MainActivity.class);
                 intent.putExtra(Constants.PUSH_VIEW, menuCode);
             }

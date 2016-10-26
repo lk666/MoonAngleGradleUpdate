@@ -1,5 +1,6 @@
 package cn.com.bluemoon.lib.badger.impl;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -10,9 +11,10 @@ import android.net.Uri;
 import java.util.Arrays;
 import java.util.List;
 
+import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.badger.interf.Badger;
-import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 import cn.com.bluemoon.lib.badger.util.CloseHelper;
+import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
  * @author Leo Lin
@@ -24,7 +26,9 @@ public class SamsungHomeBadger implements Badger {
     private static final String[] CONTENT_PROJECTION = new String[]{"_id","class"};
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+        BadgeUtil.showNotification(context, notification);
+
         Uri mUri = Uri.parse(CONTENT_URI);
         ContentResolver contentResolver = context.getContentResolver();
         Cursor cursor = null;

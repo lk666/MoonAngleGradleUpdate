@@ -1,5 +1,6 @@
 package cn.com.bluemoon.lib.badger.impl;
 
+import android.app.Notification;
 import android.content.AsyncQueryHandler;
 import android.content.ComponentName;
 import android.content.ContentValues;
@@ -11,8 +12,9 @@ import android.net.Uri;
 import java.util.Arrays;
 import java.util.List;
 
-import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
+import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.badger.interf.Badger;
+import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 
 /**
@@ -37,7 +39,9 @@ public class SonyHomeBadger implements Badger {
 
     @Override
     public void executeBadge(Context context, ComponentName componentName,
-                             int badgeCount) throws ShortcutBadgeException {
+                             int badgeCount,Notification notification) throws ShortcutBadgeException {
+        BadgeUtil.showNotification(context, notification);
+
         if (sonyBadgeContentProviderExists(context)) {
             executeBadgeByContentProvider(context, componentName, badgeCount);
         } else {

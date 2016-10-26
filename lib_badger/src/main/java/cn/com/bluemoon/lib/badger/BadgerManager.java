@@ -1,11 +1,13 @@
 package cn.com.bluemoon.lib.badger;
 
+import android.app.Notification;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.os.Build;
+import android.text.TextUtils;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -30,10 +32,10 @@ import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 /**
  * @author Leo Lin
  */
-public class ShortcutBadger {
+public class BadgerManager {
 
-    private static Badger sShortcutBadger;
-    private static ComponentName sComponentName;
+    private static Badger curBadger;
+    private static ComponentName componentName;
 
     private static final List<Class<? extends Badger>> BADGERS = new LinkedList<>();
 
@@ -54,22 +56,28 @@ public class ShortcutBadger {
     }
 
     /**
-     * 找到当前的应用主题
-     * @param manufacturer
-     * @return
+     * Tries to update the notification count, throw a {@link ShortcutBadgeException} if it fails
+     *
+     * @param context    Caller context
+     * @param badgeCount Desired badge count
      */
-    private static Badger getNewBadger(String manufacturer) {
-        Badger badger ;
-        if (manufacturer.toLowerCase().equals("xiaomi")) {
-            badger = new XiaomiHomeBadger();
-        } else if (manufacturer.toLowerCase().equals("zuk")) {
-            badger = new ZukHomeBadger();
-        } else if (manufacturer.toLowerCase().equals("oppo")) {
-            badger = new OPPOHomeBader();
-        } else {
-            badger = new DefaultBadger();
+    public static void applyCountOrThrow(Context context, int badgeCount, String packageName,
+                                         Notification notification) throws ShortcutBadgeException {
+        if(TextUtils.isEmpty(packageName)){
+            return;
         }
-        return badger;
+        ComponentName name = context.getPackageManager().getLaunchIntentForPackage(packageName)
+                .getComponent();
+        if (curBadger == null) {
+            boolean launcherReady = initBadger(context);
+            if (!launcherReady)
+                throw new ShortcutBadgeException("No default launcher available");
+        }
+        try {
+            curBadger.executeBadge(context, name, badgeCount, notification);
+        } catch (Exception e) {
+            throw new ShortcutBadgeException("Unable to execute badge", e);
+        }
     }
 
     /**
@@ -78,39 +86,30 @@ public class ShortcutBadger {
      * @param context    Caller context
      * @param badgeCount Desired badge count
      */
-    public static void applyCountOrThrow(Context context, int badgeCount) throws
-            ShortcutBadgeException {
-        if (sShortcutBadger == null) {
+    public static void applyCountOrThrow(Context context, int badgeCount, Notification
+            notification) throws ShortcutBadgeException {
+        if (curBadger == null) {
             boolean launcherReady = initBadger(context);
-
             if (!launcherReady)
                 throw new ShortcutBadgeException("No default launcher available");
         }
-
+        if (componentName == null) {
+            componentName = context.getPackageManager().getLaunchIntentForPackage(context
+                    .getPackageName()).getComponent();
+        }
         try {
-            sShortcutBadger.executeBadge(context, sComponentName, badgeCount);
+            curBadger.executeBadge(context, componentName, badgeCount, notification);
         } catch (Exception e) {
             throw new ShortcutBadgeException("Unable to execute badge", e);
         }
     }
 
-
-
-    /**
-     * Tries to remove the notification count, throw a {@link ShortcutBadgeException} if it fails
-     *
-     * @param context Caller context
-     */
-    public static void removeCountOrThrow(Context context) throws ShortcutBadgeException {
-        applyCountOrThrow(context, 0);
-    }
-
     // Initialize Badger if a launcher is availalble (eg. set as default on the device)
     // Returns true if a launcher is available, in this case, the Badger will be set and
-    // sShortcutBadger will be non null.
+    // curBadger will be non null.
     private static boolean initBadger(Context context) {
 
-        sComponentName = context.getPackageManager().getLaunchIntentForPackage(context
+        componentName = context.getPackageManager().getLaunchIntentForPackage(context
                 .getPackageName()).getComponent();
 
         Intent intent = new Intent(Intent.ACTION_MAIN);
@@ -122,7 +121,6 @@ public class ShortcutBadger {
             return false;
 
         String currentHomePackage = resolveInfo.activityInfo.packageName;
-
         for (Class<? extends Badger> badger : BADGERS) {
             Badger shortcutBadger = null;
             try {
@@ -131,18 +129,27 @@ public class ShortcutBadger {
             }
             if (shortcutBadger != null && shortcutBadger.getSupportLaunchers().contains
                     (currentHomePackage)) {
-                sShortcutBadger = shortcutBadger;
+                curBadger = shortcutBadger;
                 break;
             }
         }
-        if (sShortcutBadger == null) {
-            sShortcutBadger = getNewBadger(Build.MANUFACTURER);
+        if (curBadger == null) {
+            String manufacturer = Build.MANUFACTURER.toLowerCase();
+            if (manufacturer.equals("xiaomi")) {
+                curBadger = new XiaomiHomeBadger();
+            } else if (manufacturer.equals("zuk")) {
+                curBadger = new ZukHomeBadger();
+            } else if (manufacturer.equals("oppo")) {
+                curBadger = new OPPOHomeBader();
+            } else {
+                curBadger = new DefaultBadger();
+            }
         }
         return true;
     }
 
     // Avoid anybody to instantiate this class
-    private ShortcutBadger() {
+    private BadgerManager() {
 
     }
 }
