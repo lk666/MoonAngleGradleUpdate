@@ -27,22 +27,17 @@ public class BadgeUtil {
      * @param badgeCount Desired badge count
      * @return true in case of success, false otherwise
      */
-    public static boolean applyAllCount(Context context, int badgeCount, Notification
-            notification) {
+    public static boolean applyAllCount(Context context, int badgeCount) {
         List<ResolveInfo> list = getAllResolveInfo(context);
         boolean success = false;
         for (int i = 0; i < list.size(); i++) {
             success = applyCountByPackage(context, badgeCount, list.get(i).activityInfo
-                    .packageName, notification);
+                    .packageName, null);
             if (!success) {
                 break;
             }
         }
         return success;
-    }
-
-    public static boolean applyAllCount(Context context, int badgeCount) {
-        return applyAllCount(context, badgeCount, null);
     }
 
     /**
@@ -92,12 +87,8 @@ public class BadgeUtil {
      * @param context
      * @return
      */
-    public static boolean removeAllCount(Context context, Notification notification) {
-        return applyAllCount(context, 0,notification);
-    }
-
     public static boolean removeAllCount(Context context) {
-        return applyAllCount(context, 0,null);
+        return applyAllCount(context, 0);
     }
 
     /**
@@ -107,25 +98,19 @@ public class BadgeUtil {
      * @param packageName
      * @return
      */
-    public static boolean removeCountByPackage(Context context, String packageName, Notification notification) {
-        return applyCountByPackage(context, 0, packageName,notification);
+    public static boolean removeCountByPackage(Context context, String packageName) {
+        return applyCountByPackage(context, 0, packageName,null);
     }
 
     /**
      * 清除当前应用的角标
      *
      * @param context
-     * @param notification
      * @return
      */
-    public static boolean removeCount(Context context, Notification notification) {
-        return applyCount(context, 0, notification);
-    }
-
     public static boolean removeCount(Context context) {
-        return removeCount(context, null);
+        return applyCount(context, 0, null);
     }
-
 
     /**
      * 展示通知
