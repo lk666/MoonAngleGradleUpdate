@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.utils.receiver;
 
 import android.app.ActivityManager;
+import android.app.Notification;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -52,10 +53,9 @@ public class BMPushReceiver extends PushGTReceiver {
             try {
                 PushItem item = JSON.parseObject(data, PushItem.class);
                 if (item != null) {
-                    /*展示通知消息*/
-                    showNotification(context, item);
-                    /*更新桌面图标数字*/
-                    PublicUtil.setMainAmount(context, item.getContParam().getNum());
+                    /*发送通知，并更新桌面图标数字*/
+                    PublicUtil.setMainAmount(context, item.getContParam().getNum(),
+                            getNotification(context, item));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -70,9 +70,9 @@ public class BMPushReceiver extends PushGTReceiver {
      * @param context
      * @param item
      */
-    private void showNotification(Context context, PushItem item) {
+    private Notification getNotification(Context context, PushItem item) {
         if (item == null) {
-            return;
+            return null;
         }
         String title = item.getTitle();
         String content = item.getDescription();
@@ -81,7 +81,7 @@ public class BMPushReceiver extends PushGTReceiver {
         LogUtils.d(TAG, "updateContent:" + menuCode);
         String token = ClientStateManager.getLoginToken();
 
-        Intent intent ;
+        Intent intent;
         if (isAppRunning(context) && !TextUtils.isEmpty(menuCode) && !TextUtils.isEmpty(token)) {
             // TODO: 2016/10/24 网页跳转 
             if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
@@ -140,13 +140,12 @@ public class BMPushReceiver extends PushGTReceiver {
         } else {
             intent = new Intent(context, AppStartActivity.class);
             intent.putExtra(Constants.PUSH_VIEW, menuCode);
-            if(Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)){
+            if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
                 intent.putExtra(Constants.PUSH_URL, url);
             }
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        //展示消息通知
-        NotificationUtil.showSimpleNotify(context,title,content,intent);
+        return NotificationUtil.getSimpleNotify(context, title, content, intent);
     }
 
     /**
