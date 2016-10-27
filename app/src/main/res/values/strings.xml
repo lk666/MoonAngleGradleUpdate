@@ -186,6 +186,10 @@
     <string name="pending_order_select_txt">出货仓</string>
     <string name="pending_order_get_or_not">是否取消接单？</string>
     <string name="pending_order_delivery_or_not">是否现在去送货？</string>
+    <string name="order_filter_name">收货人</string>
+    <string name="order_filter_address">地址</string>
+    <string name="order_filter_name_hint">请输入收货人名称</string>
+    <string name="order_filter_address_hint">请输入收货地址</string>
 
 
     <!-- 待接单 -->

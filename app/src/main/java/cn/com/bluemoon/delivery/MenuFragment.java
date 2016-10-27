@@ -112,7 +112,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
 
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(TAG, "getVerifyCode result = " + responseString);
+            LogUtils.d(TAG, "userInfoHandler result = " + responseString);
             try {
                 ResultUser userResult = JSON.parseObject(responseString, ResultUser.class);
                 if (userResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {

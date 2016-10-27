@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -29,10 +30,31 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
     private long pageFlag;
+    private String nameFilter;
+    private String addressFilter;
     private int clickIndex;
+    private View viewPopStart;
     @Override
     protected String getTitleString() {
         return getString(R.string.tab_orders);
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar actionBar) {
+        setFilterBtn(actionBar);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
+            @Override
+            public void comfireClick(String name, String address) {
+                nameFilter = name;
+                addressFilter = address;
+                initData();
+            }
+        });
+        popupWindow.showAsDropDown(viewPopStart);
     }
 
 
@@ -65,18 +87,20 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+        nameFilter = "";
+        addressFilter = "";
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGORDERS, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter, OrderType.PENDINGORDERS, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGORDERS,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter,OrderType.PENDINGORDERS,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 
@@ -123,6 +147,17 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
 
     }
 
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_fragment_tab_order;
+    }
+
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
+        viewPopStart = headView.findViewById(R.id.view_pop_start);
+    }
+
 
     public class OrdersAdapter extends BaseListAdapter<OrderVo> {
 
@@ -152,7 +187,7 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
             txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
             txtPaytime.setText(String.format(getString(R.string.pending_order_pay_time), order.getPayOrderTime()));
-            txtDispatchId.setText(order.getDispatchId());
+            txtDispatchId.setText(order.getOrderId());
             txtAddress.setText(order.getAddress());
 
 

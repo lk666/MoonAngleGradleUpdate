@@ -25,6 +25,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -33,6 +34,8 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class PendingAppointmentFragment extends BasePullToRefreshListViewFragment {
     private long pageFlag;
+    private String nameFilter;
+    private String addressFilter;
     private int clickIndex;
     private View viewPopStart;
     private Activity mContext;
@@ -46,6 +49,24 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
     @Override
     protected String getTitleString() {
         return getString(R.string.tab_appointment);
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar actionBar) {
+        setFilterBtn(actionBar);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
+            @Override
+            public void comfireClick(String name, String address) {
+                nameFilter = name;
+                addressFilter = address;
+                initData();
+            }
+        });
+        popupWindow.showAsDropDown(viewPopStart);
     }
 
     @Override
@@ -77,18 +98,20 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+        nameFilter = "";
+        addressFilter = "";
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter,OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGAPPOINTMENT,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter,OrderType.PENDINGAPPOINTMENT,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 
@@ -114,7 +137,7 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
 
     @Override
     protected int getHeadLayoutId() {
-        return R.layout.head_fragment_tab_appointment;
+        return R.layout.head_fragment_tab_order;
     }
 
     @Override

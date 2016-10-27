@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
 import butterknife.ButterKnife;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -93,6 +95,18 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
                     });
             setActionBar(titleBar);
         }
+    }
+
+    final protected void setFilterBtn(CommonActionBar titleBar) {
+        titleBar.getTvRightView().setText(R.string.btn_txt_fillter);
+        titleBar.getTvRightView().setCompoundDrawablePadding(10);
+
+        Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
+        assert drawableFillter != null;
+        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
+                .getMinimumHeight());
+        titleBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
+        titleBar.getTvRightView().setVisibility(View.VISIBLE);
     }
 
     @Override

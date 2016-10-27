@@ -286,7 +286,7 @@ public class DeliveryApi {
     }
     /* 2.2.2 根据类型获取订单列表 */
     /* 返回： ResultOrderVo */
-    public static void getOrdersByTypeByPager(String token, long pageFlag,OrderType type,
+    public static void getOrdersByTypeByPager(String token, long pageFlag, String customerName, String region, OrderType type,
                                        AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -297,8 +297,8 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("type", type.getType());
         params.put("timestamp", pageFlag);
-        params.put("customerName", "");
-        params.put("region", "");
+        params.put("customerName", customerName);
+        params.put("region", region);
         params.put("pageSize", 10);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/order/getOrdersByTypeByPager%s",

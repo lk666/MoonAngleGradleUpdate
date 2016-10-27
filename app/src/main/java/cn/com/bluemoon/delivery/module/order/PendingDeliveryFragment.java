@@ -23,6 +23,7 @@ import cn.com.bluemoon.delivery.app.api.model.Storehouse;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -31,8 +32,11 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
     private long pageFlag;
+    private String nameFilter;
+    private String addressFilter;
     private int clickIndex;
     private Activity mContext;
+    private View viewPopStart;
 
     @Override
     protected void onBeforeCreateView() {
@@ -43,6 +47,24 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected String getTitleString() {
         return getString(R.string.tab_delivery);
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar actionBar) {
+        setFilterBtn(actionBar);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
+            @Override
+            public void comfireClick(String name, String address) {
+                nameFilter = name;
+                addressFilter = address;
+                initData();
+            }
+        });
+        popupWindow.showAsDropDown(viewPopStart);
     }
 
 
@@ -75,18 +97,20 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+        nameFilter = "";
+        addressFilter = "";
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGDELIVERY, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter,addressFilter, OrderType.PENDINGDELIVERY, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, OrderType.PENDINGDELIVERY,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter,addressFilter,OrderType.PENDINGDELIVERY,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 
@@ -105,6 +129,17 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
         }
     }
 
+
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_fragment_tab_order;
+    }
+
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
+        viewPopStart = headView.findViewById(R.id.view_pop_start);
+    }
     @Override
     public void onItemClick(Object item, View view, int position) {
 
