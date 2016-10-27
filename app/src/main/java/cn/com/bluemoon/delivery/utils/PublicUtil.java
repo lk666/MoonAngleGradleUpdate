@@ -45,6 +45,7 @@ import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
 import cn.com.bluemoon.delivery.module.order.OrderDetailActivity;
+import cn.com.bluemoon.delivery.module.order.ScanWithInputActivity;
 import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -98,13 +99,22 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     /**
-     * 打开签收扫描界面
+     * 打开扫描界面
      *
      * @param resultCode 大于1的正整数
      */
     public static void openScanOrder(Activity aty, Fragment fragment, String title,
                                      String btnString, int requestCode, int resultCode) {
         ScanInputActivity.actStart(aty, fragment, title, btnString, requestCode, resultCode);
+    }
+
+    /**
+     * 打开签收扫描界面
+     *
+     */
+    public static void openOrderWithInput(Fragment fragment, String title,
+                                     String btnString, int requestCode) {
+        ScanWithInputActivity.actStart(fragment, title, btnString, requestCode);
     }
 
     /**

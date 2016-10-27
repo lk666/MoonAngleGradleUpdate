@@ -565,6 +565,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden" />
+        <activity
+            android:name=".module.order.ScanWithInputActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
 
 
     </application>
