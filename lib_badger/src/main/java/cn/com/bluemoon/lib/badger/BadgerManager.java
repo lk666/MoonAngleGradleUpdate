@@ -64,7 +64,7 @@ public class BadgerManager {
     public static void applyCountOrThrow(Context context, int badgeCount, String packageName,
                                          Notification notification) throws ShortcutBadgeException {
         if(TextUtils.isEmpty(packageName)){
-            return;
+            throw new ShortcutBadgeException("packageName can not empty");
         }
         ComponentName name = context.getPackageManager().getLaunchIntentForPackage(packageName)
                 .getComponent();

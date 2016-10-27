@@ -28,7 +28,6 @@ public class NewHtcHomeBadger implements Badger {
     @Override
     public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
 
-        BadgeUtil.showNotification(context, notification);
 
         Intent intent1 = new Intent(INTENT_SET_NOTIFICATION);
         intent1.putExtra(EXTRA_COMPONENT, componentName.flattenToShortString());
@@ -44,6 +43,7 @@ public class NewHtcHomeBadger implements Badger {
         } else {
             throw new ShortcutBadgeException("unable to resolve intent: " + intent.toString());
         }
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override

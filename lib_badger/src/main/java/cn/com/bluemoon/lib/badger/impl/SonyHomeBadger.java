@@ -40,13 +40,14 @@ public class SonyHomeBadger implements Badger {
     @Override
     public void executeBadge(Context context, ComponentName componentName,
                              int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
 
         if (sonyBadgeContentProviderExists(context)) {
             executeBadgeByContentProvider(context, componentName, badgeCount);
         } else {
             executeBadgeByBroadcast(context, componentName, badgeCount);
         }
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override

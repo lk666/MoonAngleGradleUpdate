@@ -49,9 +49,9 @@ public class XiaomiHomeBadger implements Badger {
                 throw new ShortcutBadgeException("unable to resolve intent: " + localIntent
                         .toString());
             }
-        }finally {
-            BadgeUtil.showNotification(context, notification, 0);
         }
+
+        BadgeUtil.showNotification(context, notification,0);
 
     }
 

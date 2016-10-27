@@ -46,7 +46,6 @@ public class OPPOHomeBader implements Badger {
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
     public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
 
         if (badgeCount == 0) {
             badgeCount = -1;
@@ -69,6 +68,8 @@ public class OPPOHomeBader implements Badger {
                 }
             }
         }
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override

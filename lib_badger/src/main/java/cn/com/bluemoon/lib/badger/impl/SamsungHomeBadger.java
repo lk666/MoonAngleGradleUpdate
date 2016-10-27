@@ -27,7 +27,6 @@ public class SamsungHomeBadger implements Badger {
 
     @Override
     public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
 
         Uri mUri = Uri.parse(CONTENT_URI);
         ContentResolver contentResolver = context.getContentResolver();
@@ -54,6 +53,8 @@ public class SamsungHomeBadger implements Badger {
         } finally {
             CloseHelper.close(cursor);
         }
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     private ContentValues getContentValues(ComponentName componentName, int badgeCount, boolean isInsert) {

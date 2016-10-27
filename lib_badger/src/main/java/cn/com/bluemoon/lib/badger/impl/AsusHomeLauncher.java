@@ -25,7 +25,7 @@ public class AsusHomeLauncher implements Badger {
 
     @Override
     public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
+
 
         Intent intent = new Intent(INTENT_ACTION);
         intent.putExtra(INTENT_EXTRA_BADGE_COUNT, badgeCount);
@@ -37,6 +37,8 @@ public class AsusHomeLauncher implements Badger {
         } else {
             throw new ShortcutBadgeException("unable to resolve intent: " + intent.toString());
         }
+        BadgeUtil.showNotification(context, notification);
+
     }
 
     @Override

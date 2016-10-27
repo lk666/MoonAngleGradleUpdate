@@ -28,12 +28,13 @@ public class NovaHomeBadger implements Badger {
 
     @Override
     public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(TAG, componentName.getPackageName() + "/" + componentName.getClassName());
         contentValues.put(COUNT, badgeCount);
         context.getContentResolver().insert(Uri.parse(CONTENT_URI), contentValues);
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override

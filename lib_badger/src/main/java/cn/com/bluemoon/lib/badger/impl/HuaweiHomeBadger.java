@@ -23,7 +23,6 @@ public class HuaweiHomeBadger implements Badger {
 
     @Override
     public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
 
         String launcherClassName = componentName.getClassName();
         if (launcherClassName == null) {
@@ -34,7 +33,10 @@ public class HuaweiHomeBadger implements Badger {
         localBundle.putString("package", context.getPackageName());
         localBundle.putString("class", launcherClassName);
         localBundle.putInt("badgenumber", badgeCount);
-        context.getContentResolver().call(Uri.parse("content://com.huawei.android.launcher.settings/badge/"), "change_badge", null, localBundle);
+        context.getContentResolver().call(Uri.parse("content://com.huawei.android.launcher" +
+                ".settings/badge/"), "change_badge", null, localBundle);
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override
