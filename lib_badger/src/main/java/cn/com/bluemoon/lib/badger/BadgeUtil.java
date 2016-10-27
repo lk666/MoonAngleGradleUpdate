@@ -55,7 +55,7 @@ public class BadgeUtil {
             BadgerManager.applyCountOrThrow(context, badgeCount, packageName, notification);
             return true;
         } catch (ShortcutBadgeException e) {
-            showNotification(context,notification);
+            showNotification(context, notification);
             Log.e(TAG, "Unable to execute badge", e);
             return false;
         }
@@ -73,7 +73,7 @@ public class BadgeUtil {
             BadgerManager.applyCountOrThrow(context, badgeCount, notification);
             return true;
         } catch (ShortcutBadgeException e) {
-            showNotification(context,notification);
+            showNotification(context, notification);
             Log.e(TAG, "Unable to execute badge", e);
             return false;
         }

@@ -14,8 +14,8 @@ import cn.com.bluemoon.lib.badger.util.BroadcastHelper;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * @author Leo Lin
- * Deprecated, LG devices will use DefaultBadger
+ * @author bm
+ *         Deprecated, LG devices will use DefaultBadger
  */
 @Deprecated
 public class LGHomeBadger implements Badger {
@@ -26,14 +26,15 @@ public class LGHomeBadger implements Badger {
     private static final String INTENT_EXTRA_ACTIVITY_NAME = "badge_count_class_name";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
 
         Intent intent = new Intent(INTENT_ACTION);
         intent.putExtra(INTENT_EXTRA_BADGE_COUNT, badgeCount);
         intent.putExtra(INTENT_EXTRA_PACKAGENAME, componentName.getPackageName());
         intent.putExtra(INTENT_EXTRA_ACTIVITY_NAME, componentName.getClassName());
-        if(BroadcastHelper.canResolveBroadcast(context, intent)) {
+        if (BroadcastHelper.canResolveBroadcast(context, intent)) {
             context.sendBroadcast(intent);
         } else {
             throw new ShortcutBadgeException("unable to resolve intent: " + intent.toString());

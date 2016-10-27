@@ -14,11 +14,7 @@ import cn.com.bluemoon.lib.badger.interf.Badger;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * Shortcut Badger support for Nova Launcher.
- * TeslaUnread must be installed.
- * User: Gernot Pansy
- * Date: 2014/11/03
- * Time: 7:15
+ * @author bm
  */
 public class NovaHomeBadger implements Badger {
 
@@ -27,7 +23,8 @@ public class NovaHomeBadger implements Badger {
     private static final String TAG = "tag";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
         ContentValues contentValues = new ContentValues();
         contentValues.put(TAG, componentName.getPackageName() + "/" + componentName.getClassName());

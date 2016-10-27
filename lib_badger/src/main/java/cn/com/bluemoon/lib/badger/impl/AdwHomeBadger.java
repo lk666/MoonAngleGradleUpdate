@@ -14,7 +14,7 @@ import cn.com.bluemoon.lib.badger.util.BroadcastHelper;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * @author Gernot Pansy
+ * @author bm
  */
 public class AdwHomeBadger implements Badger {
 
@@ -24,7 +24,8 @@ public class AdwHomeBadger implements Badger {
     public static final String COUNT = "COUNT";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
         Intent intent = new Intent(INTENT_UPDATE_COUNTER);
         intent.putExtra(PACKAGENAME, componentName.getPackageName());

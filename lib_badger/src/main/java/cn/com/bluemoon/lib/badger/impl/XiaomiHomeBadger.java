@@ -16,7 +16,7 @@ import cn.com.bluemoon.lib.badger.util.BroadcastHelper;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * @author leolin
+ * @author bm
  */
 public class XiaomiHomeBadger implements Badger {
 
@@ -27,14 +27,14 @@ public class XiaomiHomeBadger implements Badger {
             ".update_application_message_text";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws
-
-            ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
         try {
             //miui 6及以上版本
             Field field = notification.getClass().getDeclaredField("extraNotification");
             Object extraNotification = field.get(notification);
-            Method method = extraNotification.getClass().getDeclaredMethod("setMessageCount", int.class);
+            Method method = extraNotification.getClass().getDeclaredMethod("setMessageCount", int
+                    .class);
             method.invoke(extraNotification, badgeCount);
         } catch (Exception e) {
             //miui 6之前版本
@@ -51,7 +51,7 @@ public class XiaomiHomeBadger implements Badger {
             }
         }
 
-        BadgeUtil.showNotification(context, notification,0);
+        BadgeUtil.showNotification(context, notification, 0);
 
     }
 

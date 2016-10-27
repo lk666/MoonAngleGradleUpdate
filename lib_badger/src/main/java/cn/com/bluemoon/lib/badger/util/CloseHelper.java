@@ -6,7 +6,7 @@ import java.io.Closeable;
 import java.io.IOException;
 
 /**
- * @author leolin
+ * @author bm
  */
 public class CloseHelper {
 

@@ -14,7 +14,7 @@ import cn.com.bluemoon.lib.badger.util.BroadcastHelper;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * @author leolin
+ * @author bm
  */
 public class DefaultBadger implements Badger {
     private static final String INTENT_ACTION = "android.intent.action.BADGE_COUNT_UPDATE";
@@ -23,7 +23,8 @@ public class DefaultBadger implements Badger {
     private static final String INTENT_EXTRA_ACTIVITY_NAME = "badge_count_class_name";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
 
         Intent intent = new Intent(INTENT_ACTION);

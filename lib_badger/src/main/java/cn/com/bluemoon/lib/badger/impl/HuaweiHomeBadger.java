@@ -15,14 +15,15 @@ import cn.com.bluemoon.lib.badger.interf.Badger;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * @author Jason Ling
+ * @author bm
  */
 public class HuaweiHomeBadger implements Badger {
 
     private static final String LOG_TAG = HuaweiHomeBadger.class.getSimpleName();
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
         String launcherClassName = componentName.getClassName();
         if (launcherClassName == null) {
