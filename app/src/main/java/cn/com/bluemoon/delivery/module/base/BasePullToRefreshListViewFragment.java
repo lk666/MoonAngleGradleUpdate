@@ -46,7 +46,7 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
         List dataList = getGetMoreList(result);
         // 判断数据是否为空
         if (dataList == null || dataList.isEmpty()) {
-//                    showEmptyView();
+            toast(getString(R.string.card_no_list_data));
         } else {
             setGetMoreList(dataList);
         }
@@ -79,6 +79,7 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseList
         this.list.clear();
         this.list.addAll(list);
         adapter.notifyDataSetChanged();
+        this.ptrlv.getRefreshableView().scrollTo(0, 0);
     }
 
     @Override

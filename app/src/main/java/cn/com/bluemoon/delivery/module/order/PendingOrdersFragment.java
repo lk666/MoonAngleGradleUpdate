@@ -95,7 +95,7 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
         }
     }
 
-    @Override
+   @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         if (requestCode == 2) {
             if (result.getResponseCode() == 4102) {
@@ -110,8 +110,10 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
                                     }
                                 }).show();
             } else {
-                PublicUtil.showErrorMsg(getActivity(), result);
+                super.onErrorResponse(requestCode, result);
             }
+        } else {
+            super.onErrorResponse(requestCode, result);
         }
     }
 
