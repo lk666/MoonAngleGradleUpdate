@@ -18,17 +18,22 @@ import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 
 /**
- * @author Leo Lin
+ * @author bm
  */
 public class SonyHomeBadger implements Badger {
 
     private static final String INTENT_ACTION = "com.sonyericsson.home.action.UPDATE_BADGE";
-    private static final String INTENT_EXTRA_PACKAGE_NAME = "com.sonyericsson.home.intent.extra.badge.PACKAGE_NAME";
-    private static final String INTENT_EXTRA_ACTIVITY_NAME = "com.sonyericsson.home.intent.extra.badge.ACTIVITY_NAME";
-    private static final String INTENT_EXTRA_MESSAGE = "com.sonyericsson.home.intent.extra.badge.MESSAGE";
-    private static final String INTENT_EXTRA_SHOW_MESSAGE = "com.sonyericsson.home.intent.extra.badge.SHOW_MESSAGE";
+    private static final String INTENT_EXTRA_PACKAGE_NAME = "com.sonyericsson.home.intent.extra" +
+            ".badge.PACKAGE_NAME";
+    private static final String INTENT_EXTRA_ACTIVITY_NAME = "com.sonyericsson.home.intent.extra" +
+            ".badge.ACTIVITY_NAME";
+    private static final String INTENT_EXTRA_MESSAGE = "com.sonyericsson.home.intent.extra.badge" +
+            ".MESSAGE";
+    private static final String INTENT_EXTRA_SHOW_MESSAGE = "com.sonyericsson.home.intent.extra" +
+            ".badge.SHOW_MESSAGE";
 
-    private static final String PROVIDER_CONTENT_URI = "content://com.sonymobile.home.resourceprovider/badge";
+    private static final String PROVIDER_CONTENT_URI = "content://com.sonymobile.home" +
+            ".resourceprovider/badge";
     private static final String PROVIDER_COLUMNS_BADGE_COUNT = "badge_count";
     private static final String PROVIDER_COLUMNS_PACKAGE_NAME = "package_name";
     private static final String PROVIDER_COLUMNS_ACTIVITY_NAME = "activity_name";
@@ -38,15 +43,15 @@ public class SonyHomeBadger implements Badger {
     private AsyncQueryHandler mQueryHandler;
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName,
-                             int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
-
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
         if (sonyBadgeContentProviderExists(context)) {
             executeBadgeByContentProvider(context, componentName, badgeCount);
         } else {
             executeBadgeByBroadcast(context, componentName, badgeCount);
         }
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override
@@ -120,7 +125,8 @@ public class SonyHomeBadger implements Badger {
      */
     private static boolean sonyBadgeContentProviderExists(Context context) {
         boolean exists = false;
-        ProviderInfo info = context.getPackageManager().resolveContentProvider(SONY_HOME_PROVIDER_NAME, 0);
+        ProviderInfo info = context.getPackageManager().resolveContentProvider
+                (SONY_HOME_PROVIDER_NAME, 0);
         if (info != null) {
             exists = true;
         }

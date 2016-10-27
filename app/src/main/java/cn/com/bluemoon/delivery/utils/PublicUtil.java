@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -327,7 +328,6 @@ public class PublicUtil extends LibPublicUtil {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                // TODO Auto-generated method stub
                                 LoginActivity.actStart(context);
                                 context.finish();
                             }
@@ -335,15 +335,16 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     public static void showErrorMsg(Activity context, ResultBase resultBase) {
+
         if (Constants.RESPONSE_RESULT_TOKEN_EXPIRED == resultBase
                 .getResponseCode()) {
             showMessageTokenExpire(context);
         } else {
             String msg = Constants.ERROR_MAP.get(resultBase.getResponseCode());
             if (StringUtils.isEmpty(msg)) {
-                LibViewUtil.toast(context, resultBase.getResponseMsg());
+                ViewUtil.toast(resultBase.getResponseMsg());
             } else {
-                LibViewUtil.toast(context, msg);
+                ViewUtil.toast(msg);
             }
         }
     }
@@ -582,14 +583,19 @@ public class PublicUtil extends LibPublicUtil {
      * @param context
      * @param count
      */
-    public static void setMainAmount(Context context,int count){
+    public static void setMainAmount(Context context,int count,Notification notification){
         LogUtils.d("badge count ：" + count);
         if(count != ClientStateManager.getMenuNum()){
             LogUtils.d("update badge count ：" + count);
             ClientStateManager.setMenuNum(count);
-            // TODO: 2016/10/24  更新桌面角标数字
-            BadgeUtil.applyCount(context,count);
+            BadgeUtil.applyCount(context,count,notification);
+        }else{
+            NotificationUtil.showNotification(context,notification);
         }
+    }
+
+    public static void setMainAmount(Context context,int count){
+        setMainAmount(context,count,null);
     }
 
 

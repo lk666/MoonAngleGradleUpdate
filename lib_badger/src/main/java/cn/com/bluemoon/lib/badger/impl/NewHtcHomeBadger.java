@@ -14,7 +14,7 @@ import cn.com.bluemoon.lib.badger.util.BroadcastHelper;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * @author Leo Lin
+ * @author bm
  */
 public class NewHtcHomeBadger implements Badger {
 
@@ -26,9 +26,9 @@ public class NewHtcHomeBadger implements Badger {
     public static final String EXTRA_COUNT = "com.htc.launcher.extra.COUNT";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
-        BadgeUtil.showNotification(context, notification);
 
         Intent intent1 = new Intent(INTENT_SET_NOTIFICATION);
         intent1.putExtra(EXTRA_COMPONENT, componentName.flattenToShortString());
@@ -38,12 +38,14 @@ public class NewHtcHomeBadger implements Badger {
         intent.putExtra(PACKAGENAME, componentName.getPackageName());
         intent.putExtra(COUNT, badgeCount);
 
-        if(BroadcastHelper.canResolveBroadcast(context, intent1) || BroadcastHelper.canResolveBroadcast(context, intent)) {
+        if (BroadcastHelper.canResolveBroadcast(context, intent1) || BroadcastHelper
+                .canResolveBroadcast(context, intent)) {
             context.sendBroadcast(intent1);
             context.sendBroadcast(intent);
         } else {
             throw new ShortcutBadgeException("unable to resolve intent: " + intent.toString());
         }
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override

@@ -30,7 +30,7 @@ import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 
 /**
- * @author Leo Lin
+ * @author bm
  */
 public class BadgerManager {
 
@@ -49,9 +49,9 @@ public class BadgerManager {
         BADGERS.add(XiaomiHomeBadger.class);
         BADGERS.add(AsusHomeLauncher.class);
         BADGERS.add(HuaweiHomeBadger.class);
-        BADGERS.add(LGHomeBadger.class);
+//        BADGERS.add(LGHomeBadger.class);
         BADGERS.add(OPPOHomeBader.class);
-        BADGERS.add(SamsungHomeBadger.class);
+//        BADGERS.add(SamsungHomeBadger.class);
         BADGERS.add(ZukHomeBadger.class);
     }
 
@@ -63,8 +63,8 @@ public class BadgerManager {
      */
     public static void applyCountOrThrow(Context context, int badgeCount, String packageName,
                                          Notification notification) throws ShortcutBadgeException {
-        if(TextUtils.isEmpty(packageName)){
-            return;
+        if (TextUtils.isEmpty(packageName)) {
+            throw new ShortcutBadgeException("packageName can not empty");
         }
         ComponentName name = context.getPackageManager().getLaunchIntentForPackage(packageName)
                 .getComponent();

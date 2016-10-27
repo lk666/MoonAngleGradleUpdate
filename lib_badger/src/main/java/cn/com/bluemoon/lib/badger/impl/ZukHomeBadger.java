@@ -16,7 +16,7 @@ import cn.com.bluemoon.lib.badger.interf.Badger;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * Created by wuxuejian on 2016/10/9.
+ * @author bm
  * 需在设置 -- 通知和状态栏 -- 应用角标管理 中开启应用
  */
 
@@ -26,12 +26,14 @@ public class ZukHomeBadger implements Badger {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
         Bundle extra = new Bundle();
         extra.putInt("app_badge_count", badgeCount);
         context.getContentResolver().call(CONTENT_URI, "setAppBadgeCount", null, extra);
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override

@@ -14,7 +14,7 @@ import cn.com.bluemoon.lib.badger.util.BroadcastHelper;
 import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
 
 /**
- * @author Gernot Pansy
+ * @author bm
  */
 public class ApexHomeBadger implements Badger {
 
@@ -24,8 +24,8 @@ public class ApexHomeBadger implements Badger {
     private static final String CLASS = "class";
 
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
         Intent intent = new Intent(INTENT_UPDATE_COUNTER);
         intent.putExtra(PACKAGENAME, componentName.getPackageName());
@@ -36,6 +36,7 @@ public class ApexHomeBadger implements Badger {
         } else {
             throw new ShortcutBadgeException("unable to resolve intent: " + intent.toString());
         }
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override

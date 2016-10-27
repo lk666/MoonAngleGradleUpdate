@@ -28,7 +28,7 @@ import cn.com.bluemoon.lib.badger.util.ShortcutBadgeException;
  *
  * @author: NingSo
  * @Email: ningso.ping@gmail.com
- * <p>
+ * <p/>
  * OPPO R9 not supported
  * Version number 6 applies only to chat-type apps
  */
@@ -45,8 +45,8 @@ public class OPPOHomeBader implements Badger {
 
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
     @Override
-    public void executeBadge(Context context, ComponentName componentName, int badgeCount,Notification notification) throws ShortcutBadgeException {
-        BadgeUtil.showNotification(context, notification);
+    public void executeBadge(Context context, ComponentName componentName, int badgeCount,
+                             Notification notification) throws ShortcutBadgeException {
 
         if (badgeCount == 0) {
             badgeCount = -1;
@@ -63,12 +63,16 @@ public class OPPOHomeBader implements Badger {
                 try {
                     Bundle extras = new Bundle();
                     extras.putInt(INTENT_EXTRA_BADGEUPGRADE_COUNT, badgeCount);
-                    context.getContentResolver().call(Uri.parse(PROVIDER_CONTENT_URI), "setAppBadgeCount", null, extras);
+                    context.getContentResolver().call(Uri.parse(PROVIDER_CONTENT_URI),
+                            "setAppBadgeCount", null, extras);
                 } catch (Throwable th) {
-                    throw new ShortcutBadgeException("unable to resolve intent: " + intent.toString());
+                    throw new ShortcutBadgeException("unable to resolve intent: " + intent
+                            .toString());
                 }
             }
         }
+
+        BadgeUtil.showNotification(context, notification);
     }
 
     @Override
@@ -82,7 +86,8 @@ public class OPPOHomeBader implements Badger {
             return ROMVERSION;
         }
         try {
-            i = ((Integer) executeClassLoad(getClass("com.color.os.ColorBuild"), "getColorOSVERSION", null, null)).intValue();
+            i = ((Integer) executeClassLoad(getClass("com.color.os.ColorBuild"),
+                    "getColorOSVERSION", null, null)).intValue();
         } catch (Exception e) {
             i = 0;
         }
@@ -138,7 +143,8 @@ public class OPPOHomeBader implements Badger {
             try {
                 return cls.getMethod(str, clsArr);
             } catch (Exception e2) {
-                return cls.getSuperclass() != null ? getMethod(cls.getSuperclass(), str, clsArr) : method;
+                return cls.getSuperclass() != null ? getMethod(cls.getSuperclass(), str, clsArr)
+                        : method;
             }
         }
     }

@@ -27,7 +27,7 @@ public class BadgeUtil {
      * @param badgeCount Desired badge count
      * @return true in case of success, false otherwise
      */
-    public static boolean applyAllCount(Context context, int badgeCount) {
+    private static boolean applyAllCount(Context context, int badgeCount) {
         List<ResolveInfo> list = getAllResolveInfo(context);
         boolean success = false;
         for (int i = 0; i < list.size(); i++) {
@@ -55,6 +55,7 @@ public class BadgeUtil {
             BadgerManager.applyCountOrThrow(context, badgeCount, packageName, notification);
             return true;
         } catch (ShortcutBadgeException e) {
+            showNotification(context, notification);
             Log.e(TAG, "Unable to execute badge", e);
             return false;
         }
@@ -72,13 +73,14 @@ public class BadgeUtil {
             BadgerManager.applyCountOrThrow(context, badgeCount, notification);
             return true;
         } catch (ShortcutBadgeException e) {
+            showNotification(context, notification);
             Log.e(TAG, "Unable to execute badge", e);
             return false;
         }
     }
 
     public static boolean applyCount(Context context, int badgeCount) {
-        return applyCount(context,badgeCount,null);
+        return applyCount(context, badgeCount, null);
     }
 
     /**
@@ -87,7 +89,7 @@ public class BadgeUtil {
      * @param context
      * @return
      */
-    public static boolean removeAllCount(Context context) {
+    private static boolean removeAllCount(Context context) {
         return applyAllCount(context, 0);
     }
 
@@ -99,7 +101,7 @@ public class BadgeUtil {
      * @return
      */
     public static boolean removeCountByPackage(Context context, String packageName) {
-        return applyCountByPackage(context, 0, packageName,null);
+        return applyCountByPackage(context, 0, packageName, null);
     }
 
     /**
