@@ -313,25 +313,35 @@ public class PublicUtil extends LibPublicUtil {
         dialog.show();
     }
 
+    private static CommonAlertDialog tokenExpireDialog;
+    private static CommonAlertDialog getTokenExpireDialog (final Activity context) {
+        if (tokenExpireDialog == null) {
+            tokenExpireDialog = new CommonAlertDialog.Builder(context)
+                    .setCancelable(false)
+                    .setMessage(context.getString(R.string.token_out))
+                    .setPositiveButton(R.string.btn_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    LoginActivity.actStart(context);
+                                    tokenExpireDialog.dismiss();
+                                    context.finish();
+                                }
+                            }).create();
+        }
+        return tokenExpireDialog;
+    }
     /**
      * 显示账户过期对话框
      *
      * @param context
      */
     public static void showMessageTokenExpire(final Activity context) {
-        new CommonAlertDialog.Builder(context)
-                .setCancelable(false)
-                .setMessage(context.getString(R.string.token_out))
-                .setPositiveButton(R.string.btn_ok,
-                        new DialogInterface.OnClickListener() {
+        if (!getTokenExpireDialog(context).isShowing()) {
+            getTokenExpireDialog(context).show();
+        }
 
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                LoginActivity.actStart(context);
-                                context.finish();
-                            }
-                        }).show();
     }
 
     public static void showErrorMsg(Activity context, ResultBase resultBase) {
