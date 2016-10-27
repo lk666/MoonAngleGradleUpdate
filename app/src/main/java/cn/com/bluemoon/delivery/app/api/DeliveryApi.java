@@ -297,6 +297,9 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         params.put("type", type.getType());
         params.put("timestamp", pageFlag);
+        params.put("customerName", "");
+        params.put("region", "");
+        params.put("pageSize", 10);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/order/getOrdersByTypeByPager%s",
                 ApiClientHelper.getParamUrl());

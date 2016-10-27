@@ -14,6 +14,8 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,9 +28,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
-import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.ui.DragView;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -105,15 +105,15 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == 1) {
+            //签收成功
             hideWaitDialog();
             toast(result.getResponseMsg());
             removeItem();
-            if (getList().isEmpty()) {
-                initData();
-            }
         } else if (requestCode == 3) {
+            //发送验证码
             toast(result.getResponseMsg());
         } else if (requestCode == 4) {
+            //修改预约时间
             OrderVo orderVo = (OrderVo)getList().get(clickIndex);
             orderVo.setSubscribeTime(subscribeTime);
             getAdapter().notifyDataSetChanged();
@@ -124,6 +124,9 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
         getList().remove(clickIndex);
         getAdapter().notifyDataSetChanged();
         setAmount2();
+        if (getList().isEmpty()) {
+            initData();
+        }
     }
 
     @Override
@@ -221,10 +224,8 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
                             PublicUtil.showOrderDetailView(mContext, order.getOrderId());
                             break;
                         case R.id.delivery_action :
-                            PublicUtil.openScanOrder(getActivity(), PendingReceiptFragment.this,
-                                    getString(R.string.pending_order_receive_sign_title),
-                                    getString(R.string.pending_order_receive_sign_scan_btn),
-                                    Constants.REQUEST_SCAN, 4);
+                            PublicUtil.openOrderWithInput(PendingReceiptFragment.this, getString(R.string.pending_order_receive_sign_title),
+                                    getString(R.string.pending_order_receive_sign_scan_btn), 4);
                             break;
                     }
 
@@ -275,34 +276,21 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
 
    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK)  {
-                PublicUtil.showToast(getString(R.string.pending_order_return_sucessful));
-                setAmount2();
-                getList().remove(clickIndex);
-                getAdapter().notifyDataSetChanged();
-        } else if (requestCode == Constants.REQUEST_SCAN) {
-            if (resultCode == Activity.RESULT_CANCELED) {
-                return;
-            } else if (resultCode == Activity.RESULT_OK) {
+       if (resultCode == Activity.RESULT_OK) {
+           if (requestCode == 1)  {
+               //退货成功
+               PublicUtil.showToast(getString(R.string.pending_order_return_sucessful));
+               removeItem();
+           } else if (requestCode == 4) {
+               //签收扫描返回二维码code
+               String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+               if (StringUtils.isNotBlank(resultStr)) {
+                   OrderVo order = (OrderVo)getList().get(clickIndex);
+                   DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), order.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
+               }
+           }
+       }
 
-                String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                //DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), orderClicked.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
-            } else if (resultCode == 3) {
-                PublicUtil.openScanOrder(getActivity(), PendingReceiptFragment.this,
-                        getString(R.string.pending_order_receive_sign_title),
-                        getString(R.string.pending_order_receive_sign_scan_btn),
-                        Constants.REQUEST_SCAN, 4);
-            } else if (resultCode == 4) {
-
-               /* Intent intent = new Intent(getActivity(), SignActivity.class);
-                intent.putExtra("orderId", orderClicked.getOrderId());
-                PendingReceiptFragment.this.startActivityForResult(intent, Constants.REQUEST_SCAN);*/
-            } else if (resultCode == 2) {
-                setAmount2();
-                getList().remove(clickIndex);
-                getAdapter().notifyDataSetChanged();
-            }
-        }
     }
 
     IOrderChoiceDateListener orderChoiceDateListener = new IOrderChoiceDateListener() {

@@ -8,6 +8,7 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.HistoryOrderType;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderCount;
 import cn.com.bluemoon.delivery.entity.DrawableTabState;
@@ -20,6 +21,7 @@ import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
 public class OrdersTabActivity extends BaseTabActivity {
 
     public static void actionStart(Context context) {
+        HistoryFragment.ordertype = HistoryOrderType.dispatch;
         ArrayList<TabState> tabs = new ArrayList<>();
         tabs.add(new DrawableTabState(PendingOrdersFragment.class, R.mipmap.tab_orders_normal, R.mipmap.tab_orders_disable,
                 R.string.tab_orders));
