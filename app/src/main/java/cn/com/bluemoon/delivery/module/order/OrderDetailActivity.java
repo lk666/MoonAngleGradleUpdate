@@ -187,7 +187,7 @@ public class OrderDetailActivity extends BaseActivity {
 			List<Package> packages = list.get(position).getPackageDetails();
 			if (packages.size() > 0) {
 				layoutPackage.setVisibility(View.VISIBLE);
-				PackageAdapter adapter = new PackageAdapter(OrderDetailActivity.this, null);
+				PackageAdapter adapter = new PackageAdapter(OrderDetailActivity.this, Integer.valueOf(list.get(position).getBuyNum()));
 				adapter.setList(packages);
 				listviewPackageDetail.setAdapter(adapter);
 //				LibViewUtil.setListViewHeight(listviewPackageDetail);
@@ -221,9 +221,11 @@ public class OrderDetailActivity extends BaseActivity {
 		TextView txtContent;
 		TextView txtNum;
 		TextView txtIndex;
+		private int amount;
 
-		public PackageAdapter(Context context, OnListItemClickListener listener) {
-			super(context, listener);
+		public PackageAdapter(Context context, int amount) {
+			super(context, null);
+			this.amount = amount;
 		}
 
 		@Override
@@ -240,7 +242,7 @@ public class OrderDetailActivity extends BaseActivity {
 			if (p != null) {
 				txtIndex.setText(String.valueOf(position+1)+"、");
 				txtContent.setText(p.getProductName());
-				txtNum.setText("x" + p.getProductNum());
+				txtNum.setText("x" + Integer.valueOf(p.getProductNum())*amount);
 			}
 
 		}

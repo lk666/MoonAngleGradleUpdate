@@ -104,7 +104,7 @@ public class ScanWithInputActivity extends BaseScanActivity {
         }
         if (resultCode==RESULT_OK&&requestCode==0&&data!=null){
             String code = data.getStringExtra("code");
-            if(TextUtils.isEmpty(code)){
+            if(!TextUtils.isEmpty(code)){
                 onResult(code,"TEXT",null);
             }
         }

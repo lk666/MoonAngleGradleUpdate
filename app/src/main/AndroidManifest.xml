@@ -169,6 +169,7 @@
         <activity
             android:name=".module.order.OrdersTabActivity"
             android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustNothing"
             android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.order.SelectStoreHouseActivity"

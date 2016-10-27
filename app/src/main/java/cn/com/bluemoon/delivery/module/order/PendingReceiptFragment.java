@@ -169,9 +169,8 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
 
     }
 
-    private List<DragView> views;
     public class OrdersAdapter extends BaseListAdapter<OrderVo> {
-
+        private List<DragView> views;
         public OrdersAdapter(Context context) {
             super(context, null);
             views = new ArrayList<>();
@@ -282,6 +281,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
 
                 @Override
                 public void onBackgroundViewClick(DragView dragView , View v) {
+                    notifyDataSetChanged();
                     int pos = (int) dragView.getTag();
                     clickIndex = pos;
                     Intent intent = new Intent(mContext,ReturnOrderActivity.class);
