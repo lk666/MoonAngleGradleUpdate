@@ -120,6 +120,7 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
             clothesCode = null;
             cupboardCode = null;
             clearTxtCode();
+            setTxtTitle(getString(R.string.incabinet_cloth_title));
             startDelay();
         } else if (requestCode == 2) {
             toast(result.getResponseMsg());

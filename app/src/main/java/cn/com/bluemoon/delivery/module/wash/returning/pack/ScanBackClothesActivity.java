@@ -32,7 +32,7 @@ public class ScanBackClothesActivity extends BaseScanCodeActivity {
                                    String cupboardCode, ArrayList<ClothesItem> list) {
         Intent intent = new Intent(context, ScanBackClothesActivity.class);
         intent.putExtra("title", context.getString(R.string
-                .incabinet_cloth_title));
+                .scan_back_order_code));
         intent.putExtra("btnString", context.getString(R.string
                 .with_order_collect_manual_input_code_btn));
         intent.putExtra(EXTRA_LIST, list);
