@@ -680,8 +680,7 @@ public class MainActivity extends SlidingActivity {
             if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
                 OrdersTabActivity.actionStart(main);
             } else if (MenuCode.site_sign.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, ExtractTabActivity.class);
-                startActivity(intent);
+                ExtractTabActivity.actionStart(main);
             } else if (MenuCode.check_in.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, TicketChooseActivity.class);
                 startActivity(intent);

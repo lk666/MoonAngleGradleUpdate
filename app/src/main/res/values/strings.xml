@@ -278,8 +278,8 @@
     <string name="history_no_item">已经没有单啦！</string>
     <string name="history_order_start_date">开始时间</string>
     <string name="history_order_end_date">结束时间</string>
-    <string name="history_order_receipt_date">签收日期：</string>
-    <string name="history_order_scene_receipt_date">现场签收日期：</string>
+    <string name="history_order_receipt_date">签收日期：%s</string>
+    <string name="history_order_scene_receipt_date">现场签收日期：%s</string>
 
     <string name="order_money_sign">￥</string>
 
