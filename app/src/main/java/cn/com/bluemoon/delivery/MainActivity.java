@@ -11,8 +11,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -98,7 +96,6 @@ public class MainActivity extends SlidingActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
         main = this;
         initMenu();
@@ -181,12 +178,12 @@ public class MainActivity extends SlidingActivity {
 
     private void initMenu() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = this.getWindow();
-            WindowManager.LayoutParams layoutParams = window.getAttributes();
-            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            window.setAttributes(layoutParams);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            Window window = this.getWindow();
+//            WindowManager.LayoutParams layoutParams = window.getAttributes();
+//            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+//            window.setAttributes(layoutParams);
+//        }
 
         mMenuFragment = new MenuFragment();
 
