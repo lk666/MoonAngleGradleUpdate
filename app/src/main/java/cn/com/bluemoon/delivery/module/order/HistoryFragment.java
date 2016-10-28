@@ -33,8 +33,12 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.HistoryOrderType;
 import cn.com.bluemoon.delivery.app.api.model.Order;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrder;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
+import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.module.extract.HistoryOrderDetailActivity;
 import cn.com.bluemoon.delivery.module.order.TimerFilterWindow.TimerFilterListener;
@@ -51,354 +55,195 @@ import cn.com.bluemoon.lib.utils.LibDateUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-@SuppressLint("SimpleDateFormat")
-public class HistoryFragment extends Fragment {
-	private String TAG = "HistoryFragment";
-	private HistoryAdapter adapter;
-	private FragmentActivity main;
-	private CommonProgressDialog progressDialog;
-	private PullToRefreshListView listView;
-	private LinearLayout layoutDate;
-	private TextView txtCount;
-	private TextView txtPrice;
-	private ResultOrder item;
-	private boolean isEnd;
-	public static HistoryOrderType ordertype;
-	View popStart;
-	private boolean pullDown;
-	private boolean pullUp;
-	private long startTime = 0;
-	private long endTime = 0;
+public class HistoryFragment extends BasePullToRefreshListViewFragment implements
+        OnListItemClickListener {
+    private LinearLayout layoutDate;
+    private TextView txtCount;
+    private TextView txtPrice;
+    public static HistoryOrderType ordertype;
+    private View popStart;
+    private long startTime = 0;
+    private long endTime = 0;
+    private long timestamp = 0;
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-			Bundle savedInstanceState) {
-		initCustomActionBar();
-		main = getActivity();
-		View v = inflater.inflate(R.layout.fragment_tab_history, container,
-				false);
-		popStart = v.findViewById(R.id.view_pop_start);
-		layoutDate = (LinearLayout) v.findViewById(R.id.layout_date);
-		txtCount = (TextView) v.findViewById(R.id.txt_count);
-		txtPrice = (TextView) v.findViewById(R.id.txt_price);
-		setCountAndPrice(0, null);
-		listView = (PullToRefreshListView) v
-				.findViewById(R.id.listView_history);
-		progressDialog = new CommonProgressDialog(main);
-		adapter = new HistoryAdapter(main);
-		layoutDate.setOnClickListener(onClicker);
-		listView.setMode(Mode.BOTH);
-		listView.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 
-			@Override
-			public void onPullDownToRefresh(
-					PullToRefreshBase<ListView> refreshView) {
-				pullDown = true;
-				pullUp = false;
-				getItem();
-			}
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.tab_history);
+    }
 
-			@Override
-			public void onPullUpToRefresh(
-					PullToRefreshBase<ListView> refreshView) {
-				pullUp = true;
-				pullDown = false;
-				getItem();
-			}
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_order_history;
+    }
 
-		});
-		pullDown = false;
-		pullUp = false;
-		getItem();
-		return v;
-	}
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
+        popStart = headView.findViewById(R.id.view_pop_start);
+        layoutDate = (LinearLayout) headView.findViewById(R.id.layout_date);
+        txtCount = (TextView) headView.findViewById(R.id.txt_count);
+        txtPrice = (TextView) headView.findViewById(R.id.txt_price);
+        setCountAndPrice(0, null);
+        layoutDate.setOnClickListener(onClicker);
+    }
 
-	private void getItem() {
-		String token = ClientStateManager.getLoginToken(main);
-		if (!pullDown && !pullUp && progressDialog != null) {
-			progressDialog.show();
-		}
-		long timestamp = 0;
-		if (!pullUp) {
-			isEnd = false;
-		} else if (item != null) {
-			timestamp = item.getTimestamp();
-		}
-		DeliveryApi.getHistoryOrders(token, ordertype.toString(),
-				AppContext.PAGE_SIZE, timestamp, startTime, endTime, historyHandler);
-	}
+    @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+        super.initPullToRefreshListView(ptrlv);
+        ptrlv.getRefreshableView().setDivider(null);
+        ptrlv.getRefreshableView().setDividerHeight(0);
+    }
 
-	private void setData(ResultOrder result) {
-		if (result == null) {
-			if (!pullUp) {
-				PublicUtil.showToastErrorData(main);
-			}
-			return;
-		}
-		if (item == null || !pullUp) {
-			item = result;
-		} else {
-			List<Order> list = result.getItemList();
-			if (list == null) {
-				list = new ArrayList<>();
-			}
-			if (list.size() < AppContext.PAGE_SIZE) {
-				isEnd = true;
-			} else {
-				isEnd = false;
-			}
-			item.getItemList().addAll(list);
-			item.setTotalAmount(result.getTotalAmount());
-			item.setTotalCount(result.getTotalCount());
-			item.setTimestamp(result.getTimestamp());
-		}
-		setCountAndPrice(item.getTotalCount(), item.getTotalAmount());
-		List<Order> list = item.getItemList();
-		if (list == null) {
-			list = new ArrayList<>();
-		}
-		if (list.size() < AppContext.PAGE_SIZE) {
-			isEnd = true;
-		}
-		adapter.setList(list);
-		if (!pullUp) {
-			listView.setAdapter(adapter);
-		} else {
-			adapter.notifyDataSetChanged();
-		}
-	}
+    @Override
+    protected void showRefreshView() {
+        super.showRefreshView();
+        setHeadViewVisibility(View.VISIBLE);
+    }
 
-	OnClickListener onClicker = new OnClickListener() {
+    @Override
+    protected void showNetErrorView() {
+        super.showNetErrorView();
+        setHeadViewVisibility(View.VISIBLE);
+    }
 
-		@Override
-		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			if (PublicUtil.isFastDoubleClick()) {
-				return;
-			}
-			LibViewUtil.hideIM(v);
-			if (v == layoutDate) {
-				//showDatePickerDialog();
-				TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new TimerFilterListener() {
-					@Override
-					public void callBack(long startDate, long endDate) {
-						startTime = startDate;
-						endTime = endDate;
-						pullDown = false;
-						pullUp = false;
-						getItem();
-					}
-				});
-				popupWindow.showPopwindow(popStart);
-			}
-		}
-	};
+    @Override
+    protected void showEmptyView() {
+        super.showEmptyView();
+        setHeadViewVisibility(View.VISIBLE);
+    }
 
-	private void initCustomActionBar() {
-		new CommonActionBar(getActivity().getActionBar(),
-				new IActionBarListener() {
+    OnClickListener onClicker = new OnClickListener() {
 
-					@Override
-					public void onBtnRight(View v) {
-						// TODO Auto-generated method stub
-					}
+        @Override
+        public void onClick(View v) {
+            if (v == layoutDate) {
+                TimerFilterWindow popupWindow = new TimerFilterWindow(getActivity(), new
+                        TimerFilterListener() {
+                            @Override
+                            public void callBack(long startDate, long endDate) {
+                                startTime = startDate;
+                                endTime = endDate;
+                                initData();
+                            }
+                        });
+                popupWindow.showPopwindow(popStart);
+            }
+        }
+    };
 
-					@Override
-					public void onBtnLeft(View v) {
-						// TODO Auto-generated method stub
-						getActivity().finish();
-					}
+    @Override
+    protected BaseListAdapter getNewAdapter() {
+        return new HistoryAdapter(this.getActivity(), this);
+    }
 
-					@Override
-					public void setTitle(TextView v) {
-						// TODO Auto-generated method stub
-						v.setText(R.string.tab_history);
-					}
-				});
-	}
+    @Override
+    protected List getGetMoreList(ResultBase result) {
+        return getGetDataList(result);
+    }
 
-	@SuppressLint("InflateParams")
-	class HistoryAdapter extends BaseAdapter {
+    @Override
+    protected List getGetDataList(ResultBase result) {
+        ResultOrder item  = (ResultOrder)result;
+        timestamp = item.getTimestamp();
+        setCountAndPrice(item.getTotalCount(),item.getTotalAmount());
+        return item.getItemList();
+    }
 
-		private Context context;
-		private List<Order> lists;
+    @Override
+    protected Mode getMode() {
+        return Mode.BOTH;
+    }
 
-		public HistoryAdapter(Context context) {
-			this.context = context;
-		}
+    @Override
+    protected void invokeGetDataDeliveryApi(int requestCode) {
+        DeliveryApi.getHistoryOrders(getToken(), ordertype.toString(),
+                AppContext.PAGE_SIZE, 0, startTime, endTime, getNewHandler(requestCode,ResultOrder.class));
+    }
 
-		public void setList(List<Order> list) {
-			this.lists = list;
-		}
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        DeliveryApi.getHistoryOrders(getToken(), ordertype.toString(),
+                AppContext.PAGE_SIZE, timestamp, startTime, endTime, getNewHandler(requestCode,ResultOrder.class));
 
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			if (lists.size() == 0 || isEnd) {
-				listView.setMode(Mode.PULL_FROM_START);
-				return lists.size() + 1;
-			}
-			listView.setMode(Mode.BOTH);
-			return lists.size();
-		}
+    }
 
-		@Override
-		public Object getItem(int position) {
-			// TODO Auto-generated method stub
-			return lists.get(position);
-		}
+    @Override
+    public void onItemClick(Object item, View view, int position) {
+        Order order = (Order) item;
+        if (ordertype.equals(HistoryOrderType.dispatch)) {
+            PublicUtil.showOrderDetailView(getActivity(), order.getOrderId());
+        } else if (ordertype.equals(HistoryOrderType.pickup)) {
+            Intent intent = new Intent();
+            intent.setClass(getActivity(), HistoryOrderDetailActivity.class);
+            intent.putExtra("orderId", order.getOrderId());
+            startActivity(intent);
+        }
+    }
 
-		@Override
-		public long getItemId(int position) {
-			// TODO Auto-generated method stub
-			return position;
-		}
+    @SuppressLint("InflateParams")
+    class HistoryAdapter extends BaseListAdapter<Order> {
 
-		@Override
-		public View getView(final int position, View convertView,
-				ViewGroup parent) {
-			// TODO Auto-generated method stub
-			LayoutInflater inflate = LayoutInflater.from(context);
-			if (lists.size() == 0) {
-				View viewEmpty = inflate.inflate(R.layout.layout_no_data, null);
-				TextView txtContent = (TextView)viewEmpty.findViewById(R.id.txt_content);
-				txtContent.setText(R.string.history_content);
-				LayoutParams params = new LayoutParams(
-						LayoutParams.MATCH_PARENT, listView.getHeight());
-				viewEmpty.setLayoutParams(params);
-				return viewEmpty;
-			}
-			if (isEnd && position == lists.size()) {
-				View viewEnd = inflate
-						.inflate(R.layout.list_notmore_item, null);
-				return viewEnd;
-			}
-			 if (convertView == null) {
-			convertView = inflate.inflate(R.layout.order_history_item, null);
-			 }
+        public HistoryAdapter(Context context, OnListItemClickListener listener) {
+            super(context, listener);
+        }
 
-			TextView txtOrderid = (TextView) convertView
-					.findViewById(R.id.txt_orderid);
-			TextView txtAddress = (TextView) convertView
-					.findViewById(R.id.txt_address);
-			TextView txtPrice = (TextView) convertView
-					.findViewById(R.id.txt_price);
-			TextView txtSignDate = (TextView) convertView
-					.findViewById(R.id.txt_sign_date);
-			txtOrderid.setText(lists.get(position).getOrderId());
-			txtPrice.setText(String.format("%s%s", getString(R.string.order_money_sign), lists.get
-					(position).getTotalPrice()));
-			String date = DateUtil.getTimeStringByCustTime(lists.get(position).getSignTime(), "yyyy-MM-dd HH:mm:ss");
-			txtSignDate.setText(String.format("%s%s", getString(R.string
-					.history_order_receipt_date), date));
-			if (HistoryFragment.ordertype.equals(HistoryOrderType.dispatch)) {
-				txtAddress.setText(lists.get(position).getAddress());
-			} else if (HistoryFragment.ordertype
-					.equals(HistoryOrderType.pickup)) {
-				txtSignDate.setVisibility(View.GONE);
-				txtAddress.setText(String.format("%s%s", getString(R.string
-						.history_order_scene_receipt_date), LibDateUtil.getTimeStringByCustTime
-						(lists.get(position).getSignTime(), "yyyy-MM-dd HH:mm:ss")));
-			}
+        @Override
+        protected int getLayoutId() {
+            return R.layout.order_history_item;
+        }
 
-			int index = position % 2;
-			if (index == 1) {
-				convertView.setBackgroundResource(R.drawable.list_item_grep_bg);
-			} else {
-				convertView
-						.setBackgroundResource(R.drawable.list_item_white_bg);
-				// if(position == lists.size()-1){
-				// convertView.findViewById(R.id.line_end).setVisibility(View.VISIBLE);
-				// }
-			}
+        @Override
+        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+            final Order order = list.get(position);
+            TextView txtOrderid = getViewById(R.id.txt_orderid);
+            TextView txtAddress = getViewById(R.id.txt_address);
+            TextView txtPrice = getViewById(R.id.txt_price);
+            TextView txtSignDate = getViewById(R.id.txt_sign_date);
+            txtOrderid.setText(order.getOrderId());
+            txtPrice.setText(String.format("%s%s", getString(R.string.order_money_sign), order
+                    .getTotalPrice()));
+            String date = DateUtil.getTimeStringByCustTime(order.getSignTime(), "yyyy-MM-dd " +
+                    "HH:mm:ss");
+            txtSignDate.setText(getString(R.string.history_order_receipt_date, date));
+            if (HistoryFragment.ordertype.equals(HistoryOrderType.dispatch)) {
+                txtAddress.setText(order.getAddress());
+            } else if (HistoryFragment.ordertype
+                    .equals(HistoryOrderType.pickup)) {
+                txtSignDate.setVisibility(View.GONE);
+                txtAddress.setText(getString(R.string.history_order_scene_receipt_date,
+                        LibDateUtil.getTimeStringByCustTime(order.getSignTime(), "yyyy-MM-dd " +
+                                "HH:mm:ss")));
+            }
 
-			convertView.setOnClickListener(new OnClickListener() {
+            int index = position % 2;
+            if (index == 1) {
+                convertView.setBackgroundResource(R.drawable.list_item_grep_bg);
+            } else {
+                convertView.setBackgroundResource(R.drawable.list_item_white_bg);
+            }
+            setClickEvent(isNew, position, convertView);
+        }
 
-				@Override
-				public void onClick(View v) {
-					if (ordertype.equals(HistoryOrderType.dispatch)) {
-						PublicUtil.showOrderDetailView(main, lists
-								.get(position).getOrderId());
-					} else if (ordertype.equals(HistoryOrderType.pickup)) {
-						Intent intent = new Intent();
-						intent.setClass(main, HistoryOrderDetailActivity.class);
-						intent.putExtra("orderId", lists.get(position)
-								.getOrderId());
-						startActivity(intent);
-					}
-				}
-			});
-			return convertView;
-		}
+    }
 
-	}
-
-	AsyncHttpResponseHandler historyHandler = new TextHttpResponseHandler(
-			HTTP.UTF_8) {
-
-		@Override
-		public void onSuccess(int statusCode, Header[] headers,
-				String responseString) {
-			LogUtils.d(TAG, "getHistoryOrder result = " + responseString);
-			if (progressDialog != null)
-				progressDialog.dismiss();
-			listView.onRefreshComplete();
-			try {
-				ResultOrder orderResult = JSON.parseObject(responseString,
-						ResultOrder.class);
-				if (orderResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-					setData(orderResult);
-				} else {
-					PublicUtil.showErrorMsg(main, orderResult);
-				}
-			} catch (Exception e) {
-				LogUtils.e(TAG, e.getMessage());
-				PublicUtil.showToastServerBusy();
-			}
-		}
-
-		@Override
-		public void onFailure(int statusCode, Header[] headers,
-				String responseString, Throwable throwable) {
-			LogUtils.e(TAG, throwable.getMessage());
-			if (progressDialog != null)
-				progressDialog.dismiss();
-			listView.onRefreshComplete();
-			// setData(getResult(cn.com.bluemoon.delivery.AppContext.PAGE_SIZE));
-			PublicUtil.showToastServerOvertime();
-		}
-	};
-	
-	private void setCountAndPrice(int size,String price){
-		String count;
-		if (size > 99) {
-			count = "99+";
-		} else {
-			count = String.valueOf(size);
-		}
-		count = String.format(getString(R.string.order_history_totalcount), count);
-		if (StringUtils.isEmpty(price)||"0".equals(price)
-				||"0.0".equals(price)) {
-			price = "0.00";
-		}else if (price.length() > 9) {
-			price = "999999.99+";
-		}
-		price = String.format(getString(R.string.order_history_price), price);
-		txtCount.setText(count);
-		txtPrice.setText(price);
-	}
-
-	public void onResume() {
-		super.onResume();
-		MobclickAgent.onPageStart(TAG);
-	}
-
-	public void onPause() {
-		super.onPause();
-		MobclickAgent.onPageEnd(TAG);
-		if (progressDialog != null) {
-			progressDialog.dismiss();
-		}
-	}
+    private void setCountAndPrice(int size, String price) {
+        String count;
+        if (size > 99) {
+            count = "99+";
+        } else {
+            count = String.valueOf(size);
+        }
+        count = String.format(getString(R.string.order_history_totalcount), count);
+        if (StringUtils.isEmpty(price) || "0".equals(price)
+                || "0.0".equals(price)) {
+            price = "0.00";
+        } else if (price.length() > 9) {
+            price = "999999.99+";
+        }
+        price = String.format(getString(R.string.order_history_price), price);
+        txtCount.setText(count);
+        txtPrice.setText(price);
+    }
 
 }
