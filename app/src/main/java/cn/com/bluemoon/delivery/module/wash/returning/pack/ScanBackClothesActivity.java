@@ -102,14 +102,14 @@ public class ScanBackClothesActivity extends BaseScanCodeActivity {
             if (item.getClothesCode().equals(code)) {
                 isIn = true;
                 if (item.isCheck) {
-                    toast(getString(R.string.duplicate_code));
+                    toast(getString(R.string.pack_scan_repeat));
                     return false;
                 }
                 break;
             }
         }
         if (!isIn) {
-            toast(getString(R.string.not_in_code));
+            toast(getString(R.string.pack_scan_not_exist));
             return false;
         }
         return true;

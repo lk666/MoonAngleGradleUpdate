@@ -1106,6 +1106,7 @@
     <string name="wait_sign_scan_tag_title">扫描封箱标签</string>
     <string name="wait_sign_duplicate_code">该封箱标签已被签收</string>
     <string name="wait_sign_not_in_code"> 当前标签不属于封箱标签，请核实后重新扫描</string>
+
     <string name="sign_finish">签收完成</string>
     <string name="sign_succeed">签收成功</string>
     <string name="sign_continue">继续签收</string>
@@ -1128,6 +1129,8 @@
     <string name="pack_box_error">衣物箱标签错误!请扫描【%s】</string>
     <string name="pack_get_error_data">获取还衣单号或衣物箱号失败！</string>
     <string name="pack_pending_pack_num">共%1$d单</string>
+    <string name="pack_scan_repeat">该编码重复扫描</string>
+    <string name="pack_scan_not_exist">该编码不属于此还衣单！请扫描正确编码</string>
     <string name="btn_pack_desc">打  包</string>
     <string name="pack_pending_num">待打包：%1$d</string>
     <string name="pack_pending_total">规划数量：</string>

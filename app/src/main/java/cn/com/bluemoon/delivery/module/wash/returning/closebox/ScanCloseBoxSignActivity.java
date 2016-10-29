@@ -97,7 +97,7 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
             return false;
         }
 
-        toast(String.format(getString(R.string.close_box_success), code));
+//        toast(String.format(getString(R.string.close_box_success), code));
 
         // 是否全部扫完
         return isScanFinished();
