@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -13,8 +14,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
+
 import org.kymjs.kjframe.utils.SystemTool;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -28,7 +34,6 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
@@ -198,26 +203,32 @@ public class BackOrderClothesActivity extends BaseActivity implements
             ClothesItem item = (ClothesItem) getItem(position);
 
             TextView tvBackCode = getViewById(R.id.tv_back_code);
-            ImageView ivScan = getViewById(R.id.iv_scan);
+            final ImageView ivScan = getViewById(R.id.iv_scan);
 
             tvBackCode.setText(item.getClothesCode());
             if (item.isCheck) {
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.scaned);
                 ivScan.setImageDrawable(drawable);
-                if(!StringUtil.isEmptyString(item.getClothesImgPath())) {
-                    Bitmap backDrawable = KJFUtil.getUtil().getKJB().getMemoryCache(item.getClothesImgPath());
-
-                    if (null != backDrawable) {
+                Glide.with(context).load(item.getImgPath()).asBitmap().into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        if (null == resource) {
+                            resource = BitmapFactory.decodeResource(getResources(), R.mipmap.place_holder);
+                        }
                         if (SystemTool.getSDKVersion() >= 16) {
-                            ivScan.setBackground(new BitmapDrawable(ivScan.getResources(), backDrawable));
+                            ivScan.setBackground(new BitmapDrawable(ivScan.getResources(), resource));
                         } else {
-                            ivScan.setBackgroundDrawable(new BitmapDrawable(ivScan.getResources(), backDrawable));
+                            ivScan.setBackgroundDrawable(new BitmapDrawable(ivScan.getResources(), resource));
                         }
                     }
-                }
+                });
 
             } else {
-                KJFUtil.getUtil().getKJB().display(ivScan, item.getClothesImgPath());
+                Glide.with(context)
+                        .load(new File(item.getImgPath()))
+                        .error(R.mipmap.place_holder)
+                        .placeholder(R.mipmap.place_holder)
+                        .into(ivScan);
             }
         }
     }

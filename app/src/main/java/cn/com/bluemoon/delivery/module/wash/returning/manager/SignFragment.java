@@ -114,6 +114,9 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
             getAdapter().notifyDataSetChanged();
             toast(result.getResponseMsg());
             setAmount();
+            if (getList().isEmpty()) {
+                initData();
+            }
         }
     }
 
