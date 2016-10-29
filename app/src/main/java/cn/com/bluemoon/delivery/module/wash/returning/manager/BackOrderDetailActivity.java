@@ -77,8 +77,6 @@ public class BackOrderDetailActivity extends BaseActivity {
     ListView listviewRefuse;
     @Bind(R.id.layout_refuse)
     LinearLayout layoutRefuse;
-    @Bind(R.id.layout_buyer_msg)
-    LinearLayout layoutBuyerMsg;
     @Bind(R.id.layout_open1)
     LinearLayout layoutOpen1;
     @Bind(R.id.layout_open2)
@@ -218,7 +216,7 @@ public class BackOrderDetailActivity extends BaseActivity {
         if (StringUtils.isNotBlank(r.getBuyerMessage())) {
             txtRemark.setText(r.getBuyerMessage());
         } else {
-            layoutBuyerMsg.setVisibility(View.GONE);
+            txtRemark.setText(getString(R.string.manage_remark_is_null));
         }
 
         ClothesAdapter clothesAdapter = new ClothesAdapter(BackOrderDetailActivity.this, null);

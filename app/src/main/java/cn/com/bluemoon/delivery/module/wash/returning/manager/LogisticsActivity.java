@@ -34,11 +34,13 @@ public class LogisticsActivity extends BaseActivity {
     ListView listviewExpress;
     private String companyCode;
     private String expressCode;
+    private String companyName;
 
-    public static void actStart(Activity context, String companyCode, String expressCode) {
+    public static void actStart(Activity context, String companyName, String companyCode, String expressCode) {
         Intent intent = new Intent(context, LogisticsActivity.class);
         intent.putExtra("companyCode", companyCode);
         intent.putExtra("expressCode", expressCode);
+        intent.putExtra("companyName", companyName);
         context.startActivity(intent);
     }
 
@@ -56,6 +58,7 @@ public class LogisticsActivity extends BaseActivity {
     public void initView() {
         companyCode = getIntent().getStringExtra("companyCode");
         expressCode = getIntent().getStringExtra("expressCode");
+        companyName = getIntent().getStringExtra("companyName");
         showWaitDialog();
         ReturningApi.seeExpress(companyCode, expressCode, getToken(), getNewHandler(1, ResultExpressDetail.class));
     }
@@ -63,7 +66,7 @@ public class LogisticsActivity extends BaseActivity {
     @Override
     public void initData() {
         txtNo.setText(expressCode);
-        txtSource.setText(companyCode);
+        txtSource.setText(companyName);
     }
 
     @Override

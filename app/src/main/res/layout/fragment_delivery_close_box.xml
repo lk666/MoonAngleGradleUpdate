@@ -119,8 +119,8 @@
                         style="@style/text_black_15sp"
                         android:text="@string/express_customer_name"/>
 
-                    <cn.com.bluemoon.lib.view.ClearEditText
-                        android:id="@+id/et_delivery_name"
+                    <TextView
+                        android:id="@+id/txt_delivery_name"
                         style="@style/text_grep_15sp_hint"
                         android:textCursorDrawable="@null"
                         android:singleLine="true"

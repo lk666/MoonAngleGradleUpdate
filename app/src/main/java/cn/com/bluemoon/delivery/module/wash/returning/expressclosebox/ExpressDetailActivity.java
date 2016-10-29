@@ -65,7 +65,7 @@ public class ExpressDetailActivity extends BaseActivity {
 
     @OnClick(R.id.txt_logistics)
     public void onClick(View v) {
-        LogisticsActivity.actStart(this, companyCode,expressCode);
+        LogisticsActivity.actStart(this, companyName, companyCode,expressCode);
     }
 
     @Override

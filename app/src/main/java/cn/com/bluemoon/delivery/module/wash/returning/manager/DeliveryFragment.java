@@ -162,7 +162,7 @@ public class DeliveryFragment extends BasePullToRefreshListViewFragment {
                             startActivity(intent);
                             break;
                         case R.id.txt_logistics :
-                            LogisticsActivity.actStart(getActivity(),
+                            LogisticsActivity.actStart(getActivity(),result.getCompanyName(),
                                     result.getCompanyCode(), result.getExpressCode());
                             break;
                         case R.id.receiving_orders_action :

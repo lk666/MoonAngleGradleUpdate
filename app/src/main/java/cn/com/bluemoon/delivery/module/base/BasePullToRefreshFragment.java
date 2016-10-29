@@ -278,6 +278,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
                 // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
+                super.onSuccessException(requestCode, t);
                 break;
         }
     }
@@ -299,6 +300,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
                 // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
+                super.onFailureResponse(requestCode, t);
                 break;
         }
     }
@@ -320,6 +322,7 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
                 // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
+                super.onErrorResponse(requestCode, result);
                 break;
         }
     }

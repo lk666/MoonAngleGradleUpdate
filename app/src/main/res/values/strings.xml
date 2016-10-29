@@ -1281,6 +1281,7 @@
     <string name="manage_clothes_amount2">还衣单数量：</string>
     <string name="manage_show_express">查看物流</string>
     <string name="manage_comfire_delivery">确认收货</string>
+    <string name="manage_remark_is_null">无</string>
 
     <string name="image">图片</string>
     <string name="all_image">所有图片</string>

@@ -2,9 +2,9 @@ package cn.com.bluemoon.delivery.module.wash.returning.expressclosebox;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
@@ -22,6 +22,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ResultUserInfo;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.order.OrdersUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.swipe.menu.SwipeMenu;
 import cn.com.bluemoon.lib.swipe.menu.SwipeMenuCreator;
 import cn.com.bluemoon.lib.swipe.menu.SwipeMenuItem;
@@ -39,8 +40,8 @@ public class ExpressCloseBoxFragment extends BaseFragment {
     ClearEditText etExpressCode;
     @Bind(R.id.et_emy_num)
     ClearEditText etEmpNum;
-    @Bind(R.id.et_delivery_name)
-    ClearEditText etDeliveryName;
+    @Bind(R.id.txt_delivery_name)
+    TextView txtDeliveryName;
     @Bind(R.id.txt_company)
     TextView txtCompany;
     @Bind(R.id.list_return_number)
@@ -93,7 +94,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                 break;
             case R.id.btn_ok:
                 empCode = etEmpNum.getText().toString();
-                String empName = etDeliveryName.getText().toString();
+                String empName = txtDeliveryName.getText().toString();
                 String companyName = txtCompany.getText().toString();
                 String expressCode = etExpressCode.getText().toString();
                 if (!StringUtils.isNotBlank(companyName)) {
@@ -128,7 +129,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
         hideWaitDialog();
         if (requestCode == 1) {
             ResultUserInfo info = (ResultUserInfo) result;
-            etDeliveryName.setText(info.getEmpName());
+            txtDeliveryName.setText(info.getEmpName());
         } else if (requestCode == 2) {
             toast(result.getResponseMsg());
             codes.clear();
@@ -137,7 +138,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             txtCompany.setText("");
             etExpressCode.setText("");
             etEmpNum.setText("");
-            etDeliveryName.setText("");
+            txtDeliveryName.setText("");
         }
     }
 
@@ -199,6 +200,15 @@ public class ExpressCloseBoxFragment extends BaseFragment {
     @Override
     public void initView() {
         txtAmount.setText(getString(R.string.total_amount2, 0));
+        etEmpNum.setCallBack(new CommonEditTextCallBack() {
+            @Override
+            public void afterTextChanged(Editable s) {
+                super.afterTextChanged(s);
+                if (StringUtils.isEmpty(s.toString())) {
+                    txtDeliveryName.setText("");
+                }
+            }
+        });
     }
 
     @Override

@@ -73,7 +73,7 @@ public class ClothesDetailActivity extends BaseActivity {
         if (StringUtils.isNotBlank(r.getRemark())) {
             txtRemark.setText(getString(R.string.manage_remark, r.getRemark()));
         } else {
-            txtRemark.setVisibility(View.GONE);
+            txtRemark.setText(getString(R.string.manage_remark, getString(R.string.manage_remark_is_null)));
         }
 
         txtType.setText(r.getTypeName());
