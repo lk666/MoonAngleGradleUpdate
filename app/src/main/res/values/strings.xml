@@ -1050,7 +1050,7 @@
     <string name="close_box_tag_count">收衣来源数量：%s</string>
     <string name="close_box_tag_scan_tag">扫描封箱标签</string>
     <string name="close_box_detail_tag_code">封 箱 条 码：</string>
-    <string name="close_box_scan_tag_code">箱内的封箱标签</string>
+    <string name="close_box_scan_tag_code">箱%s内的封箱标签</string>
     <string name="duplicate_tag_code">该封箱标签重复扫描</string>
     <string name="not_in_tag_code"> 当前所扫标签错误，请扫描正确封箱标签</string>
     <string name="close_box_finish">封箱成功</string>

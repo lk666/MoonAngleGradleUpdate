@@ -142,7 +142,8 @@ public class AppStartActivity extends Activity {
 
             ResultVersionInfo result = JSON.parseObject(responseString,
                     ResultVersionInfo.class);
-            if (result != null && result.isSuccess) {
+            if (result != null && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS
+                    &&result.getItemList()!=null) {
                 lastSuccessfulCheckVersionResponse = result.getItemList();
                 lastSuccessfulCheckVersionResponse.setTimestamp(SystemClock.elapsedRealtime());
                 showDialog(lastSuccessfulCheckVersionResponse);

@@ -28,22 +28,18 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
     /**
      * 扫描界面调起方法
      */
-    public static void actionStart(Activity context, Fragment fragment, int requestCode,
+    public static void actionStart(Activity context,int requestCode,
                                    String boxCode, ArrayList<CloseBoxTag> list) {
         Intent intent = new Intent(context, ScanCloseBoxSignActivity.class);
         intent.putExtra("title", context.getString(R.string
                 .close_box_tag_scan_tag));
         intent.putExtra("code", context.getString(R.string
-                .close_box_scan_tag_code));
+                .close_box_scan_tag_code,boxCode));
         intent.putExtra("btnString", context.getString(R.string
                 .with_order_collect_manual_input_code_btn));
         intent.putExtra(EXTRA_LIST, list);
         intent.putExtra(EXTRA_BOX_CODE, boxCode);
-        if (fragment != null) {
-            fragment.startActivityForResult(intent, requestCode);
-        } else {
-            context.startActivityForResult(intent, requestCode);
-        }
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override

@@ -57,7 +57,7 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     /*从待打包跳转过来*/
     public static void actStart(Activity activity, String cupboardCode) {
         Intent intent = new Intent(activity, ScanPackActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cloth_title));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string.scan_back_order_code));
         intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_PRINT);
         intent.putExtra("code", cupboardCode);
