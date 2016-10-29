@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -73,7 +75,9 @@ public class LogisticsActivity extends BaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         hideWaitDialog();
         ResultExpressDetail r = (ResultExpressDetail) result;
-        txtStatus.setText(r.getExpressStatus());
+        if (StringUtils.isNotBlank(r.getExpressStatus())) {
+            txtStatus.setText(r.getExpressStatus());
+        }
         LogisticsAdapter adapter = new LogisticsAdapter(this, null);
         adapter.setList(r.getExpressInfoList());
         listviewExpress.setAdapter(adapter);

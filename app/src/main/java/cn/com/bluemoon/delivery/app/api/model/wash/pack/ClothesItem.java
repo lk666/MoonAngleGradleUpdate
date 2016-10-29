@@ -10,7 +10,7 @@ public class ClothesItem implements Serializable {
     /** 衣物编码 */
     private String clothesCode;
     /** 衣物图片地址 */
-    private String clothesImgPath;
+    private String imgPath;
 
     public String getClothesCode() {
         return clothesCode;
@@ -20,11 +20,11 @@ public class ClothesItem implements Serializable {
         this.clothesCode = clothesCode;
     }
 
-    public String getClothesImgPath() {
-        return clothesImgPath;
+    public String getImgPath() {
+        return imgPath;
     }
 
-    public void setClothesImgPath(String clothesImgPath) {
-        this.clothesImgPath = clothesImgPath;
+    public void setImgPath(String imgPath) {
+        this.imgPath = imgPath;
     }
 }

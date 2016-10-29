@@ -1,6 +1,8 @@
 package cn.com.bluemoon.delivery.utils.manager;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -9,6 +11,8 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -51,8 +55,29 @@ public class UploadImageManager {
     }
 
     public void uploadApi() {
-        ReturningApi.uploadImage(FileUtil.getBytes(LibImageUtil.getImgScale(paths.get(index),300, false)),
+        getFileSize(paths.get(index));
+        Bitmap bitmap;
+        //大于400k
+        if (getFileSize(paths.get(index)) > 400) {
+            bitmap = LibImageUtil.getImgScale(paths.get(index),300, false);
+        } else {
+            bitmap = BitmapFactory.decodeFile(paths.get(index));
+        }
+        ReturningApi.uploadImage(FileUtil.getBytes(bitmap),
                 fileName, ClientStateManager.getLoginToken(mContext), handler);
+    }
+
+    private double getFileSize(String path) {
+        long s = 0;
+        try {
+            File f = new File(path);
+            if (f.exists()) {
+                FileInputStream fis = new FileInputStream(f);
+                s = fis.available();
+            }
+        } catch (Exception e) {
+        }
+        return (double) s / 1024;
     }
 
     protected AsyncHttpResponseHandler handler = new TextHttpResponseHandler(
