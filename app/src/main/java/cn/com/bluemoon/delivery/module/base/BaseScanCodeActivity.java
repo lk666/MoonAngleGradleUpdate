@@ -132,8 +132,8 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
      * @param code null则不显示
      */
     final protected void setTxtCode(String code) {
+        txtCode.setText(code);
         if (!TextUtils.isEmpty(code)) {
-            txtCode.setText(code);
             ViewUtil.setViewVisibility(layoutCode, View.VISIBLE);
         } else {
             ViewUtil.setViewVisibility(layoutCode, View.GONE);
