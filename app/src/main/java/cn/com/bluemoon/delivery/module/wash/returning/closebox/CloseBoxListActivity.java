@@ -139,7 +139,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
                 break;
             // 扫描封箱条
             case R.id.btn_scan:
-                ScanCloseBoxSignActivity.actionStart(this, null, REQUEST_CODE_SCAN_CODE,
+                ScanCloseBoxSignActivity.actionStart(this,REQUEST_CODE_SCAN_CODE,
                         boxCode, list);
                 break;
         }
