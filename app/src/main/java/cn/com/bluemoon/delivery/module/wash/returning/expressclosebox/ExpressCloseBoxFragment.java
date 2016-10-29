@@ -83,13 +83,15 @@ public class ExpressCloseBoxFragment extends BaseFragment {
                 BackClothesScanActivity.actStart(this, getString(R.string.scan_clothes_num_title),getString(R.string.input_by_hand), null, boxCode, codes,2);
                 break;
             case R.id.img_scan:
-                PublicUtil.openNewScanView(this, getString(R.string.scan_delivery_title), getString(R.string.input_by_hand), null, 3);
+                PublicUtil.openNewScanView(this, getString(R.string.scan_delivery_title2), getString(R.string.input_by_hand), null, 3);
                 break;
             case R.id.btn_query:
                 String empCode = etEmpNum.getText().toString();
                 if (StringUtils.isNotBlank(empCode)) {
                     showWaitDialog();
                     DeliveryApi.getEmp(getToken(), empCode, getNewHandler(1, ResultUserInfo.class));
+                } else {
+                    toast(getString(R.string.please_input_emp_code));
                 }
                 break;
             case R.id.btn_ok:
