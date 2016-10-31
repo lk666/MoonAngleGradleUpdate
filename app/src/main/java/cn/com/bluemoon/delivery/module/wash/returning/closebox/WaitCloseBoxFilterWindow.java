@@ -75,6 +75,7 @@ public class WaitCloseBoxFilterWindow extends PopupWindow {
         btnReset.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
+                waitInbox = false;
                 cbWaitInbox.setChecked(waitInbox);
             }
         });

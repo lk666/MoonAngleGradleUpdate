@@ -20,7 +20,6 @@ import com.bumptech.glide.request.target.SimpleTarget;
 
 import org.kymjs.kjframe.utils.SystemTool;
 
-import java.io.File;
 import java.util.ArrayList;
 
 import butterknife.Bind;
@@ -34,7 +33,6 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * Created by allenli on 2016/10/9.
@@ -209,26 +207,28 @@ public class BackOrderClothesActivity extends BaseActivity implements
             if (item.isCheck) {
                 Drawable drawable = context.getResources().getDrawable(R.mipmap.scaned);
                 ivScan.setImageDrawable(drawable);
+            } else {
                 Glide.with(context).load(item.getImgPath()).asBitmap().into(new SimpleTarget<Bitmap>() {
                     @Override
-                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                        if (null == resource) {
-                            resource = BitmapFactory.decodeResource(getResources(), R.mipmap.place_holder);
-                        }
+                    public void onResourceReady(Bitmap resource, GlideAnimation glideAnimation) {
                         if (SystemTool.getSDKVersion() >= 16) {
-                            ivScan.setBackground(new BitmapDrawable(ivScan.getResources(), resource));
+                            ivScan.setBackground(new BitmapDrawable(getResources(), resource));
                         } else {
-                            ivScan.setBackgroundDrawable(new BitmapDrawable(ivScan.getResources(), resource));
+                            ivScan.setBackgroundDrawable(new BitmapDrawable(getResources(), resource));
+                        }
+                    }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        Bitmap resource = BitmapFactory.decodeResource(getResources(), R.mipmap.place_holder);
+                        if (SystemTool.getSDKVersion() >= 16) {
+                            ivScan.setBackground(new BitmapDrawable(getResources(), resource));
+                        } else {
+                            ivScan.setBackgroundDrawable(new BitmapDrawable(getResources(), resource));
                         }
                     }
                 });
-
-            } else {
-                Glide.with(context)
-                        .load(new File(item.getImgPath()))
-                        .error(R.mipmap.place_holder)
-                        .placeholder(R.mipmap.place_holder)
-                        .into(ivScan);
             }
         }
     }
