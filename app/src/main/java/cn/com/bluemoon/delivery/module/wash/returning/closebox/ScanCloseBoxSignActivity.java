@@ -117,8 +117,18 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        toast(getString(R.string.close_box_finish));
+        toast(result.getResponseMsg());
         setResult(RESULT_OK);
         finish();
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        //判断是否是已被其他人封箱
+        if(result.getResponseCode()==230004){
+            onSuccessResponse(requestCode,null,result);
+        }else{
+            super.onErrorResponse(requestCode, result);
+        }
     }
 }

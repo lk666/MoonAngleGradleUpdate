@@ -27,7 +27,8 @@
             android:layout_marginBottom="10dp"
             android:textColor="@color/text_black_light"
             android:textSize="@dimen/text_size_30"
-            android:text="@string/pack_finish_box_tag"/>
+            android:visibility="gone"
+            />
 
         <TextView
             android:id="@+id/txt_box_code"
@@ -37,6 +38,7 @@
             android:layout_marginTop="10dp"
             android:textColor="@color/text_red"
             android:textSize="@dimen/text_size_30"
+            android:text="@string/pack_finish_no_box_tag"
             />
 
     </LinearLayout>
@@ -63,11 +65,13 @@
 
         <Button
             android:id="@+id/btn_ok"
-            style="@style/btn_red4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_marginLeft="25dp"
             android:text="@string/pack_finish_btn_to_box"
+            android:clickable="false"
+            android:background="@drawable/btn_disable_shape"
+            android:textColor="@color/white"
             android:layout_weight="1"/>
     </LinearLayout>
 </RelativeLayout>

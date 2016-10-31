@@ -190,4 +190,12 @@ public class ScanPackActivity extends BaseScanCodeActivity {
         }
     }
 
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        //衣物箱不是绑定状态
+        if((requestCode == 1 || requestCode == 2) && result.getResponseCode() == 210008){
+            onSuccessResponse(requestCode,null,result);
+        }
+        super.onErrorResponse(requestCode, result);
+    }
 }

@@ -64,6 +64,7 @@ import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActiv
 import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.pack.PackFinishActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
@@ -153,9 +154,6 @@ public class MainActivity extends SlidingActivity {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 PublicUtil.openScanView(main, null, null, 0);
-//                PublicUtil.openScanTicket(main,"dlsafdsfds","23432432",0,4);
-//                PublicUtil.openNewScan(main,"123","3243242",0,4);
-//                PublicUtil.openNewScanOrder(main,null,"123","3243242",0,4);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -747,25 +745,26 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MyTeamActivity.class);
                 startActivity(intent);
-            }
-            else if (MenuCode.wash_cabinet_manager.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_cabinet_manager.toString().equals(userRight.getMenuCode())) {
                 CupboardScanActivity.actStart(main);
             } else if (MenuCode.wash_transport.toString().equals(userRight.getMenuCode())) {
                 DriverTabActivity.actionStart(main);
             } else if (MenuCode.wash_express_close_box.toString().equals(userRight.getMenuCode())) {
                 ExpressCloseBoxTabActivity.actionStart(this);
-            } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode()
+            )) {
                 ReturnManagerTabActivity.actionStart(this);
             } else if (MenuCode.wash_transport_sign.toString().equals(userRight.getMenuCode())) {
                 TransportReceiveTabActivity.actionStart(this);
-            } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode()
+            )) {
                 CloseBoxTabActivity.actionStart(main);
-            } else if (MenuCode.wash_back_order_package.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.wash_back_order_package.toString().equals(userRight.getMenuCode()
+            )) {
                 PackTabActivity.actionStart(main);
             } else if (MenuCode.wash_clothes_check.toString().equals(userRight.getMenuCode())) {
                 ClothesCheckTabActivity.actionStart(main);
-            }
-            else if (!StringUtils.isEmpty(userRight.getUrl())) {
+            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(main),
@@ -775,10 +774,10 @@ public class MainActivity extends SlidingActivity {
             } else if ("scheduleSys".equals(userRight.getMenuCode())) {
                 intent = new Intent(main, SzSchedualActivity.class);
                 startActivity(intent);
-            }else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
+            } else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, SzTaskActivity.class);
                 startActivity(intent);
-            }else {
+            } else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
             }
         } catch (Exception ex) {
@@ -867,9 +866,9 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-    public static void actStart(Context context,String jumpCode) {
+    public static void actStart(Context context, String jumpCode) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.KEY_JUMP,jumpCode);
+        intent.putExtra(Constants.KEY_JUMP, jumpCode);
         context.startActivity(intent);
     }
 

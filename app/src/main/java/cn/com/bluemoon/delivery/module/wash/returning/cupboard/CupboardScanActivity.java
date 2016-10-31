@@ -129,6 +129,15 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
         }
     }
 
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        //该箱已入柜
+        if(requestCode == 1&&result.getResponseCode()==200005){
+            onSuccessResponse(requestCode,null,result);
+        }
+        super.onErrorResponse(requestCode, result);
+    }
+
     /**
      * 更新扫描列表
      *

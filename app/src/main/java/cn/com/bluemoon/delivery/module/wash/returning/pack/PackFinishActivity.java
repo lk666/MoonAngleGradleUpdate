@@ -14,6 +14,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.pack.ResultScanBoxCode;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * Created by allenli on 2016/10/11.
@@ -34,6 +35,7 @@ public class PackFinishActivity extends BaseActivity {
     Button btnOk;
 
     private String tagCode;
+    private ResultScanBoxCode item;
 
     public static void actionStart(Context context, String tagCode) {
         Intent intent = new Intent(context, PackFinishActivity.class);
@@ -59,19 +61,25 @@ public class PackFinishActivity extends BaseActivity {
     }
 
     @Override
-    protected String getTitleString() {
-        return getString(R.string.title_back_detail);
-    }
-
-
-    @Override
     public void initView() {
-            btnBack.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                finish();
+                item = new ResultScanBoxCode();
+                item.setBoxCode("wwew");
+                checkBtn();
+            }
+        });
+        btnOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(item!=null && !StringUtil.isEmptyString(item.getBoxCode())){
+                    ScanPackActivity.actStart(PackFinishActivity.this, tagCode, item.getBoxCode());
                     finish();
                 }
-            });
+            }
+        });
     }
 
     @Override
@@ -83,27 +91,21 @@ public class PackFinishActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultScanBoxCode obj = (ResultScanBoxCode) result;
-        setData(obj);
+        item = (ResultScanBoxCode) result;
+        checkBtn();
     }
 
-    private void setData(final ResultScanBoxCode item) {
-        if (StringUtil.isEmptyString(item.getBoxCode())) {
-            txtPackBoxCode.setVisibility(View.GONE);
-            txtBoxCode.setText(getString(R.string.pack_finish_no_box_tag));
-            btnOk.setEnabled(false);
-        } else {
+    private void checkBtn() {
+        if (item != null && !StringUtil.isEmptyString(item.getBoxCode())) {
+            LibViewUtil.setViewVisibility(txtPackBoxCode, View.VISIBLE);
             txtBoxCode.setText(item.getBoxCode());
-            btnOk.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    ScanPackActivity.actStart(PackFinishActivity.this,tagCode,item.getBoxCode());
-                    finish();
-                }
-            });
+            btnOk.setClickable(true);
+            btnOk.setBackgroundResource(R.drawable.btn_red_shape4);
+        } else {
+            LibViewUtil.setViewVisibility(txtPackBoxCode, View.GONE);
+            txtBoxCode.setText(getString(R.string.pack_finish_no_box_tag));
+            btnOk.setClickable(false);
+            btnOk.setBackgroundResource(R.drawable.btn_disable_shape);
         }
-
     }
-
-
 }
