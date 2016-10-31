@@ -6,7 +6,11 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -24,6 +28,12 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     private ArrayList<BackOrderItem> list = new ArrayList<>();
     private String boxCode;
     private String backOrderCode;
+    private final static String[] strings = {
+            AppContext.string(R.string.scan_succeed),
+            AppContext.string(R.string.duplicate_code),
+            AppContext.string(R.string.not_in_code),
+            AppContext.string(R.string.scan_finish)
+        };
 
     /**
      * 扫描界面调起方法
@@ -63,14 +73,15 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
             finish();
         }
 
-        if (check(str)) {
+        int state = check(str);
+        if (state==0) {
             // 服务端校验
             showWaitDialog();
             backOrderCode = str;
             ReturningApi.scanBackOrder(str, boxCode, getToken(), getNewHandler
                     (REQUEST_CODE, ResultBase.class));
         } else {
-            checkFinished();
+            checkFinished(state);
         }
     }
 
@@ -82,21 +93,20 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                 break;
             }
         }
-
-        toast(getString(R.string.scan_succeed));
-        checkFinished();
+        checkFinished(0);
     }
 
     /**
      * 判断是否已完成
      */
-    private void checkFinished() {
+    private void checkFinished(int state) {
         if (isScanFinished()) {
-            toast(getString(R.string.scan_finish));
+            state = 3;
             finish();
         } else {
             startDelay();
         }
+        toast(strings[state]);
     }
 
     /**
@@ -104,23 +114,21 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
      *
      * @return 是否继续服务端校验
      */
-    private boolean check(String code) {
+    private int check(String code) {
         boolean isIn = false;
         for (BackOrderItem item : list) {
             if (item.code.equals(code)) {
                 isIn = true;
                 if (item.state == 1) {
-                    toast(getString(R.string.duplicate_code));
-                    return false;
+                    return 1;
                 }
                 break;
             }
         }
         if (!isIn) {
-            toast(getString(R.string.not_in_code));
-            return false;
+            return 2;
         }
-        return true;
+        return 0;
     }
 
     /**
