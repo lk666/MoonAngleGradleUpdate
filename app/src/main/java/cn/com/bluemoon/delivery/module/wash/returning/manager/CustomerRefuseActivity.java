@@ -100,7 +100,7 @@ public class CustomerRefuseActivity extends BaseActivity {
             Button btnRefuse = getViewById(R.id.btn_refuse);
             txtCode.setText(r.getClothesCode());
             txtName.setText(r.getClothesName());
-            if (r.getRefuse()) {
+            if (r.isIsRefuse()) {
                 btnRefuse.setText(R.string.manage_show_refuse);
                 btnRefuse.setTextColor(getResources().getColor(R.color.text_grep));
                 btnRefuse.setBackgroundResource(R.drawable.btn_border_grep_shape4);
@@ -115,7 +115,7 @@ public class CustomerRefuseActivity extends BaseActivity {
                     clickPostion = position;
                     Intent intent = new Intent(CustomerRefuseActivity.this, RefuseDetailActivity.class);
                     intent.putExtra("clothesCode", r.getClothesCode());
-                    intent.putExtra("isSave", !r.getRefuse());
+                    intent.putExtra("isSave", !r.isIsRefuse());
                     startActivityForResult(intent, 1);
                 }
             });
@@ -128,7 +128,7 @@ public class CustomerRefuseActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK && requestCode == 1) {
             isRefuse = true;
-            clothesList.get(clickPostion).setRefuse(true);
+            clothesList.get(clickPostion).setIsRefuse(true);
             adapter.notifyDataSetChanged();
         }
     }

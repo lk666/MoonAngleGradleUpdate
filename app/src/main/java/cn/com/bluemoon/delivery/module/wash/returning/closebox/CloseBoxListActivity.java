@@ -103,8 +103,14 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultCloseBoxList obj = (ResultCloseBoxList) result;
-        setData(obj);
+        hideWaitDialog();
+        if (requestCode == 1) {
+            toast(result.getResponseMsg());
+        } else {
+            ResultCloseBoxList obj = (ResultCloseBoxList) result;
+            setData(obj);
+        }
+
     }
 
     private void setData(ResultCloseBoxList result) {
@@ -134,8 +140,13 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
     @OnClick({R.id.btn_print_tag, R.id.btn_scan})
     public void onClick(View view) {
         switch (view.getId()) {
-            // TODO: lk 2016/9/28 打印封箱条
             case R.id.btn_print_tag:
+                showWaitDialog();
+                List<String> tags = new ArrayList<>();
+                for (CloseBoxTag tag : list) {
+                    tags.add(tag.getTagCode());
+                }
+                ReturningApi.printTags(tags, getToken(), getNewHandler(1, ResultBase.class));
                 break;
             // 扫描封箱条
             case R.id.btn_scan:
