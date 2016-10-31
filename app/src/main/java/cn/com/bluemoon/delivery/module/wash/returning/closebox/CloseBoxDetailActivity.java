@@ -8,6 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -82,8 +85,10 @@ public class CloseBoxDetailActivity extends BaseActivity {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        // TODO: lk 2016/9/20 点击打印
-        toast("打印" + tvTagCode.getText().toString());
+        List<String> tags = new ArrayList<>();
+        tags.add(tagId);
+        showWaitDialog();
+        ReturningApi.printTags(tags, getToken(), getNewHandler(1, ResultBase.class));
     }
 
     @Override
@@ -100,8 +105,13 @@ public class CloseBoxDetailActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultCloseBoxDetail obj = (ResultCloseBoxDetail) result;
-        setData(obj);
+        hideWaitDialog();
+        if (requestCode == 1) {
+            toast(result.getResponseMsg());
+        } else {
+            ResultCloseBoxDetail obj = (ResultCloseBoxDetail) result;
+            setData(obj);
+        }
     }
 
     private void setData(final ResultCloseBoxDetail item) {

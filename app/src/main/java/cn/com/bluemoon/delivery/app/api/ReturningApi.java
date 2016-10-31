@@ -809,6 +809,22 @@ public class ReturningApi extends DeliveryApi {
     }
 
     /**
+     *4.8 封箱标签打印
+     * @param tagCodeList 封箱标签列表 List<String>
+     * @param token 登录凭证(必填) String
+     */
+    public static void printTags(List<String> tagCodeList,String token,AsyncHttpResponseHandler handler){
+        if(null == tagCodeList||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("tagCodeList",tagCodeList);
+        params.put("token",token);
+        postRequest(params, "washingService-controller/wash/closeBox/printTags%s", handler);
+    }
+
+
+    /**
      * 3.1获取待打包列表(ResultWaitPackage)
      *
      * @param backOrderStatus 还衣单状态（待打包） String
@@ -976,6 +992,21 @@ public class ReturningApi extends DeliveryApi {
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/backOrder/queryInboxHistoryList%s",
                 handler);
+    }
+
+    /**
+     *3.10还衣单标签打印
+     * @param backOrderCode 还衣单号(必填) String
+     * @param token 登录凭证(必填) String
+     */
+    public static void printBackOrderDetail(String backOrderCode,String token,AsyncHttpResponseHandler handler){
+        if(null == backOrderCode||null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("backOrderCode",backOrderCode);
+        params.put("token",token);
+        postRequest(params, "washingService-controller/wash/backOrder/printBackOrderDetail%s", handler);
     }
 
     /**

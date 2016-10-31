@@ -15,6 +15,7 @@ import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.pack.ResultBackOrderDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
 import cn.com.bluemoon.lib.utils.threadhelper.ExRunable;
 import cn.com.bluemoon.lib.utils.threadhelper.Feedback;
@@ -52,6 +53,8 @@ public class PackPrintActivity extends BaseActivity {
 
     @Bind(R.id.tv_clothes_resource)
     TextView tvClothesReource;
+    @Bind(R.id.btn_print_tag)
+    Button btnPrintTag;
 
     private String tagCode;
 
@@ -78,24 +81,6 @@ public class PackPrintActivity extends BaseActivity {
         return R.layout.activity_pack_print;
     }
 
-    @Override
-    protected String getTitleString() {
-        return getString(R.string.title_back_detail);
-    }
-
-//    @Override
-//    protected void setActionBar(CommonActionBar actionBar) {
-//        super.setActionBar(actionBar);
-//
-//        actionBar.getImgRightView().setImageResource(R.mipmap.ic_print_white);
-//        actionBar.getImgRightView().setVisibility(View.VISIBLE);
-//    }
-//
-//    @Override
-//    protected void onActionBarBtnRightClick() {
-//        // TODO: lk 2016/9/20 点击打印
-//        toast("打印" + tagCode);
-//    }
 
     @Override
     public void initView() {
@@ -103,6 +88,13 @@ public class PackPrintActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 ScanPackActivity.actStart(PackPrintActivity.this,tagCode);
+            }
+        });
+        btnPrintTag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showWaitDialog();
+                ReturningApi.printBackOrderDetail(tagCode, getToken(), getNewHandler(1, ResultBase.class));
             }
         });
     }
@@ -126,8 +118,14 @@ public class PackPrintActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultBackOrderDetail obj = (ResultBackOrderDetail) result;
-        setData(obj);
+        hideWaitDialog();
+        if (requestCode == REQUEST_CODE_QUERY) {
+            ResultBackOrderDetail obj = (ResultBackOrderDetail) result;
+            setData(obj);
+        } else if (requestCode == 1){
+            toast(result.getResponseMsg());
+        }
+
     }
 
     private void setData(ResultBackOrderDetail item) {
