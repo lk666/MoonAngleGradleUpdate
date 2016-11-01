@@ -90,8 +90,6 @@ public class BackOrderListDetailActivity extends BaseActivity implements
 
     @Override
     protected void setActionBar(CommonActionBar titleBar) {
-        titleBar.getImgLeftView().setVisibility(View.GONE);
-
         titleBar.getImgRightView().setImageResource(R.mipmap.ic_scan);
         titleBar.getImgRightView().setVisibility(View.VISIBLE);
     }
