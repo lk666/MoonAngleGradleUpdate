@@ -28,6 +28,7 @@ public class ScanBoxCodeActivity extends BaseScanCodeActivity {
             finish();
         } else {
             toast(String.format(getString(R.string.close_box_scan_box_code_error), getTxtCode()));
+            startDelay();
         }
     }
 }
