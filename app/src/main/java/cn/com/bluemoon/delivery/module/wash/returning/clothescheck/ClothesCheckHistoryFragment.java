@@ -71,9 +71,9 @@ public class ClothesCheckHistoryFragment extends BasePullToRefreshListViewFragme
 
                             if (DateUtil.getTimeOffsetMonth(startTime, 6) >
                                     endTime) {
-                                if (startTime == 0 && endTime == 0) {
-                                    return;
-                                }
+//                                if (startTime == 0 && endTime == 0) {
+//                                    return;
+//                                }
 
                                 setHead(View.VISIBLE);
                                 initData();
