@@ -87,7 +87,7 @@ public class PackPrintActivity extends BaseActivity {
         btnScan.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ScanPackActivity.actStart(PackPrintActivity.this,tagCode);
+                ScanPackActivity.actStart(PackPrintActivity.this, tagCode);
             }
         });
         btnPrintTag.setOnClickListener(new View.OnClickListener() {
@@ -103,10 +103,21 @@ public class PackPrintActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(RESULT_OK==resultCode){
-            PackFinishActivity.actionStart(this,tagCode);
-            finish();
+        if(requestCode == 0){
+            switch (resultCode){
+                //包装成功
+                case RESULT_OK:
+                    String boxCode = data==null?null:data.getStringExtra("boxCode");
+                    PackFinishActivity.actStart(this,tagCode,boxCode);
+                    finish();
+                    break;
+                //包装失败
+                case ScanPackActivity.RESULT_ERROR_PACK:
+                    finish();
+                    break;
+            }
         }
+
     }
 
     @Override

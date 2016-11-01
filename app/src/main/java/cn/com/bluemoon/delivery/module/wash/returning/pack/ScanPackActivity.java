@@ -28,6 +28,8 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     /*打印扫描标签*/
     public final static int MODE_PRINT = 3;
 
+    public final static int RESULT_ERROR_PACK = 4;
+
     private int mode;
     private String backOrderCode;
     private String boxCode;
@@ -36,8 +38,10 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     /*从待装箱跳转过来*/
     public static void actStart(Fragment fragment) {
         Intent intent = new Intent(fragment.getActivity(), ScanPackActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.close_box_scan_back_code_title));
-        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string
+                .close_box_scan_back_code_title));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string
+                .with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_INBOX);
         fragment.startActivityForResult(intent, 0);
     }
@@ -46,8 +50,10 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     /*从待打包跳转过来*/
     public static void actStart(Fragment fragment, String boxCode, String region) {
         Intent intent = new Intent(fragment.getActivity(), ScanPackActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cabinet_title));
-        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string
+                .incabinet_cabinet_title));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string
+                .with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_PACK);
         intent.putExtra("region", region);
         intent.putExtra("code", boxCode);
@@ -58,7 +64,8 @@ public class ScanPackActivity extends BaseScanCodeActivity {
     public static void actStart(Activity activity, String cupboardCode) {
         Intent intent = new Intent(activity, ScanPackActivity.class);
         intent.putExtra("title", AppContext.getInstance().getString(R.string.scan_back_order_code));
-        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string
+                .with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_PRINT);
         intent.putExtra("code", cupboardCode);
         activity.startActivityForResult(intent, 0);
@@ -74,8 +81,10 @@ public class ScanPackActivity extends BaseScanCodeActivity {
      */
     public static void actStart(Activity aty, String backOrderCode, String boxCode) {
         Intent intent = new Intent(aty, ScanPackActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.close_box_scan_box_code_title));
-        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string
+                .close_box_scan_box_code_title));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string
+                .with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_SINGER);
         intent.putExtra("backOrderCode", backOrderCode);
         intent.putExtra("code", boxCode);
@@ -125,10 +134,12 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 if (TextUtils.isEmpty(boxCode)) {
                     backOrderCode = str;
                     showWaitDialog();
-                    ReturningApi.scanBackOrder(backOrderCode, getToken(), getNewHandler(0, ResultScanBoxCode.class));
+                    ReturningApi.scanBackOrder(backOrderCode, getToken(), getNewHandler(0,
+                            ResultScanBoxCode.class));
                 } else if (boxCode.equals(str)) {
                     showWaitDialog();
-                    ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler(1, ResultBase.class));
+                    ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler
+                            (1, ResultBase.class));
                 } else {
                     toast(getString(R.string.pack_box_error, boxCode));
                     startDelay();
@@ -138,7 +149,8 @@ public class ScanPackActivity extends BaseScanCodeActivity {
             case MODE_SINGER:
                 if (boxCode.equals(str)) {
                     showWaitDialog();
-                    ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler(2, ResultBase.class));
+                    ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler
+                            (2, ResultBase.class));
                 } else {
                     toast(getString(R.string.pack_box_error, boxCode));
                     startDelay();
@@ -155,9 +167,9 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 break;
             case MODE_PRINT:
                 if (boxCode.equals(str)) {
-                  //  BackOrderClothesActivity.actionStart(this, boxCode);
-                    setResult(RESULT_OK);
-                    finish();
+                    showWaitDialog();
+                    ReturningApi.scanPackageBackOrder(boxCode, getToken(), getNewHandler(3,
+                            ResultScanBoxCode.class));
                 } else {
                     toast(getString(R.string.close_box_scan_box_code_error, boxCode));
                     startDelay();
@@ -187,14 +199,23 @@ public class ScanPackActivity extends BaseScanCodeActivity {
             toast(result.getResponseMsg());
             setResult(RESULT_OK);
             finish();
+        } else if( requestCode == 3){
+            Intent intent = new Intent();
+            intent.putExtra("boxCode",((ResultScanBoxCode)result).getBoxCode());
+            setResult(RESULT_OK,intent);
+            finish();
         }
     }
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         //衣物箱不是绑定状态
-        if((requestCode == 1 || requestCode == 2) && result.getResponseCode() == 210008){
-            onSuccessResponse(requestCode,null,result);
+        if ((requestCode == 1 || requestCode == 2) && result.getResponseCode() == 210008) {
+            onSuccessResponse(requestCode, null, result);
+        }else if(requestCode == 3 ){
+            toast(result.getResponseMsg());
+            setResult(RESULT_ERROR_PACK);
+            finish();
         }
         super.onErrorResponse(requestCode, result);
     }
