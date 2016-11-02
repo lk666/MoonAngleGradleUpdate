@@ -28,13 +28,13 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
     /**
      * 扫描界面调起方法
      */
-    public static void actionStart(Activity context,int requestCode,
+    public static void actionStart(Activity context, int requestCode,
                                    String boxCode, ArrayList<CloseBoxTag> list) {
         Intent intent = new Intent(context, ScanCloseBoxSignActivity.class);
         intent.putExtra("title", context.getString(R.string
                 .close_box_tag_scan_tag));
         intent.putExtra("code", context.getString(R.string
-                .close_box_scan_tag_code,boxCode));
+                .close_box_scan_tag_code, boxCode));
         intent.putExtra("btnString", context.getString(R.string
                 .with_order_collect_manual_input_code_btn));
         intent.putExtra(EXTRA_LIST, list);
@@ -125,9 +125,9 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         //判断是否是已被其他人封箱
-        if(result.getResponseCode()==230004){
-            onSuccessResponse(requestCode,null,result);
-        }else{
+        if (result.getResponseCode() == 230004 || result.getResponseCode() == 90002) {
+            onSuccessResponse(requestCode, null, result);
+        } else {
             super.onErrorResponse(requestCode, result);
         }
     }
