@@ -109,7 +109,6 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
             toast(result.getResponseMsg());
             //跳转待装箱
             if (requestCode == 230033) {
-                CloseBoxFragment.needInit = 1;
                 finish();
             }
         } else {

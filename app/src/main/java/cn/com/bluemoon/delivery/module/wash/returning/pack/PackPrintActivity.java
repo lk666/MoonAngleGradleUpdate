@@ -137,7 +137,6 @@ public class PackPrintActivity extends BaseActivity {
             toast(result.getResponseMsg());
             //跳转待打包
             if (requestCode == 210020) {
-                PackFragment.needInit = 1;
                 finish();
             }
         }
