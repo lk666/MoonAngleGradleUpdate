@@ -24,6 +24,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ResultCloseBoxList;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.wash.returning.pack.PackFragment;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
 import cn.com.bluemoon.lib.utils.threadhelper.ExRunable;
 import cn.com.bluemoon.lib.utils.threadhelper.Feedback;
@@ -106,6 +107,11 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
         hideWaitDialog();
         if (requestCode == 1) {
             toast(result.getResponseMsg());
+            //跳转待装箱
+            if (requestCode == 230034) {
+                CloseBoxFragment.needInit = 1;
+                finish();
+            }
         } else {
             ResultCloseBoxList obj = (ResultCloseBoxList) result;
             setData(obj);

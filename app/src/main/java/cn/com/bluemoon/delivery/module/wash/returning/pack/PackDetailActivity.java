@@ -90,8 +90,8 @@ public class PackDetailActivity extends BaseActivity {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        // TODO: lk 2016/9/20 点击打印
-        toast("打印" + tagCode);
+        showWaitDialog();
+        ReturningApi.printBackOrderDetail(tagCode, getToken(), getNewHandler(1, ResultBase.class));
     }
 
     @Override

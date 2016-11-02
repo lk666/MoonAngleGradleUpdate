@@ -29,6 +29,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 public class PackFragment extends BasePullToRefreshListViewFragment {
     private final String orderStatus ="FILTER_WAIT_PACKAGE";
     private static final int REQUEST_CODE_SCANE_BOX_CODE = 0x777;
+    public static int needInit = 0;
     private View viewPopStart;
     private TextView txtCount;
     private TextView txtPendingPack;
@@ -240,6 +241,11 @@ public class PackFragment extends BasePullToRefreshListViewFragment {
     public void onResume() {
         super.onResume();
         if (!isFirstTimeLoad) {
+            initData();
+        }
+        //打印还衣单时，临时插入衣物导致跳转回来重新刷新
+        if (needInit == 1) {
+            needInit = 0;
             initData();
         }
     }

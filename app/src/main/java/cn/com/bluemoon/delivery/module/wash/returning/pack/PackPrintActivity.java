@@ -135,6 +135,11 @@ public class PackPrintActivity extends BaseActivity {
             setData(obj);
         } else if (requestCode == 1){
             toast(result.getResponseMsg());
+            //跳转待打包
+            if (requestCode == 210020) {
+                PackFragment.needInit = 1;
+                finish();
+            }
         }
 
     }
