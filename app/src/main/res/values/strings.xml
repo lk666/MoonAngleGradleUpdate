@@ -1093,6 +1093,7 @@
     <string name="driver_order_num">共%s单</string>
     <string name="driver_box_code3">封箱标签-%s</string>
     <string name="driver_receiver">签收人：%s</string>
+    <string name="driver_box_load_content">应收【%1$d】箱，实收【%2$d】箱，是否确认装车完成？</string>
 
     <!--承运收货-->
     <string name="wait_sign_title">待签收</string>

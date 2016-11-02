@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.driver;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -28,6 +29,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class TransportListActivity extends BaseActivity {
@@ -129,8 +131,23 @@ public class TransportListActivity extends BaseActivity {
 
     @OnClick(R.id.btn_load_finish)
     public void onClick() {
-        showWaitDialog();
-        ReturningApi.loadComplete(getCheckList(carriageDetail.getBoxList()), carriageCode, getToken(), getNewHandler(1, ResultBase.class));
+        List<DriverBox> driverBoxes = carriageDetail.getBoxList();
+        final List<String> checkList = getCheckList(driverBoxes);
+        int receivableCount = driverBoxes.size();
+        int realCount = checkList.size();
+        if (realCount < receivableCount) {
+            new CommonAlertDialog.Builder(this).setPositiveButton(R.string.cancel_with_space, null).setNegativeButton(R.string.confirm_with_space, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    showWaitDialog();
+                    ReturningApi.loadComplete(checkList, carriageCode, getToken(), getNewHandler(1, ResultBase.class));
+                }
+            }).setMessage(getString(R.string.driver_box_load_content, receivableCount,realCount)).show();
+        } else {
+            showWaitDialog();
+            ReturningApi.loadComplete(checkList, carriageCode, getToken(), getNewHandler(1, ResultBase.class));
+        }
+
     }
 
     @Override
