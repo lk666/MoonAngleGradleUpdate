@@ -136,7 +136,7 @@ public class PackPrintActivity extends BaseActivity {
         } else if (requestCode == 1){
             toast(result.getResponseMsg());
             //跳转待打包
-            if (requestCode == 210020) {
+            if (result.getResponseCode() == 210020) {
                 finish();
             }
         }
