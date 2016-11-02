@@ -1116,16 +1116,20 @@ public class ReturningApi extends DeliveryApi {
      * @param issueDesc     问题描述 String
      * @param token         登录凭证(必填) String
      */
-    public static void scanBackClothesOrder(String backOrderCode, ArrayList<UploadImage> images,
+    public static void scanBackClothesOrder(String backOrderCode, List<ImageInfo> images,
                                             String issueDesc, String token,
                                             AsyncHttpResponseHandler handler) {
-        if (null == backOrderCode || null == images || null == issueDesc || null == token) {
+        if (null == backOrderCode || null == token) {
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put("backOrderCode", backOrderCode);
-        params.put("images", images);
-        params.put("issueDesc", issueDesc);
+        if (images != null) {
+            params.put("images", images);
+        }
+        if (issueDesc != null) {
+            params.put("issueDesc", issueDesc);
+        }
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/clothesCheck/scanBackClothesOrder%s",
                 handler);

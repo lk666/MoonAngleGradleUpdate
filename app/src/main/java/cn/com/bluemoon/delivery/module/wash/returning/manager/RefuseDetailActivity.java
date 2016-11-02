@@ -150,9 +150,11 @@ public class RefuseDetailActivity extends BaseActivity {
             List<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
             imagePaths.addAll(list);
             gridView.loadAdpater(imagePaths, true);
+            uploadImageManager = null;
         } else if (requestCode == 20 && data!= null) {
             imagePaths = data.getStringArrayListExtra(PhotoPreviewActivity.EXTRA_RESULT);
             gridView.loadAdpater(imagePaths, true);
+            uploadImageManager = null;
         }
     }
 }
