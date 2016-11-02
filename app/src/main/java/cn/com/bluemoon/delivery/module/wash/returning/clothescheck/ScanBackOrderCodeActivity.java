@@ -44,5 +44,6 @@ public class ScanBackOrderCodeActivity extends BaseScanCodeActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ClothesListDetailActivity.actionStart(this, backOrderCode);
+        finish();
     }
 }

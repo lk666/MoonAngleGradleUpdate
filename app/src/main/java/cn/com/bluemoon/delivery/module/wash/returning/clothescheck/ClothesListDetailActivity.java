@@ -17,7 +17,6 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,7 +25,6 @@ import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.wash.ResultUploadExceptionImage;
 import cn.com.bluemoon.delivery.app.api.model.wash.clothescheck.Clothes;
 import cn.com.bluemoon.delivery.app.api.model.wash.clothescheck.ResultBackOrderDetail;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
@@ -39,9 +37,7 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.ImageGridView;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.manager.UploadImageManager;
-import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
