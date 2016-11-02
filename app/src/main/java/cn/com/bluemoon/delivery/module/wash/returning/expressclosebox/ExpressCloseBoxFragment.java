@@ -141,6 +141,7 @@ public class ExpressCloseBoxFragment extends BaseFragment {
             etExpressCode.setText("");
             etEmpNum.setText("");
             txtDeliveryName.setText("");
+            boxCode = null;
         }
     }
 
