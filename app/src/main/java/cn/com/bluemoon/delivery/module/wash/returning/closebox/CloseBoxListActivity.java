@@ -107,15 +107,21 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
         hideWaitDialog();
         if (requestCode == 1) {
             toast(result.getResponseMsg());
-            //跳转待装箱
-            if (result.getResponseCode() == 230033) {
-                finish();
-            }
         } else {
             ResultCloseBoxList obj = (ResultCloseBoxList) result;
             setData(obj);
         }
+    }
 
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        //跳转待装箱
+        if (requestCode == 1 && result.getResponseCode() == 230033) {
+            toast(result.getResponseMsg());
+            finish();
+        } else {
+            super.onErrorResponse(requestCode, result);
+        }
     }
 
     private void setData(ResultCloseBoxList result) {
