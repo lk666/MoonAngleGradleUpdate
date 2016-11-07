@@ -26,11 +26,15 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.CornerNum;
+import cn.com.bluemoon.delivery.app.api.model.wash.ResultCornerNum;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.ArgumentTabState;
 import cn.com.bluemoon.delivery.entity.DrawableTabState;
 import cn.com.bluemoon.delivery.entity.TabState;
+import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
@@ -49,6 +53,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         BaseMainInterface, IHttpRespone {
     @Bind(android.R.id.tabhost)
     protected FragmentTabHost tabhost;
+    private static final int REQUESTCODE_MODE = 10;
 
     private ProgressDialog waitDialog;
     private LayoutInflater layoutInflater;
@@ -120,6 +125,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
 
 
             tabhost.addTab(tabSpec, ts.getClazz(), bundle);
+            tabhost.setCurrentTab(getCurrentIndex());
         }
     }
 
@@ -233,7 +239,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
         }
 
         if (amount > 0) {
-            amountTvs.get(index).setText(String.valueOf(amount));
+            amountTvs.get(index).setText(amount < 100 ? String.valueOf(amount) : "99+");
             amountTvs.get(index).setVisibility(View.VISIBLE);
         } else {
             amountTvs.get(index).setVisibility(View.GONE);
@@ -315,6 +321,14 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     /**
      * 获取并设置角标数量的方法
      */
+    final public void getAmount() {
+        if (getModeType() != null) {
+            ReturningApi.queryCornerNum(getModeType().name(), getToken(), getNewHandler(REQUESTCODE_MODE, ResultCornerNum.class));
+        }
+    }
+    /**
+     * 获取并设置角标数量的方法
+     */
     final public void setAmountList(List<Integer> amountList) {
         if (amountList != null && !amountList.isEmpty()) {
             for (int i = 0; i < amountList.size(); i++) {
@@ -336,7 +350,18 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
      * 请求成功
      */
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase resultBase) {
-
+        if (requestCode == REQUESTCODE_MODE) {
+            List<CornerNum> list = ((ResultCornerNum) resultBase).getModelCountList();
+            String[] strs = getModeType().getStrs();
+            int size = strs.length;
+            for (CornerNum item : list) {
+                for (int i = 0; i < size; i++) {
+                    if (strs[i].equals(item.getType())) {
+                        setAmount(i, item.getTypeCount());
+                    }
+                }
+            }
+        }
     }
 
     /**
@@ -357,6 +382,19 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         PublicUtil.showToastServerBusy();
+    }
+
+    /**
+     * 获取角标模块类型WashModeType
+     *
+     * @return
+     */
+    protected WashModeType getModeType() {
+        return null;
+    }
+
+    protected int getCurrentIndex() {
+        return 0;
     }
 
     /**

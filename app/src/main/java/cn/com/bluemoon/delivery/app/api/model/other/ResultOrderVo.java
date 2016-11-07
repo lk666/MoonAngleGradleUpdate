@@ -2,6 +2,8 @@ package cn.com.bluemoon.delivery.app.api.model;
 
 import java.util.List;
 
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
+
 public class ResultOrderVo extends ResultBase {
     private List<OrderVo> itemList;
     private long timestamp;

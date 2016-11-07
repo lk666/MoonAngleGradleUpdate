@@ -13,18 +13,17 @@ import android.widget.TextView;
 
 import org.kymjs.kjframe.KJBitmap;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.OrderInfo;
-import cn.com.bluemoon.delivery.app.api.model.OrderState;
-import cn.com.bluemoon.delivery.app.api.model.Package;
-import cn.com.bluemoon.delivery.app.api.model.Product;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrderInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
+import cn.com.bluemoon.delivery.app.api.model.Package;
+import cn.com.bluemoon.delivery.app.api.model.other.Product;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;

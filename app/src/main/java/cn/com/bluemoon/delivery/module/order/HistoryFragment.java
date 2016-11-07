@@ -3,57 +3,33 @@ package cn.com.bluemoon.delivery.module.order;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 import org.kymjs.kjframe.utils.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.HistoryOrderType;
-import cn.com.bluemoon.delivery.app.api.model.Order;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.ResultOrder;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.app.api.model.other.Order;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrder;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.module.extract.HistoryOrderDetailActivity;
 import cn.com.bluemoon.delivery.module.order.TimerFilterWindow.TimerFilterListener;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase.Mode;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase.OnRefreshListener2;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibDateUtil;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class HistoryFragment extends BasePullToRefreshListViewFragment implements
         OnListItemClickListener {

@@ -269,6 +269,13 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
         aty.getAmount();
     }
 
+    /**
+     * 获取角标数量并设置(旧)
+     * BaseTabActivity重写getAmountList()
+     */
+    final protected void setAmount2(){
+        aty.getAmountList();
+    }
 
     ///////////// 可选重写 ////////////////
 

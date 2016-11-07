@@ -12,26 +12,13 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.AppStartActivity;
 import cn.com.bluemoon.delivery.MainActivity;
-import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.app.api.model.PushItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
-import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
-import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
-import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
-import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
-import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
-import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
-import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
-import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
-import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
-import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
-import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
-import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.NotificationUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
  * Created by bm on 2016/10/19.

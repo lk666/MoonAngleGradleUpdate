@@ -16,10 +16,10 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
-import cn.com.bluemoon.delivery.app.api.model.Storehouse;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
