@@ -276,6 +276,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
                 // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
+                super.onSuccessException(requestCode, t);
                 break;
         }
     }
@@ -297,6 +298,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
                 // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
+                super.onFailureResponse(requestCode, t);
                 break;
         }
     }
@@ -318,6 +320,7 @@ public abstract class BasePullToRefreshActivity extends BaseActivity {
                 // LibViewUtil.setChildEnableRecursion(ptr, true);
                 break;
             default:
+                super.onErrorResponse(requestCode, result);
                 break;
         }
     }

@@ -11,8 +11,6 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -21,8 +19,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
-import com.baidu.android.pushservice.PushConstants;
-import com.baidu.android.pushservice.PushManager;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
@@ -39,13 +35,14 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.MenuBean;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
+import cn.com.bluemoon.delivery.app.api.model.ResultAngelQr;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
-import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.clothing.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
@@ -57,16 +54,6 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.pack.PackFinishActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
@@ -76,7 +63,6 @@ import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.PushUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -107,24 +93,12 @@ public class MainActivity extends SlidingActivity {
     private GridViewAdapter gridViewAdapter;
     private CommonEmptyView emptyView;
 
-//    private Map<Integer, View> map = new HashMap<Integer, View>();
-//    private KJBitmap kjb;
-
-    private String jumpCode = "";
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        PushManager.startWork(getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY,
-                PushUtils.getMetaValue(this, "api_key"));
-
         setContentView(R.layout.activity_main);
         main = this;
         initMenu();
-        if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
-            jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
-        }
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
@@ -153,7 +127,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-                PublicUtil.openScanView(main, null, null, 0);
+             PublicUtil.openScanView(main, null, null, 0);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -188,6 +162,9 @@ public class MainActivity extends SlidingActivity {
         if (progressDialog != null) progressDialog.show();
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
+
+        jump(getIntent());
+
     }
 
     public void openQcode() {
@@ -201,12 +178,12 @@ public class MainActivity extends SlidingActivity {
 
     private void initMenu() {
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Window window = this.getWindow();
-            WindowManager.LayoutParams layoutParams = window.getAttributes();
-            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-            window.setAttributes(layoutParams);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//            Window window = this.getWindow();
+//            WindowManager.LayoutParams layoutParams = window.getAttributes();
+//            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+//            window.setAttributes(layoutParams);
+//        }
 
         mMenuFragment = new MenuFragment();
 
@@ -276,12 +253,15 @@ public class MainActivity extends SlidingActivity {
     private void setAmount(List<ModelNum> modelNums) {
 
         if (modelNums != null && listRight != null) {
+            int sum = 0;
             for (UserRight right : listRight) {
                 boolean isExit = false;
                 for (ModelNum num : modelNums) {
                     if (right.getMenuCode().equals(num.getMenuId())) {
                         right.setAmount(num.getNum());
+                        sum += num.getNum();
                         isExit = true;
+                        break;
                     }
                 }
                 if (!isExit) {
@@ -289,6 +269,7 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             setMenu();
+            PublicUtil.setMainAmount(main,sum);
         }
     }
 
@@ -335,22 +316,24 @@ public class MainActivity extends SlidingActivity {
             gridViewAdapter.setList(list);
             gridViewAdapter.notifyDataSetChanged();
         }
-        if (!TextUtils.isEmpty(jumpCode)) {
-            jump(jumpCode);
-        }
+
 
     }
 
-    private void jump(String menuCode) {
-        UserRight userRight = new UserRight();
-        userRight.setMenuCode(menuCode);
-        userRight.setMenuName("");
-        userRight.setIconImg("");
-        userRight.setIconResId(0);
-        userRight.setUrl("");
-        userRight.setMenuId("");
-        clickGridView(userRight);
-        jumpCode = "";
+    private void jump(Intent intent) {
+        String view = PublicUtil.getPushView(intent);
+        String url = PublicUtil.getPushUrl(intent);
+        if((!TextUtils.isEmpty(view)&&!Constants.PUSH_H5.equals(view))
+                ||(Constants.PUSH_H5.equals(view)&&!TextUtils.isEmpty(url))){
+            UserRight userRight = new UserRight();
+            userRight.setMenuCode(view);
+            userRight.setMenuName("");
+            userRight.setIconImg("");
+            userRight.setIconResId(0);
+            userRight.setMenuId("");
+            userRight.setUrl(url);
+            clickGridView(userRight);
+        }
     }
 
 
@@ -420,9 +403,6 @@ public class MainActivity extends SlidingActivity {
         super.onNewIntent(intent);
         isDestory = false;
         if (listRight != null) listRight.clear();
-        if (intent != null && intent.hasExtra(Constants.KEY_JUMP)) {
-            jumpCode = intent.getStringExtra(Constants.KEY_JUMP);
-        }
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
@@ -430,6 +410,7 @@ public class MainActivity extends SlidingActivity {
         }
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
+        jump(intent);
 
     }
 
@@ -693,14 +674,13 @@ public class MainActivity extends SlidingActivity {
         if (PublicUtil.isFastDoubleClick(1000)) {
             return;
         }
+        LogUtils.d("view:"+userRight.getMenuCode());
         try {
             Intent intent;
             if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, OrdersTabActivity.class);
-                startActivity(intent);
+                OrdersTabActivity.actionStart(main);
             } else if (MenuCode.site_sign.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, ExtractTabActivity.class);
-                startActivity(intent);
+                ExtractTabActivity.actionStart(main);
             } else if (MenuCode.check_in.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, TicketChooseActivity.class);
                 startActivity(intent);
@@ -717,8 +697,8 @@ public class MainActivity extends SlidingActivity {
                 startActivity(intent);
             } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
                 PublicUtil.openWebView(main, userRight.getUrl()
-                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
-                                + "token=" + ClientStateManager.getLoginToken(main),
+                                + (!userRight.getUrl().contains("?") ? "?" : "&")
+                                + "token=" + ClientStateManager.getLoginToken(),
                         userRight.getMenuName(), false, true);
             } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MessageListActivity.class);
@@ -745,38 +725,21 @@ public class MainActivity extends SlidingActivity {
             } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, MyTeamActivity.class);
                 startActivity(intent);
-            } else if (MenuCode.wash_cabinet_manager.toString().equals(userRight.getMenuCode())) {
-                CupboardScanActivity.actStart(main);
-            } else if (MenuCode.wash_transport.toString().equals(userRight.getMenuCode())) {
-                DriverTabActivity.actionStart(main);
-            } else if (MenuCode.wash_express_close_box.toString().equals(userRight.getMenuCode())) {
-                ExpressCloseBoxTabActivity.actionStart(this);
-            } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode()
-            )) {
-                ReturnManagerTabActivity.actionStart(this);
-            } else if (MenuCode.wash_transport_sign.toString().equals(userRight.getMenuCode())) {
-                TransportReceiveTabActivity.actionStart(this);
-            } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode()
-            )) {
-                CloseBoxTabActivity.actionStart(main);
-            } else if (MenuCode.wash_back_order_package.toString().equals(userRight.getMenuCode()
-            )) {
-                PackTabActivity.actionStart(main);
-            } else if (MenuCode.wash_clothes_check.toString().equals(userRight.getMenuCode())) {
-                ClothesCheckTabActivity.actionStart(main);
-            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
-                PublicUtil.openWebView(main, userRight.getUrl()
-                                + (userRight.getUrl().indexOf("?") == -1 ? "?" : "&")
-                                + "token=" + ClientStateManager.getLoginToken(main),
-                        userRight.getMenuName(), false);
-            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
-                //click empty
-            } else if ("scheduleSys".equals(userRight.getMenuCode())) {
-                intent = new Intent(main, SzSchedualActivity.class);
-                startActivity(intent);
             } else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
                 intent = new Intent(main, SzTaskActivity.class);
                 startActivity(intent);
+            } else if ("scheduleSys".equals(userRight.getMenuCode())) {
+                intent = new Intent(main, SzSchedualActivity.class);
+                startActivity(intent);
+            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+                String url = userRight.getUrl()
+                        + (!userRight.getUrl().contains("?") ? "?" : "&")
+                        + "token=" + ClientStateManager.getLoginToken();
+                PublicUtil.openWebView(main,url ,userRight.getMenuName(), false);
+                LogUtils.d("openUrl:"+url);
+
+            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+                //click empty
             } else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
             }
@@ -866,10 +829,15 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-    public static void actStart(Context context, String jumpCode) {
+    public static void actStart(Context context,String view,String url) {
         Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.KEY_JUMP, jumpCode);
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        intent.putExtra(Constants.PUSH_URL, url);
         context.startActivity(intent);
+    }
+
+    public static void actStart(Context context) {
+        actStart(context, null, null);
     }
 
 

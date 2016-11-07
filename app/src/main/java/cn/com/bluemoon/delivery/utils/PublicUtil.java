@@ -1,9 +1,12 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.app.Activity;
+import android.app.Notification;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.content.pm.ResolveInfo;
 import android.graphics.Paint;
 import android.location.LocationManager;
 import android.support.v4.app.Fragment;
@@ -44,6 +47,8 @@ import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
 import cn.com.bluemoon.delivery.module.order.OrderDetailActivity;
+import cn.com.bluemoon.delivery.module.order.ScanWithInputActivity;
+import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.JsConnectManager;
@@ -103,6 +108,15 @@ public class PublicUtil extends LibPublicUtil {
     public static void openScanOrder(Activity aty, Fragment fragment, String title,
                                      String btnString, int requestCode, int resultCode) {
         ScanInputActivity.actStart(aty, fragment, title, btnString, requestCode, resultCode);
+    }
+
+    /**
+     * 打开签收扫描界面
+     *
+     */
+    public static void openOrderWithInput(Fragment fragment, String title,
+                                     String btnString, int requestCode) {
+        ScanWithInputActivity.actStart(fragment, title, btnString, requestCode);
     }
 
     /**
@@ -311,26 +325,35 @@ public class PublicUtil extends LibPublicUtil {
         dialog.show();
     }
 
+    private static CommonAlertDialog tokenExpireDialog;
+    private static CommonAlertDialog getTokenExpireDialog (final Activity context) {
+        if (tokenExpireDialog == null) {
+            tokenExpireDialog = new CommonAlertDialog.Builder(context)
+                    .setCancelable(false)
+                    .setMessage(context.getString(R.string.token_out))
+                    .setPositiveButton(R.string.btn_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    LoginActivity.actStart(context);
+                                    tokenExpireDialog.dismiss();
+                                    context.finish();
+                                }
+                            }).create();
+        }
+        return tokenExpireDialog;
+    }
     /**
      * 显示账户过期对话框
      *
      * @param context
      */
     public static void showMessageTokenExpire(final Activity context) {
-        new CommonAlertDialog.Builder(context)
-                .setCancelable(false)
-                .setMessage(context.getString(R.string.token_out))
-                .setPositiveButton(R.string.btn_ok,
-                        new DialogInterface.OnClickListener() {
+        if (!getTokenExpireDialog(context).isShowing()) {
+            getTokenExpireDialog(context).show();
+        }
 
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                // TODO Auto-generated method stub
-                                LoginActivity.actStart(context);
-                                context.finish();
-                            }
-                        }).show();
     }
 
     public static void showErrorMsg(Activity context, ResultBase resultBase) {
@@ -543,5 +566,58 @@ public class PublicUtil extends LibPublicUtil {
         });
 
     }
+
+    /**
+     * 获取intent的值
+     * @param intent
+     * @param key
+     * @return
+     */
+    public static String getExtraValue(Intent intent, String key) {
+        return intent == null ? null : intent.getStringExtra(key);
+    }
+
+    public static String getPushView(Intent intent) {
+        return getExtraValue(intent,Constants.PUSH_VIEW);
+    }
+
+    public static String getPushUrl(Intent intent) {
+        return getExtraValue(intent,Constants.PUSH_URL);
+    }
+
+    /**
+     * find the home launcher Package
+     *
+     * @param context
+     * @return
+     */
+    public static String findLauncherPackage(Context context) {
+        Intent intent = new Intent(Intent.ACTION_MAIN);
+        intent.addCategory(Intent.CATEGORY_HOME);
+        ResolveInfo resolveInfo = context.getPackageManager().resolveActivity(intent,
+                PackageManager.MATCH_DEFAULT_ONLY);
+        return resolveInfo.activityInfo.packageName;
+    }
+
+    /**
+     * 更新桌面角标
+     * @param context
+     * @param count
+     */
+    public static void setMainAmount(Context context,int count,Notification notification){
+        LogUtils.d("badge count ：" + count);
+        if(count != ClientStateManager.getMenuNum()){
+            LogUtils.d("update badge count ：" + count);
+            ClientStateManager.setMenuNum(count);
+            BadgeUtil.applyCount(context,count,notification);
+        }else{
+            NotificationUtil.showNotification(context,notification);
+        }
+    }
+
+    public static void setMainAmount(Context context,int count){
+        setMainAmount(context,count,null);
+    }
+
 
 }

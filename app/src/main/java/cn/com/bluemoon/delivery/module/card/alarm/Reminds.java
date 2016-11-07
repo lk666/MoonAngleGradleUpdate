@@ -232,7 +232,7 @@ public class Reminds {
         if (alarm != null) {
             enableAlert(context, alarm, alarm.getRemindTime());
         } else {
-            LogUtils.d("Alarm Clean", "All Alarm is clean");
+            LogUtils.d("Alarm Clean", "All Alarm is disabled");
             disableAlert(context);
         }
     }

@@ -8,7 +8,7 @@ public class DrawableTabState extends TabState {
     private int imgNormal;
     private int imgSelected;
 
-    public DrawableTabState(Class clazz,  int imgSelected,int imgNormal, int content) {
+    public DrawableTabState(Class clazz, int imgSelected, int imgNormal, int content) {
         super(clazz, 0, content);
         this.imgNormal = imgNormal;
         this.imgSelected = imgSelected;

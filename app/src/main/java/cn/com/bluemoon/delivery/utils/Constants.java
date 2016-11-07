@@ -144,9 +144,11 @@ public class Constants {
     };
 
     /************************
-     * baidu push jump key
+     * push jump key
      ****************************/
-    public static final String KEY_JUMP = "jumpCode";
+    public static final String PUSH_VIEW = "view";
+    public static final String PUSH_URL = "url";
+    public static final String PUSH_H5 = "h5";
 
 
     /************************

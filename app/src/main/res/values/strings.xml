@@ -166,7 +166,7 @@
     <string name="new_version_alert_title">升级提示</string>
     <string name="yes">是</string>
     <string name="no">否</string>
-    <string name="ok">确 认</string>
+    <string name="ok">确&#160;认</string>
 
     <!-- change/reset pwd -->
     <string name="reset_get_code">获取验证码</string>
@@ -215,6 +215,10 @@
     <string name="pending_order_select_txt">出货仓</string>
     <string name="pending_order_get_or_not">是否取消接单？</string>
     <string name="pending_order_delivery_or_not">是否现在去送货？</string>
+    <string name="order_filter_name">收货人</string>
+    <string name="order_filter_address">地址</string>
+    <string name="order_filter_name_hint">请输入收货人名称</string>
+    <string name="order_filter_address_hint">请输入收货地址</string>
 
 
     <!-- 待接单 -->
@@ -293,7 +297,7 @@
     <string name="order_detail_deliverytime">送货时间：</string>
     <string name="order_detail_signtime">签收时间：</string>
     <string name="order_detail_detail">订单明细</string>
-    <string name="order_package_detail">套装明细:</string>
+    <string name="order_package_detail">套装送货明细:</string>
 
     <!-- 历史订单 -->
     <string name="order_history_totalcount">共%s单</string>
@@ -303,8 +307,8 @@
     <string name="history_no_item">已经没有单啦！</string>
     <string name="history_order_start_date">开始时间</string>
     <string name="history_order_end_date">结束时间</string>
-    <string name="history_order_receipt_date">签收日期：</string>
-    <string name="history_order_scene_receipt_date">现场签收日期：</string>
+    <string name="history_order_receipt_date">签收日期：%s</string>
+    <string name="history_order_scene_receipt_date">现场签收日期：%s</string>
 
     <string name="order_money_sign">￥</string>
 

@@ -25,6 +25,7 @@ import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.ClearEditText;
 
@@ -38,7 +39,8 @@ public class LoginActivity extends BaseActivity {
     TextView txtToast;
     @Bind(R.id.btn_login)
     Button btnLogin;
-    private String jumpCode;
+    private String view;
+    private String url;
 
     @Override
     protected int getLayoutId() {
@@ -54,7 +56,7 @@ public class LoginActivity extends BaseActivity {
         try {
                 Reminds.SynAlarm(this);
         }catch (Exception ex){
-            LogUtils.e("LoginActivity","Syn Alarms Error",ex);
+            LogUtils.e(getDefaultTag(),"Syn Alarms Error",ex);
         }
     }
 
@@ -67,13 +69,15 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
-        jumpCode = getJumpCode(getIntent());
+        view = PublicUtil.getPushView(getIntent());
+        url = PublicUtil.getPushUrl(getIntent());
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        jumpCode = getJumpCode(intent);
+        view = PublicUtil.getPushView(intent);
+        url = PublicUtil.getPushUrl(intent);
     }
 
     @Override
@@ -88,8 +92,8 @@ public class LoginActivity extends BaseActivity {
 
     }
 
-    private String getJumpCode(Intent intent) {
-        return intent == null ? null : intent.getStringExtra(Constants.KEY_JUMP);
+    private String getExtraValue(Intent intent, String key) {
+        return intent == null ? null : intent.getStringExtra(key);
     }
 
     public String getUserName() {
@@ -116,7 +120,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void toMainActivity() {
-        MainActivity.actStart(this, jumpCode);
+        MainActivity.actStart(this, view,url);
         finish();
     }
 
@@ -142,16 +146,15 @@ public class LoginActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public static void actStart(Context context, String jumpCode) {
+    public static void actStart(Context context,String view,String url) {
         Intent intent = new Intent(context, LoginActivity.class);
-        if (!TextUtils.isEmpty(jumpCode)) {
-            intent.putExtra(Constants.KEY_JUMP, jumpCode);
-        }
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        intent.putExtra(Constants.PUSH_URL, url);
         context.startActivity(intent);
     }
 
     public static void actStart(Context context) {
-        actStart(context, null);
+        actStart(context, null,null);
     }
 
 }

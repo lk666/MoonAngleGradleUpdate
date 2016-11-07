@@ -2,288 +2,193 @@ package cn.com.bluemoon.delivery.module.order;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.widget.AbsListView.LayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.TextView;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
 
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
-import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderVo;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.app.api.model.OrderVo;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
 import cn.com.bluemoon.delivery.entity.OrderType;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase.OnRefreshListener;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class PendingOrdersFragment extends Fragment {
-    private String TAG = "PendingOrdersFragment";
-    private PullToRefreshListView listView;
-    private OrdersAdapter ordersAdapter;
-    private List<OrderVo> orderList;
-    private OrdersTabActivity mContext;
-    private CommonProgressDialog progressDialog;
-    private boolean lock;
-    private OrderVo orderClicked;
-
-    public void onAttach(android.app.Activity activity) {
-        super.onAttach(activity);
-        this.mContext = (OrdersTabActivity) activity;
+public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
+    private long pageFlag;
+    private String nameFilter;
+    private String addressFilter;
+    private int clickIndex;
+    private View viewPopStart;
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.tab_orders);
     }
 
-    ;
+    @Override
+    protected void setActionBar(CommonActionBar actionBar) {
+        setFilterBtn(actionBar);
+    }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        initCustomActionBar();
-        progressDialog = new CommonProgressDialog(mContext);
-        View v = inflater.inflate(R.layout.fragment_tab_orders, container, false);
-        listView = (PullToRefreshListView) v.findViewById(R.id.listview_orders);
-        listView.setOnRefreshListener(new OnRefreshListener<ListView>() {
-
+    protected void onActionBarBtnRightClick() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                mContext.setAmountShow();
-                DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext), OrderType.PENDINGORDERS, getOrdersHandler);
+            public void comfireClick(String name, String address) {
+                nameFilter = name;
+                addressFilter = address;
+                initData();
             }
         });
-        intiDate();
-        return v;
+        popupWindow.showAsDropDown(viewPopStart);
     }
-
-    private void intiDate() {
-        progressDialog.show();
-        mContext.setAmountShow();
-        DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext), OrderType.PENDINGORDERS, getOrdersHandler);
-    }
-
-    AsyncHttpResponseHandler getOrdersHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d("test", "getOrdersHandler result = " + responseString);
-            progressDialog.dismiss();
-            listView.onRefreshComplete();
-            try {
-                ResultOrderVo result = JSON.parseObject(responseString, ResultOrderVo.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    orderList = result.getItemList();
-                    ordersAdapter = new OrdersAdapter(mContext, R.layout.order_list_item);
-                    listView.setAdapter(ordersAdapter);
-                } else {
-                    PublicUtil.showErrorMsg(mContext, result);
-                }
-            } catch (Exception e) {
-                PublicUtil.showToastServerBusy(mContext);
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            LogUtils.d("test", "getOrdersHandler result failed. statusCode=" + statusCode);
-            progressDialog.dismiss();
-            listView.onRefreshComplete();
-            PublicUtil.showToastServerOvertime(mContext);
-        }
-    };
-    AsyncHttpResponseHandler accceptOrderHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d("test", "accceptOrderHandler result = " + responseString);
-            progressDialog.dismiss();
-            lock = false;
-            try {
-                ResultOrderVo result = JSON.parseObject(responseString, ResultOrderVo.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    mContext.setAmountShow();
-                    PublicUtil.showToast(mContext, result.getResponseMsg());
-                    orderList.remove(orderClicked);
-                    ordersAdapter.notifyDataSetChanged();
-                } else if (result.getResponseCode() == 4102) {
-                    new CommonAlertDialog.Builder(mContext)
-                            .setMessage(result.getResponseMsg())
-                            .setPositiveButton(R.string.ok,
-                                    new DialogInterface.OnClickListener() {
-
-                                        @Override
-                                        public void onClick(DialogInterface dialog,
-                                                            int which) {
-                                            progressDialog.show();
-                                            mContext.setAmountShow();
-                                            DeliveryApi.getOrdersByType(ClientStateManager.getLoginToken(mContext), OrderType.PENDINGORDERS, getOrdersHandler);
-                                        }
-                                    }).show();
-                } else {
-                    PublicUtil.showErrorMsg(mContext, result);
-                }
-            } catch (Exception e) {
-                PublicUtil.showToastServerBusy(mContext);
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            lock = false;
-            progressDialog.dismiss();
-            PublicUtil.showToastServerOvertime(mContext);
-        }
-    };
-
-
-    AsyncHttpResponseHandler refuseOrderHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d("test", "refuseOrderHandler result = " + responseString);
-            progressDialog.dismiss();
-            lock = false;
-            try {
-                ResultOrderVo result = JSON.parseObject(responseString, ResultOrderVo.class);
-                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    intiDate();
-                } else {
-                    PublicUtil.showErrorMsg(mContext, result);
-                }
-            } catch (Exception e) {
-                PublicUtil.showToastServerBusy(mContext);
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            lock = false;
-            progressDialog.dismiss();
-            PublicUtil.showToastServerOvertime(mContext);
-        }
-    };
 
 
     @Override
-    public void onPause() {
-        super.onPause();
-        MobclickAgent.onPageEnd(TAG);
+    protected BaseListAdapter getNewAdapter() {
+        return new OrdersAdapter(getActivity());
     }
 
-    private void initCustomActionBar() {
-        CommonActionBar mActionbar = new CommonActionBar(mContext.getActionBar(), new
-                IActionBarListener() {
+    @Override
+    protected List getGetMoreList(ResultBase result) {
+        ResultOrderVo r = (ResultOrderVo) result;
+        pageFlag = r.getTimestamp();
+        return r.getItemList();
+    }
 
-                    @Override
-                    public void onBtnRight(View v) {
+    @Override
+    protected List getGetDataList(ResultBase result) {
+        ResultOrderVo r = (ResultOrderVo) result;
+        pageFlag = r.getTimestamp();
+        return r.getItemList();
+    }
 
-                    }
+    @Override
+    protected PullToRefreshBase.Mode getMode() {
+        return PullToRefreshBase.Mode.BOTH;
+    }
 
-                    @Override
-                    public void onBtnLeft(View v) {
-                        mContext.finish();
-                    }
+    @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+        ptrlv.getRefreshableView().setDivider(null);
+        ptrlv.getRefreshableView().setDividerHeight(0);
+        ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
+        nameFilter = "";
+        addressFilter = "";
+    }
 
-                    @Override
-                    public void setTitle(TextView v) {
-                        v.setText(getText(R.string.tab_orders));
-                    }
+    @Override
+    protected void invokeGetDataDeliveryApi(int requestCode) {
+        setAmount2();
+        pageFlag = 0;
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter, OrderType.PENDINGORDERS, getNewHandler(requestCode, ResultOrderVo.class));
+    }
 
-                });
+    @Override
+    protected void invokeGetMoreDeliveryApi(int requestCode) {
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter,OrderType.PENDINGORDERS,
+                getNewHandler(requestCode, ResultOrderVo.class));
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        if (requestCode ==1 || requestCode == 2) {
+            hideWaitDialog();
+            getList().remove(clickIndex);
+            getAdapter().notifyDataSetChanged();
+            toast(result.getResponseMsg());
+            setAmount2();
+            if (getList().isEmpty()) {
+                initData();
+            }
+        }
+    }
+
+   @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        if (requestCode == 2) {
+            if (result.getResponseCode() == 4102) {
+                new CommonAlertDialog.Builder(getActivity())
+                        .setMessage(result.getResponseMsg())
+                        .setPositiveButton(R.string.ok,
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        setAmount2();
+                                        initData();
+                                    }
+                                }).show();
+            } else {
+                super.onErrorResponse(requestCode, result);
+            }
+        } else {
+            super.onErrorResponse(requestCode, result);
+        }
     }
 
 
-    public class OrdersAdapter extends BaseAdapter {
-        private Context mContext;
-        private LayoutInflater mInflater;
-        private int layoutID;
+    @Override
+    public void onItemClick(Object item, View view, int position) {
 
-        public OrdersAdapter(Context context, int layoutID) {
-            this.mInflater = LayoutInflater.from(context);
-            this.layoutID = layoutID;
-            this.mContext = context;
+    }
+
+    @Override
+    protected int getHeadLayoutId() {
+        return R.layout.head_fragment_tab_order;
+    }
+
+    @Override
+    protected void initHeadViewEvent(View headView) {
+        super.initHeadViewEvent(headView);
+        viewPopStart = headView.findViewById(R.id.view_pop_start);
+    }
+
+
+    public class OrdersAdapter extends BaseListAdapter<OrderVo> {
+
+        public OrdersAdapter(Context context) {
+            super(context, null);
         }
 
         @Override
-        public int getCount() {
-            if (orderList != null && orderList.size() == 0) {
-                this.layoutID = R.layout.layout_no_data;
-                return 1;
-            }
-            return orderList.size();
+        protected int getLayoutId() {
+            return R.layout.order_list_item;
         }
 
         @Override
-        public OrderVo getItem(int position) {
-            return orderList.get(position);
-        }
+        protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
+            TextView txtDispatchId = getViewById(R.id.txt_dispatchId);
+            LinearLayout layoutDetail = getViewById(R.id.layout_detail);
+            TextView txtPaytime = getViewById(R.id.txt_paytime);
+            TextView txtAddress = getViewById(R.id.txt_address);
+            Button receivingOrdersAction = getViewById(R.id.receiving_orders_action);
+            TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
+            TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
+            TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
+            TextView txtRefuseOrder = getViewById(R.id.txt_refuse_order);
+            final OrderVo order = list.get(position);
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-            if (convertView == null || (orderList != null && orderList.size() == 0)) {
-                convertView = mInflater.inflate(layoutID, null);
-            }
-            if (orderList != null && orderList.size() == 0) {
-                TextView txtContent = ViewHolder.get(convertView, R.id.txt_content);
-                LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, listView.getHeight());
-                convertView.setLayoutParams(params);
-
-                txtContent.setText(R.string.pending_order_get_null);
-                return convertView;
-            }
-            final OrderVo order = orderList.get(position);
-            TextView txtDispatchId = ViewHolder.get(convertView, R.id.txt_dispatchId);
-            TextView txtAddress = ViewHolder.get(convertView, R.id.txt_address);
-            LinearLayout layoutDetail = ViewHolder.get(convertView, R.id.layout_detail);
-            TextView txtPaytime = ViewHolder.get(convertView, R.id.txt_paytime);
-            Button receivingOrders = ViewHolder.get(convertView, R.id.receiving_orders_action);
-            TextView txtRefuseOrder = ViewHolder.get(convertView, R.id.txt_refuse_order);
+            txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
+            txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
+            txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
             txtPaytime.setText(String.format(getString(R.string.pending_order_pay_time), order.getPayOrderTime()));
             txtDispatchId.setText(order.getOrderId());
-            txtAddress.setText(String.format("%s%s", order.getRegion(), order.getAddress()));
-            TextView txtCateAmount = ViewHolder.get(convertView, R.id.txt_cateAmount);
-            TextView txtTotalAmount = ViewHolder.get(convertView, R.id.txt_totalAmount);
-            TextView txtTotalPrice = ViewHolder.get(convertView, R.id.txt_totalPrice);
-
-            txtCateAmount.setText(String.format(getString(R.string.pending_order_total_kinds),order.getCateAmount()));
-            txtTotalAmount.setText(String.format(getString(R.string.pending_order_total_amount),order.getTotalAmount()));
-            txtTotalPrice.setText(String.format(getString(R.string.pending_order_total_price), StringUtil.formatPrice(order.getTotalPrice())));
-
-
-
+            txtAddress.setText(order.getAddress());
 
 
             txtRefuseOrder.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -295,13 +200,14 @@ public class PendingOrdersFragment extends Fragment {
 
                     CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(getActivity());
                     dialog.setMessage(getString(R.string.pending_order_refuse_alert));
-                    dialog.setPositiveButton(R.string.dialog_cancel, null);
-                    dialog.setNegativeButton(R.string.dialog_confirm, new DialogInterface.OnClickListener() {
+                    dialog.setPositiveButton(R.string.cancel_with_space, null);
+                    dialog.setNegativeButton(R.string.confirm_with_space, new DialogInterface.OnClickListener() {
 
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            progressDialog.show();
-                            DeliveryApi.rejectOrder(ClientStateManager.getLoginToken(mContext), order.getOrderId(), order.getOrderSource(), refuseOrderHandler);
+                            showWaitDialog();
+                            clickIndex = position;
+                            DeliveryApi.rejectOrder(getToken(), order.getOrderId(), order.getOrderSource(), getNewHandler(1, ResultBase.class));
                         }
                     });
                     dialog.show();
@@ -312,28 +218,21 @@ public class PendingOrdersFragment extends Fragment {
             layoutDetail.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PublicUtil.showOrderDetailView(mContext, order.getOrderId());
+                    PublicUtil.showOrderDetailView(getActivity(), order.getOrderId());
                 }
             });
-            receivingOrders.setOnClickListener(new OnClickListener() {
+            receivingOrdersAction.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (!lock) {
-                        lock = true;
-                        orderClicked = order;
-                        progressDialog.show();
-                        DeliveryApi.acceptOrder(ClientStateManager.getLoginToken(mContext),
-                                order.getOrderId(), accceptOrderHandler);
-                    }
+                    clickIndex = position;
+                    showWaitDialog();
+                    DeliveryApi.acceptOrder(getToken(), order.getOrderId(), getNewHandler(2, ResultBase.class));
                 }
             });
-            return convertView;
+
         }
+
     }
 
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
-    }
 
 }

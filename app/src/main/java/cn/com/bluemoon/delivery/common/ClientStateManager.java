@@ -27,13 +27,14 @@ public class ClientStateManager {
 
     private static final String LOGIN_TOKEN_KEY = "LOGIN_TOKEN_KEY";
     private static final String USER_NAME_KEY = "USER_NAME_KEY";
-    private static final String CHANNEL_ID = "CHANNEL_ID";
+    private static final String CLIENT_ID = "CLIENT_ID";
     private static final String CARD_SEARCH_HISTORY = "CARD_SEARCH_HISTORY";
     private static final String CARD_TIPS_LOCATION = "CARD_TIPS_LOCATION";
     private static final String COUPON_DEFUAT = "COUPON_DEFUAT";
     private static final String LATITUDE = "LATITUDE";
     private static final String LONGITUDE = "LONGITUDE";
     private static final String ALTITUDE = "ALTITUDE";
+    private static final String MENU_NUM = "MENU_NUM";
     public static final String PROMOTE_KEY = "PROMOTE_KEY";
     public static final String COMMUNITY_KEY = "COMMUNITY_KEY";
     public static final String HISTORY_GROUP = "HISTORY_GROUP";
@@ -93,18 +94,18 @@ public class ClientStateManager {
     }
 
 
-    public static String getChannelId(Context ctx) {
+    public static String getClientId() {
 
         SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(ctx);
-        return pref.getString(CHANNEL_ID, "");
+                .getDefaultSharedPreferences(AppContext.getInstance());
+        return pref.getString(CLIENT_ID, "");
     }
 
-    public static boolean setChannelId(Context ctx, String channelId) {
+    public static boolean setClientId(String channelId) {
         try {
             SharedPreferences pref = PreferenceManager
-                    .getDefaultSharedPreferences(ctx);
-            pref.edit().putString(CHANNEL_ID, channelId).commit();
+                    .getDefaultSharedPreferences(AppContext.getInstance());
+            pref.edit().putString(CLIENT_ID, channelId).commit();
         } catch (Exception e) {
             return false;
         }
@@ -137,7 +138,8 @@ public class ClientStateManager {
             Map<String, Object> params = new HashMap<>();
             params.put("workplaceList", list);
             String jsonString = JSONObject.toJSONString(params);
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
+            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext
+                    .getInstance());
             pref.edit().putString(CARD_SEARCH_HISTORY, jsonString).commit();
         } catch (Exception e) {
             return false;
@@ -298,6 +300,28 @@ public class ClientStateManager {
             }
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(AppContext.getInstance());
             pref.edit().putString(key, result).commit();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 桌面角标数量
+     * @return
+     */
+    public static int getMenuNum() {
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(AppContext.getInstance());
+        return pref.getInt(MENU_NUM,0);
+    }
+
+    public static boolean setMenuNum(int menuNum) {
+        try {
+            SharedPreferences pref = PreferenceManager
+                    .getDefaultSharedPreferences(AppContext.getInstance());
+            pref.edit().putInt(MENU_NUM, menuNum).commit();
         } catch (Exception e) {
             return false;
         }

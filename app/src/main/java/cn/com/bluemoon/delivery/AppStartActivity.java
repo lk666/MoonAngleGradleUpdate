@@ -1,14 +1,21 @@
 package cn.com.bluemoon.delivery;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.igexin.sdk.PushManager;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
@@ -23,13 +30,13 @@ import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
-import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.UpdateManager;
+import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -39,9 +46,22 @@ public class AppStartActivity extends Activity {
     private long splashScreenStartTime = 0;
     private SplashScreenTimerTask splashScreenTimerTask = null;
     private static Version lastSuccessfulCheckVersionResponse = null;
-    // private RetrieveVersionInfo retrieveVersionInfo = null;
     private AppStartActivity main;
-    private String jumpCode = "";
+    private String view;
+    private String url;
+
+    public static void actStart(Context context,String view,String url) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        if(Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url)){
+            intent.putExtra(Constants.PUSH_URL, url);
+        }
+        context.startActivity(intent);
+    }
+
+    public static void actStart(Context context) {
+        actStart(context, null, null);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,14 +69,38 @@ public class AppStartActivity extends Activity {
         main = this;
         setContentView(R.layout.activity_start);
         init();
+    }
+
+    private void init() {
+        //获取推送内容
+        view = PublicUtil.getPushView(getIntent());
+        url = PublicUtil.getPushUrl(getIntent());
+
+        initPush();
+
+        //百度定位初始化
         LocationService locationService = ((AppContext) getApplication()).locationService;
         locationService.start();
     }
 
-    private void init() {
-        if (getIntent() != null && getIntent().hasExtra(Constants.KEY_JUMP)) {
-            jumpCode = getIntent().getStringExtra(Constants.KEY_JUMP);
+    private void initPush(){
+        /*SDK初始化开始*/
+        // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
+        PackageManager pkgManager = getPackageManager();
+        // 读写 sd card 权限非常重要, android6.0默认禁止的, 建议初始化之前就弹窗让用户赋予该权限
+        boolean sdCardWritePermission =
+                pkgManager.checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        // read phone state用于获取 imei 设备信息
+        boolean phoneSatePermission =
+                pkgManager.checkPermission(android.Manifest.permission.READ_PHONE_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        if (Build.VERSION.SDK_INT >= 23 && !sdCardWritePermission || !phoneSatePermission) {
+            ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission
+                    .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, 0);
+        } else {
+            // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
+            PushManager.getInstance().initialize(this.getApplicationContext());
         }
+        /*SDK初始化结束*/
     }
 
     @Override
@@ -70,16 +114,12 @@ public class AppStartActivity extends Activity {
         } else {
             if (lastSuccessfulCheckVersionResponse != null
                     && SystemClock.elapsedRealtime()
-                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants.FORCE_CHECK_VERSION_TIME) {
-                LogUtils.d("test",
-                        "timestamp < Constants.FORCE_CHECK_VERSION_TIME");
+                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants
+                    .FORCE_CHECK_VERSION_TIME) {
+                LogUtils.d("timestamp < Constants.FORCE_CHECK_VERSION_TIME");
                 showDialog(lastSuccessfulCheckVersionResponse);
             } else {
-                // retrieveVersionInfo = new RetrieveVersionInfo();
-                // retrieveVersionInfo.execute();
-
                 DeliveryApi.getLastVersion(checkVersionHandler);
-
             }
         }
     }
@@ -87,9 +127,6 @@ public class AppStartActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-        // if (retrieveVersionInfo != null &&
-        // !retrieveVersionInfo.isCancelled())
-        // retrieveVersionInfo.cancel(false);
         if (splashScreenTimerTask != null
                 && !splashScreenTimerTask.isCancelled())
             splashScreenTimerTask.cancel(false);
@@ -109,7 +146,8 @@ public class AppStartActivity extends Activity {
 
         if (lastSuccessfulCheckVersionResponse != null) {
             boolean forceCheckVersionTimeOver = SystemClock.elapsedRealtime()
-                    - lastSuccessfulCheckVersionResponse.getTimestamp() > Constants.FORCE_CHECK_VERSION_TIME;
+                    - lastSuccessfulCheckVersionResponse.getTimestamp() > Constants
+                    .FORCE_CHECK_VERSION_TIME;
 
             boolean isMustUpdateVersion = LibVersionUtils.isMustUpdateVersion(
                     currentVersion, lastSuccessfulCheckVersionResponse
@@ -117,16 +155,14 @@ public class AppStartActivity extends Activity {
                             .valueOf(lastSuccessfulCheckVersionResponse
                                     .getMustUpdate()));
             boolean skip = !forceCheckVersionTimeOver && !isMustUpdateVersion;
-            LogUtils.d(
-                    "test",
-                    "forceCheckVersionTimeOver = "
+            LogUtils.d("forceCheckVersionTimeOver = "
                             + String.valueOf(forceCheckVersionTimeOver)
                             + ", isMustUpateVersion = "
                             + String.valueOf(isMustUpdateVersion) + "");
             return skip;
         } else {
 
-            LogUtils.i("test", "Has not check version before, can not skip");
+            LogUtils.i("Has not check version before, can not skip");
             return false;
         }
     }
@@ -137,7 +173,7 @@ public class AppStartActivity extends Activity {
         @Override
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
-            LogUtils.d("test", "appStartCheckVersion result = "
+            LogUtils.d("appStartCheckVersion result = "
                     + responseString);
 
             ResultVersionInfo result = JSON.parseObject(responseString,
@@ -159,7 +195,7 @@ public class AppStartActivity extends Activity {
 
             gotoNextActivity();
 
-            LogUtils.d("test", "appStartCheckVersion result = "
+            LogUtils.d("appStartCheckVersion result = "
                     + responseString + throwable.getMessage());
         }
     };
@@ -234,9 +270,9 @@ public class AppStartActivity extends Activity {
                             .getLoginToken();
 
                     if (!StringUtil.isEmpty(token)) {
-                        MainActivity.actStart(main, jumpCode);
+                        MainActivity.actStart(main, view,url);
                     } else {
-                        LoginActivity.actStart(main, jumpCode);
+                        LoginActivity.actStart(main, view,url);
                         if (LibFileUtil.checkExternalSDExists()) {
                             File file = new File(Constants.PATH_PHOTO);
                             if (!file.exists()) {
@@ -308,7 +344,8 @@ public class AppStartActivity extends Activity {
 
                                                         @Override
                                                         public void run() {
-                                                            ViewUtil.toast(getString(R.string.new_version_error));
+                                                            ViewUtil.toast(getString(R.string
+                                                                    .new_version_error));
                                                         }
                                                     });
                                                 }
@@ -336,4 +373,5 @@ public class AppStartActivity extends Activity {
                         }).show();
 
     }
+
 }

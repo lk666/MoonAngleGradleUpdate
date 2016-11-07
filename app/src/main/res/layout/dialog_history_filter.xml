@@ -97,7 +97,7 @@
                     android:layout_height="35dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_border_blue"
-                    android:text="@string/reset_space"
+                    android:text="@string/reset"
                     android:textColor="@color/btn_blue" />
 
                 <Button
@@ -107,7 +107,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_weight="1"
                     android:background="@drawable/btn_blue_shape_large"
-                    android:text="@string/btn_ok_space"
+                    android:text="@string/btn_ok"
                     android:textColor="@color/white" />
             </LinearLayout>
         </LinearLayout>

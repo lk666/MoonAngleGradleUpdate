@@ -48,7 +48,6 @@ public class AppContext extends BaseApplication {
         try {
             if(!StringUtil.isEmptyString(ClientStateManager.getLoginToken())) {
                 Reminds.SynAlarm(this);
-                Reminds.SynAlarm(this);
             }
         }catch (Exception ex){
             LogUtils.e("AppContext","Syn Alarms Error",ex);

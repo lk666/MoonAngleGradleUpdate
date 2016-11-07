@@ -36,6 +36,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -60,6 +61,7 @@ public class NoticeListActivity extends Activity{
         ActivityManager.getInstance().pushOneActivity(this);
         initCustomActionBar();
         progressDialog = new CommonProgressDialog(main);
+        ViewUtil.toast(getIntent().getStringExtra("text"));
 
 
         listView = (PullToRefreshListView) findViewById(R.id.listview_main);
