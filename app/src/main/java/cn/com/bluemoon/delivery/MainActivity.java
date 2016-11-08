@@ -54,6 +54,14 @@ import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
+import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
@@ -731,7 +739,27 @@ public class MainActivity extends SlidingActivity {
             } else if ("scheduleSys".equals(userRight.getMenuCode())) {
                 intent = new Intent(main, SzSchedualActivity.class);
                 startActivity(intent);
-            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
+            }
+            else if (MenuCode.wash_cabinet_manager.toString().equals(userRight.getMenuCode())) {
+                CupboardScanActivity.actStart(main);
+            } else if (MenuCode.wash_transport.toString().equals(userRight.getMenuCode())) {
+                DriverTabActivity.actionStart(main);
+            } else if (MenuCode.wash_express_close_box.toString().equals(userRight.getMenuCode())) {
+                ExpressCloseBoxTabActivity.actionStart(this);
+            } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode())) {
+                ReturnManagerTabActivity.actionStart(this);
+            } else if (MenuCode.wash_transport_sign.toString().equals(userRight.getMenuCode())) {
+                TransportReceiveTabActivity.actionStart(this);
+            } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode())) {
+                CloseBoxTabActivity.actionStart(main);
+            } else if (MenuCode.wash_back_order_package.toString().equals(userRight.getMenuCode())) {
+                PackTabActivity.actionStart(main);
+            } else if (MenuCode.wash_clothes_check.toString().equals(userRight.getMenuCode())) {
+                ClothesCheckTabActivity.actionStart(main);
+            }
+
+
+            else if (!StringUtils.isEmpty(userRight.getUrl())) {
                 String url = userRight.getUrl()
                         + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
