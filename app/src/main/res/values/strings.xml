@@ -1040,6 +1040,7 @@
     <string name="close_box_detail_title">封箱详情</string>
     <string name="close_box_scan_box_code_title">扫描衣物箱标签</string>
     <string name="close_box_scan_box_code_error">扫描错误衣物箱标签，请扫描%s</string>
+    <string name="close_box_scan_return_clothes_error">扫描错误还衣单标签，请扫描%s</string>
     <string name="close_box_scan_pack_code_error">扫描错误柜位号码，请扫描%s</string>
     <string name="close_box_back_order_box_code">箱号-%s</string>
     <string name="close_box_back_order_print">打印封箱标签</string>
