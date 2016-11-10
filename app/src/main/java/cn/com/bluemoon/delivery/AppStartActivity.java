@@ -355,7 +355,7 @@ public class AppStartActivity extends Activity {
                                             }
 
                                             @Override
-                                            public void onFinish() {
+                                            public void onFinishUpdate() {
                                                 isPause = false;
                                             }
                                         }).showDownloadDialog();

@@ -181,7 +181,7 @@ public class SettingInfoActivity extends BaseActivity {
                                     }
 
                                     @Override
-                                    public void onFinish() {
+                                    public void onFinishUpdate() {
 
                                     }
                                 }).showDownloadDialog();

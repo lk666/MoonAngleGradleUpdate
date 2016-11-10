@@ -1,14 +1,12 @@
 package cn.com.bluemoon.delivery.utils.manager;
 
-import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Environment;
-import android.os.Handler;
-import android.os.Message;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ProgressBar;
@@ -23,62 +21,24 @@ import java.net.URL;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 
 public class UpdateManager {
 
     private static final String TAG = "UpdateManager";
-    private static final int DOWNLOAD = 1;
-    private static final int DOWNLOAD_FINISH = 2;
-    private static final int DOWNLOAD_ERROR = 3;
     private static final String NAME_START = "MoonAngel";
     private static final String NAME_END = ".apk";
     private String mSavePath;
     private String mSaveName;
-    private int progress;
-    private boolean cancelUpdate = false;
     private Context mContext;
     private ProgressBar mProgress;
     private TextView txtTime;
     private CommonAlertDialog mDownloadDialog;
     private String downloadUrl;
     private UpdateCallback callback;
-//	private boolean changeTextColor;
-
-    private Handler mHandler = new Handler() {
-        @SuppressLint("DefaultLocale")
-        public void handleMessage(Message msg) {
-            switch (msg.what) {
-                case DOWNLOAD:
-                    mProgress.setProgress(progress);
-                    txtTime.setText(String.format("%d%%", progress));
-                    break;
-                case DOWNLOAD_FINISH:
-                    if(mDownloadDialog!=null){
-                        mDownloadDialog.dismiss();
-                    }
-                    if (callback != null) {
-                        callback.onFinish();
-                    }
-                    installApk();
-                    break;
-                case DOWNLOAD_ERROR:
-                    if(mDownloadDialog!=null){
-                        mDownloadDialog.dismiss();
-                    }
-                    if (callback != null) {
-                        callback.onFailUpdate();
-                    }
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        ;
-    };
+    private DownloadAsyncTask downloadAsyncTask;
 
     public UpdateManager(Context context, String url, String version, UpdateCallback callback) {
         this.mContext = context;
@@ -108,78 +68,119 @@ public class UpdateManager {
                         callback.onCancel();
                     }
                     dialog.dismiss();
-                    cancelUpdate = true;
+                    if (downloadAsyncTask != null) {
+                        downloadAsyncTask.cancel(true);
+                    }
                 }
             });
             mDownloadDialog = builder.create();
             mDownloadDialog.show();
-            new downloadApkThread().start();
+            downloadAsyncTask = new DownloadAsyncTask();
+            downloadAsyncTask.execute();
+
         } catch (Exception e) {
             e.printStackTrace();
-            mHandler.sendEmptyMessage(DOWNLOAD_ERROR);
+            onFailUpdate();
         }
 
     }
 
-    private class downloadApkThread extends Thread {
+    private class DownloadAsyncTask extends AsyncTask<Void, Integer, Boolean> {
+
         @Override
-        public void run() {
+        protected Boolean doInBackground(Void... params) {
             try {
-                if (Environment.getExternalStorageState().equals(
+                if (!Environment.getExternalStorageState().equals(
                         Environment.MEDIA_MOUNTED)) {
-                    mSavePath = Constants.PATH_TEMP;
-                    URL url = new URL(downloadUrl);
-                    HttpURLConnection conn = (HttpURLConnection) url
-                            .openConnection();
-                    conn.connect();
-                    LogUtils.d(TAG, "getResponseCode  result =" + conn.getResponseCode());
-                    if (conn.getResponseCode() >= 400) {
-                        PublicUtil.showToastServerOvertime(mContext);
-                        if (callback != null) {
-                            callback.onFailUpdate();
-                        }
-                        return;
-                    }
-                    int length = conn.getContentLength();
-                    InputStream is = conn.getInputStream();
-                    if (is == null) {
-                        if (callback != null) {
-                            callback.onFailUpdate();
-                        }
-                        return;
-                    }
-                    File file = new File(mSavePath);
-                    if (!file.exists()) {
-                        file.mkdirs();
-                    }
-                    File apkFile = new File(mSavePath, mSaveName);
-                    FileOutputStream fos = new FileOutputStream(apkFile);
-                    int count = 0;
-                    byte buf[] = new byte[1024];
-                    do {
-                        int numread = is.read(buf);
-                        count += numread;
-                        progress = (int) (((float) count / length) * 100);
-                        mHandler.sendEmptyMessage(DOWNLOAD);
-                        if (numread <= 0) {
-                            mHandler.sendEmptyMessage(DOWNLOAD_FINISH);
-                            break;
-                        }
-                        fos.write(buf, 0, numread);
-                    } while (!cancelUpdate);
-                    fos.close();
-                    is.close();
+                    return false;
                 }
+                mSavePath = Constants.PATH_TEMP;
+                URL url = new URL(downloadUrl);
+                HttpURLConnection conn = (HttpURLConnection) url
+                        .openConnection();
+                conn.connect();
+                LogUtils.d(TAG, "getResponseCode  result =" + conn.getResponseCode());
+                if (conn.getResponseCode() >= 400) {
+                    ViewUtil.toastOvertime();
+                    return false;
+                }
+                int length = conn.getContentLength();
+                InputStream is = conn.getInputStream();
+                if (is == null) {
+                    return false;
+                }
+                File file = new File(mSavePath);
+                if (!file.exists()) {
+                    file.mkdirs();
+                }
+                File apkFile = new File(mSavePath, mSaveName);
+                FileOutputStream fos = new FileOutputStream(apkFile);
+                int count = 0;
+                byte buf[] = new byte[1024];
+                do {
+                    int numread = is.read(buf);
+                    count += numread;
+                    int progress = (int) (((float) count / length) * 100);
+                    publishProgress(progress);
+                    if (numread <= 0) {
+                        publishProgress(100);
+                        break;
+                    }
+                    fos.write(buf, 0, numread);
+                } while (!isCancelled());
+                fos.close();
+                is.close();
             } catch (Exception e) {
                 e.printStackTrace();
-                if (callback != null) {
-                    callback.onFailUpdate();
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            super.onProgressUpdate(values);
+            if (values != null && values.length > 0) {
+                int progress = values[0];
+                mProgress.setProgress(progress);
+                txtTime.setText(String.format("%d%%", values[0]));
+                if (progress >= 100) {
+                    onFinishUpdate();
                 }
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+            if (!aBoolean) {
+                onFailUpdate();
             }
         }
     }
 
-    ;
+    /**
+     * 下载完成操作
+     */
+    private void onFinishUpdate() {
+        if (mDownloadDialog != null)
+            mDownloadDialog.dismiss();
+        if (callback != null) {
+            callback.onFinishUpdate();
+        }
+        installApk();
+    }
+
+    /**
+     * 下载失败的操作
+     */
+    private void onFailUpdate() {
+        if (mDownloadDialog != null)
+            mDownloadDialog.dismiss();
+        if (callback != null) {
+            callback.onFailUpdate();
+        }
+    }
 
     /**
      * install apk
@@ -203,7 +204,9 @@ public class UpdateManager {
 
     public interface UpdateCallback {
         void onCancel();
+
         void onFailUpdate();
-        void onFinish();
+
+        void onFinishUpdate();
     }
 }
