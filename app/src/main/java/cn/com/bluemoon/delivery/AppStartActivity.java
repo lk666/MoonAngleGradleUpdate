@@ -49,6 +49,7 @@ public class AppStartActivity extends Activity {
     private AppStartActivity main;
     private String view;
     private String url;
+    private boolean isPause;
 
     public static void actStart(Context context,String view,String url) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -106,6 +107,7 @@ public class AppStartActivity extends Activity {
     @Override
     protected void onResume() {
         super.onResume();
+        if(isPause) return;
         splashScreenStartTime = SystemClock.elapsedRealtime();
         if (canSkipCheckVersion(this)
                 && (lastSuccessfulCheckVersionResponse != null)) {
@@ -306,7 +308,7 @@ public class AppStartActivity extends Activity {
 
     private void showUpdateDialog(final Version result,
                                   final boolean isMustUpdate) {
-
+        isPause = true;
         new CommonAlertDialog.Builder(main)
                 .setTitle(getString(R.string.new_version_alert_title))
                 .setMessage(
@@ -325,7 +327,7 @@ public class AppStartActivity extends Activity {
 
                                             @Override
                                             public void onCancel() {
-                                                // stub
+                                                isPause = false;
                                                 if (isMustUpdate) {
                                                     main.finish();
                                                 } else {
@@ -335,7 +337,7 @@ public class AppStartActivity extends Activity {
 
                                             @Override
                                             public void onFailUpdate() {
-                                                // stub
+                                                isPause = false;
                                                 try {
                                                     PublicUtil.openUrl(main, result.getDownload());
                                                     finish();
@@ -350,6 +352,11 @@ public class AppStartActivity extends Activity {
                                                     });
                                                 }
                                             }
+
+                                            @Override
+                                            public void onFinishUpdate() {
+                                                isPause = false;
+                                            }
                                         }).showDownloadDialog();
                             }
 
@@ -360,13 +367,13 @@ public class AppStartActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
+                                isPause = false;
                                 if (isMustUpdate) {
                                     main.finish();
                                     System.exit(0);
                                 } else {
                                     gotoNextActivity();
                                 }
-
                                 return;
                             }
 
