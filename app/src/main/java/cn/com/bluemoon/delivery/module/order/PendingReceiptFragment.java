@@ -21,9 +21,9 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
-import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
@@ -47,7 +47,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
     private Activity mContext;
     View viewPopStart;
     private String subscribeTime;
-
+    private boolean isFilter;
     @Override
     protected void onBeforeCreateView() {
         super.onBeforeCreateView();
@@ -66,11 +66,12 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),new FilterWindow.OkListener() {
             @Override
             public void comfireClick(String name, String address) {
                 nameFilter = name;
                 addressFilter = address;
+                isFilter = true;
                 initData();
             }
         });
@@ -107,14 +108,18 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
-        nameFilter = "";
-        addressFilter = "";
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
+        if (!isFilter) {
+            nameFilter = "";
+            addressFilter = "";
+        } else {
+            isFilter = false;
+        }
         DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter,
                 OrderType.PENDINGRECEIPT, getNewHandler(requestCode, ResultOrderVo.class));
     }
@@ -298,22 +303,22 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
     }
 
 
-   public void onActivityResult(int requestCode, int resultCode, Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-       if (resultCode == Activity.RESULT_OK) {
-           if (requestCode == 1)  {
-               //退货成功
-               PublicUtil.showToast(getString(R.string.pending_order_return_sucessful));
-               removeItem();
-           } else if (requestCode == 4) {
-               //签收扫描返回二维码code
-               String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-               if (StringUtils.isNotBlank(resultStr)) {
-                   OrderVo order = (OrderVo)getList().get(clickIndex);
-                   DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), order.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
-               }
-           }
-       }
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 1)  {
+                //退货成功
+                PublicUtil.showToast(getString(R.string.pending_order_return_sucessful));
+                removeItem();
+            } else if (requestCode == 4) {
+                //签收扫描返回二维码code
+                String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                if (StringUtils.isNotBlank(resultStr)) {
+                    OrderVo order = (OrderVo)getList().get(clickIndex);
+                    DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), order.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
+                }
+            }
+        }
 
     }
 

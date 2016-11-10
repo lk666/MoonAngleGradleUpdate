@@ -16,9 +16,9 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
-import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
@@ -37,6 +37,7 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
     private int clickIndex;
     private Activity mContext;
     private View viewPopStart;
+    private boolean isFilter;
 
     @Override
     protected void onBeforeCreateView() {
@@ -56,11 +57,12 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),new FilterWindow.OkListener() {
             @Override
             public void comfireClick(String name, String address) {
                 nameFilter = name;
                 addressFilter = address;
+                isFilter = true;
                 initData();
             }
         });
@@ -97,14 +99,18 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
-        nameFilter = "";
-        addressFilter = "";
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
+        if (!isFilter) {
+            nameFilter = "";
+            addressFilter = "";
+        } else {
+            isFilter = false;
+        }
         DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter,addressFilter, OrderType.PENDINGDELIVERY, getNewHandler(requestCode, ResultOrderVo.class));
     }
 

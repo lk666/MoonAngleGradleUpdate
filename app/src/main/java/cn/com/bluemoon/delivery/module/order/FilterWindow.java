@@ -19,14 +19,9 @@ import cn.com.bluemoon.delivery.R;
 public class FilterWindow extends PopupWindow {
 
     private Context mContext;
-    private String name;
-    private String address;
 
-    public FilterWindow(Context context, String name, String address,
-                        OkListener listener) {
+    public FilterWindow(Context context,OkListener listener) {
         mContext = context;
-        this.name = name;
-        this.address = address;
         Init(listener);
     }
 
@@ -36,14 +31,6 @@ public class FilterWindow extends PopupWindow {
 
         final EditText nameEt = (EditText) view.findViewById(R.id.et_name);
         final EditText addressEt = (EditText) view.findViewById(R.id.et_address);
-
-        if (StringUtils.isNotBlank(name)) {
-            nameEt.setText(name);
-        }
-        if (StringUtils.isNotBlank(address)) {
-            addressEt.setText(address);
-        }
-
 
         LinearLayout ll_popup = (LinearLayout) view
                 .findViewById(R.id.layout_order_filter);
@@ -75,8 +62,8 @@ public class FilterWindow extends PopupWindow {
 
             @Override
             public void onClick(View v) {
-                name = nameEt.getText().toString();
-                address = addressEt.getText().toString();
+                String name = nameEt.getText().toString();
+                String address = addressEt.getText().toString();
                 listener.comfireClick(name, address);
                 dismiss();
             }
