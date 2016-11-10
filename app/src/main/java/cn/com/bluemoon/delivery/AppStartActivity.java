@@ -49,11 +49,12 @@ public class AppStartActivity extends Activity {
     private AppStartActivity main;
     private String view;
     private String url;
+    private boolean isPause;
 
-    public static void actStart(Context context,String view,String url) {
+    public static void actStart(Context context, String view, String url) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(Constants.PUSH_VIEW, view);
-        if(Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url)){
+        if (Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url)) {
             intent.putExtra(Constants.PUSH_URL, url);
         }
         context.startActivity(intent);
@@ -76,6 +77,7 @@ public class AppStartActivity extends Activity {
         view = PublicUtil.getPushView(getIntent());
         url = PublicUtil.getPushUrl(getIntent());
 
+        //推送SDK初始化
         initPush();
 
         //百度定位初始化
@@ -83,16 +85,19 @@ public class AppStartActivity extends Activity {
         locationService.start();
     }
 
-    private void initPush(){
-        /*SDK初始化开始*/
+    /**
+     * 推送SDK初始化
+     */
+    private void initPush() {
         // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
         PackageManager pkgManager = getPackageManager();
         // 读写 sd card 权限非常重要, android6.0默认禁止的, 建议初始化之前就弹窗让用户赋予该权限
-        boolean sdCardWritePermission =
-                pkgManager.checkPermission(android.Manifest.permission.WRITE_EXTERNAL_STORAGE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+        boolean sdCardWritePermission = pkgManager.checkPermission(android.Manifest.permission
+                .WRITE_EXTERNAL_STORAGE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
         // read phone state用于获取 imei 设备信息
         boolean phoneSatePermission =
-                pkgManager.checkPermission(android.Manifest.permission.READ_PHONE_STATE, getPackageName()) == PackageManager.PERMISSION_GRANTED;
+                pkgManager.checkPermission(android.Manifest.permission.READ_PHONE_STATE,
+                        getPackageName()) == PackageManager.PERMISSION_GRANTED;
         if (Build.VERSION.SDK_INT >= 23 && !sdCardWritePermission || !phoneSatePermission) {
             ActivityCompat.requestPermissions(this, new String[]{android.Manifest.permission
                     .WRITE_EXTERNAL_STORAGE, Manifest.permission.READ_PHONE_STATE}, 0);
@@ -100,23 +105,23 @@ public class AppStartActivity extends Activity {
             // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
             PushManager.getInstance().initialize(this.getApplicationContext());
         }
-        /*SDK初始化结束*/
     }
 
     @Override
     protected void onResume() {
         super.onResume();
+        //处理更新下载中...点home再返回重新更新下载的问题
+        if (isPause) return;
+        //计时器开始时间
         splashScreenStartTime = SystemClock.elapsedRealtime();
-        if (canSkipCheckVersion(this)
-                && (lastSuccessfulCheckVersionResponse != null)) {
+        if (canSkipCheckVersion(this)) {
+            //已经check version，且间隔2小时以内的非强制更新
             gotoNextActivity();
-            return;
         } else {
-            if (lastSuccessfulCheckVersionResponse != null
-                    && SystemClock.elapsedRealtime()
-                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants
-                    .FORCE_CHECK_VERSION_TIME) {
-                LogUtils.d("timestamp < Constants.FORCE_CHECK_VERSION_TIME");
+            if (lastSuccessfulCheckVersionResponse != null && SystemClock.elapsedRealtime()
+                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants.FORCE_CHECK_VERSION_TIME) {
+                LogUtils.i("Has checked version before, but are forced to update");
+                //已经check version 属于强制更新 !
                 showDialog(lastSuccessfulCheckVersionResponse);
             } else {
                 DeliveryApi.getLastVersion(checkVersionHandler);
@@ -127,41 +132,40 @@ public class AppStartActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-        if (splashScreenTimerTask != null
-                && !splashScreenTimerTask.isCancelled())
+        if (splashScreenTimerTask != null&& !splashScreenTimerTask.isCancelled()) {
             splashScreenTimerTask.cancel(false);
-
+        }
     }
 
     public static boolean canSkipCheckVersion(Context ctx) {
 
-        String currentVersion = null;
-
-        try {
-            currentVersion = ctx.getPackageManager().getPackageInfo(
-                    ctx.getPackageName(), 0).versionName;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
         if (lastSuccessfulCheckVersionResponse != null) {
+            // 时间间隔超过2 hours?
             boolean forceCheckVersionTimeOver = SystemClock.elapsedRealtime()
                     - lastSuccessfulCheckVersionResponse.getTimestamp() > Constants
                     .FORCE_CHECK_VERSION_TIME;
 
-            boolean isMustUpdateVersion = LibVersionUtils.isMustUpdateVersion(
-                    currentVersion, lastSuccessfulCheckVersionResponse
-                            .getVersion(), String
-                            .valueOf(lastSuccessfulCheckVersionResponse
-                                    .getMustUpdate()));
-            boolean skip = !forceCheckVersionTimeOver && !isMustUpdateVersion;
-            LogUtils.d("forceCheckVersionTimeOver = "
-                            + String.valueOf(forceCheckVersionTimeOver)
-                            + ", isMustUpateVersion = "
-                            + String.valueOf(isMustUpdateVersion) + "");
-            return skip;
-        } else {
+            if (!forceCheckVersionTimeOver) {
+                String currentVersion = null;
+                //获取当前版本
+                try {
+                    currentVersion = ctx.getPackageManager().getPackageInfo(
+                            ctx.getPackageName(), 0).versionName;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
+                // 非强制更新？
+                return !LibVersionUtils.isMustUpdateVersion(
+                        currentVersion, lastSuccessfulCheckVersionResponse
+                                .getVersion(), String
+                                .valueOf(lastSuccessfulCheckVersionResponse
+                                        .getMustUpdate()));
+            } else {
+                LogUtils.i("Has checked version before, but over 2 hours");
+                return false;
+            }
+        } else {
             LogUtils.i("Has not check version before, can not skip");
             return false;
         }
@@ -179,7 +183,7 @@ public class AppStartActivity extends Activity {
             ResultVersionInfo result = JSON.parseObject(responseString,
                     ResultVersionInfo.class);
             if (result != null && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS
-                    &&result.getItemList()!=null) {
+                    && result.getItemList()!=null) {
                 lastSuccessfulCheckVersionResponse = result.getItemList();
                 lastSuccessfulCheckVersionResponse.setTimestamp(SystemClock.elapsedRealtime());
                 showDialog(lastSuccessfulCheckVersionResponse);
@@ -236,9 +240,10 @@ public class AppStartActivity extends Activity {
     }
 
     private void gotoNextActivity() {
-        if (splashScreenTimerTask != null
-                && !splashScreenTimerTask.isCancelled())
+        //不可取消！
+        if (splashScreenTimerTask != null&& !splashScreenTimerTask.isCancelled()) {
             splashScreenTimerTask.cancel(false);
+        }
         if (!isFinishing()) {
             LogUtils.i("splashScreenTimerTask execute");
             splashScreenTimerTask = new SplashScreenTimerTask();
@@ -249,12 +254,11 @@ public class AppStartActivity extends Activity {
     private class SplashScreenTimerTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void... v) {
-            long waitTime = SystemClock.elapsedRealtime()
-                    - splashScreenStartTime;
+            //欢迎界面显示至少1s
+            long waitTime = SystemClock.elapsedRealtime()- splashScreenStartTime;
             if (waitTime < Constants.SPLASH_SCREEN_MIN_SHOW_TIME) {
                 try {
-                    Thread.sleep(Constants.SPLASH_SCREEN_MIN_SHOW_TIME
-                            - waitTime);
+                    Thread.sleep(Constants.SPLASH_SCREEN_MIN_SHOW_TIME - waitTime);
                 } catch (Exception e) {
                 }
             }
@@ -265,14 +269,11 @@ public class AppStartActivity extends Activity {
         protected void onPostExecute(Void v) {
             if (!isCancelled() && !isFinishing()) {
                 try {
-
-                    String token = ClientStateManager
-                            .getLoginToken();
-
+                    String token = ClientStateManager .getLoginToken();
                     if (!StringUtil.isEmpty(token)) {
-                        MainActivity.actStart(main, view,url);
+                        MainActivity.actStart(main, view, url);
                     } else {
-                        LoginActivity.actStart(main, view,url);
+                        LoginActivity.actStart(main, view, url);
                         if (LibFileUtil.checkExternalSDExists()) {
                             File file = new File(Constants.PATH_PHOTO);
                             if (!file.exists()) {
@@ -306,7 +307,7 @@ public class AppStartActivity extends Activity {
 
     private void showUpdateDialog(final Version result,
                                   final boolean isMustUpdate) {
-
+        isPause = true;
         new CommonAlertDialog.Builder(main)
                 .setTitle(getString(R.string.new_version_alert_title))
                 .setMessage(
@@ -325,6 +326,7 @@ public class AppStartActivity extends Activity {
 
                                             @Override
                                             public void onCancel() {
+                                                isPause = false;
                                                 // stub
                                                 if (isMustUpdate) {
                                                     main.finish();
@@ -335,6 +337,7 @@ public class AppStartActivity extends Activity {
 
                                             @Override
                                             public void onFailUpdate() {
+                                                isPause = false;
                                                 // stub
                                                 try {
                                                     PublicUtil.openUrl(main, result.getDownload());
@@ -350,6 +353,11 @@ public class AppStartActivity extends Activity {
                                                     });
                                                 }
                                             }
+
+                                            @Override
+                                            public void onFinish() {
+                                                isPause = false;
+                                            }
                                         }).showDownloadDialog();
                             }
 
@@ -360,13 +368,13 @@ public class AppStartActivity extends Activity {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
+                                isPause = false;
                                 if (isMustUpdate) {
                                     main.finish();
                                     System.exit(0);
                                 } else {
                                     gotoNextActivity();
                                 }
-
                                 return;
                             }
 

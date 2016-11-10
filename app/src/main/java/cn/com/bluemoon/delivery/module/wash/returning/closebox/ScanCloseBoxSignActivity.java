@@ -88,6 +88,7 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
                     toast(getString(R.string.duplicate_tag_code));
                     return false;
                 }
+                toast(getString(R.string.scan_finish));
                 item.setScaned(true);
                 break;
             }

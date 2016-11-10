@@ -56,11 +56,18 @@ public class UpdateManager {
                     txtTime.setText(String.format("%d%%", progress));
                     break;
                 case DOWNLOAD_FINISH:
-                    mDownloadDialog.dismiss();
+                    if(mDownloadDialog!=null){
+                        mDownloadDialog.dismiss();
+                    }
+                    if (callback != null) {
+                        callback.onFinish();
+                    }
                     installApk();
                     break;
                 case DOWNLOAD_ERROR:
-                    mDownloadDialog.dismiss();
+                    if(mDownloadDialog!=null){
+                        mDownloadDialog.dismiss();
+                    }
                     if (callback != null) {
                         callback.onFailUpdate();
                     }
@@ -196,7 +203,7 @@ public class UpdateManager {
 
     public interface UpdateCallback {
         void onCancel();
-
         void onFailUpdate();
+        void onFinish();
     }
 }

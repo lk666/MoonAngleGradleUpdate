@@ -120,15 +120,15 @@ public class PackDetailActivity extends BaseActivity {
     private void setData(ResultBackOrderDetail item) {
 
         tvTagCode.setText(tagCode);
-        tvOrderUserName.setText(String.format(getString(R.string.pack_back_box_user),item.getCustomerName()));
-        tvOrderUserPhone.setText(String.format(getString(R.string.pack_back_order_phone),item.getCustomerPhone()));
+        tvOrderUserName.setText(getString(R.string.pack_back_box_user,item.getCustomerName()));
+        tvOrderUserPhone.setText(getString(R.string.pack_back_order_phone,item.getCustomerPhone()));
         tvMainAddress.setText(String.format("%s %s %s", item.getProvince(), item.getCity(), item.getCounty()));
         tvDetailAddress.setText(String.format("%s%s%s", item.getStreet(), item.getVillage(), item.getAddress()));
 
-        tvBackOrderNum.setText(String.format(getString(R.string.pack_back_order_clothes_num), item.getFoldNum()+ item.getHangNum()));
+        tvBackOrderNum.setText(getString(R.string.pack_back_order_clothes_num, item.getClothesNum()));
 
-        tvMainkOrderNum.setText(String.format(getString(R.string.pack_back_order_clothes_num2), item.getFoldNum(), item.getHangNum()));
-        tvClothesReource.setText(String.format(getString(R.string.pack_back_order_clothes_resource),
+        tvMainkOrderNum.setText(getString(R.string.pack_back_order_clothes_num2, item.getFoldNum(), item.getHangNum()));
+        tvClothesReource.setText(getString(R.string.pack_back_order_clothes_resource,
                 String.valueOf(item.getClothesSource())));
 
         ThreadPool.PICTURE_THREAD_POOL.execute(new ExRunable(new Feedback() {
