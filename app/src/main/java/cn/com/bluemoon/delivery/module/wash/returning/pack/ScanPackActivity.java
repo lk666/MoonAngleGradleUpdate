@@ -171,7 +171,7 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                     ReturningApi.scanPackageBackOrder(boxCode, getToken(), getNewHandler(3,
                             ResultScanBoxCode.class));
                 } else {
-                    toast(getString(R.string.close_box_scan_box_code_error, boxCode));
+                    toast(getString(R.string.close_box_scan_return_clothes_error, boxCode));
                     startDelay();
                 }
                 break;

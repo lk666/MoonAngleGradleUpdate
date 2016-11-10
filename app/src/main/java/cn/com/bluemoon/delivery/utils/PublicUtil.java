@@ -337,7 +337,7 @@ public class PublicUtil extends LibPublicUtil {
                                 public void onClick(DialogInterface dialog,
                                                     int which) {
                                     LoginActivity.actStart(context);
-                                    tokenExpireDialog.dismiss();
+                                    tokenExpireDialog = null;
                                     context.finish();
                                 }
                             }).create();

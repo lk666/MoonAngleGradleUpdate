@@ -39,6 +39,7 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
     private int clickIndex;
     private View viewPopStart;
     private Activity mContext;
+    private boolean isFilter;
 
     @Override
     protected void onBeforeCreateView() {
@@ -58,11 +59,12 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
 
     @Override
     protected void onActionBarBtnRightClick() {
-        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),new FilterWindow.OkListener() {
             @Override
             public void comfireClick(String name, String address) {
                 nameFilter = name;
                 addressFilter = address;
+                isFilter = true;
                 initData();
             }
         });
@@ -98,14 +100,18 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
-        nameFilter = "";
-        addressFilter = "";
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
+        if (!isFilter) {
+            nameFilter = "";
+            addressFilter = "";
+        } else {
+            isFilter = false;
+        }
         DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter,OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
     }
 

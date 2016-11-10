@@ -34,6 +34,7 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
     private String addressFilter;
     private int clickIndex;
     private View viewPopStart;
+    private boolean isFilter;
     @Override
     protected String getTitleString() {
         return getString(R.string.tab_orders);
@@ -46,11 +47,12 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        FilterWindow popupWindow = new FilterWindow(getActivity(),nameFilter, addressFilter,new FilterWindow.OkListener() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(),new FilterWindow.OkListener() {
             @Override
             public void comfireClick(String name, String address) {
                 nameFilter = name;
                 addressFilter = address;
+                isFilter = true;
                 initData();
             }
         });
@@ -87,14 +89,18 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
         ptrlv.getRefreshableView().setDivider(null);
         ptrlv.getRefreshableView().setDividerHeight(0);
         ptrlv.getRefreshableView().setCacheColorHint(Color.TRANSPARENT);
-        nameFilter = "";
-        addressFilter = "";
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
         setAmount2();
         pageFlag = 0;
+        if (!isFilter) {
+            nameFilter = "";
+            addressFilter = "";
+        } else {
+            isFilter = false;
+        }
         DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter, OrderType.PENDINGORDERS, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
@@ -119,7 +125,7 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
         }
     }
 
-   @Override
+    @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         if (requestCode == 2) {
             if (result.getResponseCode() == 4102) {

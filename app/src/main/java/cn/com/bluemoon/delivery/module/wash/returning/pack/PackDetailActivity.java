@@ -108,8 +108,13 @@ public class PackDetailActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultBackOrderDetail obj = (ResultBackOrderDetail) result;
-        setData(obj);
+        if (requestCode == 1) {
+            toast(result.getResponseMsg());
+        } else {
+            ResultBackOrderDetail obj = (ResultBackOrderDetail) result;
+            setData(obj);
+        }
+
     }
 
     private void setData(ResultBackOrderDetail item) {

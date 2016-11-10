@@ -1040,6 +1040,7 @@
     <string name="close_box_detail_title">封箱详情</string>
     <string name="close_box_scan_box_code_title">扫描衣物箱标签</string>
     <string name="close_box_scan_box_code_error">扫描错误衣物箱标签，请扫描%s</string>
+    <string name="close_box_scan_return_clothes_error">扫描错误还衣单标签，请扫描%s</string>
     <string name="close_box_scan_pack_code_error">扫描错误柜位号码，请扫描%s</string>
     <string name="close_box_back_order_box_code">箱号-%s</string>
     <string name="close_box_back_order_print">打印封箱标签</string>
@@ -1048,7 +1049,7 @@
     <string name="close_box_scan_back_code_title">扫描还衣单标签</string>
     <string name="close_box_scan_back_code">箱%s内的还衣单</string>
     <string name="duplicate_code">该条码重复扫描</string>
-    <string name="not_in_code"> 该还衣单不属于当前衣物箱！请扫描正确条码</string>
+    <string name="not_in_code"> 该还衣单不属于当前衣物箱！请扫描正确标签</string>
     <string name="scan_finish">扫描完成</string>
     <string name="scan_succeed">扫描成功</string>
     <string name="close_box_tag_count">收衣来源数量：%s</string>
