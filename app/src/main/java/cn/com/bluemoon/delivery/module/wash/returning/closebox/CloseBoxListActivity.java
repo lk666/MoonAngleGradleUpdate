@@ -116,7 +116,8 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         //跳转待装箱
-        if (requestCode == 1 && result.getResponseCode() == 230033) {
+        if (requestCode == 1
+                && (result.getResponseCode() == 230033 || result.getResponseCode() == 230021)) {
             toast(result.getResponseMsg());
             finish();
         } else {
