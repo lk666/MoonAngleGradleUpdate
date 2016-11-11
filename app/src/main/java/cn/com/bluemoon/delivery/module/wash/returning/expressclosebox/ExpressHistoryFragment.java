@@ -108,6 +108,8 @@ public class ExpressHistoryFragment extends BasePullToRefreshListViewFragment {
         pageFlag = r.getPageFlag();
         if (r.getExpressList() != null && !r.getExpressList().isEmpty()) {
             tvTotal.setText(getString(R.string.order_boxes_num, r.getExpressList().size()));
+        } else {
+            tvTotal.setText(getString(R.string.order_boxes_num, 0));
         }
         return r.getExpressList();
     }
