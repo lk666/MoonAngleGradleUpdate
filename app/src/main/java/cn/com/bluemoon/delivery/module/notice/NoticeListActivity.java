@@ -61,7 +61,6 @@ public class NoticeListActivity extends Activity{
         ActivityManager.getInstance().pushOneActivity(this);
         initCustomActionBar();
         progressDialog = new CommonProgressDialog(main);
-        ViewUtil.toast(getIntent().getStringExtra("text"));
 
 
         listView = (PullToRefreshListView) findViewById(R.id.listview_main);
