@@ -88,7 +88,6 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
                     toast(getString(R.string.duplicate_tag_code));
                     return false;
                 }
-                toast(getString(R.string.scan_succeed));
                 item.setScaned(true);
                 break;
             }
@@ -110,6 +109,7 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
     private boolean isScanFinished() {
         for (CloseBoxTag item : list) {
             if (!item.isScaned()) {
+                toast(getString(R.string.scan_succeed));
                 return false;
             }
         }
