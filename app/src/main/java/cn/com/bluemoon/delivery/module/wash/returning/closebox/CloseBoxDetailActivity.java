@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,7 +47,9 @@ public class CloseBoxDetailActivity extends BaseActivity {
     @Bind(R.id.tv_box_code)
     TextView tvBoxCode;
 
+
     private String tagId;
+    private String tagCode;
 
     public static void actionStart(Context context, String tagCode) {
         Intent intent = new Intent(context, CloseBoxDetailActivity.class);
@@ -85,10 +89,13 @@ public class CloseBoxDetailActivity extends BaseActivity {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        List<String> tags = new ArrayList<>();
-        tags.add(tagId);
-        showWaitDialog();
-        ReturningApi.printTags(tags, getToken(), getNewHandler(1, ResultBase.class));
+        if (StringUtils.isNotBlank(tagCode)) {
+            List<String> tags = new ArrayList<>();
+            tags.add(tagCode);
+            showWaitDialog();
+            ReturningApi.printTags(tags, getToken(), getNewHandler(1, ResultBase.class));
+        }
+
     }
 
     @Override
@@ -117,7 +124,7 @@ public class CloseBoxDetailActivity extends BaseActivity {
     private void setData(final ResultCloseBoxDetail item) {
 
         tvTagCode.setText(item.getTagCode());
-
+        tagCode = item.getTagCode();
         if (TextUtils.isEmpty(item.getReceiver()) && TextUtils.isEmpty(item.getReceiverPhone())) {
             tvMainAddress.setText(String.format("%s %s %s", item.getSourceProvince(), item
                     .getSourceCity(), item.getSourceCounty()));
