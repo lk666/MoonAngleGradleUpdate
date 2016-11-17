@@ -1,0 +1,159 @@
+package cn.com.bluemoon.delivery.utils.service;
+
+import android.app.Activity;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Handler;
+import android.os.Message;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import com.alipay.sdk.app.PayTask;
+import com.tencent.mm.sdk.modelpay.PayReq;
+import com.tencent.mm.sdk.openapi.IWXAPI;
+import com.tencent.mm.sdk.openapi.WXAPIFactory;
+
+import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.entity.IPayOnlineResult;
+import cn.com.bluemoon.delivery.entity.PayResult;
+import cn.com.bluemoon.delivery.entity.WXPayInfo;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.LogUtils;
+
+/**
+ * @author liangjiangli
+ */
+
+public class PayService {
+
+    private String TAG = "PayService";
+    private IPayOnlineResult listener;
+
+    private Activity mContext;
+    private static final int SDK_PAY_FLAG = 1;
+    private IWXAPI msgApi;
+    private PayReq req;
+    private final String ACTION = "PAY_SUCCESS";
+
+    public PayService(Activity context, IPayOnlineResult listener) {
+        this.mContext = context;
+        this.listener = listener;
+    }
+
+    public BroadcastReceiver getWXResutReceiver() {
+        return mBroadcastReceiver;
+    }
+
+    public IntentFilter getWXIntentFilter() {
+        IntentFilter myIntentFilter = new IntentFilter();
+        myIntentFilter.addAction(ACTION);
+        return myIntentFilter;
+    }
+
+    private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            String action = intent.getAction();
+            if (action.equals(ACTION)) {
+                String payresult = intent.getStringExtra("payResult");
+                if ("success".equals(payresult)) {
+                    listener.isSuccess(true);
+                } else {
+                    listener.isSuccess(false);
+                }
+            }
+        }
+
+    };
+
+
+    public void wxPay(WXPayInfo wxPayInfo) {
+        msgApi = WXAPIFactory.createWXAPI(mContext, Constants.APP_ID, false);
+        if (!msgApi.isWXAppInstalled()) {
+            Toast.makeText(mContext,mContext.getString(R.string.pay_online_wechat_not_exist), Toast.LENGTH_SHORT).show();
+            return;
+        }
+        msgApi.registerApp(Constants.APP_ID);
+        req = new PayReq();
+        req.appId = Constants.APP_ID;
+        req.partnerId = Constants.PARTNER_ID;
+        req.prepayId = wxPayInfo.getPrepay_id();
+        req.packageValue = "Sign=WXPay";
+        req.nonceStr = wxPayInfo.getNonceStr();
+        req.timeStamp = String.valueOf(wxPayInfo.getTimeStamp());
+        req.sign = wxPayInfo.getSign();
+        msgApi.sendReq(req);
+    }
+
+
+    public void aliPay(final String aliPayInfo) {
+        Runnable payRunnable = new Runnable() {
+
+            @Override
+            public void run() {
+                // 构造PayTask 对象
+                PayTask alipay = new PayTask(mContext);
+                // 调用支付接口，获取支付结果
+                String result = alipay.pay(aliPayInfo, true);
+
+                Message msg = new Message();
+                msg.what = SDK_PAY_FLAG;
+                msg.obj = result;
+                mHandler.sendMessage(msg);
+            }
+        };
+
+        // 必须异步调用
+        Thread payThread = new Thread(payRunnable);
+        payThread.start();
+
+    }
+
+    private boolean verify(String msg, String sign64, String mode) {
+        // 此处的verify，商户需送去商户后台做验签
+        return true;
+
+    }
+
+
+    private Handler mHandler = new Handler() {
+        public void handleMessage(Message msg) {
+            //submitControl = true;
+            switch (msg.what) {
+                case SDK_PAY_FLAG: {
+
+                    Intent intent = new Intent();
+                    PayResult payResult = new PayResult((String) msg.obj);
+                    // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
+                    String resultInfo = payResult.getResult();
+                    String resultStatus = payResult.getResultStatus();
+                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
+                    LogUtils.d("test", "alipay resultStatus = " + resultStatus);
+                    if (TextUtils.equals(resultStatus, "9000")) {
+                        listener.isSuccess(true);
+                    } else {
+                        String errorMsg = null;
+                        // 判断resultStatus 为非“9000”则代表可能支付失败
+                        // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
+                        // "6001" 用户取消
+                        // "6002" 网络失败
+                        // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
+                        listener.isSuccess(false);
+                    }
+                    break;
+                }
+                default:
+                    break;
+            }
+
+        }
+
+        ;
+    };
+
+
+}
+

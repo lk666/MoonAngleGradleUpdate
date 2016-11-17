@@ -1330,6 +1330,9 @@
     <string name="select_pay_type">选择支付方式</string>
     <string name="wechat_pay">微信支付</string>
     <string name="ali_pay">支付宝</string>
+    <string name="pay_online_wechat_not_exist">未查询到微信终端</string>
+    <string name="pay_success">充值成功</string>
+    <string name="pay_failed">充值失败</string>
 
 
 </resources>

@@ -63,8 +63,8 @@ public class EvidenceCashApi extends DeliveryApi {
      * @param token token身份检验码 String
      * @param type 操作方式 String
      */
-    public static void saveCashInfo(long cashAmount,String evidencePath,String token,String type,AsyncHttpResponseHandler handler){
-        if(null == evidencePath||null == token||null == type) {
+    public static void saveCashInfo(double cashAmount,String evidencePath,String token,String type,AsyncHttpResponseHandler handler){
+        if(null == token||null == type) {
             return;
         }
         Map<String, Object> params = new HashMap<>();

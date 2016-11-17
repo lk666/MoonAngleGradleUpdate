@@ -249,6 +249,14 @@
         <item name="actionMenuTextAppearance">@style/ActionMenuTextStyle</item>
     </style>
 
+    <style name="NavPage">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">fill_parent</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:background">@color/navpage</item>
+    </style>
+
     <!-- 设置PhotoPickerTheme ActionBar菜单字体 -->
     <style name="ActionMenuTextStyle" parent="TextAppearance.AppCompat.Widget.ActionBar.Menu">
         <item name="android:textSize">@dimen/action_text_size</item>
