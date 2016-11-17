@@ -43,6 +43,7 @@ import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
+import cn.com.bluemoon.delivery.module.evidencecash.EvidenceCashActivity;
 import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
 import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
 import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
@@ -437,9 +438,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    /*if(!BuildConfig.RELEASE){
+                    if(!BuildConfig.RELEASE){
                         mockData();
-                    }*/
+                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -466,14 +467,14 @@ public class MainActivity extends SlidingActivity {
     };
 
 
-    /*private void mockData() {
+    private void mockData() {
         UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.my_team.toString());
-        item.setMenuName(getString(R.string.team_title));
+        item.setMenuCode(MenuCode.my_evidence_cash.toString());
+        item.setMenuName(getString(R.string.evidence_cash_title));
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
         listRight.add(item);
-    }*/
+    }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
@@ -682,91 +683,90 @@ public class MainActivity extends SlidingActivity {
         if (PublicUtil.isFastDoubleClick(1000)) {
             return;
         }
-        LogUtils.d("view:"+userRight.getMenuCode());
+        String menuCode = userRight.getMenuCode();
+        LogUtils.d("view:"+ menuCode);
         try {
             Intent intent;
-            if (MenuCode.dispatch.toString().equals(userRight.getMenuCode())) {
+            if (compare(MenuCode.dispatch, menuCode)) {
                 OrdersTabActivity.actionStart(main);
-            } else if (MenuCode.site_sign.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.site_sign, menuCode)) {
                 ExtractTabActivity.actionStart(main);
-            } else if (MenuCode.check_in.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.check_in, menuCode)) {
                 intent = new Intent(main, TicketChooseActivity.class);
                 startActivity(intent);
-            } else if (MenuCode.mall_erp_delivery.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.mall_erp_delivery, menuCode)) {
                 InventoryTabActivity.actionStart(main, InventoryTabActivity.DELIVERY_MANAGEMENT);
-            } else if (MenuCode.mall_erp_receipt.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.mall_erp_receipt, menuCode)) {
                 InventoryTabActivity.actionStart(main, InventoryTabActivity.RECEIVE_MANAGEMENT);
-            } else if (MenuCode.mall_erp_stock.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.mall_erp_stock, menuCode)) {
                 StorageTabActivity.actionStart(main);
-            } else if (MenuCode.punch_card.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.punch_card, menuCode)) {
                 gotoPunchCard();
-            } else if (MenuCode.card_coupons.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.card_coupons, menuCode)) {
                 intent = new Intent(main, CouponsTabActivity.class);
                 startActivity(intent);
-            } else if (MenuCode.card_coupons_web.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.my_news, menuCode)) {
+                intent = new Intent(main, MessageListActivity.class);
+                startActivity(intent);
+            } else if (compare(MenuCode.my_inform, menuCode)) {
+                intent = new Intent(main, NoticeListActivity.class);
+                startActivity(intent);
+            } else if (compare(MenuCode.knowledge_base, menuCode)) {
+                intent = new Intent(main, PaperListActivity.class);
+                startActivity(intent);
+            } else if (compare(MenuCode.customer_service, menuCode)) {
+                DialogUtil.showServiceDialog(main);
+            } else if (compare(MenuCode.receive_clothes_manager, menuCode)) {
+                ClothingTabActivity.actionStart(main, ClothingTabActivity
+                        .WITH_ORDER_COLLECT_MANAGE);
+            } else if (compare(MenuCode.activity_collect_clothes, menuCode)) {
+                ClothingTabActivity.actionStart(main, ClothingTabActivity
+                        .WITHOUT_ORDER_COLLECT_MANAGE);
+            } else if (compare(MenuCode.promote_file, menuCode)) {
+                intent = new Intent(main, PromoteActivity.class);
+                startActivity(intent);
+            } else if (compare(MenuCode.my_team, menuCode)) {
+                intent = new Intent(main, MyTeamActivity.class);
+                startActivity(intent);
+            } else if (compare(MenuCode.jobAsignManager, menuCode)) {
+                intent = new Intent(main, SzTaskActivity.class);
+                startActivity(intent);
+            } else if (compare(MenuCode.wash_cabinet_manager, menuCode)) {
+                CupboardScanActivity.actStart(main);
+            } else if (compare(MenuCode.wash_transport, menuCode)) {
+                DriverTabActivity.actionStart(main);
+            } else if (compare(MenuCode.wash_express_close_box, menuCode)) {
+                ExpressCloseBoxTabActivity.actionStart(this);
+            } else if (compare(MenuCode.wash_back_order_manager, menuCode)) {
+                ReturnManagerTabActivity.actionStart(this);
+            } else if (compare(MenuCode.wash_transport_sign, menuCode)) {
+                TransportReceiveTabActivity.actionStart(this);
+            } else if (compare(MenuCode.wash_carriage_close_box, menuCode)) {
+                CloseBoxTabActivity.actionStart(main);
+            } else if (compare(MenuCode.wash_back_order_package, menuCode)) {
+                PackTabActivity.actionStart(main);
+            } else if (compare(MenuCode.wash_clothes_check, menuCode)) {
+                ClothesCheckTabActivity.actionStart(main);
+            } else if (compare(MenuCode.my_evidence_cash, menuCode)) {
+                intent = new Intent(main, EvidenceCashActivity.class);
+                startActivity(intent);
+            }
+
+
+
+            else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (!userRight.getUrl().contains("?") ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(),
                         userRight.getMenuName(), false, true);
-            } else if (MenuCode.my_news.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, MessageListActivity.class);
-                startActivity(intent);
-            } else if (MenuCode.my_inform.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, NoticeListActivity.class);
-                startActivity(intent);
-            } else if (MenuCode.knowledge_base.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, PaperListActivity.class);
-                startActivity(intent);
-            } else if (MenuCode.customer_service.toString().equals(userRight.getMenuCode())) {
-                DialogUtil.showServiceDialog(main);
-            } else if (MenuCode.receive_clothes_manager.toString().equals(userRight.getMenuCode()
-            )) {
-                ClothingTabActivity.actionStart(main, ClothingTabActivity
-                        .WITH_ORDER_COLLECT_MANAGE);
-            } else if (MenuCode.activity_collect_clothes.toString().equals(userRight.getMenuCode
-                    ())) {
-                ClothingTabActivity.actionStart(main, ClothingTabActivity
-                        .WITHOUT_ORDER_COLLECT_MANAGE);
-            } else if (MenuCode.promote_file.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, PromoteActivity.class);
-                startActivity(intent);
-            } else if (MenuCode.my_team.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, MyTeamActivity.class);
-                startActivity(intent);
-            } else if (MenuCode.jobAsignManager.toString().equals(userRight.getMenuCode())) {
-                intent = new Intent(main, SzTaskActivity.class);
-                startActivity(intent);
-            } else if ("scheduleSys".equals(userRight.getMenuCode())) {
-                intent = new Intent(main, SzSchedualActivity.class);
-                startActivity(intent);
-            }
-            else if (MenuCode.wash_cabinet_manager.toString().equals(userRight.getMenuCode())) {
-                CupboardScanActivity.actStart(main);
-            } else if (MenuCode.wash_transport.toString().equals(userRight.getMenuCode())) {
-                DriverTabActivity.actionStart(main);
-            } else if (MenuCode.wash_express_close_box.toString().equals(userRight.getMenuCode())) {
-                ExpressCloseBoxTabActivity.actionStart(this);
-            } else if (MenuCode.wash_back_order_manager.toString().equals(userRight.getMenuCode())) {
-                ReturnManagerTabActivity.actionStart(this);
-            } else if (MenuCode.wash_transport_sign.toString().equals(userRight.getMenuCode())) {
-                TransportReceiveTabActivity.actionStart(this);
-            } else if (MenuCode.wash_carriage_close_box.toString().equals(userRight.getMenuCode())) {
-                CloseBoxTabActivity.actionStart(main);
-            } else if (MenuCode.wash_back_order_package.toString().equals(userRight.getMenuCode())) {
-                PackTabActivity.actionStart(main);
-            } else if (MenuCode.wash_clothes_check.toString().equals(userRight.getMenuCode())) {
-                ClothesCheckTabActivity.actionStart(main);
-            }
-
-
-            else if (!StringUtils.isEmpty(userRight.getUrl())) {
+            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
                 String url = userRight.getUrl()
                         + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
                 PublicUtil.openWebView(main,url ,userRight.getMenuName(), false);
                 LogUtils.d("openUrl:"+url);
 
-            } else if (MenuCode.empty.toString().equals(userRight.getMenuCode())) {
+            } else if (compare(MenuCode.empty, menuCode)) {
                 //click empty
             } else {
                 PublicUtil.showToast(getString(R.string.main_tab_no_data));
@@ -774,6 +774,10 @@ public class MainActivity extends SlidingActivity {
         } catch (Exception ex) {
             PublicUtil.showToast(main, ex.getMessage());
         }
+    }
+
+    private boolean compare(MenuCode enumCode, String menuCode) {
+        return enumCode.toString().equals(menuCode);
     }
 
 

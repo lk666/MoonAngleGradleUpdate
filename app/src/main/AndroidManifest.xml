@@ -767,6 +767,14 @@
             android:name=".module.order.ScanWithInputActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.evidencecash.EvidenceCashActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.evidencecash.PayOnlineActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
 
 
     </application>

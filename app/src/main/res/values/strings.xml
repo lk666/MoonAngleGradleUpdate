@@ -298,6 +298,8 @@
     <string name="order_detail_signtime">签收时间：</string>
     <string name="order_detail_detail">订单明细</string>
     <string name="order_package_detail">套装送货明细:</string>
+    <string name="order_detail_code">订单编号：%s</string>
+    <string name="order_detail_source">订单来源：%s</string>
 
     <!-- 历史订单 -->
     <string name="order_history_totalcount">共%s单</string>
@@ -1303,6 +1305,31 @@
     <string name="done">完成</string>
     <string name="done_with_count">完成(%1$d/%2$d)</string>
     <string name="image_index">%1$d/%2$d</string>
+
+
+    <string name="evidence_cash_title">我的保证金</string>
+    <string name="bank_number">账&#8194;&#8194;号：</string>
+    <string name="shop_count">营运中店数：共%s家</string>
+    <string name="detail_right_txt">明细</string>
+    <string name="cooperate_code">合作编码：</string>
+    <string name="customer_name">姓名：</string>
+    <string name="total_money">总金额(元)</string>
+    <string name="pay_online_txt">在线充值</string>
+    <string name="pay_bank_txt">银行转账充值</string>
+    <string name="bank_tips_1">请将独家许可保证金转账到以下账户:</string>
+    <string name="bank_tips_2">并请在转账的交易附言上填写下面信息:</string>
+    <string name="bank_module_load">加载中...</string>
+    <string name="account_name">开户名：</string>
+    <string name="bank_create_account">开户行：</string>
+    <string name="btn_transfer_voucher">提交转账凭证</string>
+    <string name="pay_online_title">在线充值</string>
+    <string name="money_package">%s元</string>
+    <string name="recharge_money">充值金额(元)</string>
+    <string name="can_edit">可手动修改</string>
+    <string name="please_input_package">请输入充值金额</string>
+    <string name="select_pay_type">选择支付方式</string>
+    <string name="wechat_pay">微信支付</string>
+    <string name="ali_pay">支付宝</string>
 
 
 </resources>

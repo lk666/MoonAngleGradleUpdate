@@ -19,6 +19,8 @@
         <attr name="has_text" format="boolean" />
         <attr name="utext_size" format="dimension" />
         <attr name="utext_color" format="color" />
+        <attr name="ic_up" format="integer" />
+        <attr name="ic_down" format="integer" />
     </declare-styleable>
     <declare-styleable name="SimpleWheelView">
         <attr name="unitHeight" format="dimension" />

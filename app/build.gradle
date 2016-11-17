@@ -22,7 +22,7 @@ android {
         minSdkVersion 12
         targetSdkVersion 21
         versionCode 24
-        versionName "4.4.0"
+        versionName "4.4.1"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
         /*个推*/

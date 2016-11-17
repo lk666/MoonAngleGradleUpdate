@@ -104,8 +104,8 @@ public class OrderDetailActivity extends BaseActivity {
 		txtSubscribeTime.setText(item.getSubscribeTime());
 		txtDeliveryTime.setText(item.getDeliveryTime());
 		txtSignTime.setText(item.getSignTime());
-		txtOrderid.setText(item.getOrderId());
-		txtSource.setText(item.getSource());
+		txtOrderid.setText(getString(R.string.order_detail_code,item.getOrderId()));
+		txtSource.setText(getString(R.string.order_detail_source,item.getSource()));
 		txtWarehouse.setText(OrdersUtils.getWarehouseStr(item, this));
 		txtCustomerName.setText(item.getCustomerName());
 		txtPhone.setText(item.getMobilePhone());

@@ -23,6 +23,8 @@ import cn.com.bluemoon.delivery.R;
  */
 public class UpDownTextView extends LinearLayout {
     private boolean isUp;
+    private int iconUp;
+    private int iconDown;
     private String upText;
     private String downText;
     private TextView textView;
@@ -56,6 +58,8 @@ public class UpDownTextView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs,
                 R.styleable.UpDownTextView);
         isUp = typedArray.getBoolean(R.styleable.UpDownTextView_is_up, true);
+        iconUp = typedArray.getResourceId(R.styleable.UpDownTextView_ic_up, R.mipmap.ic_up);
+        iconDown = typedArray.getResourceId(R.styleable.UpDownTextView_ic_down, R.mipmap.ic_down);
         defaultStatus = isUp;
         boolean hasText = typedArray.getBoolean(R.styleable.UpDownTextView_has_text, true);
         this.setGravity(Gravity.CENTER_VERTICAL);
@@ -94,9 +98,9 @@ public class UpDownTextView extends LinearLayout {
         imageView = new ImageView(context);
         imageView.setLayoutParams(new LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
         if (isUp) {
-            imageView.setImageResource(R.mipmap.ic_up);
+            imageView.setImageResource(iconUp);
         } else {
-            imageView.setImageResource(R.mipmap.ic_down);
+            imageView.setImageResource(iconDown);
         }
         this.addView(imageView);
         this.setOnClickListener(new OnClickListener() {

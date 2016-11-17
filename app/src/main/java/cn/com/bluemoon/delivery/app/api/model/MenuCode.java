@@ -30,7 +30,8 @@ public enum MenuCode {
     wash_express_close_box, //快递封箱
     wash_back_order_manager,//还衣管理
     wash_transport_sign, //承运收货
-    wash_clothes_check//衣物清点
+    wash_clothes_check,//衣物清点
+    my_evidence_cash//我的保证金
 
 }
 
