@@ -93,15 +93,17 @@ public class EvidenceCashApi extends DeliveryApi {
 
     /**
      *图片上传
-     * @param imgInfo 图片数据 String
+     * @param file 图片数据
      * @param token token身份检验码 String
      */
-    public static void uploadImg(String imgInfo,String token,AsyncHttpResponseHandler handler){
-        if(null == imgInfo||null == token) {
+    public static void uploadImg(byte[] file,String token,AsyncHttpResponseHandler handler){
+        if(null == file||null == token) {
             return;
         }
+        BASE64Encoder encoder = new BASE64Encoder();
+        String fileString = encoder.encode(file);
         Map<String, Object> params = new HashMap<>();
-        params.put("imgInfo",imgInfo);
+        params.put("imgInfo",fileString);
         params.put("token",token);
         postRequest(params, "bluemoon-control/evidence/uploadImg%s", handler);
     }

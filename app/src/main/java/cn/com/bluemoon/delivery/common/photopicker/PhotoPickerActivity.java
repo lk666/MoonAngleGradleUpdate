@@ -89,6 +89,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
 
     private boolean hasFolderGened = false;
     private boolean mIsShowCamera = false;
+    private int mode;
 
     /**
      * 图片选择调用方法
@@ -102,6 +103,17 @@ public class PhotoPickerActivity extends AppCompatActivity {
         intent.putExtra(EXTRA_SELECT_COUNT, total);
         intent.putExtra(EXTRA_SELECT_MODE, Integer.parseInt(model.toString()));
         intent.putExtra(EXTRA_SHOW_CAMERA, showCamera);
+        context.startActivityForResult(intent, requestCode);
+    }
+
+    /**
+     * 单选图片选择调用方法
+     * @param context
+     */
+    public static void actStart(Activity context, int requestCode) {
+        Intent intent = new Intent(context, PhotoPickerActivity.class);
+        intent.putExtra(EXTRA_SELECT_MODE, Integer.parseInt(SelectModel.SINGLE.toString()));
+        intent.putExtra(EXTRA_SHOW_CAMERA, true);
         context.startActivityForResult(intent, requestCode);
     }
 
@@ -124,6 +136,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_photopicker);
+        // 图片选择模式
+        mode = getIntent().getExtras().getInt(EXTRA_SELECT_MODE, MODE_SINGLE);
 
         initViews();
 
@@ -137,8 +151,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
         // 选择图片数量
         mDesireImageCount = getIntent().getIntExtra(EXTRA_SELECT_COUNT, DEFAULT_MAX_TOTAL);
 
-        // 图片选择模式
-        final int mode = getIntent().getExtras().getInt(EXTRA_SELECT_MODE, MODE_SINGLE);
 
         // 默认选择
         if(mode == MODE_MULTI) {
@@ -172,12 +184,12 @@ public class PhotoPickerActivity extends AppCompatActivity {
                     } else {
                         // 正常操作
                         Image image = (Image) adapterView.getAdapter().getItem(i);
-                        selectImageFromGrid(image, mode);
+                        selectImageFromGrid(view, image, mode);
                     }
                 } else {
                     // 正常操作
                     Image image = (Image) adapterView.getAdapter().getItem(i);
-                    selectImageFromGrid(image, mode);
+                    selectImageFromGrid(view, image, mode);
                 }
             }
         });
@@ -199,7 +211,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 }
             }
         });
-        //TODO
         // 预览
         btnPreview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,7 +231,9 @@ public class PhotoPickerActivity extends AppCompatActivity {
         mPopupAnchorView = findViewById(R.id.photo_picker_footer);
         btnAlbum = (Button) findViewById(R.id.btnAlbum);
         btnPreview = (Button) findViewById(R.id.btnPreview);
-
+        if (mode != MODE_MULTI) {
+            btnPreview.setVisibility(View.GONE);
+        }
         Toolbar toolbar = (Toolbar) findViewById(R.id.pickerToolbar);
         setSupportActionBar(toolbar);
         ActionBar actionBar = getSupportActionBar();
@@ -391,7 +404,7 @@ public class PhotoPickerActivity extends AppCompatActivity {
      * 选择图片操作
      * @param image
      */
-    private void selectImageFromGrid(Image image, int mode) {
+    private void selectImageFromGrid(View view, Image image, int mode) {
         if(image != null) {
             // 多选模式
             if(mode == MODE_MULTI) {
@@ -410,6 +423,8 @@ public class PhotoPickerActivity extends AppCompatActivity {
                 mImageAdapter.select(image);
             }else if(mode == MODE_SINGLE){
                 // 单选模式
+                View mask = view.findViewById(R.id.mask);
+                mask.setVisibility(View.VISIBLE);
                 onSingleImageSelected(image.path);
             }
         }
@@ -577,7 +592,11 @@ public class PhotoPickerActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_picker, menu);
         menuDoneItem = menu.findItem(R.id.action_picker_done);
-        menuDoneItem.setEnabled(false);
+        if (mode == MODE_MULTI) {
+            menuDoneItem.setEnabled(false);
+        } else {
+            menuDoneItem.setVisible(false);
+        }
         refreshActionStatus();
         return true;
     }

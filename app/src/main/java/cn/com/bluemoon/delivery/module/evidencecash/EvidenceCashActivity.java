@@ -121,6 +121,8 @@ public class EvidenceCashActivity extends BaseActivity {
                 startActivity(intent);
                 break;
             case R.id.btn_ok :
+                intent = new Intent(this, TransferVoucherActivity.class);
+                startActivity(intent);
                 break;
         }
     }

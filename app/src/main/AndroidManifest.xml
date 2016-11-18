@@ -772,11 +772,15 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
         <activity
-        android:name=".module.evidencecash.PayOnlineActivity"
-        android:screenOrientation="portrait"
-        android:theme="@style/App.Base.Theme" />
+            android:name=".module.evidencecash.PayOnlineActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
         <activity
             android:name=".module.evidencecash.PayResultActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.evidencecash.TransferVoucherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
 
