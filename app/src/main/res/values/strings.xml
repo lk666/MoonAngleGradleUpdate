@@ -1347,6 +1347,7 @@
     <string name="transfer_voucher_submit">提 交</string>
     <string name="has_not_select_return_receipt_img">请选择回执单图片</string>
     <string name="not_input_tranfer_money">请填写转账金额</string>
+    <string name="transfer_history_title">明细</string>
 
 
 </resources>

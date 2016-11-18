@@ -180,6 +180,6 @@ public class Constants {
     public static final String ICON_ADD = "000000"; //图片选择默认URL
 
     //wecaht pay
-    public final static String APP_ID = "wxe60f77c2d0e17028";
+    public final static String APP_ID = "wx3b6e66b753fd84c2";
     public final static String PARTNER_ID = "1410234202";
 }

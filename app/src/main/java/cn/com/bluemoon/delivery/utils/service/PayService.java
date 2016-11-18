@@ -15,11 +15,12 @@ import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 
+import java.util.Map;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.IPayOnlineResult;
 import cn.com.bluemoon.delivery.entity.PayResult;
 import cn.com.bluemoon.delivery.entity.WXPayInfo;
-import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 
@@ -97,8 +98,7 @@ public class PayService {
                 // 构造PayTask 对象
                 PayTask alipay = new PayTask(mContext);
                 // 调用支付接口，获取支付结果
-                String result = alipay.pay(aliPayInfo, true);
-
+                Map<String, String> result = alipay.payV2(aliPayInfo, true);
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
                 msg.obj = result;
@@ -124,24 +124,24 @@ public class PayService {
             //submitControl = true;
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
-
-                    Intent intent = new Intent();
-                    PayResult payResult = new PayResult((String) msg.obj);
-                    // 支付宝返回此次支付结果及加签，建议对支付宝签名信息拿签约时支付宝提供的公钥做验签
-                    String resultInfo = payResult.getResult();
+                    @SuppressWarnings("unchecked")
+                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
-                    // 判断resultStatus 为“9000”则代表支付成功，具体状态码代表含义可参考接口文档
                     LogUtils.d("test", "alipay resultStatus = " + resultStatus);
+                    LogUtils.d("test", "alipay resultInfo = " + resultInfo);
+                    // 判断resultStatus 为9000则代表支付成功
                     if (TextUtils.equals(resultStatus, "9000")) {
+                        // 该笔订单是否真实支付成功，需要依赖服务端的异步通知。
                         listener.isSuccess(true);
                     } else {
-                        String errorMsg = null;
+                        listener.isSuccess(false);
+                        // 该笔订单真实的支付结果，需要依赖服务端的异步通知。
                         // 判断resultStatus 为非“9000”则代表可能支付失败
                         // “8000”代表支付结果因为支付渠道原因或者系统原因还在等待支付结果确认，最终交易是否成功以服务端异步通知为准（小概率状态）
                         // "6001" 用户取消
                         // "6002" 网络失败
                         // 其他值就可以判断为支付失败，包括用户主动取消支付，或者系统返回的错误
-                        listener.isSuccess(false);
                     }
                     break;
                 }

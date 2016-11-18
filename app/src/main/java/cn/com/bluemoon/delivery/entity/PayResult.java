@@ -3,6 +3,8 @@ package cn.com.bluemoon.delivery.entity;
 /**
  * Created by ljl on 2016/11/17.
  */
+import java.util.Map;
+
 import android.text.TextUtils;
 
 public class PayResult {
@@ -10,21 +12,18 @@ public class PayResult {
     private String result;
     private String memo;
 
-    public PayResult(String rawResult) {
-
-        if (TextUtils.isEmpty(rawResult))
+    public PayResult(Map<String, String> rawResult) {
+        if (rawResult == null) {
             return;
+        }
 
-        String[] resultParams = rawResult.split(";");
-        for (String resultParam : resultParams) {
-            if (resultParam.startsWith("resultStatus")) {
-                resultStatus = gatValue(resultParam, "resultStatus");
-            }
-            if (resultParam.startsWith("result")) {
-                result = gatValue(resultParam, "result");
-            }
-            if (resultParam.startsWith("memo")) {
-                memo = gatValue(resultParam, "memo");
+        for (String key : rawResult.keySet()) {
+            if (TextUtils.equals(key, "resultStatus")) {
+                resultStatus = rawResult.get(key);
+            } else if (TextUtils.equals(key, "result")) {
+                result = rawResult.get(key);
+            } else if (TextUtils.equals(key, "memo")) {
+                memo = rawResult.get(key);
             }
         }
     }
@@ -33,12 +32,6 @@ public class PayResult {
     public String toString() {
         return "resultStatus={" + resultStatus + "};memo={" + memo
                 + "};result={" + result + "}";
-    }
-
-    private String gatValue(String content, String key) {
-        String prefix = key + "={";
-        return content.substring(content.indexOf(prefix) + prefix.length(),
-                content.lastIndexOf("}"));
     }
 
     /**
@@ -62,4 +55,3 @@ public class PayResult {
         return result;
     }
 }
-

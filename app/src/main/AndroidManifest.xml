@@ -783,6 +783,24 @@
             android:name=".module.evidencecash.TransferVoucherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme" />
+        <activity
+            android:name=".module.evidencecash.TransferHistoryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
+
+        <activity
+            android:name="com.alipay.sdk.app.H5PayActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+        <activity
+            android:name="com.alipay.sdk.auth.AuthActivity"
+            android:configChanges="orientation|keyboardHidden|navigation"
+            android:exported="false"
+            android:screenOrientation="behind" >
+        </activity>
+
 
 
     </application>

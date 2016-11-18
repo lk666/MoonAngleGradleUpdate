@@ -55,7 +55,8 @@ public class EvidenceCashActivity extends BaseActivity {
         textView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(EvidenceCashActivity.this, TransferHistoryActivity.class);
+                startActivity(intent);
             }
         });
     }
