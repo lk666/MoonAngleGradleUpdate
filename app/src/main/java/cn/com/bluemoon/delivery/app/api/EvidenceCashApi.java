@@ -80,7 +80,7 @@ public class EvidenceCashApi extends DeliveryApi {
      * @param pageIndex 当前页码 int
      * @param token token身份检验码 String
      */
-    public static void cashList(int pageIndex,String token,AsyncHttpResponseHandler handler){
+    public static void cashList(long pageIndex,String token,AsyncHttpResponseHandler handler){
         if(null == token) {
             return;
         }

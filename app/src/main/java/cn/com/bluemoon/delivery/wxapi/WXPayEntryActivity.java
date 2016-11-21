@@ -45,9 +45,7 @@ public class WXPayEntryActivity extends Activity implements IWXAPIEventHandler {
 
 	@Override
 	public void onResp(BaseResp resp) {
-		Intent intent =new Intent();
-		String payresult = null;
-		String errorMsg = null;
+		String payresult;
 		switch (resp.errCode) {
 			case BaseResp.ErrCode.ERR_OK:
 				//发送成功

@@ -1348,6 +1348,13 @@
     <string name="has_not_select_return_receipt_img">请选择回执单图片</string>
     <string name="not_input_tranfer_money">请填写转账金额</string>
     <string name="transfer_history_title">明细</string>
+    <string name="transfer_detail_title">明细详情</string>
+    <string name="bank_refuse_reason">不通过原因</string>
+    <string name="transaction_time">交易时间</string>
+    <string name="transaction_code">交易流水号</string>
+    <string name="voucher_money">凭证转账金额(元)</string>
+    <string name="voucher_submit_time">凭证提交时间</string>
+    <string name="voucher_photo">回执单图片</string>
 
 
 </resources>

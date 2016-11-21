@@ -9,13 +9,13 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
  */
 public class ResultCashDetail extends ResultBase {
 
-    private List<CashDetailBean> cashDetail;
+    private CashDetailBean cashDetail;
 
-    public List<CashDetailBean> getCashDetail() {
+    public CashDetailBean getCashDetail() {
         return cashDetail;
     }
 
-    public void setCashDetail(List<CashDetailBean> cashDetail) {
+    public void setCashDetail(CashDetailBean cashDetail) {
         this.cashDetail = cashDetail;
     }
 

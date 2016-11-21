@@ -5,4 +5,15 @@
               android:layout_height="match_parent"
               android:background="@color/page_bg_f2">
 
+
+    <cn.com.bluemoon.delivery.ui.PinnedSectionListView
+        android:id="@+id/listview"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:dividerHeight="0dp"
+        android:divider="@null"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        />
+
 </LinearLayout>
