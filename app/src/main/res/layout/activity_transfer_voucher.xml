@@ -40,6 +40,7 @@
                 android:textSize="15sp"
                 android:background="@null"
                 android:textCursorDrawable="@null"
+                android:inputType="numberDecimal"
                 android:textColor="@color/text_black_light"
                 android:textColorHint="@color/text_grep"
                 android:hint="@string/input_transfer_money"/>

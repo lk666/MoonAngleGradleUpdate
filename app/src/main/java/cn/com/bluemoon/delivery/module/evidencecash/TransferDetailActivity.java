@@ -20,6 +20,7 @@ import cn.com.bluemoon.delivery.app.api.model.evidencecash.ResultCashDetail;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPreviewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * Created by ljl on 2016/11/21.
@@ -77,42 +78,41 @@ public class TransferDetailActivity extends BaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         hideWaitDialog();
         final ResultCashDetail.CashDetailBean bean = ((ResultCashDetail) result).getCashDetail();
-        txtTransferMoney.setText(bean.getSymbol() + bean.getTradeMoney());
+        txtTransferMoney.setText(bean.getSymbol() + StringUtil.formatDoubleMoney(bean.getTradeMoney()));
         txtTransferType.setText(bean.getTradePayDisplay() + " - " + bean.getCashTypeDisplay());
         txtTransferStatus.setText(bean.getTradeStatusDisplay());
         if ("wait".equals(bean.getTradeStatusCode())) {
             txtTransferStatus.setTextColor(getResources().getColor(R.color.text_orange));
         } else if ("failure".equals(bean.getTradeStatusCode())) {
             txtTransferStatus.setTextColor(getResources().getColor(R.color.btn_red));
-            if ("bank".equals(bean.getTradePayCode())) {
-                if (StringUtils.isNotBlank(bean.getRefuseReason())) {
-                    layoutReason.setVisibility(View.VISIBLE);
-                    txtReason.setText(bean.getRefuseReason());
-                }
-                layoutTransferVoucher.setVisibility(View.VISIBLE);
-                txtVoucherMoney.setText(bean.getSymbol()+bean.getTradeMoney());
-                txtVoucherTime.setText(DateUtil.getTime(bean.getEvidenceTime(), "yyyy-MM-dd HH:mm"));
-                Glide.with(this)
-                        .load(bean.getEvidencePath())
-                        .error(R.mipmap.place_holder)
-                        .placeholder(R.mipmap.place_holder)
-                        .centerCrop()
-                        .into(imgVoucher);
-                imgVoucher.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        List<String> imgs = new ArrayList<>();
-                        imgs.add(bean.getEvidencePath());
-                        PhotoPreviewActivity.actStart(TransferDetailActivity.this, imgs, 1);
-                    }
-                });
+            if ("bank".equals(bean.getTradePayCode()) && StringUtils.isNotBlank(bean.getRefuseReason())) {
+                layoutReason.setVisibility(View.VISIBLE);
+                txtReason.setText(bean.getRefuseReason());
             }
         } else {
             txtTransferStatus.setTextColor(getResources().getColor(R.color.text_black_light));
             layoutTransaction.setVisibility(View.VISIBLE);
             txtTime.setText(DateUtil.getTime(bean.getPayTime(), "yyyy-MM-dd HH:mm"));
             txtTransactionCode.setText(bean.getTradeTransaction());
-
+        }
+        if ("bank".equals(bean.getTradePayCode())) {
+            layoutTransferVoucher.setVisibility(View.VISIBLE);
+            txtVoucherMoney.setText(bean.getSymbol()+StringUtil.formatDoubleMoney(bean.getTradeMoney()));
+            txtVoucherTime.setText(DateUtil.getTime(bean.getEvidenceTime(), "yyyy-MM-dd HH:mm"));
+            Glide.with(this)
+                    .load(bean.getEvidencePath())
+                    .error(R.mipmap.place_holder)
+                    .placeholder(R.mipmap.place_holder)
+                    .centerCrop()
+                    .into(imgVoucher);
+            imgVoucher.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    List<String> imgs = new ArrayList<>();
+                    imgs.add(bean.getEvidencePath());
+                    PhotoPreviewActivity.actStart(TransferDetailActivity.this, imgs, 1);
+                }
+            });
         }
     }
 }

@@ -6,14 +6,18 @@
               android:background="@color/page_bg_f2">
 
 
-    <cn.com.bluemoon.delivery.ui.PinnedSectionListView
+    <cn.com.bluemoon.delivery.ui.PullToRefreshSectionListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listview"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:dividerHeight="0dp"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
         android:divider="@null"
-        android:overScrollMode="never"
+        android:dividerHeight="0dp"
         android:scrollbars="none"
-        />
+        ptr:ptrMode="both"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black" />
 
 </LinearLayout>

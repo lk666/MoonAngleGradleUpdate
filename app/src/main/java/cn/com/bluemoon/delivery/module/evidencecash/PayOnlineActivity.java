@@ -1,13 +1,14 @@
 package cn.com.bluemoon.delivery.module.evidencecash;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.TextView;
+
+import org.apache.commons.lang3.StringUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -19,7 +20,8 @@ import cn.com.bluemoon.delivery.app.api.model.evidencecash.ResultSaveCashInfo;
 import cn.com.bluemoon.delivery.entity.IPayOnlineResult;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
-import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.TextWatcherUtils;
 import cn.com.bluemoon.delivery.utils.service.PayService;
 
 /**
@@ -54,28 +56,35 @@ public class PayOnlineActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        showWaitDialog();
-        EvidenceCashApi.combo(getToken(), getNewHandler(1, ResultCombo.class));
         payService = new PayService(this, payResult);
         registerReceiver(payService.getWXResutReceiver(), payService.getWXIntentFilter());
+        TextWatcherUtils.setMaxNumberWatcher(etRechargeMoney, 20, 2, null);
     }
 
     @Override
     public void initData() {
-
+        showWaitDialog();
+        EvidenceCashApi.combo(getToken(), getNewHandler(1, ResultCombo.class));
     }
 
     @OnClick({R.id.layout_alipay,R.id.layout_wechat_pay})
     public void onClick(View view) {
-        showWaitDialog();
-        switch (view.getId()) {
-            case R.id.layout_alipay :
-                EvidenceCashApi.saveCashInfo(1,"", getToken(),"Alipay", getNewHandler(2, ResultSaveCashInfo.class));
-                break;
-            case R.id.layout_wechat_pay :
-                EvidenceCashApi.saveCashInfo(1,"", getToken(),"wxpay", getNewHandler(3, ResultSaveCashInfo.class));
-                break;
+        String rechargeMoney = etRechargeMoney.getText().toString();
+        if (StringUtils.isNotBlank(rechargeMoney)) {
+            long money = (long) (Double.valueOf(rechargeMoney) * 100);
+            showWaitDialog();
+            switch (view.getId()) {
+                case R.id.layout_alipay :
+                    EvidenceCashApi.saveCashInfo(money,"", getToken(),"Alipay", getNewHandler(2, ResultSaveCashInfo.class));
+                    break;
+                case R.id.layout_wechat_pay :
+                    EvidenceCashApi.saveCashInfo(money,"", getToken(),"wxpay", getNewHandler(3, ResultSaveCashInfo.class));
+                    break;
+            }
+        } else {
+            toast(getString(R.string.please_input_package));
         }
+
     }
 
     @Override
@@ -119,7 +128,7 @@ public class PayOnlineActivity extends BaseActivity {
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
             TextView txtMoneyAmount = getViewById(R.id.txt_money_amount);
-            txtMoneyAmount.setText(getString(R.string.money_package, list.get(position)));
+            txtMoneyAmount.setText(getString(R.string.money_package, StringUtil.formatIntMoney(list.get(position))));
         }
     }
 

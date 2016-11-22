@@ -67,6 +67,7 @@
             android:hint="@string/please_input_package"
             android:paddingBottom="5dp"
             android:paddingRight="10dp"
+            android:inputType="numberDecimal"
             android:paddingTop="5dp"
             android:textColor="@color/btn_blue"
             android:textColorHint="@color/text_grep"

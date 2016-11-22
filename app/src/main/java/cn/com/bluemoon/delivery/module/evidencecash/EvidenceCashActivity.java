@@ -15,6 +15,7 @@ import cn.com.bluemoon.delivery.app.api.model.evidencecash.ResultCash;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.UpDownTextView;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * Created by ljl on 2016/11/16.
@@ -101,7 +102,7 @@ public class EvidenceCashActivity extends BaseActivity {
             txtCooperateCode.setText(resultCash.getUserCode());
             txtName.setText(resultCash.getUserName());
             txtShopAmount.setText(getString(R.string.shop_count, resultCash.getStoreCount()));
-            txtTotalAmount.setText(formatMoney(resultCash.getTotalAmount()));
+            txtTotalAmount.setText(StringUtil.formatDoubleMoney(resultCash.getTotalAmount()));
         } else if (requestCode == 2) {
             ResultBankModule resultBankModule = (ResultBankModule)result;
             txtCompany.setText(resultBankModule.getModuleName());
@@ -126,25 +127,5 @@ public class EvidenceCashActivity extends BaseActivity {
                 startActivity(intent);
                 break;
         }
-    }
-
-    private String formatMoney(long money) {
-        StringBuilder strBuff = new StringBuilder( String.valueOf(money));
-        int length = strBuff.toString().length();
-        if (length == 1) {
-            strBuff.insert(0, "0.0");
-        } else if (length == 2){
-            strBuff.insert(0, "0.");
-        } else if (length > 8) {
-            strBuff.insert(length - 8, ",");
-            strBuff.insert(length - 4, ",");
-            strBuff.insert(length, ".");
-        } else if (length > 5) {
-            strBuff.insert(length - 5, ",");
-            strBuff.insert(length - 1, ".");
-        } else {
-            strBuff.insert(length - 2, ".");
-        }
-        return strBuff.toString();
     }
 }

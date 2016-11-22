@@ -25,6 +25,7 @@ import cn.com.bluemoon.delivery.common.photopicker.PhotoPreviewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
+import cn.com.bluemoon.delivery.utils.TextWatcherUtils;
 
 /**
  * Created by ljl on 2016/11/17.
@@ -54,6 +55,7 @@ public class TransferVoucherActivity extends BaseActivity {
     @Override
     public void initView() {
         imagePaths = new ArrayList<>();
+        TextWatcherUtils.setMaxNumberWatcher(etTranferMoney, 20, 2, null);
     }
 
     @Override
@@ -112,7 +114,7 @@ public class TransferVoucherActivity extends BaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         if (requestCode == 1) {
             ResultUploadImg resultUploadImg = (ResultUploadImg)result;
-            EvidenceCashApi.saveCashInfo(Double.valueOf(money), resultUploadImg.getEvidencePath(), getToken(), "bank", getNewHandler(2, ResultSaveCashInfo.class));
+            EvidenceCashApi.saveCashInfo((long)(Double.valueOf(money)*100), resultUploadImg.getEvidencePath(), getToken(), "bank", getNewHandler(2, ResultSaveCashInfo.class));
         }else {
             hideWaitDialog();
             toast(result.getResponseMsg());

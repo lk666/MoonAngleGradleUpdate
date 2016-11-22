@@ -39,5 +39,37 @@ public class StringUtil extends LibStringUtil {
     public static String formatBoxesNum(double boxes) {
         return formatByPoint(boxes,1);
     }
+
+    public static String formatDoubleMoney(long money) {
+        StringBuilder strBuff = new StringBuilder( String.valueOf(money));
+        int length = strBuff.toString().length();
+        if (length == 1) {
+            strBuff.insert(0, "0.0");
+        } else if (length == 2){
+            strBuff.insert(0, "0.");
+        } else if (length > 8) {
+            strBuff.insert(length - 8, ",");
+            strBuff.insert(length - 4, ",");
+            strBuff.insert(length, ".");
+        } else if (length > 5) {
+            strBuff.insert(length - 5, ",");
+            strBuff.insert(length - 1, ".");
+        } else {
+            strBuff.insert(length - 2, ".");
+        }
+        return strBuff.toString();
+    }
+
+    public static String formatIntMoney(long money) {
+        StringBuilder strBuff = new StringBuilder( String.valueOf(money));
+        int length = strBuff.toString().length();
+        if (length > 6) {
+            strBuff.insert(length - 6, ",");
+            strBuff.insert(length - 2, ",");
+        } else if (length > 3) {
+            strBuff.insert(length - 3, ",");
+        }
+        return strBuff.toString();
+    }
 }
   

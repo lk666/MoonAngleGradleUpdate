@@ -1355,6 +1355,8 @@
     <string name="voucher_money">凭证转账金额(元)</string>
     <string name="voucher_submit_time">凭证提交时间</string>
     <string name="voucher_photo">回执单图片</string>
+    <string name="format_year_month">yyyy年MM月</string>
+    <string name="format_month_day">MM月dd日</string>
 
 
 </resources>

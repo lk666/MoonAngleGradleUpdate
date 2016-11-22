@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery.module.evidencecash;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -21,16 +20,26 @@ import cn.com.bluemoon.delivery.app.api.model.evidencecash.ResultCashList;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.ui.PinnedSectionListView;
+import cn.com.bluemoon.delivery.ui.PullToRefreshSectionListView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 /**
  * Created by ljl on 2016/11/18.
  */
 public class TransferHistoryActivity extends BaseActivity {
     @Bind(R.id.listview)
-    PinnedSectionListView listview;
+    PullToRefreshSectionListView listview;
     private List<CashListDataset> dataSet;
     private List<String> dates;
+    private long pageIndex = 0;
+    private boolean isPullUp;
+    private boolean isPullDown;
+    private RechargeListAdapter adapter;
 
     @Override
     protected String getTitleString() {
@@ -46,14 +55,40 @@ public class TransferHistoryActivity extends BaseActivity {
     public void initView() {
         dataSet = new ArrayList<>();
         dates = new ArrayList<>();
-        ;
-        showWaitDialog();
-        EvidenceCashApi.cashList(0, getToken(), getNewHandler(1, ResultCashList.class));
+        listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<PinnedSectionListView>() {
+            @Override
+            public void onPullDownToRefresh(PullToRefreshBase<PinnedSectionListView> refreshView) {
+                isPullDown = true;
+                isPullUp = false;
+                initData();
+            }
+            @Override
+            public void onPullUpToRefresh(PullToRefreshBase<PinnedSectionListView> refreshView) {
+                isPullDown = false;
+                isPullUp = true;
+                initData();
+            }
+        });
+        CommonEmptyView emptyView = PublicUtil.getEmptyView(getString(R.string.empty_hint3, getTitleString()), new CommonEmptyView.EmptyListener() {
+                @Override
+                public void onRefresh() {
+                    initData();
+                }
+        });
+        listview.setEmptyView(emptyView);
+        ViewUtil.setViewVisibility(emptyView, View.GONE);
+
     }
 
     @Override
     public void initData() {
-
+        if (!isPullUp) {
+            pageIndex  = 0;
+        }
+        if (!isPullUp && !isPullDown) {
+            showWaitDialog();
+        }
+        EvidenceCashApi.cashList(pageIndex, getToken(), getNewHandler(1, ResultCashList.class));
     }
 
     @Override
@@ -62,17 +97,55 @@ public class TransferHistoryActivity extends BaseActivity {
         if (requestCode == 1) {
             ResultCashList resultCashList = (ResultCashList) result;
             List<CashListBean> cashList = resultCashList.getCashList();
+            if (adapter == null) {
+                adapter = new RechargeListAdapter(this);
+            }
+            listview.onRefreshComplete();
+            if (!cashList.isEmpty()) {
+                pageIndex++;
+            }
+            if (cashList.isEmpty()) {
+                if (isPullUp) {
+                    PublicUtil.showToast(R.string.card_no_list_data);
+                    return;
+                }
+            } else {
+                if (isPullUp) {
+                    generateDataset(cashList);
+                    adapter.notifyDataSetChanged();
+                    return;
+                }
+            }
+            dates.clear();
+            dataSet.clear();
             generateDataset(cashList);
-            listview = (PinnedSectionListView) findViewById(R.id.listview);
-            RechargeListAdapter adapter = new RechargeListAdapter(this);
             adapter.setList(dataSet);
             listview.setAdapter(adapter);
         }
     }
 
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        listview.onRefreshComplete();
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        super.onSuccessException(requestCode, t);
+        listview.onRefreshComplete();
+    }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        listview.onRefreshComplete();
+    }
+
     public void generateDataset(List<CashListBean> cashList) {
+        if (cashList.isEmpty()) return;
         for (CashListBean bean : cashList) {
-            String date = DateUtil.getTime(bean.getCashTime(), "yyyy年MM月dd日");
+            String date = DateUtil.getTime(bean.getCashTime(), getString(R.string.format_year_month));
             if (dates.isEmpty() || !dates.get(dates.size() - 1).equals(date)) {
                 CashListDataset item = new CashListDataset(CashListDataset.SECTION, bean, date);
                 dates.add(date);
@@ -118,9 +191,9 @@ public class TransferHistoryActivity extends BaseActivity {
                 final CashListBean bean = item.bean;
                 layoutDetail.setVisibility(View.VISIBLE);
                 long dateLong = bean.getCashTime();
-                txtDay.setText(DateUtil.getTime(dateLong, "MM月dd日"));
+                txtDay.setText(DateUtil.getTime(dateLong, getString(R.string.format_month_day)));
                 txtTime.setText(DateUtil.getTime(dateLong, "HH:mm"));
-                txtTansferMoney.setText(bean.getSymbol()+bean.getTradeMoney());
+                txtTansferMoney.setText(bean.getSymbol()+ StringUtil.formatDoubleMoney(bean.getTradeMoney()));
                 txtDisplay.setText(bean.getTradePayDisplay()+" - "+bean.getCashTypeDisplay());
                 txtStatus.setText(bean.getTradeStatusDisplay());
                 if ("wait".equals(bean.getTradeStatusCode())) {
