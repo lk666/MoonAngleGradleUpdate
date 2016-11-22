@@ -101,7 +101,7 @@ public class PinnedSectionListView extends ListView {
     /**
      * Scroll listener which does the magic
      */
-    private final OnScrollListener mOnScrollListener = new OnScrollListener() {
+    public final OnScrollListener mOnScrollListener = new OnScrollListener() {
 
         @Override
         public void onScrollStateChanged(AbsListView view, int scrollState) {
@@ -178,7 +178,7 @@ public class PinnedSectionListView extends ListView {
     private void initView() {
         setOnScrollListener(mOnScrollListener);
         mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
-        initShadow(true);
+        //initShadow(true);
     }
 
     //-- public API methods

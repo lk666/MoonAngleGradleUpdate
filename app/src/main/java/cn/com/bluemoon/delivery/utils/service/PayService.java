@@ -100,7 +100,7 @@ public class PayService {
                 String version = alipay.getVersion();
                 LogUtils.d("alipay version = " + version);
                 // 调用支付接口，获取支付结果
-                Map<String, String> result = alipay.payV2(aliPayInfo, true);
+                Map<String,String> result = alipay.payV2(aliPayInfo, true);
                 Message msg = new Message();
                 msg.what = SDK_PAY_FLAG;
                 msg.obj = result;
@@ -126,7 +126,7 @@ public class PayService {
             switch (msg.what) {
                 case SDK_PAY_FLAG: {
                     @SuppressWarnings("unchecked")
-                    PayResult payResult = new PayResult((Map<String, String>) msg.obj);
+                    PayResult payResult = new PayResult((Map<String,String>) msg.obj);
                     String resultInfo = payResult.getResult();// 同步返回需要验证的信息
                     String resultStatus = payResult.getResultStatus();
                     LogUtils.d("test", "alipay resultStatus = " + resultStatus);
