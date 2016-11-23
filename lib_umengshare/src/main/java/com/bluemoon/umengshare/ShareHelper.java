@@ -21,7 +21,7 @@ public class ShareHelper {
 	 */
 	public static void iniShare(Application appContext) {
 		PlatformConfig.setWeixin("wx3b6e66b753fd84c2", "DSF23FewrwerE2342378934ds4879877");
-		PlatformConfig.setSinaWeibo("3418238449", "65f58f0b0b517ee241e11ffce080e676");
+		PlatformConfig.setSinaWeibo("4090679472", "e8d1ffe1012a89cb7e34a353d3693990");
 		PlatformConfig.setQQZone("1104979860", "Qkg4yWZ5Gr07K0K5");
 		UMShareAPI.get(appContext);
 	}
