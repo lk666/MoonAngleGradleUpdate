@@ -437,9 +437,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    /*if(!BuildConfig.RELEASE){
+                    if(!BuildConfig.RELEASE){
                         mockData();
-                    }*/
+                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -466,14 +466,15 @@ public class MainActivity extends SlidingActivity {
     };
 
 
-    /*private void mockData() {
+    private void mockData() {
         UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.my_team.toString());
-        item.setMenuName(getString(R.string.team_title));
+        item.setMenuCode("");
+        item.setMenuName("报名");
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
+        item.setUrl("http://tmallapi.bluemoon.com.cn/angel/#/share");
         listRight.add(item);
-    }*/
+    }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 

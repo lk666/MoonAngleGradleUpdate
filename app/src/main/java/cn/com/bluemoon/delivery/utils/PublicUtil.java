@@ -23,6 +23,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bluemoon.umengshare.ShareHelper;
+import com.bluemoon.umengshare.ShareModel;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
@@ -619,5 +621,8 @@ public class PublicUtil extends LibPublicUtil {
         setMainAmount(context,count,null);
     }
 
+    public static void share(Activity activity,String topic,String content,String picUrl,String url){
+        ShareHelper.openShare(activity,new ShareModel(activity,picUrl,url,topic,content));
+    }
 
 }

@@ -28,6 +28,7 @@ import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
 import com.umeng.analytics.MobclickAgent;
+import com.umeng.socialize.UMShareAPI;
 
 import org.apache.commons.lang3.StringUtils;
 
@@ -302,6 +303,11 @@ public class WebViewActivity extends Activity implements OnClickListener{
 		}
 
 		@Override
+		public void share(WebView view, String topic, String content, String picUrl, String url) {
+			PublicUtil.share(aty,topic,content,picUrl,url+ClientStateManager.getUserName());
+		}
+
+		@Override
 		public void cleanCache(WebView view) {
 			LibCacheUtil.cleanWebViewCache(aty);
 		}
@@ -447,6 +453,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
+		UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 		if(resultCode == RESULT_CANCELED){
 			if(requestCode==Constants.REQUEST_SCAN){
 				callback("CANCELED");
