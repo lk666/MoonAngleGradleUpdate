@@ -5,6 +5,7 @@ import android.content.pm.PackageManager.NameNotFoundException;
 import android.view.WindowManager;
 
 import com.baidu.location.LocationClientOption;
+import com.bluemoon.umengshare.ShareHelper;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
 
@@ -35,6 +36,7 @@ public class AppContext extends BaseApplication {
         init();
         initLogin();
         initAlarm();
+        ShareHelper.iniShare(this);
     }
 
     public static AppContext getInstance() {

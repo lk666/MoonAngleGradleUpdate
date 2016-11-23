@@ -15,6 +15,13 @@ android {
             keyAlias "bluemoon"
             keyPassword "!12345678"
         }
+        //debug签名是友盟分享要求添加的
+        debug {
+            storeFile file('debug.keystore')
+            storePassword "android"
+            keyAlias "androiddebugkey"
+            keyPassword "android"
+        }
     }
 
     defaultConfig {
@@ -127,6 +134,7 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.getui:sdk:2.9.3.0'
+    compile project(':lib_umengshare')
 }
 
 
