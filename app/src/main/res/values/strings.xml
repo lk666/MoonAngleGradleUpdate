@@ -1338,7 +1338,7 @@
     <string name="transfer_money">转账金额</string>
     <string name="input_transfer_money">请填写转账金额</string>
     <string name="receipt_photo">回执单图片</string>
-    <string name="receipt_paper_tips">您上次的回执单中，需包含下面信息：</string>
+    <string name="receipt_paper_tips">您上传的回执单中，需包含下面信息：</string>
     <string name="receipt_paper_tips_1">1.转出账户(开户名、账户、户名)</string>
     <string name="receipt_paper_tips_2">2.转入账户(开户名、账户、户名)</string>
     <string name="receipt_paper_tips_3">3.转账日期和时间</string>
