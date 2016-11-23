@@ -2,9 +2,11 @@ package cn.com.bluemoon.delivery.module.evidencecash;
 
 import android.content.Context;
 import android.content.Intent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -31,15 +33,19 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 /**
  * Created by ljl on 2016/11/18.
  */
-public class TransferHistoryActivity extends BaseActivity {
+public class TransferHistoryActivity extends BaseActivity implements PinnedSectionListView.OnLoadingMoreLinstener {
     @Bind(R.id.listview)
     PullToRefreshSectionListView listview;
     private List<CashListDataset> dataSet;
     private List<String> dates;
     private long pageIndex = 0;
-    private boolean isPullUp;
-    private boolean isPullDown;
+    private boolean isRefreash;
+    private boolean isLoading;
+    private boolean isFinished;
     private RechargeListAdapter adapter;
+    private View progressBarView;
+    private TextView progressBarTextView;
+    private RelativeLayout moredata;
 
     @Override
     protected String getTitleString() {
@@ -55,17 +61,17 @@ public class TransferHistoryActivity extends BaseActivity {
     public void initView() {
         dataSet = new ArrayList<>();
         dates = new ArrayList<>();
-        listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<PinnedSectionListView>() {
+        moredata = (RelativeLayout) LayoutInflater.from(this).inflate(R.layout.moredata, null);
+        progressBarView = (View) moredata.findViewById(R.id.loadmore_foot_progressbar);
+        progressBarTextView = (TextView) moredata.findViewById(R.id.loadmore_foot_text);
+        listview.getRefreshableView().addFooterView(moredata);
+        listview.getRefreshableView().setLoadingMoreListener(this);
+        listview.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<PinnedSectionListView>() {
             @Override
-            public void onPullDownToRefresh(PullToRefreshBase<PinnedSectionListView> refreshView) {
-                isPullDown = true;
-                isPullUp = false;
-                initData();
-            }
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<PinnedSectionListView> refreshView) {
-                isPullDown = false;
-                isPullUp = true;
+            public void onRefresh(PullToRefreshBase<PinnedSectionListView> refreshView) {
+                isRefreash = true;
+                isLoading = false;
+                isFinished = false;
                 initData();
             }
         });
@@ -82,10 +88,10 @@ public class TransferHistoryActivity extends BaseActivity {
 
     @Override
     public void initData() {
-        if (!isPullUp) {
+        if (isRefreash) {
             pageIndex  = 0;
         }
-        if (!isPullUp && !isPullDown) {
+        if (!isRefreash && !isLoading) {
             showWaitDialog();
         }
         EvidenceCashApi.cashList(pageIndex, getToken(), getNewHandler(1, ResultCashList.class));
@@ -100,27 +106,30 @@ public class TransferHistoryActivity extends BaseActivity {
             if (adapter == null) {
                 adapter = new RechargeListAdapter(this);
             }
-            listview.onRefreshComplete();
             if (!cashList.isEmpty()) {
                 pageIndex++;
             }
-            if (cashList.isEmpty()) {
-                if (isPullUp) {
-                    PublicUtil.showToast(R.string.card_no_list_data);
-                    return;
-                }
-            } else {
-                if (isPullUp) {
+            if (isLoading) {
+                if (cashList.isEmpty()) {
+                    isFinished = true;
+                } else {
                     generateDataset(cashList);
                     adapter.notifyDataSetChanged();
-                    return;
+                }
+            } else {
+                dates.clear();
+                dataSet.clear();
+                generateDataset(cashList);
+                adapter.setList(dataSet);
+                listview.setAdapter(adapter);
+                if (!isLoading && !cashList.isEmpty() && cashList.size() < 10) {
+                    isFinished = true;
+                } else {
+                    isFinished = false;
                 }
             }
-            dates.clear();
-            dataSet.clear();
-            generateDataset(cashList);
-            adapter.setList(dataSet);
-            listview.setAdapter(adapter);
+            listview.onRefreshComplete();
+            loadFinished();
         }
     }
 
@@ -128,18 +137,21 @@ public class TransferHistoryActivity extends BaseActivity {
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
         listview.onRefreshComplete();
+        loadFinished();
     }
 
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         super.onSuccessException(requestCode, t);
         listview.onRefreshComplete();
+        loadFinished();
     }
 
     @Override
     public void onFailureResponse(int requestCode, Throwable t) {
         super.onFailureResponse(requestCode, t);
         listview.onRefreshComplete();
+        loadFinished();
     }
 
     public void generateDataset(List<CashListBean> cashList) {
@@ -157,6 +169,32 @@ public class TransferHistoryActivity extends BaseActivity {
             CashListDataset item = new CashListDataset(CashListDataset.ITEM, bean, date);
             dataSet.add(item);
         }
+    }
+
+    private void loadFinished() {
+        if (isFinished) {
+            moredata.setVisibility(View.VISIBLE);
+            moredata.setPadding(0, 0, 0, 0);
+            progressBarTextView.setText(R.string.has_no_more);
+            progressBarView.setVisibility(View.GONE);
+        } else {
+            moredata.setVisibility(View.GONE);
+            moredata.setPadding(0, -moredata.getHeight(), 0, 0);
+        }
+    }
+
+    @Override
+    public void OnLoadingMore() {
+        if (isFinished) {
+            return;
+        }
+        progressBarView.setVisibility(View.VISIBLE);
+        progressBarTextView.setText(R.string.transfer_history_load);
+        moredata.setVisibility(View.VISIBLE);
+        moredata.setPadding(0, 0, 0, 0);
+        isLoading = true;
+        isRefreash = false;
+        initData();
     }
 
     class RechargeListAdapter extends BaseListAdapter<CashListDataset> implements PinnedSectionListView.PinnedSectionListAdapter {

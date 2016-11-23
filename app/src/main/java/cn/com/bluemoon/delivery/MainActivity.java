@@ -438,9 +438,9 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    if(!BuildConfig.RELEASE){
+                    /*if(!BuildConfig.RELEASE){
                         mockData();
-                    }
+                    }*/
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -469,7 +469,7 @@ public class MainActivity extends SlidingActivity {
 
     private void mockData() {
         UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.my_evidence_cash.toString());
+        item.setMenuCode(MenuCode.my_deposit.toString());
         item.setMenuName(getString(R.string.evidence_cash_title));
         item.setIconImg(listRight.get(0).getIconImg());
         item.setGroupNum(1);
@@ -747,7 +747,7 @@ public class MainActivity extends SlidingActivity {
                 PackTabActivity.actionStart(main);
             } else if (compare(MenuCode.wash_clothes_check, menuCode)) {
                 ClothesCheckTabActivity.actionStart(main);
-            } else if (compare(MenuCode.my_evidence_cash, menuCode)) {
+            } else if (compare(MenuCode.my_deposit, menuCode)) {
                 intent = new Intent(main, EvidenceCashActivity.class);
                 startActivity(intent);
             }

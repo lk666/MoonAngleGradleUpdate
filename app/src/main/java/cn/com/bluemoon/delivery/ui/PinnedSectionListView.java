@@ -43,6 +43,14 @@ import android.widget.SectionIndexer;
  */
 public class PinnedSectionListView extends ListView {
 
+    public interface OnLoadingMoreLinstener {
+        void OnLoadingMore();
+    }
+    public OnLoadingMoreLinstener loadMoreListener;
+    public void setLoadingMoreListener(OnLoadingMoreLinstener listener) {
+        this.loadMoreListener = listener;
+    }
+
     //-- inner classes
 
     /**
@@ -107,6 +115,15 @@ public class PinnedSectionListView extends ListView {
         public void onScrollStateChanged(AbsListView view, int scrollState) {
             if (mDelegateOnScrollListener != null) { // delegate
                 mDelegateOnScrollListener.onScrollStateChanged(view, scrollState);
+            }
+
+            if (scrollState == OnScrollListener.SCROLL_STATE_TOUCH_SCROLL
+                    || scrollState == OnScrollListener.SCROLL_STATE_IDLE) {
+                if (getLastVisiblePosition() == (getCount() - 1)) {
+                    if(loadMoreListener != null) {
+                        loadMoreListener.OnLoadingMore();
+                    }
+                }
             }
         }
 

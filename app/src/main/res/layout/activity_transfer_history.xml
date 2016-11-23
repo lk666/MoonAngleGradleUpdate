@@ -15,7 +15,7 @@
         android:divider="@null"
         android:dividerHeight="0dp"
         android:scrollbars="none"
-        ptr:ptrMode="both"
+        ptr:ptrMode="pullFromStart"
         ptr:ptrAnimationStyle="flip"
         ptr:ptrHeaderSubTextColor="@color/text_black"
         ptr:ptrHeaderTextColor="@color/text_black" />
