@@ -11,6 +11,8 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
@@ -41,7 +43,6 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
     private long pageIndex = 0;
     private boolean isRefreash;
     private boolean isLoading;
-    private boolean isFinished;
     private RechargeListAdapter adapter;
     private View progressBarView;
     private TextView progressBarTextView;
@@ -71,15 +72,14 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
             public void onRefresh(PullToRefreshBase<PinnedSectionListView> refreshView) {
                 isRefreash = true;
                 isLoading = false;
-                isFinished = false;
                 initData();
             }
         });
         CommonEmptyView emptyView = PublicUtil.getEmptyView(getString(R.string.empty_hint3, getTitleString()), new CommonEmptyView.EmptyListener() {
-                @Override
-                public void onRefresh() {
-                    initData();
-                }
+            @Override
+            public void onRefresh() {
+                initData();
+            }
         });
         listview.setEmptyView(emptyView);
         ViewUtil.setViewVisibility(emptyView, View.GONE);
@@ -89,7 +89,7 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
     @Override
     public void initData() {
         if (isRefreash) {
-            pageIndex  = 0;
+            pageIndex = 0;
         }
         if (!isRefreash && !isLoading) {
             showWaitDialog();
@@ -111,7 +111,7 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
             }
             if (isLoading) {
                 if (cashList.isEmpty()) {
-                    isFinished = true;
+                    toast(getString(R.string.card_no_list_data));
                 } else {
                     generateDataset(cashList);
                     adapter.notifyDataSetChanged();
@@ -122,11 +122,6 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
                 generateDataset(cashList);
                 adapter.setList(dataSet);
                 listview.setAdapter(adapter);
-                if (!isLoading && !cashList.isEmpty() && cashList.size() < 10) {
-                    isFinished = true;
-                } else {
-                    isFinished = false;
-                }
             }
             listview.onRefreshComplete();
             loadFinished();
@@ -162,7 +157,7 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
                 CashListDataset item = new CashListDataset(CashListDataset.SECTION, bean, date);
                 dates.add(date);
                 if (!dataSet.isEmpty()) {
-                    dataSet.get(dataSet.size() -1).setLast(true);
+                    dataSet.get(dataSet.size() - 1).setLast(true);
                 }
                 dataSet.add(item);
             }
@@ -172,30 +167,30 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
     }
 
     private void loadFinished() {
-        if (isFinished) {
-            moredata.setVisibility(View.VISIBLE);
-            moredata.setPadding(0, 0, 0, 0);
-            progressBarTextView.setText(R.string.has_no_more);
-            progressBarView.setVisibility(View.GONE);
-        } else {
-            moredata.setVisibility(View.GONE);
-            moredata.setPadding(0, -moredata.getHeight(), 0, 0);
+        if (isLoading) {
+            Timer timer = new Timer();
+            timer.schedule(task, 2000);
         }
     }
 
     @Override
     public void OnLoadingMore() {
-        if (isFinished) {
-            return;
-        }
         progressBarView.setVisibility(View.VISIBLE);
-        progressBarTextView.setText(R.string.transfer_history_load);
+        progressBarTextView.setText(R.string.data_loading);
         moredata.setVisibility(View.VISIBLE);
         moredata.setPadding(0, 0, 0, 0);
         isLoading = true;
         isRefreash = false;
         initData();
     }
+
+    TimerTask task = new TimerTask(){
+        public void run(){
+            moredata.setVisibility(View.GONE);
+            moredata.setPadding(0, -moredata.getHeight(), 0, 0);
+        }
+    };
+
 
     class RechargeListAdapter extends BaseListAdapter<CashListDataset> implements PinnedSectionListView.PinnedSectionListAdapter {
 
@@ -231,8 +226,8 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
                 long dateLong = bean.getCashTime();
                 txtDay.setText(DateUtil.getTime(dateLong, getString(R.string.format_month_day)));
                 txtTime.setText(DateUtil.getTime(dateLong, "HH:mm"));
-                txtTansferMoney.setText(bean.getSymbol()+ StringUtil.formatDoubleMoney(bean.getTradeMoney()));
-                txtDisplay.setText(bean.getTradePayDisplay()+" - "+bean.getCashTypeDisplay());
+                txtTansferMoney.setText(bean.getSymbol() + StringUtil.formatDoubleMoney(bean.getTradeMoney()));
+                txtDisplay.setText(bean.getTradePayDisplay() + " - " + bean.getCashTypeDisplay());
                 txtStatus.setText(bean.getTradeStatusDisplay());
                 if ("wait".equals(bean.getTradeStatusCode())) {
                     txtStatus.setTextColor(getResources().getColor(R.color.text_orange));
@@ -241,7 +236,7 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
                 } else {
                     txtStatus.setTextColor(getResources().getColor(R.color.text_black_light));
                 }
-                if (item.isLast || position == list.size()-1) {
+                if (item.isLast || position == list.size() - 1) {
                     line1.setVisibility(View.VISIBLE);
                     line2.setVisibility(View.GONE);
                 } else {

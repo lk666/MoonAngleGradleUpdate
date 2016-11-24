@@ -5,6 +5,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -101,7 +103,10 @@ public class EvidenceCashActivity extends BaseActivity {
             ResultCash resultCash = (ResultCash)result;
             txtCooperateCode.setText(resultCash.getUserCode());
             txtName.setText(resultCash.getUserName());
-            txtShopAmount.setText(getString(R.string.shop_count, resultCash.getStoreCount()));
+            if (resultCash.getStoreCount() > 0) {
+                txtShopAmount.setVisibility(View.VISIBLE);
+                txtShopAmount.setText(getString(R.string.shop_count, resultCash.getStoreCount()));
+            }
             txtTotalAmount.setText(StringUtil.formatDoubleMoney(resultCash.getTotalAmount()));
         } else if (requestCode == 2) {
             ResultBankModule resultBankModule = (ResultBankModule)result;

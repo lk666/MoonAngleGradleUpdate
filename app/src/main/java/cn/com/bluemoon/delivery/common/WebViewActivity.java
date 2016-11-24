@@ -200,7 +200,18 @@ public class WebViewActivity extends Activity implements OnClickListener{
 		moonWebView.setWebViewClient(new WebViewClient() {
 			@Override
 			public boolean shouldOverrideUrlLoading(WebView view, String url) {
-//				LogUtils.d("jsConnect", "result =" + url);
+				//call phone
+				if (url.startsWith(WebView.SCHEME_TEL)) {
+					try {
+						Intent intent = new Intent(Intent.ACTION_VIEW);
+						intent.setData(Uri.parse(url));
+						startActivity(intent);
+					} catch (android.content.ActivityNotFoundException e) {
+						LogUtils.e("call phone error");
+					}finally {
+						return true;
+					}
+				}
 				return PublicUtil.jsConnect(view, url, callBack);
 			}
 
