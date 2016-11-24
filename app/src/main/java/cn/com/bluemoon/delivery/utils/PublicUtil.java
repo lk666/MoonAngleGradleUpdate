@@ -21,10 +21,13 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
 import com.bluemoon.umengshare.ShareHelper;
 import com.bluemoon.umengshare.ShareModel;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.NameValuePair;
@@ -621,8 +624,29 @@ public class PublicUtil extends LibPublicUtil {
         setMainAmount(context,count,null);
     }
 
-    public static void share(Activity activity,String topic,String content,String picUrl,String url){
-        ShareHelper.openShare(activity,new ShareModel(activity,picUrl,url,topic,content));
+    public static void share(final Activity activity,String topic,String content,String picUrl,String url){
+        ShareHelper.openShare(activity,new ShareModel(activity,picUrl,url,topic,content), new UMShareListener() {
+            @Override
+            public void onResult(SHARE_MEDIA platform) {
+                com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
+
+                Toast.makeText(activity, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA platform, Throwable t) {
+                Toast.makeText(activity, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                if (t != null) {
+                    com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
+                }
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA platform) {
+                Toast.makeText(activity, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 }

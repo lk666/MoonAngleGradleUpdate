@@ -304,7 +304,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 
 		@Override
 		public void share(WebView view, String topic, String content, String picUrl, String url) {
-			PublicUtil.share(aty,topic,content,picUrl,url+ClientStateManager.getUserName());
+			PublicUtil.share(aty,topic,content,picUrl,url);
 		}
 
 		@Override
