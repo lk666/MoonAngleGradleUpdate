@@ -85,4 +85,45 @@ public class ShareHelper {
 		action.setCallback(umShareListener);
 		action.open();
 	}
+
+
+	public static String shareMediaToString(SHARE_MEDIA share_media){
+		if(share_media.equals(SHARE_MEDIA.QQ)){
+			return "";
+		}else if(share_media.equals(SHARE_MEDIA.QZONE)){
+			return "";
+		}
+		else if(share_media.equals(SHARE_MEDIA.SINA)){
+			return "sina";
+		}else if(share_media.equals(SHARE_MEDIA.WEIXIN)){
+			return "wechatSession";
+		}
+		else if(share_media.equals(SHARE_MEDIA.WEIXIN_CIRCLE)){
+			return "wechatTimeLine";
+		}
+		else if(share_media.equals(SHARE_MEDIA.WEIXIN_FAVORITE)){
+			return "wechatFavorite";
+		}
+		return "";
+	}
+
+	public static String shareMediaToChineseString(SHARE_MEDIA share_media){
+		if(share_media.equals(SHARE_MEDIA.QQ)){
+			return "QQ";
+		}else if(share_media.equals(SHARE_MEDIA.QZONE)){
+			return "QQ空间";
+		}
+		else if(share_media.equals(SHARE_MEDIA.SINA)){
+			return "新浪";
+		}else if(share_media.equals(SHARE_MEDIA.WEIXIN)){
+			return "微信";
+		}
+		else if(share_media.equals(SHARE_MEDIA.WEIXIN_CIRCLE)){
+			return "微信朋友圈";
+		}
+		else if(share_media.equals(SHARE_MEDIA.WEIXIN_FAVORITE)){
+			return "微信收藏";
+		}
+		return "";
+	}
 }
