@@ -81,6 +81,7 @@ public class ShareHelper {
 //		if (content.getuMVideo() != null) {
 //			action.withMedia(content.getuMVideo());
 //		}
+
 		action.setCallback(umShareListener);
 		action.open();
 	}
