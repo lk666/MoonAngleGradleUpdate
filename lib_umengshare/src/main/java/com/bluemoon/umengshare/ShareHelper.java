@@ -89,9 +89,9 @@ public class ShareHelper {
 
 	public static String shareMediaToString(SHARE_MEDIA share_media){
 		if(share_media.equals(SHARE_MEDIA.QQ)){
-			return "";
+			return "QQ";
 		}else if(share_media.equals(SHARE_MEDIA.QZONE)){
-			return "";
+			return "qzone";
 		}
 		else if(share_media.equals(SHARE_MEDIA.SINA)){
 			return "sina";
