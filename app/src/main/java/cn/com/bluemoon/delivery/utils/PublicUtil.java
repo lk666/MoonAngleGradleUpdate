@@ -36,6 +36,7 @@ import com.umeng.socialize.utils.ShareBoardlistener;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
@@ -642,18 +643,22 @@ public class PublicUtil extends LibPublicUtil {
         final UMShareListener shareListener = new UMShareListener() {
             @Override
             public void onResult(SHARE_MEDIA platform) {
-                com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
-                DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic, ShareHelper.shareMediaToString(platform), new TextHttpResponseHandler() {
-                    @Override
-                    public void onFailure(int i, Header[] headers, String s, Throwable throwable) {
+               // com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
+                DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic, ShareHelper.shareMediaToString(platform), new TextHttpResponseHandler(HTTP.UTF_8) {
 
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers,
+                                          String responseString) {
+                        LogUtils.d("plat", responseString);
                     }
 
                     @Override
-                    public void onSuccess(int i, Header[] headers, String s) {
-
+                    public void onFailure(int statusCode, Header[] headers,
+                                          String responseString, Throwable throwable) {
+                        LogUtils.d("plat", "onFailure");
                     }
                 });
+
                 Toast.makeText(activity, ShareHelper.shareMediaToChineseString(platform) + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
             }
