@@ -2712,4 +2712,17 @@ public class DeliveryApi {
     }
 
 
+    public static void saveShareInfo(String token, String shareContent,String shareSource,
+                                    AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("shareContent", shareContent);
+        params.put("shareSource", shareSource);
+        postRequest(params, "bluemoon-control/shareInfo/saveShareInfo%s", handler);
+    }
+
+
 }
