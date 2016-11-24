@@ -93,9 +93,14 @@ public class TransferDetailActivity extends BaseActivity {
             txtTransferStatus.setTextColor(getResources().getColor(R.color.text_black_light));
             layoutTransaction.setVisibility(View.VISIBLE);
             txtTime.setText(DateUtil.getTime(bean.getPayTime(), "yyyy-MM-dd HH:mm"));
-            txtTransactionCode.setText(bean.getTradeTransaction());
+            if (StringUtils.isNotBlank(bean.getTradeTransaction())) {
+                txtTransactionCode.setText(bean.getTradeTransaction());
+            } else {
+                txtTransactionCode.setText(R.string.transaction_code_is_null);
+            }
+
         }
-        if ("bank".equals(bean.getTradePayCode())) {
+        if ("bank".equals(bean.getTradePayCode()) && !"manually".equals(bean.getTradeSource())) {
             layoutTransferVoucher.setVisibility(View.VISIBLE);
             txtVoucherMoney.setText(bean.getSymbol()+StringUtil.formatDoubleMoney(bean.getTradeMoney()));
             txtVoucherTime.setText(DateUtil.getTime(bean.getEvidenceTime(), "yyyy-MM-dd HH:mm"));

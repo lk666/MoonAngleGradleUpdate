@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.evidencecash;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -43,6 +44,7 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
     private long pageIndex = 0;
     private boolean isRefreash;
     private boolean isLoading;
+    private boolean isLoadFinished = true;
     private RechargeListAdapter adapter;
     private View progressBarView;
     private TextView progressBarTextView;
@@ -114,17 +116,18 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
                     toast(getString(R.string.card_no_list_data));
                 } else {
                     generateDataset(cashList);
-                    adapter.notifyDataSetChanged();
                 }
+                adapter.notifyDataSetChanged();
+                loadFinished();
             } else {
                 dates.clear();
                 dataSet.clear();
                 generateDataset(cashList);
                 adapter.setList(dataSet);
                 listview.setAdapter(adapter);
+                listview.onRefreshComplete();
             }
-            listview.onRefreshComplete();
-            loadFinished();
+
         }
     }
 
@@ -168,28 +171,31 @@ public class TransferHistoryActivity extends BaseActivity implements PinnedSecti
 
     private void loadFinished() {
         if (isLoading) {
+            TimerTask task = new TimerTask() {
+                @Override
+                public void run() {
+                    isLoadFinished = true;
+                }
+            };
             Timer timer = new Timer();
-            timer.schedule(task, 2000);
+            timer.schedule(task, 500);
+            moredata.setVisibility(View.GONE);
+            moredata.setPadding(0, -moredata.getHeight(), 0, 0);
         }
     }
 
     @Override
     public void OnLoadingMore() {
-        progressBarView.setVisibility(View.VISIBLE);
-        progressBarTextView.setText(R.string.data_loading);
-        moredata.setVisibility(View.VISIBLE);
-        moredata.setPadding(0, 0, 0, 0);
-        isLoading = true;
-        isRefreash = false;
-        initData();
-    }
-
-    TimerTask task = new TimerTask(){
-        public void run(){
-            moredata.setVisibility(View.GONE);
-            moredata.setPadding(0, -moredata.getHeight(), 0, 0);
+        if (isLoadFinished) {
+            isLoadFinished = false;
+            progressBarView.setVisibility(View.VISIBLE);
+            moredata.setVisibility(View.VISIBLE);
+            moredata.setPadding(0, 0, 0, 0);
+            isLoading = true;
+            isRefreash = false;
+            initData();
         }
-    };
+    }
 
 
     class RechargeListAdapter extends BaseListAdapter<CashListDataset> implements PinnedSectionListView.PinnedSectionListAdapter {

@@ -34,6 +34,15 @@ public class ResultCashDetail extends ResultBase {
         private String tradePayDisplay;
         private String tradeStatusDisplay;
         private String cashTypeCode;
+        private String tradeSource;
+
+        public String getTradeSource() {
+            return tradeSource;
+        }
+
+        public void setTradeSource(String tradeSource) {
+            this.tradeSource = tradeSource;
+        }
 
         public long getTradeMoney() {
             return tradeMoney;
