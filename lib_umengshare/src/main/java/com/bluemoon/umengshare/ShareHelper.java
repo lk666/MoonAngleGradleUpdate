@@ -2,12 +2,15 @@ package com.bluemoon.umengshare;
 
 import android.app.Activity;
 import android.app.Application;
-import android.text.TextUtils;
 import android.widget.Toast;
 
-import com.umeng.socialize.*;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.utils.Log;
+import com.umeng.socialize.shareboard.SnsPlatform;
+import com.umeng.socialize.utils.ShareBoardlistener;
 
 /**
  * Created by chinwe on 2016/11/11.
@@ -26,104 +29,95 @@ public class ShareHelper {
 		UMShareAPI.get(appContext);
 	}
 
-	public static void openShare(final Activity activity, ShareModel content) {
-		openShare(activity, content, new UMShareListener() {
+	public static void share(final Activity activity, final ShareModel shareModel) {
+		share(activity,shareModel,null);
+	}
+
+
+	//urlParam 必须为  key1=value1&key2=value2...
+	public static void share(final Activity activity, final ShareModel shareModel, final ShareCallBack callBack) {
+
+		final UMShareListener shareListener = new UMShareListener() {
 			@Override
 			public void onResult(SHARE_MEDIA platform) {
-				Log.d("plat", "platform" + platform);
-
-				Toast.makeText(activity, platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
-
+				Toast.makeText(activity, shareMediaToChineseString(platform) + " 分享成功啦", Toast.LENGTH_SHORT).show();
+				if (null != callBack) {
+					callBack.shareSuccess(platform,shareMediaToString(platform), shareModel);
+				}
 			}
 
 			@Override
 			public void onError(SHARE_MEDIA platform, Throwable t) {
-				Toast.makeText(activity, platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-				if (t != null) {
-					Log.d("throw", "throw:" + t.getMessage());
+				Toast.makeText(activity, shareMediaToChineseString(platform) + " 分享失败啦", Toast.LENGTH_SHORT).show();
+				if (null != callBack) {
+					callBack.shareError(platform,shareMediaToString(platform), shareModel, t.getMessage());
 				}
 			}
 
 			@Override
 			public void onCancel(SHARE_MEDIA platform) {
-				Toast.makeText(activity, platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+				Toast.makeText(activity, shareMediaToChineseString(platform) + " 分享取消了", Toast.LENGTH_SHORT).show();
+				if (null != callBack) {
+					callBack.shareCancel(platform,shareMediaToString(platform), shareModel);
+				}
 			}
-		});
+		};
+
+		ShareBoardlistener boardListener = new ShareBoardlistener() {
+			@Override
+			public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
+				if (null != callBack) {
+					callBack.boardClickCallBack(share_media,shareMediaToString(share_media), shareModel);
+				}
+				String shareUrl = (shareModel.getuMTargetUrl().indexOf('?') > 0 ? shareModel.getuMTargetUrl() + "&platform=" : shareModel.getuMTargetUrl() + "?platform=")
+						+ ShareHelper.shareMediaToString(share_media);
+				new ShareAction(activity).setPlatform(share_media).setCallback(shareListener)
+						.withTitle(shareModel.getuMTitle())
+						.withText(shareModel.getuMText())
+						.withTargetUrl(shareUrl)
+						.withMedia(shareModel.getuMImage())
+						.share();
+
+			}
+		};
+		new ShareAction(activity)
+				.setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE, SHARE_MEDIA.WEIXIN_FAVORITE)
+				.setShareboardclickCallback(boardListener).open();
+
 	}
 
-	/**
-	 * 打开分享面板
-	 * @param activity
-	 * @param content
-	 * @param umShareListener
-	 */
-	public static void openShare(final Activity activity, final ShareModel content, final UMShareListener umShareListener) {
-		if (activity==null||content == null||umShareListener == null) {
-			return;
-		}
-		ShareAction action = new ShareAction(activity);
-		action.setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ,SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN,SHARE_MEDIA.WEIXIN_CIRCLE);
-		if (!TextUtils.isEmpty(content.getuMTitle())) {
-			action.withTitle(content.getuMTitle());
-		}
-		if (!TextUtils.isEmpty(content.getuMText())) {
-			action.withText(content.getuMText());
-		}
-		if (!TextUtils.isEmpty(content.getuMTargetUrl())) {
-			action.withTargetUrl(content.getuMTargetUrl());
-		}
-		if (content.getuMImage() != null) {
-			action.withMedia(content.getuMImage());
-		}
-//		if (content.getuMusic() != null) {
-//			action.withMedia(content.getuMusic());
-//		}
-//		if (content.getuMVideo() != null) {
-//			action.withMedia(content.getuMVideo());
-//		}
-
-		action.setCallback(umShareListener);
-		action.open();
-	}
-
-
-	public static String shareMediaToString(SHARE_MEDIA share_media){
-		if(share_media.equals(SHARE_MEDIA.QQ)){
+	private static String shareMediaToString(SHARE_MEDIA share_media) {
+		if (share_media.equals(SHARE_MEDIA.QQ)) {
 			return "QQ";
-		}else if(share_media.equals(SHARE_MEDIA.QZONE)){
+		} else if (share_media.equals(SHARE_MEDIA.QZONE)) {
 			return "qzone";
-		}
-		else if(share_media.equals(SHARE_MEDIA.SINA)){
+		} else if (share_media.equals(SHARE_MEDIA.SINA)) {
 			return "sina";
-		}else if(share_media.equals(SHARE_MEDIA.WEIXIN)){
+		} else if (share_media.equals(SHARE_MEDIA.WEIXIN)) {
 			return "wechatSession";
-		}
-		else if(share_media.equals(SHARE_MEDIA.WEIXIN_CIRCLE)){
+		} else if (share_media.equals(SHARE_MEDIA.WEIXIN_CIRCLE)) {
 			return "wechatTimeLine";
-		}
-		else if(share_media.equals(SHARE_MEDIA.WEIXIN_FAVORITE)){
+		} else if (share_media.equals(SHARE_MEDIA.WEIXIN_FAVORITE)) {
 			return "wechatFavorite";
 		}
 		return "";
 	}
 
-	public static String shareMediaToChineseString(SHARE_MEDIA share_media){
-		if(share_media.equals(SHARE_MEDIA.QQ)){
+	private static String shareMediaToChineseString(SHARE_MEDIA share_media) {
+		if (share_media.equals(SHARE_MEDIA.QQ)) {
 			return "QQ";
-		}else if(share_media.equals(SHARE_MEDIA.QZONE)){
+		} else if (share_media.equals(SHARE_MEDIA.QZONE)) {
 			return "QQ空间";
-		}
-		else if(share_media.equals(SHARE_MEDIA.SINA)){
+		} else if (share_media.equals(SHARE_MEDIA.SINA)) {
 			return "新浪";
-		}else if(share_media.equals(SHARE_MEDIA.WEIXIN)){
+		} else if (share_media.equals(SHARE_MEDIA.WEIXIN)) {
 			return "微信";
-		}
-		else if(share_media.equals(SHARE_MEDIA.WEIXIN_CIRCLE)){
+		} else if (share_media.equals(SHARE_MEDIA.WEIXIN_CIRCLE)) {
 			return "微信朋友圈";
-		}
-		else if(share_media.equals(SHARE_MEDIA.WEIXIN_FAVORITE)){
+		} else if (share_media.equals(SHARE_MEDIA.WEIXIN_FAVORITE)) {
 			return "微信收藏";
 		}
 		return "";
 	}
+
 }

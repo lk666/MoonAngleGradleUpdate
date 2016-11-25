@@ -21,17 +21,13 @@ import android.webkit.WebView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bluemoon.umengshare.ShareCallBack;
 import com.bluemoon.umengshare.ShareHelper;
+import com.bluemoon.umengshare.ShareModel;
 import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.socialize.ShareAction;
-import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
-import com.umeng.socialize.media.UMImage;
-import com.umeng.socialize.shareboard.SnsPlatform;
-import com.umeng.socialize.utils.ShareBoardlistener;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
@@ -638,14 +634,21 @@ public class PublicUtil extends LibPublicUtil {
         setMainAmount(context, count, null);
     }
 
+
+
+
+
     public static void share(final Activity activity, final String topic, final String content, final String picUrl, final String url) {
-
-        final UMShareListener shareListener = new UMShareListener() {
+        String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") + ClientStateManager.getUserName();
+        ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic, content), new ShareCallBack() {
             @Override
-            public void onResult(SHARE_MEDIA platform) {
-               // com.umeng.socialize.utils.Log.d("plat", "platform" + platform);
-                DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic, ShareHelper.shareMediaToString(platform), new TextHttpResponseHandler(HTTP.UTF_8) {
+            public void boardClickCallBack(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
 
+            }
+
+            @Override
+            public void shareSuccess(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
+                DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic, platformString, new TextHttpResponseHandler(HTTP.UTF_8) {
                     @Override
                     public void onSuccess(int statusCode, Header[] headers,
                                           String responseString) {
@@ -659,41 +662,18 @@ public class PublicUtil extends LibPublicUtil {
                     }
                 });
 
-                Toast.makeText(activity, ShareHelper.shareMediaToChineseString(platform) + " 分享成功啦", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void shareCancel(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
 
             }
 
             @Override
-            public void onError(SHARE_MEDIA platform, Throwable t) {
-                Toast.makeText(activity, ShareHelper.shareMediaToChineseString(platform) + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                if (t != null) {
-                    com.umeng.socialize.utils.Log.d("throw", "throw:" + t.getMessage());
-                }
-            }
-
-            @Override
-            public void onCancel(SHARE_MEDIA platform) {
-                Toast.makeText(activity, ShareHelper.shareMediaToChineseString(platform) + " 分享取消了", Toast.LENGTH_SHORT).show();
-            }
-        };
-
-        ShareBoardlistener boardListener = new ShareBoardlistener() {
-            @Override
-            public void onclick(SnsPlatform snsPlatform, SHARE_MEDIA share_media) {
-                String shareUrl = (url.indexOf('?') > 0 ? url + "&" : url + "?") + "account=" + ClientStateManager.getUserName() + "&platform=" + ShareHelper.shareMediaToString(share_media);
-                new ShareAction(activity).setPlatform(share_media).setCallback(shareListener)
-                        .withTitle(topic)
-                        .withText(content)
-                        .withTargetUrl(shareUrl)
-                        .withMedia(new UMImage(activity, picUrl))
-                        .share();
+            public void shareError(SHARE_MEDIA platform, String platformString, ShareModel shareModel, String errorMsg) {
 
             }
-        };
-        new ShareAction(activity)
-                .setDisplayList(SHARE_MEDIA.SINA, SHARE_MEDIA.QQ, SHARE_MEDIA.QZONE, SHARE_MEDIA.WEIXIN, SHARE_MEDIA.WEIXIN_CIRCLE)
-                .setShareboardclickCallback(boardListener).open();
-
+        });
     }
 
 
