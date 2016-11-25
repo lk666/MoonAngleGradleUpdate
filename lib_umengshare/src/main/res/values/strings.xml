@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">UmengShare</string>
+    <string name="share_button_custom_link">复制链接</string>
 </resources>
