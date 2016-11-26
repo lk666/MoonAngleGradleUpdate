@@ -23,9 +23,16 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSONObject;
+import com.bluemoon.umengshare.ShareCallBack;
+import com.bluemoon.umengshare.ShareHelper;
+import com.bluemoon.umengshare.ShareModel;
+import com.loopj.android.http.TextHttpResponseHandler;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
 import org.apache.http.NameValuePair;
+import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
@@ -36,6 +43,7 @@ import java.util.Map;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
+import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -112,16 +120,14 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 打开签收扫描界面
-     *
      */
     public static void openOrderWithInput(Fragment fragment, String title,
-                                     String btnString, int requestCode) {
+                                          String btnString, int requestCode) {
         ScanWithInputActivity.actStart(fragment, title, btnString, requestCode);
     }
 
     /**
      * 洗衣服务扫描界面
-     *
      */
     public static void openClothScan(Activity aty, Fragment fragment, String title,
                                      String btnString, int requestCode) {
@@ -130,9 +136,8 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 洗衣服务扫描界面
-     *
      */
-    public static void openClothScan(Activity aty, String title,String btnString, int requestCode) {
+    public static void openClothScan(Activity aty, String title, String btnString, int requestCode) {
         openClothScan(aty, null, title, btnString, requestCode);
     }
 
@@ -148,21 +153,21 @@ public class PublicUtil extends LibPublicUtil {
      * 打开默认的扫描界面
      */
     public static void openScanView(Activity aty, Fragment fragment, String title, int requestCode) {
-        ScanActivity.actStart(aty,fragment,title,requestCode);
+        ScanActivity.actStart(aty, fragment, title, requestCode);
     }
 
     /**
      * 最新的统一扫描界面
      */
-    public static void openNewScanView(Activity aty,String title,String btnString,String code,int requestCode) {
-        ScanCodeActivity.actStart(aty,title,btnString,code, requestCode);
+    public static void openNewScanView(Activity aty, String title, String btnString, String code, int requestCode) {
+        ScanCodeActivity.actStart(aty, title, btnString, code, requestCode);
     }
 
     /**
      * 最新的统一扫描界面
      */
-    public static void openNewScanView(Fragment fragment, String title,String btnString,String code,int requestCode) {
-        ScanCodeActivity.actStart(fragment, title,btnString,code, requestCode);
+    public static void openNewScanView(Fragment fragment, String title, String btnString, String code, int requestCode) {
+        ScanCodeActivity.actStart(fragment, title, btnString, code, requestCode);
     }
 
     public static String genApiSign(String[] params) {
@@ -326,7 +331,8 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     private static CommonAlertDialog tokenExpireDialog;
-    private static CommonAlertDialog getTokenExpireDialog (final Activity context) {
+
+    private static CommonAlertDialog getTokenExpireDialog(final Activity context) {
         if (tokenExpireDialog == null) {
             tokenExpireDialog = new CommonAlertDialog.Builder(context)
                     .setCancelable(false)
@@ -344,6 +350,7 @@ public class PublicUtil extends LibPublicUtil {
         }
         return tokenExpireDialog;
     }
+
     /**
      * 显示账户过期对话框
      *
@@ -407,7 +414,7 @@ public class PublicUtil extends LibPublicUtil {
 //        Intent intent = new Intent(aty, CardTabActivity.class);
 //        intent.putExtra("isPunchCard", isPunchCard);
 //        aty.startActivity(intent);
-        CardTabActivity.actionStart(aty,isPunchCard);
+        CardTabActivity.actionStart(aty, isPunchCard);
 
     }
 
@@ -453,6 +460,7 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 获取app信息，转化为json对象
+     *
      * @return
      */
     public static String getAppInfo() {
@@ -466,6 +474,7 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 获取空数据页
+     *
      * @param content
      * @param listener
      * @return
@@ -481,6 +490,7 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 设置空数据页
+     *
      * @param listview
      * @param emptyView
      */
@@ -496,13 +506,14 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 设置空数据页（content只传入页面标题即可）
+     *
      * @param listview
      * @param content
      * @param listener
      * @return
      */
     public static CommonEmptyView setEmptyView(View listview, String content, CommonEmptyView.EmptyListener listener) {
-        if(content!=null){
+        if (content != null) {
             content = AppContext.getInstance().getString(R.string.empty_hint3, content);
         }
         CommonEmptyView emptyView = getEmptyView(content, listener);
@@ -512,6 +523,7 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 设置空数据页（content只传入页面标题id即可）
+     *
      * @param listview
      * @param ResId
      * @param listener
@@ -519,11 +531,12 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static CommonEmptyView setEmptyView(View listview, int ResId, CommonEmptyView.EmptyListener listener) {
         String content = AppContext.getInstance().getString(ResId);
-        return setEmptyView(listview,content,listener);
+        return setEmptyView(listview, content, listener);
     }
 
     /**
      * 将textview设置为蓝色下划线，并添加点击拨打电话功能
+     *
      * @param aty
      * @param txtPhone
      * @return
@@ -569,6 +582,7 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 获取intent的值
+     *
      * @param intent
      * @param key
      * @return
@@ -578,11 +592,11 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     public static String getPushView(Intent intent) {
-        return getExtraValue(intent,Constants.PUSH_VIEW);
+        return getExtraValue(intent, Constants.PUSH_VIEW);
     }
 
     public static String getPushUrl(Intent intent) {
-        return getExtraValue(intent,Constants.PUSH_URL);
+        return getExtraValue(intent, Constants.PUSH_URL);
     }
 
     /**
@@ -601,22 +615,65 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 更新桌面角标
+     *
      * @param context
      * @param count
      */
-    public static void setMainAmount(Context context,int count,Notification notification){
+    public static void setMainAmount(Context context, int count, Notification notification) {
         LogUtils.d("badge count ：" + count);
-        if(count != ClientStateManager.getMenuNum()){
+        if (count != ClientStateManager.getMenuNum()) {
             LogUtils.d("update badge count ：" + count);
             ClientStateManager.setMenuNum(count);
-            BadgeUtil.applyCount(context,count,notification);
-        }else{
-            NotificationUtil.showNotification(context,notification);
+            BadgeUtil.applyCount(context, count, notification);
+        } else {
+            NotificationUtil.showNotification(context, notification);
         }
     }
 
-    public static void setMainAmount(Context context,int count){
-        setMainAmount(context,count,null);
+    public static void setMainAmount(Context context, int count) {
+        setMainAmount(context, count, null);
+    }
+
+
+
+
+
+    public static void share(final Activity activity, final String topic, final String content, final String picUrl, final String url) {
+        String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") + ClientStateManager.getUserName();
+        ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic, content), new ShareCallBack() {
+            @Override
+            public void boardClickCallBack(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
+
+            }
+
+            @Override
+            public void shareSuccess(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
+                DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic, platformString, new TextHttpResponseHandler(HTTP.UTF_8) {
+                    @Override
+                    public void onSuccess(int statusCode, Header[] headers,
+                                          String responseString) {
+                        LogUtils.d("plat", responseString);
+                    }
+
+                    @Override
+                    public void onFailure(int statusCode, Header[] headers,
+                                          String responseString, Throwable throwable) {
+                        LogUtils.d("plat", "onFailure");
+                    }
+                });
+
+            }
+
+            @Override
+            public void shareCancel(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
+
+            }
+
+            @Override
+            public void shareError(SHARE_MEDIA platform, String platformString, ShareModel shareModel, String errorMsg) {
+
+            }
+        });
     }
 
 
