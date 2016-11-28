@@ -40,6 +40,7 @@ public class ApiClientHelper {
                 .getAppId()));
         params.add(new BasicNameValuePair("version", AppContext.getInstance()
                 .getPackageInfo().versionName));
+        params.add(new BasicNameValuePair("sysversion", android.os.Build.VERSION.RELEASE));
         params.add(new BasicNameValuePair("format", FORMAT));
         params.add(new BasicNameValuePair("time", timeStamp));
         params.add(new BasicNameValuePair("appType", APP_TYPE));
