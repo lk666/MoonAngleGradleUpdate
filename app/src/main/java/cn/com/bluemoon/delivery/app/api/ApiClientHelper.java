@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.app.api;
 
 import android.annotation.SuppressLint;
+import android.os.Build;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
@@ -40,7 +41,7 @@ public class ApiClientHelper {
                 .getAppId()));
         params.add(new BasicNameValuePair("version", AppContext.getInstance()
                 .getPackageInfo().versionName));
-        params.add(new BasicNameValuePair("sysversion", android.os.Build.VERSION.RELEASE));
+        params.add(new BasicNameValuePair("sysversion", Build.VERSION.RELEASE));
         params.add(new BasicNameValuePair("format", FORMAT));
         params.add(new BasicNameValuePair("time", timeStamp));
         params.add(new BasicNameValuePair("appType", APP_TYPE));
