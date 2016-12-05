@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/white"
+              android:orientation="vertical">
 
     <View
         android:layout_width="match_parent"
@@ -14,10 +14,13 @@
     <LinearLayout
         android:id="@+id/layout_detail"
         android:layout_width="match_parent"
-        android:gravity="center_vertical"
-        android:layout_height="50dp"
-        android:paddingLeft="10dp"
-        android:orientation="horizontal" >
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_white"
+        android:clickable="true"
+        android:orientation="horizontal"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingLeft="10dp">
 
         <TextView
             android:id="@+id/txt_dispatchId"
@@ -25,149 +28,122 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_17" />
+            android:textSize="@dimen/text_size_15"/>
 
         <TextView
             android:id="@+id/txt_detail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/pending_order_detail"
-            android:textColor="@color/text_black_light"
-            android:textSize="15sp" />
+            android:textColor="@color/text_black"
+            android:textSize="15sp"/>
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="10dp"
             android:layout_gravity="center"
-            android:src="@mipmap/icon_right" />
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:src="@mipmap/icon_right"/>
     </LinearLayout>
 
     <View
-       style="@style/line_solid_padding_left_style"/>
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginLeft="10dp"
+        android:background="@color/line_soild_bg"/>
+
+
+    <TextView
+        android:id="@+id/txt_paytime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:drawableLeft="@mipmap/time"
+        android:drawablePadding="10dp"
+        android:ellipsize="end"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textColor="@color/text_black_light"
+        android:textSize="14sp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="13dp"
-        android:layout_marginBottom="13dp"
-        android:orientation="horizontal" >
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="0dp"
+        <TextView
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical" >
+            android:drawableLeft="@mipmap/address"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"/>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@mipmap/time" />
-
-                <TextView
-                    android:id="@+id/txt_paytime"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:textColor="@color/text_black_light"
-                    android:textSize="14sp" />
-            </LinearLayout>
-            
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal" >
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp"
-                    android:src="@mipmap/address" />
-
-                <TextView
-                    android:id="@+id/txt_address"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:gravity="center_vertical"
-                    android:singleLine="true"
-                    android:ellipsize="end"
-                    android:textColor="@color/text_black_light"
-                    android:textSize="14sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <Button
-            android:id="@+id/receiving_orders_action"
-            android:layout_width="68dp"
-            android:layout_height="30dp"
-            android:background="@drawable/btn_red_shape"
-            android:layout_marginRight="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_gravity="center"
-            android:textSize="15sp"
-            android:text="@string/pending_order_get" />
+        <TextView
+            android:id="@+id/txt_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingRight="10dp"
+            android:textColor="@color/text_black_light"
+            android:textSize="14sp"/>
     </LinearLayout>
-    <View
-        style="@style/line_solid_padding_left_style"/>
 
-    <RelativeLayout
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:background="@color/line_soild_bg"/>
+
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="7.5dp"
+        android:paddingBottom="7.5dp">
 
         <TextView
             android:id="@+id/txt_cateAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
             android:textColor="@color/text_grep"
-            android:textSize="12sp" />
+            android:textSize="10sp"/>
 
         <TextView
             android:id="@+id/txt_totalAmount"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="14dp"
-            android:layout_toRightOf="@id/txt_cateAmount"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="20dp"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:singleLine="true"
             android:textColor="@color/text_grep"
-            android:textSize="12sp" />
-
-        <TextView
-            android:id="@+id/txt_totalPrice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_below="@id/txt_cateAmount"
-            android:textColor="@color/text_grep"
-            android:textSize="12sp" />
+            android:textSize="10sp"/>
 
         <TextView
             android:id="@+id/txt_refuse_order"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:textColor="@color/text_grep"
             android:text="@string/pending_order_refuse_txt"
-            android:textSize="12sp" />
-    </RelativeLayout>
+            android:textColor="@color/text_grep"
+            android:textSize="12sp"/>
+
+        <Button
+            android:id="@+id/receiving_orders_action"
+            android:layout_width="80dp"
+            android:layout_height="35dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/btn_red_shape"
+            android:text="@string/pending_order_get"
+            android:textSize="15sp"/>
+    </LinearLayout>
+
     <include layout="@layout/line_solid_view_d7"/>
 
 </LinearLayout>

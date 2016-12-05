@@ -200,13 +200,11 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             TextView txtCustomerName = getViewById(R.id.txt_customerName);
             TextView txtMobilePhone = getViewById(R.id.txt_mobilePhone);
             TextView txtAddress = getViewById(R.id.txt_address);
-            final Button deliveryAction = getViewById(R.id.delivery_action);
-            final Button deliverySms = getViewById(R.id.delivery_sms);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
-            TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
             TextView txtEditAppointmentTime = getViewById(R.id.txt_edit_appointment_time);
             DragView delBtn = getViewById(R.id.drag_view);
+            Button signBtn = getViewById(R.id.sign_action);
             final OrderVo order = list.get(position);
 
             delBtn.setTag(position);
@@ -225,8 +223,6 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             txtAddress.setText(order.getAddress());
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
-            txtTotalPrice.setText(getString(R.string.pending_order_total_price,
-                    StringUtil.formatPrice(order.getTotalPrice())));
             if (delBtn.isOpen()) {
                 delBtn.closeAnim();
             }
@@ -245,13 +241,10 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
                         case R.id.txt_mobilePhone :
                             PublicUtil.showCallPhoneDialog(getActivity(), order.getMobilePhone());
                             break;
-                        case R.id.delivery_sms :
-                            showCallPhoneOrSendSMSDialog(order.getOrderId());
-                            break;
                         case R.id.layout_detail :
                             PublicUtil.showOrderDetailView(mContext, order.getOrderId());
                             break;
-                        case R.id.delivery_action :
+                        case R.id.sign_action :
                             PublicUtil.openOrderWithInput(PendingReceiptFragment.this, getString(R.string.pending_order_receive_sign_title),
                                     getString(R.string.pending_order_receive_sign_scan_btn), 4);
                             break;
@@ -261,9 +254,8 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             };
             txtEditAppointmentTime.setOnClickListener(listener);
             txtMobilePhone.setOnClickListener(listener);
-            deliverySms.setOnClickListener(listener);
             layoutDetail.setOnClickListener(listener);
-            deliveryAction.setOnClickListener(listener);
+            signBtn.setOnClickListener(listener);
 
             delBtn.setOnDragStateListener(new DragView.DragStateListener() {
                 @Override

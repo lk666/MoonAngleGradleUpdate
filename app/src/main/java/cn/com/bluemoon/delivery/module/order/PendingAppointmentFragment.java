@@ -191,12 +191,8 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
             final Button appointmentAction = getViewById(R.id.appointment_action);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
-            TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
-            final TextView txtCancleOrder = getViewById(R.id.txt_cancle_order);
             final OrderVo order = list.get(position);
 
-            txtCancleOrder.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-            txtCancleOrder.getPaint().setAntiAlias(true);
             txtCustomerName.setText(OrdersUtils.formatLongString(
                     order.getCustomerName(), txtCustomerName));
             txtMobilePhone.setText(order.getMobilePhone());
@@ -220,25 +216,10 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
                         PendingAppointmentFragment.this.startActivityForResult(intent, 0);
                     } else if (v == layoutDetail) {
                         PublicUtil.showOrderDetailView(mContext, order.getOrderId());
-                    } else if (v == txtCancleOrder) {
-                        new CommonAlertDialog.Builder(mContext)
-                                .setMessage(R.string.pending_order_get_or_not)
-                                .setNegativeButton(R.string.yes,
-                                        new DialogInterface.OnClickListener() {
-
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                showWaitDialog();
-                                                DeliveryApi.cancelAppointmentOrder(getToken(),order.getOrderId(), getNewHandler(1, ResultBase.class));
-                                            }
-                                        }).setPositiveButton(R.string.no, null)
-                                .show();
                     }
 
                 }
             };
-            txtCancleOrder.setOnClickListener(listener);
             txtMobilePhone.setOnClickListener(listener);
             appointmentAction.setOnClickListener(listener);
             txtPaytime.setText(getString(R.string.pending_order_pay_time, order.getPayOrderTime()));
@@ -246,10 +227,9 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
             layoutStorehouse.setOnClickListener(listener);
 
             txtDispatchId.setText(order.getOrderId());
-            txtAddress.setText(order.getAddress());
+            txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
-            txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
             layoutDetail.setOnClickListener(listener);
         }
     }

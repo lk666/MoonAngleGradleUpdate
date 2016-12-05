@@ -198,7 +198,7 @@
     <string name="pending_order_detail">订单详情</string>
     <string name="pending_order_pay_time">付款时间：%s</string>
     <string name="pending_order_subscribe_time">预约时间：%s</string>
-    <string name="pending_order_bottom">总类数：%1$d     总支数：%2$d     总价：%3$s</string>
+    <string name="pending_order_address">详细地址：%s</string>
     <string name="pending_order_total_kinds">总类数：%d</string>
     <string name="pending_order_total_amount">总支数：%d</string>
     <string name="pending_order_total_price">总价：%s</string>

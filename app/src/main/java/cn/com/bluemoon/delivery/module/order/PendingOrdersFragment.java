@@ -185,16 +185,16 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
             Button receivingOrdersAction = getViewById(R.id.receiving_orders_action);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
-            TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
+            //TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
             TextView txtRefuseOrder = getViewById(R.id.txt_refuse_order);
             final OrderVo order = list.get(position);
 
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
-            txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
+            //txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
             txtPaytime.setText(String.format(getString(R.string.pending_order_pay_time), order.getPayOrderTime()));
             txtDispatchId.setText(order.getOrderId());
-            txtAddress.setText(order.getAddress());
+            txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
 
 
             txtRefuseOrder.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);

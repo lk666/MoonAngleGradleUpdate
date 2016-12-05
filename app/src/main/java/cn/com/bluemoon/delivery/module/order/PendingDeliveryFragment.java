@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -171,12 +172,12 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
             TextView txtPaytime = getViewById(R.id.txt_paytime);
             TextView txtSubscribeTime = getViewById(R.id.txt_subscribe_time);
             TextView txtCustomerName = getViewById(R.id.txt_customerName);
-            TextView txtMobilePhone = getViewById(R.id.txt_mobilePhone);
+            final TextView txtMobilePhone = getViewById(R.id.txt_mobilePhone);
             TextView txtAddress = getViewById(R.id.txt_address);
             final Button deliveryAction = getViewById(R.id.delivery_action);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
-            TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
+
             final OrderVo order = list.get(position);
 
             txtCustomerName.setText(OrdersUtils.formatLongString(order.getCustomerName(), txtCustomerName));
@@ -186,10 +187,9 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
             txtStorehouse.setText(OrdersUtils.getStorehouseString(order, mContext));
 
             txtDispatchId.setText(order.getOrderId());
-            txtAddress.setText(order.getAddress());
+            txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
-            txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
 
             OnClickListener listener = new OnClickListener() {
                 @Override
@@ -217,12 +217,15 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
                         intent.putExtra("dispatchId", order.getDispatchId());
                         intent.putExtra("code", order.getStorehouseCode());
                         PendingDeliveryFragment.this.startActivityForResult(intent, 0);
+                    }else if (v == txtMobilePhone) {
+                        PublicUtil.showCallPhoneDialog(mContext, order.getMobilePhone());
                     }
                 }
             };
             layoutDetail.setOnClickListener(listener);
             deliveryAction.setOnClickListener(listener);
             layoutStorehouse.setOnClickListener(listener);
+            txtMobilePhone.setOnClickListener(listener);
         }
     }
 

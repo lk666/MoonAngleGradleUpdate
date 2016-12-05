@@ -164,7 +164,7 @@ public class WebViewActivity extends Activity implements OnClickListener{
 			// android 5.0
 			public boolean onShowFileChooser(
 					WebView webView, ValueCallback<Uri[]> filePathCallback,
-					WebChromeClient.FileChooserParams fileChooserParams) {
+					FileChooserParams fileChooserParams) {
 				isFiveAbove = true;
 				if (mFilePathCallback != null) {
 					mFilePathCallback.onReceiveValue(null);
@@ -273,15 +273,15 @@ public class WebViewActivity extends Activity implements OnClickListener{
 		moonWebView.loadUrl(url);
 	}
 
-	private void pushTitle(String url,String title){
-		if(isActionBar){
+	private void pushTitle(String url, String title) {
+		if (isActionBar && txtTitle != null) {
 			map.put(url, title);
 			txtTitle.setText(title);
 		}
 	}
 
-	private void popTitle(){
-		if(isActionBar){
+	private void popTitle() {
+		if (isActionBar && txtTitle != null) {
 			txtTitle.setText(map.get(moonWebView.getOriginalUrl()));
 		}
 	}
