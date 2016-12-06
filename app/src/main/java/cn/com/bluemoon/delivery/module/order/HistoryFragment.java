@@ -19,6 +19,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.HistoryOrderType;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.other.Order;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultOrder;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
@@ -148,7 +149,7 @@ public class HistoryFragment extends BasePullToRefreshListViewFragment implement
     public void onItemClick(Object item, View view, int position) {
         Order order = (Order) item;
         if (ordertype.equals(HistoryOrderType.dispatch)) {
-            PublicUtil.showOrderDetailView(getActivity(), order.getOrderId());
+            OrderDetailActivity.startAct(getActivity(), order.getOrderId(), OrderState.HISTORY.toString());
         } else if (ordertype.equals(HistoryOrderType.pickup)) {
             Intent intent = new Intent();
             intent.setClass(getActivity(), HistoryOrderDetailActivity.class);

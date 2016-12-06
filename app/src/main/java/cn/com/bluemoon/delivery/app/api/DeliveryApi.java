@@ -388,17 +388,17 @@ public class DeliveryApi {
 
     /* 2.2.8 取消已接单订单 */
     /* 返回： ResultBase */
-    public static void cancelAppointmentOrder(String token, String orderId,
+    public static void cancelAppointmentOrder(String token, String orderId, String reasonKey,
                                               AsyncHttpResponseHandler handler) {
 
-        if (null == token || orderId == null) {
+        if (null == token || orderId == null || reasonKey == null) {
             return;
         }
 
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("orderId", orderId);
-
+        params.put("reasonKey", reasonKey);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(
                 "bluemoon-control/order/cancelAppointmentOrder%s",

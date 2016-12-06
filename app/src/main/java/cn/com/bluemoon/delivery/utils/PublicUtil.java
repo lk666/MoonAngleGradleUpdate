@@ -244,19 +244,6 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     /**
-     * 跳转详情页
-     *
-     * @param context
-     * @param orderId
-     */
-    public static void showOrderDetailView(Context context, String orderId) {
-        Intent intent = new Intent();
-        intent.setClass(context, OrderDetailActivity.class);
-        intent.putExtra("orderId", orderId);
-        context.startActivity(intent);
-    }
-
-    /**
      * 调用打电话对话框
      *
      * @param aty

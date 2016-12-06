@@ -1,7 +1,9 @@
 package cn.com.bluemoon.delivery.module.order;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.view.View;
@@ -11,12 +13,15 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
+
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
 import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
@@ -111,17 +116,29 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
     }
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            removeItem();
+        }
+    }
+
+    @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode ==1 || requestCode == 2) {
             hideWaitDialog();
-            getList().remove(clickIndex);
-            getAdapter().notifyDataSetChanged();
+            removeItem();
             toast(result.getResponseMsg());
-            setAmount2();
-            if (getList().isEmpty()) {
-                initData();
-            }
+        }
+    }
+
+    private void removeItem() {
+        getList().remove(clickIndex);
+        getAdapter().notifyDataSetChanged();
+        setAmount2();
+        if (getList().isEmpty()) {
+            initData();
         }
     }
 
@@ -185,13 +202,11 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
             Button receivingOrdersAction = getViewById(R.id.receiving_orders_action);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
-            //TextView txtTotalPrice = getViewById(R.id.txt_totalPrice);
             TextView txtRefuseOrder = getViewById(R.id.txt_refuse_order);
             final OrderVo order = list.get(position);
 
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
-            //txtTotalPrice.setText(getString(R.string.pending_order_total_price, StringUtil.formatPrice(order.getTotalPrice())));
             txtPaytime.setText(String.format(getString(R.string.pending_order_pay_time), order.getPayOrderTime()));
             txtDispatchId.setText(order.getOrderId());
             txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
@@ -213,7 +228,8 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
                         public void onClick(DialogInterface dialog, int which) {
                             showWaitDialog();
                             clickIndex = position;
-                            DeliveryApi.rejectOrder(getToken(), order.getOrderId(), order.getOrderSource(), getNewHandler(1, ResultBase.class));
+                            DeliveryApi.rejectOrder(getToken(), order.getOrderId(),
+                                    order.getOrderSource(), getNewHandler(1, ResultBase.class));
                         }
                     });
                     dialog.show();
@@ -224,7 +240,9 @@ public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
             layoutDetail.setOnClickListener(new OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PublicUtil.showOrderDetailView(getActivity(), order.getOrderId());
+                    clickIndex = position;
+                    OrderDetailActivity.startAct(getActivity(), PendingOrdersFragment.this,
+                            order.getOrderId(), OrderState.ACCEPT.toString());
                 }
             });
             receivingOrdersAction.setOnClickListener(new OnClickListener() {

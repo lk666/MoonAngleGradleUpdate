@@ -19,6 +19,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
 import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -112,7 +113,8 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
         } else {
             isFilter = false;
         }
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter,OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter,
+                OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
@@ -126,13 +128,17 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode ==1 || requestCode == 2) {
             hideWaitDialog();
-            getList().remove(clickIndex);
-            getAdapter().notifyDataSetChanged();
             toast(result.getResponseMsg());
-            setAmount2();
-            if (getList().isEmpty()) {
-                initData();
-            }
+            removeItem();
+        }
+    }
+
+    private void removeItem() {
+        getList().remove(clickIndex);
+        getAdapter().notifyDataSetChanged();
+        setAmount2();
+        if (getList().isEmpty()) {
+            initData();
         }
     }
 
@@ -165,6 +171,8 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
                 orderVo.setStorehouseName(storehouse.getStorehouseName());
                 getAdapter().notifyDataSetChanged();
             }
+        } else if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            removeItem();
         }
     }
 
@@ -215,7 +223,8 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
                         intent.putExtra("code", order.getStorehouseCode());
                         PendingAppointmentFragment.this.startActivityForResult(intent, 0);
                     } else if (v == layoutDetail) {
-                        PublicUtil.showOrderDetailView(mContext, order.getOrderId());
+                        OrderDetailActivity.startAct(mContext,PendingAppointmentFragment.this,
+                                order.getOrderId(), OrderState.APPOINTMENT.toString());
                     }
 
                 }

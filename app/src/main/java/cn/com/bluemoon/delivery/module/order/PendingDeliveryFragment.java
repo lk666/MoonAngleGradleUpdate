@@ -17,6 +17,7 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
 import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
@@ -196,7 +197,7 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     clickIndex = position;
                     if (v == layoutDetail) {
-                        PublicUtil.showOrderDetailView(mContext, order.getOrderId());
+                        OrderDetailActivity.startAct(mContext, order.getOrderId(), OrderState.DELIVERY.toString());
                     } else if (v == deliveryAction) {
                         new CommonAlertDialog.Builder(mContext)
                                 .setMessage(R.string.pending_order_delivery_or_not)

@@ -21,6 +21,7 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
 import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
@@ -220,7 +221,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             txtMobilePhone.getPaint().setAntiAlias(true);
             txtStorehouse.setText(OrdersUtils.getStorehouseString(order, mContext));
             txtDispatchId.setText(order.getOrderId());
-            txtAddress.setText(order.getAddress());
+            txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
             if (delBtn.isOpen()) {
@@ -242,7 +243,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
                             PublicUtil.showCallPhoneDialog(getActivity(), order.getMobilePhone());
                             break;
                         case R.id.layout_detail :
-                            PublicUtil.showOrderDetailView(mContext, order.getOrderId());
+                            OrderDetailActivity.startAct(mContext, order.getOrderId(), OrderState.SIGN.toString());
                             break;
                         case R.id.sign_action :
                             PublicUtil.openOrderWithInput(PendingReceiptFragment.this, getString(R.string.pending_order_receive_sign_title),
@@ -327,17 +328,4 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
         }
     };
 
-    public void showCallPhoneOrSendSMSDialog(final String orderId) {
-        CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(getActivity());
-        dialog.setMessage(getString(R.string.pending_order_receive_sign_sms_desc));
-        dialog.setPositiveButton(R.string.btn_cancel_space, null);
-        dialog.setNegativeButton(R.string.btn_send_space, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                showWaitDialog();
-                DeliveryApi.resendReceiveCode(ClientStateManager.getLoginToken(), orderId, getNewHandler(3, ResultBase.class));
-            }
-        });
-        dialog.show();
-    }
 }

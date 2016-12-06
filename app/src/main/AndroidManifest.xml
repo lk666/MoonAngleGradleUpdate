@@ -850,6 +850,11 @@
             android:excludeFromRecents="true"
             />
         <!--Umeng share end-->
+
+        <activity
+            android:name=".module.order.CancelOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme" />
     </application>
 
 </manifest>
