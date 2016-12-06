@@ -100,6 +100,7 @@ public class Constants {
 
 
     public static final String TYPE_DICTINFO = "MM_RETURN_REASON";
+    public static final String CRM_DISPATCH_CANCEL_REASON = "CRM_DISPATCH_CANCEL_REASON";
 
     /*************************
      * file path

@@ -198,7 +198,7 @@ public class OrderDetailActivity extends BaseActivity {
 			txtPhone.setText(item.getMobilePhone());
 			txtAddress.setText(item.getAddress());
 			txtTotalPrice.setText(getString(R.string.extract_order_total_pay, PublicUtil.getPriceFrom(item.getTotalPrice())));
-			txtTotalnum.setText("配送总数：14");
+			txtTotalnum.setText(getString(R.string.order_total_num, item.getDeliveryTotalNum()));
 			if (item.getProductList() != null) {
 				ProductAdapter adapter = new ProductAdapter(this, null);
 				adapter.setList(item.getProductList());
@@ -306,7 +306,7 @@ public class OrderDetailActivity extends BaseActivity {
 			} else {
 				layoutPackage.setVisibility(View.GONE);
 				txtCount.setVisibility(View.VISIBLE);
-				txtCount.setText(String.format("配送数量 x%s", list.get(position).getBuyNum()));
+				txtCount.setText(getString(R.string.send_num, list.get(position).getBuyNum()));
 			}
 			txtContent.setText(list.get(position).getShopProName());
 			if (kjb == null) kjb = new KJBitmap();
@@ -348,7 +348,7 @@ public class OrderDetailActivity extends BaseActivity {
 			Package p = list.get(position);
 			if (p != null) {
 				txtContent.setText((position+1) + "、"+ p.getProductName());
-				txtNum.setText("配送数量 x" + Integer.valueOf(p.getProductNum())*amount);
+				txtNum.setText(getString(R.string.send_num, Integer.valueOf(p.getProductNum())*amount));
 			}
 
 		}

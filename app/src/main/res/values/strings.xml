@@ -1358,6 +1358,8 @@
     <string name="format_year_month">yyyy年MM月</string>
     <string name="format_month_day">MM月dd日</string>
     <string name="transaction_code_is_null">无</string>
+
+    <!--派单重构-->
     <string name="order_cancle_reason_title">取消接单原因</string>
     <string name="order_cancle_reason_list">距离远,接错单,没有货,没时间配送,消费者电话不通/错误,消费者申请退款</string>
     <string name="order_cancle_tips_2">2.取消接单后，不得再将该订单产品配送给消费者，否则重新配送的损失将由您承担。</string>
@@ -1365,6 +1367,8 @@
     <string name="order_cancle_reason_select">请选择原因：</string>
     <string name="order_cancle_reason_select_tips">请选择原因</string>
     <string name="order_cancle_tips">提示：</string>
+    <string name="order_total_num">配送总数：%s</string>
+    <string name="send_num">配送数量 x%s</string>
 
 
 </resources>

@@ -65,7 +65,7 @@ public class OrderDiffReasonActivity extends BaseActivity {
     @Override
     public void initData() {
         showWaitDialog();
-        DeliveryApi.getDictInfo(ClientStateManager.getLoginToken(), getNewHandler(0, ResultDict.class));
+        DeliveryApi.queryDifferReasons(ClientStateManager.getLoginToken(), getNewHandler(0, ResultDict.class));
     }
 
     @Override

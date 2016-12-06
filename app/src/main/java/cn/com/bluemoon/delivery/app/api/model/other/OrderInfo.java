@@ -21,6 +21,15 @@ public class OrderInfo {
 	private String  storehouseCode;
 	private String  storehouseName;
 	private String  storechargeCode;
+
+	public String getDeliveryTotalNum() {
+		return deliveryTotalNum;
+	}
+
+	public void setDeliveryTotalNum(String deliveryTotalNum) {
+		this.deliveryTotalNum = deliveryTotalNum;
+	}
+
 	private String  storechargeName;
 	private String  storechargeMobileno;
 	private int  returnState;
@@ -29,7 +38,8 @@ public class OrderInfo {
 	private String dispatchStatus;
 	private String nickName;
 	private String nickPhone;
-	
+	private String deliveryTotalNum; //配送总数
+
 	
 	/**  
 	 * nickName.  

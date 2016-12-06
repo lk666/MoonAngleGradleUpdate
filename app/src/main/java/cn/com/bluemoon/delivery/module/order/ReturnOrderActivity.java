@@ -85,7 +85,7 @@ public class ReturnOrderActivity extends Activity implements OnClickListener{
 		if(progressDialog!=null){
 			progressDialog.show();
 		}
-		DeliveryApi.getDictInfo(dictInfoHandler);
+		DeliveryApi.getDictInfo(Constants.TYPE_DICTINFO, dictInfoHandler);
 
 	}
 	

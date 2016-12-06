@@ -614,10 +614,10 @@ public class DeliveryApi {
 
     /* 2.6.1 获取业务字典接口 */
     /* 返回： ResultDict */
-    public static void getDictInfo(AsyncHttpResponseHandler handler) {
+    public static void getDictInfo(String type, AsyncHttpResponseHandler handler) {
 
         Map<String, String> params = new HashMap<>();
-        params.put("type", Constants.TYPE_DICTINFO);
+        params.put("type", type);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/dict/getDictInfo%s",
                 ApiClientHelper.getParamUrl());
@@ -1392,7 +1392,7 @@ public class DeliveryApi {
 
 
     /* 获取差异原因*/
-    public static void getDictInfo(String token, AsyncHttpResponseHandler handler) {
+    public static void queryDifferReasons(String token, AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }

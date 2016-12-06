@@ -14,10 +14,14 @@ import java.util.List;
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.Dict;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.other.ReasonBean;
+import cn.com.bluemoon.delivery.app.api.model.ResultDict;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * Created by ljl on 2016/12/5.
@@ -29,7 +33,7 @@ public class CancelOrderActivity extends BaseActivity{
     @Bind(R.id.btn_ok)
     Button btnOk;
     private String orderId;
-    private List<ReasonBean> reasonList;
+    private List<String> reasonList;
 
     @Override
     protected String getTitleString() {
@@ -44,23 +48,19 @@ public class CancelOrderActivity extends BaseActivity{
     @Override
     public void initView() {
         orderId = getIntent().getStringExtra("orderId");
+        reasonList = new ArrayList<>();
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean isSelect = false;
-                StringBuffer sbBuff = new StringBuffer();
-                for (ReasonBean bean : reasonList) {
-                    if (bean.isSelect()) {
-                        isSelect = true;
-                        sbBuff.append(bean.getReason());
-                        sbBuff.append(",");
-                    }
-                }
-                if (isSelect) {
+                if (!reasonList.isEmpty()) {
                     showWaitDialog();
-                    String buffString = sbBuff.toString();
-                    String reasonKey = buffString.substring(0, buffString.length() - 1);
-                    DeliveryApi.cancelAppointmentOrder(getToken(), orderId, reasonKey, getNewHandler(1, ResultBase.class));
+                    StringBuffer sBuff = new StringBuffer();
+                    for (String s : reasonList) {
+                        sBuff.append(s);
+                        sBuff.append(",");
+                    }
+                    String reasonKey = sBuff.substring(0, sBuff.length() - 1);
+                    DeliveryApi.cancelAppointmentOrder(getToken(), orderId, reasonKey, getNewHandler(2, ResultBase.class));
                 } else {
                     toast(getString(R.string.order_cancle_reason_select_tips));
                 }
@@ -71,28 +71,30 @@ public class CancelOrderActivity extends BaseActivity{
 
     @Override
     public void initData() {
-        String reasons = getString(R.string.order_cancle_reason_list);
-        String[] reasonAttr = reasons.split(",");
-        ReasonListAdapter adapter = new ReasonListAdapter(this);
-        reasonList = new ArrayList<>();
-        for (String s : reasonAttr) {
-            ReasonBean bean = new ReasonBean();
-            bean.setReason(s);
-            reasonList.add(bean);
-        }
-        adapter.setList(reasonList);
-        listReason.setAdapter(adapter);
+        showWaitDialog();
+        DeliveryApi.getDictInfo(Constants.CRM_DISPATCH_CANCEL_REASON, getNewHandler(1, ResultDict.class));
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         hideWaitDialog();
-        toast(result.getResponseMsg());
-        setResult(RESULT_OK);
-        finish();
+        if (requestCode == 2) {
+            toast(result.getResponseMsg());
+            setResult(RESULT_OK);
+            finish();
+        } else {
+            ResultDict resultDict = (ResultDict)result;
+            if (resultDict.getItemList() != null && resultDict.getItemList().size() > 0) {
+                ReasonListAdapter adapter = new ReasonListAdapter(this);
+                adapter.setList(resultDict.getItemList());
+                listReason.setAdapter(adapter);
+            }
+
+        }
+
     }
 
-    class ReasonListAdapter extends BaseListAdapter<ReasonBean> {
+    class ReasonListAdapter extends BaseListAdapter<Dict> {
 
         public ReasonListAdapter(Context context) {
             super(context, null);
@@ -104,24 +106,32 @@ public class CancelOrderActivity extends BaseActivity{
         }
 
         @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
+        protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
             TextView txtReason = getViewById(R.id.txt_reason);
             final CheckBox cbSelect = getViewById(R.id.cb_select);
-            final ReasonBean bean = list.get(position);
-            txtReason.setText(bean.getReason());
+            final Dict dict = list.get(position);
+            txtReason.setText(dict.getDictName());
             cbSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    bean.setSelect(cbSelect.isChecked());
+                    modifyReason(cbSelect.isChecked(), dict.getDictId());
                 }
             });
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     cbSelect.setChecked(!cbSelect.isChecked());
-                    bean.setSelect(cbSelect.isChecked());
+                    modifyReason(cbSelect.isChecked(),  dict.getDictId());
                 }
             });
+        }
+
+        private void modifyReason(boolean isCheck, String dictId) {
+            if (isCheck) {
+                reasonList.add(dictId);
+            } else {
+                reasonList.remove(dictId);
+            }
         }
     }
 }
