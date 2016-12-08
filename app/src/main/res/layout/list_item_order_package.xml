@@ -5,8 +5,7 @@
               android:paddingLeft="10dp"
               android:paddingRight="10dp"
               android:paddingBottom="8dp"
-              android:layout_gravity="top"
-              android:gravity="top"
+              android:background="@color/page_bg_f8"
               android:clickable="true"
               android:orientation="horizontal">
         <TextView

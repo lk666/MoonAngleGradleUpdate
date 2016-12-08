@@ -34,14 +34,13 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.ProductLinearLayout;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class OrderDetailActivity extends BaseActivity {
-	@Bind(R.id.listview_product)
-	ListView listviewProduct;
 	@Bind(R.id.txt_orderid)
 	TextView txtOrderid;
 	@Bind(R.id.txt_source)
@@ -76,6 +75,8 @@ public class OrderDetailActivity extends BaseActivity {
 	TextView txtTotalnum;
 	@Bind(R.id.btn_send)
 	Button btnSendSms;
+	@Bind(R.id.layout_product)
+	LinearLayout layoutProduct;
 
 	private String orderId;
 	private String orderSource;
@@ -202,13 +203,14 @@ public class OrderDetailActivity extends BaseActivity {
 			txtTotalPrice.setText(getString(R.string.extract_order_total_pay, PublicUtil.getPriceFrom(item.getTotalPrice())));
 			txtTotalnum.setText(getString(R.string.order_total_num, item.getDeliveryTotalNum()));
 			if (item.getProductList() != null) {
-				ProductAdapter adapter = new ProductAdapter(this, null);
-				adapter.setList(item.getProductList());
-				listviewProduct.setAdapter(adapter);
+				for (Product product : item.getProductList()) {
+					ProductLinearLayout l = new ProductLinearLayout(this);
+					l.setData(product, OrderDetailActivity.this);
+					layoutProduct.addView(l);
+				}
 			} else {
 				PublicUtil.showToast(R.string.return_change_get_detail_fail);
 			}
-			LibViewUtil.setListViewHeight2(listviewProduct);
 		} else if (requestCode == 2) {
 			toast(result.getResponseMsg());
 			setResult(RESULT_OK);
@@ -314,11 +316,21 @@ public class OrderDetailActivity extends BaseActivity {
 			listviewPackageDetail = getViewById(R.id.listview_package_detail);
 
 			List<Package> packages = list.get(position).getPackageDetails();
-			if (packages != null && packages.size() > 0) {
+			if (isNew && packages != null && packages.size() > 0) {
 				layoutPackage.setVisibility(View.VISIBLE);
-				PackageAdapter adapter = new PackageAdapter(OrderDetailActivity.this, Integer.valueOf(list.get(position).getBuyNum()));
-				adapter.setList(packages);
-				listviewPackageDetail.setAdapter(adapter);
+				for (int i = 0; i <= packages.size()-1; i++) {
+					/*Package p = packages.get(i);
+					PackageLinearLayout l = new PackageLinearLayout(OrderDetailActivity.this);
+					String name = (i+1) + "、"+ p.getProductName();
+					String num = getString(R.string.send_num, Integer.valueOf(p.getProductNum())
+							*Integer.valueOf(list.get(position).getBuyNum()));
+					l.setData(name, num);
+					layoutPackage.addView(l);*/
+					PackageAdapter adapter = new PackageAdapter(OrderDetailActivity.this, Integer.valueOf(list.get(position).getBuyNum()));
+					adapter.setList(packages);
+					listviewPackageDetail.setAdapter(adapter);
+				}
+
 			} else {
 				layoutPackage.setVisibility(View.GONE);
 				txtCount.setVisibility(View.VISIBLE);
@@ -362,7 +374,7 @@ public class OrderDetailActivity extends BaseActivity {
 			txtContent = getViewById(R.id.txt_content);
 			txtNum = getViewById(R.id.txt_num);
 			Package p = list.get(position);
-			if (p != null) {
+			if (isNew && p != null) {
 				txtContent.setText((position+1) + "、"+ p.getProductName());
 				txtNum.setText(getString(R.string.send_num, Integer.valueOf(p.getProductNum())*amount));
 			}

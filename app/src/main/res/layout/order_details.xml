@@ -270,6 +270,7 @@
             <View style="@style/line_solid_deep_style"/>
 
             <LinearLayout
+                android:id="@+id/layout_product"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/page_bg_f2"
@@ -282,16 +283,6 @@
                     android:text="@string/order_detail_detail"
                     android:textColor="@color/text_grep"
                     android:textSize="@dimen/text_size_12"/>
-
-                <ListView
-                    android:id="@+id/listview_product"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="@color/white"
-                    android:dividerHeight="0dp"
-                    android:fadingEdge="none"
-                    android:layerType="software"
-                    android:scrollbars="none"/>
             </LinearLayout>
         </LinearLayout>
         <LinearLayout
