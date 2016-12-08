@@ -134,7 +134,9 @@ public class OrderDetailActivity extends BaseActivity {
 					}
 				}
 			});
-		} else if (OrderState.APPOINTMENT.toString().equals(dispatchStatus)) {
+		} else if (OrderState.APPOINTMENT.toString().equals(dispatchStatus)
+				|| OrderState.DELIVERY.toString().equals(dispatchStatus)
+				|| OrderState.SIGN.toString().equals(dispatchStatus)) {
 			txt.setVisibility(View.VISIBLE);
 			txt.setText(getString(R.string.pending_order_cancle_txt));
 			txt.setOnClickListener(new OnClickListener() {
@@ -212,10 +214,24 @@ public class OrderDetailActivity extends BaseActivity {
 			setResult(RESULT_OK);
 			finish();
 		} else if (requestCode == 3) {
+			btnSendSms.setEnabled(false);
+			btnSendSms.setBackgroundResource(R.drawable.btn_grep_shape4);
 			toast(result.getResponseMsg());
 		}
+	}
 
-
+	@Override
+	public void onErrorResponse(int requestCode, ResultBase result) {
+		if (result.getResponseCode() == 4401) {
+			btnSendSms.setEnabled(false);
+			btnSendSms.setBackgroundResource(R.drawable.btn_grep_shape4);
+			new CommonAlertDialog.Builder(this)
+					.setMessage(result.getResponseMsg())
+					.setPositiveButton(R.string.confirm_with_space, null)
+					.show();
+		} else {
+			super.onErrorResponse(requestCode, result);
+		}
 	}
 
 	public void setTxtPhoneStyle() {

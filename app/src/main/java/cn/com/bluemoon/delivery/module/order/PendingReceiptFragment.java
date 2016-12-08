@@ -230,7 +230,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
                             PublicUtil.showCallPhoneDialog(getActivity(), order.getMobilePhone());
                             break;
                         case R.id.layout_detail :
-                            OrderDetailActivity.startAct(mContext, order.getOrderId(), OrderState.SIGN.toString());
+                            OrderDetailActivity.startAct(mContext, PendingReceiptFragment.this, order.getOrderId(), OrderState.SIGN.toString());
                             break;
                         case R.id.sign_action :
                             PublicUtil.openOrderWithInput(PendingReceiptFragment.this, getString(R.string.pending_order_receive_sign_title),
@@ -250,12 +250,17 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK && requestCode == 4) {
-            //签收扫描返回二维码code
-            String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-            if (StringUtils.isNotBlank(resultStr)) {
-                OrderVo order = (OrderVo) getList().get(clickIndex);
-                DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), order.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 4) {
+                //签收扫描返回二维码code
+                String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                if (StringUtils.isNotBlank(resultStr)) {
+                    showWaitDialog();
+                    OrderVo order = (OrderVo) getList().get(clickIndex);
+                    DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), order.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
+                }
+            } else if (requestCode == 1) {
+                removeItem();
             }
         }
 

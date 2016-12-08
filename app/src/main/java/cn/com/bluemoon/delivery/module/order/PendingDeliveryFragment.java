@@ -127,13 +127,17 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == 1) {
             hideWaitDialog();
-            getList().remove(clickIndex);
-            getAdapter().notifyDataSetChanged();
             toast(result.getResponseMsg());
-            setAmount2();
-            if (getList().isEmpty()) {
-                initData();
-            }
+            removeItem();
+        }
+    }
+
+    private void removeItem() {
+        getList().remove(clickIndex);
+        getAdapter().notifyDataSetChanged();
+        setAmount2();
+        if (getList().isEmpty()) {
+            initData();
         }
     }
 
@@ -197,7 +201,7 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     clickIndex = position;
                     if (v == layoutDetail) {
-                        OrderDetailActivity.startAct(mContext, order.getOrderId(), OrderState.DELIVERY.toString());
+                        OrderDetailActivity.startAct(mContext, PendingDeliveryFragment.this, order.getOrderId(), OrderState.DELIVERY.toString());
                     } else if (v == deliveryAction) {
                         new CommonAlertDialog.Builder(mContext)
                                 .setMessage(R.string.pending_order_delivery_or_not)
@@ -244,6 +248,8 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
                 orderVo.setStorehouseName(storehouse.getStorehouseName());
                 getAdapter().notifyDataSetChanged();
             }
+        } else if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            removeItem();
         }
     }
 }
