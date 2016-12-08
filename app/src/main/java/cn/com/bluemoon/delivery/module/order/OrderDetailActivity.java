@@ -122,7 +122,7 @@ public class OrderDetailActivity extends BaseActivity {
 						CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(OrderDetailActivity.this);
 						dialog.setMessage(getString(R.string.pending_order_refuse_alert));
 						dialog.setPositiveButton(R.string.cancel_with_space, null);
-						dialog.setNegativeButton(R.string.confirm_with_space, new DialogInterface.OnClickListener() {
+						dialog.setNegativeButton(R.string.ok, new DialogInterface.OnClickListener() {
 
 							@Override
 							public void onClick(DialogInterface dialog, int which) {

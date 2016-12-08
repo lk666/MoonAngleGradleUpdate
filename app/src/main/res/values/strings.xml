@@ -252,7 +252,7 @@
     <string name="pending_order_receive_sign_title">签  收</string>
     <string name="pending_order_receive_sign_sms_title">发送验证码</string>
     <string name="pending_order_receive_sign_scan_btn">输入收货验证码</string>
-    <string name="pending_order_receive_sign_sms_desc">亲，顾客没有收到验证码吗？如果没收到，请确认重发</string>
+    <string name="pending_order_receive_sign_sms_desc">亲，顾客没有收到验证码吗？如果没收到，请确认重发！</string>
     <!-- 扫码 -->
     <string name="scan_code_input_number">请输入收货验证数字码</string>
     <string name="scan_code_btn">扫描收货验证码</string>
@@ -1363,7 +1363,7 @@
     <!--派单重构-->
     <string name="order_cancle_reason_title">取消接单原因</string>
     <string name="order_cancle_reason_list">距离远,接错单,没有货,没时间配送,消费者电话不通/错误,消费者申请退款</string>
-    <string name="order_cancle_tips_2">2.取消接单后，不得再将该订单产品配送给消费者，否则重新配送的损失将由您承担。</string>
+    <string name="order_cancle_tips_2">2.取消接单后，不得再将该订单产品配送给消费者，否则重复配送的损失将由您承担。</string>
     <string name="order_cancle_tips_1">1.取消接单后，该订单不能再次派送给您</string>
     <string name="order_cancle_reason_select">请选择原因：</string>
     <string name="order_cancle_reason_select_tips">请选择原因</string>

@@ -139,9 +139,6 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             hideWaitDialog();
             toast(result.getResponseMsg());
             removeItem();
-        } else if (requestCode == 3) {
-            //发送验证码
-            toast(result.getResponseMsg());
         } else if (requestCode == 4) {
             //修改预约时间
             OrderVo orderVo = (OrderVo)getList().get(clickIndex);
@@ -176,10 +173,8 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
     }
 
     public class OrdersAdapter extends BaseListAdapter<OrderVo> {
-        private List<DragView> views;
         public OrdersAdapter(Context context) {
             super(context, null);
-            views = new ArrayList<>();
         }
         @Override
         protected int getLayoutId() {
@@ -204,14 +199,9 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
             TextView txtEditAppointmentTime = getViewById(R.id.txt_edit_appointment_time);
-            DragView delBtn = getViewById(R.id.drag_view);
             Button signBtn = getViewById(R.id.sign_action);
             final OrderVo order = list.get(position);
 
-            delBtn.setTag(position);
-            if (isNew) {
-                views.add(delBtn);
-            }
             txtCustomerName.setText(OrdersUtils.formatLongString(
                     order.getCustomerName(), txtCustomerName));
             txtPaytime.setText(getString(R.string.pending_order_pay_time, order.getPayOrderTime()));
@@ -224,9 +214,6 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
             txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
-            if (delBtn.isOpen()) {
-                delBtn.closeAnim();
-            }
             txtEditAppointmentTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtEditAppointmentTime.getPaint().setAntiAlias(true);
             OnClickListener listener = new OnClickListener() {
@@ -257,59 +244,18 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             txtMobilePhone.setOnClickListener(listener);
             layoutDetail.setOnClickListener(listener);
             signBtn.setOnClickListener(listener);
-
-            delBtn.setOnDragStateListener(new DragView.DragStateListener() {
-                @Override
-                public void onOpened(DragView dragView) {
-                    for (int i = 0; i < views.size(); i++){
-                        if ((int)views.get(i).getTag() != position) {
-                            views.get(i).closeAnim();
-                        }
-                    }
-                }
-                @Override
-                public void onClosed(DragView dragView) {
-
-                }
-
-                @Override
-                public void onForegroundViewClick(DragView dragView , View v) {
-                    notifyDataSetChanged();
-                }
-
-                @Override
-                public void onBackgroundViewClick(DragView dragView , View v) {
-                    notifyDataSetChanged();
-                    int pos = (int) dragView.getTag();
-                    clickIndex = pos;
-                    Intent intent = new Intent(mContext,ReturnOrderActivity.class);
-                    Bundle bundle = new Bundle();
-                    bundle.putSerializable("order", list.get(pos));
-                    intent.putExtras(bundle);
-                    PendingReceiptFragment.this.startActivityForResult(intent, 1);
-                }
-            });
-
-
-
         }
     }
 
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1)  {
-                //退货成功
-                PublicUtil.showToast(getString(R.string.pending_order_return_sucessful));
-                removeItem();
-            } else if (requestCode == 4) {
-                //签收扫描返回二维码code
-                String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                if (StringUtils.isNotBlank(resultStr)) {
-                    OrderVo order = (OrderVo)getList().get(clickIndex);
-                    DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), order.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
-                }
+        if (resultCode == Activity.RESULT_OK && requestCode == 4) {
+            //签收扫描返回二维码code
+            String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+            if (StringUtils.isNotBlank(resultStr)) {
+                OrderVo order = (OrderVo) getList().get(clickIndex);
+                DeliveryApi.orderSign(ClientStateManager.getLoginToken(mContext), order.getOrderId(), "scan", resultStr, getNewHandler(1, ResultBase.class));
             }
         }
 
