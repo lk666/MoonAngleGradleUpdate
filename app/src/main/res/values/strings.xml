@@ -196,6 +196,7 @@
     <string name="reset_input_content">1、存货顾问请输入注册时手机号；\n2、员工请输入员工信息中的手机号；\n3、若忘记手机号，请联系客服。</string>
 
     <string name="pending_order_detail">订单详情</string>
+    <string name="pending_order_detail_txt">详情</string>
     <string name="pending_order_pay_time">付款时间：%s</string>
     <string name="pending_order_subscribe_time">预约时间：%s</string>
     <string name="pending_order_address">详细地址：%s</string>
