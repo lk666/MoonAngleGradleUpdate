@@ -231,7 +231,7 @@
     <string name="pending_order_appointment_over">预约时间不能超过15天</string>
     <string name="pending_order_storehouse_null">无默认仓库</string>
     <string name="pending_order_appointment">预 约</string>
-    <string name="pending_order_edit_storehouse">修改仓库</string>
+    <string name="pending_order_edit_storehouse">修改</string>
     <string name="pending_order_cancle_txt">取消接单</string>
     <string name="pending_order_refuse_txt">拒绝接单</string>
     <string name="pending_order_date_txt">日期</string>
