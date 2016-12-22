@@ -1,7 +1,8 @@
 package cn.com.bluemoon.delivery.module.wash.appointment;
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
+import android.graphics.Paint;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -10,16 +11,13 @@ import android.widget.TextView;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.ReturningApi;
+import cn.com.bluemoon.delivery.app.api.AppointmentApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.wash.closebox.BoxItem;
-import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ResultWaitCloseBoxList;
+import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentQueryList;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.ScanBoxCodeActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.WaitCloseBoxFilterWindow;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -28,92 +26,15 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Created by lk on 2016/9/14.
  */
 public class AppointmentFragment extends BasePullToRefreshListViewFragment {
-    private static final int REQUEST_CODE_SCANE_BOX_CODE = 0x777;
-    private View viewPopStart;
-    private TextView txtCount;
-    private TextView txtPendingBox;
-    /**
-     * 是否显示待封箱
-     */
-    private boolean waitInbox = false;
-
-    /**
-     * 待装箱数
-     */
-    private int waitInboxCount;
-    /**
-     * 总箱数
-     */
-    private int totalCount;
 
     /**
      * 分页标识
      */
-    private long pageFlag = 0;
+    private long timestamp = 0;
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.close_box_title);
-    }
-
-    @Override
-    protected void setActionBar(CommonActionBar actionBar) {
-        super.setActionBar(actionBar);
-
-        actionBar.getTvRightView().setText(R.string.btn_txt_fillter);
-        actionBar.getTvRightView().setCompoundDrawablePadding(10);
-
-        Drawable drawableFillter = getResources().getDrawable(R.mipmap.icon_filter);
-        assert drawableFillter != null;
-        drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
-                .getMinimumHeight());
-        actionBar.getTvRightView().setCompoundDrawables(drawableFillter, null, null, null);
-        actionBar.getTvRightView().setVisibility(View.VISIBLE);
-    }
-
-    @Override
-    protected void onActionBarBtnRightClick() {
-        WaitCloseBoxFilterWindow popupWindow = new WaitCloseBoxFilterWindow(getActivity(),
-                waitInbox, new WaitCloseBoxFilterWindow.FilterListener() {
-
-            @Override
-            public void onOkClick(boolean flag) {
-                waitInbox = flag;
-                initData();
-            }
-        });
-        popupWindow.showPopwindow(viewPopStart);
-    }
-
-    @Override
-    protected int getHeadLayoutId() {
-        return R.layout.head_fragment_tab_close_box;
-    }
-
-    @Override
-    protected void initHeadViewEvent(View headView) {
-        super.initHeadViewEvent(headView);
-
-        viewPopStart = headView.findViewById(R.id.view_pop_start);
-        txtCount = (TextView) headView.findViewById(R.id.txt_count);
-        txtPendingBox = (TextView) headView.findViewById(R.id.txt_pending_box);
-        waitInbox = false;
-        waitInboxCount = 0;
-        totalCount = 0;
-        setHeadCOntent(0, waitInbox, 0);
-    }
-
-    /**
-     * 设置头部
-     */
-    private void setHeadCOntent(int count, boolean waitInbox, int pending) {
-        txtCount.setText(String.format(getString(R.string.order_boxes_num), count));
-        if (!waitInbox) {
-            txtPendingBox.setText(String.format(getString(R.string.close_box_pending_box),
-                    pending));
-        } else {
-            txtPendingBox.setText("");
-        }
+        return getString(R.string.appointment_title);
     }
 
     @Override
@@ -129,130 +50,145 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-        isFirstTimeLoad = true;
-        pageFlag = 0;
-        ReturningApi.queryWaitCloseBoxList(0, getToken(), waitInbox ? FILTER_WAIT_SEALED_BOX : "",
-                getNewHandler(requestCode, ResultWaitCloseBoxList.class));
+        timestamp = 0;
+        AppointmentApi.appointmentQueryList(0, getToken(),
+                getNewHandler(requestCode, ResultAppointmentQueryList.class));
         setAmount();
     }
 
     @Override
-    protected List<BoxItem> getGetDataList(ResultBase result) {
-        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
-        waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getBoxSum();
-        pageFlag = resultObj.getPageFlag();
-        return resultObj.getInboxList();
+    protected List<ResultAppointmentQueryList.AppointmentListBean> getGetDataList(
+            ResultBase result) {
+        ResultAppointmentQueryList resultObj = (ResultAppointmentQueryList) result;
+        timestamp = resultObj.getTimestamp();
+        return resultObj.getAppointmentList();
     }
-
-    public final static String FILTER_WAIT_SEALED_BOX = "FILTER_WAIT_SEALED_BOX";
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        ReturningApi.queryWaitCloseBoxList(pageFlag, getToken(), waitInbox ?
-                FILTER_WAIT_SEALED_BOX : "", getNewHandler
-                (requestCode, ResultWaitCloseBoxList.class));
-    }
-
-    /**
-     * Mode不包含上拉加载时，可这样重写此方法
-     *
-     * @param result 继承ResultBase的json字符串数据，不为null，也非空数据
-     */
-    @Override
-    protected List<BoxItem> getGetMoreList(ResultBase result) {
-        ResultWaitCloseBoxList resultObj = (ResultWaitCloseBoxList) result;
-        waitInboxCount = resultObj.getWaitInboxCount();
-        totalCount = resultObj.getBoxSum();
-        pageFlag = resultObj.getPageFlag();
-        return resultObj.getInboxList();
+        AppointmentApi.appointmentQueryList(timestamp, getToken(),
+                getNewHandler(requestCode, ResultAppointmentQueryList.class));
     }
 
     @Override
-    protected void showEmptyView() {
-        super.showEmptyView();
-        // 可在此处设置head等
-        setHeadViewVisibility(View.VISIBLE);
+    protected List<ResultAppointmentQueryList.AppointmentListBean> getGetMoreList(
+            ResultBase result) {
+        return getGetDataList(result);
     }
 
     @Override
-    protected void showNetErrorView() {
-        super.showNetErrorView();
-        // 可在此处设置head等
-        setHeadViewVisibility(View.GONE);
+    protected ItemAdapter getNewAdapter() {
+        return new ItemAdapter(getActivity(), this);
     }
 
-    @Override
-    protected void showRefreshView() {
-        super.showRefreshView();
-        // 列表数据刷新，如可在此处设置head等
-        setHeadViewVisibility(View.VISIBLE);
-        setHeadCOntent(totalCount, waitInbox, waitInboxCount);
-    }
+    class ItemAdapter extends BaseListAdapter<ResultAppointmentQueryList.AppointmentListBean> {
 
-    @Override
-    protected BoxItemAdapter getNewAdapter() {
-        return new BoxItemAdapter(getActivity(), this);
-    }
 
-    class BoxItemAdapter extends BaseListAdapter<BoxItem> {
-
-        public BoxItemAdapter(Context context, OnListItemClickListener listener) {
+        public ItemAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
         }
 
         @Override
         protected int getLayoutId() {
-            return R.layout.item_close_box_pending;
+            return R.layout.item_appointment;
         }
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            BoxItem item = (BoxItem) getItem(position);
+            ResultAppointmentQueryList.AppointmentListBean item =
+                    (ResultAppointmentQueryList.AppointmentListBean) getItem(position);
 
-            TextView tvBoxCode = getViewById(R.id.tv_box_tag_code);
-            Button btnCloseBox = getViewById(R.id.btn_close_box);
-            TextView tvTotal = getViewById(R.id.tv_back_order_num);
-            TextView tvFinish = getViewById(R.id.tv_clothes_num);
-
-            tvBoxCode.setText(item.getBoxCode());
-            tvTotal.setText(String.valueOf(item.getBackOrderNum()));
-            tvFinish.setText(String.valueOf(item.getBackOrderIntoNum()));
-            if (item.getBackOrderIntoNum() != item.getBackOrderNum()) {
-                btnCloseBox.setVisibility(View.GONE);
-            } else {
-                btnCloseBox.setVisibility(View.VISIBLE);
+            if (item == null) {
+                return;
             }
 
-            setClickEvent(isNew, position, btnCloseBox);
+            TextView tvNumber = getViewById(R.id.tv_number);
+            Button btnRightAction = getViewById(R.id.btn_right_action);
+            TextView tvCustomerName = getViewById(R.id.tv_customer_name);
+            TextView tvCustomerPhone = getViewById(R.id.tv_customer_phone);
+            TextView tvAddress = getViewById(R.id.tv_address);
+            TextView tvTime = getViewById(R.id.tv_time);
+            View divRemark = getViewById(R.id.div_remark);
+            TextView tvRemark = getViewById(R.id.tv_remark);
+
+            // 预约单号
+            tvNumber.setText(getString(R.string.appointment_code, item.getAppointmentCode()));
+
+            // 名称
+            tvCustomerName.setText(item.getCustomerName());
+
+            //电话
+            tvCustomerPhone.setText(item.getCustomerPhone());
+
+            // 地址
+            StringBuilder address = new StringBuilder(item.getProvince()).append(item.getCity())
+                    .append(item.getCounty()).append(item.getStreet()).append(item.getVillage
+                            ()).append(item.getAddress());
+            tvAddress.setText(address);
+
+            // 预约时间
+            tvTime.setText(getString(R.string.appointment_time, DateUtil.getTime(item
+                    .getCreateTime(), "yyyy/MM/dd HH:mm")));
+
+            // 备注
+            if (TextUtils.isEmpty(item.getRemark())) {
+                divRemark.setVisibility(View.GONE);
+                tvRemark.setVisibility(View.GONE);
+            } else {
+                divRemark.setVisibility(View.VISIBLE);
+                tvRemark.setVisibility(View.VISIBLE);
+                tvRemark.setText(getString(R.string.manage_remark, item.getRemark()));
+            }
+
+            // 右边按钮
+            switch (item.getAppointmentStatus()) {
+                // 待接单
+                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
+                    btnRightAction.setVisibility(View.VISIBLE);
+                    btnRightAction.setText(getString(R.string.appointment_accept));
+                    break;
+
+                // 已接单
+                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
+                    btnRightAction.setVisibility(View.VISIBLE);
+                    btnRightAction.setText(
+                            getString(R.string.with_order_collect_btn_start_collect));
+                    break;
+
+                default:
+                    btnRightAction.setVisibility(View.GONE);
+                    break;
+            }
+
+            if (isNew) {
+                tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                tvCustomerPhone.getPaint().setAntiAlias(true);
+            }
+
+            setClickEvent(isNew, position, btnRightAction);
         }
-    }
-
-    /**
-     * 当再次回到此界面，且在此此回到此界面，setUserVisibleHint之前没有调用initData时，刷新数据
-     */
-    private boolean isFirstTimeLoad = true;
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        if (!isFirstTimeLoad) {
-            initData();
-        }
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        isFirstTimeLoad = false;
     }
 
     @Override
     public void onItemClick(Object obj, View view, int position) {
-        BoxItem item = (BoxItem) obj;
+        ResultAppointmentQueryList.AppointmentListBean item =
+                (ResultAppointmentQueryList.AppointmentListBean) obj;
         if (null != item) {
-            ScanBoxCodeActivity.actionStart(this, item.getBoxCode(),
-                    REQUEST_CODE_SCANE_BOX_CODE);
+            // 点击按钮
+            // 右边按钮
+            switch (item.getAppointmentStatus()) {
+                // 待接单
+                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
+                    // TODO: lk 2016/12/22
+                    toast("接单");
+                    break;
+
+                // 已接单
+                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
+                    // TODO: lk 2016/12/22
+                    toast("开始收衣");
+                    break;
+            }
         }
     }
 }

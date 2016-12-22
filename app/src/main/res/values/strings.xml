@@ -1375,4 +1375,7 @@
     <string name="appointment_title">预约收衣</string>
     <string name="error_local_param">参数错误</string>
     <string name="collect_detail_time">收衣时间：%s</string>
+    <string name="appointment_code">预约单号：%s</string>
+    <string name="appointment_time">预约时间：%s</string>
+    <string name="appointment_accept">接 单</string>
 </resources>

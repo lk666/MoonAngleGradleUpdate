@@ -20,7 +20,8 @@ import cn.com.bluemoon.delivery.sz.util.Constants;
  * Created by lk on 2016/9/18.
  */
 public class AppointmentApi extends DeliveryApi {
-    /** todo 正式测试时删除提交到mock
+    /**
+     * todo 正式测试时删除提交到mock
      */
     protected static void postRequest(Map<String, Object> params, String subUrl,
                                       AsyncHttpResponseHandler handler) {
@@ -61,5 +62,25 @@ public class AppointmentApi extends DeliveryApi {
                 handler);
     }
 
+    /**
+     * 7.1已分派的预约单列表
+     *
+     * @param timestamp 分页标示 long
+     * @param token     登录凭证(必填) String
+     */
+    public static void appointmentQueryList(long timestamp, String token,
+                                            AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("timestamp", timestamp);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/appointment/appointmentQueryList%s",
+                handler);
+    }
 
 }
