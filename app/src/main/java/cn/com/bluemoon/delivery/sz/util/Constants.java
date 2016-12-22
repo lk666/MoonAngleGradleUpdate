@@ -9,12 +9,15 @@ import java.io.File;
  */
 public class Constants {
     public static final int RESPONSE_RESULT_SUCCESS = 100;
-    public static final String PATH_SCHEDUAL = Environment.getExternalStorageDirectory() + File.separator+"scheuleSys";
-    public static final int UPDATE_TIME = 3*60*1000;//更新机制间隔时间
+    public static final String PATH_SCHEDUAL = Environment.getExternalStorageDirectory() + File
+            .separator + "scheuleSys";
+    public static final int UPDATE_TIME = 3 * 60 * 1000;//更新机制间隔时间
 
-    public static final int MAIN_MSG_WAIT_REMIND        = 1000;//待办提醒
-    public static final int MAIN_MSG_MEETING_REMIND     = 2000;//会议提醒
-    public static final int MAIN_MSG_ADVICE_REMIND      = 3000;//建议提醒
-    public static final int MAIN_MSG_CONFLICT_REMIND    = 4000;//任务冲突提醒
-    public static final int MAIN_MSG_DELEGATION_REMIND  = 5000;//委托人消息提醒
+    public static final int MAIN_MSG_WAIT_REMIND = 1000;//待办提醒
+    public static final int MAIN_MSG_MEETING_REMIND = 2000;//会议提醒
+    public static final int MAIN_MSG_ADVICE_REMIND = 3000;//建议提醒
+    public static final int MAIN_MSG_CONFLICT_REMIND = 4000;//任务冲突提醒
+    public static final int MAIN_MSG_DELEGATION_REMIND = 5000;//委托人消息提醒
+
+    public static final int RESPONSE_RESULT_LOCAL_PARAM_ERROR = -123;
 }

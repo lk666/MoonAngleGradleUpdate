@@ -54,6 +54,7 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.wash.appointment.AppointmentTabActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
@@ -63,7 +64,6 @@ import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressClo
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
-import cn.com.bluemoon.delivery.sz.meeting.SzSchedualActivity;
 import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
@@ -136,7 +136,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 // TODO Auto-generated method stub
-             PublicUtil.openScanView(main, null, null, 0);
+                PublicUtil.openScanView(main, null, null, 0);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -187,12 +187,12 @@ public class MainActivity extends SlidingActivity {
 
     private void initMenu() {
 
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-//            Window window = this.getWindow();
-//            WindowManager.LayoutParams layoutParams = window.getAttributes();
-//            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-//            window.setAttributes(layoutParams);
-//        }
+        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        //            Window window = this.getWindow();
+        //            WindowManager.LayoutParams layoutParams = window.getAttributes();
+        //            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        //            window.setAttributes(layoutParams);
+        //        }
 
         mMenuFragment = new MenuFragment();
 
@@ -278,7 +278,7 @@ public class MainActivity extends SlidingActivity {
                 }
             }
             setMenu();
-            PublicUtil.setMainAmount(main,sum);
+            PublicUtil.setMainAmount(main, sum);
         }
     }
 
@@ -332,8 +332,8 @@ public class MainActivity extends SlidingActivity {
     private void jump(Intent intent) {
         String view = PublicUtil.getPushView(intent);
         String url = PublicUtil.getPushUrl(intent);
-        if((!TextUtils.isEmpty(view)&&!Constants.PUSH_H5.equals(view))
-                ||(Constants.PUSH_H5.equals(view)&&!TextUtils.isEmpty(url))){
+        if ((!TextUtils.isEmpty(view) && !Constants.PUSH_H5.equals(view))
+                || (Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url))) {
             UserRight userRight = new UserRight();
             userRight.setMenuCode(view);
             userRight.setMenuName("");
@@ -438,9 +438,11 @@ public class MainActivity extends SlidingActivity {
                 if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     listRight = userRightResult.getRightsList();
                     groupCount = userRightResult.getGroupCount();
-                    /*if(!BuildConfig.RELEASE){
+
+                    // TODO: lk 2016/12/20
+                    if (!BuildConfig.RELEASE) {
                         mockData();
-                    }*/
+                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -466,14 +468,13 @@ public class MainActivity extends SlidingActivity {
         }
     };
 
-
     private void mockData() {
-        UserRight item = new UserRight();
-        item.setMenuCode(MenuCode.my_deposit.toString());
-        item.setMenuName(getString(R.string.evidence_cash_title));
-        item.setIconImg(listRight.get(0).getIconImg());
-        item.setGroupNum(1);
-        listRight.add(item);
+        UserRight item1 = new UserRight();
+        item1.setMenuCode(MenuCode.appointment.toString());
+        item1.setMenuName("预约收衣");
+        item1.setIconImg(listRight.get(0).getIconImg());
+        item1.setGroupNum(1);
+        listRight.add(item1);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -489,7 +490,7 @@ public class MainActivity extends SlidingActivity {
                         ResultIsPunchCard.class);
                 if (isPunchCardResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     PublicUtil.showPunchCardView(main, isPunchCardResult.isPunchCard);
-//                    PublicUtil.showPunchCardView(main,false);
+                    //                    PublicUtil.showPunchCardView(main,false);
                 } else {
                     PublicUtil.showErrorMsg(main, isPunchCardResult);
                 }
@@ -592,7 +593,7 @@ public class MainActivity extends SlidingActivity {
     protected void onStop() {
         super.onStop();
         isDestory = true;
-//        ClientStateManager.setMenuOrder(main,listRight);
+        //        ClientStateManager.setMenuOrder(main,listRight);
     }
 
     @Override
@@ -611,8 +612,9 @@ public class MainActivity extends SlidingActivity {
             switch (requestCode) {
                 case 0:
                     if (data == null) return;
-//                    String result = data.getStringExtra(LibConstants.SCAN_RESULT);
-//                    PublicUtil.showToast(result);
+                    //                    String result = data.getStringExtra(LibConstants
+                    // .SCAN_RESULT);
+                    //                    PublicUtil.showToast(result);
                     break;
             }
         }
@@ -684,7 +686,7 @@ public class MainActivity extends SlidingActivity {
             return;
         }
         String menuCode = userRight.getMenuCode();
-        LogUtils.d("view:"+ menuCode);
+        LogUtils.d("view:" + menuCode);
         try {
             Intent intent;
             if (compare(MenuCode.dispatch, menuCode)) {
@@ -753,6 +755,11 @@ public class MainActivity extends SlidingActivity {
             }
 
 
+            // TODO: lk 2016/12/20 预约收衣
+            else if (compare(MenuCode.appointment, menuCode)) {
+                AppointmentTabActivity.actionStart(main);
+            }
+
 
             else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
@@ -763,8 +770,8 @@ public class MainActivity extends SlidingActivity {
                 String url = userRight.getUrl()
                         + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
-                PublicUtil.openWebView(main,url ,userRight.getMenuName(), false);
-                LogUtils.d("openUrl:"+url);
+                PublicUtil.openWebView(main, url, userRight.getMenuName(), false);
+                LogUtils.d("openUrl:" + url);
 
             } else if (compare(MenuCode.empty, menuCode)) {
                 //click empty
@@ -861,7 +868,7 @@ public class MainActivity extends SlidingActivity {
         }
     }
 
-    public static void actStart(Context context,String view,String url) {
+    public static void actStart(Context context, String view, String url) {
         Intent intent = new Intent(context, MainActivity.class);
         intent.putExtra(Constants.PUSH_VIEW, view);
         intent.putExtra(Constants.PUSH_URL, url);
