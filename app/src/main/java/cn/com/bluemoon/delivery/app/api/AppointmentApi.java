@@ -83,4 +83,26 @@ public class AppointmentApi extends DeliveryApi {
                 handler);
     }
 
+    /**
+     * 7.7订单收衣单详情
+     *
+     * @param collectCode 收衣单号(必填) String
+     * @param token       登录凭证(必填) String
+     */
+    public static void appointmentCollectDetail(String collectCode, String token,
+                                                AsyncHttpResponseHandler handler) {
+        if (null == collectCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == collectCode ? " null=collectCode" : "") + (null ==
+                            token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("collectCode", collectCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/appointment/appointmentCollectDetail" +
+                "%s", handler);
+    }
+
 }

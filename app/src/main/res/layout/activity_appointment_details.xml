@@ -3,6 +3,7 @@
             android:id="@+id/sc_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scrollbars="none"
             android:background="@color/page_bg_f8">
 
 
@@ -11,18 +12,22 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
-
+        <!--历史-->
         <LinearLayout
-            style="@style/multi_row_style"
-            android:paddingLeft="16dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:background="@color/white"
             android:orientation="vertical">
 
             <LinearLayout
                 android:id="@+id/layout_logs"
-                style="@style/multi_row_no_padding_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
                 android:orientation="horizontal"
                 android:paddingBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="12dp"
                 android:paddingTop="12dp">
 
                 <TextView
@@ -32,49 +37,62 @@
                     android:layout_weight="1"
                     android:lineSpacingExtra="6dp"
                     android:paddingRight="10dp"
-                    android:textColor="@color/text_black_light"
+                    android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_13"/>
 
                 <TextView
                     android:id="@+id/txt_log_open"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
+                    android:drawablePadding="6dp"
                     android:drawableRight="@mipmap/ic_down"
-                    android:text="@string/txt_open"/>
+                    android:text="@string/txt_open"
+                    android:textColor="@color/text_black_light"/>
 
             </LinearLayout>
 
             <View
                 android:id="@+id/line_logs"
                 style="@style/line_solid_style"
+                android:layout_marginLeft="16dp"
                 android:visibility="gone"/>
 
             <cn.com.bluemoon.delivery.ui.NoScrollListView
                 android:id="@+id/list_view_log"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:divider="@color/white"
-                android:dividerHeight="8dp"
+                android:layout_marginLeft="16dp"
+                android:listSelector="@color/transparent"
+                android:divider="@color/transparent"
+                android:dividerHeight="10dp"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
                 android:paddingBottom="12dp"
                 android:paddingTop="12dp"
                 android:visibility="gone"/>
 
         </LinearLayout>
 
+        <View style="@style/line_solid_style"/>
 
+        <!--洗衣单-->
         <LinearLayout
-            style="@style/multi_row_style"
-            android:layout_marginBottom="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:background="@color/white"
             android:orientation="vertical">
 
+
+            <!--洗衣订单号-->
             <LinearLayout
-                android:id="@+id/layout_activities"
-                style="@style/row_style_no_padding"
-                android:orientation="horizontal">
+                android:id="@+id/ll_outer_code"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
 
                 <TextView
                     android:id="@+id/txt_outer_code"
@@ -89,156 +107,177 @@
                     android:id="@+id/txt_type_open"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:drawablePadding="8dp"
+                    android:drawablePadding="6dp"
                     android:drawableRight="@mipmap/ic_down"
-                    android:text="@string/txt_open"/>
+                    android:text="@string/txt_open"
+                    android:textColor="@color/text_black_light"/>
 
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/layout_type"
-                style="@style/multi_row_no_padding_style"
-                android:visibility="gone"
-                android:orientation="vertical">
+            <View
+                android:id="@+id/div_outer_code"
+                style="@style/line_solid_style"
+                android:layout_marginLeft="12dp"
+                android:visibility="gone"/>
 
+            <!--详情-->
+            <LinearLayout
+                android:id="@+id/ll_outer_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:visibility="gone">
+
+                <!--预约单号-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
                     android:orientation="horizontal">
 
-                    <LinearLayout
-                        android:layout_width="0dp"
+                    <!--todo 图-->
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:orientation="vertical">
+                        android:src="@mipmap/address_new"/>
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:paddingRight="12dp"
-                                android:src="@mipmap/user_new"/>
-
-                            <TextView
-                                android:id="@+id/txt_username"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical"
-                                android:singleLine="true"
-                                android:textColor="@color/text_black_light"
-                                android:textSize="@dimen/text_size_13"/>
-
-                            <TextView
-                                android:id="@+id/txt_user_phone"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_marginLeft="10dp"
-                                android:paddingTop="8dp"
-                                android:paddingBottom="8dp"
-                                android:autoLink="phone"
-                                android:ellipsize="end"
-                                android:gravity="center_vertical"
-                                android:singleLine="true"
-                                android:textColorLink="@color/text_blue"
-                                android:textSize="@dimen/text_size_13"/>
-
-                        </LinearLayout>
-
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginBottom="8dp"
-                            android:orientation="horizontal">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:paddingRight="12dp"
-                                android:src="@mipmap/address_new"/>
-
-                            <TextView
-                                android:id="@+id/txt_address"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:gravity="center_vertical"
-                                android:lineSpacingExtra="6dp"
-                                android:textColor="@color/text_black_light"
-                                android:textSize="@dimen/text_size_13"/>
-                        </LinearLayout>
-                    </LinearLayout>
+                    <TextView
+                        android:id="@+id/tv_appointment_code"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/text_black_light"
+                        android:textSize="@dimen/text_size_13"/>
                 </LinearLayout>
 
-                <View style="@style/line_solid_style"/>
-
+                <!--人员-->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
 
-                    <LinearLayout
-                        style="@style/row_style_no_padding"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/with_order_collect_title_pay_total"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13"/>
-
-                        <TextView
-                            android:id="@+id/txt_total_money"
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:gravity="left"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13"/>
-
-
-                        <TextView
-                            android:id="@+id/txt_need_lab"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/with_order_collect_title_receivable_count"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13"/>
-
-
-                        <TextView
-                            android:id="@+id/txt_need"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="@color/text_black"
-                            android:textSize="@dimen/text_size_13"/>
-                    </LinearLayout>
-
-                    <cn.com.bluemoon.delivery.ui.NoScrollListView
-                        android:id="@+id/list_view_type"
-                        android:layout_width="match_parent"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:dividerHeight="5dp"
-                        android:paddingBottom="12dp"/>
+                        android:src="@mipmap/user_new"/>
+
+                    <TextView
+                        android:id="@+id/txt_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/text_black_light"
+                        android:textSize="@dimen/text_size_13"/>
+
+                    <TextView
+                        android:id="@+id/txt_user_phone"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="8dp"
+                        android:autoLink="phone"
+                        android:textColor="@color/text_blue"
+                        android:textColorLink="@color/text_blue"
+                        android:textSize="@dimen/text_size_13"/>
                 </LinearLayout>
 
+                <!--地址-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal"
+                    android:paddingBottom="12dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:src="@mipmap/address_new"/>
+
+                    <TextView
+                        android:id="@+id/txt_address"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="12dp"
+                        android:textColor="@color/text_black_light"
+                        android:textSize="@dimen/text_size_13"/>
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View style="@style/line_solid_style"/>
+
+        <!--收衣单-->
+        <LinearLayout
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <!--收衣单标题-->
+            <TextView
+                android:id="@+id/txt_collect_code"
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textColor="@color/text_black"
+                android:textSize="@dimen/text_size_13"/>
+
+            <View
+                android:id="@+id/div_listview_info"
+                style="@style/line_solid_padding_left_style"
+                android:visibility="gone"/>
+
+            <cn.com.bluemoon.delivery.ui.NoScrollListView
+                android:id="@+id/listview_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:listSelector="@color/transparent"
+                android:divider="@drawable/line_solid_divider_16"
+                android:dividerHeight="0.5dp"
+                android:footerDividersEnabled="false"
+                android:headerDividersEnabled="false"
+                android:visibility="gone"/>
+
+            <View style="@style/line_solid_padding_left_style"/>
+
+            <!--实收数量等-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="30dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:id="@+id/tv_actual_sum"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_11"/>
+
+                <TextView
+                    android:id="@+id/tv_fee_total"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_11"/>
             </LinearLayout>
 
+            <View style="@style/line_solid_style"/>
 
         </LinearLayout>
 
-
-        <include layout="@layout/layout_clothing_list_no_scroll"/>
     </LinearLayout>
-
 
 </ScrollView>

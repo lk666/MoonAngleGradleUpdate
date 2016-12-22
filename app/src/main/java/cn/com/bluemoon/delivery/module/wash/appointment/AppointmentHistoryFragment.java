@@ -227,8 +227,7 @@ public class AppointmentHistoryFragment extends BasePullToRefreshListViewFragmen
         ResultAppointmentCollectList.CollectInfosBean item =
                 (ResultAppointmentCollectList.CollectInfosBean) obj;
         if (null != item) {
-            // TODO: lk 2016/12/22
-//            AppointmentDetailActivity.actionStart(getContext(), item.getCollectCode());
+            AppointmentDetailActivity.actionStart(getContext(), item.getCollectCode());
         }
     }
 }

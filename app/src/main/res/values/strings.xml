@@ -1378,4 +1378,6 @@
     <string name="appointment_code">预约单号：%s</string>
     <string name="appointment_time">预约时间：%s</string>
     <string name="appointment_accept">接 单</string>
+    <string name="outer_code">洗衣订单号：%s</string>
+    <string name="pay_total">订单总价：%s</string>
 </resources>
