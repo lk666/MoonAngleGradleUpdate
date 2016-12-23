@@ -27,6 +27,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  */
 public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
+    private static final int REQUEST_CODE_RECEIVE = 0x777;
     /**
      * 分页标识
      */
@@ -169,6 +170,8 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
         }
     }
 
+    private int acceptPosition;
+
     @Override
     public void onItemClick(Object obj, View view, int position) {
         ResultAppointmentQueryList.AppointmentListBean item =
@@ -179,8 +182,10 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
             switch (item.getAppointmentStatus()) {
                 // 待接单
                 case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
-                    // TODO: lk 2016/12/22
-                    toast("接单");
+                    showWaitDialog();
+                    acceptPosition = position;
+                    AppointmentApi.appointmentReceived(item.getAppointmentCode(), getToken(),
+                            getNewHandler(REQUEST_CODE_RECEIVE, ResultBase.class));
                     break;
 
                 // 已接单
@@ -189,6 +194,23 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                     toast("开始收衣");
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        switch (requestCode) {
+            // 接单
+            case REQUEST_CODE_RECEIVE:
+                toast(getString(R.string.appoint_receive_success));
+                ResultAppointmentQueryList.AppointmentListBean item =
+                        (ResultAppointmentQueryList.AppointmentListBean) getList().get
+                                (acceptPosition);
+                item.setAppointmentStatus(ResultAppointmentQueryList.AppointmentListBean
+                        .APPOINTMENT_ALREADY_ORDERS);
+                getAdapter().notifyDataSetChanged();
+                break;
         }
     }
 }

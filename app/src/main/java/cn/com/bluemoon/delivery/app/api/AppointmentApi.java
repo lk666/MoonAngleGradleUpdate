@@ -105,4 +105,26 @@ public class AppointmentApi extends DeliveryApi {
                 "%s", handler);
     }
 
+    /**
+     * 7.2预约单接单
+     *
+     * @param appointmentCode 预约单号 String
+     * @param token           登录凭证(必填) String
+     */
+    public static void appointmentReceived(String appointmentCode, String token,
+                                           AsyncHttpResponseHandler handler) {
+        if (null == appointmentCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == appointmentCode ? " null=appointmentCode" : "") +
+                            (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("appointmentCode", appointmentCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/appointment/appointmentReceived%s",
+                handler);
+    }
+
 }
