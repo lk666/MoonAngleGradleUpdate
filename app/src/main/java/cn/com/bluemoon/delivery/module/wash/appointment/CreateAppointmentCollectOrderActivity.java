@@ -23,12 +23,14 @@ import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ModifyUploadAppointClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentCollectSave;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentQueryList;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.UploadAppointClothesInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.appointment.clothesinfo.CreateClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.wash.appointment.clothesinfo.ModifyClothesInfoActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
@@ -46,6 +48,8 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
     private static final int REQUEST_CODE_MANUAL = 0x77;
     private static final int REQUEST_CODE_SAVE = 0x777;
     private static final int REQUEST_CODE_ADD_CLOTHES_INFO = 0x66;
+    private static final int REQUEST_CODE_MODIFY_CLOTHES_INFO = 0x55;
+
     @Bind(R.id.tv_number)
     TextView tvNumber;
     @Bind(R.id.iv_customer)
@@ -382,87 +386,23 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) {
+        if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
+
         switch (requestCode) {
             //   添加衣物返回
             case REQUEST_CODE_ADD_CLOTHES_INFO:
-                UploadAppointClothesInfo info = (UploadAppointClothesInfo) data
-                        .getSerializableExtra(CreateClothesInfoActivity
-                                .RESULT_UPLOAD_CLOTHES_INFO);
-                clothesInfo.add(info);
-                adapter.setList(clothesInfo);
-                adapter.notifyDataSetChanged();
-                setActualReceive();
+                if (resultCode == RESULT_OK) {
+                    UploadAppointClothesInfo info = (UploadAppointClothesInfo) data
+                            .getSerializableExtra(CreateClothesInfoActivity
+                                    .RESULT_UPLOAD_CLOTHES_INFO);
+                    clothesInfo.add(info);
+                    adapter.setList(clothesInfo);
+                    adapter.notifyDataSetChanged();
+                    setActualReceive();
+                }
                 break;
-
-            //            case REQUEST_CODE_MODIFY_CLOTHES_INFO:
-            //                // 保存成功
-            //                if (resultCode == RESULT_OK) {
-            //                    ModifyUploadClothesInfo info = (ModifyUploadClothesInfo) data
-            //                            .getSerializableExtra(
-            //                                    ModifyClothesInfoActivity
-            // .RESULT_UPLOAD_CLOTHES_INFO);
-            //
-            //                    int count = clothesInfo.size();
-            //                    for (int i = 0; i < count; i++) {
-            //                        UploadClothesInfo item = clothesInfo.get(i);
-            //                        if (item.getClothesCode().equals(info.getInitClothesCode())) {
-            //                            clothesInfo.remove(i);
-            //                            break;
-            //                        }
-            //                    }
-            //
-            //                    clothesInfo.add(info);
-            //                    clothesInfoAdapter.setList(clothesInfo);
-            //                    clothesInfoAdapter.notifyDataSetChanged();
-            //                    setActualReceive();
-            //                }
-            //                // 删除成功
-            //                else if (resultCode == ModifyClothesInfoActivity
-            //                        .RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
-            //                    String deleteClothesCode = data.getStringExtra
-            // (ModifyClothesInfoActivity
-            //                            .RESULT_DELETE_CLOTHES_CODE);
-            //                    if (deleteClothesCode != null) {
-            //                        int count = clothesInfo.size();
-            //                        for (int i = 0; i < count; i++) {
-            //                            UploadClothesInfo item = clothesInfo.get(i);
-            //                            if (deleteClothesCode.equals(item.getClothesCode())) {
-            //                                clothesInfo.remove(i);
-            //                                break;
-            //                            }
-            //                        }
-            //
-            //                        clothesInfoAdapter.setList(clothesInfo);
-            //                        clothesInfoAdapter.notifyDataSetChanged();
-            //                        setActualReceive();
-            //                    }
-            //                }
-            //
-            //                //  删除过衣物图片，并直接退出
-            //                else if (resultCode == ModifyClothesInfoActivity
-            // .RESULT_CODE_DELETE_CLOTHES_IMG) {
-            //                    ModifyUploadClothesInfo info = (ModifyUploadClothesInfo) data
-            //                            .getSerializableExtra(
-            //                                    ModifyClothesInfoActivity
-            // .RESULT_UPLOAD_CLOTHES_INFO);
-            //                    int count = clothesInfo.size();
-            //                    for (int i = 0; i < count; i++) {
-            //                        UploadClothesInfo item = clothesInfo.get(i);
-            //                        if (item.getClothesCode().equals(info.getInitClothesCode())) {
-            //                            item.setImgPath(info.getImgPath());
-            //                            item.setClothingPics(info.getClothingPics());
-            //                            break;
-            //                        }
-            //                    }
-            //
-            //                    clothesInfoAdapter.notifyDataSetChanged();
-            //                    setActualReceive();
-            //                }
-            //                break;
-
             case Constants.REQUEST_SCAN:
                 // 扫码返回
                 if (resultCode == Activity.RESULT_OK) {
@@ -490,6 +430,71 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                 }
                 break;
 
+            //  修改衣物
+            case REQUEST_CODE_MODIFY_CLOTHES_INFO:
+                // 保存成功
+                if (resultCode == RESULT_OK) {
+                    ModifyUploadAppointClothesInfo info = (ModifyUploadAppointClothesInfo) data
+                            .getSerializableExtra(ModifyClothesInfoActivity
+                                    .RESULT_UPLOAD_CLOTHES_INFO);
+
+                    int count = clothesInfo.size();
+                    for (int i = 0; i < count; i++) {
+                        UploadAppointClothesInfo item = clothesInfo.get(i);
+                        if (item.getClothesCode().equals(info.getInitClothesCode())) {
+                            clothesInfo.remove(i);
+                            break;
+                        }
+                    }
+
+                    clothesInfo.add(info);
+                    adapter.setList(clothesInfo);
+                    adapter.notifyDataSetChanged();
+                    setActualReceive();
+                }
+
+                // 删除成功
+                else if (resultCode == ModifyClothesInfoActivity
+                        .RESULT_CODE_DELETE_CLOTHES_SUCCESS) {
+                    String deleteClothesCode = data.getStringExtra
+                            (ModifyClothesInfoActivity.RESULT_DELETE_CLOTHES_CODE);
+                    if (deleteClothesCode != null) {
+                        int count = clothesInfo.size();
+                        for (int i = 0; i < count; i++) {
+                            UploadAppointClothesInfo item = clothesInfo.get(i);
+                            if (deleteClothesCode.equals(item.getClothesCode())) {
+                                clothesInfo.remove(i);
+                                break;
+                            }
+                        }
+
+                        adapter.setList(clothesInfo);
+                        adapter.notifyDataSetChanged();
+                        setActualReceive();
+                    }
+                }
+
+                //  删除过衣物图片，并直接退出
+                else if (resultCode == ModifyClothesInfoActivity
+                        .RESULT_CODE_DELETE_CLOTHES_IMG) {
+                    ModifyUploadAppointClothesInfo info = (ModifyUploadAppointClothesInfo) data
+                            .getSerializableExtra(ModifyClothesInfoActivity
+                                    .RESULT_UPLOAD_CLOTHES_INFO);
+                    int count = clothesInfo.size();
+                    for (int i = 0; i < count; i++) {
+                        UploadAppointClothesInfo item = clothesInfo.get(i);
+                        if (item.getClothesCode().equals(info.getInitClothesCode())) {
+                            item.setImgPath(info.getImgPath());
+                            item.setClothingPics(info.getClothingPics());
+                            break;
+                        }
+                    }
+
+                    adapter.notifyDataSetChanged();
+                    setActualReceive();
+                }
+                break;
+
             default:
                 break;
         }
@@ -514,10 +519,8 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        // TODO: lk 2016/12/24  
-        //        if (item instanceof ClothesInfo) {
-        //            ClothesInfo info = (ClothesInfo) item;
-        //            ClothesDetailActivity.actionStart(this, info.getClothesCode());
-        //        }
+        // 点击衣物信息，修改衣物
+        ModifyClothesInfoActivity.actionStart(this, (UploadAppointClothesInfo) item,
+                REQUEST_CODE_MODIFY_CLOTHES_INFO);
     }
 }

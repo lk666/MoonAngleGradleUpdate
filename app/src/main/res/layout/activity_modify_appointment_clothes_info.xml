@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f8"
+            android:overScrollMode="never"
+            android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:text="@string/clothing_book_in_base_info"
+            android:textColor="@color/text_black_light"
+            android:textSize="@dimen/text_size_15"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:background="@color/white"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/ll_type"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="10dp"/>
+        </HorizontalScrollView>
+
+        <View
+            style="@style/line_solid_style"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="112dp"
+            android:background="@color/white"
+            android:paddingLeft="10dp"
+            android:scrollbarAlwaysDrawHorizontalTrack="false"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:id="@+id/ll_clothes_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
+        </HorizontalScrollView>
+
+        <View
+            style="@style/line_solid_style"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:orientation="vertical"
+            android:paddingLeft="16dp">
+            <!--衣物编码-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/clothing_book_in_number"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"
+                    android:textSize="@dimen/text_size_15"/>
+
+                <TextView
+                    android:id="@+id/tv_number"
+                    style="@style/txt_input_content_15"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:hint="@string/clothing_book_in_number_hint"/>
+
+                <ImageView
+                    android:id="@+id/iv_number"
+                    android:layout_width="44dp"
+                    android:layout_height="44dp"
+                    android:padding="12dp"
+                    android:scaleType="centerInside"
+                    android:src="@mipmap/icon_scan"/>
+            </LinearLayout>
+
+            <View style="@style/line_solid_style"/>
+
+            <!--有无瑕疵-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="12dp">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:text="@string/clothing_book_in_falw"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"
+                    android:textSize="@dimen/text_size_15"/>
+
+                <RadioGroup
+                    android:id="@+id/rg_falw"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_falw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:button="@drawable/check_urgent"
+                        android:paddingLeft="4dp"
+                        android:text="@string/has_falw"
+                        android:textColor="@color/text_grep"
+                        android:textSize="@dimen/text_size_15"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_not_falw"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:button="@drawable/check_urgent"
+                        android:checked="true"
+                        android:paddingLeft="4dp"
+                        android:text="@string/has_not_falw"
+                        android:textColor="@color/text_grep"
+                        android:textSize="@dimen/text_size_15"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <View style="@style/line_solid_style"/>
+
+            <!--瑕疵信息-->
+            <EditText
+                android:id="@+id/et_flaw"
+                style="@style/txt_input_content_13"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="0dp"
+                android:gravity="left|center_vertical"
+                android:hint="@string/clothing_book_in_falw_hint"
+                android:maxLength="50"
+                android:minHeight="45dp"
+                android:paddingBottom="12dp"
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="12dp"
+                android:singleLine="false"
+                android:visibility="gone"/>
+
+            <View
+                android:id="@+id/v_div_flaw"
+                style="@style/line_solid_style"
+                android:visibility="gone"/>
+
+            <!--有无污渍-->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="45dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingRight="12dp">
+
+                <TextView
+                    style="@style/txt_title_15"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:text="@string/clothing_book_in_stain"/>
+
+                <RadioGroup
+                    android:id="@+id/rg_stain"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/rb_stain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:button="@drawable/check_urgent"
+                        android:paddingLeft="4dp"
+                        android:text="@string/has_stain"
+                        android:textColor="@color/text_grep"
+                        android:textSize="@dimen/text_size_15"/>
+
+                    <RadioButton
+                        android:id="@+id/rb_not_stain"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="30dp"
+                        android:button="@drawable/check_urgent"
+                        android:checked="true"
+                        android:paddingLeft="4dp"
+                        android:text="@string/has_not_stain"
+                        android:textColor="@color/text_grep"
+                        android:textSize="@dimen/text_size_15"/>
+                </RadioGroup>
+            </LinearLayout>
+
+            <View style="@style/line_solid_style"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:minHeight="45dp"
+                android:orientation="horizontal"
+                android:paddingRight="16dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="45dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/clothing_book_in_backup"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_15"/>
+
+                <EditText
+                    android:id="@+id/et_backup"
+                    style="@style/txt_input_content_13"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:gravity="left|center_vertical"
+                    android:hint="@string/appointment_backup_hint"
+                    android:maxLength="50"
+                    android:paddingBottom="12dp"
+                    android:paddingTop="12dp"
+                    android:singleLine="false"/>
+            </LinearLayout>
+        </LinearLayout>
+
+        <View style="@style/line_solid_style"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="45dp"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/clothing_book_in_phote"
+                android:textColor="@color/text_black_light"
+                android:textSize="@dimen/text_size_15"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:text="@string/clothing_book_in_phote_hint"
+                android:textColor="@color/text_black_light"
+                android:textSize="@dimen/text_size_11"/>
+        </LinearLayout>
+
+        <cn.com.bluemoon.lib.view.ScrollGridView
+            android:id="@+id/sgv_photo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:cacheColorHint="@color/transparent"
+            android:clipToPadding="false"
+            android:divider="@null"
+            android:gravity="center"
+            android:horizontalSpacing="6dp"
+            android:numColumns="4"
+            android:paddingBottom="10dp"
+            android:paddingLeft="16dp"
+            android:paddingRight="6dp"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="6dp"/>
+
+        <View style="@style/line_solid_style"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="20dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btn_delete"
+                style="@style/btn_red"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/div_btn_clothes_book_in"
+                android:layout_weight="1"
+                android:background="@drawable/btn_border_red_middle"
+                android:text="@string/delete"
+                android:textColor="@color/text_red"/>
+
+            <Button
+                android:id="@+id/btn_ok"
+                style="@style/btn_red4"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_marginLeft="@dimen/div_btn_clothes_book_in"
+                android:layout_marginRight="@dimen/div_btn_clothes_book_in"
+                android:layout_weight="1"
+                android:text="@string/ok"/>
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>

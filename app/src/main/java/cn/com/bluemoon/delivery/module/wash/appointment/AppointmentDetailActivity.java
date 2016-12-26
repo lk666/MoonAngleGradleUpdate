@@ -325,9 +325,9 @@ public class AppointmentDetailActivity extends BaseActivity implements OnListIte
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        if (item instanceof ClothesInfo) {
-            ClothesInfo info = (ClothesInfo) item;
-            ClothesDetailActivity.actionStart(this, info.getClothesCode());
-        }
+//        if (item instanceof ClothesInfo) {
+//            ClothesInfo info = (ClothesInfo) item;
+//            ClothesDetailActivity.actionStart(this, info.getClothesCode());
+//        }
     }
 }

@@ -871,6 +871,10 @@
             android:name=".module.wash.appointment.clothesinfo.CreateClothesInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.appointment.clothesinfo.ModifyClothesInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
     </application>
 
 </manifest>
