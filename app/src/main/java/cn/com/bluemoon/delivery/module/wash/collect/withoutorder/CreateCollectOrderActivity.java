@@ -48,8 +48,10 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo.CreateClothesInfoActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo.ModifyClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo
+        .CreateClothesInfoActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.clothesinfo
+        .ModifyClothesInfoActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -296,10 +298,9 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
             errStr = getString(R.string.btn_check_err_name_empty);
         } else if (TextUtils.isEmpty(etPhone.getText().toString())) {
             errStr = getString(R.string.btn_check_err_phone_empty);
-        }else if(!matcher.matches()) {
+        } else if (!matcher.matches()) {
             errStr = getString(R.string.btn_check_err_phone);
-        }
-        else if (TextUtils.isEmpty(province) || TextUtils.isEmpty(city) || TextUtils.isEmpty
+        } else if (TextUtils.isEmpty(province) || TextUtils.isEmpty(city) || TextUtils.isEmpty
                 (county)) {
             errStr = getString(R.string.btn_check_err_province_etc_empty);
         } else if (TextUtils.isEmpty(etAddress.getText().toString())) {
@@ -389,7 +390,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 .append(village).append(address).toString());
         tvActualReceive.setText(
                 String.format(getString(R.string.create_collect_dialog_actual_receive_num_unit),
-                        clothesInfo.size()));
+                        clothesInfo.size() + ""));
 
         btnClose.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -430,13 +431,14 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 break;
             // 添加衣物
             case R.id.btn_add:
-//                // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
-//                if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
-//                    PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
-//                } else {
+                //                // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
+                //                if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
+                //                    PublicUtil.showToast(getString(R.string
+                // .notice_add_clothes_no_brcode));
+                //                } else {
                 CreateClothesInfoActivity.actionStart(this, activityCode,
                         REQUEST_CODE_ADD_CLOTHES_INFO);
-//                }
+                //                }
                 break;
             //  完成收衣
             case R.id.btn_finish:
@@ -471,7 +473,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      */
     private void goScanCode() {
         PublicUtil.openClothScan(this, getString(R.string.coupons_scan_code_title),
-                getString(R.string.with_order_collect_manual_input_code_btn), Constants.REQUEST_SCAN);
+                getString(R.string.with_order_collect_manual_input_code_btn), Constants
+                        .REQUEST_SCAN);
     }
 
     /**
@@ -622,7 +625,7 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
                 }
 
                 //  删除过衣物图片，并直接退出
-               else if (resultCode == ModifyClothesInfoActivity.RESULT_CODE_DELETE_CLOTHES_IMG) {
+                else if (resultCode == ModifyClothesInfoActivity.RESULT_CODE_DELETE_CLOTHES_IMG) {
                     ModifyUploadClothesInfo info = (ModifyUploadClothesInfo) data
                             .getSerializableExtra(
                                     ModifyClothesInfoActivity.RESULT_UPLOAD_CLOTHES_INFO);
@@ -679,7 +682,8 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
     private void setActualReceive() {
         int size = clothesInfo.size();
         tvActualCollectCount.setText(
-                String.format(getString(R.string.create_collect_dialog_actual_receive_num), size));
+                String.format(getString(R.string.create_collect_dialog_actual_receive_num), size
+                        + ""));
 
         if (limitNum > size) {
             btnAdd.setEnabled(true);

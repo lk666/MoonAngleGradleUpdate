@@ -1381,4 +1381,16 @@
     <string name="outer_code">洗衣订单号：%s</string>
     <string name="pay_total">订单总价：%s</string>
     <string name="appoint_receive_success">已成功接单</string>
+    <string name="appointment_create_collect_title">创建收衣单</string>
+    <string name="not_urgent">不加急</string>
+    <string name="scan_brcode">扫描收衣单条码</string>
+    <string name="outer_code_title">洗衣订单号</string>
+    <string name="btn_close_space">关 闭</string>
+    <string name="has_falw">有瑕疵</string>
+    <string name="has_not_falw">无瑕疵</string>
+    <string name="has_stain">有污渍</string>
+    <string name="has_not_stain">无污渍</string>
+    <string name="appointment_backup_hint">最多输入50字</string>
+    <string name="one_level_empty">一级分类不能为空</string>
+    <string name="two_level_empty">洗衣商品不能为空</string>
 </resources>

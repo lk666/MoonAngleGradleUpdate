@@ -37,9 +37,9 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultStartCollec
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothesInfoAdapter;
-import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.ui.DateTimePickDialogUtil;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -262,7 +262,7 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         tvActualCollectCount.setText(
                 String.format(getString(R.string.with_order_collect_order_receive_count_num),
-                        result.getOrderReceive().getActualCount()));
+                        result.getOrderReceive().getActualCount() + ""));
 
         if (initClothes == null) {
             initClothes = new ArrayList<>();
@@ -344,7 +344,8 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      */
     private void goScanCode() {
         PublicUtil.openClothScan(this, getString(R.string.coupons_scan_code_title),
-                getString(R.string.with_order_collect_manual_input_code_btn), Constants.REQUEST_SCAN);
+                getString(R.string.with_order_collect_manual_input_code_btn), Constants
+                        .REQUEST_SCAN);
     }
 
     /**
@@ -354,38 +355,38 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
         tvCollectBrcode.setText(code);
     }
 
-//    /**
-//     * 改变收衣单条码返回
-//     */
-//    AsyncHttpResponseHandler collectBrcodeChangeHandler = new TextHttpResponseHandler(
-//            HTTP.UTF_8) {
-//
-//        @Override
-//        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-//            LogUtils.d(getDefaultTag(), " 改变收衣单条码返回 result = " + responseString);
-//            dismissProgressDialog();
-//            try {
-//                ResultBase result = JSON.parseObject(responseString,
-//                        ResultBase.class);
-//                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-//                    tvCollectBrcode.setText(tmpCollectBrcode);
-//                } else {
-//                    PublicUtil.showErrorMsg(WithOrderCollectBookInActivity.this, result);
-//                }
-//            } catch (Exception e) {
-//                LogUtils.e(getDefaultTag(), e.getMessage());
-//                PublicUtil.showToastServerBusy();
-//            }
-//        }
-//
-//        @Override
-//        public void onFailure(int statusCode, Header[] headers,
-//                              String responseString, Throwable throwable) {
-//            LogUtils.e(getDefaultTag(), throwable.getMessage());
-//            dismissProgressDialog();
-//            PublicUtil.showToastServerOvertime();
-//        }
-//    };
+    //    /**
+    //     * 改变收衣单条码返回
+    //     */
+    //    AsyncHttpResponseHandler collectBrcodeChangeHandler = new TextHttpResponseHandler(
+    //            HTTP.UTF_8) {
+    //
+    //        @Override
+    //        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+    //            LogUtils.d(getDefaultTag(), " 改变收衣单条码返回 result = " + responseString);
+    //            dismissProgressDialog();
+    //            try {
+    //                ResultBase result = JSON.parseObject(responseString,
+    //                        ResultBase.class);
+    //                if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+    //                    tvCollectBrcode.setText(tmpCollectBrcode);
+    //                } else {
+    //                    PublicUtil.showErrorMsg(WithOrderCollectBookInActivity.this, result);
+    //                }
+    //            } catch (Exception e) {
+    //                LogUtils.e(getDefaultTag(), e.getMessage());
+    //                PublicUtil.showToastServerBusy();
+    //            }
+    //        }
+    //
+    //        @Override
+    //        public void onFailure(int statusCode, Header[] headers,
+    //                              String responseString, Throwable throwable) {
+    //            LogUtils.e(getDefaultTag(), throwable.getMessage());
+    //            dismissProgressDialog();
+    //            PublicUtil.showToastServerOvertime();
+    //        }
+    //    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -536,12 +537,12 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
             int receivableCount = item.getDetailReceivableCount();
             tvReceivableCount.setText(String.format(getString(R.string
-                    .with_order_collect_appoint_receivable_count_num), receivableCount));
+                    .with_order_collect_appoint_receivable_count_num), receivableCount + ""));
 
             int actualCount = item.getDetailActualCount();
             tvActualCount.setText(
                     String.format(getString(R.string.create_collect_dialog_actual_receive_num),
-                            actualCount));
+                            actualCount + ""));
 
             // 可点击
             if (receivableCount > actualCount) {
@@ -578,14 +579,15 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
 
         // 点击洗衣类型项的加号, 添加衣物
         else if (item instanceof OrderDetail) {
-//            // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
-//            if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
-//                PublicUtil.showToast(getString(R.string.notice_add_clothes_no_brcode));
-//            } else {
+            //            // 先校验是否已经扫描收衣条码，没有扫描提示：还未扫描收衣条码，请扫描后继续操作。
+            //            if (TextUtils.isEmpty(tvCollectBrcode.getText().toString())) {
+            //                PublicUtil.showToast(getString(R.string
+            // .notice_add_clothes_no_brcode));
+            //            } else {
             OrderDetail type = (OrderDetail) item;
             ClothingBookInActivity.actionStart(this, collectCode, outerCode, type.getTypeName()
                     , type.getTypeCode(), false, null, REQUEST_CODE_CLOTHING_BOOK_IN_ACTIVITY);
-//            }
+            //            }
         }
     }
 }

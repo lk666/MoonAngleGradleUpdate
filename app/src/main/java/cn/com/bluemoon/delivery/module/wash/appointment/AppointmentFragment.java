@@ -1,6 +1,8 @@
 package cn.com.bluemoon.delivery.module.wash.appointment;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Paint;
 import android.text.TextUtils;
 import android.view.View;
@@ -28,6 +30,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
     private static final int REQUEST_CODE_RECEIVE = 0x777;
+    private static final int REQUEST_CODE_CREATE_COLLECT = 0x77;
     /**
      * 分页标识
      */
@@ -190,8 +193,8 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
                 // 已接单
                 case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
-                    // TODO: lk 2016/12/22
-                    toast("开始收衣");
+                    CreateAppointmentCollectOrderActivity.actionStart(this, item,
+                            REQUEST_CODE_CREATE_COLLECT);
                     break;
             }
         }
@@ -210,6 +213,20 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                 item.setAppointmentStatus(ResultAppointmentQueryList.AppointmentListBean
                         .APPOINTMENT_ALREADY_ORDERS);
                 getAdapter().notifyDataSetChanged();
+                break;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != Activity.RESULT_OK) {
+            return;
+        }
+        switch (requestCode) {
+            // 已接单,创建收衣单成功的返回
+            case REQUEST_CODE_CREATE_COLLECT:
+                initData();
                 break;
         }
     }

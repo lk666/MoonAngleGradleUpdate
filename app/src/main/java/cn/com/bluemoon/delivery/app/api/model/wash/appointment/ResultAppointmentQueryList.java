@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.appointment;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -33,7 +34,7 @@ public class ResultAppointmentQueryList extends ResultBase {
         this.appointmentList = appointmentList;
     }
 
-    public static class AppointmentListBean {
+    public static class AppointmentListBean implements Serializable {
 
         /**
          * 预约单状态:待接单
