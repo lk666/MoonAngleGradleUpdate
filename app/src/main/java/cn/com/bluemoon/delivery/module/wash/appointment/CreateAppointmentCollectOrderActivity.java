@@ -84,6 +84,8 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
     NoScrollListView lvOrderReceive;
     @Bind(R.id.btn_finish)
     Button btnFinish;
+    @Bind(R.id.div)
+    View div;
 
     private ResultAppointmentQueryList.AppointmentListBean appointmentListBean;
     private AppointmentUploadClothesInfoAdapter adapter;
@@ -156,6 +158,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
         adapter = new AppointmentUploadClothesInfoAdapter(this, this);
         adapter.setList(clothesInfo);
         lvOrderReceive.setAdapter(adapter);
+        div.setVisibility(View.GONE);
 
         // 加急
         rgUrgent.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
@@ -398,8 +401,8 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                             .getSerializableExtra(CreateClothesInfoActivity
                                     .RESULT_UPLOAD_CLOTHES_INFO);
                     clothesInfo.add(info);
-                    adapter.setList(clothesInfo);
                     adapter.notifyDataSetChanged();
+                    div.setVisibility(View.VISIBLE);
                     setActualReceive();
                 }
                 break;
@@ -448,8 +451,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                     }
 
                     clothesInfo.add(info);
-                    adapter.setList(clothesInfo);
-                    adapter.notifyDataSetChanged();
+                    div.setVisibility(View.VISIBLE);
                     setActualReceive();
                 }
 
@@ -468,8 +470,10 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                             }
                         }
 
-                        adapter.setList(clothesInfo);
                         adapter.notifyDataSetChanged();
+                        if (clothesInfo.size() < 1) {
+                            div.setVisibility(View.GONE);
+                        }
                         setActualReceive();
                     }
                 }

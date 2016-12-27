@@ -120,7 +120,8 @@
                     style="@style/txt_input_content_15"
                     android:layout_width="0dp"
                     android:layout_weight="1"
-                    android:hint="@string/with_order_collect_collect_code_hint"/>
+                    android:hint="@string/with_order_collect_collect_code_hint"
+                    android:textColor="@color/text_black"/>
 
                 <ImageView
                     android:id="@+id/iv_collect_brcode"
@@ -195,9 +196,17 @@
                     android:text="@string/with_order_collect_appoint_back_time"/>
 
                 <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/required_filed"
+                    android:textColor="@color/text_red"
+                    android:textSize="@dimen/text_size_15"/>
+
+                <TextView
                     android:id="@+id/tv_appoint_back_time"
                     style="@style/txt_input_content_15"
-                    android:hint="@string/with_order_collect_appoint_back_time_hint"/>
+                    android:hint="@string/with_order_collect_appoint_back_time_hint"
+                    android:textColor="@color/text_black"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -235,6 +244,12 @@
                 android:padding="11dp"
                 android:scaleType="fitCenter"
                 android:src="@drawable/btn_add"/>
+
+            <View
+                android:id="@+id/div"
+                android:layout_marginLeft="16dp"
+                android:layout_alignParentBottom="true"
+                style="@style/line_solid_style"/>
         </RelativeLayout>
 
         <cn.com.bluemoon.delivery.ui.NoScrollListView

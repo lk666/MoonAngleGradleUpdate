@@ -53,12 +53,12 @@
 
         <TextView
             android:id="@+id/tv_name"
+            android:layout_marginRight="12dp"
             style="@style/txt_content_15"/>
 
         <TextView
             android:id="@+id/tv_phone"
-            style="@style/txt_content_15"
-            android:layout_marginLeft="12dp"/>
+            style="@style/txt_content_15"/>
     </LinearLayout>
 
     <TextView
