@@ -32,7 +32,7 @@ public enum MenuCode {
     wash_transport_sign, //承运收货
     wash_clothes_check,//衣物清点
     my_deposit,//我的保证金
-    appointment//预约收衣
+    receive_appointment_manager//预约收衣
 
 }
 

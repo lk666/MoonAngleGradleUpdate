@@ -469,12 +469,12 @@ public class MainActivity extends SlidingActivity {
     };
 
     private void mockData() {
-        UserRight item1 = new UserRight();
-        item1.setMenuCode(MenuCode.appointment.toString());
-        item1.setMenuName("预约收衣");
-        item1.setIconImg(listRight.get(0).getIconImg());
-        item1.setGroupNum(1);
-        listRight.add(item1);
+//        UserRight item1 = new UserRight();
+//        item1.setMenuCode(MenuCode.receive_appointment_manager.toString());
+//        item1.setMenuName("预约收衣");
+//        item1.setIconImg(listRight.get(0).getIconImg());
+//        item1.setGroupNum(1);
+//        listRight.add(item1);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -753,15 +753,10 @@ public class MainActivity extends SlidingActivity {
                 intent = new Intent(main, EvidenceCashActivity.class);
                 startActivity(intent);
             }
-
-
-            // TODO: lk 2016/12/20 预约收衣
-            else if (compare(MenuCode.appointment, menuCode)) {
+            //预约收衣
+            else if (compare(MenuCode.receive_appointment_manager, menuCode)) {
                 AppointmentTabActivity.actionStart(main);
-            }
-
-
-            else if (compare(MenuCode.card_coupons_web, menuCode)) {
+            } else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (!userRight.getUrl().contains("?") ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(),

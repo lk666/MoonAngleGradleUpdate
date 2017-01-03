@@ -1,8 +1,5 @@
 package cn.com.bluemoon.delivery.app.api;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -14,7 +11,6 @@ import java.util.Map;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.UploadAppointClothesInfo;
-import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.sz.util.Constants;
 
 /**
@@ -22,21 +18,6 @@ import cn.com.bluemoon.delivery.sz.util.Constants;
  * Created by lk on 2016/9/18.
  */
 public class AppointmentApi extends DeliveryApi {
-    /**
-     * todo 正式测试时删除提交到mock
-     */
-    protected static void postRequest(Map<String, Object> params, String subUrl,
-                                      AsyncHttpResponseHandler handler) {
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
-
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
-        }
-
-        ApiHttpClient.postMock(context, url, jsonString, handler);
-    }
 
     /**
      * 7.6预约收衣记录
