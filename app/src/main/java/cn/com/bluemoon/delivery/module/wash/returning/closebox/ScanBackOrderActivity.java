@@ -88,7 +88,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         for (BackOrderItem item : list) {
-            if (item.code.equals(backOrderCode)) {
+            if (item.code.equalsIgnoreCase(backOrderCode)) {
                 item.state = 1;
                 break;
             }
@@ -117,7 +117,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     private int check(String code) {
         boolean isIn = false;
         for (BackOrderItem item : list) {
-            if (item.code.equals(code)) {
+            if (item.code.equalsIgnoreCase(code)) {
                 isIn = true;
                 if (item.state == 1) {
                     return 1;

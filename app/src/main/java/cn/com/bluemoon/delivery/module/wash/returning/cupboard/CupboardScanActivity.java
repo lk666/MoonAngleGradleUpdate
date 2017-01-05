@@ -36,16 +36,21 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
 
     public static void actStart(Activity context) {
         Intent intent = new Intent(context, CupboardScanActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.incabinet_cloth_title));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string
+                .incabinet_cloth_title));
         intent.putExtra("mode", MODE_CABINET);
-        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string
+                .with_order_collect_manual_input_code_btn));
         context.startActivityForResult(intent, 0);
     }
 
-    public static void actStart(Fragment fragment, String carriageAddressId, ArrayList<String> tags) {
+    public static void actStart(Fragment fragment, String carriageAddressId, ArrayList<String>
+            tags) {
         Intent intent = new Intent(fragment.getActivity(), CupboardScanActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.driver_send_scan_title));
-        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string
+                .driver_send_scan_title));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string
+                .with_order_collect_manual_input_code_btn));
         intent.putExtra("mode", MODE_RECEIVER);
         intent.putExtra("id", carriageAddressId);
         intent.putStringArrayListExtra("list", tags);
@@ -54,16 +59,18 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
 
     public static void actStart(Activity context, ResultCarriageDetail carriageDetail) {
         Intent intent = new Intent(context, CupboardScanActivity.class);
-        intent.putExtra("title", AppContext.getInstance().getString(R.string.driver_carriage_scan_title));
+        intent.putExtra("title", AppContext.getInstance().getString(R.string
+                .driver_carriage_scan_title));
         intent.putExtra("mode", MODE_DRIVER);
         intent.putExtra("item", carriageDetail);
-        intent.putExtra("btnString", AppContext.getInstance().getString(R.string.with_order_collect_manual_input_code_btn));
+        intent.putExtra("btnString", AppContext.getInstance().getString(R.string
+                .with_order_collect_manual_input_code_btn));
         context.startActivityForResult(intent, 0);
     }
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
-        if(TextUtils.isEmpty(str)){
+        if (TextUtils.isEmpty(str)) {
             toast(getString(R.string.scan_fail));
             startDelay();
             return;
@@ -73,13 +80,15 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
                 if (TextUtils.isEmpty(cupboardCode)) {
                     clothesCode = str;
                     showWaitDialog();
-                    ReturningApi.scanClothes(clothesCode, getToken(), getNewHandler(0, ResultCupboard.class));
+                    ReturningApi.scanClothes(clothesCode, getToken(), getNewHandler(0,
+                            ResultCupboard.class));
                 } else {
-                    if(cupboardCode.equals(str)){
+                    if (cupboardCode.equals(str)) {
                         showWaitDialog();
-                        ReturningApi.scanCupboard(clothesCode, cupboardCode, getToken(), getNewHandler(1, ResultBase.class));
-                    }else{
-                        toast(getString(R.string.incabinet_cabinet_error,cupboardCode));
+                        ReturningApi.scanCupboard(clothesCode, cupboardCode, getToken(),
+                                getNewHandler(1, ResultBase.class));
+                    } else {
+                        toast(getString(R.string.incabinet_cabinet_error, cupboardCode));
                         startDelay();
                     }
                 }
@@ -89,7 +98,8 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
                 break;
             case MODE_RECEIVER:
                 showWaitDialog();
-                ReturningApi.scanReceiver(str, carriageAddressId, tags, getToken(), getNewHandler(2, ResultBase.class));
+                ReturningApi.scanReceiver(str, carriageAddressId, tags, getToken(), getNewHandler
+                        (2, ResultBase.class));
                 break;
         }
 
@@ -132,8 +142,8 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         //该箱已入柜
-        if(requestCode == 1&&result.getResponseCode()==200005){
-            onSuccessResponse(requestCode,null,result);
+        if (requestCode == 1 && result.getResponseCode() == 200005) {
+            onSuccessResponse(requestCode, null, result);
         }
         super.onErrorResponse(requestCode, result);
     }
@@ -148,7 +158,8 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
         boolean isExist = false;
         boolean isFinish = true;
         for (DriverBox item : list) {
-            if (code.equals(item.getBoxCode())) {
+            if ((mode == MODE_DRIVER && code.equalsIgnoreCase(item.getBoxCode()))
+                    || code.equals(item.getBoxCode())) {
                 if (item.isCheck) {
                     toast(R.string.driver_scan_repeat);
                     startDelay();

@@ -70,7 +70,7 @@ public class ScanBackClothesActivity extends BaseScanCodeActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         for (ClothesItem item : list) {
-            if (item.getClothesCode().equals(backOrderCode)) {
+            if (item.getClothesCode().equalsIgnoreCase(backOrderCode)) {
                 item.isCheck = true;
             }
         }
@@ -99,7 +99,7 @@ public class ScanBackClothesActivity extends BaseScanCodeActivity {
     private boolean check(String code) {
         boolean isIn = false;
         for (ClothesItem item : list) {
-            if (item.getClothesCode().equals(code)) {
+            if (item.getClothesCode().equalsIgnoreCase(code)) {
                 isIn = true;
                 if (item.isCheck) {
                     toast(getString(R.string.pack_scan_repeat));

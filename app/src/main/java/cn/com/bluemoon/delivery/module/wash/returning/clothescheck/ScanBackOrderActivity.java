@@ -124,7 +124,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
                     public void onClick(DialogInterface dialog, int which) {
 
                         for (CheckBackOrder item : list) {
-                            if (item.getBackOrderCode().equals(backOrderCode)) {
+                            if (item.getBackOrderCode().equalsIgnoreCase(backOrderCode)) {
                                 item.setCheckStatus(CheckBackOrder.NORMAL);
                                 break;
                             }
@@ -148,7 +148,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
             // 异常确认
             case REQUEST_CODE_ABNORMAL:
                 for (CheckBackOrder item : list) {
-                    if (item.getBackOrderCode().equals(backOrderCode)) {
+                    if (item.getBackOrderCode().equalsIgnoreCase(backOrderCode)) {
                         item.setCheckStatus(CheckBackOrder.EXCEPTION);
                         break;
                     }
@@ -284,7 +284,7 @@ public class ScanBackOrderActivity extends BaseScanCodeActivity {
     private boolean check(String code) {
         boolean isIn = false;
         for (CheckBackOrder item : list) {
-            if (item.getBackOrderCode().equals(code)) {
+            if (item.getBackOrderCode().equalsIgnoreCase(code)) {
                 isIn = true;
 
                 if (CheckBackOrder.EXCEPTION.equals(item.getCheckStatus())) {

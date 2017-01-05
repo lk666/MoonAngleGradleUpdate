@@ -248,7 +248,7 @@ public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implem
         if (null != clothesInfos && clothesInfos.size() > 0) {
             boolean isRefresh = false;
             for (ClothesInfo info : clothesInfos) {
-                if (info.getClothesCode().equals(code)) {
+                if (info.getClothesCode().equalsIgnoreCase(code)) {
                     info.setCheck(true);
                     isRefresh = true;
                 }

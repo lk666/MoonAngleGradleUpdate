@@ -76,7 +76,7 @@ public class ScanClothesCodeActivity extends BaseScanCodeActivity {
         // 扫的码是否正确
         boolean isIn = false;
         for (Clothes item : list) {
-            if (item.getClothesCode().equals(code)) {
+            if (item.getClothesCode().equalsIgnoreCase(code)) {
                 isIn = true;
                 if (item.isScaned()) {
                     toast(getString(R.string.duplicate_code));
