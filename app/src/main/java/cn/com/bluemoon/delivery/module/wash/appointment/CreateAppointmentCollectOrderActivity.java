@@ -452,6 +452,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
 
                     clothesInfo.add(info);
                     div.setVisibility(View.VISIBLE);
+                    adapter.notifyDataSetChanged();
                     setActualReceive();
                 }
 

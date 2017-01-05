@@ -37,6 +37,8 @@
                     android:layout_weight="1"
                     android:lineSpacingExtra="6dp"
                     android:paddingRight="10dp"
+                    android:singleLine="true"
+                    android:ellipsize="end"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_13"/>
 
