@@ -21,7 +21,6 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.LaundryLog;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentCollectDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.wash.collect.DeliverLogAdapter;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
@@ -36,10 +35,15 @@ public class AppointmentDetailActivity extends BaseActivity implements OnListIte
     private static final int REQUEST_CODE_GET_DATA = 0x777;
 
     /**
-     * 洗衣中心名称，状态/n日期
+     * 洗衣中心名称，状态
      */
     @Bind(R.id.txt_log)
     TextView txtLog;
+    /**
+     * 日期
+     */
+    @Bind(R.id.txt_time)
+    TextView txtTime;
     /**
      * 洗衣中心名称，状态/n日期 收起、展开
      */
@@ -196,20 +200,25 @@ public class AppointmentDetailActivity extends BaseActivity implements OnListIte
 
     private void setData(ResultAppointmentCollectDetail resultObj) {
         // 历史
+        txtLogOpen.setVisibility(View.GONE);
+        layoutLogs.setEnabled(false);
+        closeLog();
         if (null != resultObj.getLaundryLog()) {
             List<LaundryLog> logs = resultObj.getLaundryLog();
             if (logs.size() > 0) {
-                txtLog.setText(String.format("%s，%s\n%s",
-                        logs.get(0).getNodeName(), logs.get(0).getAction(),
-                        DateUtil.getTime(logs.get(0).getOpTime(), "yyyy-MM-dd HH:mm"))
+                txtLog.setText(String.format("%s，%s，%s", logs.get(0).getNodeName(),
+                        logs.get(0).getPhone(), logs.get(0).getAction())
                 );
-
+                txtTime.setText(DateUtil.getTime(logs.get(0).getOpTime(), "yyyy-MM-dd HH:mm"));
             }
             if (logs.size() > 1) {
                 logs.remove(0);
+                txtLogOpen.setVisibility(View.VISIBLE);
+                layoutLogs.setEnabled(true);
                 deliveryAdapter.setList(logs);
                 deliveryAdapter.notifyDataSetChanged();
             }
+
         }
 
         // 洗衣订单
@@ -325,9 +334,9 @@ public class AppointmentDetailActivity extends BaseActivity implements OnListIte
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-//        if (item instanceof ClothesInfo) {
-//            ClothesInfo info = (ClothesInfo) item;
-//            ClothesDetailActivity.actionStart(this, info.getClothesCode());
-//        }
+        //        if (item instanceof ClothesInfo) {
+        //            ClothesInfo info = (ClothesInfo) item;
+        //            ClothesDetailActivity.actionStart(this, info.getClothesCode());
+        //        }
     }
 }
