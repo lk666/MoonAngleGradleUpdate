@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.collect.LaundryLog;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentCollectDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.wash.collect.ClothesDetailActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothesInfoAdapter;
 import cn.com.bluemoon.delivery.module.wash.collect.DeliverLogAdapter;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
@@ -334,9 +335,9 @@ public class AppointmentDetailActivity extends BaseActivity implements OnListIte
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        //        if (item instanceof ClothesInfo) {
-        //            ClothesInfo info = (ClothesInfo) item;
-        //            ClothesDetailActivity.actionStart(this, info.getClothesCode());
-        //        }
+        if (item instanceof ClothesInfo) {
+            ClothesInfo info = (ClothesInfo) item;
+            ClothesDetailActivity.actionStart(this, info.getClothesCode());
+        }
     }
 }
