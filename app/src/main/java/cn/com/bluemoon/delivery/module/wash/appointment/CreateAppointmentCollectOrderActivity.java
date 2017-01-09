@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.wash.appointment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -38,6 +39,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * 创建收衣单
@@ -376,6 +378,33 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        onActionBarBtnLeftClick();
+    }
+
+    @Override
+    protected void onActionBarBtnLeftClick() {
+        new CommonAlertDialog.Builder(this)
+                .setCancelable(true)
+                .setMessage(getString(R.string.cancel_alarm_message))
+                .setPositiveButton(R.string.btn_cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                            }
+                        })
+                .setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        setResult(Activity.RESULT_CANCELED);
+                        finish();
+                    }
+                })
+                .show();
+    }
 
     /**
      * 打开扫码界面
