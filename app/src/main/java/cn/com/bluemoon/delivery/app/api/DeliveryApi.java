@@ -7,6 +7,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.Header;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -15,14 +17,15 @@ import java.util.UUID;
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
-import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfoPickup;
-import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreDeliverVo;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreReceiveVo;
 import cn.com.bluemoon.delivery.app.api.model.jobrecord.PromoteInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfoPickup;
+import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.Product;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.app.api.model.team.RelationDetail;
@@ -48,7 +51,7 @@ public class DeliveryApi {
      * @param handler 回调
      */
     protected static void postRequest(Map<String, Object> params, String subUrl,
-                                    AsyncHttpResponseHandler handler) {
+                                      AsyncHttpResponseHandler handler) {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(subUrl, ApiClientHelper.getParamUrl());
 
@@ -76,12 +79,12 @@ public class DeliveryApi {
 
         String passwordEncrypt = DES.encrypt(password, Constants.DES_KEY);
 
-//        LogUtil.v("================================"+passwordEncrypt);
+        //        LogUtil.v("================================"+passwordEncrypt);
 
         Map<String, String> params = new HashMap<>();
         params.put("account", account);
         params.put("password", passwordEncrypt);
-        params.put("deviceNum",ClientStateManager.getClientId());
+        params.put("deviceNum", ClientStateManager.getClientId());
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/ssoLogin%s",
                 ApiClientHelper.getParamUrl());
@@ -117,7 +120,7 @@ public class DeliveryApi {
 
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("deviceNum",ClientStateManager.getClientId());
+        params.put("deviceNum", ClientStateManager.getClientId());
 
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/logout%s",
@@ -248,7 +251,7 @@ public class DeliveryApi {
 
     /* 2.2.2 根据类型获取订单列表 */
     /* 返回： ResultOrderVo */
-    public static void getOrdersByType(String token, long pageFlag,OrderType type,
+    public static void getOrdersByType(String token, long pageFlag, OrderType type,
                                        AsyncHttpResponseHandler handler) {
 
         if (null == token) {
@@ -264,10 +267,12 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
+
     /* 2.2.2 根据类型获取订单列表 */
     /* 返回： ResultOrderVo */
-    public static void getOrdersByTypeByPager(String token, long pageFlag, String customerName, String region, OrderType type,
-                                       AsyncHttpResponseHandler handler) {
+    public static void getOrdersByTypeByPager(String token, long pageFlag, String customerName,
+                                              String region, OrderType type,
+                                              AsyncHttpResponseHandler handler) {
 
         if (null == token) {
             return;
@@ -997,7 +1002,6 @@ public class DeliveryApi {
     }
 
 
-
     /* 正常品/不良品 库存详情查询 */
     /* 返回： ResultProductDetail */
     public static void queryStockDetail(String token, String storeCode, ProductType productType,
@@ -1269,7 +1273,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.14 选择上班点（分页） */
-	/* 返回： ResultWorkPlaceList */
+    /* 返回： ResultWorkPlaceList */
     public static void getWorkplaceList(String token, String condition, int count, long
             timestamp, AsyncHttpResponseHandler handler) {
         if (null == token) {
@@ -2712,8 +2716,8 @@ public class DeliveryApi {
     }
 
 
-    public static void saveShareInfo(String token, String shareContent,String shareSource,
-                                    AsyncHttpResponseHandler handler) {
+    public static void saveShareInfo(String token, String shareContent, String shareSource,
+                                     AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -2725,4 +2729,19 @@ public class DeliveryApi {
     }
 
 
+    /**
+     * 天使扫一扫统一服务接口
+     *
+     * @param message 扫到的数据 String
+     * @param token   token身份检验码 String
+     */
+    public static void scanService(String message, String token, AsyncHttpResponseHandler handler) {
+        if (null == message || null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("message", message);
+        params.put(TOKEN, token);
+        postRequest(params, "scan/scanService%s", handler);
+    }
 }

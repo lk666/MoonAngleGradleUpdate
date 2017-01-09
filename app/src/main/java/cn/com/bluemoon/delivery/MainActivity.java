@@ -36,6 +36,7 @@ import cn.com.bluemoon.delivery.app.api.model.MenuBean;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
+import cn.com.bluemoon.delivery.app.api.model.ResultScanService;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
@@ -78,6 +79,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
+import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
@@ -135,7 +137,6 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-                // TODO Auto-generated method stub
                 PublicUtil.openScanView(main, null, null, 0);
             }
         });
@@ -469,12 +470,12 @@ public class MainActivity extends SlidingActivity {
     };
 
     private void mockData() {
-//        UserRight item1 = new UserRight();
-//        item1.setMenuCode(MenuCode.receive_appointment_manager.toString());
-//        item1.setMenuName("预约收衣");
-//        item1.setIconImg(listRight.get(0).getIconImg());
-//        item1.setGroupNum(1);
-//        listRight.add(item1);
+        //        UserRight item1 = new UserRight();
+        //        item1.setMenuCode(MenuCode.receive_appointment_manager.toString());
+        //        item1.setMenuName("预约收衣");
+        //        item1.setIconImg(listRight.get(0).getIconImg());
+        //        item1.setGroupNum(1);
+        //        listRight.add(item1);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -612,13 +613,50 @@ public class MainActivity extends SlidingActivity {
             switch (requestCode) {
                 case 0:
                     if (data == null) return;
-                    //                    String result = data.getStringExtra(LibConstants
-                    // .SCAN_RESULT);
-                    //                    PublicUtil.showToast(result);
+                    if (progressDialog != null) progressDialog.show();
+                    String result = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    DeliveryApi.scanService(result, ClientStateManager.getLoginToken(),
+                            scanServiceHandler);
                     break;
             }
         }
     }
+
+    AsyncHttpResponseHandler scanServiceHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            if (progressDialog != null) progressDialog.dismiss();
+            LogUtils.d(TAG, "scanService result = " + responseString);
+            try {
+                ResultScanService result = JSON.parseObject(responseString, ResultScanService
+                        .class);
+                if (null != result && result.getResponseCode() == Constants
+                        .RESPONSE_RESULT_SUCCESS) {
+                    if (ResultScanService.TYPE_HTTP.equals(result.getType())) {
+                        ResultScanService.Http http = JSON.parseObject(responseString,
+                                ResultScanService.Http.class);
+                        PublicUtil.openWebView(main, http.getUrl(), null, false, false);
+                    } else if (ResultScanService.TYPE_TEXT.equals(result.getType())) {
+                        ResultScanService.Text text = JSON.parseObject(responseString,
+                                ResultScanService.Text.class);
+                        PublicUtil.showToast(text.getText());
+                    }
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG, e.getMessage());
+                e.printStackTrace();
+            }
+        }
+
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            LogUtils.e(TAG, throwable.getMessage());
+            if (progressDialog != null) progressDialog.dismiss();
+        }
+    };
 
 
     class GridViewAdapter extends BaseAdapter {
