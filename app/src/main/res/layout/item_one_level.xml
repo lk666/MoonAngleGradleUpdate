@@ -6,7 +6,7 @@
     <TextView
         android:id="@+id/tv_type_name"
         style="@style/txt_title_15"
-        android:layout_width="64dp"
+        android:layout_width="66dp"
         android:layout_height="45dp"
         android:ellipsize="end"
         android:gravity="center"
@@ -17,7 +17,7 @@
 
     <View
         android:id="@+id/v_underline"
-        android:layout_width="64dp"
+        android:layout_width="66dp"
         android:layout_height="4dp"
         android:layout_alignBottom="@+id/tv_type_name"
         android:background="@color/text_red"
