@@ -23,7 +23,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ModifyUploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ModifyUploadAppointClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.OneLevel;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResponseClothingPic;
@@ -703,7 +702,8 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
     @Override
     public void finish() {
         if (isDeleteImg) {
-            ModifyUploadClothesInfo tmpUploadClothesInfo = new ModifyUploadClothesInfo();
+            ModifyUploadAppointClothesInfo tmpUploadClothesInfo
+                    = new ModifyUploadAppointClothesInfo();
             tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
             tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
             tmpUploadClothesInfo.setInitClothesCode(extraUploadClothesInfo.getClothesCode());

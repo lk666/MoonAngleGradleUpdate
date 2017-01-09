@@ -40,6 +40,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.NoDoubleClickListener;
 
 /**
  * 创建收衣单
@@ -199,6 +200,14 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
         //                }
         //            }
         //        });
+
+        btnFinish.setOnClickListener(new NoDoubleClickListener() {
+            @Override
+            public void onNoDoubleClick(View v) {
+                // 完成
+                checkFinish();
+            }
+        });
     }
 
     /**
@@ -295,7 +304,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
         finishDialog = dialog.show();
     }
 
-    @OnClick({R.id.tv_collect_brcode, R.id.iv_collect_brcode, R.id.btn_add, R.id.btn_finish,
+    @OnClick({R.id.tv_collect_brcode, R.id.iv_collect_brcode, R.id.btn_add,
             R.id.tv_appoint_back_time})
     public void onClick(View view) {
         switch (view.getId()) {
@@ -307,10 +316,6 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
             // 添加衣物
             case R.id.btn_add:
                 CreateClothesInfoActivity.actionStart(this, REQUEST_CODE_ADD_CLOTHES_INFO);
-                break;
-            // 完成
-            case R.id.btn_finish:
-                checkFinish();
                 break;
             // 预约时间选择
             case R.id.tv_appoint_back_time:
