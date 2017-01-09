@@ -312,7 +312,7 @@ public class CreateClothesInfoActivity extends BaseActivity implements
                 selectedTypeView.setChecked(false);
             }
             selectedTypeView = typeView;
-
+            setClothesNameSelected(null);
             // 改变一级分类时自动去获取对应的衣物名称
             llClothesName.removeAllViews();
             getClothingData(selectedTypeView.getOneLevel().getOneLevelCode(), isInit);
