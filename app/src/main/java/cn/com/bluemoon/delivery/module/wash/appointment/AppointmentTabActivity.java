@@ -8,8 +8,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxFragment;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxHistoryFragment;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 
 

@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.wash.returning.closebox;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
@@ -82,7 +81,7 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
         // 扫的码是否正确
         boolean isIn = false;
         for (CloseBoxTag item : list) {
-            if (item.getTagCode().equals(code)) {
+            if (item.getTagCode().equalsIgnoreCase(code)) {
                 isIn = true;
                 if (item.isScaned()) {
                     toast(getString(R.string.duplicate_tag_code));
@@ -97,7 +96,7 @@ public class ScanCloseBoxSignActivity extends BaseScanCodeActivity {
             return false;
         }
 
-//        toast(String.format(getString(R.string.close_box_success), code));
+        //        toast(String.format(getString(R.string.close_box_success), code));
 
         // 是否全部扫完
         return isScanFinished();

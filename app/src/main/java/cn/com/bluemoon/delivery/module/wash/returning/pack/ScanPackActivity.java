@@ -136,7 +136,7 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                     showWaitDialog();
                     ReturningApi.scanBackOrder(backOrderCode, getToken(), getNewHandler(0,
                             ResultScanBoxCode.class));
-                } else if (boxCode.equals(str)) {
+                } else if (boxCode.equalsIgnoreCase(str)) {
                     showWaitDialog();
                     ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler
                             (1, ResultBase.class));
@@ -147,7 +147,7 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 }
                 break;
             case MODE_SINGER:
-                if (boxCode.equals(str)) {
+                if (boxCode.equalsIgnoreCase(str)) {
                     showWaitDialog();
                     ReturningApi.scanClothesBox(backOrderCode, boxCode, getToken(), getNewHandler
                             (2, ResultBase.class));
@@ -157,7 +157,7 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 }
                 break;
             case MODE_PACK:
-                if (boxCode.equals(str)) {
+                if (boxCode.equalsIgnoreCase(str)) {
                     BackOrderClothesActivity.actionStart(this, boxCode);
                     finish();
                 } else {
@@ -166,7 +166,7 @@ public class ScanPackActivity extends BaseScanCodeActivity {
                 }
                 break;
             case MODE_PRINT:
-                if (boxCode.equals(str)) {
+                if (boxCode.equalsIgnoreCase(str)) {
                     showWaitDialog();
                     ReturningApi.scanPackageBackOrder(boxCode, getToken(), getNewHandler(3,
                             ResultScanBoxCode.class));

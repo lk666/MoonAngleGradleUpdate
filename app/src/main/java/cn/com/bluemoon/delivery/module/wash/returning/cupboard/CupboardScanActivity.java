@@ -83,7 +83,7 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
                     ReturningApi.scanClothes(clothesCode, getToken(), getNewHandler(0,
                             ResultCupboard.class));
                 } else {
-                    if (cupboardCode.equals(str)) {
+                    if (cupboardCode.equalsIgnoreCase(str)) {
                         showWaitDialog();
                         ReturningApi.scanCupboard(clothesCode, cupboardCode, getToken(),
                                 getNewHandler(1, ResultBase.class));
@@ -159,7 +159,7 @@ public class CupboardScanActivity extends BaseScanCodeActivity {
         boolean isFinish = true;
         for (DriverBox item : list) {
             if ((mode == MODE_DRIVER && code.equalsIgnoreCase(item.getBoxCode()))
-                    || code.equals(item.getBoxCode())) {
+                    || code.equalsIgnoreCase(item.getBoxCode())) {
                 if (item.isCheck) {
                     toast(R.string.driver_scan_repeat);
                     startDelay();

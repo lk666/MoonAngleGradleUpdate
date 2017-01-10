@@ -24,7 +24,6 @@ import cn.com.bluemoon.delivery.app.api.model.wash.closebox.ResultCloseBoxList;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.returning.pack.PackFragment;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
 import cn.com.bluemoon.lib.utils.threadhelper.ExRunable;
 import cn.com.bluemoon.lib.utils.threadhelper.Feedback;
@@ -162,7 +161,7 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
                 break;
             // 扫描封箱条
             case R.id.btn_scan:
-                ScanCloseBoxSignActivity.actionStart(this,REQUEST_CODE_SCAN_CODE,
+                ScanCloseBoxSignActivity.actionStart(this, REQUEST_CODE_SCAN_CODE,
                         boxCode, list);
                 break;
         }

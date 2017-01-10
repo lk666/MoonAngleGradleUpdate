@@ -78,7 +78,7 @@ public class ScanReceiveSignActivity extends BaseScanCodeActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         for (CarriageTag item : list) {
-            if (item.getTagCode().equals(tagCode)) {
+            if (item.getTagCode().equalsIgnoreCase(tagCode)) {
                 item.setSign(true);
                 break;
             }
@@ -145,7 +145,7 @@ public class ScanReceiveSignActivity extends BaseScanCodeActivity {
     private boolean check(String code) {
         boolean isIn = false;
         for (CarriageTag item : list) {
-            if (item.getTagCode().equals(code)) {
+            if (item.getTagCode().equalsIgnoreCase(code)) {
                 isIn = true;
                 if (item.isSign()) {
                     toast(getString(R.string.wait_sign_duplicate_code));
