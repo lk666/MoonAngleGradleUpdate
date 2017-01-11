@@ -641,9 +641,9 @@ public class MainActivity extends SlidingActivity {
                         if (!TextUtils.isEmpty(url)) {
                             if (!TextUtils.isEmpty(token)) {
                                 if (url.contains("?")) {
-                                    url = url + "token=" + token;
+                                    url = url + "&token=" + token;
                                 } else {
-                                    url = url + "?" + "token=" + token;
+                                    url = url + "?token=" + token;
                                 }
                             }
 
