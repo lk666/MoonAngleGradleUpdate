@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.wash.returning.closebox;
 
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
@@ -23,7 +24,7 @@ public class ScanBoxCodeActivity extends BaseScanCodeActivity {
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
-        if (str != null && str.equalsIgnoreCase(getTxtCode())) {
+        if (!TextUtils.isEmpty(str) && str.equalsIgnoreCase(getTxtCode())) {
             ClothesBoxBackOrderListActivity.actionStart(this, getTxtCode());
             finish();
         } else {
