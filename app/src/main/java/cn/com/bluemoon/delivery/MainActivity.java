@@ -639,14 +639,12 @@ public class MainActivity extends SlidingActivity {
                         String url = http.getUrl();
                         String token = ClientStateManager.getLoginToken();
                         if (!TextUtils.isEmpty(url)) {
-                            if (TextUtils.isEmpty(token)) {
-                                token = "";
-                            }
-
-                            if (url.contains("?")) {
-                                url = url + token;
-                            } else {
-                                url = url + "?" + token;
+                            if (!TextUtils.isEmpty(token)) {
+                                if (url.contains("?")) {
+                                    url = url + "token=" + token;
+                                } else {
+                                    url = url + "?" + "token=" + token;
+                                }
                             }
 
                             PublicUtil.openWebView(main, url, null, false, false);
