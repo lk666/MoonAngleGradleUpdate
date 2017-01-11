@@ -636,7 +636,21 @@ public class MainActivity extends SlidingActivity {
                     if (ResultScanService.TYPE_HTTP.equals(result.getType())) {
                         ResultScanService.Http http = JSON.parseObject(responseString,
                                 ResultScanService.Http.class);
-                        PublicUtil.openWebView(main, http.getUrl(), null, false, false);
+                        String url = http.getUrl();
+                        String token = ClientStateManager.getLoginToken();
+                        if (!TextUtils.isEmpty(url)) {
+                            if (TextUtils.isEmpty(token)) {
+                                token = "";
+                            }
+
+                            if (url.contains("?")) {
+                                url = url + token;
+                            } else {
+                                url = url + "?" + token;
+                            }
+
+                            PublicUtil.openWebView(main, url, null, false, false);
+                        }
                     } else if (ResultScanService.TYPE_TEXT.equals(result.getType())) {
                         ResultScanService.Text text = JSON.parseObject(responseString,
                                 ResultScanService.Text.class);
