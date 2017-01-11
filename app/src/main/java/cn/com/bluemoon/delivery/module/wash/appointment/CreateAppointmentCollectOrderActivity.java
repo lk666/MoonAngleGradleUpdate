@@ -353,7 +353,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
 
     private void checkFinish() {
         if (checkBtnFinish()) {
-            showWaitDialog();
+            showWaitDialog(false);
             long bachTime = 0;
             int isUrgent = rgUrgent.getCheckedRadioButtonId() == R.id.rg_urgent ? 1 : 0;
             if (isUrgent == 1) {

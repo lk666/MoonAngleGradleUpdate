@@ -9,7 +9,7 @@ public enum WashModeType {
     CARRIAGE_RECEIVE_MODEL("WAIT_CARRIAGE_SIGN"),//承运签收
     CLOSE_BOX_MODEL("WAIT_SEALED_BOX"),//封箱
     DRIVER_CARRIER_MODEL("WAIT_LOADED","WAIT_ARRIVED"),//司机承运
-    APPOINTMENT("APPOINTMENT_MODEL");//预约收衣
+    APPOINTMENT_MODEL("APPOINTMENT_MODEL");//预约收衣
 
 
     private String[] strs;

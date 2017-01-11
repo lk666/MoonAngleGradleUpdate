@@ -8,7 +8,6 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.BaseTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 
 
 /**
@@ -26,11 +25,11 @@ public class AppointmentTabActivity extends BaseTabActivity {
         tabs.add(new TabState(AppointmentHistoryFragment.class,
                 R.drawable.tab_history,
                 R.string.tab_bottom_with_order_collect_record));
-        actionStart(context, tabs, CloseBoxTabActivity.class);
+        actionStart(context, tabs, AppointmentTabActivity.class);
     }
 
     @Override
     protected WashModeType getModeType() {
-        return WashModeType.APPOINTMENT;
+        return WashModeType.APPOINTMENT_MODEL;
     }
 }
