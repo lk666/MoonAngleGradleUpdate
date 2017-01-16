@@ -7,8 +7,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +15,6 @@ import java.util.UUID;
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
-import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
@@ -2742,6 +2739,6 @@ public class DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("message", message);
         params.put(TOKEN, token);
-        postRequest(params, "scan/scanService%s", handler);
+        postRequest(params, "bluemoon-control/scan/scanService%s", handler);
     }
 }
