@@ -52,6 +52,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
     private static final int REQUEST_CODE_SAVE = 0x777;
     private static final int REQUEST_CODE_ADD_CLOTHES_INFO = 0x66;
     private static final int REQUEST_CODE_MODIFY_CLOTHES_INFO = 0x55;
+    private final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
 
     @Bind(R.id.tv_number)
     TextView tvNumber;
@@ -214,27 +215,11 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
      * 加急改为true时弹出预约时间选择框
      */
     private void getAppointBackTime() {
-        // 至少48小时后的时间
-        final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
         DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(this, minTime,
                 new DateTimePickDialogUtil.OnDetailClickLister() {
                     @Override
                     public void btnClickLister(long time, String datetime) {
-                        if (datetime.equals("time")) {
-                            // 只能选择48小时之后的时间
-                            if (time + 3600 < minTime) {
-                                PublicUtil.showToast(getString(R.string
-                                        .with_order_collect_appoint_back_time_later_hint));
-                            } else {
-                                // 预约时间更改
-                                appointBackTime = time * 1000;
-                                tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
-                                        "yyyy-MM-dd " + "HH:mm"));
-                                return;
-                            }
-                        }
-
-                        rbNotUrgent.setChecked(true);
+                        timeSelect(time,datetime,true);
                     }
                 });
         dateTimePicKDialog.dateTimePicKDialog();
@@ -328,34 +313,46 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
      * 改变预约时间弹出预约时间选择框
      */
     private void selectAppointBackTime() {
-        // 至少48小时后的时间
-        final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
         DateTimePickDialogUtil dateTimePicKDialog = new DateTimePickDialogUtil(this, minTime, new
                 DateTimePickDialogUtil.OnDetailClickLister() {
                     @Override
                     public void btnClickLister(long time, String datetime) {
-                        if (datetime.equals("time")) {
-                            // 只能选择48小时之后的时间
-                            if (time + 3600 < minTime) {
-                                PublicUtil.showToast(getString(R.string
-                                        .with_order_collect_appoint_back_time_later_hint));
-                            } else {
-                                // 预约时间更改
-                                appointBackTime = time * 1000;
-                                tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
-                                        "yyyy-MM-dd " + "HH:mm"));
-                            }
-                        }
+                        timeSelect(time, datetime, false);
                     }
                 });
         dateTimePicKDialog.dateTimePicKDialog();
+    }
+
+    private void timeSelect(long time, String datetime, boolean isUrgent) {
+        if (datetime.equals("time")) {
+            // 只能选择48小时之后的时间
+            if (time + 3600 < minTime) {
+                PublicUtil.showToast(getString(R.string
+                        .with_order_collect_appoint_back_time_later_hint));
+            } else {
+                // 预约时间更改
+                appointBackTime = time * 1000;
+                //少于13位的不能选择，比如1970.01.01
+                if (String.valueOf(appointBackTime).length() < 13) {
+                    PublicUtil.showToast(getString(R.string
+                            .with_order_collect_appoint_back_time_later_hint));
+                } else {
+                    tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
+                            "yyyy-MM-dd " + "HH:mm"));
+                }
+                return;
+            }
+        }
+        if (isUrgent) {
+            rbNotUrgent.setChecked(true);
+        }
     }
 
     private void checkFinish() {
         if (checkBtnFinish()) {
             showWaitDialog(false);
             long bachTime = 0;
-            int isUrgent = rgUrgent.getCheckedRadioButtonId() == R.id.rg_urgent ? 1 : 0;
+            int isUrgent = rgUrgent.getCheckedRadioButtonId() == R.id.rb_urgent ? 1 : 0;
             if (isUrgent == 1) {
                 bachTime = appointBackTime;
             }
