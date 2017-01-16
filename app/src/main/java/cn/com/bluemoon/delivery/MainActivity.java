@@ -634,7 +634,7 @@ public class MainActivity extends SlidingActivity {
                 if (null != result && result.getResponseCode() == Constants
                         .RESPONSE_RESULT_SUCCESS) {
                     if (ResultScanService.TYPE_HTTP.equals(result.getType())) {
-                        ResultScanService.Http http = JSON.parseObject(responseString,
+                        ResultScanService.Http http = JSON.parseObject(result.getResult(),
                                 ResultScanService.Http.class);
                         String url = http.getUrl();
                         String token = ClientStateManager.getLoginToken();
@@ -650,7 +650,7 @@ public class MainActivity extends SlidingActivity {
                             PublicUtil.openWebView(main, url, null, false, false);
                         }
                     } else if (ResultScanService.TYPE_TEXT.equals(result.getType())) {
-                        ResultScanService.Text text = JSON.parseObject(responseString,
+                        ResultScanService.Text text = JSON.parseObject(result.getResult(),
                                 ResultScanService.Text.class);
                         PublicUtil.showToast(text.getText());
                     }
