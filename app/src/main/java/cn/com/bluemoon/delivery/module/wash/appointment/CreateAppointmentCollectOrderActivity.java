@@ -331,15 +331,11 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                         .with_order_collect_appoint_back_time_later_hint));
             } else {
                 // 预约时间更改
-                appointBackTime = time * 1000;
-                //少于13位的不能选择，比如1970.01.01
-                if (String.valueOf(appointBackTime).length() < 13) {
-                    PublicUtil.showToast(getString(R.string
-                            .with_order_collect_appoint_back_time_later_hint));
-                } else {
-                    tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
+                String currentTime = String.valueOf(System.currentTimeMillis());
+                String millis = currentTime.substring(currentTime.length() -3,currentTime.length());
+                appointBackTime = Long.valueOf(time + millis);
+                tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
                             "yyyy-MM-dd " + "HH:mm"));
-                }
                 return;
             }
         }
