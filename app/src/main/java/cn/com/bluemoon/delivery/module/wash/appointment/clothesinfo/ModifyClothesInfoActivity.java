@@ -707,6 +707,7 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
             tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
             tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
             tmpUploadClothesInfo.setInitClothesCode(extraUploadClothesInfo.getClothesCode());
+            tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
             Intent i = new Intent();
             i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
             setResult(RESULT_CODE_DELETE_CLOTHES_IMG, i);

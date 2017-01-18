@@ -518,6 +518,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                         if (item.getClothesCode().equals(info.getInitClothesCode())) {
                             item.setImgPath(info.getImgPath());
                             item.setClothingPics(info.getClothingPics());
+                            item.setClothesImgIds(info.getClothesImgIds());
                             break;
                         }
                     }
