@@ -234,7 +234,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
      * 设置角标数量
      */
     public void setAmount(int index, int amount) {
-        if (amountTvs == null || index > amountTvs.size() || index < 0) {
+        if (amountTvs == null || index >= amountTvs.size() || index < 0) {
             return;
         }
 

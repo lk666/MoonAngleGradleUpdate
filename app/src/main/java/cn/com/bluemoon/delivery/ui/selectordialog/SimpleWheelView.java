@@ -12,6 +12,7 @@ import android.text.TextPaint;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -206,6 +207,15 @@ public class SimpleWheelView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        /*controlWidth = getWidth();
+        if (controlWidth != 0) {
+            setMeasuredDimension(getWidth(), itemNumber * unitHeight);
+        }*/
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
         controlWidth = getWidth();
         if (controlWidth != 0) {
             setMeasuredDimension(getWidth(), itemNumber * unitHeight);
@@ -295,6 +305,8 @@ public class SimpleWheelView extends View {
         textPaint.getTextBounds(itemText, 0, itemText.length(), textRect);
 
         // 绘制内容
+        /*Log.e("绘制内容", "x:controlWidth" + controlWidth+ ", textRect.width()=" + (textRect.width() / 2 )
+        + ", x=" + (controlWidth / 2 - textRect.width() / 2));*/
         canvas.drawText(itemText, controlWidth / 2 - textRect.width() / 2,
                 y + (unitHeight + textRect.height()) / 2, textPaint);
     }

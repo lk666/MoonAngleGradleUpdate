@@ -19,6 +19,7 @@ public class BadgeUtil {
 
     private final static String TAG = "badger";
     private static int TYPE_NORMAL = 10000;
+    public static boolean isApplyCountFail = false;
 
     /**
      * 更新所有应用的角标
@@ -56,7 +57,7 @@ public class BadgeUtil {
             return true;
         } catch (ShortcutBadgeException e) {
             showNotification(context, notification);
-            Log.e(TAG, "Unable to execute badge", e);
+            Log.d(TAG, "Unable to execute badge", e);
             return false;
         }
     }
@@ -69,14 +70,20 @@ public class BadgeUtil {
      * @return true in case of success, false otherwise
      */
     public static boolean applyCount(Context context, int badgeCount, Notification notification) {
-        try {
-            BadgerManager.applyCountOrThrow(context, badgeCount, notification);
-            return true;
-        } catch (ShortcutBadgeException e) {
+        //如果首次设置角标失败，则关闭后台之前都不设置
+        if (!isApplyCountFail) {
+            try {
+                BadgerManager.applyCountOrThrow(context, badgeCount, notification);
+                return true;
+            } catch (ShortcutBadgeException e) {
+                showNotification(context, notification);
+                Log.d(TAG, "Unable to execute badge", e);
+                isApplyCountFail = true;
+            }
+        }else{
             showNotification(context, notification);
-            Log.e(TAG, "Unable to execute badge", e);
-            return false;
         }
+        return false;
     }
 
     public static boolean applyCount(Context context, int badgeCount) {
