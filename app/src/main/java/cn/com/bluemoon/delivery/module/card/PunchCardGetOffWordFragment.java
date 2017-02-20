@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
+import cn.com.bluemoon.delivery.app.api.model.card.ResultAddressInfo;
 import cn.com.bluemoon.delivery.app.api.model.card.WorkTask;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultShowPunchCardDetail;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -49,299 +50,401 @@ import cn.com.bluemoon.lib.tagview.TagListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class PunchCardGetOffWordFragment extends Fragment implements OnClickListener{
-	private String TAG = "PunchCardGetOffWordFragment";
-	private CardTabActivity mContext;
-	private ImageView imgBanner;
-	private CommonProgressDialog progressDialog;
-	private TagListView tagListView;
-	private TextView txtStartTime;
-	private TextView txtNameAndMobile;
-	private TextView txtAddress;
-	private TextView txtLogContent;
-	private TextView txtDiaryContent;
-	private TextView txtImgContent;
-	private LinearLayout layoutWorkTask;
-	private LinearLayout layoutWorkLog;
-	private LinearLayout layoutWorkDiary;
-	private LinearLayout layoutUploadImage;
-	private View lineView;
-	private ImageView imgDown;
-	private Button btnPunchCard;
-	public LocationClient mLocationClient = null;
-	PunchCard punchCard;
-	boolean hasWorkDiary = true;
-	boolean hasWrokDaily = true;
-	boolean hasImage = true;
-	private List<Tag> mTags;
-	private boolean control;
+public class PunchCardGetOffWordFragment extends Fragment implements OnClickListener {
+    private String TAG = "PunchCardGetOffWordFragment";
+    private CardTabActivity mContext;
+    private ImageView imgBanner;
+    private CommonProgressDialog progressDialog;
+    private TagListView tagListView;
+    private TextView txtStartTime;
+    private TextView txtNameAndMobile;
+    private TextView txtAddress;
+    private TextView txtLogContent;
+    private TextView txtDiaryContent;
+    private TextView txtImgContent;
+    private LinearLayout layoutWorkTask;
+    private LinearLayout layoutWorkLog;
+    private LinearLayout layoutWorkDiary;
+    private LinearLayout layoutUploadImage;
+    private TextView txtCurrentAddress;
+    private ImageView imgAddressRefresh;
+    private View lineView;
+    private View lineAdressView;
+    private ImageView imgDown;
+    private Button btnPunchCard;
+    private LinearLayout layoutStartCard;
+    private LinearLayout layoutStartAddress;
+    private ImageView imgAddressDown;
+    private TextView txtAddressStartTime;
+    private TextView txtAddressStart;
+    private LinearLayout layoutAddress;
+    public LocationClient mLocationClient = null;
+    PunchCard punchCard;
+    boolean hasWorkDiary = true;
+    boolean hasWrokDaily = true;
+    boolean hasImage = true;
+    private List<Tag> mTags;
+    private boolean control;
+    private boolean isInit = true;
 
-	public BDLocationListener myListener = new BDLocationListener() {
+    public BDLocationListener myListener = new BDLocationListener() {
 
-		@Override
-		public void onReceiveLocation(BDLocation location) {
-			LogUtils.d("location.getLatitude= " + location.getLatitude());
-			LogUtils.d("location.getLongitude= " + location.getLongitude());
-			LogUtils.d("location.getAltitude= " + location.getAltitude());
-			mLocationClient.stop();
-			if (location.getLocType() == BDLocation.TypeOffLineLocation) {
-				punchCard.setLatitude(Constants.UNKNOW_LATITUDE);
-				punchCard.setLongitude(Constants.UNKNOW_LONGITUDE);
-			} else {
-				punchCard.setLatitude(location.getLatitude());
-				punchCard.setLongitude(location.getLongitude());
-			}
+        @Override
+        public void onReceiveLocation(BDLocation location) {
+            LogUtils.d("location.getLatitude= " + location.getLatitude());
+            LogUtils.d("location.getLongitude= " + location.getLongitude());
+            LogUtils.d("location.getAltitude= " + location.getAltitude());
+            mLocationClient.stop();
+            if (isInit) {
+                //获取首页地址信息
+                if (location.getLocType() == BDLocation.TypeOffLineLocation) {
+                    layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_error_back));
+                    txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
 
-			//punchCard.setAltitude(location.getAltitude());
-			progressDialog.show();
-			DeliveryApi.addPunchCardOut(ClientStateManager.getLoginToken(),
-					punchCard, CardUtils.getWorkTaskString(tagListView.getTagsChecked()), confirmAttendanceHandler);
-		}
-	};
+                    punchCard.setLatitude(Constants.UNKNOW_LATITUDE);
+                    punchCard.setLongitude(Constants.UNKNOW_LONGITUDE);
+                    if (progressDialog != null)
+                        progressDialog.dismiss();
+                } else {
+                    layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_back));
+                    punchCard.setLatitude(location.getLatitude());
+                    punchCard.setLongitude(location.getLongitude());
+                    DeliveryApi.getGpsAddress(punchCard, gpsHandler);
+                }
 
-	public void onAttach(Activity activity) {
-		super.onAttach(activity);
-		this.mContext = (CardTabActivity) activity;
-	};
+            } else {
+                if (location.getLocType() == BDLocation.TypeOffLineLocation) {
+                    punchCard.setLatitude(Constants.UNKNOW_LATITUDE);
+                    punchCard.setLongitude(Constants.UNKNOW_LONGITUDE);
+                } else {
+                    punchCard.setLatitude(location.getLatitude());
+                    punchCard.setLongitude(location.getLongitude());
+                }
 
-	@Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-							 Bundle savedInstanceState) {
-		initCustomActionBar();
-		View v = inflater.inflate(R.layout.get_off_work,container, false);
-		tagListView = (TagListView) v.findViewById(R.id.tag_listview);
-		txtStartTime = (TextView) v.findViewById(R.id.tv_start_time);
-		txtNameAndMobile = (TextView) v.findViewById(R.id.txt_name_and_mobile);
-		txtAddress = (TextView) v.findViewById(R.id.txt_address);
-		txtLogContent = (TextView) v.findViewById(R.id.txt_log_content);
-		txtDiaryContent = (TextView) v.findViewById(R.id.txt_diary_content);
-		txtImgContent = (TextView) v.findViewById(R.id.txt_img_content);
-		layoutWorkTask = (LinearLayout) v.findViewById(R.id.layout_work_task);
-		layoutWorkLog = (LinearLayout) v.findViewById(R.id.layout_work_log);
-		layoutWorkDiary = (LinearLayout) v.findViewById(R.id.layout_work_diary);
-		layoutUploadImage= (LinearLayout) v.findViewById(R.id.layout_upload_image);
-		btnPunchCard = (Button) v.findViewById(R.id.btn_punch_card);
-		imgDown = (ImageView) v.findViewById(R.id.img_down);
-		lineView =  v.findViewById(R.id.line_view);
-		layoutWorkLog.setOnClickListener(this);
-		layoutWorkDiary.setOnClickListener(this);
-		layoutUploadImage.setOnClickListener(this);
-		layoutWorkTask.setOnClickListener(this);
-		btnPunchCard.setOnClickListener(this);
-		mLocationClient = new LocationClient(mContext.getApplicationContext());
-		mLocationClient.registerLocationListener(myListener);
-		LocationClientOption option = new LocationClientOption();
-		option.setCoorType("bd09ll");
-		option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
-		mLocationClient.setLocOption(option);
+                //punchCard.setAltitude(location.getAltitude());
+                progressDialog.show();
+                DeliveryApi.addPunchCardOut(ClientStateManager.getLoginToken(),
+                        punchCard, CardUtils.getWorkTaskString(tagListView.getTagsChecked()), confirmAttendanceHandler);
+            }
+            isInit = false;
+        }
+    };
+
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        this.mContext = (CardTabActivity) activity;
+    }
+
+    ;
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        initCustomActionBar();
+
+        View v = inflater.inflate(R.layout.get_off_work, container, false);
+
+        layoutStartAddress = (LinearLayout) v.findViewById(R.id.layout_start_address);
+        layoutStartCard = (LinearLayout) v.findViewById(R.id.layout_start_card);
+        imgAddressDown = (ImageView) v.findViewById(R.id.img_address_down);
+        txtAddressStartTime = (TextView) v.findViewById(R.id.txt_start_time);
+        txtAddressStart = (TextView) v.findViewById(R.id.txt_start_address);
+        layoutAddress = (LinearLayout) v.findViewById(R.id.layout_address);
+        tagListView = (TagListView) v.findViewById(R.id.tag_listview);
+        txtStartTime = (TextView) v.findViewById(R.id.tv_start_time);
+        txtNameAndMobile = (TextView) v.findViewById(R.id.txt_name_and_mobile);
+        txtAddress = (TextView) v.findViewById(R.id.txt_address);
+        txtLogContent = (TextView) v.findViewById(R.id.txt_log_content);
+        txtDiaryContent = (TextView) v.findViewById(R.id.txt_diary_content);
+        txtImgContent = (TextView) v.findViewById(R.id.txt_img_content);
+        layoutWorkTask = (LinearLayout) v.findViewById(R.id.layout_work_task);
+        layoutWorkLog = (LinearLayout) v.findViewById(R.id.layout_work_log);
+        layoutWorkDiary = (LinearLayout) v.findViewById(R.id.layout_work_diary);
+        layoutUploadImage = (LinearLayout) v.findViewById(R.id.layout_upload_image);
+        btnPunchCard = (Button) v.findViewById(R.id.btn_punch_card);
+        imgDown = (ImageView) v.findViewById(R.id.img_down);
+        lineView = v.findViewById(R.id.line_view);
+        lineAdressView = v.findViewById(R.id.line_view_address);
+        txtCurrentAddress = (TextView) v.findViewById(R.id.text_address);
+        imgAddressRefresh = (ImageView) v.findViewById(R.id.img_address_refresh);
 
 
-		progressDialog = new CommonProgressDialog(mContext);
-		progressDialog.show();
-		DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
-		return v;
-	}
+        imgAddressRefresh.setOnClickListener(this);
+        layoutWorkLog.setOnClickListener(this);
+        layoutWorkDiary.setOnClickListener(this);
+        layoutUploadImage.setOnClickListener(this);
+        layoutStartCard.setOnClickListener(this);
+        layoutWorkTask.setOnClickListener(this);
+        btnPunchCard.setOnClickListener(this);
+        mLocationClient = new LocationClient(mContext.getApplicationContext());
+        mLocationClient.registerLocationListener(myListener);
+        LocationClientOption option = new LocationClientOption();
+        option.setCoorType("bd09ll");
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
+        mLocationClient.setLocOption(option);
+        mLocationClient.start();
 
-	AsyncHttpResponseHandler confirmAttendanceHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+        progressDialog = new CommonProgressDialog(mContext);
+        progressDialog.show();
+        DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
+        return v;
+    }
 
-		@Override
-		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			LogUtils.d(TAG, "confirmAttendance result = " + responseString);
-			control = false;
-			if(progressDialog != null)
-				progressDialog.dismiss();
-			try {
-				ResultBase baseResult = JSON.parseObject(responseString, ResultBase.class);
-				if(baseResult.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
-					PublicUtil.showToast(baseResult.getResponseMsg());
-					getActivity().finish();
-				}else{
-					PublicUtil.showErrorMsg(mContext, baseResult);
-				}
-			} catch (Exception e) {
-				PublicUtil.showToastServerBusy();
-			}
-		}
+    AsyncHttpResponseHandler gpsHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
-		@Override
-		public void onFailure(int statusCode, Header[] headers, String responseString,
-							  Throwable throwable) {
-			control = false;
-			if(progressDialog != null)
-				progressDialog.dismiss();
-			PublicUtil.showToastServerOvertime();
-		}
-	};
 
-	AsyncHttpResponseHandler getPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(TAG, "gpsHandler result = " + responseString);
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            try {
+                ResultAddressInfo baseResult = JSON.parseObject(responseString, ResultAddressInfo.class);
+                if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    txtCurrentAddress.setText(baseResult.getAddressInfo().getFormattedAddress());
+                } else {
+                    PublicUtil.showErrorMsg(mContext, baseResult);
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG, e.getMessage());
+                layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_error_back));
+                txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
+                PublicUtil.showToastServerBusy();
+            }
+        }
 
-		@Override
-		public void onSuccess(int statusCode, Header[] headers, String responseString) {
-			LogUtils.d("test", "getPunchCardHandler result = " + responseString);
-			progressDialog.dismiss();
-			try {
-				ResultShowPunchCardDetail result = JSON.parseObject(responseString, ResultShowPunchCardDetail.class);
-				if(null!=result && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
-					//PublicUtil.showToast(result.getResponseMsg());
-					punchCard =  result.getPunchCard();
-					if (!(tagListView.getTags() != null && tagListView.getTags().size() > 0)) {
-						setTags(result.getWorkTaskList());
-					}
-					txtStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(), "yyyy-MM-dd HH:mm"));
-					txtNameAndMobile.setText(CardUtils.getCharge(punchCard));
-					txtAddress.setText(CardUtils.getAddress(punchCard));
-					if (punchCard.getHasWorkDiary()) {
-						txtLogContent.setText(getString(R.string.work_log_show));
-						hasWorkDiary = true;
-					} else {
-						hasWorkDiary = false;
-						txtLogContent.setText(getString(R.string.input_today_log));
-					}
-					if (punchCard.getTotalBreedSalesNum() > 0) {
-						hasWrokDaily = true;
-						txtDiaryContent.setText(String.valueOf(punchCard.getTotalSalesNum()));
-					} else {
-						hasWrokDaily = false;
-						txtDiaryContent.setText(getString(R.string.input_today_sales));
-					}
-					if (punchCard.getUploadImgNum() > 0) {
-						hasImage = true;
-						txtImgContent.setText(String.valueOf(punchCard.getUploadImgNum()));
-					} else {
-						hasImage = false;
-						txtImgContent.setText(getString(R.string.upload_image));
-					}
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            LogUtils.e(TAG, throwable.getMessage());
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_error_back));
+            txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 
-					//DeliveryApi.getPunchCardById(ClientStateManager.getLoginToken(getActivity()), Long.valueOf(punchCard.getPunchCardId()), getPunchCardByIdHandler);
-				} else {
-					progressDialog.dismiss();
-					PublicUtil.showToast(result.getResponseMsg());
-				}
-			} catch (Exception e) {
-				progressDialog.dismiss();
-				PublicUtil.showToastServerBusy();
-			}
-		}
-		@Override
-		public void onFailure(int statusCode, Header[] headers, String responseString,
-							  Throwable throwable) {
-			LogUtils.d("statusCode="+statusCode);
-			progressDialog.dismiss();
-			PublicUtil.showToastServerOvertime();
-		}
-	};
+    AsyncHttpResponseHandler confirmAttendanceHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
-	private void setTags(List<WorkTask> workTasks){
-		List<Tag> list = new ArrayList<>();
-		if(workTasks!=null){
-			for (int i = 0; i < workTasks.size(); i++) {
-				Tag tag = new Tag();
-				tag.setId(i);
-				tag.setKey(workTasks.get(i).getTaskCode());
-				tag.setChecked(workTasks.get(i).isSelected);
-				tag.setTitle(workTasks.get(i).getTaskName());
-				list.add(tag);
-			}
-		}
-		tagListView.setTags(list);
-	}
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(TAG, "confirmAttendance result = " + responseString);
+            control = false;
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            try {
+                ResultBase baseResult = JSON.parseObject(responseString, ResultBase.class);
+                if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    PublicUtil.showToast(baseResult.getResponseMsg());
+                    getActivity().finish();
+                } else {
+                    PublicUtil.showErrorMsg(mContext, baseResult);
+                }
+            } catch (Exception e) {
+                PublicUtil.showToastServerBusy();
+            }
+        }
 
-	private void initCustomActionBar() {
-		new CommonActionBar(mContext.getActionBar(), new IActionBarListener() {
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            control = false;
+            if (progressDialog != null)
+                progressDialog.dismiss();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 
-			@Override
-			public void onBtnRight(View v) {
+    AsyncHttpResponseHandler getPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
-			}
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d("test", "getPunchCardHandler result = " + responseString);
+            progressDialog.dismiss();
+            try {
+                ResultShowPunchCardDetail result = JSON.parseObject(responseString, ResultShowPunchCardDetail.class);
+                if (null != result && result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    //PublicUtil.showToast(result.getResponseMsg());
+                    punchCard = result.getPunchCard();
+                    if (!(tagListView.getTags() != null && tagListView.getTags().size() > 0)) {
+                        setTags(result.getWorkTaskList());
+                    }
+                    txtStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(), "yyyy-MM-dd HH:mm"));
+                    txtAddressStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(), "yyyy-MM-dd HH:mm"));
+                    txtAddressStart.setText(punchCard.getPunchInGpsAddress());
+                    txtNameAndMobile.setText(CardUtils.getCharge(punchCard));
+                    txtAddress.setText(CardUtils.getAddress(punchCard));
+                    if (punchCard.getHasWorkDiary()) {
+                        txtLogContent.setText(getString(R.string.work_log_show));
+                        hasWorkDiary = true;
+                    } else {
+                        hasWorkDiary = false;
+                        txtLogContent.setText(getString(R.string.input_today_log));
+                    }
+                    if (punchCard.getTotalBreedSalesNum() > 0) {
+                        hasWrokDaily = true;
+                        txtDiaryContent.setText(String.valueOf(punchCard.getTotalSalesNum()));
+                    } else {
+                        hasWrokDaily = false;
+                        txtDiaryContent.setText(getString(R.string.input_today_sales));
+                    }
+                    if (punchCard.getUploadImgNum() > 0) {
+                        hasImage = true;
+                        txtImgContent.setText(String.valueOf(punchCard.getUploadImgNum()));
+                    } else {
+                        hasImage = false;
+                        txtImgContent.setText(getString(R.string.upload_image));
+                    }
 
-			@Override
-			public void onBtnLeft(View v) {
-				mContext.finish();
-			}
+                    //DeliveryApi.getPunchCardById(ClientStateManager.getLoginToken(getActivity()), Long.valueOf(punchCard.getPunchCardId()), getPunchCardByIdHandler);
+                } else {
+                    progressDialog.dismiss();
+                    PublicUtil.showToast(result.getResponseMsg());
+                }
+            } catch (Exception e) {
+                progressDialog.dismiss();
+                PublicUtil.showToastServerBusy();
+            }
+        }
 
-			@Override
-			public void setTitle(TextView v) {
-				v.setText(getText(R.string.puncard_info));
-			}
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            LogUtils.d("statusCode=" + statusCode);
+            progressDialog.dismiss();
+            PublicUtil.showToastServerOvertime();
+        }
+    };
 
-		});
-	}
+    private void setTags(List<WorkTask> workTasks) {
+        List<Tag> list = new ArrayList<>();
+        if (workTasks != null) {
+            for (int i = 0; i < workTasks.size(); i++) {
+                Tag tag = new Tag();
+                tag.setId(i);
+                tag.setKey(workTasks.get(i).getTaskCode());
+                tag.setChecked(workTasks.get(i).isSelected);
+                tag.setTitle(workTasks.get(i).getTaskName());
+                list.add(tag);
+            }
+        }
+        tagListView.setTags(list);
+    }
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		control = false;
-		if (resultCode == 1) {
-			DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
-		}
-	}
+    private void initCustomActionBar() {
+        new CommonActionBar(mContext.getActionBar(), new IActionBarListener() {
 
-	@Override
-	public void onPause() {
-		super.onPause();
-		MobclickAgent.onPageEnd(TAG);
-	}
+            @Override
+            public void onBtnRight(View v) {
 
-	public void onResume() {
-		super.onResume();
-		MobclickAgent.onPageStart(TAG);
-	}
+            }
 
-	@Override
-	public void onClick(View v) {
-		if (!control) {
-			control = true;
-			if (v == layoutWorkDiary) {
-				Intent intent = new Intent(mContext, WorkDiaryActivity.class);
-				intent.putExtra("hasWrokDaily", hasWrokDaily);
-				PunchCardGetOffWordFragment.this.startActivityForResult(intent,1);
-			} else if (v == layoutUploadImage) {
-				Intent intent = new Intent(mContext, UploadImageActivity.class);
-				intent.putExtra("hasImage",hasImage);
-				PunchCardGetOffWordFragment.this.startActivityForResult(intent,1);
-			} else if (v==layoutWorkLog) {
-				Intent intent = new Intent(mContext, LogActivity.class);
-				intent.putExtra("hasWorkDiary",hasWorkDiary);
-				PunchCardGetOffWordFragment.this.startActivityForResult(intent,1);
-			} else if (v==layoutWorkTask) {
-				if (tagListView.getVisibility() == View.VISIBLE) {
-					ImageRotateUtil.rotateArrow(true, imgDown);
-					tagListView.setVisibility(View.GONE);
-					lineView.setVisibility(View.GONE);
-				} else {
-					ImageRotateUtil.rotateArrow(false, imgDown);
-					tagListView.setVisibility(View.VISIBLE);
-					lineView.setVisibility(View.VISIBLE);
-				}
-				control = false;
-			} else if (v == btnPunchCard) {
-				if (punchCard != null) {
-					if (tagListView.getTagsChecked().size() == 0) {
-						control = false;
-						PublicUtil.showToast(getString(R.string.card_worktask_cannot_empty));
-					} else if (!hasWorkDiary) {
-						control = false;
-						PublicUtil.showToast(getString(R.string.log_not_input));
-					} else {
-						new CommonAlertDialog.Builder(mContext).setMessage(getString(R.string.sure_get_off_work)).setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								progressDialog.show();
-								mLocationClient.start();
-							}
-						}).setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								control = false;
-							}
-						}).setCancelable(false).show();
-					}
-				} else {
-					control = false;
-				}
+            @Override
+            public void onBtnLeft(View v) {
+                mContext.finish();
+            }
 
-			}
-		}
+            @Override
+            public void setTitle(TextView v) {
+                v.setText(getText(R.string.puncard_info));
+            }
 
-	}
+        });
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        control = false;
+        if (resultCode == 1) {
+            DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
+        }
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(TAG);
+    }
+
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(TAG);
+    }
+
+    @Override
+    public void onClick(View v) {
+
+        if (!control) {
+            control = true;
+            if (v == layoutWorkDiary) {
+                Intent intent = new Intent(mContext, WorkDiaryActivity.class);
+                intent.putExtra("hasWrokDaily", hasWrokDaily);
+                PunchCardGetOffWordFragment.this.startActivityForResult(intent, 1);
+            } else if (v == layoutUploadImage) {
+                Intent intent = new Intent(mContext, UploadImageActivity.class);
+                intent.putExtra("hasImage", hasImage);
+                PunchCardGetOffWordFragment.this.startActivityForResult(intent, 1);
+            } else if (v == layoutWorkLog) {
+                Intent intent = new Intent(mContext, LogActivity.class);
+                intent.putExtra("hasWorkDiary", hasWorkDiary);
+                PunchCardGetOffWordFragment.this.startActivityForResult(intent, 1);
+            } else if (v == layoutWorkTask) {
+                if (tagListView.getVisibility() == View.VISIBLE) {
+                    ImageRotateUtil.rotateArrow(true, imgDown);
+                    tagListView.setVisibility(View.GONE);
+                    lineView.setVisibility(View.GONE);
+                } else {
+                    ImageRotateUtil.rotateArrow(false, imgDown);
+                    tagListView.setVisibility(View.VISIBLE);
+                    lineView.setVisibility(View.VISIBLE);
+                }
+                control = false;
+            } else if (v == layoutStartCard) {
+                if (layoutStartAddress.getVisibility() == View.VISIBLE) {
+                    ImageRotateUtil.rotateArrow(true, imgAddressDown);
+                    layoutStartAddress.setVisibility(View.GONE);
+                    lineAdressView.setVisibility(View.GONE);
+                } else {
+                    ImageRotateUtil.rotateArrow(false, imgAddressDown);
+                    layoutStartAddress.setVisibility(View.VISIBLE);
+                    lineAdressView.setVisibility(View.VISIBLE);
+                }
+                control = false;
+            } else if (v == btnPunchCard) {
+                if (punchCard != null) {
+                    if (tagListView.getTagsChecked().size() == 0) {
+                        control = false;
+                        PublicUtil.showToast(getString(R.string.card_worktask_cannot_empty));
+                    } else if (!hasWorkDiary) {
+                        control = false;
+                        PublicUtil.showToast(getString(R.string.log_not_input));
+                    } else {
+                        new CommonAlertDialog.Builder(mContext).setMessage(getString(R.string.sure_get_off_work)).setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                progressDialog.show();
+                                mLocationClient.start();
+                            }
+                        }).setPositiveButton(R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                control = false;
+                            }
+                        }).setCancelable(false).show();
+                    }
+                } else {
+                    control = false;
+                }
+
+            } else if (v == imgAddressRefresh) {
+                if (progressDialog != null) progressDialog.show();
+                isInit = true;
+                mLocationClient.start();
+                control = false;
+            }
+        }
+
+    }
 }

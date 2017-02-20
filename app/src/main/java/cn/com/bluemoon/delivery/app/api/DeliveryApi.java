@@ -61,6 +61,20 @@ public class DeliveryApi {
     }
 
 
+    protected static void postDoubleRequest(Map<String, Double> params, String subUrl,
+                                      AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.post(context, url, jsonString, handler);
+    }
+
+
     /************************
      * 2.1 用户相关
      **********************************/
@@ -2741,4 +2755,20 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         postRequest(params, "bluemoon-control/scan/scanService%s", handler);
     }
+
+
+
+    /**
+     * 获取经纬度地址
+     *
+     * @param PunchCard 打卡信息
+     */
+    public static void getGpsAddress(PunchCard card, AsyncHttpResponseHandler handler) {
+        Map<String, Double> params = new HashMap<>();
+        params.put("longitude",card.getLongitude());
+        params.put("latitude",   card.getLatitude());
+        params.put("altitude",  card.getAltitude());
+        postDoubleRequest(params, "bluemoon-control/attendance/getGpsAddress%s", handler);
+    }
+
 }

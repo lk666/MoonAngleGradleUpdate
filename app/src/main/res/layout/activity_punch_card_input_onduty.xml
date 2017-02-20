@@ -6,6 +6,8 @@
     android:background="@color/page_bg_f2"
     >
 
+    <include layout="@layout/layout_get_gps" ></include>
+    
     <cn.com.bluemoon.delivery.ui.TabSelector
         xmlns:tab="http://schemas.android.com/apk/res/cn.com.bluemoon.delivery"
         android:id="@+id/layout_tab"

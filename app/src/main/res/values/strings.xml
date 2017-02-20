@@ -556,6 +556,8 @@
     <string name="record_your_log">记录你今天的工作情况吧~~</string>
     <string name="punch_card_start_time">开始时间</string>
     <string name="work_task_txt">工作任务</string>
+    <string name="work_start_txt">开始打卡</string>
+    <string name="work_address_fail_txt">定位失败</string>
     <string name="log_txt">日志</string>
     <string name="input_today_log">请填写今天的工作日志</string>
     <string name="work_diary_txt">日报</string>

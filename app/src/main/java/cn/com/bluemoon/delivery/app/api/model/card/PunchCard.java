@@ -132,6 +132,15 @@ public class PunchCard {
     private int totalBreedSalesNum;
     private int totalSalesNum;
     private int uploadImgNum;
+    private String punchInGpsAddress;
+
+    public String getPunchInGpsAddress() {
+        return punchInGpsAddress;
+    }
+
+    public void setPunchInGpsAddress(String punchInGpsAddress) {
+        this.punchInGpsAddress = punchInGpsAddress;
+    }
 
     public boolean getHasWorkDiary() {
         return hasWorkDiary;
