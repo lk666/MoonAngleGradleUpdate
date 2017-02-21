@@ -189,7 +189,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         isInit = true;
         mLocationClient.start();
         startPropertyAnim(imgAddressRefresh);
-
+        imgAddressRefresh.setClickable(false);
         progressDialog = new CommonProgressDialog(mContext);
         progressDialog.show();
         DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
@@ -217,6 +217,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
                 PublicUtil.showToastServerBusy();
             } finally {
                 stopPropertyAnim();
+                imgAddressRefresh.setClickable(true);
             }
         }
 
@@ -230,7 +231,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
             txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
             PublicUtil.showToastServerOvertime();
             stopPropertyAnim();
-
+            imgAddressRefresh.setClickable(true);
         }
     };
 
@@ -474,6 +475,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
             } else if (v == imgAddressRefresh) {
                 isInit = true;
                 startPropertyAnim(imgAddressRefresh);
+                imgAddressRefresh.setClickable(false);
                 mLocationClient.start();
                 control = false;
             }

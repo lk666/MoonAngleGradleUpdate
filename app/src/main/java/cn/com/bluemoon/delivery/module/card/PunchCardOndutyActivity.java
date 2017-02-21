@@ -179,6 +179,7 @@ public class PunchCardOndutyActivity extends Activity {
         option.setIsNeedAddress(false);
         mLocationClient.setLocOption(option);
         mLocationClient.start();
+        imgAddressRefresh.setClickable(false);
         startPropertyAnim(imgAddressRefresh);
         layoutTab.setOnClickListener(new TabSelector.CallBackListener() {
 
@@ -246,6 +247,7 @@ public class PunchCardOndutyActivity extends Activity {
                 startActivityForResult(intent, 2);
             } else if (v == imgAddressRefresh) {
                 isInit = true;
+                imgAddressRefresh.setClickable(false);
                 startPropertyAnim(imgAddressRefresh);
                 mLocationClient.start();
             }
@@ -521,6 +523,7 @@ public class PunchCardOndutyActivity extends Activity {
                 txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
             }finally {
                 stopPropertyAnim();
+                imgAddressRefresh.setClickable(true);
             }
         }
 
@@ -533,6 +536,7 @@ public class PunchCardOndutyActivity extends Activity {
             PublicUtil.showToastServerOvertime();
             txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
             stopPropertyAnim();
+            imgAddressRefresh.setClickable(true);
         }
     };
 
