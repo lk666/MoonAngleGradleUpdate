@@ -179,7 +179,7 @@ public class PunchCardOndutyActivity extends Activity {
         option.setIsNeedAddress(false);
         mLocationClient.setLocOption(option);
         mLocationClient.start();
-        imgAddressRefresh.setClickable(false);
+        layoutAddress.setClickable(false);
         startPropertyAnim(imgAddressRefresh);
         layoutTab.setOnClickListener(new TabSelector.CallBackListener() {
 
@@ -245,9 +245,9 @@ public class PunchCardOndutyActivity extends Activity {
             } else if (v == layoutChooseAddressOther) {
                 Intent intent = new Intent(main, SelectAddressActivity.class);
                 startActivityForResult(intent, 2);
-            } else if (v == imgAddressRefresh) {
+            } else if (v == layoutAddress) {
                 isInit = true;
-                imgAddressRefresh.setClickable(false);
+                layoutAddress.setClickable(false);
                 startPropertyAnim(imgAddressRefresh);
                 mLocationClient.start();
             }
@@ -259,6 +259,7 @@ public class PunchCardOndutyActivity extends Activity {
         txtCurrentAddress = (TextView) findViewById(R.id.text_address);
         imgAddressRefresh = (ImageView) findViewById(R.id.img_address_refresh);
         layoutAddress = (LinearLayout) findViewById(R.id.layout_address);
+        layoutAddress.setOnClickListener(onClickListener);
         imgAddressRefresh.setOnClickListener(onClickListener);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         List<View> views = new ArrayList<>();
@@ -523,7 +524,7 @@ public class PunchCardOndutyActivity extends Activity {
                 txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
             }finally {
                 stopPropertyAnim();
-                imgAddressRefresh.setClickable(true);
+                layoutAddress.setClickable(true);
             }
         }
 
@@ -536,7 +537,7 @@ public class PunchCardOndutyActivity extends Activity {
             PublicUtil.showToastServerOvertime();
             txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
             stopPropertyAnim();
-            imgAddressRefresh.setClickable(true);
+            layoutAddress.setClickable(true);
         }
     };
 
