@@ -16,6 +16,7 @@ import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
+import cn.com.bluemoon.delivery.app.api.model.card.PunchParam;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.coupon.Coupon;
 import cn.com.bluemoon.delivery.app.api.model.inventory.ProductPreDeliverVo;
@@ -61,7 +62,7 @@ public class DeliveryApi {
     }
 
 
-    protected static void postDoubleRequest(Map<String, Double> params, String subUrl,
+    protected static void postRequest(Object params, String subUrl,
                                       AsyncHttpResponseHandler handler) {
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format(subUrl, ApiClientHelper.getParamUrl());
@@ -73,7 +74,6 @@ public class DeliveryApi {
 
         ApiHttpClient.post(context, url, jsonString, handler);
     }
-
 
     /************************
      * 2.1 用户相关
@@ -2760,15 +2760,15 @@ public class DeliveryApi {
 
     /**
      * 获取经纬度地址
-     *
-     * @param PunchCard 打卡信息
+     * @param PunchParam 打卡信息
      */
-    public static void getGpsAddress(PunchCard card, AsyncHttpResponseHandler handler) {
-        Map<String, Double> params = new HashMap<>();
+    public static void getGpsAddress(PunchParam card, AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
         params.put("longitude",card.getLongitude());
         params.put("latitude",   card.getLatitude());
         params.put("altitude",  card.getAltitude());
-        postDoubleRequest(params, "bluemoon-control/attendance/getGpsAddress%s", handler);
+        params.put(TOKEN, card.getToken());
+        postRequest(params, "bluemoon-control/attendance/getGpsAddress%s", handler);
     }
 
 }

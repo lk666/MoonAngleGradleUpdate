@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.card;
 
+import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,6 +12,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -37,6 +39,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCardType;
+import cn.com.bluemoon.delivery.app.api.model.card.PunchParam;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultAddressInfo;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultCheckScanCode;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultGetWorkTask;
@@ -48,6 +51,7 @@ import cn.com.bluemoon.delivery.entity.SubRegion;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.TabSelector;
+import cn.com.bluemoon.delivery.utils.AccelerateInterpolator;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -85,6 +89,7 @@ public class PunchCardOndutyActivity extends Activity {
     private LinearLayout layoutAddress;
     public LocationClient mLocationClient = null;
     private boolean isInit = true;
+    ObjectAnimator anim;
     public BDLocationListener myListener = new BDLocationListener() {
 
         @Override
@@ -101,14 +106,14 @@ public class PunchCardOndutyActivity extends Activity {
                     punchCard.setLatitude(Constants.UNKNOW_LATITUDE);
                     punchCard.setLongitude(Constants.UNKNOW_LONGITUDE);
                     txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
-                    layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_error_back));
                     if (progressDialog != null)
                         progressDialog.dismiss();
                 } else {
-                    punchCard.setLatitude(location.getLatitude());
-                    punchCard.setLongitude(location.getLongitude());
-                    layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_back));
-                    DeliveryApi.getGpsAddress(punchCard, gpsHandler);
+                    PunchParam param = new PunchParam();
+                    param.setLatitude(location.getLatitude());
+                    param.setLongitude(location.getLongitude());
+                    param.setToken(ClientStateManager.getLoginToken());
+                    DeliveryApi.getGpsAddress(param, gpsHandler);
                 }
 
             } else {
@@ -174,6 +179,7 @@ public class PunchCardOndutyActivity extends Activity {
         option.setIsNeedAddress(false);
         mLocationClient.setLocOption(option);
         mLocationClient.start();
+        startPropertyAnim(imgAddressRefresh);
         layoutTab.setOnClickListener(new TabSelector.CallBackListener() {
 
             @Override
@@ -239,8 +245,8 @@ public class PunchCardOndutyActivity extends Activity {
                 Intent intent = new Intent(main, SelectAddressActivity.class);
                 startActivityForResult(intent, 2);
             } else if (v == imgAddressRefresh) {
-                if (progressDialog != null) progressDialog.show();
                 isInit = true;
+                startPropertyAnim(imgAddressRefresh);
                 mLocationClient.start();
             }
         }
@@ -512,8 +518,9 @@ public class PunchCardOndutyActivity extends Activity {
             } catch (Exception e) {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
-                layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_error_back));
                 txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
+            }finally {
+                stopPropertyAnim();
             }
         }
 
@@ -524,11 +531,35 @@ public class PunchCardOndutyActivity extends Activity {
             if (progressDialog != null)
                 progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
-            layoutAddress.setBackgroundColor(getResources().getColor(R.color.blue_top_error_back));
             txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
+            stopPropertyAnim();
         }
     };
 
+
+    // 动画实际执行
+    private void startPropertyAnim(View view) {
+        // 第二个参数"rotation"表明要执行旋转
+        // 0f -> 360f，从旋转360度，也可以是负值，负值即为逆时针旋转，正值是顺时针旋转。
+        anim = ObjectAnimator.ofFloat(view, "rotation", 0f, 359f);
+
+        // 动画的持续时间，执行多久？
+        anim.setDuration(1500);
+        anim.setRepeatMode(Animation.RESTART);
+        anim.setRepeatCount(Animation.INFINITE);
+        anim.setInterpolator(new AccelerateInterpolator());
+
+        // 正式开始启动执行动画
+        anim.start();
+    }
+
+    // 动画实际执行
+    private void stopPropertyAnim() {
+        if(null!=anim && anim.isStarted()) {
+            // 正式开始启动执行动画
+            anim.cancel();
+        }
+    }
 
     AsyncHttpResponseHandler confirmAttendanceHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 

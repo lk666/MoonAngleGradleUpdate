@@ -26,10 +26,10 @@ android {
 
     defaultConfig {
         applicationId "cn.com.bluemoon.delivery"
-        minSdkVersion 12
+        minSdkVersion 14
         targetSdkVersion 21
-        versionCode 28
-        versionName "4.4.4"
+        versionCode 29
+        versionName "4.4.5"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
         /*个推*/
