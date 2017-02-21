@@ -25,8 +25,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/page_bg_f2"
                 android:orientation="vertical"
-                android:visibility="gone"
-                android:paddingBottom="10dp">
+                android:paddingBottom="10dp"
+                android:visibility="gone">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -165,9 +165,12 @@
             </LinearLayout>
 
             <View
+                android:id="@+id/line_view_address"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#e5e5e5" />
+                android:layout_marginLeft="@dimen/space_10"
+                android:background="#e5e5e5"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/layout_start_address"
@@ -177,8 +180,8 @@
                 android:orientation="vertical"
                 android:paddingBottom="15dp"
                 android:paddingLeft="34dp"
-                android:visibility="gone"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:visibility="gone">
 
                 <TextView
                     android:id="@+id/txt_start_time"
@@ -239,7 +242,7 @@
             </LinearLayout>
 
             <View
-                android:id="@+id/line_view_address"
+                android:id="@+id/line_view"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#d7d7d7"
@@ -257,11 +260,10 @@
                 f:verticalSpacing="10dp" />
 
             <View
-                android:id="@+id/line_view"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="#d7d7d7"
-                android:visibility="gone" />
+                android:background="#d7d7d7" />
+
 
             <LinearLayout
                 android:id="@+id/layout_work_log"

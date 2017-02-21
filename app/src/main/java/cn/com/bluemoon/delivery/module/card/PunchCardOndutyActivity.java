@@ -177,7 +177,9 @@ public class PunchCardOndutyActivity extends Activity {
         option.setCoorType("bd09ll");
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         option.setIsNeedAddress(false);
+
         mLocationClient.setLocOption(option);
+        txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
         mLocationClient.start();
         layoutAddress.setClickable(false);
         startPropertyAnim(imgAddressRefresh);
@@ -247,6 +249,7 @@ public class PunchCardOndutyActivity extends Activity {
                 startActivityForResult(intent, 2);
             } else if (v == layoutAddress) {
                 isInit = true;
+                txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
                 layoutAddress.setClickable(false);
                 startPropertyAnim(imgAddressRefresh);
                 mLocationClient.start();
@@ -260,7 +263,6 @@ public class PunchCardOndutyActivity extends Activity {
         imgAddressRefresh = (ImageView) findViewById(R.id.img_address_refresh);
         layoutAddress = (LinearLayout) findViewById(R.id.layout_address);
         layoutAddress.setOnClickListener(onClickListener);
-        imgAddressRefresh.setOnClickListener(onClickListener);
         viewPager = (ViewPager) findViewById(R.id.viewpager);
         List<View> views = new ArrayList<>();
         LayoutInflater inflater = getLayoutInflater();

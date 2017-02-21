@@ -173,7 +173,6 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         imgAddressRefresh = (ImageView) v.findViewById(R.id.img_address_refresh);
 
         layoutAddress.setOnClickListener(this);
-        imgAddressRefresh.setOnClickListener(this);
         layoutWorkLog.setOnClickListener(this);
         layoutWorkDiary.setOnClickListener(this);
         layoutUploadImage.setOnClickListener(this);
@@ -187,6 +186,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mLocationClient.setLocOption(option);
         isInit = true;
+        txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
         mLocationClient.start();
         startPropertyAnim(imgAddressRefresh);
         layoutAddress.setClickable(false);
@@ -472,9 +472,10 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
                     control = false;
                 }
 
-            } else if (v == imgAddressRefresh) {
+            } else if (v == layoutAddress) {
                 isInit = true;
                 startPropertyAnim(imgAddressRefresh);
+                txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
                 layoutAddress.setClickable(false);
                 mLocationClient.start();
                 control = false;
