@@ -220,8 +220,8 @@
     <string name="order_filter_address">地址</string>
     <string name="order_filter_name_hint">请输入收货人名称</string>
     <string name="order_filter_address_hint">请输入收货地址</string>
-
-
+    <string name="order_is_backing">申请退款中</string>
+    <string name="order_backing_string">消费者已申请退款，是否继续%1$s？/n若暂未配送，请选择“否”，并操作取消接单</string>
     <!-- 待接单 -->
     <string name="pending_order_get">接 单</string>
 
