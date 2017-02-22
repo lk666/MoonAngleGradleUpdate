@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.Paint;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -17,17 +16,16 @@ import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
-import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.other.Storehouse;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -59,7 +57,7 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        FilterWindow popupWindow = new FilterWindow(getActivity(),new FilterWindow.OkListener() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(), new FilterWindow.OkListener() {
             @Override
             public void comfireClick(String name, String address) {
                 nameFilter = name;
@@ -113,12 +111,12 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
         } else {
             isFilter = false;
         }
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter,addressFilter, OrderType.PENDINGDELIVERY, getNewHandler(requestCode, ResultOrderVo.class));
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter, OrderType.PENDINGDELIVERY, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter,addressFilter,OrderType.PENDINGDELIVERY,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter, OrderType.PENDINGDELIVERY,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 
@@ -152,6 +150,7 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
         super.initHeadViewEvent(headView);
         viewPopStart = headView.findViewById(R.id.view_pop_start);
     }
+
     @Override
     public void onItemClick(Object item, View view, int position) {
 
@@ -184,7 +183,12 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
 
             final OrderVo order = list.get(position);
-
+            TextView txtOrderCancel = getViewById(R.id.txt_order_cancel);
+            if (order.getIsAbnormal().equals("1")) {
+                txtOrderCancel.setVisibility(View.VISIBLE);
+            } else {
+                txtOrderCancel.setVisibility(View.GONE);
+            }
             txtCustomerName.setText(OrdersUtils.formatLongString(order.getCustomerName(), txtCustomerName));
             txtPaytime.setText(getString(R.string.pending_order_pay_time, order.getPayOrderTime()));
             txtSubscribeTime.setText(getString(R.string.pending_order_subscribe_time, order.getSubscribeTime()));
@@ -203,26 +207,49 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
                     if (v == layoutDetail) {
                         OrderDetailActivity.startAct(mContext, PendingDeliveryFragment.this, order.getOrderId(), OrderState.DELIVERY.toString());
                     } else if (v == deliveryAction) {
-                        new CommonAlertDialog.Builder(mContext)
-                                .setMessage(R.string.pending_order_delivery_or_not)
-                                .setNegativeButton(R.string.yes,
-                                        new DialogInterface.OnClickListener() {
+                        if (order.getIsAbnormal().equals("1")) {
+                            new CommonAlertDialog.Builder(mContext)
+                                    .setMessage(String.format(getString(R.string.order_backing_string), getString(R.string.tab_delivery).substring(1)))
+                                    .setPositiveButton(R.string.yes,
+                                            new DialogInterface.OnClickListener() {
 
-                                            @Override
-                                            public void onClick(DialogInterface dialog,
-                                                                int which) {
-                                                showWaitDialog();
-                                                DeliveryApi.toDelivery(getToken(), order.getOrderId(), getNewHandler(1, ResultBase.class));
-                                            }
-                                        }).setPositiveButton(R.string.no, null)
-                                .show();
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    showWaitDialog();
+                                                    DeliveryApi.toDelivery(getToken(), order.getOrderId(), getNewHandler(1, ResultBase.class));
+                                                }
+                                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    OrderDetailActivity.startAct(mContext, PendingDeliveryFragment.this, order.getOrderId(), OrderState.DELIVERY.toString());
+                                }
+                            })
+                                    .show();
+                        } else {
+                            new CommonAlertDialog.Builder(mContext)
+                                    .setMessage(R.string.pending_order_delivery_or_not)
+                                    .setNegativeButton(R.string.yes,
+                                            new DialogInterface.OnClickListener() {
+
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    showWaitDialog();
+                                                    DeliveryApi.toDelivery(getToken(), order.getOrderId(), getNewHandler(1, ResultBase.class));
+                                                }
+                                            }).setPositiveButton(R.string.no, null)
+                                    .show();
+                        }
                     } else if (v == layoutStorehouse) {
                         Intent intent = new Intent();
                         intent.setClass(mContext, SelectStoreHouseActivity.class);
                         intent.putExtra("dispatchId", order.getDispatchId());
                         intent.putExtra("code", order.getStorehouseCode());
                         PendingDeliveryFragment.this.startActivityForResult(intent, 0);
-                    }else if (v == txtMobilePhone) {
+                    } else if (v == txtMobilePhone) {
                         PublicUtil.showCallPhoneDialog(mContext, order.getMobilePhone());
                     }
                 }

@@ -28,7 +28,6 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -60,7 +59,7 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
 
     @Override
     protected void onActionBarBtnRightClick() {
-        FilterWindow popupWindow = new FilterWindow(getActivity(),new FilterWindow.OkListener() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(), new FilterWindow.OkListener() {
             @Override
             public void comfireClick(String name, String address) {
                 nameFilter = name;
@@ -113,20 +112,20 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
         } else {
             isFilter = false;
         }
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter,
                 OrderType.PENDINGAPPOINTMENT, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter,OrderType.PENDINGAPPOINTMENT,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter, OrderType.PENDINGAPPOINTMENT,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
-        if (requestCode ==1 || requestCode == 2) {
+        if (requestCode == 1 || requestCode == 2) {
             hideWaitDialog();
             toast(result.getResponseMsg());
             removeItem();
@@ -164,7 +163,7 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
         if (resultCode == 1) {
             Storehouse storehouse = (Storehouse) data.getSerializableExtra("storehouse");
             if (storehouse != null) {
-                OrderVo orderVo = (OrderVo)getList().get(clickIndex);
+                OrderVo orderVo = (OrderVo) getList().get(clickIndex);
                 orderVo.setStorechargeCode(storehouse.getStorechargeCode());
                 orderVo.setStorechargeName(storehouse.getStorechargeName());
                 orderVo.setStorehouseCode(storehouse.getStorehouseCode());
@@ -200,7 +199,12 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
             final OrderVo order = list.get(position);
-
+            TextView txtOrderCancel = getViewById(R.id.txt_order_cancel);
+            if (order.getIsAbnormal().equals("1")) {
+                txtOrderCancel.setVisibility(View.VISIBLE);
+            } else {
+                txtOrderCancel.setVisibility(View.GONE);
+            }
             txtCustomerName.setText(OrdersUtils.formatLongString(
                     order.getCustomerName(), txtCustomerName));
             txtMobilePhone.setText(order.getMobilePhone());
@@ -213,17 +217,42 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
                     if (v == txtMobilePhone) {
                         PublicUtil.showCallPhoneDialog(mContext, order.getMobilePhone());
                     } else if (v == appointmentAction) {
-                        ChoiceOrderDatePopupWindow popupWindow = new ChoiceOrderDatePopupWindow(mContext, order,
-                                orderChoiceDateListener);
-                        popupWindow.showAsDropDown(viewPopStart);
+                        if (order.getIsAbnormal().equals("1")) {
+                            new CommonAlertDialog.Builder(mContext)
+                                    .setMessage(String.format(getString(R.string.order_backing_string), getString(R.string.tab_appointment).substring(1)))
+                                    .setPositiveButton(R.string.yes,
+                                            new DialogInterface.OnClickListener() {
+
+                                                @Override
+                                                public void onClick(DialogInterface dialog,
+                                                                    int which) {
+                                                    ChoiceOrderDatePopupWindow popupWindow = new ChoiceOrderDatePopupWindow(mContext, order,
+                                                            orderChoiceDateListener);
+                                                    popupWindow.showAsDropDown(viewPopStart);
+                                                }
+                                            }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+                                @Override
+                                public void onClick(DialogInterface dialog,
+                                                    int which) {
+                                    OrderDetailActivity.startAct(mContext, PendingAppointmentFragment.this,
+                                            order.getOrderId(), OrderState.APPOINTMENT.toString());
+                                }
+                            }) .show();
+
+                        } else {
+                            ChoiceOrderDatePopupWindow popupWindow = new ChoiceOrderDatePopupWindow(mContext, order,
+                                    orderChoiceDateListener);
+                            popupWindow.showAsDropDown(viewPopStart);
+                        }
                     } else if (v == layoutStorehouse) {
                         Intent intent = new Intent();
-                        intent.setClass(mContext,SelectStoreHouseActivity.class);
+                        intent.setClass(mContext, SelectStoreHouseActivity.class);
                         intent.putExtra("dispatchId", order.getDispatchId());
                         intent.putExtra("code", order.getStorehouseCode());
                         PendingAppointmentFragment.this.startActivityForResult(intent, 0);
                     } else if (v == layoutDetail) {
-                        OrderDetailActivity.startAct(mContext,PendingAppointmentFragment.this,
+                        OrderDetailActivity.startAct(mContext, PendingAppointmentFragment.this,
                                 order.getOrderId(), OrderState.APPOINTMENT.toString());
                     }
 
@@ -242,7 +271,6 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
             layoutDetail.setOnClickListener(listener);
         }
     }
-
 
 
     IOrderChoiceDateListener orderChoiceDateListener = new IOrderChoiceDateListener() {

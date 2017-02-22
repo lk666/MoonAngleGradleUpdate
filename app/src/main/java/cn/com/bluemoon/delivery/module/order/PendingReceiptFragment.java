@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -16,23 +15,20 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
-import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultOrderVo;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderState;
+import cn.com.bluemoon.delivery.app.api.model.other.OrderVo;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.entity.OrderType;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.ui.DragView;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -49,6 +45,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
     View viewPopStart;
     private String subscribeTime;
     private boolean isFilter;
+
     @Override
     protected void onBeforeCreateView() {
         super.onBeforeCreateView();
@@ -67,7 +64,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        FilterWindow popupWindow = new FilterWindow(getActivity(),new FilterWindow.OkListener() {
+        FilterWindow popupWindow = new FilterWindow(getActivity(), new FilterWindow.OkListener() {
             @Override
             public void comfireClick(String name, String address) {
                 nameFilter = name;
@@ -121,13 +118,13 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
         } else {
             isFilter = false;
         }
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter,
                 OrderType.PENDINGRECEIPT, getNewHandler(requestCode, ResultOrderVo.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag,nameFilter, addressFilter, OrderType.PENDINGRECEIPT,
+        DeliveryApi.getOrdersByTypeByPager(getToken(), pageFlag, nameFilter, addressFilter, OrderType.PENDINGRECEIPT,
                 getNewHandler(requestCode, ResultOrderVo.class));
     }
 
@@ -141,7 +138,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             removeItem();
         } else if (requestCode == 4) {
             //修改预约时间
-            OrderVo orderVo = (OrderVo)getList().get(clickIndex);
+            OrderVo orderVo = (OrderVo) getList().get(clickIndex);
             orderVo.setSubscribeTime(subscribeTime);
             getAdapter().notifyDataSetChanged();
         }
@@ -176,6 +173,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
         public OrdersAdapter(Context context) {
             super(context, null);
         }
+
         @Override
         protected int getLayoutId() {
             return R.layout.order_list_item4;
@@ -190,6 +188,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
         protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
             TextView txtDispatchId = getViewById(R.id.txt_dispatchId);
             final LinearLayout layoutDetail = getViewById(R.id.layout_detail);
+
             TextView txtStorehouse = getViewById(R.id.txt_storehouse);
             TextView txtPaytime = getViewById(R.id.txt_paytime);
             TextView txtSubscribeTime = getViewById(R.id.txt_subscribe_time);
@@ -201,7 +200,12 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             TextView txtEditAppointmentTime = getViewById(R.id.txt_edit_appointment_time);
             Button signBtn = getViewById(R.id.sign_action);
             final OrderVo order = list.get(position);
-
+            TextView txtOrderCancel = getViewById(R.id.txt_order_cancel);
+            if (order.getIsAbnormal().equals("1")) {
+                txtOrderCancel.setVisibility(View.VISIBLE);
+            } else {
+                txtOrderCancel.setVisibility(View.GONE);
+            }
             txtCustomerName.setText(OrdersUtils.formatLongString(
                     order.getCustomerName(), txtCustomerName));
             txtPaytime.setText(getString(R.string.pending_order_pay_time, order.getPayOrderTime()));
@@ -221,20 +225,43 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
                 public void onClick(View v) {
                     clickIndex = position;
                     switch (v.getId()) {
-                        case R.id.txt_edit_appointment_time :
+                        case R.id.txt_edit_appointment_time:
                             ChoiceOrderDatePopupWindow popupWindow = new ChoiceOrderDatePopupWindow(
                                     mContext, order, orderChoiceDateListener);
                             popupWindow.showAsDropDown(viewPopStart);
                             break;
-                        case R.id.txt_mobilePhone :
+                        case R.id.txt_mobilePhone:
                             PublicUtil.showCallPhoneDialog(getActivity(), order.getMobilePhone());
                             break;
-                        case R.id.layout_detail :
+                        case R.id.layout_detail:
                             OrderDetailActivity.startAct(mContext, PendingReceiptFragment.this, order.getOrderId(), OrderState.SIGN.toString());
                             break;
-                        case R.id.sign_action :
-                            PublicUtil.openOrderWithInput(PendingReceiptFragment.this, getString(R.string.pending_order_receive_sign_title),
-                                    getString(R.string.pending_order_receive_sign_scan_btn), 4);
+                        case R.id.sign_action:
+                            if (order.getIsAbnormal().equals("1")) {
+                                new CommonAlertDialog.Builder(mContext)
+                                        .setMessage(String.format(getString(R.string.order_backing_string), getString(R.string.tab_receipt).substring(1)))
+                                        .setPositiveButton(R.string.yes,
+                                                new DialogInterface.OnClickListener() {
+
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog,
+                                                                        int which) {
+                                                        PublicUtil.openOrderWithInput(PendingReceiptFragment.this, getString(R.string.pending_order_receive_sign_title),
+                                                                getString(R.string.pending_order_receive_sign_scan_btn), 4);
+                                                    }
+                                                }).setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+
+                                    @Override
+                                    public void onClick(DialogInterface dialog,
+                                                        int which) {
+                                        OrderDetailActivity.startAct(mContext, PendingReceiptFragment.this, order.getOrderId(), OrderState.SIGN.toString());
+                                    }
+                                })
+                                        .show();
+                            } else {
+                                PublicUtil.openOrderWithInput(PendingReceiptFragment.this, getString(R.string.pending_order_receive_sign_title),
+                                        getString(R.string.pending_order_receive_sign_scan_btn), 4);
+                            }
                             break;
                     }
 

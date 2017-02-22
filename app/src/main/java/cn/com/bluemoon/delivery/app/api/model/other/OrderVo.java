@@ -21,7 +21,17 @@ public class OrderVo implements Serializable {
 	private String storechargeName;
 	private int returnState;
 	private int exchangeState;
-	/**  
+	private String isAbnormal;
+
+	public String getIsAbnormal() {
+		return isAbnormal;
+	}
+
+	public void setIsAbnormal(String isAbnormal) {
+		this.isAbnormal = isAbnormal;
+	}
+
+	/**
 	 * dispatchId.  
 	 *  
 	 * @return  the dispatchId  
