@@ -242,7 +242,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
                                 new CommonAlertDialog.Builder(mContext)
                                         .setMessage(String.format(getString(R.string.order_backing_string), getString(R.string.tab_receipt).substring(1)))
                                         .setTitleGravity(Gravity.CENTER)
-                                        .setMessageSize(12)
+                                        .setMessageSize(14)
                                         .setPositiveButton(R.string.yes,
                                                 new DialogInterface.OnClickListener() {
 
