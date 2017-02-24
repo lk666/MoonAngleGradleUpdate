@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -240,6 +241,7 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
                             if (order.getIsAbnormal().equals("1")) {
                                 new CommonAlertDialog.Builder(mContext)
                                         .setMessage(String.format(getString(R.string.order_backing_string), getString(R.string.tab_receipt).substring(1)))
+                                        .setTitleGravity(Gravity.CENTER)
                                         .setPositiveButton(R.string.yes,
                                                 new DialogInterface.OnClickListener() {
 
