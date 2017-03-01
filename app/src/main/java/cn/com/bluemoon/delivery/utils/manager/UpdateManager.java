@@ -20,6 +20,7 @@ import java.net.URL;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -94,7 +95,7 @@ public class UpdateManager {
                         Environment.MEDIA_MOUNTED)) {
                     return false;
                 }
-                mSavePath = Constants.PATH_TEMP;
+                mSavePath = FileUtil.getPathTemp();
                 URL url = new URL(downloadUrl);
                 HttpURLConnection conn = (HttpURLConnection) url
                         .openConnection();

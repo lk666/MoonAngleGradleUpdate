@@ -9,10 +9,14 @@ import javax.crypto.spec.DESKeySpec;
 
 import Decoder.BASE64Decoder;
 import Decoder.BASE64Encoder;
- 
- 
+import cn.com.bluemoon.delivery.BuildConfig;
+
+
 public class DES {
-     
+
+    public static String encrypt(String data){
+        return encrypt(data, BuildConfig.DES_KEY);
+    }
 
     public static String encrypt(String data,String key) {
     	try {
@@ -24,7 +28,10 @@ public class DES {
 		}
         
     }
- 
+
+    public static String decrypt(String data){
+        return decrypt(data,BuildConfig.DES_KEY);
+    }
 
     public static String decrypt(String data,String key){
         if (data == null)

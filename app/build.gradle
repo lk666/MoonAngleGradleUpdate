@@ -32,6 +32,8 @@ android {
         versionName "4.4.5"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
+        buildConfigField("String","DES_KEY","\"19490101\"")
+
         /*个推*/
         manifestPlaceholders = [
                 GETUI_APP_ID    : "pEvvQdiNbwAkKpPFIH67G1",

@@ -206,6 +206,15 @@ public class SimpleWheelView extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        /*controlWidth = getWidth();
+        if (controlWidth != 0) {
+            setMeasuredDimension(getWidth(), itemNumber * unitHeight);
+        }*/
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
+        super.onLayout(changed, left, top, right, bottom);
         controlWidth = getWidth();
         if (controlWidth != 0) {
             setMeasuredDimension(getWidth(), itemNumber * unitHeight);

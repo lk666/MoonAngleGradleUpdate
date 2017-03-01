@@ -47,6 +47,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.common.DownWebViewActivity;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanCodeActivity;
@@ -74,12 +75,12 @@ public class PublicUtil extends LibPublicUtil {
      * @return 返回图片名（取当前时间）
      */
     public static String getPhotoPath() {
-        return getPhotoPath(Constants.PATH_PHOTO, null);
+        return getPhotoPath(FileUtil.getPathPhoto(), null);
     }
 
 
     public static String getTempPath() {
-        return getPhotoPath(Constants.PATH_PHOTO, null);
+        return getPhotoPath(FileUtil.getPathTemp(), null);
     }
 
     public static void showToast(String msg) {
@@ -429,12 +430,7 @@ public class PublicUtil extends LibPublicUtil {
 
     public static void openWebView(Context context, String url, String title, boolean isActionBar,
                                    boolean isBackByJs) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("title", title);
-        intent.putExtra("actionbar", isActionBar);
-        intent.putExtra("back", isBackByJs);
-        context.startActivity(intent);
+        DownWebViewActivity.startAction(context,url,title,isActionBar,isBackByJs);
     }
 
     public static void openWebView(Context context, String url, String title, boolean isBackByJs) {
@@ -662,6 +658,5 @@ public class PublicUtil extends LibPublicUtil {
             }
         });
     }
-
 
 }

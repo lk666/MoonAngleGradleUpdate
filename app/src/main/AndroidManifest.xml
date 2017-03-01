@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.com.bluemoon.delivery">
+<manifest package="cn.com.bluemoon.delivery"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -11,7 +11,6 @@
 
     <!-- Umeng share 运行需要的权限 -->
     <uses-permission android:name="android.permission.READ_LOGS"/>
-
     <uses-permission android:name="android.permission.SET_DEBUG_APP"/>
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.GET_ACCOUNTS"/>
@@ -27,7 +26,6 @@
     <uses-permission android:name="android.permission.VIBRATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-
     <uses-permission android:name="android.permission.ACCESS_DOWNLOAD_MANAGER"/>
     <uses-permission android:name="android.permission.DOWNLOAD_WITHOUT_NOTIFICATION"/>
     <uses-permission android:name="android.permission.DISABLE_KEYGUARD"/>
@@ -133,13 +131,11 @@
             <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
             <!-- </intent-filter> -->
         </activity>
-
         <activity
             android:name=".sz.taskManager.AppraiseChooserActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateVisible"
-            />
+            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name=".sz.taskManager.InputToolsActivity"
             android:screenOrientation="portrait"
@@ -191,17 +187,14 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan"/>
-
         <activity
             android:name=".common.qrcode.ScanActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
-
         <activity
             android:name=".common.qrcode.InputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".common.qrcode.ScanInputActivity"
             android:screenOrientation="portrait"
@@ -320,12 +313,10 @@
             android:name=".module.card.SearchProductActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.card.alarm.AlarmModifyActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.card.alarm.DaysOfWeekActivity"
             android:screenOrientation="portrait"
@@ -570,23 +561,19 @@
             android:name=".module.wash.returning.pack.PackTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.wash.returning.pack.PackDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.wash.returning.pack.BackOrderClothesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustUnspecified|stateAlwaysHidden"/>
-
         <activity
             android:name=".module.wash.returning.pack.ScanBackClothesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.wash.returning.pack.PackFinishActivity"
             android:screenOrientation="portrait"
@@ -647,7 +634,7 @@
             android:name=".module.wash.returning.pack.PackPrintActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
-        <!--衣物清点-->
+        <!-- 衣物清点 -->
         <activity
             android:name=".module.wash.returning.clothescheck.ClothesCheckTabActivity"
             android:screenOrientation="portrait"
@@ -725,7 +712,6 @@
                 <action android:name="cn.com.bluemoon.delivery.ALARM_ALERT"/>
             </intent-filter>
         </receiver>
-
         <receiver android:name=".module.card.alarm.AlarmInitReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>
@@ -763,7 +749,7 @@
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="4oN3rtPUN1jio5uamCReRPBAF7h9N32f"/>
-        <!--友盟统计配置-->
+        <!-- 友盟统计配置 -->
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="567c90abe0f55ac50200370c"/>
@@ -804,7 +790,6 @@
             android:name=".module.evidencecash.TransferDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name="com.alipay.sdk.app.H5PayActivity"
             android:configChanges="orientation|keyboardHidden|navigation"
@@ -819,8 +804,6 @@
             android:name=".wxapi.WXPayEntryActivity"
             android:exported="true"
             android:launchMode="singleTop"/>
-
-
         !--Umeng share strat-->
         <activity
             android:name=".wxapi.WXEntryActivity"
@@ -828,7 +811,7 @@
             android:exported="true"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
-        <!-- alipay callback-->
+        <!-- alipay callback -->
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
@@ -850,15 +833,13 @@
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
             android:excludeFromRecents="true"
-            android:theme="@style/Theme.UMDefault"
-            />
-        <!--Umeng share end-->
+            android:theme="@style/Theme.UMDefault"/>
+        <!-- Umeng share end -->
 
         <activity
             android:name=".module.order.CancelOrderActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-
         <activity
             android:name=".module.wash.appointment.AppointmentDetailActivity"
             android:screenOrientation="portrait"
@@ -879,6 +860,11 @@
             android:name=".module.wash.appointment.AppointmentTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".common.DownWebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"
+            android:windowSoftInputMode="adjustResize"/>
     </application>
 
 </manifest>

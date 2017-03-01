@@ -49,17 +49,16 @@ public class Constants {
 
     public static final String[] ALARM_QUERY_COLUMNS = {
             "remindId", "hour", "minute", "remindWeek", "remindTime",
-            "isClose", "remindTitle", "remindContent" };
-
+            "isClose", "remindTitle", "remindContent"};
 
 
     public static final String DEFAULT_SORT_ORDER =
-              "isClose ASC,hour, minute ASC";
+            "isClose ASC,hour, minute ASC";
 
     public static final String Fillter_SORT_ORDER =
             "remindWeek ASC";
 
-    public static final String WHERE_ENABLE =  " isClose = 0";
+    public static final String WHERE_ENABLE = " isClose = 0";
 
     /************************
      * location
@@ -101,17 +100,6 @@ public class Constants {
 
     public static final String TYPE_DICTINFO = "MM_RETURN_REASON";
     public static final String CRM_DISPATCH_CANCEL_REASON = "CRM_DISPATCH_CANCEL_REASON";
-
-    /*************************
-     * file path
-     *******************************/
-    public static final String PATH_MAIN = Environment.getExternalStorageDirectory() +
-			"/BMDelivery";
-    public static final String PATH_PHOTO = PATH_MAIN + "/images";
-    public static final String PATH_TEMP = PATH_MAIN + "/temp";
-    public static final String PATH_CACHE = PATH_MAIN + "/cache";
-    public static final String PATH_CAMERA = Environment.getExternalStorageDirectory() +
-			"/DCIM/Camera";
 
     public static final int RETURN_TYPE = 1;
     public static final int EXCHANGE_TYPE = 2;
@@ -158,17 +146,19 @@ public class Constants {
     public static final String STATUS_CANCEL_ORDER = "CANCEL";
     public static final String STATUS_ACCEPTL_ORDER = "RECEIVE";
 
-	/*****************************team**********************************/
-	public final static String TYPE_ADD = "add";
-	public final static String TYPE_UPDATE = "update";
+    /*****************************
+     * team
+     **********************************/
+    public final static String TYPE_ADD = "add";
+    public final static String TYPE_UPDATE = "update";
     public final static String TYPE_SCAN = "scan";
     public final static String TYPE_INPUT = "input";
-	public final static String RELTYPE_GROUP = "group";
-	public final static String RELTYPE_COMMUNITY = "community";
-	public final static String WORKTYPE_FULL = "fullTime";
-	public final static String WORKTYPE_PART = "partTime";
+    public final static String RELTYPE_GROUP = "group";
+    public final static String RELTYPE_COMMUNITY = "community";
+    public final static String WORKTYPE_FULL = "fullTime";
+    public final static String WORKTYPE_PART = "partTime";
 
-	public final static long LARGETIME = 253402185600000l;
+    public final static long LARGETIME = 253402185600000l;
     /**
      * {@link cn.com.bluemoon.delivery.ui.ImageGridView}点击添加按钮时的requestcode
      */

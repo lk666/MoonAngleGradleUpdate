@@ -16,9 +16,10 @@ import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.AppConfig;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
-import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.download.BMDownloadManager;
 import cn.com.bluemoon.delivery.utils.service.LocationService;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 
@@ -73,7 +74,7 @@ public class AppContext extends BaseApplication {
 
         shareInit();
 
-        ImageLoaderUtil.init(this, Constants.PATH_CACHE, !BuildConfig.RELEASE);
+        ImageLoaderUtil.init(this, FileUtil.getPathCache(), !BuildConfig.RELEASE);
     }
 
     private void shareInit() {

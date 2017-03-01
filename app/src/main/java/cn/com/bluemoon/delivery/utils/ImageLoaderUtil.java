@@ -39,7 +39,7 @@ public class ImageLoaderUtil {
 //                    .showImageForEmptyUri()
 //                    .showImageOnFail()
                     .build();
-            final File cacheDir = new File(Constants.PATH_CACHE);
+            final File cacheDir = new File(FileUtil.getPathCache());
             final long maxAgeTimeInSeconds = 7 * 24 * 60 * 60;   // 7 days cache
             final ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder
                     (context)
