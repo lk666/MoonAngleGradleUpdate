@@ -5,6 +5,7 @@ import android.content.Context;
 import java.io.File;
 
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 
 public class CacheManager extends LibCacheUtil {
@@ -14,8 +15,8 @@ public class CacheManager extends LibCacheUtil {
 		long size = 0;
 		File file_cache = context.getCacheDir();
 		File file_webview = context.getDir("webview", Context.MODE_PRIVATE);
-		File file_temp = new File(Constants.PATH_TEMP);
-		File file_cache2 = new File(Constants.PATH_CACHE);
+		File file_temp = new File(FileUtil.getPathTemp());
+		File file_cache2 = new File(FileUtil.getPathCache());
 		if (file_cache.exists()) {
 			size = getFolderSize(file_cache);
 		}
@@ -34,8 +35,8 @@ public class CacheManager extends LibCacheUtil {
 	public static void clearBlueMoonCacheSize(Context context) {
 		deleteFolderFile(context.getCacheDir().getAbsolutePath(), false);
 		cleanWebViewCache(context);
-		deleteFolderFile(Constants.PATH_TEMP, false);
-		deleteFolderFile(Constants.PATH_CACHE, false);
+		deleteFolderFile(FileUtil.getPathTemp(), false);
+		deleteFolderFile(FileUtil.getPathCache(), false);
 	}
 
 }

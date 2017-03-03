@@ -3,38 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
+    <include layout="@layout/layout_get_gps"></include>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:overScrollMode="never"
-        >
+        android:overScrollMode="never">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:focusable="true"
             android:focusableInTouchMode="true"
-            android:paddingBottom="10dp"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:paddingBottom="10dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/page_bg_f2"
+                android:orientation="vertical"
                 android:paddingBottom="10dp"
-                android:orientation="vertical" >
+                android:visibility="gone">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
-                    android:orientation="vertical" >
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal" >
+                        android:orientation="horizontal">
 
                         <TextView
                             android:layout_width="0dp"
@@ -66,63 +70,151 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
                 android:background="@color/white"
-                android:paddingLeft="10dp"
-                android:paddingTop="8dp"
-                android:paddingRight="10dp"
+                android:orientation="horizontal"
                 android:paddingBottom="@dimen/linepaddingtxt2"
-                android:orientation="horizontal">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:paddingTop="8dp">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
                     android:layout_marginTop="2dp"
-                    android:src="@mipmap/workspot_blue"/>
+                    android:src="@mipmap/workspot_blue" />
+
                 <TextView
                     android:id="@+id/txt_name_and_mobile"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_black_light"
                     android:lineSpacingExtra="5dp"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/text_black_light"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:orientation="horizontal"
                 android:paddingBottom="@dimen/linepaddingtxt2"
-                android:orientation="horizontal">
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp">
+
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:gravity="center_vertical"
-                    android:layout_marginTop="2dp"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/address"/>
+                    android:layout_marginTop="2dp"
+                    android:gravity="center_vertical"
+                    android:src="@mipmap/address" />
+
                 <TextView
                     android:id="@+id/txt_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@color/text_black_light"
                     android:lineSpacingExtra="5dp"
-                    android:textSize="14sp"/>
+                    android:textColor="@color/text_black_light"
+                    android:textSize="14sp" />
             </LinearLayout>
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#d7d7d7" />
+
+            <LinearLayout
+                android:id="@+id/layout_start_card"
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/space_10">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/icon_start_work" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="10dp"
+                    android:text="@string/work_start_txt"
+                    android:textColor="@color/text_black"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left|center_vertical"
+                    android:textSize="15sp" />
+
+                <ImageView
+                    android:id="@+id/img_address_down"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/ic_down" />
+
+            </LinearLayout>
+
+            <View
+                android:id="@+id/line_view_address"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/space_10"
+                android:background="#e5e5e5"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:id="@+id/layout_start_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:paddingBottom="15dp"
+                android:paddingLeft="34dp"
+                android:paddingTop="10dp"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/txt_start_time"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/text_black_light"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/txt_start_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textColor="@color/text_black_light"
+                    android:textSize="14sp" />
+
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#d7d7d7" />
+
             <LinearLayout
                 android:id="@+id/layout_work_task"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:gravity="center"
                 android:background="@color/white"
+                android:gravity="center"
                 android:orientation="horizontal">
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -130,6 +222,7 @@
                     android:text="@string/work_task_txt"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -138,55 +231,59 @@
                     android:text="@string/required_filed"
                     android:textColor="@color/text_red"
                     android:textSize="15sp" />
+
                 <ImageView
                     android:id="@+id/img_down"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/ic_down"/>
+                    android:src="@mipmap/ic_down" />
 
             </LinearLayout>
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:background="#d7d7d7" />
 
-            <cn.com.bluemoon.lib.tagview.TagListView
-                xmlns:f="http://schemas.android.com/apk/res-auto"
-                android:id="@+id/tag_listview"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone"
-                android:padding="10dp"
-                f:horizontalSpacing="10dp"
-                f:orientation="horizontal"
-                f:verticalSpacing="10dp" />
             <View
                 android:id="@+id/line_view"
                 android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:background="#d7d7d7"
+                android:visibility="gone" />
+
+            <cn.com.bluemoon.lib.tagview.TagListView xmlns:f="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/tag_listview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:padding="10dp"
                 android:visibility="gone"
+                f:horizontalSpacing="10dp"
+                f:orientation="horizontal"
+                f:verticalSpacing="10dp" />
+
+            <View
+                android:layout_width="match_parent"
                 android:layout_height="0.5dp"
                 android:background="#d7d7d7" />
+
 
             <LinearLayout
                 android:id="@+id/layout_work_log"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
                 android:layout_marginTop="10dp"
-                android:clickable="true"
                 android:background="@drawable/btn_white"
-                android:orientation="horizontal" >
+                android:clickable="true"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="10dp"
                     android:paddingBottom="10dp"
+                    android:paddingLeft="10dp"
                     android:paddingTop="10dp"
                     android:text="@string/log_txt"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_14" />
+
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -194,24 +291,25 @@
                     android:text="@string/required_filed"
                     android:textColor="@color/text_red"
                     android:textSize="14sp" />
+
                 <TextView
                     android:id="@+id/txt_log_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:gravity="right"
-                    android:singleLine="true"
                     android:ellipsize="end"
+                    android:gravity="right"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_14" />
 
                 <ImageView
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/icon_right"/>
+                    android:src="@mipmap/icon_right" />
             </LinearLayout>
 
             <ImageView
@@ -226,9 +324,9 @@
                 android:id="@+id/layout_work_diary"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:clickable="true"
                 android:background="@drawable/btn_white"
-                android:orientation="horizontal" >
+                android:clickable="true"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -237,24 +335,25 @@
                     android:text="@string/work_diary_txt"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_14" />
+
                 <TextView
                     android:id="@+id/txt_diary_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:gravity="right"
-                    android:singleLine="true"
                     android:ellipsize="end"
+                    android:gravity="right"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_14" />
 
                 <ImageView
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/icon_right"/>
+                    android:src="@mipmap/icon_right" />
             </LinearLayout>
 
             <ImageView
@@ -269,9 +368,9 @@
                 android:id="@+id/layout_upload_image"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:clickable="true"
                 android:background="@drawable/btn_white"
-                android:orientation="horizontal" >
+                android:clickable="true"
+                android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -280,25 +379,27 @@
                     android:text="@string/upload_image_txt"
                     android:textColor="@color/text_black"
                     android:textSize="@dimen/text_size_14" />
+
                 <TextView
                     android:id="@+id/txt_img_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:layout_width="0dp"
-                    android:gravity="right"
-                    android:singleLine="true"
                     android:ellipsize="end"
+                    android:gravity="right"
                     android:padding="10dp"
+                    android:singleLine="true"
                     android:textColor="@color/text_black_light"
                     android:textSize="@dimen/text_size_14" />
 
                 <ImageView
-                    android:layout_height="wrap_content"
                     android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginRight="10dp"
-                    android:src="@mipmap/icon_right"/>
+                    android:src="@mipmap/icon_right" />
             </LinearLayout>
+
             <View
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"

@@ -31,6 +31,7 @@ import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -70,6 +71,7 @@ public class AppStartActivity extends Activity {
         main = this;
         setContentView(R.layout.activity_start);
         init();
+        FileUtil.init();
     }
 
     private void init() {
@@ -274,24 +276,6 @@ public class AppStartActivity extends Activity {
                         MainActivity.actStart(main, view, url);
                     } else {
                         LoginActivity.actStart(main, view, url);
-                        if (LibFileUtil.checkExternalSDExists()) {
-                            File file = new File(Constants.PATH_PHOTO);
-                            if (!file.exists()) {
-                                file.mkdirs();
-                            }
-                            File file1 = new File(Constants.PATH_TEMP);
-                            if (!file1.exists()) {
-                                file1.mkdirs();
-                            }
-                            File file2 = new File(Constants.PATH_CAMERA);
-                            if (!file2.exists()) {
-                                file2.mkdirs();
-                            }
-                            File file3 = new File(Constants.PATH_CACHE);
-                            if (!file3.exists()) {
-                                file3.mkdirs();
-                            }
-                        }
                     }
                     if (!isFinishing())
                         finish();

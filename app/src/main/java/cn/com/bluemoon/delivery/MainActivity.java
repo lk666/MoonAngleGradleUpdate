@@ -138,6 +138,8 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 PublicUtil.openScanView(main, null, null, 0);
+                /*PublicUtil.openWebView(main, "http://tmallapi.bluemoon.com" +
+                        ".cn/FE/angue/operationStandard/details", "测试");*/
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);

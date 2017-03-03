@@ -42,7 +42,6 @@
     <string name="sunday">星期天</string>
 
 
-
     <!-- main tab -->
     <string name="main_tab_qrcode">我的二维码</string>
     <string name="main_tab_card">打卡</string>
@@ -220,8 +219,8 @@
     <string name="order_filter_address">地址</string>
     <string name="order_filter_name_hint">请输入收货人名称</string>
     <string name="order_filter_address_hint">请输入收货地址</string>
-
-
+    <string name="order_is_backing">申请退款中</string>
+    <string name="order_backing_string">消费者已申请退款，是否继续%1$s？\n若暂未配送，请选择“否”，并操作取消接单</string>
     <!-- 待接单 -->
     <string name="pending_order_get">接 单</string>
 
@@ -556,6 +555,8 @@
     <string name="record_your_log">记录你今天的工作情况吧~~</string>
     <string name="punch_card_start_time">开始时间</string>
     <string name="work_task_txt">工作任务</string>
+    <string name="work_start_txt">开始打卡</string>
+    <string name="work_address_fail_txt">正在定位...</string>
     <string name="log_txt">日志</string>
     <string name="input_today_log">请填写今天的工作日志</string>
     <string name="work_diary_txt">日报</string>
@@ -1012,7 +1013,6 @@
     <string name="sz_evaluate_task_content_label">评价内容</string>
 
 
-
     <!--wash returning-->
     <string name="manual_sign">手写签名</string>
     <string name="manger_tab_1">快递收货</string>
@@ -1149,7 +1149,7 @@
     <string name="pack_back_order_code">还衣单号%1$s</string>
     <string name="pack_back_box_code">箱号：</string>
     <string name="pack_back_order_num">衣服数量：</string>
-     <string name="pack_order_num">共%1$d单</string>
+    <string name="pack_order_num">共%1$d单</string>
     <string name="pack_region">区域</string>
     <string name="pack_select">--请选择--</string>
     <string name="btn_scan_tag">扫描标签</string>
@@ -1393,4 +1393,8 @@
     <string name="appointment_backup_hint">最多输入50字</string>
     <string name="one_level_empty">一级分类不能为空</string>
     <string name="two_level_empty">洗衣商品不能为空</string>
+
+
+    <!--download file-->
+    <string name="no_file_permission">无法获取文件处理权限</string>
 </resources>

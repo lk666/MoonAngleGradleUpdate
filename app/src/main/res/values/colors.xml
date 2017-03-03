@@ -21,8 +21,8 @@
     <color name="slide_menu_text_color">#7ea1b4</color><!-- 侧滑文字 -->
 
     <color name="blue_deep">#1ca6e5</color><!--渐变深蓝色-->
-
-
+    <color name="blue_top_back">#82d6fc</color>
+    <color name="blue_top_error_back">#f7bcad</color>
 
     <!-- 文字颜色规范 -->
     <color name="text_black">#333333</color><!-- 主体标题文字颜色-黑色-->

@@ -14,6 +14,7 @@ import cn.com.bluemoon.delivery.AppStartActivity;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.app.api.model.PushItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.common.DownWebViewActivity;
 import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -72,7 +73,7 @@ public class BMPushReceiver extends PushGTReceiver {
         if (isAppRunning(context) && !TextUtils.isEmpty(menuCode) && !TextUtils.isEmpty(token)) {
             // TODO: 2016/10/24 网页跳转 
             if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
-                intent = new Intent(context, WebViewActivity.class);
+                intent = new Intent(context, DownWebViewActivity.class);
                 intent.putExtra("url", url + (!url.contains("?") ? "?" : "&") +
                         "token=" + token);
                 intent.putExtra("back", false);
