@@ -58,7 +58,7 @@ public class DeliveryApi {
             context = ((WithContextTextHttpResponseHandler) handler).getContext();
         }
 
-        ApiHttpClient.post(context, url, jsonString, handler);
+        ApiHttpClient.postMock(context, url, jsonString, handler);
     }
 
 
@@ -2769,6 +2769,29 @@ public class DeliveryApi {
         params.put("altitude",  card.getAltitude());
         params.put(TOKEN, card.getToken());
         postRequest(params, "bluemoon-control/attendance/getGpsAddress%s", handler);
+    }
+
+    /**
+     * 查询当前时间有效的授权仓
+     */
+    public static void getAuthStoreByUserCode(String token, AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token) {
+            return;
+        }
+        params.put(TOKEN, token);
+        postRequest(params, "sinceAuthToStore/getAuthStoreByUserCode%s", handler);
+    }
+    /**
+     * 查询当所有仓库
+     */
+    public static void getAllStoresByUserCode(String token, AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token) {
+            return;
+        }
+        params.put(TOKEN, token);
+        postRequest(params, "sinceAuthToStore/getAllStoresByUserCode%s", handler);
     }
 
 }
