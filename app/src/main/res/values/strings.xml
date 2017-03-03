@@ -1240,6 +1240,7 @@
     <string name="emp_name_is_empty">请填写收货人姓名</string>
     <string name="emp_code_is_empty">请填写收货人编号</string>
     <string name="please_input_emp_code">请输入员工编号</string>
+    <string name="image_invaild_tips">存在无效图片，请删除再上传！</string>
 
     <!--还衣管理-->
     <string name="manage_return_clothes_detial_title">还衣单详情</string>
