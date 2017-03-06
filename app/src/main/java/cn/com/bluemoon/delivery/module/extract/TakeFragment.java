@@ -88,22 +88,22 @@ public class TakeFragment extends BasePullHeadToRefreshListViewFragment implemen
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        String url = null;
-        switch (view.getId()) {
-            case R.id.txt_auth:
-                url = BuildConfig.ADDRESS_URL;
-            break;
-            case R.id.txt_detail:
-                url = BuildConfig.ADDRESS_URL;
-                break;
-
-        }
+        String url = String.format(BuildConfig.PUNCH_DETAILDS_DOMAIN, "FE/angue/storeHouse/authorizationManager");
         if (!TextUtils.isEmpty(url)) {
             if (!TextUtils.isEmpty(getToken())) {
                 url = url + "?token=" + getToken()
                         + "&storeCode=" + ((AllStoresListBean)item).getStoreCode();
             }
-            auth = true;
+            switch (view.getId()) {
+                case R.id.txt_auth:
+                    url = url + "&type=edit";
+                    auth = true;
+                    break;
+                case R.id.txt_detail:
+                    url = url + "&type=show";
+                    break;
+
+            }
             PublicUtil.openWebView(getActivity(), url, null, false, false);
         }
     }

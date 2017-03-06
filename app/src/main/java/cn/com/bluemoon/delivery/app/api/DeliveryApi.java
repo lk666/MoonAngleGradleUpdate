@@ -58,7 +58,7 @@ public class DeliveryApi {
             context = ((WithContextTextHttpResponseHandler) handler).getContext();
         }
 
-        ApiHttpClient.postMock(context, url, jsonString, handler);
+        ApiHttpClient.post(context, url, jsonString, handler);
     }
 
 
@@ -2780,7 +2780,7 @@ public class DeliveryApi {
             return;
         }
         params.put(TOKEN, token);
-        postRequest(params, "sinceAuthToStore/getAuthStoreByUserCode%s", handler);
+        postRequest(params, "bluemoon-control/sinceAuthPickUp/getAuthStoreByUserCode%s", handler);
     }
     /**
      * 查询当所有仓库
@@ -2791,7 +2791,7 @@ public class DeliveryApi {
             return;
         }
         params.put(TOKEN, token);
-        postRequest(params, "sinceAuthToStore/getAllStoresByUserCode%s", handler);
+        postRequest(params, "bluemoon-control/sinceAuthPickUp/getAllStoresByUserCode%s", handler);
     }
 
 }
