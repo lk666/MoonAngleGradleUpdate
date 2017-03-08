@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.zxing.common.StringUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.HashMap;
@@ -36,6 +37,8 @@ import cn.com.bluemoon.delivery.module.inventory.ImageUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DES;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+
+import static org.apache.commons.lang3.StringUtils.*;
 
 public class DeliveryApi {
 
@@ -2792,6 +2795,25 @@ public class DeliveryApi {
         }
         params.put(TOKEN, token);
         postRequest(params, "bluemoon-control/sinceAuthPickUp/getAllStoresByUserCode%s", handler);
+    }
+    /**
+     * 保存派单反馈信息
+     */
+    public static void saveFeedBackQuestionInfo(String token, String dispatchId,
+                                                String dispatchStatus,String orderId,String questionKey,String questionValue,
+                                                AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token || isEmpty(dispatchId)|| isEmpty(dispatchStatus)
+                || isEmpty(orderId)|| isEmpty(questionKey)) {
+            return;
+        }
+        params.put(TOKEN, token);
+        params.put("dispatchId", dispatchId);
+        params.put("dispatchStatus", dispatchStatus);
+        params.put("orderId", orderId);
+        params.put("questionKey", questionKey);
+        params.put("questionValue", questionValue);
+        postRequest(params, "bluemoon-control/order/saveFeedBackQuestionInfo%s", handler);
     }
 
 }

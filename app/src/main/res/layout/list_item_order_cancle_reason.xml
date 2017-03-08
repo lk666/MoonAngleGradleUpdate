@@ -33,6 +33,22 @@
         </LinearLayout>
 
     </LinearLayout>
+    <EditText
+        android:id="@+id/et_reason"
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_height="70dp"
+        android:hint="@string/input_reason_less_than_50"
+        android:textColor="@color/text_black"
+        android:textColorHint="@color/text_grep"
+        android:background="@drawable/edittext_reason"
+        android:maxLength="50"
+        android:padding="10dp"
+        android:gravity="top"
+        android:textSize="15sp"
+        android:layout_marginBottom="8dp"
+        android:visibility="gone"/>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
