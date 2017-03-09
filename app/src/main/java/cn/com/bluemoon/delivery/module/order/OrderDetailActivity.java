@@ -79,6 +79,8 @@ public class OrderDetailActivity extends BaseActivity {
 	Button btnSendSms;
 	@Bind(R.id.layout_product)
 	LinearLayout layoutProduct;
+	@Bind(R.id.layout_question)
+	LinearLayout layoutQuestion;
 
 	private String orderId;
 	private String orderSource;
@@ -166,6 +168,11 @@ public class OrderDetailActivity extends BaseActivity {
 		orderId = getIntent().getStringExtra("orderId");
 		showWaitDialog();
 		DeliveryApi.getOrderDetailByOrderId(getToken(), orderId, getNewHandler(1, ResultOrderInfo.class));
+		if (OrderState.APPOINTMENT.toString().equals(dispatchStatus)
+				|| OrderState.DELIVERY.toString().equals(dispatchStatus)
+				|| OrderState.SIGN.toString().equals(dispatchStatus)) {
+			layoutQuestion.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override

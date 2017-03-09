@@ -2800,18 +2800,18 @@ public class DeliveryApi {
      * 保存派单反馈信息
      */
     public static void saveFeedBackQuestionInfo(String token, String dispatchId,
-                                                String dispatchStatus,String orderId,String questionKey,String questionValue,
+                                                String dispatchStatus,String orderId,List<String> questionKeys,String questionValue,
                                                 AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<>();
         if (null == token || isEmpty(dispatchId)|| isEmpty(dispatchStatus)
-                || isEmpty(orderId)|| isEmpty(questionKey)) {
+                || isEmpty(orderId)|| questionKeys.size() == 0) {
             return;
         }
         params.put(TOKEN, token);
         params.put("dispatchId", dispatchId);
         params.put("dispatchStatus", dispatchStatus);
         params.put("orderId", orderId);
-        params.put("questionKey", questionKey);
+        params.put("questionKeys", questionKeys);
         params.put("questionValue", questionValue);
         postRequest(params, "bluemoon-control/order/saveFeedBackQuestionInfo%s", handler);
     }

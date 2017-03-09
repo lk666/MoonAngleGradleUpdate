@@ -70,18 +70,14 @@ public class QuestionCallBackActivity extends BaseActivity{
             @Override
             public void onClick(View view) {
                 if (!reasonList.isEmpty()) {
-                    StringBuffer sBuff = new StringBuffer();
                     for (String s : reasonList) {
-                        sBuff.append(s);
-                        sBuff.append(",");
                         if ("otherReason".equals(s) && StringUtils.isEmpty(otherReason)) {
                             toast(getString(R.string.input_other_reason));
                             return;
                         }
                     }
                     showWaitDialog();
-                    String reasonKey = sBuff.substring(0, sBuff.length() - 1);
-                    DeliveryApi.saveFeedBackQuestionInfo(getToken(), dispatchId, dispatchStatus,orderId, reasonKey, otherReason, getNewHandler(2, ResultBase.class));
+                    DeliveryApi.saveFeedBackQuestionInfo(getToken(), dispatchId, dispatchStatus,orderId, reasonList, otherReason, getNewHandler(2, ResultBase.class));
                 } else {
                     toast(getString(R.string.question_less_one));
                 }
@@ -175,6 +171,7 @@ public class QuestionCallBackActivity extends BaseActivity{
                     etReason.setVisibility(View.VISIBLE);
                 } else {
                     etReason.setVisibility(View.GONE);
+                    etReason.setText("");
                 }
             }
         }

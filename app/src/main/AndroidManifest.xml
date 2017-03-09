@@ -879,6 +879,11 @@
             android:name=".module.wash.appointment.AppointmentTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.order.QuestionCallBackActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
