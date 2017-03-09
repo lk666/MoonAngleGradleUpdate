@@ -4,7 +4,7 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import java.io.File;
-import android.text.TextUtils;
+
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 
 /**
@@ -48,23 +48,6 @@ public class FileUtil extends LibFileUtil {
         return PATH_DOWN;
     }
 
-    /**
-     * 初始化文件夹
-     */
-    public static void init() {
-        if (checkExternalSDExists()) {
-            File f = new File(PATH_PHOTO);
-            f.mkdirs();
-            f = new File(PATH_TEMP);
-            f.mkdirs();
-            f = new File(PATH_CACHE);
-            f.mkdirs();
-            f = new File(PATH_CAMERA);
-            f.mkdirs();
-            f = new File(PATH_DOWN);
-            f.mkdirs();
-        }
-    }
 
     public static void deleteFileOrDirectory(String filePath) {
         File file = new File(filePath);
@@ -84,16 +67,18 @@ public class FileUtil extends LibFileUtil {
      * 初始化文件夹
      */
     public static void init() {
-        File f = new File(Constants.PATH_PHOTO);
-        f.mkdirs();
-        f = new File(Constants.PATH_TEMP);
-        if (!f.mkdirs()) {
-            deleteFolderFile(Constants.PATH_TEMP, false);
+        if (checkExternalSDExists()) {
+            File f = new File(Constants.PATH_PHOTO);
+            f.mkdirs();
+            f = new File(Constants.PATH_TEMP);
+            if (!f.mkdirs()) {
+                deleteFolderFile(Constants.PATH_TEMP, false);
+            }
+            f = new File(Constants.PATH_CACHE);
+            f.mkdirs();
+            f = new File(Constants.PATH_CAMERA);
+            f.mkdirs();
         }
-        f = new File(Constants.PATH_CACHE);
-        f.mkdirs();
-        f = new File(Constants.PATH_CAMERA);
-        f.mkdirs();
     }
     /**
      * 递归删除目录
