@@ -97,7 +97,7 @@ public class AppContext extends BaseApplication {
         }
     }
     private void init() {
-
+        FileUtil.init();
         AsyncHttpClient client = new AsyncHttpClient();
         PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
         client.setCookieStore(myCookieStore);

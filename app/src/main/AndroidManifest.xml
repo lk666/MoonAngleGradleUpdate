@@ -871,6 +871,8 @@
             android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
+
+        <activity android:name=".module.order.QuestionCallBackActivity" android:theme="@style/App.Base.Theme" android:screenOrientation="portrait" android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>
