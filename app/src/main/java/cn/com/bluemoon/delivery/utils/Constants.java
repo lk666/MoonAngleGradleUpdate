@@ -8,7 +8,6 @@ import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
 
 public class Constants {
 
@@ -49,7 +48,8 @@ public class Constants {
 
     public static final String[] ALARM_QUERY_COLUMNS = {
             "remindId", "hour", "minute", "remindWeek", "remindTime",
-            "isClose", "remindTitle", "remindContent"};
+            "isClose", "remindTitle", "remindContent" };
+
 
 
     public static final String DEFAULT_SORT_ORDER =
@@ -58,7 +58,7 @@ public class Constants {
     public static final String Fillter_SORT_ORDER =
             "remindWeek ASC";
 
-    public static final String WHERE_ENABLE = " isClose = 0";
+    public static final String WHERE_ENABLE =  " isClose = 0";
 
     /************************
      * location
@@ -101,6 +101,17 @@ public class Constants {
     public static final String TYPE_DICTINFO = "MM_RETURN_REASON";
     public static final String CRM_DISPATCH_CANCEL_REASON = "CRM_DISPATCH_CANCEL_REASON";
     public static final String CRM_DISPATCH_FEEDBACK_INFO = "CRM_DISPATCH_FEEDBACK_INFO";
+
+    /*************************
+     * file path
+     *******************************/
+    public static final String PATH_MAIN = Environment.getExternalStorageDirectory() +
+            "/BMDelivery";
+    public static final String PATH_PHOTO = PATH_MAIN + "/images";
+    public static final String PATH_TEMP = PATH_MAIN + "/temp";
+    public static final String PATH_CACHE = PATH_MAIN + "/cache";
+    public static final String PATH_CAMERA = Environment.getExternalStorageDirectory() +
+            "/DCIM/Camera";
 
     public static final int RETURN_TYPE = 1;
     public static final int EXCHANGE_TYPE = 2;
@@ -147,9 +158,7 @@ public class Constants {
     public static final String STATUS_CANCEL_ORDER = "CANCEL";
     public static final String STATUS_ACCEPTL_ORDER = "RECEIVE";
 
-    /*****************************
-     * team
-     **********************************/
+    /*****************************team**********************************/
     public final static String TYPE_ADD = "add";
     public final static String TYPE_UPDATE = "update";
     public final static String TYPE_SCAN = "scan";
