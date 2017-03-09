@@ -8,12 +8,17 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.extract.ResultGetAuthStore;
+import cn.com.bluemoon.delivery.app.api.model.extract.ResultGetAuthStore.StoresListBean;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultOrderInfoPickup;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
@@ -30,6 +35,12 @@ public class ScanFragment extends BaseFragment {
     ClearEditText etNumber;
     @Bind(R.id.btn_sign)
     Button btnSign;
+    @Bind(R.id.txt_shop)
+    TextView txtShop;
+    @Bind(R.id.txt_address)
+    TextView txtAddress;
+    @Bind(R.id.txt_person)
+    TextView txtPerson;
     private Activity context;
     private String signType = "digital";
 
@@ -60,30 +71,43 @@ public class ScanFragment extends BaseFragment {
 
     @Override
     public void initData() {
-
+        showWaitDialog();
+        DeliveryApi.getAuthStoreByUserCode(getToken(), getNewHandler(2, ResultGetAuthStore.class));
     }
 
     private void checkBtnState() {
         if (etNumber.getText().toString().trim().length() > 0) {
-            btnSign.setClickable(true);
-            btnSign.setBackgroundResource(R.drawable.btn_blue_shape);
+            btnSign.setPressed(true);
+            btnSign.setEnabled(true);
         } else {
-            btnSign.setClickable(false);
-            btnSign.setBackgroundResource(R.drawable.btn_blue_shape_disable);
+            btnSign.setEnabled(false);
+            btnSign.setPressed(false);
         }
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
-        etNumber.setText("");
-        Intent intent = new Intent(context, OrderDetailActivity.class);
-        Bundle bundle = new Bundle();
-        bundle.putSerializable("order", (ResultOrderInfoPickup) result);
-        bundle.putString("signType", signType);
-        intent.putExtras(bundle);
-        startActivity(intent);
-
+        if (requestCode == 1 || requestCode == 0) {
+            etNumber.setText("");
+            Intent intent = new Intent(context, OrderDetailActivity.class);
+            Bundle bundle = new Bundle();
+            bundle.putSerializable("order", (ResultOrderInfoPickup) result);
+            bundle.putString("signType", signType);
+            intent.putExtras(bundle);
+            startActivity(intent);
+        } else {
+            ResultGetAuthStore resultGetAuthStore = (ResultGetAuthStore)result;
+            List<StoresListBean> list = resultGetAuthStore.getStoresList();
+            if (list != null && list.size() > 0) {
+                StoresListBean bean = list.get(0);
+                txtAddress.setText(bean.getStoreAddress());
+                txtShop.setText(bean.getStoreChargeCode()+"-"+bean.getStoreType()+"-"+bean.getStoreName());
+                txtPerson.setText(bean.getStoreChargeName()+"-"+bean.getStoreChargePhone());
+                txtAddress.setVisibility(View.VISIBLE);
+                txtShop.setVisibility(View.VISIBLE);
+                txtPerson.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     @Override

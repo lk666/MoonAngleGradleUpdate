@@ -1,8 +1,11 @@
 package cn.com.bluemoon.delivery.utils.manager;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -17,6 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.wash.ResultUploadExceptionImage;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ImageInfo;
@@ -55,10 +60,14 @@ public class UploadImageManager {
     }
 
     public void uploadApi() {
-        getFileSize(paths.get(index));
+        double size = getFileSize(paths.get(index));
+        if (size == 0) {
+            Toast.makeText(mContext, R.string.image_invaild_tips, Toast.LENGTH_SHORT).show();
+            return;
+        }
         Bitmap bitmap;
         //大于400k
-        if (getFileSize(paths.get(index)) > 400) {
+        if (size > 400) {
             bitmap = LibImageUtil.getImgScale(paths.get(index),300, false);
         } else {
             bitmap = BitmapFactory.decodeFile(paths.get(index));
@@ -74,10 +83,17 @@ public class UploadImageManager {
             if (f.exists()) {
                 FileInputStream fis = new FileInputStream(f);
                 s = fis.available();
+            } else {
+                // 文件管理器中已经不存在删除的图片名称，但是手机自带图片浏览器中仍然可以搜索到
+                Intent media = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+                Uri contentUri = Uri.fromFile(f);
+                media.setData(contentUri);
+                AppContext.getInstance().sendBroadcast(media);
             }
         } catch (Exception e) {
+        } finally {
+            return (double) s / 1024;
         }
-        return (double) s / 1024;
     }
 
     protected AsyncHttpResponseHandler handler = new TextHttpResponseHandler(

@@ -67,6 +67,8 @@ public class OrderDetailActivity extends BaseActivity {
 	TextView txtCustomerName;
 	@Bind(R.id.txt_phone)
 	TextView txtPhone;
+	@Bind(R.id.txt_question_response)
+	TextView txtQuestionResponse;
 	@Bind(R.id.txt_address)
 	TextView txtAddress;
 	@Bind(R.id.txt_totalprice)
@@ -77,11 +79,14 @@ public class OrderDetailActivity extends BaseActivity {
 	Button btnSendSms;
 	@Bind(R.id.layout_product)
 	LinearLayout layoutProduct;
+	@Bind(R.id.layout_question)
+	LinearLayout layoutQuestion;
 
 	private String orderId;
 	private String orderSource;
 	private OrderInfo item;
 	private String dispatchStatus;
+	private String dispatchId;
 
 	public static void startAct(Context context, String orderId, String dispatchStatus) {
 		Intent intent = new Intent();
@@ -163,6 +168,11 @@ public class OrderDetailActivity extends BaseActivity {
 		orderId = getIntent().getStringExtra("orderId");
 		showWaitDialog();
 		DeliveryApi.getOrderDetailByOrderId(getToken(), orderId, getNewHandler(1, ResultOrderInfo.class));
+		if (OrderState.APPOINTMENT.toString().equals(dispatchStatus)
+				|| OrderState.DELIVERY.toString().equals(dispatchStatus)
+				|| OrderState.SIGN.toString().equals(dispatchStatus)) {
+			layoutQuestion.setVisibility(View.VISIBLE);
+		}
 	}
 
 	@Override
@@ -188,8 +198,10 @@ public class OrderDetailActivity extends BaseActivity {
 			if (item == null) {
 				return;
 			}
+			dispatchId = item.getDispatchId();
 			orderSource = item.getSource();
 			setLayout(item.getDispatchStatus());
+			setTxtQuestionStyle();
 			txtPayOrderTime.setText(item.getPayOrderTime());
 			txtSubscribeTime.setText(item.getSubscribeTime());
 			txtDeliveryTime.setText(item.getDeliveryTime());
@@ -248,6 +260,19 @@ public class OrderDetailActivity extends BaseActivity {
 			}
 		});
 	}
+	public void setTxtQuestionStyle() {
+		txtQuestionResponse.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+		txtQuestionResponse.getPaint().setAntiAlias(true);
+		txtQuestionResponse.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				QuestionCallBackActivity.actionStart(OrderDetailActivity.this, orderId, dispatchId, dispatchStatus);
+			}
+		});
+	}
+
+
 
 	public void setLayout(String state) {
 		if (OrderState.ACCEPT.toString().equals(state)) {

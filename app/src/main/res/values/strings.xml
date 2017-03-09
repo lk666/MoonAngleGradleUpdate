@@ -259,7 +259,11 @@
     <!-- 自提-->
     <string name="tab_extract_scan_code_title">现场签收</string>
     <string name="tab_bottom_scan_code_text">自提扫码</string>
+    <string name="tab_bottom_take_text">自提授权</string>
     <string name="tab_bottom_show_history_text">历史查看</string>
+    <string name="extract_take_title">自提授权</string>
+    <string name="auth_person_num">已授权人数：%d</string>
+    <string name="storehouse_detail">详情</string>
 
     <string name="extract_scan_code_input_number">请输入现场签收数字码</string>
     <string name="extract_scan_code_btn">扫描现场签收码</string>
@@ -1234,6 +1238,7 @@
     <string name="emp_name_is_empty">请填写收货人姓名</string>
     <string name="emp_code_is_empty">请填写收货人编号</string>
     <string name="please_input_emp_code">请输入员工编号</string>
+    <string name="image_invaild_tips">存在无效图片，请删除再上传！</string>
 
     <!--还衣管理-->
     <string name="manage_return_clothes_detial_title">还衣单详情</string>
@@ -1366,10 +1371,17 @@
     <string name="order_cancle_tips_2">2.取消接单后，不得再将该订单产品配送给消费者，否则重复配送的损失将由您承担。</string>
     <string name="order_cancle_tips_1">1.取消接单后，该订单不能再次派送给您</string>
     <string name="order_cancle_reason_select">请选择原因：</string>
+    <string name="order_question_select">请选择：</string>
     <string name="order_cancle_reason_select_tips">请选择原因</string>
     <string name="order_cancle_tips">提示：</string>
     <string name="order_total_num">配送总数：%s</string>
     <string name="send_num">配送数量 x%s</string>
+    <string name="input_other_reason">请输入其他原因</string>
+    <string name="question_feedback_title">配送问题反馈</string>
+    <string name="question_less_one">请至少选择一项</string>
+    <string name="input_reason_less_than_50">填写其他原因，最多50字</string>
+    <string name="dispatch_inauspicious">配送不顺利？</string>
+    <string name="dispatch_question">配送问题反馈</string>
 
     <!--预约收衣-->
     <string name="appointment_title">预约收衣</string>
