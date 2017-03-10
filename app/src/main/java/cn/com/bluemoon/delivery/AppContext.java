@@ -30,7 +30,6 @@ public class AppContext extends BaseApplication {
     public static final int PAGE_SIZE = 10;
 
     private static AppContext instance;
-    public LocationService locationService = null;
 
     @Override
     public void onCreate() {
@@ -97,27 +96,6 @@ public class AppContext extends BaseApplication {
         }
     }
     private void init() {
-        FileUtil.init();
-        AsyncHttpClient client = new AsyncHttpClient();
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(this);
-        client.setCookieStore(myCookieStore);
-        client.setConnectTimeout(20000);
-        client.setResponseTimeout(20000);
-        ApiHttpClient.setHttpClient(client);
-        ApiHttpClient.setCookie(ApiHttpClient.getCookie(this));
-
-        locationService = new LocationService(getApplicationContext());
-        locationService.stop();
-        LocationClientOption mOption = locationService.getDefaultLocationClientOption();
-        locationService.setLocationOption(mOption);
-        locationService.registerListener();
-
-        shareInit();
-
-        ImageLoaderUtil.init(this, FileUtil.getPathCache(), !BuildConfig.RELEASE);
-    }
-
-    private void shareInit() {
 
     }
 

@@ -102,17 +102,6 @@ public class Constants {
     public static final String CRM_DISPATCH_CANCEL_REASON = "CRM_DISPATCH_CANCEL_REASON";
     public static final String CRM_DISPATCH_FEEDBACK_INFO = "CRM_DISPATCH_FEEDBACK_INFO";
 
-    /*************************
-     * file path
-     *******************************/
-    public static final String PATH_MAIN = Environment.getExternalStorageDirectory() +
-            "/BMDelivery";
-    public static final String PATH_PHOTO = PATH_MAIN + "/images";
-    public static final String PATH_TEMP = PATH_MAIN + "/temp";
-    public static final String PATH_CACHE = PATH_MAIN + "/cache";
-    public static final String PATH_CAMERA = Environment.getExternalStorageDirectory() +
-            "/DCIM/Camera";
-
     public static final int RETURN_TYPE = 1;
     public static final int EXCHANGE_TYPE = 2;
     public static final String INTENTFILTER_ACTION = "cn.com.bluemoon.delivery.module.order";

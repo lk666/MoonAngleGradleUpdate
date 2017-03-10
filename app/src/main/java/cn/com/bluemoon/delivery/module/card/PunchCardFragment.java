@@ -90,13 +90,22 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
         layoutInput.setOnClickListener(this);
         setImgBanner();
 
-        mLocationClient = new LocationClient(mContext.getApplicationContext());
+        mLocationClient = new LocationClient(getActivity());
         mLocationClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
         option.setCoorType("bd09ll");
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mLocationClient.setLocOption(option);
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLocationClient != null) {
+            mLocationClient.unRegisterLocationListener(myListener);
+            mLocationClient = null;
+        }
     }
 
     private void setImgBanner() {

@@ -475,6 +475,8 @@ public class WebViewActivity extends Activity implements OnClickListener {
         }
         if (mLocationClient != null && mLocationClient.isStarted()) {
             mLocationClient.stop();
+            mLocationClient.unRegisterLocationListener(myListener);
+            mLocationClient = null;
         }
     }
 

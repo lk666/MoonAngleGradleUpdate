@@ -179,7 +179,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         layoutStartCard.setOnClickListener(this);
         layoutWorkTask.setOnClickListener(this);
         btnPunchCard.setOnClickListener(this);
-        mLocationClient = new LocationClient(mContext.getApplicationContext());
+        mLocationClient = new LocationClient(getActivity());
         mLocationClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
         option.setCoorType("bd09ll");
@@ -194,6 +194,15 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         progressDialog.show();
         DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
         return v;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLocationClient != null) {
+            mLocationClient.unRegisterLocationListener(myListener);
+            mLocationClient = null;
+        }
     }
 
     AsyncHttpResponseHandler gpsHandler = new TextHttpResponseHandler(HTTP.UTF_8) {

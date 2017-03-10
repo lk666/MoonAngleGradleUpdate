@@ -479,6 +479,8 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         }
         if (mLocationClient != null && mLocationClient.isStarted()) {
             mLocationClient.stop();
+            mLocationClient.unRegisterLocationListener(myListener);
+            mLocationClient = null;
         }
     }
 

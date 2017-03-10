@@ -48,7 +48,9 @@ public class FileUtil extends LibFileUtil {
         return PATH_DOWN;
     }
 
-
+    /**
+     * 递归删除目录下的文件
+     */
     public static void deleteFileOrDirectory(String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
@@ -68,15 +70,15 @@ public class FileUtil extends LibFileUtil {
      */
     public static void init() {
         if (checkExternalSDExists()) {
-            File f = new File(Constants.PATH_PHOTO);
+            File f = new File(PATH_PHOTO);
             f.mkdirs();
-            f = new File(Constants.PATH_TEMP);
+            f = new File(PATH_TEMP);
             if (!f.mkdirs()) {
-                deleteFolderFile(Constants.PATH_TEMP, false);
+                deleteFolderFile(PATH_TEMP, false);
             }
-            f = new File(Constants.PATH_CACHE);
+            f = new File(PATH_CACHE);
             f.mkdirs();
-            f = new File(Constants.PATH_CAMERA);
+            f = new File(PATH_CAMERA);
             f.mkdirs();
         }
     }

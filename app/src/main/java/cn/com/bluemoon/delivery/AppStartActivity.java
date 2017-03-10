@@ -15,8 +15,11 @@ import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.baidu.location.LocationClientOption;
 import com.igexin.sdk.PushManager;
+import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.commons.lang3.StringUtils;
@@ -25,6 +28,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 
+import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
@@ -38,6 +42,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.UpdateManager;
 import cn.com.bluemoon.delivery.utils.service.LocationService;
+import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
@@ -51,6 +56,7 @@ public class AppStartActivity extends Activity {
     private String view;
     private String url;
     private boolean isPause;
+    public LocationService locationService = null;
 
     public static void actStart(Context context, String view, String url) {
         Intent intent = new Intent(context, LoginActivity.class);
@@ -71,10 +77,20 @@ public class AppStartActivity extends Activity {
         main = this;
         setContentView(R.layout.activity_start);
         init();
-        FileUtil.init();
     }
 
     private void init() {
+        FileUtil.init();
+        AsyncHttpClient client = new AsyncHttpClient();
+        PersistentCookieStore myCookieStore = new PersistentCookieStore(AppContext.getInstance());
+        client.setCookieStore(myCookieStore);
+        client.setConnectTimeout(20000);
+        client.setResponseTimeout(20000);
+        ApiHttpClient.setHttpClient(client);
+        ApiHttpClient.setCookie(ApiHttpClient.getCookie(AppContext.getInstance()));
+
+        ImageLoaderUtil.init(AppContext.getInstance(), FileUtil.getPathCache(), !BuildConfig.RELEASE);
+
         //获取推送内容
         view = PublicUtil.getPushView(getIntent());
         url = PublicUtil.getPushUrl(getIntent());
@@ -82,8 +98,11 @@ public class AppStartActivity extends Activity {
         //推送SDK初始化
         initPush();
 
-        //百度定位初始化
-        LocationService locationService = ((AppContext) getApplication()).locationService;
+        //百度定位初始化，每5分钟定位一次
+        locationService = new LocationService(getApplicationContext());
+        LocationClientOption mOption = locationService.getDefaultLocationClientOption();
+        locationService.setLocationOption(mOption);
+        locationService.registerListener();
         locationService.start();
     }
 

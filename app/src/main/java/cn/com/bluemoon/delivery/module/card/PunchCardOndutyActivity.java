@@ -171,7 +171,7 @@ public class PunchCardOndutyActivity extends Activity {
         initView();
 
         //定位设置
-        mLocationClient = new LocationClient(main.getApplicationContext());
+        mLocationClient = new LocationClient(this);
         mLocationClient.registerLocationListener(myListener);
         LocationClientOption option = new LocationClientOption();
         option.setCoorType("bd09ll");
@@ -256,6 +256,16 @@ public class PunchCardOndutyActivity extends Activity {
             }
         }
     };
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (mLocationClient != null) {
+            mLocationClient.unRegisterLocationListener(myListener);
+            mLocationClient = null;
+        }
+
+    }
 
     private void initView() {
 
