@@ -594,6 +594,8 @@
     <string name="alarm_repeat_txt">重复</string>
     <string name="alarm_delete_alert">确认删除该提醒吗？</string>
     <string name="alarm_toast">已将此提醒设置为从现在起%1$d天%2$d小时%3$d分钟后再提醒。</string>
+    <string name="weekdays_ch">一,二,三,四,五,六,日</string>
+    <string name="weekdays_long_ch">星期一,星期二,星期三,星期四,星期五,星期六,星期日</string>
 
     <!-- coupons -->
     <string name="coupons_tab_push">卡券推送</string>
