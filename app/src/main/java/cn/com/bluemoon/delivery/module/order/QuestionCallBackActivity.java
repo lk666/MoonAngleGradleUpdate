@@ -112,9 +112,10 @@ public class QuestionCallBackActivity extends BaseActivity{
     }
 
     class ReasonListAdapter extends BaseListAdapter<Dict> {
-
+        private Context mContext;
         public ReasonListAdapter(Context context) {
             super(context, null);
+            this.mContext = context;
         }
 
         @Override
@@ -124,7 +125,7 @@ public class QuestionCallBackActivity extends BaseActivity{
 
         @Override
         protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
-            TextView txtReason = getViewById(R.id.txt_reason);
+            final TextView txtReason = getViewById(R.id.txt_reason);
             final CheckBox cbSelect = getViewById(R.id.cb_select);
             final EditText etReason = getViewById(R.id.et_reason);
             final Dict dict = list.get(position);
@@ -132,14 +133,14 @@ public class QuestionCallBackActivity extends BaseActivity{
             cbSelect.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    modifyReason(cbSelect.isChecked(), dict.getDictId(), etReason);
+                    modifyReason(cbSelect.isChecked(), dict.getDictId(), etReason, txtReason);
                 }
             });
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     cbSelect.setChecked(!cbSelect.isChecked());
-                    modifyReason(cbSelect.isChecked(),  dict.getDictId(), etReason);
+                    modifyReason(cbSelect.isChecked(),  dict.getDictId(), etReason, txtReason);
                 }
             });
             etReason.addTextChangedListener(new TextWatcher() {
@@ -160,11 +161,13 @@ public class QuestionCallBackActivity extends BaseActivity{
             });
         }
 
-        private void modifyReason(boolean isCheck, String dictId, EditText etReason) {
+        private void modifyReason(boolean isCheck, String dictId, EditText etReason, TextView txtReason) {
             if (isCheck) {
                 reasonList.add(dictId);
+                txtReason.setTextColor(mContext.getResources().getColor(R.color.text_black));
             } else {
                 reasonList.remove(dictId);
+                txtReason.setTextColor(mContext.getResources().getColor(R.color.text_black_light));
             }
             if("otherReason".equals(dictId)){
                 if (isCheck) {

@@ -129,7 +129,7 @@ public class TakeFragment extends BasePullHeadToRefreshListViewFragment implemen
             TextView txtDetail = getViewById(R.id.txt_detail);
             txtDetail.setText(Html.fromHtml("<u>"+getString(R.string.storehouse_detail)+"</u>"));
             txtPersonNum.setText(getString(R.string.auth_person_num, bean.getPersonNum()));
-            txtShop.setText(bean.getStoreCode()+"-"+bean.getStoreType()+"-"+bean.getStoreName());
+            txtShop.setText(bean.getStoreCode()+"-"+bean.getStoreName());
             txtAddress.setText(bean.getStoreAddress());
             setClickEvent(isNew, position, txtAuth, txtDetail);
         }

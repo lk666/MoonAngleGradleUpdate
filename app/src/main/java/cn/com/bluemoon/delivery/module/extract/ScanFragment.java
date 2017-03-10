@@ -101,7 +101,7 @@ public class ScanFragment extends BaseFragment {
             if (list != null && list.size() > 0) {
                 StoresListBean bean = list.get(0);
                 txtAddress.setText(bean.getStoreAddress());
-                txtShop.setText(bean.getStoreChargeCode()+"-"+bean.getStoreType()+"-"+bean.getStoreName());
+                txtShop.setText(bean.getStoreCode()+"-"+bean.getStoreName());
                 txtPerson.setText(bean.getStoreChargeName()+"-"+bean.getStoreChargePhone());
                 txtAddress.setVisibility(View.VISIBLE);
                 txtShop.setVisibility(View.VISIBLE);
