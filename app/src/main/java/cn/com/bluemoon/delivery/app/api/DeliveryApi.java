@@ -2799,21 +2799,37 @@ public class DeliveryApi {
     /**
      * 保存派单反馈信息
      */
-    public static void saveFeedBackQuestionInfo(String token, String dispatchId,
-                                                String dispatchStatus,String orderId,List<String> questionKeys,String questionValue,
+    public static void saveFeedBackQuestionInfo(String token, String orderId,String orderSource,
+                                                List<String> questionKeys,String questionValue,
                                                 AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<>();
-        if (null == token || isEmpty(dispatchId)|| isEmpty(dispatchStatus)
+        if (null == token || isEmpty(orderSource)
                 || isEmpty(orderId)|| questionKeys.size() == 0) {
             return;
         }
         params.put(TOKEN, token);
-        params.put("dispatchId", dispatchId);
-        params.put("dispatchStatus", dispatchStatus);
+        params.put("orderSource", orderSource);
         params.put("orderId", orderId);
         params.put("questionKeys", questionKeys);
         params.put("questionValue", questionValue);
         postRequest(params, "bluemoon-control/order/saveFeedBackQuestionInfo%s", handler);
+    }
+
+    /**
+     * 获取派单反馈信息选项列表信息
+     */
+    public static void getFeedBackExpandInfo(String token, String orderId,
+                                                String orderSource, String type,
+                                                AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token || isEmpty(orderSource)|| isEmpty(type)) {
+            return;
+        }
+        params.put(TOKEN, token);
+        params.put("orderId", orderId);
+        params.put("orderSource", orderSource);
+        params.put("type", type);
+        postRequest(params, "bluemoon-control/order/getFeedBackExpandInfo%s", handler);
     }
 
 }

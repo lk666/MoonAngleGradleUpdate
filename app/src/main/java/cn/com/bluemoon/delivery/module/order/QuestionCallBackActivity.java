@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,6 +24,8 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.Dict;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultDict;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultFeedBackExpandInfo;
+import cn.com.bluemoon.delivery.app.api.model.other.ResultFeedBackExpandInfo.ItemListBean;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -37,16 +40,14 @@ public class QuestionCallBackActivity extends BaseActivity{
     @Bind(R.id.btn_ok)
     Button btnOk;
     private String orderId;
-    private String dispatchId;
-    private String dispatchStatus;
-    private List<String> reasonList;
+    private String orderSource;
+    private List<ItemListBean> reasonList;
     private String otherReason;
 
-    public static void  actionStart(Context context, String orderId, String dispatchId, String dispatchStatus) {
+    public static void  actionStart(Context context, String orderId, String orderSource) {
         Intent intent = new Intent(context, QuestionCallBackActivity.class);
         intent.putExtra("orderId", orderId);
-        intent.putExtra("dispatchId", dispatchId);
-        intent.putExtra("dispatchStatus", dispatchStatus);
+        intent.putExtra("orderSource", orderSource);
         context.startActivity(intent);
     }
 
@@ -63,23 +64,29 @@ public class QuestionCallBackActivity extends BaseActivity{
     @Override
     public void initView() {
         orderId = getIntent().getStringExtra("orderId");
-        dispatchId = getIntent().getStringExtra("dispatchId");
-        dispatchStatus = getIntent().getStringExtra("dispatchStatus");
-        reasonList = new ArrayList<>();
+        orderSource = getIntent().getStringExtra("orderSource");
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (!reasonList.isEmpty()) {
-                    for (String s : reasonList) {
-                        if ("otherReason".equals(s) && StringUtils.isEmpty(otherReason)) {
+                if (reasonList !=null && !reasonList.isEmpty()) {
+                    List<String> paramDictId = new ArrayList<String>();
+                    for (ItemListBean bean : reasonList) {
+                        if (bean.isSelected && "otherReason".equals(bean.getDictId()) && StringUtils.isEmpty(otherReason)) {
                             toast(getString(R.string.input_other_reason));
                             return;
                         }
+                        if (bean.isSelected) {
+                            paramDictId.add(bean.getDictId());
+                        }
                     }
+
+                    if (paramDictId.isEmpty()) {
+                        toast(getString(R.string.question_less_one));
+                        return;
+                    }
+
                     showWaitDialog();
-                    DeliveryApi.saveFeedBackQuestionInfo(getToken(), dispatchId, dispatchStatus,orderId, reasonList, otherReason, getNewHandler(2, ResultBase.class));
-                } else {
-                    toast(getString(R.string.question_less_one));
+                    DeliveryApi.saveFeedBackQuestionInfo(getToken(), orderId, orderSource, paramDictId, otherReason, getNewHandler(2, ResultBase.class));
                 }
 
             }
@@ -89,7 +96,8 @@ public class QuestionCallBackActivity extends BaseActivity{
     @Override
     public void initData() {
         showWaitDialog();
-        DeliveryApi.getDictInfo(Constants.CRM_DISPATCH_FEEDBACK_INFO, getNewHandler(1, ResultDict.class));
+        DeliveryApi.getFeedBackExpandInfo(getToken(), orderId, orderSource,
+                Constants.CRM_DISPATCH_FEEDBACK_INFO, getNewHandler(1, ResultFeedBackExpandInfo.class));
     }
 
     @Override
@@ -100,10 +108,12 @@ public class QuestionCallBackActivity extends BaseActivity{
             setResult(RESULT_OK);
             finish();
         } else {
-            ResultDict resultDict = (ResultDict)result;
-            if (resultDict.getItemList() != null && resultDict.getItemList().size() > 0) {
+            ResultFeedBackExpandInfo r = (ResultFeedBackExpandInfo)result;
+            if (r.getItemList() != null && r.getItemList().size() > 0) {
+                otherReason = r.getQuestionValue();
                 ReasonListAdapter adapter = new ReasonListAdapter(this);
-                adapter.setList(resultDict.getItemList());
+                reasonList = r.getItemList();
+                adapter.setList(reasonList);
                 listReason.setAdapter(adapter);
             }
 
@@ -111,7 +121,7 @@ public class QuestionCallBackActivity extends BaseActivity{
 
     }
 
-    class ReasonListAdapter extends BaseListAdapter<Dict> {
+    class ReasonListAdapter extends BaseListAdapter<ItemListBean> {
         private Context mContext;
         public ReasonListAdapter(Context context) {
             super(context, null);
@@ -128,19 +138,53 @@ public class QuestionCallBackActivity extends BaseActivity{
             final TextView txtReason = getViewById(R.id.txt_reason);
             final CheckBox cbSelect = getViewById(R.id.cb_select);
             final EditText etReason = getViewById(R.id.et_reason);
-            final Dict dict = list.get(position);
-            txtReason.setText(dict.getDictName());
-            cbSelect.setOnClickListener(new View.OnClickListener() {
+            final ItemListBean bean = list.get(position);
+            txtReason.setText(bean.getDictName());
+            cbSelect.setChecked(bean.isSelected);
+            if (bean.isSelected) {
+                txtReason.setTextColor(mContext.getResources().getColor(R.color.text_black));
+            } else {
+                txtReason.setTextColor(mContext.getResources().getColor(R.color.text_black_light));
+            }
+            final boolean isOther = "otherReason".equals(bean.getDictId());
+            if(isOther && bean.isSelected && StringUtils.isNoneBlank(otherReason)) {
+                etReason.setText(otherReason);
+                etReason.setVisibility(View.VISIBLE);
+            }
+            cbSelect.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
-                public void onClick(View view) {
-                    modifyReason(cbSelect.isChecked(), dict.getDictId(), etReason, txtReason);
+                public void onCheckedChanged(CompoundButton compoundButton, boolean isCheck) {
+                    if (isCheck) {
+                        if (isOther) {
+                            //其他选择，与上面的列表互斥
+                            etReason.setVisibility(View.VISIBLE);
+                            for (int i = 0; i < list.size(); i++) {
+                                list.get(i).isSelected = (i == position);
+                            }
+                        } else {
+                            for (ItemListBean otherBean : list) {
+                                if (otherBean.isSelected && "otherReason".equals(otherBean.getDictId())) {
+                                    otherBean.isSelected = false;
+                                    etReason.setVisibility(View.GONE);
+                                    etReason.setText("");
+                                }
+                            }
+                            bean.isSelected = true;
+                        }
+                    } else {
+                        if (isOther) {
+                            etReason.setVisibility(View.GONE);
+                            etReason.setText("");
+                        }
+                        bean.isSelected = isCheck;
+                    }
+                    notifyDataSetChanged();
                 }
             });
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     cbSelect.setChecked(!cbSelect.isChecked());
-                    modifyReason(cbSelect.isChecked(),  dict.getDictId(), etReason, txtReason);
                 }
             });
             etReason.addTextChangedListener(new TextWatcher() {
@@ -159,24 +203,6 @@ public class QuestionCallBackActivity extends BaseActivity{
                     otherReason = editable.toString();
                 }
             });
-        }
-
-        private void modifyReason(boolean isCheck, String dictId, EditText etReason, TextView txtReason) {
-            if (isCheck) {
-                reasonList.add(dictId);
-                txtReason.setTextColor(mContext.getResources().getColor(R.color.text_black));
-            } else {
-                reasonList.remove(dictId);
-                txtReason.setTextColor(mContext.getResources().getColor(R.color.text_black_light));
-            }
-            if("otherReason".equals(dictId)){
-                if (isCheck) {
-                    etReason.setVisibility(View.VISIBLE);
-                } else {
-                    etReason.setVisibility(View.GONE);
-                    etReason.setText("");
-                }
-            }
         }
     }
 }

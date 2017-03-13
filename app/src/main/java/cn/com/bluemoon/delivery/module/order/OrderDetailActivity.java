@@ -86,7 +86,6 @@ public class OrderDetailActivity extends BaseActivity {
 	private String orderSource;
 	private OrderInfo item;
 	private String dispatchStatus;
-	private String dispatchId;
 
 	public static void startAct(Context context, String orderId, String dispatchStatus) {
 		Intent intent = new Intent();
@@ -198,8 +197,7 @@ public class OrderDetailActivity extends BaseActivity {
 			if (item == null) {
 				return;
 			}
-			dispatchId = item.getDispatchId();
-			orderSource = item.getSource();
+			orderSource = item.getOrderSource();
 			setLayout(item.getDispatchStatus());
 			setTxtQuestionStyle();
 			txtPayOrderTime.setText(item.getPayOrderTime());
@@ -267,7 +265,7 @@ public class OrderDetailActivity extends BaseActivity {
 
 			@Override
 			public void onClick(View v) {
-				QuestionCallBackActivity.actionStart(OrderDetailActivity.this, orderId, dispatchId, dispatchStatus);
+				QuestionCallBackActivity.actionStart(OrderDetailActivity.this, orderId, orderSource);
 			}
 		});
 	}
