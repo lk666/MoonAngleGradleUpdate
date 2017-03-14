@@ -42,7 +42,8 @@ android {
                 PACKAGE_NAME    : applicationId
         ]
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "mips", "mips64", "x86", "x86_64"
+            //abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "mips", "mips64", "x86", "x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "mips", "x86"
         }
 
         multiDexEnabled true
