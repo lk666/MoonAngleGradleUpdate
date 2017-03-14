@@ -421,6 +421,11 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
 
         if (!control) {
             control = true;
+            if (isInit) {
+                control = false;
+                PublicUtil.showToast(getString(R.string.get_on_location));
+                return;
+            }
             if (v == layoutWorkDiary) {
                 Intent intent = new Intent(mContext, WorkDiaryActivity.class);
                 intent.putExtra("hasWrokDaily", hasWrokDaily);

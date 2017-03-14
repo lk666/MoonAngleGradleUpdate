@@ -232,6 +232,10 @@ public class PunchCardOndutyActivity extends Activity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            if (isInit) {
+                PublicUtil.showToast(getString(R.string.get_on_location));
+                return;
+            }
             LibViewUtil.hideIM(v);
             if (v == btnPunchCard) {
                 if (!checkSumbit()) {
