@@ -75,7 +75,7 @@ public class QuestionCallBackActivity extends BaseActivity{
                 if (reasonList !=null && !reasonList.isEmpty()) {
                     List<String> paramDictId = new ArrayList<String>();
                     for (ItemListBean bean : reasonList) {
-                        if (bean.isSelected && "otherReason".equals(bean.getDictId()) && StringUtils.isEmpty(otherReason)) {
+                        if (bean.isSelected && "otherReason".equals(bean.getDictId()) && !StringUtils.isNoneBlank(otherReason)) {
                             toast(getString(R.string.input_other_reason));
                             return;
                         }
@@ -154,16 +154,11 @@ public class QuestionCallBackActivity extends BaseActivity{
                 public CharSequence filter(CharSequence source, int start, int end,
                                            Spanned dest, int dstart, int dend) {
                     String text = source.toString();
-                    String[] limit = new String[]{"-","－","_","——",",","，",".","。","：",":",".","*","、"};
-                    for (String s : limit) {
-                        text = text.replace(s, "");
-                        if (StringUtils.isEmpty(text)){
-                            return source;
-                        }
-                    }
                     for (int i = 0; i < text.length(); i++){
-                        if (!LibStringUtil.isChinese(String.valueOf(text.charAt(i))) && !Character.isDigit(text.charAt(i))
-                                && !Pattern.compile("[a-zA-Z]*").matcher(String.valueOf(text.charAt(i))).matches()) {
+                        char c = text.charAt(i);
+                        String s = String.valueOf(c);
+                        if (!LibStringUtil.isChinese(s) && !Character.isDigit(c)
+                                && !Pattern.compile("[a-zA-Z]*|\\p{P}|\\s*|\\n").matcher(s).matches()) {
                             toast(getString(R.string.should_not_input_emoji));
                             return "";
                         }
