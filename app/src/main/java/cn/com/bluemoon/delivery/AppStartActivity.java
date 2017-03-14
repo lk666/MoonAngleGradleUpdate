@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
+import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -104,6 +105,18 @@ public class AppStartActivity extends Activity {
         locationService.setLocationOption(mOption);
         locationService.registerListener();
         locationService.start();
+
+        initAlarm();
+    }
+
+    private void initAlarm() {
+        try {
+            if(!StringUtil.isEmptyString(ClientStateManager.getLoginToken())) {
+                Reminds.SynAlarm(this);
+            }
+        }catch (Exception ex){
+            LogUtils.e("AppContext","Syn Alarms Error",ex);
+        }
     }
 
     /**

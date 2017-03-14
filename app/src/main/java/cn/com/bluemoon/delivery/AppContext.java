@@ -37,7 +37,6 @@ public class AppContext extends BaseApplication {
         instance = this;
         init();
         initLogin();
-        initAlarm();
         ShareHelper.iniShare(this);
         initX5Environment();
     }
@@ -86,15 +85,7 @@ public class AppContext extends BaseApplication {
     private void initLogin() {
 
     }
-    private void initAlarm() {
-        try {
-            if(!StringUtil.isEmptyString(ClientStateManager.getLoginToken())) {
-                Reminds.SynAlarm(this);
-            }
-        }catch (Exception ex){
-            LogUtils.e("AppContext","Syn Alarms Error",ex);
-        }
-    }
+
     private void init() {
 
     }

@@ -264,6 +264,7 @@
     <string name="extract_take_title">自提授权</string>
     <string name="auth_person_num">已授权人数：%d</string>
     <string name="storehouse_detail">详情</string>
+    <string name="should_not_input_emoji">请不要输入表情哦</string>
 
     <string name="extract_scan_code_input_number">请输入现场签收数字码</string>
     <string name="extract_scan_code_btn">扫描现场签收码</string>

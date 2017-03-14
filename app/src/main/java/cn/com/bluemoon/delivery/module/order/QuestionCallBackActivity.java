@@ -3,6 +3,8 @@ package cn.com.bluemoon.delivery.module.order;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
+import android.text.InputFilter;
+import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +19,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
@@ -30,6 +33,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.qrcode.decoding.Intents;
+import cn.com.bluemoon.lib.utils.LibStringUtil;
 
 /**
  * 配送问题反馈
@@ -146,6 +150,27 @@ public class QuestionCallBackActivity extends BaseActivity{
             } else {
                 txtReason.setTextColor(mContext.getResources().getColor(R.color.text_black_light));
             }
+            etReason.setFilters(new InputFilter[]{new InputFilter() {
+                public CharSequence filter(CharSequence source, int start, int end,
+                                           Spanned dest, int dstart, int dend) {
+                    String text = source.toString();
+                    String[] limit = new String[]{"-","－","_","——",",","，",".","。","：",":",".","*","、"};
+                    for (String s : limit) {
+                        text = text.replace(s, "");
+                        if (StringUtils.isEmpty(text)){
+                            return source;
+                        }
+                    }
+                    for (int i = 0; i < text.length(); i++){
+                        if (!LibStringUtil.isChinese(String.valueOf(text.charAt(i))) && !Character.isDigit(text.charAt(i))
+                                && !Pattern.compile("[a-zA-Z]*").matcher(String.valueOf(text.charAt(i))).matches()) {
+                            toast(getString(R.string.should_not_input_emoji));
+                            return "";
+                        }
+                    }
+                    return source;
+                }
+            }});
             final boolean isOther = "otherReason".equals(bean.getDictId());
             if(isOther && bean.isSelected && StringUtils.isNoneBlank(otherReason)) {
                 etReason.setText(otherReason);
