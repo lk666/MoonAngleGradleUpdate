@@ -8,6 +8,7 @@ import android.text.Spanned;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -165,7 +166,7 @@ public class QuestionCallBackActivity extends BaseActivity{
                     }
                     return source;
                 }
-            }});
+            }, new InputFilter.LengthFilter(50)});
             final boolean isOther = "otherReason".equals(bean.getDictId());
             if(isOther && bean.isSelected && StringUtils.isNoneBlank(otherReason)) {
                 etReason.setText(otherReason);
@@ -187,6 +188,7 @@ public class QuestionCallBackActivity extends BaseActivity{
                                     otherBean.isSelected = false;
                                     etReason.setVisibility(View.GONE);
                                     etReason.setText("");
+                                    hideSoftInput(etReason);
                                 }
                             }
                             bean.isSelected = true;
@@ -195,6 +197,7 @@ public class QuestionCallBackActivity extends BaseActivity{
                         if (isOther) {
                             etReason.setVisibility(View.GONE);
                             etReason.setText("");
+                            hideSoftInput(etReason);
                         }
                         bean.isSelected = isCheck;
                     }
@@ -224,5 +227,11 @@ public class QuestionCallBackActivity extends BaseActivity{
                 }
             });
         }
+    }
+
+    private void hideSoftInput(View v) {
+        InputMethodManager imm = (InputMethodManager)
+                getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(v.getWindowToken(), 0);
     }
 }
