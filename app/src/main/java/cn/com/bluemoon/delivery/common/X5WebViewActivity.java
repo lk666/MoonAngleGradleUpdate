@@ -11,15 +11,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-
-
-import com.tencent.smtt.sdk.DownloadListener;
-import com.tencent.smtt.sdk.ValueCallback;
-import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
-import com.tencent.smtt.sdk.WebView;
-import com.tencent.smtt.sdk.WebViewClient;
-
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -31,6 +22,12 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.tencent.smtt.sdk.DownloadListener;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
@@ -44,9 +41,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-
 import cn.com.bluemoon.delivery.utils.tencentX5.JsConnectCallBack;
-
 import cn.com.bluemoon.delivery.utils.tencentX5.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -127,6 +122,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
             LibViewUtil.setViewVisibility(layout_title, View.VISIBLE);
         }
         imgBack.setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
         takePhotoPop = new TakePhotoPopView(this,
                 Constants.TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT, new TakePhotoPopView
                 .DismissListener() {
