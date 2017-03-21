@@ -24,12 +24,16 @@ import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.protocol.HTTP;
 
 import java.io.File;
 
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.EasySSLSocketFactory;
 import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -91,7 +95,12 @@ public class AppStartActivity extends Activity {
 
     private void init() {
         FileUtil.init();
-        AsyncHttpClient client = new AsyncHttpClient();
+        SchemeRegistry supportedSchemes = new SchemeRegistry();
+        // Register the "http" and "https" protocol schemes, they are
+        // required by the default operator to look up socket factories.
+        supportedSchemes.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        supportedSchemes.register(new Scheme("https", new EasySSLSocketFactory(), 443));
+        AsyncHttpClient client = new AsyncHttpClient(supportedSchemes);
         PersistentCookieStore myCookieStore = new PersistentCookieStore(AppContext.getInstance());
         client.setCookieStore(myCookieStore);
         client.setConnectTimeout(20000);
