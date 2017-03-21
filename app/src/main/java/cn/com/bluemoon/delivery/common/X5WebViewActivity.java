@@ -210,7 +210,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
 
             //For Android 4.1
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
-					capture) {
+                    capture) {
                 isFiveAbove = false;
                 mUploadMessage = uploadMsg;
                 takePhotoPop.getPic(moonWebView);
@@ -544,26 +544,23 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
 
     private void setReceiveValue(Uri uri) {
         LogUtils.i("UPFILE", "onActivityResult after parser uri:" + uri.toString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (mFilePathCallback != null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mFilePathCallback.onReceiveValue(new Uri[]{uri});
             mFilePathCallback = null;
-        } else {
+        } else if (mUploadMessage != null) {
             mUploadMessage.onReceiveValue(uri);
             mUploadMessage = null;
         }
     }
 
     private void cancelReceiveValue() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (mFilePathCallback != null) {
-                mFilePathCallback.onReceiveValue(null);
-                mFilePathCallback = null;
-            }
-        } else {
-            if (mUploadMessage != null) {
-                mUploadMessage.onReceiveValue(null);
-                mUploadMessage = null;
-            }
+        if (mFilePathCallback != null) {
+            mFilePathCallback.onReceiveValue(null);
+            mFilePathCallback = null;
+        }
+        if (mUploadMessage != null) {
+            mUploadMessage.onReceiveValue(null);
+            mUploadMessage = null;
         }
     }
 
