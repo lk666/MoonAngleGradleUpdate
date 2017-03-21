@@ -128,16 +128,13 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
                 .DismissListener() {
             @Override
             public void cancelReceiveValue() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (mFilePathCallback != null) {
-                        mFilePathCallback.onReceiveValue(null);
-                        mFilePathCallback = null;
-                    }
-                } else {
-                    if (mUploadMessage != null) {
-                        mUploadMessage.onReceiveValue(null);
-                        mUploadMessage = null;
-                    }
+                if (mFilePathCallback != null) {
+                    mFilePathCallback.onReceiveValue(null);
+                    mFilePathCallback = null;
+                }
+                if (mUploadMessage != null) {
+                    mUploadMessage.onReceiveValue(null);
+                    mUploadMessage = null;
                 }
             }
         });
