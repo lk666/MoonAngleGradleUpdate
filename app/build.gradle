@@ -55,11 +55,11 @@ android {
             buildConfigField("boolean", "RELEASE", "false")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/4/%s\""
             buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
-            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
-            buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""
+            buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn:8882/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
-            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://tmallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -77,11 +77,11 @@ android {
             buildConfigField("boolean", "RELEASE", "true")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/4/%s\""
             buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
-            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
-            buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""
+            buildConfigField "String", "API_URL", "\"https://angel.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
-            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"https://mallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
