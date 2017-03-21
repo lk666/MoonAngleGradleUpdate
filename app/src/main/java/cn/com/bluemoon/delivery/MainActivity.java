@@ -926,5 +926,12 @@ public class MainActivity extends SlidingActivity {
         actStart(context, null, null);
     }
 
+    public static Intent getStartIntent(Context context, String view, String url) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        intent.putExtra(Constants.PUSH_URL, url);
+        return intent;
+    }
+
 
 }

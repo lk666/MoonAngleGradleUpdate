@@ -72,6 +72,15 @@ public class AppStartActivity extends Activity {
         actStart(context, null, null);
     }
 
+    public static Intent getStartIntent(Context context, String menuCode, String url) {
+        Intent intent = new Intent(context, AppStartActivity.class);
+        intent.putExtra(Constants.PUSH_VIEW, menuCode);
+        if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
+            intent.putExtra(Constants.PUSH_URL, url);
+        }
+        return intent;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
