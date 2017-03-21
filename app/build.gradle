@@ -57,7 +57,7 @@ android {
             buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
             buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
-            buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn:8882/%s\""
+            buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
