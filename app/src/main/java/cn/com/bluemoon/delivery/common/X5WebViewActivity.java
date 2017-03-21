@@ -38,6 +38,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -210,7 +211,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
 
             //For Android 4.1
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
-					capture) {
+                    capture) {
                 isFiveAbove = false;
                 mUploadMessage = uploadMsg;
                 takePhotoPop.getPic(moonWebView);
@@ -309,14 +310,14 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
     }
 
     private void pushTitle(String url, String title) {
-        if (isActionBar && txtTitle != null) {
+        if (isActionBar && txtTitle != null && map != null) {
             map.put(url, title);
             txtTitle.setText(title);
         }
     }
 
     private void popTitle() {
-        if (isActionBar && txtTitle != null) {
+        if (isActionBar && txtTitle != null && map != null) {
             txtTitle.setText(map.get(moonWebView.getOriginalUrl()));
         }
     }
