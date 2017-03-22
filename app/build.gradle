@@ -29,7 +29,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 31
-        versionName "4.4.7"
+        versionName "4.5.0"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
         buildConfigField("String","DES_KEY","\"19490101\"")
