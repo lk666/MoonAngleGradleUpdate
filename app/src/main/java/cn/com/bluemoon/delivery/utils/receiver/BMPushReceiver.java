@@ -71,66 +71,11 @@ public class BMPushReceiver extends PushGTReceiver {
 
         Intent intent;
         if (isAppRunning(context) && !TextUtils.isEmpty(menuCode) && !TextUtils.isEmpty(token)) {
-            // TODO: 2016/10/24 网页跳转 
-            if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
-                intent = new Intent(context, DownWebViewActivity.class);
-                intent.putExtra("url", url + (!url.contains("?") ? "?" : "&") +
-                        "token=" + token);
-                intent.putExtra("back", false);
-            }
-            /*// TODO: 2016/10/24 原生跳转
-            else if (MenuCode.dispatch.toString().equals(menuCode)) {
-                intent = new Intent(context, OrdersTabActivity.class);
-            } else if (MenuCode.site_sign.toString().equals(menuCode)) {
-                intent = new Intent(context, ExtractTabActivity.class);
-            } else if (MenuCode.check_in.toString().equals(menuCode)) {
-                intent = new Intent(context, TicketChooseActivity.class);
-            } else if (MenuCode.card_coupons.toString().equals(menuCode)) {
-                intent = new Intent(context, CouponsTabActivity.class);
-            }
-            // TODO: 2016/10/19 仓库管理
-            else if (MenuCode.mall_erp_delivery.toString().equals(menuCode)) {
-                intent = new Intent(context, InventoryTabActivity.class);
-                intent.putExtra("type", InventoryTabActivity.DELIVERY_MANAGEMENT);
-            } else if (MenuCode.mall_erp_receipt.toString().equals(menuCode)) {
-                intent = new Intent(context, InventoryTabActivity.class);
-                intent.putExtra("type", InventoryTabActivity.RECEIVE_MANAGEMENT);
-            } else if (MenuCode.mall_erp_stock.toString().equals(menuCode)) {
-                intent = new Intent(context, StorageTabActivity.class);
-            }
-            // TODO: 2016/10/19 知识库
-            else if (MenuCode.my_news.toString().equals(menuCode)) {
-                intent = new Intent(context, MessageListActivity.class);
-            } else if (MenuCode.my_inform.toString().equals(menuCode)) {
-                intent = new Intent(context, NoticeListActivity.class);
-            } else if (MenuCode.knowledge_base.toString().equals(menuCode)) {
-                intent = new Intent(context, PaperListActivity.class);
-            }
-            // TODO: 2016/10/19 CEO
-            else if (MenuCode.promote_file.toString().equals(menuCode)) {
-                intent = new Intent(context, PromoteActivity.class);
-            } else if (MenuCode.my_team.toString().equals(menuCode)) {
-                intent = new Intent(context, MyTeamActivity.class);
-            }
-            // TODO: lk 2016/6/12 收衣管理是否需要？
-            else if (MenuCode.receive_clothes_manager.toString().equals(menuCode)) {
-                intent = new Intent(context, ClothingTabActivity.class);
-                intent.putExtra("type", ClothingTabActivity.WITH_ORDER_COLLECT_MANAGE);
-            } else if (MenuCode.activity_collect_clothes.toString().equals(menuCode)) {
-                intent = new Intent(context, ClothingTabActivity.class);
-                intent.putExtra("type", ClothingTabActivity.WITHOUT_ORDER_COLLECT_MANAGE);
-            } */
-            // TODO: 2016/10/25 统一跳转到Main
-            else {
-                intent = new Intent(context, MainActivity.class);
-                intent.putExtra(Constants.PUSH_VIEW, menuCode);
-            }
+            // 统一跳转到Main，再处理菜单跳转
+            intent = MainActivity.getStartIntent(context,menuCode,url);
         } else {
-            intent = new Intent(context, AppStartActivity.class);
-            intent.putExtra(Constants.PUSH_VIEW, menuCode);
-            if (Constants.PUSH_H5.equals(menuCode) && !TextUtils.isEmpty(url)) {
-                intent.putExtra(Constants.PUSH_URL, url);
-            }
+            //如果程序没有启动，则跳转到欢迎页启动
+            intent = AppStartActivity.getStartIntent(context,menuCode,url);
         }
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         return NotificationUtil.getSimpleNotify(context, title, content, intent);

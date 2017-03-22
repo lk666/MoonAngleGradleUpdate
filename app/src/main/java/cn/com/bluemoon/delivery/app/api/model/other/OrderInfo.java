@@ -7,6 +7,7 @@ public class OrderInfo {
 	private String  dispatchId;
 	private String  orderId;
 	private String  source;
+	private String  orderSource;
 	private String  payOrderTime;
 	private String  subscribeTime;
 	private String  deliveryTime;
@@ -477,5 +478,12 @@ public class OrderInfo {
 		this.productList = productList;
 	}
 
+	public String getOrderSource() {
+		return orderSource;
+	}
+
+	public void setOrderSource(String orderSource) {
+		this.orderSource = orderSource;
+	}
 }
   

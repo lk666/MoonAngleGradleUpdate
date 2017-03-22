@@ -1,11 +1,14 @@
 package cn.com.bluemoon.delivery.module.card.alarm;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import java.text.DateFormatSymbols;
 import java.util.Calendar;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 
 /**
  * Created by allenli on 2016/9/18.
@@ -78,13 +81,18 @@ public  final class DaysOfWeek {
 //                dfs.getWeekdays();
 
         String[] dayList =
-                dfs.getShortWeekdays();
+                dfs.getWeekdays();
 
 
         // selected days
         for (int i = 0; i < 7; i++) {
             if ((mDays & (1 << i)) != 0) {
-                ret.append(dayList[DAY_MAP[i]].substring(1));
+                //国际化
+                if (context.getResources().getConfiguration().locale.getCountry().equals("CN")) {
+                    ret.append(dayList[DAY_MAP[i]].substring(2));
+                } else {
+                    ret.append(context.getString(R.string.weekdays_ch).split(",")[i]);
+                }
                 dayCount -= 1;
                 if (dayCount > 0) ret.append(
                         context.getText(R.string.day_concat));

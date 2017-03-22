@@ -5,6 +5,7 @@ import android.graphics.Bitmap;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.google.zxing.common.StringUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.HashMap;
@@ -36,6 +37,8 @@ import cn.com.bluemoon.delivery.module.inventory.ImageUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DES;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+
+import static org.apache.commons.lang3.StringUtils.*;
 
 public class DeliveryApi {
 
@@ -2769,6 +2772,64 @@ public class DeliveryApi {
         params.put("altitude",  card.getAltitude());
         params.put(TOKEN, card.getToken());
         postRequest(params, "bluemoon-control/attendance/getGpsAddress%s", handler);
+    }
+
+    /**
+     * 查询当前时间有效的授权仓
+     */
+    public static void getAuthStoreByUserCode(String token, AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token) {
+            return;
+        }
+        params.put(TOKEN, token);
+        postRequest(params, "bluemoon-control/sinceAuthPickUp/getAuthStoreByUserCode%s", handler);
+    }
+    /**
+     * 查询当所有仓库
+     */
+    public static void getAllStoresByUserCode(String token, AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token) {
+            return;
+        }
+        params.put(TOKEN, token);
+        postRequest(params, "bluemoon-control/sinceAuthPickUp/getAllStoresByUserCode%s", handler);
+    }
+    /**
+     * 保存派单反馈信息
+     */
+    public static void saveFeedBackQuestionInfo(String token, String orderId,String orderSource,
+                                                List<String> questionKeys,String questionValue,
+                                                AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token || isEmpty(orderSource)
+                || isEmpty(orderId)|| questionKeys.size() == 0) {
+            return;
+        }
+        params.put(TOKEN, token);
+        params.put("orderSource", orderSource);
+        params.put("orderId", orderId);
+        params.put("questionKeys", questionKeys);
+        params.put("questionValue", questionValue);
+        postRequest(params, "bluemoon-control/order/saveFeedBackQuestionInfo%s", handler);
+    }
+
+    /**
+     * 获取派单反馈信息选项列表信息
+     */
+    public static void getFeedBackExpandInfo(String token, String orderId,
+                                                String orderSource, String type,
+                                                AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token || isEmpty(orderSource)|| isEmpty(type)) {
+            return;
+        }
+        params.put(TOKEN, token);
+        params.put("orderId", orderId);
+        params.put("orderSource", orderSource);
+        params.put("type", type);
+        postRequest(params, "bluemoon-control/order/getFeedBackExpandInfo%s", handler);
     }
 
 }

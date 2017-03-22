@@ -28,8 +28,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 29
-        versionName "4.4.5"
+        versionCode 31
+        versionName "4.5.0"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
         buildConfigField("String","DES_KEY","\"19490101\"")
@@ -42,8 +42,11 @@ android {
                 PACKAGE_NAME    : applicationId
         ]
         ndk {
-            abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "mips", "mips64", "x86", "x86_64"
+            //abiFilters "armeabi", "armeabi-v7a", "arm64-v8a", "mips", "mips64", "x86", "x86_64"
+            abiFilters "armeabi", "armeabi-v7a", "mips", "x86"
         }
+
+        multiDexEnabled true
 
     }
 
@@ -52,11 +55,13 @@ android {
             buildConfigField("boolean", "RELEASE", "false")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/4/%s\""
             buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
-            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
-            buildConfigField "String", "API_URL", "\"http://angelapi.bluemoon.com.cn:8882/%s\""
+            buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
-            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://tmallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
             applicationVariants.all { variant ->
                 variant.outputs.each { output ->
@@ -72,11 +77,11 @@ android {
             buildConfigField("boolean", "RELEASE", "true")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/4/%s\""
             buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
-            buildConfigField "String", "ADDRESS_URL", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
-            buildConfigField "String", "API_URL", "\"http://angel.bluemoon.com.cn/%s\""
+            buildConfigField "String", "API_URL", "\"https://angel.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
-            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"http://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"https://mallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -137,6 +142,7 @@ dependencies {
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.getui:sdk:2.9.3.0'
     compile project(':lib_umengshare')
+    compile 'com.umeng.analytics:analytics:latest.integration'
 }
 
 

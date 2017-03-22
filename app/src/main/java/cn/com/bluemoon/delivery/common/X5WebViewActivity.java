@@ -11,13 +11,6 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.webkit.DownloadListener;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -29,6 +22,12 @@ import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.tencent.smtt.sdk.DownloadListener;
+import com.tencent.smtt.sdk.ValueCallback;
+import com.tencent.smtt.sdk.WebChromeClient;
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+import com.tencent.smtt.sdk.WebViewClient;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
@@ -39,11 +38,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.callback.JsConnectCallBack;
-import cn.com.bluemoon.lib.utils.JsConnectManager;
+import cn.com.bluemoon.delivery.utils.tencentX5.JsConnectCallBack;
+import cn.com.bluemoon.delivery.utils.tencentX5.JsConnectManager;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
@@ -51,9 +51,9 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
-public class WebViewActivity extends Activity implements OnClickListener {
-    private String TAG = "WebViewActivity";
-    private WebViewActivity aty;
+public class X5WebViewActivity extends Activity implements View.OnClickListener {
+    private String TAG = this.getClass().getSimpleName();
+    private X5WebViewActivity aty;
     private WebView moonWebView;
     private CommonProgressDialog progressDialog;
     private String url;
@@ -78,7 +78,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 
     public static void startAction(Context context, String url, String title, boolean isActionBar,
                                    boolean isBackByJs) {
-        Intent intent = new Intent(context, WebViewActivity.class);
+        Intent intent = new Intent(context, X5WebViewActivity.class);
         intent.putExtra("url", url);
         intent.putExtra("title", title);
         intent.putExtra("actionbar", isActionBar);
@@ -105,7 +105,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
             isBackByJs = getIntent().getBooleanExtra("back", false);
             isBackFinish = getIntent().getBooleanExtra("isBackFinish", false);
         }
-        setContentView(R.layout.activity_webview);
+        setContentView(R.layout.activity_x5webview);
         aty = this;
         progressDialog = new CommonProgressDialog(this);
         pro = (ProgressBar) findViewById(R.id.pro_web);
@@ -123,21 +123,19 @@ public class WebViewActivity extends Activity implements OnClickListener {
             LibViewUtil.setViewVisibility(layout_title, View.VISIBLE);
         }
         imgBack.setOnClickListener(this);
+        btnRefresh.setOnClickListener(this);
         takePhotoPop = new TakePhotoPopView(this,
                 Constants.TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT, new TakePhotoPopView
                 .DismissListener() {
             @Override
             public void cancelReceiveValue() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (mFilePathCallback != null) {
-                        mFilePathCallback.onReceiveValue(null);
-                        mFilePathCallback = null;
-                    }
-                } else {
-                    if (mUploadMessage != null) {
-                        mUploadMessage.onReceiveValue(null);
-                        mUploadMessage = null;
-                    }
+                if (mFilePathCallback != null) {
+                    mFilePathCallback.onReceiveValue(null);
+                    mFilePathCallback = null;
+                }
+                if (mUploadMessage != null) {
+                    mUploadMessage.onReceiveValue(null);
+                    mUploadMessage = null;
                 }
             }
         });
@@ -210,7 +208,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
 
             //For Android 4.1
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
-					capture) {
+                    capture) {
                 isFiveAbove = false;
                 mUploadMessage = uploadMsg;
                 takePhotoPop.getPic(moonWebView);
@@ -245,7 +243,7 @@ public class WebViewActivity extends Activity implements OnClickListener {
                 super.onPageStarted(view, url, favicon);
                 if (!isActionBar) {
                     if (null == progressDialog) {
-                        progressDialog = new CommonProgressDialog(WebViewActivity.this);
+                        progressDialog = new CommonProgressDialog(X5WebViewActivity.this);
                     }
                     progressDialog.show();
                 }
@@ -309,14 +307,14 @@ public class WebViewActivity extends Activity implements OnClickListener {
     }
 
     private void pushTitle(String url, String title) {
-        if (isActionBar && txtTitle != null) {
+        if (isActionBar && txtTitle != null && map != null) {
             map.put(url, title);
             txtTitle.setText(title);
         }
     }
 
     private void popTitle() {
-        if (isActionBar && txtTitle != null) {
+        if (isActionBar && txtTitle != null && map != null) {
             txtTitle.setText(map.get(moonWebView.getOriginalUrl()));
         }
     }
@@ -544,26 +542,23 @@ public class WebViewActivity extends Activity implements OnClickListener {
 
     private void setReceiveValue(Uri uri) {
         LogUtils.i("UPFILE", "onActivityResult after parser uri:" + uri.toString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (mFilePathCallback != null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mFilePathCallback.onReceiveValue(new Uri[]{uri});
             mFilePathCallback = null;
-        } else {
+        } else if (mUploadMessage != null) {
             mUploadMessage.onReceiveValue(uri);
             mUploadMessage = null;
         }
     }
 
     private void cancelReceiveValue() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (mFilePathCallback != null) {
-                mFilePathCallback.onReceiveValue(null);
-                mFilePathCallback = null;
-            }
-        } else {
-            if (mUploadMessage != null) {
-                mUploadMessage.onReceiveValue(null);
-                mUploadMessage = null;
-            }
+        if (mFilePathCallback != null) {
+            mFilePathCallback.onReceiveValue(null);
+            mFilePathCallback = null;
+        }
+        if (mUploadMessage != null) {
+            mUploadMessage.onReceiveValue(null);
+            mUploadMessage = null;
         }
     }
 

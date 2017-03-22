@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.os.Environment;
+import android.text.TextUtils;
 
 import java.io.File;
 
@@ -48,23 +49,8 @@ public class FileUtil extends LibFileUtil {
     }
 
     /**
-     * 初始化文件夹
+     * 递归删除目录下的文件
      */
-    public static void init() {
-        if (checkExternalSDExists()) {
-            File f = new File(PATH_PHOTO);
-            f.mkdirs();
-            f = new File(PATH_TEMP);
-            f.mkdirs();
-            f = new File(PATH_CACHE);
-            f.mkdirs();
-            f = new File(PATH_CAMERA);
-            f.mkdirs();
-            f = new File(PATH_DOWN);
-            f.mkdirs();
-        }
-    }
-
     public static void deleteFileOrDirectory(String filePath) {
         File file = new File(filePath);
         if (file.exists()) {
@@ -78,5 +64,51 @@ public class FileUtil extends LibFileUtil {
             }
         }
     }
+
+    /**
+     * 初始化文件夹
+     */
+    public static void init() {
+        if (checkExternalSDExists()) {
+            File f = new File(PATH_PHOTO);
+            f.mkdirs();
+            f = new File(PATH_TEMP);
+            if (!f.mkdirs()) {
+                deleteFolderFile(PATH_TEMP, false);
+            }
+            f = new File(PATH_CACHE);
+            f.mkdirs();
+            f = new File(PATH_CAMERA);
+            f.mkdirs();
+        }
+    }
+    /**
+     * 递归删除目录
+     */
+    public static void deleteFolderFile(String filePath, boolean deleteThisPath) {
+        if (!TextUtils.isEmpty(filePath)) {
+            try {
+                File file = new File(filePath);
+                if (file.isDirectory()) {
+                    File files[] = file.listFiles();
+                    for (int i = 0; i < files.length; i++) {
+                        deleteFolderFile(files[i].getAbsolutePath(), true);
+                    }
+                }
+                if (deleteThisPath) {
+                    if (!file.isDirectory()) {
+                        file.delete();
+                    } else {
+                        if (file.listFiles().length == 0) {
+                            file.delete();
+                        }
+                    }
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
 
 }

@@ -428,6 +428,11 @@ public class PublicUtil extends LibPublicUtil {
         return JsConnectManager.jsConnect(JsConnectManager.URL_ANGEL, view, url, callBack);
     }
 
+    public static boolean jsConnect(com.tencent.smtt.sdk.WebView view, String url, cn.com.bluemoon.delivery.utils.tencentX5.JsConnectCallBack callBack) {
+        return cn.com.bluemoon.delivery.utils.tencentX5.JsConnectManager.jsConnect(
+                JsConnectManager.URL_ANGEL, view, url, callBack);
+    }
+
     public static void openWebView(Context context, String url, String title, boolean isActionBar,
                                    boolean isBackByJs) {
         DownWebViewActivity.startAction(context,url,title,isActionBar,isBackByJs);

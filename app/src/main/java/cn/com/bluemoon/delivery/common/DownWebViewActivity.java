@@ -8,7 +8,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.download.BMDownloadManager;
 
-public class DownWebViewActivity extends WebViewActivity implements BMDownLoadListener{
+public class DownWebViewActivity extends X5WebViewActivity implements BMDownLoadListener{
 
     private BMDownloadManager downloadManager;
 

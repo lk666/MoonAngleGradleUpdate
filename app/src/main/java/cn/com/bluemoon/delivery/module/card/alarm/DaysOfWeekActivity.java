@@ -72,7 +72,13 @@ public class DaysOfWeekActivity extends BaseActivity implements  OnListItemClick
     public void initData() {
         isInit = true;
         DaysAdapter daysAdapter = new DaysAdapter(this, this);
-        daysAdapter.setList(Arrays.asList(values));
+        //国际化
+        if (getResources().getConfiguration().locale.getCountry().equals("CN")) {
+            daysAdapter.setList(Arrays.asList(values));
+        } else {
+            daysAdapter.setList(Arrays.asList(getString(R.string.weekdays_long_ch).split(",")));
+        }
+
         listDays.setAdapter(daysAdapter);
         isInit = false;
     }

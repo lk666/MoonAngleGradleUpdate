@@ -20,6 +20,9 @@ public class ExtractTabActivity extends BaseTabActivity {
         tabs.add(new DrawableTabState(ScanFragment.class, R.mipmap.tab_extract_scan_normal, R
                 .mipmap.tab_extract_scan_diable,
                 R.string.tab_bottom_scan_code_text));
+        tabs.add(new DrawableTabState(TakeFragment.class, R.mipmap.tab_extract_take_normal, R
+                .mipmap.tab_extract_take_disable,
+                R.string.tab_bottom_take_text));
         tabs.add(new DrawableTabState(HistoryFragment.class, R.mipmap.tab_history_normal, R
                 .mipmap.tab_history_disable,
                 R.string.tab_bottom_show_history_text));
