@@ -7,7 +7,6 @@ def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
 android {
     compileSdkVersion 22
     buildToolsVersion '23.0.3'
-
     signingConfigs {
         release {
             storeFile file('./BlueMoon.keystore')
@@ -138,11 +137,12 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.android.support:appcompat-v7:22.2.1'
+   compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.getui:sdk:2.9.3.0'
-    compile project(':lib_umengshare')
+    //compile project(':lib_umengshare')
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.bluemoon.umengshare:lib_umengshare:1.0.8'
 }
 
 

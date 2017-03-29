@@ -1,2 +1,2 @@
-include ':app', ':lib_badger', ':lib_umengshare'
+include ':app', ':lib_badger'
 include ':BlueMoonSDK'

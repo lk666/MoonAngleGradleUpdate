@@ -4,26 +4,17 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.view.WindowManager;
 
-import com.baidu.location.LocationClientOption;
-import com.bluemoon.umengshare.ShareHelper;
-import com.loopj.android.http.AsyncHttpClient;
-import com.loopj.android.http.PersistentCookieStore;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
+import com.umeng.socialize.PlatformConfig;
+import com.umeng.socialize.UMShareAPI;
 
 import java.util.Properties;
 import java.util.UUID;
 
-import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.common.AppConfig;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
-import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.download.BMDownloadManager;
-import cn.com.bluemoon.delivery.utils.service.LocationService;
-import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 
 public class AppContext extends BaseApplication {
 
@@ -37,7 +28,12 @@ public class AppContext extends BaseApplication {
         instance = this;
         init();
         initLogin();
-        ShareHelper.iniShare(this);
+      //
+
+        PlatformConfig.setWeixin("wx3b6e66b753fd84c2", "DSF23FewrwerE2342378934ds4879877");
+        PlatformConfig.setSinaWeibo("4090679472", "e8d1ffe1012a89cb7e34a353d3693990","");
+        PlatformConfig.setQQZone("1104979860", "Qkg4yWZ5Gr07K0K5");
+        UMShareAPI.get(this);
         initX5Environment();
     }
 
