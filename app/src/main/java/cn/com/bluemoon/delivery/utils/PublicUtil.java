@@ -48,13 +48,11 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.DownWebViewActivity;
-import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanCodeActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanInputActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
-import cn.com.bluemoon.delivery.module.order.OrderDetailActivity;
 import cn.com.bluemoon.delivery.module.order.ScanWithInputActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothScanCodeActivity;
 import cn.com.bluemoon.lib.badger.BadgeUtil;
@@ -630,7 +628,7 @@ public class PublicUtil extends LibPublicUtil {
         String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") + ClientStateManager.getUserName();
         ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic, content), new ShareCallBack() {
             @Override
-            public void boardClickCallBack(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
+            public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
 
             }
 
