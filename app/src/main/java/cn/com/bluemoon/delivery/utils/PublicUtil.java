@@ -626,7 +626,13 @@ public class PublicUtil extends LibPublicUtil {
 
     public static void share(final Activity activity, final String topic, final String content, final String picUrl, final String url) {
         String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") + ClientStateManager.getUserName();
-        ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic, content), new ShareCallBack() {
+        String contentTemp;
+        if(StringUtils.isEmpty(content)){
+            contentTemp =topic;
+        }else{
+            contentTemp=content;
+        }
+        ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic, contentTemp), new ShareCallBack() {
             @Override
             public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
 
