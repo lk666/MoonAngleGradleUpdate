@@ -224,8 +224,7 @@ public class NumberWheelView extends View {
             setMeasuredDimension(getWidth(), itemNumber * unitHeight);
         }
     }
-
-
+    
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
