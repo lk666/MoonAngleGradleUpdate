@@ -357,11 +357,11 @@ public class OrderVo implements Serializable {
 		this.exchangeState = exchangeState;
 	}
 
-	public boolean isTimeoutNotSignOrder() {
+	public boolean getIsTimeoutNotSignOrder() {
 		return isTimeoutNotSignOrder;
 	}
 
-	public void setTimeoutNotSignOrder(boolean timeoutNotSignOrder) {
+	public void setIsTimeoutNotSignOrder(boolean timeoutNotSignOrder) {
 		isTimeoutNotSignOrder = timeoutNotSignOrder;
 	}
 }

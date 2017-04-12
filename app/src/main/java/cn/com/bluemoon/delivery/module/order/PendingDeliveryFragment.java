@@ -195,7 +195,7 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
             } else {
                 imgReturnMoney.setVisibility(View.GONE);
             }
-            if (order.isTimeoutNotSignOrder()) {
+            if (order.getIsTimeoutNotSignOrder()) {
                 imgSignOvertime.setVisibility(View.VISIBLE);
             } else {
                 imgSignOvertime.setVisibility(View.GONE);
