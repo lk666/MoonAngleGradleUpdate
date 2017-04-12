@@ -22,6 +22,7 @@ public class OrderVo implements Serializable {
 	private int returnState;
 	private int exchangeState;
 	private String isAbnormal;
+	private boolean isTimeoutNotSignOrder;
 
 	public String getIsAbnormal() {
 		return isAbnormal;
@@ -356,5 +357,12 @@ public class OrderVo implements Serializable {
 		this.exchangeState = exchangeState;
 	}
 
+	public boolean isTimeoutNotSignOrder() {
+		return isTimeoutNotSignOrder;
+	}
+
+	public void setTimeoutNotSignOrder(boolean timeoutNotSignOrder) {
+		isTimeoutNotSignOrder = timeoutNotSignOrder;
+	}
 }
   

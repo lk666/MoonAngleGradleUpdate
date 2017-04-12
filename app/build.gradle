@@ -1,4 +1,4 @@
-import java.text.SimpleDateFormat
+﻿import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
 def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
 def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
@@ -28,7 +28,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 32
-        versionName "4.5.1"
+        versionName "4.5.2"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
         buildConfigField("String","DES_KEY","\"19490101\"")
@@ -58,7 +58,7 @@ android {
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
-            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "H5_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -80,7 +80,7 @@ android {
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"https://angel.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
-            buildConfigField "String", "PUNCH_DETAILDS_DOMAIN", "\"https://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "H5_DOMAIN", "\"https://mallapi.bluemoon.com.cn/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release

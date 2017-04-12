@@ -13,7 +13,6 @@ public class Product implements Serializable{
 	private String shopProName;
 	private String productCode;
 	private String img;
-	private List<Package> packageDetails;
 	/**  
 	 * orderId.  
 	 *  
@@ -141,13 +140,6 @@ public class Product implements Serializable{
 		this.img = img;
 	}
 
-	public List<Package> getPackageDetails() {
-		return packageDetails;
-	}
-
-	public void setPackageDetails(List<Package> packageDetails) {
-		this.packageDetails = packageDetails;
-	}
 
 }
   

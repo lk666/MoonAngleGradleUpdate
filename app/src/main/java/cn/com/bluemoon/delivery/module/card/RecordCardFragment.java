@@ -238,7 +238,7 @@ public class RecordCardFragment extends BasePullToRefreshListViewFragment {
                     @Override
                     public void onClick(View v) {
                         //跳转网页
-                        String url = String.format(BuildConfig.PUNCH_DETAILDS_DOMAIN, "angel/#/punchDetails?token="
+                        String url = String.format(BuildConfig.H5_DOMAIN, "angel/#/punchDetails?token="
                                 + getToken() + "&punchCardId=" + punchCard.getPunchCardId());
                         PublicUtil.openWebView(context, url, null, true, false);
                     }

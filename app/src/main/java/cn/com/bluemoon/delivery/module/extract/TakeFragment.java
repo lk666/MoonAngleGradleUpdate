@@ -88,7 +88,7 @@ public class TakeFragment extends BasePullHeadToRefreshListViewFragment implemen
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        String url = String.format(BuildConfig.PUNCH_DETAILDS_DOMAIN, "FE/angue/storeHouse/authorizationManager");
+        String url = String.format(BuildConfig.H5_DOMAIN, "FE/angue/storeHouse/authorizationManager");
         if (!TextUtils.isEmpty(url)) {
             if (!TextUtils.isEmpty(getToken())) {
                 url = url + "?token=" + getToken()
