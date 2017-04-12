@@ -27,7 +27,7 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 14
         targetSdkVersion 21
-        versionCode 32
+        versionCode 33
         versionName "4.5.2"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
