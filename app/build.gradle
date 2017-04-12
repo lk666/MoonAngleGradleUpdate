@@ -1,4 +1,4 @@
-﻿import java.text.SimpleDateFormat
+import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
 def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
 def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
