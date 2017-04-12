@@ -198,7 +198,8 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
         if (result.getHasFlaw() == 1) {
             ivFlaw.setVisibility(View.VISIBLE);
             tvFlawDec.setText(String.format("%s%s", getString(R.string.clothing_detail_flaw),
-                    result.getFlawDesc()));
+                    TextUtils.isEmpty(result.getFlawDesc()) ? getString(R.string.text_empty) :
+                            result.getFlawDesc()));
         } else {
             ivFlaw.setVisibility(View.GONE);
             tvFlawDec.setText(String.format("%s%s", getString(R.string.clothing_detail_flaw),
