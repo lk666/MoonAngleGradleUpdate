@@ -33,6 +33,7 @@
     <color name="text_blue">#0a85cc</color><!-- 蓝色文字 -->
     <color name="text_blue_light">#0a58f1</color><!-- 蓝色文字 -->
     <color name="text_blue_deep">#0058f1</color><!-- 蓝色文字 -->
+    <color name="text_blue_1eb8ff">#1eb8ff</color><!-- 蓝色文字 -->
     <color name="text_set_hint">#bebebe</color><!-- 设置横条右边的提示语颜色 -->
     <color name="text_set_hint2">#bdbdbd</color>
     <color name="text_white_light">#ccfefefe</color>

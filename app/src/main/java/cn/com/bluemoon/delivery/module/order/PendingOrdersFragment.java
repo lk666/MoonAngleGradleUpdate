@@ -33,6 +33,9 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
+/**
+ * 待接单
+ */
 public class PendingOrdersFragment extends BasePullToRefreshListViewFragment {
     private long pageFlag;
     private String nameFilter;

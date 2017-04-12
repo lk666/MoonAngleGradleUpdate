@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -31,6 +32,9 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
+/**
+ * 待签收
+ */
 public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
     private long pageFlag;
     private String nameFilter;
@@ -184,11 +188,17 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
             TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
 
             final OrderVo order = list.get(position);
-            TextView txtOrderCancel = getViewById(R.id.txt_order_cancel);
+            ImageView imgReturnMoney = getViewById(R.id.img_return_money);
+            ImageView imgSignOvertime = getViewById(R.id.img_sign_over_time);
             if (order.getIsAbnormal().equals("1")) {
-                txtOrderCancel.setVisibility(View.VISIBLE);
+                imgReturnMoney.setVisibility(View.VISIBLE);
             } else {
-                txtOrderCancel.setVisibility(View.GONE);
+                imgReturnMoney.setVisibility(View.GONE);
+            }
+            if (order.isTimeoutNotSignOrder()) {
+                imgSignOvertime.setVisibility(View.VISIBLE);
+            } else {
+                imgSignOvertime.setVisibility(View.GONE);
             }
             txtCustomerName.setText(OrdersUtils.formatLongString(order.getCustomerName(), txtCustomerName));
             txtPaytime.setText(getString(R.string.pending_order_pay_time, order.getPayOrderTime()));

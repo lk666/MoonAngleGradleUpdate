@@ -28,7 +28,6 @@ public class ProductLinearLayout extends LinearLayout {
     TextView txtContent;
     TextView txtCount;
     KJBitmap kjb;
-    LinearLayout layoutPackage;
 
     public ProductLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
@@ -47,31 +46,14 @@ public class ProductLinearLayout extends LinearLayout {
 
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.list_item_product, this, true);
-        imgProduct = (ImageView)findViewById(R.id.img_product);
-        txtContent = (TextView)findViewById(R.id.txt_content);
-        txtCount = (TextView)findViewById(R.id.txt_count);
-        layoutPackage = (LinearLayout)findViewById(R.id.layout_package);
+        imgProduct = (ImageView) findViewById(R.id.img_product);
+        txtContent = (TextView) findViewById(R.id.txt_content);
+        txtCount = (TextView) findViewById(R.id.txt_count);
     }
 
-    public void setData(final Product product,final Activity context) {
-        List<Package> packages = product.getPackageDetails();
-        if (packages != null && packages.size() > 0) {
-            layoutPackage.setVisibility(View.VISIBLE);
-            for (int i = 0; i <= packages.size()-1; i++) {
-					Package p = packages.get(i);
-					PackageLinearLayout l = new PackageLinearLayout(context);
-					String name = (i+1) + "、"+ p.getProductName();
-					String num = context.getString(R.string.send_num, Integer.valueOf(p.getProductNum())
-							*Integer.valueOf(product.getBuyNum()));
-					l.setData(name, num);
-					layoutPackage.addView(l);
-            }
+    public void setData(final Product product, final Activity context) {
+        txtCount.setText(context.getString(R.string.send_num, product.getBuyNum()));
 
-        } else {
-            layoutPackage.setVisibility(View.GONE);
-            txtCount.setVisibility(View.VISIBLE);
-            txtCount.setText(context.getString(R.string.send_num, product.getBuyNum()));
-        }
         txtContent.setText(product.getShopProName());
         if (kjb == null) kjb = new KJBitmap();
         kjb.display(imgProduct, product.getImg());

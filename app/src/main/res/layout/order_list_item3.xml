@@ -45,16 +45,26 @@
             android:layout_marginRight="10dp"
             android:src="@mipmap/icon_right"/>
     </LinearLayout>
-
-    <TextView
-        android:id="@+id/txt_order_cancel"
+    <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/space_13"
-        android:layout_marginLeft="@dimen/space_10"
-        android:text="@string/order_is_backing"
-        android:textColor="@color/text_red"
-        android:textSize="14sp"/>
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/img_return_money"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/reply_return_money"
+            android:visibility="gone"/>
+        <ImageView
+            android:id="@+id/img_sign_over_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:src="@mipmap/sign_over_time"
+            android:visibility="gone"/>
+    </LinearLayout>
 
     <View
         android:layout_width="match_parent"
