@@ -280,7 +280,7 @@
     <string name="extract_order_pay_time">下单时间</string>
     <string name="extract_order_sign_time">签收时间</string>
     <string name="extract_order_detail">订单详情</string>
-    <string name="extract_order_total_pay">总价：￥%s</string>
+    <string name="extract_order_total_pay">总价：¥%s</string>
     <string name="extract_comfire_btn">确定签收</string>
     <string name="extract_dialog_storehouse_title">出货仓详情</string>
     <string name="extract_storehouse_code">仓库编码：</string>
@@ -308,7 +308,7 @@
 
     <!-- 历史订单 -->
     <string name="order_history_totalcount">共%s单</string>
-    <string name="order_history_price">共￥%s</string>
+    <string name="order_history_price">共¥%s</string>
     <string name="order_boxes_num">共%s箱</string>
     <string name="history_content">当前无历史单</string>
     <string name="history_no_item">已经没有单啦！</string>
@@ -317,7 +317,7 @@
     <string name="history_order_receipt_date">签收日期：%s</string>
     <string name="history_order_scene_receipt_date">现场签收日期：%s</string>
 
-    <string name="order_money_sign">￥</string>
+    <string name="order_money_sign">¥</string>
 
 
     <string name="tab_bottom_my_warehouse_text">我的仓库</string>
@@ -468,7 +468,7 @@
     <string name="address_select_region_title">选择地区</string>
 
     <!--仓库-->
-    <string name="text_stock_total_money">总金额：￥%s</string>
+    <string name="text_stock_total_money">总金额：¥%s</string>
     <string name="text_stock_total_boxes">总箱数：%s箱</string>
     <string name="text_stock_detail">库存详情</string>
 
@@ -630,8 +630,8 @@
     <!-- 作业点档案相关 -->
     <string name="promote_record_title">推广点档案</string>
     <string name="promote_edit_txt">编辑</string>
-    <string name="promote_work_date">工作日：￥%s/天</string>
-    <string name="promote_holiday_date">节假日：￥%s/天</string>
+    <string name="promote_work_date">工作日：¥%s/天</string>
+    <string name="promote_holiday_date">节假日：¥%s/天</string>
     <string name="promote_outdoor_area">%s㎡</string>
     <string name="promote_add_title">新增推广点</string>
     <string name="promote_edit_title">编辑推广点</string>
