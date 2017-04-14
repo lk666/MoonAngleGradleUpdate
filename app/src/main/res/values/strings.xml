@@ -1377,7 +1377,7 @@
     <string name="order_question_select">请选择：</string>
     <string name="order_cancle_reason_select_tips">请选择原因</string>
     <string name="order_cancle_tips">提示：</string>
-    <string name="order_total_num">配送总数：%s</string>
+    <string name="order_total_num">配送总数 x%s</string>
     <string name="send_num">配送数量 x%s</string>
     <string name="input_other_reason">请输入其他原因</string>
     <string name="question_feedback_title">配送问题反馈</string>
