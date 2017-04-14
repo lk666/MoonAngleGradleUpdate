@@ -120,8 +120,8 @@ public class PeopleFlowActivity extends Activity implements View.OnClickListener
 
                 @Override
                 public void onTextChanged(CharSequence s, int start, int before, int count) {
-                    if (StringUtils.isNotBlank(s.toString()) && Integer.valueOf(s.toString()) ==
-                            0) {
+                    if (StringUtils.isNotBlank(s.toString())
+                            && (!s.toString().matches("[0-9]+") || Integer.valueOf(s.toString()) == 0)) {
                         etFlow.setText("");
                     }
                 }
