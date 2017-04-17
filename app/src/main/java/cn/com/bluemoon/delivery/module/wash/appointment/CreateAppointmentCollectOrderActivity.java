@@ -506,26 +506,6 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                     }
                 }
 
-                //  删除过衣物图片，并直接退出
-                else if (resultCode == ModifyClothesInfoActivity
-                        .RESULT_CODE_DELETE_CLOTHES_IMG) {
-                    ModifyUploadAppointClothesInfo info = (ModifyUploadAppointClothesInfo) data
-                            .getSerializableExtra(ModifyClothesInfoActivity
-                                    .RESULT_UPLOAD_CLOTHES_INFO);
-                    int count = clothesInfo.size();
-                    for (int i = 0; i < count; i++) {
-                        UploadAppointClothesInfo item = clothesInfo.get(i);
-                        if (item.getClothesCode().equals(info.getInitClothesCode())) {
-                            item.setImgPath(info.getImgPath());
-                            item.setClothingPics(info.getClothingPics());
-                            item.setClothesImgIds(info.getClothesImgIds());
-                            break;
-                        }
-                    }
-
-                    adapter.notifyDataSetChanged();
-                    setActualReceive();
-                }
                 break;
 
             default:
