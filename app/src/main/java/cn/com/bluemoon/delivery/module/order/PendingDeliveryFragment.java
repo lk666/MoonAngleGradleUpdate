@@ -189,7 +189,6 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
             TextView txtAddress = getViewById(R.id.txt_address);
             final Button deliveryAction = getViewById(R.id.delivery_action);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
-            TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
 
             final OrderVo order = list.get(position);
             ImageView imgReturnMoney = getViewById(R.id.img_return_money);
@@ -213,7 +212,6 @@ public class PendingDeliveryFragment extends BasePullToRefreshListViewFragment {
             txtDispatchId.setText(order.getOrderId());
             txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
-            txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
 
             OnClickListener listener = new OnClickListener() {
                 @Override

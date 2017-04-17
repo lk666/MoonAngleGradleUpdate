@@ -203,7 +203,6 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             TextView txtMobilePhone = getViewById(R.id.txt_mobilePhone);
             TextView txtAddress = getViewById(R.id.txt_address);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
-            TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
             TextView txtEditAppointmentTime = getViewById(R.id.txt_edit_appointment_time);
             Button signBtn = getViewById(R.id.sign_action);
             final OrderVo order = list.get(position);
@@ -230,7 +229,6 @@ public class PendingReceiptFragment extends BasePullToRefreshListViewFragment {
             txtDispatchId.setText(order.getOrderId());
             txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
-            txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
             txtEditAppointmentTime.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
             txtEditAppointmentTime.getPaint().setAntiAlias(true);
             OnClickListener listener = new OnClickListener() {

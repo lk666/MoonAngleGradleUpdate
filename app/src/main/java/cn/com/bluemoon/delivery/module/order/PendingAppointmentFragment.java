@@ -206,7 +206,6 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
             TextView txtAddress = getViewById(R.id.txt_address);
             final Button appointmentAction = getViewById(R.id.appointment_action);
             TextView txtCateAmount = getViewById(R.id.txt_cateAmount);
-            TextView txtTotalAmount = getViewById(R.id.txt_totalAmount);
             final OrderVo order = list.get(position);
             ImageView imgReturnMoney = getViewById(R.id.img_return_money);
             ImageView imgSignOvertime = getViewById(R.id.img_sign_over_time);
@@ -284,7 +283,6 @@ public class PendingAppointmentFragment extends BasePullToRefreshListViewFragmen
             txtDispatchId.setText(order.getOrderId());
             txtAddress.setText(getString(R.string.pending_order_address, order.getAddress()));
             txtCateAmount.setText(getString(R.string.pending_order_total_kinds, order.getCateAmount()));
-            txtTotalAmount.setText(getString(R.string.pending_order_total_amount, order.getTotalAmount()));
             layoutDetail.setOnClickListener(listener);
         }
     }
