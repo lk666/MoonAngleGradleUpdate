@@ -136,7 +136,6 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
      * 加载更多
      */
     final protected void getMore() {
-        // LibViewUtil.setChildEnableRecursion(ptr, false);
         invokeGetMoreDeliveryApi(HTTP_REQUEST_CODE_GET_MORE);
     }
 
@@ -144,7 +143,6 @@ public abstract class BasePullToRefreshFragment extends BaseFragment {
      * 获取界面数据（刷新界面）
      */
     final protected void getData() {
-        // LibViewUtil.setChildEnableRecursion(ptr, false);
         invokeGetDataDeliveryApi(HTTP_REQUEST_CODE_GET_DATA);
     }
 

@@ -14,6 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
@@ -46,9 +47,12 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
     @Override
     protected void onDestroy() {
         hideWaitDialog();
-        super.onDestroy();
         ApiHttpClient.cancelAll(this);
         ActivityManager.getInstance().popOneActivity(this);
+        if (isUseEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
+        super.onDestroy();
     }
 
     @Override
@@ -67,6 +71,10 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
         init(savedInstanceState);
         initView();
         initData();
+
+        if (isUseEventBus()) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     private void initCustomActionBar() {
@@ -160,6 +168,13 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
             }
         };
         return handler;
+    }
+
+    /**
+     * 是否有使用EventBus
+     */
+    private boolean isUseEventBus() {
+        return false;
     }
 
     ///////////// 工具方法 ////////////////

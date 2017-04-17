@@ -18,6 +18,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
@@ -49,6 +50,14 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
 
     private BaseTabActivity aty;
     private View mainView;
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (isUseEventBus()) {
+            EventBus.getDefault().register(this);
+        }
+    }
 
     @Nullable
     @Override
@@ -125,6 +134,9 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     public void onDestroy() {
         super.onDestroy();
         ApiHttpClient.cancelAll(aty);
+        if (isUseEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
     }
 
     @Override
@@ -183,6 +195,14 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
         };
         return handler;
     }
+
+    /**
+     * 是否有使用EventBus
+     */
+    protected boolean isUseEventBus() {
+        return false;
+    }
+
     ///////////// 工具方法 ////////////////
 
     /**

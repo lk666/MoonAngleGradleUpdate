@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +33,7 @@ import cn.com.bluemoon.delivery.app.api.model.other.ResultFeedBackExpandInfo;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultFeedBackExpandInfo.ItemListBean;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
+import cn.com.bluemoon.delivery.module.event.OrderChangeEvent;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.qrcode.decoding.Intents;
 import cn.com.bluemoon.lib.utils.LibStringUtil;
@@ -110,6 +112,7 @@ public class QuestionCallBackActivity extends BaseActivity{
         hideWaitDialog();
         if (requestCode == 2) {
             toast(result.getResponseMsg());
+            EventBus.getDefault().post(new OrderChangeEvent());
             setResult(RESULT_OK);
             finish();
         } else {

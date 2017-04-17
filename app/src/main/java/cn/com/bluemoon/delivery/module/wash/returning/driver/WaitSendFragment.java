@@ -116,8 +116,8 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
             txtPhone.setText(item.getReceiverPhone());
             txtBoxNum.setText(getString(R.string.driver_box_num_all, item.getTagList().size()));
             txtAddress.setText(StringUtil.getStringParamsByFormat("",
-                    item.getProvince(), item.getCity(), item.getCounty(),
-                    item.getVillage(), item.getStreet(), item.getAddress()));
+                    item.getProvince(), item.getCity(), item.getCounty(), item.getStreet(),
+                    item.getVillage(), item.getAddress()));
             if (isNew) {
                 TagBoxAdapter tagBoxAdapter = new TagBoxAdapter(context, null);
                 listViewBox.setAdapter(tagBoxAdapter);
@@ -125,7 +125,6 @@ public class WaitSendFragment extends BasePullToRefreshListViewFragment {
             TagBoxAdapter tagBoxAdapter = (TagBoxAdapter) listViewBox.getAdapter();
             tagBoxAdapter.setList(item.getTagList());
             tagBoxAdapter.notifyDataSetChanged();
-//            ViewUtil.setListViewHeight2(listViewBox);
             setClickEvent(isNew, position, btnReceiver);
         }
     }
