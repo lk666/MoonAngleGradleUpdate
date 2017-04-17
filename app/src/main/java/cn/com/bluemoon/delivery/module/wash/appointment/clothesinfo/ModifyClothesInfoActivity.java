@@ -55,10 +55,6 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
      */
     public static final String RESULT_UPLOAD_CLOTHES_INFO = "RESULT_UPLOAD_CLOTHES_INFO";
     /**
-     * 删除过衣物图片，并直接退出
-     */
-    public static final int RESULT_CODE_DELETE_CLOTHES_IMG = 0x77;
-    /**
      * 删除的衣物数据编号
      */
     public static final String RESULT_DELETE_CLOTHES_CODE = "RESULT_DELETE_CLOTHES_CODE";
@@ -147,10 +143,27 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
      * 已上传的图片列表
      */
     private List<ClothingPic> clothesImg;
+
     /**
-     * 删除的图片位置
+     * 本地删除的图片列表，在点击保存时提交
      */
-    private int delImgPos;
+    private List<DeleteClothingPic> deleteClothesImg;
+
+    private static class DeleteClothingPic extends ClothingPic {
+        /**
+         * 是否已成功在服务器删除
+         */
+        boolean isDelete = false;
+
+        DeleteClothingPic(ClothingPic pic) {
+            if (pic == null) {
+                return;
+            }
+            setImgId(pic.getImgId());
+            setImgPath(pic.getImgPath());
+            isDelete = false;
+        }
+    }
 
     /**
      * 修改衣物信息时，已保存的图片
@@ -268,21 +281,31 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
                 break;
             // 删除照片
             case REQUEST_CODE_DELETE_PIC:
-                ClothingPic deletePic = clothesImg.get(delImgPos);
-                if (deletePic instanceof SavedClothingPic) {
-                    savedImg--;
-                }
-
-                clothesImg.remove(delImgPos);
-                if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get
-                        (clothesImg.size() - 1)
-                        .getImgId())) {
-                    addAddImage();
-                }
-                isDeleteImg = true;
-                clothingAdapter.notifyDataSetChanged();
+                deleteClothesImg.get(delImgPos).isDelete = true;
+                delImgPos++;
+                // 循环删除，完了就发送保存
+                sendDeletePic(delImgPos);
                 break;
         }
+    }
+
+    /**
+     * 删除本地图片
+     */
+    private void deletePic(int delImgPos) {
+        ClothingPic deletePic = clothesImg.get(delImgPos);
+        if (deletePic instanceof SavedClothingPic) {
+            savedImg--;
+        }
+
+        deleteClothesImg.add(new DeleteClothingPic(deletePic));
+        clothesImg.remove(delImgPos);
+        if (!AddPhotoAdapter.ADD_IMG_ID.equals(clothesImg.get
+                (clothesImg.size() - 1)
+                .getImgId())) {
+            addAddImage();
+        }
+        clothingAdapter.notifyDataSetChanged();
     }
 
     /**
@@ -347,7 +370,7 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
         etBackup.setText(extraUploadClothesInfo.getRemark());
 
         clothesImg = new ArrayList<>();
-
+        deleteClothesImg = new ArrayList<>();
         List<ClothingPic> pics = extraUploadClothesInfo.getClothingPics();
         if (pics != null) {
             int count = pics.size();
@@ -479,37 +502,72 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
         }
     }
 
+    /**
+     * 保存修改
+     */
+    private void save() {
+        ModifyUploadAppointClothesInfo tmpUploadClothesInfo
+                = new ModifyUploadAppointClothesInfo();
+
+        tmpUploadClothesInfo.setWashName(selectedNameView.getTwoLevel().getWashName());
+        tmpUploadClothesInfo.setOneLevelName(
+                selectedTypeView.getOneLevel().getOneLevelName());
+        tmpUploadClothesInfo.setClothesCode(tvNumber.getText().toString());
+        tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
+        tmpUploadClothesInfo.setFlawDesc(etFlaw.getText().toString());
+        tmpUploadClothesInfo.setHasFlaw(rbNotFalw.isChecked() ? 0 : 1);
+        tmpUploadClothesInfo.setHasStain(rbNotStain.isChecked() ? 0 : 1);
+        tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
+        tmpUploadClothesInfo.setOneLevelCode(selectedTypeView.getOneLevel()
+                .getOneLevelCode());
+        tmpUploadClothesInfo.setWashCode(selectedNameView.getTwoLevel().getWashCode());
+        tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
+        tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
+
+        tmpUploadClothesInfo.setInitClothesCode(extraUploadClothesInfo.getClothesCode
+                ());
+        Intent i = new Intent();
+        i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
+        setResult(RESULT_OK, i);
+
+        hideWaitDialog();
+        finish();
+    }
+
+    int delImgPos;
+
+    /**
+     * 发送删除图片请求
+     */
+    private void sendDeletePic(int pos) {
+        if (pos + 1 >= deleteClothesImg.size()) {
+            save();
+        }
+        // 删除图片
+        else {
+            showWaitDialog();
+            DeliveryApi.delImg(deleteClothesImg.get(pos).getImgId(), getToken(),
+                    getNewHandler(REQUEST_CODE_DELETE_PIC, ResultBase.class, false));
+        }
+    }
+
     @OnClick({R.id.btn_ok, R.id.tv_number, R.id.btn_delete, R.id.iv_number})
     public void onClick(View view) {
         switch (view.getId()) {
             // 确定按钮
             case R.id.btn_ok:
                 if (checkBtnOK()) {
-                    ModifyUploadAppointClothesInfo tmpUploadClothesInfo
-                            = new ModifyUploadAppointClothesInfo();
+                    delImgPos = 0;
+                    for (DeleteClothingPic dp : deleteClothesImg) {
+                        if (dp.isDelete) {
+                            delImgPos++;
+                        } else {
+                            break;
+                        }
+                    }
 
-                    tmpUploadClothesInfo.setWashName(selectedNameView.getTwoLevel().getWashName());
-                    tmpUploadClothesInfo.setOneLevelName(
-                            selectedTypeView.getOneLevel().getOneLevelName());
-                    tmpUploadClothesInfo.setClothesCode(tvNumber.getText().toString());
-                    tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
-                    tmpUploadClothesInfo.setFlawDesc(etFlaw.getText().toString());
-                    tmpUploadClothesInfo.setHasFlaw(rbNotFalw.isChecked() ? 0 : 1);
-                    tmpUploadClothesInfo.setHasStain(rbNotStain.isChecked() ? 0 : 1);
-                    tmpUploadClothesInfo.setRemark(etBackup.getText().toString());
-                    tmpUploadClothesInfo.setOneLevelCode(selectedTypeView.getOneLevel()
-                            .getOneLevelCode());
-                    tmpUploadClothesInfo.setWashCode(selectedNameView.getTwoLevel().getWashCode());
-                    tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
-                    tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
-
-                    tmpUploadClothesInfo.setInitClothesCode(extraUploadClothesInfo.getClothesCode
-                            ());
-                    Intent i = new Intent();
-                    i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
-                    setResult(RESULT_OK, i);
-                    isDeleteImg = false;
-                    finish();
+                    showWaitDialog();
+                    sendDeletePic(delImgPos);
                 }
                 break;
             // 删除
@@ -526,7 +584,6 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
                                 i.putExtra(RESULT_DELETE_CLOTHES_CODE,
                                         extraUploadClothesInfo.getClothesCode());
                                 setResult(RESULT_CODE_DELETE_CLOTHES_SUCCESS, i);
-                                isDeleteImg = false;
                                 finish();
                             }
 
@@ -676,11 +733,7 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
                             PublicUtil.showToast(getString(R.string.modify_collect_can_not_delete));
                             return;
                         }
-
-                        showWaitDialog();
-                        delImgPos = position;
-                        DeliveryApi.delImg(pic.getImgId(), getToken(),
-                                getNewHandler(REQUEST_CODE_DELETE_PIC, ResultBase.class));
+                        deletePic(position);
                         break;
                     case R.id.iv_pic:
                         // TODO: lk 2016/6/25 实现毛玻璃效果 http://blog.csdn
@@ -691,27 +744,5 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
                 }
             }
         }
-    }
-
-
-    /**
-     * 是否删除了图片后就直接退出了
-     */
-    private boolean isDeleteImg = false;
-
-    @Override
-    public void finish() {
-        if (isDeleteImg) {
-            ModifyUploadAppointClothesInfo tmpUploadClothesInfo
-                    = new ModifyUploadAppointClothesInfo();
-            tmpUploadClothesInfo.setClothingPics(getActualClothesImg(clothesImg));
-            tmpUploadClothesInfo.setImgPath(clothesImg.get(0).getImgPath());
-            tmpUploadClothesInfo.setInitClothesCode(extraUploadClothesInfo.getClothesCode());
-            tmpUploadClothesInfo.setClothesImgIds(clothingAdapter.getAllIdsString());
-            Intent i = new Intent();
-            i.putExtra(RESULT_UPLOAD_CLOTHES_INFO, tmpUploadClothesInfo);
-            setResult(RESULT_CODE_DELETE_CLOTHES_IMG, i);
-        }
-        super.finish();
     }
 }
