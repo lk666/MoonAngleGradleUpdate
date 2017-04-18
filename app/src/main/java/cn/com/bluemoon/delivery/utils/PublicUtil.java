@@ -22,29 +22,37 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.alipay.tscenter.biz.rpc.vkeydfp.result.BaseResult;
 import com.bluemoon.umengshare.ShareCallBack;
 import com.bluemoon.umengshare.ShareHelper;
 import com.bluemoon.umengshare.ShareModel;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.NameValuePair;
+import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
+import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.ResultGenShortShare;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.DownWebViewActivity;
@@ -52,9 +60,11 @@ import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanCodeActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanInputActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
+import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
 import cn.com.bluemoon.delivery.module.order.ScanWithInputActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothScanCodeActivity;
+import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -626,6 +636,53 @@ public class PublicUtil extends LibPublicUtil {
 
     public static void share(final Activity activity, final String topic, final String content, final String picUrl, final String url) {
         String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") + ClientStateManager.getUserName();
+        LogUtils.d("share long url = " + shareUrl);
+        //获取分享短链接
+        AsyncHttpResponseHandler handler = new TextHttpResponseHandler(HTTP.UTF_8) {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                try {
+                    Object resultObj;
+                    resultObj = JSON.parseObject(responseString, ResultGenShortShare.class);
+                    if (resultObj instanceof ResultGenShortShare) {
+                        ResultGenShortShare resultBase = (ResultGenShortShare) resultObj;
+                        if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                            if (StringUtils.isNoneBlank(resultBase.getUrlShort())) {
+                                LogUtils.d("share short url = " + resultBase.getUrlShort());
+                                shareHelper(activity,topic,content,picUrl, resultBase.getUrlShort());
+                            } else {
+                                LogUtils.e("get short url is null " + resultBase.getUrlShort());
+                            }
+                        } else {
+                            PublicUtil.showErrorMsg(activity, resultBase);
+                        }
+                    } else {
+                        throw new IllegalArgumentException();
+                    }
+                } catch (Exception e) {
+                    PublicUtil.showToastServerOvertime();
+                }
+            }
+            @Override
+            public void onFailure(int statusCode, Header[] headers,
+                                  String responseString, Throwable throwable) {
+                PublicUtil.showToastServerBusy();
+            }
+        };
+        String requestUrl = String.format(BuildConfig.SHARE_TO_SHORT, "moonMall-proxy-web/util/genUrlToShort");
+        Map<String, String> params = new HashMap<>();
+        params.put("urlLong", shareUrl);
+        String jsonString = JSONObject.toJSONString(params);
+        ByteArrayEntity entity = null;
+        try {
+            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            //e.printStackTrace();
+        }
+        ApiHttpClient.getHttpClient().post(activity, requestUrl, entity, "application/json", handler);
+    }
+
+    private static void shareHelper(final Activity activity,final String topic, final String content, final String picUrl, final String shareUrl) {
         String contentTemp;
         if(StringUtils.isEmpty(content)){
             contentTemp =topic;
@@ -637,7 +694,6 @@ public class PublicUtil extends LibPublicUtil {
             public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
 
             }
-
             @Override
             public void shareSuccess(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
                 DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic, platformString, new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -655,7 +711,6 @@ public class PublicUtil extends LibPublicUtil {
                 });
 
             }
-
             @Override
             public void shareCancel(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
 
@@ -666,6 +721,7 @@ public class PublicUtil extends LibPublicUtil {
 
             }
         });
+
     }
 
 }
