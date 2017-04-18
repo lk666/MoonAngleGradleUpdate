@@ -689,6 +689,7 @@ public class PublicUtil extends LibPublicUtil {
         }else{
             contentTemp=content;
         }
+        contentTemp = StringUtil.getStringByLengh(contentTemp, 17);
         ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic, contentTemp), new ShareCallBack() {
             @Override
             public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
