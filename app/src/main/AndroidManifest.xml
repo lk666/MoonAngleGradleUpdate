@@ -863,6 +863,7 @@
         <activity
             android:name=".common.DownWebViewActivity"
             android:screenOrientation="portrait"
+            android:configChanges="orientation|screenSize|keyboardHidden"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="adjustResize"/>
         <activity

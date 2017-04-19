@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Build;
@@ -25,7 +26,6 @@ import com.baidu.location.LocationClientOption;
 import com.tencent.smtt.sdk.DownloadListener;
 import com.tencent.smtt.sdk.ValueCallback;
 import com.tencent.smtt.sdk.WebChromeClient;
-import com.tencent.smtt.sdk.WebSettings;
 import com.tencent.smtt.sdk.WebView;
 import com.tencent.smtt.sdk.WebViewClient;
 import com.umeng.analytics.MobclickAgent;
@@ -38,12 +38,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.tencentX5.JsConnectCallBack;
 import cn.com.bluemoon.delivery.utils.tencentX5.JsConnectManager;
+import cn.com.bluemoon.delivery.utils.tencentX5.X5WebView;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
@@ -54,12 +54,12 @@ import cn.com.bluemoon.lib.view.TakePhotoPopView;
 public class X5WebViewActivity extends Activity implements View.OnClickListener {
     private String TAG = this.getClass().getSimpleName();
     private X5WebViewActivity aty;
-    private WebView moonWebView;
+    private X5WebView moonWebView;
     private CommonProgressDialog progressDialog;
     private String url;
     private String title;
     private Button btnRefresh;
-    private View viewNowify;
+    private View viewNotify;
     private String scanCallbackName;
     private TextView txtTitle;
     private ImageView imgBack;
@@ -74,7 +74,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mFilePathCallback;
     private TakePhotoPopView takePhotoPop;
-
+    private WebChromeClient chromeClient=null;
 
     public static void startAction(Context context, String url, String title, boolean isActionBar,
                                    boolean isBackByJs) {
@@ -86,6 +86,21 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         context.startActivity(intent);
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        // TODO Auto-generated method stub
+        try {
+            super.onConfigurationChanged(newConfig);
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+
+            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
+
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
 
     /**
      * TODO
@@ -112,9 +127,9 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         RelativeLayout layout_title = (RelativeLayout) findViewById(R.id.layout_title);
         txtTitle = (TextView) findViewById(R.id.txt_title);
         imgBack = (ImageView) findViewById(R.id.img_back);
-        moonWebView = (WebView) findViewById(R.id.common_webview);
+        moonWebView = (X5WebView) findViewById(R.id.common_webview);
         btnRefresh = (Button) findViewById(R.id.btn_empty_order);
-        viewNowify = findViewById(R.id.layout_no_wifi);
+        viewNotify = findViewById(R.id.layout_no_wifi);
         map = new HashMap<>();
         if (title != null) {
             pushTitle(url, title);
@@ -140,80 +155,48 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
             }
         });
 
-        WebSettings webSetting = moonWebView.getSettings();
-        webSetting.setJavaScriptEnabled(true);//设置可执行js脚本
-        webSetting.setUseWideViewPort(true);//设置网页适应手机屏幕
-        webSetting.setLoadWithOverviewMode(true);
-        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSetting.setDisplayZoomControls(false);//隐藏缩放按钮
-        webSetting.setAllowFileAccess(true); // 允许访问文件
-        webSetting.setDomStorageEnabled(true);
-        webSetting.setDatabaseEnabled(true);
-        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
-        moonWebView.setWebChromeClient(new WebChromeClient() {
+//        WebSettings webSetting = moonWebView.getSettings();
+//        webSetting.setJavaScriptEnabled(true);//设置可执行js脚本
+//        webSetting.setUseWideViewPort(true);//设置网页适应手机屏幕
+//        webSetting.setLoadWithOverviewMode(true);
+//        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
+//        webSetting.setDisplayZoomControls(false);//隐藏缩放按钮
+//        webSetting.setAllowFileAccess(true); // 允许访问文件
+//        webSetting.setDomStorageEnabled(true);
+//        webSetting.setDatabaseEnabled(true);
+//
+//        webSetting.setJavaScriptCanOpenWindowsAutomatically(true);
+//        webSetting.setSupportZoom(true);
+//        webSetting.setBuiltInZoomControls(true);
+//        webSetting.setSupportMultipleWindows(true);
+//        webSetting.setAppCacheEnabled(true);
+//        webSetting.setGeolocationEnabled(true);
+//        webSetting.setAppCacheMaxSize(Long.MAX_VALUE);
+//        webSetting.setPluginState(WebSettings.PluginState.ON_DEMAND);
+//        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
+        chromeClient = new BMChromeClient();
+        moonWebView.setWebChromeClient(chromeClient);
+        try {
+            if (moonWebView.getX5WebViewExtension() != null) {
+                Bundle data = new Bundle();
 
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                // TODO Auto-generated method stub
-                super.onReceivedTitle(view, title);
-                pushTitle(view.getOriginalUrl(), title);
+                data.putBoolean("standardFullScreen", false);
+                //true表示标准全屏，false表示X5全屏；不设置默认false，
 
+                data.putBoolean("supportLiteWnd", false);
+                //false：关闭小窗；true：开启小窗；不设置默认true，
+
+                data.putInt("DefaultVideoScreen", 2);
+                //1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
+
+                moonWebView.getX5WebViewExtension().invokeMiscMethod("setVideoParams", data);
             }
+        }catch (Exception ex){
+            ex.printStackTrace();
+        }
 
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-//				LogUtils.d(TAG,"result ="+newProgress);
-                if (isActionBar) {
-                    if (newProgress < 100) {
-                        if (pro.getVisibility() == View.GONE)
-                            pro.setVisibility(View.VISIBLE);
-                        pro.setProgress(newProgress);
-                    } else {
-                        if (pro.getVisibility() == View.VISIBLE)
-                            pro.setVisibility(View.GONE);
-                    }
-                }
-            }
 
-            // android 5.0
-            public boolean onShowFileChooser(
-                    WebView webView, ValueCallback<Uri[]> filePathCallback,
-                    FileChooserParams fileChooserParams) {
-                isFiveAbove = true;
-                if (mFilePathCallback != null) {
-                    mFilePathCallback.onReceiveValue(null);
-                }
-                mFilePathCallback = filePathCallback;
-                takePhotoPop.getPic(moonWebView);
-                return true;
-            }
 
-            //The undocumented magic method override
-            //Eclipse will swear at you if you try to put @Override here
-            // For Android 3.0+
-            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-                isFiveAbove = false;
-                mUploadMessage = uploadMsg;
-                takePhotoPop.getPic(moonWebView);
-
-            }
-
-            // For Android 3.0+
-            public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
-                isFiveAbove = false;
-                mUploadMessage = uploadMsg;
-                takePhotoPop.getPic(moonWebView);
-            }
-
-            //For Android 4.1
-            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
-                    capture) {
-                isFiveAbove = false;
-                mUploadMessage = uploadMsg;
-                takePhotoPop.getPic(moonWebView);
-            }
-        });
         moonWebView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
@@ -270,7 +253,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
                                         String description, String failingUrl) {
                 // TODO Auto-generated method stub
                 super.onReceivedError(view, errorCode, description, failingUrl);
-                viewNowify.setVisibility(View.VISIBLE);
+                viewNotify.setVisibility(View.VISIBLE);
             }
 
         });
@@ -292,18 +275,98 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         initView();
 
         load(url);
+//        if (moonWebView.getX5WebViewExtension() != null) {
+//
+//            Bundle data = new Bundle();
+//
+//            data.putBoolean("standardFullScreen", false);// true表示标准全屏，会调起onShowCustomView()，false表示X5全屏；不设置默认false，
+//
+//            data.putBoolean("supportLiteWnd", true);// false：关闭小窗；true：开启小窗；不设置默认true，
+//
+//            data.putInt("DefaultVideoScreen", 2);// 1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
+
+
+
+//        }
+    }
+
+    public class BMChromeClient extends WebChromeClient {
+
+        @Override
+        public void onReceivedTitle(WebView view, String title) {
+            // TODO Auto-generated method stub
+            super.onReceivedTitle(view, title);
+            pushTitle(view.getOriginalUrl(), title);
+
+        }
+
+        @Override
+        public void onProgressChanged(WebView view, int newProgress) {
+            super.onProgressChanged(view, newProgress);
+//				LogUtils.d(TAG,"result ="+newProgress);
+            if (isActionBar) {
+                if (newProgress < 100) {
+                    if (pro.getVisibility() == View.GONE)
+                        pro.setVisibility(View.VISIBLE);
+                    pro.setProgress(newProgress);
+                } else {
+                    if (pro.getVisibility() == View.VISIBLE)
+                        pro.setVisibility(View.GONE);
+                }
+            }
+        }
+
+
+        // android 5.0
+    public boolean onShowFileChooser(
+            WebView webView, ValueCallback<Uri[]> filePathCallback,
+            WebChromeClient.FileChooserParams fileChooserParams) {
+        isFiveAbove = true;
+        if (mFilePathCallback != null) {
+            mFilePathCallback.onReceiveValue(null);
+        }
+        mFilePathCallback = filePathCallback;
+        takePhotoPop.getPic(moonWebView);
+        return true;
+    }
+
+    //The undocumented magic method override
+    //Eclipse will swear at you if you try to put @Override here
+    // For Android 3.0+
+    public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+        isFiveAbove = false;
+        mUploadMessage = uploadMsg;
+        takePhotoPop.getPic(moonWebView);
 
     }
 
+    // For Android 3.0+
+    public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
+        isFiveAbove = false;
+        mUploadMessage = uploadMsg;
+        takePhotoPop.getPic(moonWebView);
+    }
+
+    //For Android 4.1
+    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
+            capture) {
+        isFiveAbove = false;
+        mUploadMessage = uploadMsg;
+        takePhotoPop.getPic(moonWebView);
+    }
+}
+
+
     private void load(String url) {
         if (!PublicUtil.hasIntenet(this)) {
-            viewNowify.setVisibility(View.VISIBLE);
+            viewNotify.setVisibility(View.VISIBLE);
             return;
         }
-        if (viewNowify.getVisibility() == View.VISIBLE) {
-            viewNowify.setVisibility(View.GONE);
+        if (viewNotify.getVisibility() == View.VISIBLE) {
+            viewNotify.setVisibility(View.GONE);
         }
-        moonWebView.loadUrl(url);
+       moonWebView.loadUrl(url);
+
     }
 
     private void pushTitle(String url, String title) {
@@ -482,7 +545,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         // TODO Auto-generated method stub
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            if (isBackByJs && viewNowify.getVisibility() == View.VISIBLE) {
+            if (isBackByJs && viewNotify.getVisibility() == View.VISIBLE) {
                 finish();
             } else if (isBackByJs) {
                 JsConnectManager.keyBack(moonWebView);
@@ -565,7 +628,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
     @Override
     public void onClick(View v) {
         if (v == imgBack) {
-            if (isBackFinish || (isBackByJs && viewNowify.getVisibility() == View.VISIBLE)) {
+            if (isBackFinish || (isBackByJs && viewNotify.getVisibility() == View.VISIBLE)) {
                 finish();
             } else if (isBackByJs) {
                 JsConnectManager.keyBack(moonWebView);
