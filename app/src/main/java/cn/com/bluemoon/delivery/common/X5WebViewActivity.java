@@ -4,10 +4,8 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.KeyEvent;
@@ -84,22 +82,6 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         intent.putExtra("actionbar", isActionBar);
         intent.putExtra("back", isBackByJs);
         context.startActivity(intent);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        // TODO Auto-generated method stub
-        try {
-            super.onConfigurationChanged(newConfig);
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-
-            } else if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
     /**
