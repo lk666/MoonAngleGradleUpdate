@@ -636,7 +636,8 @@ public class PublicUtil extends LibPublicUtil {
 
     public static void share(final Activity activity, final String topic, final String content, final String picUrl, final String url) {
         String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") + ClientStateManager.getUserName();
-        LogUtils.d("share long url = " + shareUrl);
+        shareHelper(activity,topic,content,picUrl, shareUrl);
+        /*LogUtils.d("share long url = " + shareUrl);
         //获取分享短链接
         AsyncHttpResponseHandler handler = new TextHttpResponseHandler(HTTP.UTF_8) {
             @Override
@@ -679,7 +680,7 @@ public class PublicUtil extends LibPublicUtil {
         } catch (UnsupportedEncodingException e) {
             //e.printStackTrace();
         }
-        ApiHttpClient.getHttpClient().post(activity, requestUrl, entity, "application/json", handler);
+        ApiHttpClient.getHttpClient().post(activity, requestUrl, entity, "application/json", handler);*/
     }
 
     private static void shareHelper(final Activity activity,final String topic, final String content, final String picUrl, final String shareUrl) {
