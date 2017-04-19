@@ -59,6 +59,7 @@ android {
             buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "SHARE_TO_SHORT", "\"http://192.168.236.3:8085/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
@@ -81,6 +82,7 @@ android {
             buildConfigField "String", "API_URL", "\"https://angel.bluemoon.com.cn/%s\""
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://mallapi.bluemoon.com.cn/%s\""
+            buildConfigField "String", "SHARE_TO_SHORT", "\"http://192.168.236.3:8085/%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release

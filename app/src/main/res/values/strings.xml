@@ -200,7 +200,6 @@
     <string name="pending_order_subscribe_time">预约时间：%s</string>
     <string name="pending_order_address">详细地址：%s</string>
     <string name="pending_order_total_kinds">总类数：%d</string>
-    <string name="pending_order_total_amount">总支数：%d</string>
     <string name="pending_order_total_price">总价：%s</string>
     <string name="pending_order_get_null">当前无待接单</string>
     <string name="pending_order_appointment_null">当前无待预约订单</string>

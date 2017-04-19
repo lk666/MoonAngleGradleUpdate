@@ -108,20 +108,9 @@
 
         <TextView
             android:id="@+id/txt_cateAmount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/text_grep"
-            android:textSize="10sp"/>
-
-        <TextView
-            android:id="@+id/txt_totalAmount"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="20dp"
             android:layout_weight="1"
-            android:ellipsize="end"
-            android:singleLine="true"
+            android:layout_height="wrap_content"
             android:textColor="@color/text_grep"
             android:textSize="10sp"/>
 

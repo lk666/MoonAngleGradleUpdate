@@ -605,7 +605,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
 
     private void setReceiveValue(Uri uri) {
         LogUtils.i("UPFILE", "onActivityResult after parser uri:" + uri.toString());
-        if (mFilePathCallback != null || Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (mFilePathCallback != null) {
             mFilePathCallback.onReceiveValue(new Uri[]{uri});
             mFilePathCallback = null;
         } else if (mUploadMessage != null) {
