@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import cn.com.bluemoon.delivery.MainActivity;
+import cn.com.bluemoon.delivery.AppStartActivity;
 import cn.com.bluemoon.delivery.R;
 
 /**
@@ -91,7 +91,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
         //创建一个启动其他Activity的Intent
         Intent intent2 = new Intent(context
-                , MainActivity.class);
+                , AppStartActivity.class);
         intent2.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_RESET_TASK_IF_NEEDED);
         PendingIntent pi = PendingIntent.getActivity(context
                 , 0, intent2, 0);
