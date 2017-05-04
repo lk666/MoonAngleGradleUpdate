@@ -1426,4 +1426,7 @@
     <string name="collect_total_price">总价</string>
     <string name="wash_preferential">洗衣点值</string>
     <string name="actual_price">实付金额</string>
+    <string name="pay_time">扣款时间</string>
+    <string name="cancel_time">取消时间</string>
+    <string name="create_time">下单时间</string>
 </resources>
