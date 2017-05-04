@@ -327,7 +327,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="下单时间"
+                    android:text="@string/create_time"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
                 <TextView
@@ -350,7 +350,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="取消时间"
+                    android:text="@string/cancel_time"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
                 <TextView
@@ -373,7 +373,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="扣款时间"
+                    android:text="@string/pay_time"
                     android:textColor="@color/text_black"
                     android:textSize="15sp" />
                 <TextView

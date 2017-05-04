@@ -28,8 +28,9 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  */
 public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
-    private static final int REQUEST_CODE_RECEIVE = 0x777;
+    private static final int REQUEST_CODE_CANCEL = 0x777;
     private static final int REQUEST_CODE_CREATE_COLLECT = 0x77;
+    private int index;
     /**
      * 分页标识
      */
@@ -112,7 +113,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
             TextView tvAmount = getViewById(R.id.tv_amount);
             TextView tvPrice = getViewById(R.id.tv_price);
             TextView tvAddClothes = getViewById(R.id.tv_add_clothes);
-            TextView tvCancleOrder = getViewById(R.id.tv_cancle_order);
+            TextView tvCancelOrder = getViewById(R.id.tv_cancel_order);
             tvNumber.setText(item.getOuterCode());
             tvTime.setText(DateUtil.getTime(item.getCreateTime(), "yyyy/MM/dd HH:mm:ss"));
             tvState.setText(item.getStateName());
@@ -126,23 +127,40 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 tvAddClothes.setVisibility(View.GONE);
             }
             if (Constants.OUTER_CANCEL.equals(item.getState())) {
-                tvCancleOrder.setVisibility(View.INVISIBLE);
+                tvCancelOrder.setVisibility(View.INVISIBLE);
             } else {
-                tvCancleOrder.setVisibility(View.VISIBLE);
+                tvCancelOrder.setVisibility(View.VISIBLE);
             }
             tvAmount.setText(getString(R.string.enterprise_order_amount, item.getActualCount()));
             tvPrice.setText(getString(R.string.order_money, PublicUtil.getPriceFrom(item.getPayTotal())));
-            setClickEvent(isNew, position, layoutRightAction);
+            setClickEvent(isNew, position, layoutRightAction, tvCancelOrder);
         }
     }
 
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        if (requestCode == REQUEST_CODE_CANCEL) {
+            toast(result.getResponseMsg());
+            getList().remove(index);
+            getAdapter().notifyDataSetChanged();
+            if (getList().isEmpty()) {
+                initData();
+            }
+        }
+    }
 
     @Override
     public void onItemClick(Object obj, View view, int position) {
+        EnterpriseOrderListBean bean = (EnterpriseOrderListBean)obj;
+        index = position;
         switch (view.getId()) {
             case R.id.layout_right_action :
-                EnterpriseOrderListBean bean = (EnterpriseOrderListBean)obj;
                 EnterpriseOrderDetailActivity.startAct(getActivity(), bean.getOuterCode(), bean.getState());
+                break;
+            case R.id.tv_cancel_order :
+                showWaitDialog();
+                EnterpriseApi.cancelWashEnterpriseOrder(bean.getOuterCode(), getToken(), getNewHandler(REQUEST_CODE_CANCEL, ResultBase.class));
                 break;
         }
     }
