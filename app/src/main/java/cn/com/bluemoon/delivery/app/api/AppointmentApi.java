@@ -11,7 +11,7 @@ import java.util.Map;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.UploadAppointClothesInfo;
-import cn.com.bluemoon.delivery.sz.util.Constants;
+import cn.com.bluemoon.delivery.utils.Constants;
 
 /**
  * 预约收衣

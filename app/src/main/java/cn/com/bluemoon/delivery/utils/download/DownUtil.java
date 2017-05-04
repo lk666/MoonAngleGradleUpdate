@@ -4,8 +4,8 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.com.bluemoon.delivery.sz.util.LogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.lib.utils.MD5Util;
 
 /**
@@ -36,7 +36,7 @@ public class DownUtil {
         for (String key : downMap.keySet()) {
             if (downMap.get(key).getId() == downloadId) {
                 downMap.remove(key);
-                LogUtil.d("remove key :" + key + " and id：" + downloadId);
+                LogUtils.d("remove key :" + key + " and id：" + downloadId);
             }
         }
     }

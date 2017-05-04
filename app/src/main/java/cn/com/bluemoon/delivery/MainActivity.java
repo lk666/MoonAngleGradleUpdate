@@ -57,6 +57,7 @@ import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.appointment.AppointmentTabActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.EnterpriseWashTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
@@ -65,7 +66,6 @@ import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressClo
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
-import cn.com.bluemoon.delivery.sz.taskManager.task_home.SzTaskActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -472,12 +472,12 @@ public class MainActivity extends SlidingActivity {
     };
 
     private void mockData() {
-        //        UserRight item1 = new UserRight();
-        //        item1.setMenuCode(MenuCode.receive_appointment_manager.toString());
-        //        item1.setMenuName("预约收衣");
-        //        item1.setIconImg(listRight.get(0).getIconImg());
-        //        item1.setGroupNum(1);
-        //        listRight.add(item1);
+        UserRight item1 = new UserRight();
+        item1.setMenuCode(MenuCode.company_wash.toString());
+        item1.setMenuName("企业收衣");
+        item1.setIconImg(listRight.get(0).getIconImg());
+        item1.setGroupNum(1);
+        listRight.add(item1);
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -782,9 +782,6 @@ public class MainActivity extends SlidingActivity {
             } else if (compare(MenuCode.my_team, menuCode)) {
                 intent = new Intent(main, MyTeamActivity.class);
                 startActivity(intent);
-            } else if (compare(MenuCode.jobAsignManager, menuCode)) {
-                intent = new Intent(main, SzTaskActivity.class);
-                startActivity(intent);
             } else if (compare(MenuCode.wash_cabinet_manager, menuCode)) {
                 CupboardScanActivity.actStart(main);
             } else if (compare(MenuCode.wash_transport, menuCode)) {
@@ -808,6 +805,10 @@ public class MainActivity extends SlidingActivity {
             //预约收衣
             else if (compare(MenuCode.receive_appointment_manager, menuCode)) {
                 AppointmentTabActivity.actionStart(main);
+            }
+            //企业洗衣
+            else if (compare(MenuCode.company_wash, menuCode)) {
+                EnterpriseWashTabActivity.actionStart(main);
             } else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (!userRight.getUrl().contains("?") ? "?" : "&")

@@ -1408,7 +1408,22 @@
     <string name="one_level_empty">一级分类不能为空</string>
     <string name="two_level_empty">洗衣商品不能为空</string>
 
+    <!--企业收衣-->
+    <string name="tab_enterprise_txt">企业收衣</string>
+    <string name="order_money">¥%s</string>
+    <string name="enterprise_order_code">订单号</string>
+
 
     <!--download file-->
     <string name="no_file_permission">无法获取文件处理权限</string>
+    <string name="cancle_enterprise_order">取消订单</string>
+    <string name="enterprise_order_amount">共%d件 合计：</string>
+    <string name="add_clothes">添加衣物</string>
+    <string name="collect_bag">收衣袋</string>
+    <string name="collect_remark">备注</string>
+    <string name="collect_clothes">实收衣物</string>
+    <string name="clothes_total_amount">共&#160;%d&#160;件</string>
+    <string name="collect_total_price">总价</string>
+    <string name="wash_preferential">洗衣点值</string>
+    <string name="actual_price">实付金额</string>
 </resources>

@@ -172,4 +172,15 @@ public class Constants {
     //wecaht pay
     public final static String APP_ID = "wx3b6e66b753fd84c2";
     public final static String PARTNER_ID = "1410234202";
+
+    public final static int RESPONSE_RESULT_LOCAL_PARAM_ERROR = -123;
+
+    public final static String OUTER_ACCEPT_CLOTHES = "OUTER_ACCEPT_CLOTHES";	//收衣进行中
+    public final static String OUTER_WAIT_PAY = "OUTER_WAIT_PAY";	//待付款
+    public final static String OUTER_TO_BE_WASHED = "OUTER_TO_BE_WASHED";	//送洗中
+    public final static String OUTER_CANCEL = "OUTER_CANCEL";	//已取消
+    public final static String OUTER_WASHING_CLOTHES = "OUTER_WASHING_CLOTHES";	//洗涤中
+    public final static String OUTER_BACK_CLOTHES = "OUTER_BACK_CLOTHES";	//还衣中
+    public final static String OUTER_ALREADY_RECIVERED = "OUTER_ALREADY_RECIVERED";	//已签收
+
 }

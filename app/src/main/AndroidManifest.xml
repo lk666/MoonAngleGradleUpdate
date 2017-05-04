@@ -58,89 +58,7 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".sz.meeting.SzSchedualActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme">
 
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN"/> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".sz.taskManager.task_home.SzTaskActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN" /> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER" /> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".sz.meeting.SzMsgConflictActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-        <activity
-            android:name=".sz.meeting.SzMsgAdviceReplyActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-        <activity
-            android:name=".sz.meeting.SzMsgWaitActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme">
-        </activity>
-        <activity
-            android:name=".sz.meeting.SchedualAddMeetingActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity
-            android:name=".sz.meeting.InputUtilActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/dialog"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity
-            android:name=".sz.meeting.TimeChooseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity
-            android:name=".sz.meeting.MeetingerChooseActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity
-            android:name=".sz.meeting.SzMsgActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-        <activity
-            android:name=".sz.meeting.SzMsgListActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
-
-        <!-- sz task -->
-        <activity
-            android:name=".sz.taskManager.AddTaskActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme">
-
-            <!-- <intent-filter> -->
-            <!-- <action android:name="android.intent.action.MAIN"/> -->
-            <!-- <category android:name="android.intent.category.LAUNCHER"/> -->
-            <!-- </intent-filter> -->
-        </activity>
-        <activity
-            android:name=".sz.taskManager.AppraiseChooserActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateVisible"/>
-        <activity
-            android:name=".sz.taskManager.InputToolsActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateVisible"/>
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
@@ -497,26 +415,6 @@
             android:name=".common.ShowMultipleImageActivity"
             android:screenOrientation="portrait"
             android:theme="@style/MyDialogStyleTop"/>
-        <activity
-            android:name=".sz.taskManager.SzTaskOrEvaluateDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan"/>
-        <activity
-            android:name=".sz.taskManager.SzWriteEvaluateActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
-        <activity
-            android:name=".sz.taskManager.NotificationDetailActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
-        <activity
-            android:name=".sz.taskManager.TaskQualityScoreActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
             android:name=".module.wash.returning.closebox.CloseBoxTabActivity"
             android:screenOrientation="portrait"
@@ -877,6 +775,12 @@
             android:theme="@style/App.Base.Theme"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan"/>
+        <activity android:name=".module.wash.enterprise.EnterpriseWashTabActivity"
+            android:theme="@style/App.Base.Theme"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".module.wash.enterprise.EnterpriseOrderDetailActivity"
+            android:theme="@style/App.Base.Theme"
+            android:screenOrientation="portrait"/>
     </application>
 
 </manifest>
