@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.app.api.model.enterprise;
+package cn.com.bluemoon.delivery.app.api.model.wash.enterprise;
 
 import java.io.Serializable;
 
