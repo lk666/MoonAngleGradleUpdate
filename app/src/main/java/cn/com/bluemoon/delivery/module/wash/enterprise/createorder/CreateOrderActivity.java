@@ -34,7 +34,6 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 public class CreateOrderActivity extends BaseActivity implements OnListItemClickListener {
 
     private static final int REQUEST_CODE_GET_DATA = 0x777;
-
     /**
      * 洗衣中心名称，状态
      */
