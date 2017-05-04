@@ -777,7 +777,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".module.wash.enterprise.EnterpriseWashTabActivity"
             android:theme="@style/App.Base.Theme"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustResize"/>
         <activity android:name=".module.wash.enterprise.EnterpriseOrderDetailActivity"
             android:theme="@style/App.Base.Theme"
             android:screenOrientation="portrait"/>

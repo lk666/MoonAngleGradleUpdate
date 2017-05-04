@@ -13,6 +13,7 @@ import java.util.Map;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.QueryInfo;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.utils.Constants;
 
@@ -66,6 +67,19 @@ public class EnterpriseApi extends DeliveryApi {
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseList%s", handler);
     }
+
+    /**
+     *8.10企业收衣历史记录列表
+     *
+     */
+    public static void getWashEnterpriseRecordList(long timestamp, QueryInfo queryInfo, AsyncHttpResponseHandler
+            handler) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("queryInfo", queryInfo);
+        params.put("timestamp", timestamp);
+        postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseRecordList%s", handler);
+    }
+
     /**
      * 8.07企业收衣洗衣订单详情（查看和编辑）
      *
@@ -105,6 +119,22 @@ public class EnterpriseApi extends DeliveryApi {
         params.put("outerCode", outerCode);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise/cancelWashEnterpriseOrder%s", handler);
+    }
+    /**
+     * 8.11历史记录企业查询列表
+     * @param token     登录凭证(必填) String
+     */
+    public static void getEnterpriseRecordQuery( String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" +  (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/getEnterpriseRecordQuery%s", handler);
     }
 
 }
