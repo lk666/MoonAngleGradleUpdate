@@ -42,8 +42,6 @@ import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
-import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.Employee;
-import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
 import cn.com.bluemoon.delivery.module.evidencecash.EvidenceCashActivity;
@@ -60,7 +58,6 @@ import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.wash.appointment.AppointmentTabActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.EnterpriseWashTabActivity;
-import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
@@ -811,21 +808,7 @@ public class MainActivity extends SlidingActivity {
             }
             //企业洗衣
             else if (compare(MenuCode.company_wash, menuCode)) {
-//                EnterpriseWashTabActivity.actionStart(main);
-                Employee resultObj = JSON.parseObject(
-                        " {\n" +
-                                "            \"branchCode\": \"bh2341\",\n" +
-                                "            \"branchName\": \"易方达-广州三银大厦办事处\",\n" +
-                                "            \"employeeCode\": \"3211\",\n" +
-                                "            \"employeeExtension\": \"21039012384\",\n" +
-                                "            \"employeeName\": \"Adam Lee\",\n" +
-                                "            \"employeePhone\": \"13560887921\"\n" +
-                                "        }",
-                        Employee.class);
-
-                CreateOrderActivity.actionStart(main, resultObj);
-
-
+                EnterpriseWashTabActivity.actionStart(main);
             } else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (!userRight.getUrl().contains("?") ? "?" : "&")
