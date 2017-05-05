@@ -1,6 +1,8 @@
 package cn.com.bluemoon.delivery.app.api.model;
 
-public class ResultBase {
+import java.io.Serializable;
+
+public class ResultBase implements Serializable {
     private int responseCode = -1;
     public boolean isSuccess;
     private String responseMsg;
