@@ -132,4 +132,50 @@ public class EnterpriseApi extends DeliveryApi {
         postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseQuery%s",
                 handler);
     }
+    /**
+     * 8.06企业收衣提交扣款（确认无误）接口
+     *
+     * @param outerCode 洗衣订单编号 String
+     * @param token     登录凭证 String
+     */
+    public static void payWashEnterpriseOrder(String outerCode, String token,
+                                              AsyncHttpResponseHandler handler) {
+        if (null == outerCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == outerCode ? " null=queryCode" : "") + (null == token
+                            ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/payWashEnterpriseOrder%s",
+                handler);
+    }
+
+    /**
+     * 8.08企业收衣衣物保存接口
+     *
+     * @param outerCode 洗衣订单编号 String
+     * @param washCode  商品编码 String
+     * @param token     登录凭证 String
+     */
+    public static void saveWashClothes(String outerCode, String washCode, String token,
+                                              AsyncHttpResponseHandler handler) {
+        if (null == outerCode || null == token|| null == washCode) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == outerCode ? " null=queryCode" : "") + (null == token
+                            ? " null=token" : "")+ (null == token
+                            ? " null=washCode" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put("washCode", washCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/saveWashClothes%s",
+                handler);
+    }
 }
