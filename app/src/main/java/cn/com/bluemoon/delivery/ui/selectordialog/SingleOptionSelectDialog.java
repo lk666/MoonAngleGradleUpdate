@@ -4,10 +4,8 @@ import android.app.Dialog;
 import android.content.Context;
 import android.view.View;
 import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
@@ -20,12 +18,8 @@ import cn.com.bluemoon.delivery.R;
  */
 public class SingleOptionSelectDialog extends Dialog {
 
-    @Bind(R.id.btn_cancle)
-    ImageView btnCancle;
     @Bind(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.btn_ok)
-    ImageView btnOk;
     @Bind(R.id.wheel)
     SimpleWheelView wheel;
     /**
@@ -57,8 +51,12 @@ public class SingleOptionSelectDialog extends Dialog {
         initView();
     }
 
-    private void initView() {
-        setContentView(R.layout.dialog_single_option_select);
+    protected int getLayoutId() {
+        return R.layout.dialog_single_option_select;
+    }
+
+    protected void initView() {
+        setContentView(getLayoutId());
 
         // 保证全屏宽，因为默认宽高为WRAP_CONTENT
         WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
@@ -89,14 +87,14 @@ public class SingleOptionSelectDialog extends Dialog {
         });
     }
 
-    @OnClick({R.id.btn_cancle, R.id.btn_ok, R.id.rl_main})
+    @OnClick({R.id.btn_cancel, R.id.btn_ok, R.id.rl_main})
     public void onClick(View view) {
         switch (view.getId()) {
             // 取消
-            case R.id.btn_cancle:
+            case R.id.btn_cancel:
                 if (listener != null) {
                     dismiss();
-                    listener.onCancleButtonClick();
+                    listener.onCancelButtonClick();
                 }
                 break;
             case R.id.btn_ok:
@@ -123,6 +121,6 @@ public class SingleOptionSelectDialog extends Dialog {
         /**
          * 点击取消按钮的回调
          */
-        void onCancleButtonClick();
+        void onCancelButtonClick();
     }
 }

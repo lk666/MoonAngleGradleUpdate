@@ -73,7 +73,7 @@ public class TimerFilterWindow extends PopupWindow {
 		endDateChoice = (EditText) view.findViewById(R.id.end_date_choice);
 
 		okBtn = (Button) view.findViewById(R.id.btn_confirm);
-		cancleBtn = (Button) view.findViewById(R.id.btn_cancle);
+		cancleBtn = (Button) view.findViewById(R.id.btn_cancel);
 		startDateChoice.setOnTouchListener(new OnTouchListener() {
 
 			@Override

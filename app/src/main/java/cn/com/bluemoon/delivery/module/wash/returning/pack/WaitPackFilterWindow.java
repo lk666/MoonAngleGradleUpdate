@@ -132,7 +132,7 @@ public class WaitPackFilterWindow extends PopupWindow {
             }
 
             @Override
-            public void onCancleButtonClick() {
+            public void onCancelButtonClick() {
 
             }
         }).show();

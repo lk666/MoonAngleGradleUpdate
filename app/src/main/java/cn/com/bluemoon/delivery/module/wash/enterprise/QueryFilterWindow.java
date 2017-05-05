@@ -351,7 +351,7 @@ public class QueryFilterWindow extends PopupWindow {
             }
 
             @Override
-            public void onCancleButtonClick() {
+            public void onCancelButtonClick() {
 
             }
         }).show();
