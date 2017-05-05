@@ -70,8 +70,7 @@ public class EnterpriseApi extends DeliveryApi {
     }
 
     /**
-     *8.10企业收衣历史记录列表
-     *
+     * 8.10企业收衣历史记录列表
      */
     public static void getWashEnterpriseRecordList(long timestamp, QueryInfo queryInfo, AsyncHttpResponseHandler
             handler) {
@@ -90,7 +89,7 @@ public class EnterpriseApi extends DeliveryApi {
      */
     public static void getWashEnterpriseDetail(String outerCode, String token,
                                                AsyncHttpResponseHandler
-            handler) {
+                                                       handler) {
         if (null == token || outerCode == null) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
                     new Exception(AppContext.getInstance().getString(R.string.error_local_param)
@@ -104,6 +103,7 @@ public class EnterpriseApi extends DeliveryApi {
         postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseDetail%s" +
                 "", handler);
     }
+
     /**
      * 8.12取消订单
      *
@@ -115,8 +115,8 @@ public class EnterpriseApi extends DeliveryApi {
         if (null == token || outerCode == null) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
                     new Exception(AppContext.getInstance().getString(R.string.error_local_param)
-                            + ":" +  (null == token ? " null=token" : "")
-                            +  (null == outerCode ? " null=outerCode" : "")));
+                            + ":" + (null == token ? " null=token" : "")
+                            + (null == outerCode ? " null=outerCode" : "")));
             return;
         }
         Map<String, Object> params = new HashMap<>();
@@ -124,16 +124,18 @@ public class EnterpriseApi extends DeliveryApi {
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise/cancelWashEnterpriseOrder%s", handler);
     }
+
     /**
      * 8.11历史记录企业查询列表
-     * @param token     登录凭证(必填) String
+     *
+     * @param token 登录凭证(必填) String
      */
-    public static void getEnterpriseRecordQuery( String token, AsyncHttpResponseHandler
+    public static void getEnterpriseRecordQuery(String token, AsyncHttpResponseHandler
             handler) {
         if (null == token) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
                     new Exception(AppContext.getInstance().getString(R.string.error_local_param)
-                            + ":" +  (null == token ? " null=token" : "")));
+                            + ":" + (null == token ? " null=token" : "")));
             return;
         }
         Map<String, Object> params = new HashMap<>();

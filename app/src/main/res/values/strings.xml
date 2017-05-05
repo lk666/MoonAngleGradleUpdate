@@ -1408,14 +1408,13 @@
     <string name="one_level_empty">一级分类不能为空</string>
     <string name="two_level_empty">洗衣商品不能为空</string>
 
+    <!--download file-->
+    <string name="no_file_permission">无法获取文件处理权限</string>
+
     <!--企业收衣-->
     <string name="tab_enterprise_txt">企业收衣</string>
     <string name="order_money">¥%s</string>
     <string name="enterprise_order_code">订单号</string>
-
-
-    <!--download file-->
-    <string name="no_file_permission">无法获取文件处理权限</string>
     <string name="cancle_enterprise_order">取消订单</string>
     <string name="enterprise_order_amount">共%d件 合计：</string>
     <string name="add_clothes">添加衣物</string>
@@ -1436,4 +1435,7 @@
     <string name="input_filter_hint">请输入姓名/手机号/分机号</string>
     <string name="input_company">请先选择公司</string>
     <string name="history_count">共%d条</string>
+    <string name="add_collect_wash">新增</string>
+    <string name="scan_qrcode_content">请将员工/收衣袋二维码置于取景框内</string>
+    <string name="hand_query">手 动 搜 索</string>
 </resources>
