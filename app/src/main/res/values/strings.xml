@@ -1412,6 +1412,7 @@
     <string name="tab_enterprise_txt">企业收衣</string>
     <string name="order_money">¥%s</string>
     <string name="enterprise_order_code">订单号</string>
+    <string name="affirm_deducyion">确认无误，发起扣款</string>
 
 
     <!--download file-->
