@@ -1455,4 +1455,5 @@
     <string name="txt_point">剩余点值</string>
     <string name="txt_order_info">订单信息</string>
     <string name="txt_employee_info">员工信息</string>
+    <string name="affirm_deducyion">确认无误，发起扣款</string>
 </resources>

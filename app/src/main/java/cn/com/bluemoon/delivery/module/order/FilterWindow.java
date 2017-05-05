@@ -11,8 +11,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
-import org.apache.commons.lang3.StringUtils;
-
 import cn.com.bluemoon.delivery.R;
 
 
@@ -47,7 +45,7 @@ public class FilterWindow extends PopupWindow {
                 R.anim.push_top_in));
 
         Button okBtn = (Button) view.findViewById(R.id.btn_confirm);
-        Button cancleBtn = (Button) view.findViewById(R.id.btn_cancle);
+        Button cancleBtn = (Button) view.findViewById(R.id.btn_cancel);
 
 
         view.setOnClickListener(new OnClickListener() {

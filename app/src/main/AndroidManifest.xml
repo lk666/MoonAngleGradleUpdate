@@ -786,6 +786,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
+            android:name=".module.wash.enterprise.createorder.EnterpriseConfirmOrderActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
             android:name=".module.wash.enterprise.EnterpriseScanInputActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>

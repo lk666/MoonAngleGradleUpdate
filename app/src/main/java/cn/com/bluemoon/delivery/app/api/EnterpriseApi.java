@@ -14,6 +14,7 @@ import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.QueryInfo;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.RequestEnterpriseOrderInfo;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.utils.Constants;
 
@@ -74,7 +75,7 @@ public class EnterpriseApi extends DeliveryApi {
      */
     public static void getWashEnterpriseRecordList(long timestamp, QueryInfo queryInfo,
                                                    AsyncHttpResponseHandler
-            handler) {
+                                                           handler) {
         Map<String, Object> params = new HashMap<>();
         params.put("queryInfo", queryInfo);
         params.put("timestamp", timestamp);
@@ -114,7 +115,7 @@ public class EnterpriseApi extends DeliveryApi {
      */
     public static void cancelWashEnterpriseOrder(String outerCode, String token,
                                                  AsyncHttpResponseHandler
-            handler) {
+                                                         handler) {
         if (null == token || outerCode == null) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
                     new Exception(AppContext.getInstance().getString(R.string.error_local_param)
@@ -237,5 +238,27 @@ public class EnterpriseApi extends DeliveryApi {
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseScan%s",
                 handler);
+    }
+
+    /**
+     * 8.04企业收衣创建订单
+     *
+     * @param enterpriseOrderInfo 基本信息
+     * @param token               登陆凭证 String
+     */
+    public static void saveWashEnterpriseOrder(RequestEnterpriseOrderInfo enterpriseOrderInfo,
+                                               String token, AsyncHttpResponseHandler handler) {
+        if (null == enterpriseOrderInfo || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == enterpriseOrderInfo ? " null=enterpriseOrderInfo" : "")
+                            + (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("enterpriseOrderInfo", enterpriseOrderInfo);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/saveWashEnterpriseOrder%s" +
+                "", handler);
     }
 }
