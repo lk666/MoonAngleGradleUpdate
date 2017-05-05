@@ -1,8 +1,10 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.Gravity;
 import android.view.View;
@@ -10,6 +12,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -19,12 +23,19 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.Employee;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.RequestEnterpriseOrderInfo;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultSaveWashEnterpriseOrder;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
  * 创建订单页面
@@ -34,6 +45,9 @@ public class CreateOrderActivity extends BaseActivity {
     private static final String EXTRA_INFO = "EXTRA_INFO";
     private static final String EXTRA_EMPLOYEE = "EXTRA_EMPLOYEE";
     private static final int REQUEST_CODE_SCAN = 0x777;
+    private static final int REQUEST_CODE_SAVE = 0x666;
+    private static final int REQUEST_CODE_MANUAL = 0x77;
+    private static final int REQUEST_CODE_ADD = 0x555;
     @Bind(R.id.tv_employee_name)
     TextView tvEmployeeName;
     @Bind(R.id.tv_employee_phone)
@@ -99,8 +113,28 @@ public class CreateOrderActivity extends BaseActivity {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        // TODO: lk 2017/5/5
-        toast("保存");
+        if (check()) {
+            showWaitDialog();
+            RequestEnterpriseOrderInfo sendInfo = new RequestEnterpriseOrderInfo(branchCode,
+                    tvCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
+                    etEmployeeExtension.getText().toString(), etBackup.getText().toString());
+            EnterpriseApi.saveWashEnterpriseOrder(sendInfo, getToken(),
+                    getNewHandler(REQUEST_CODE_SAVE, ResultSaveWashEnterpriseOrder.class));
+        }
+    }
+
+    private boolean check() {
+        if (TextUtils.isEmpty(etEmployeeExtension.getText().toString())) {
+            toast(R.string.hint_employee_extension);
+            return false;
+        } else if (TextUtils.isEmpty(branchCode)) {
+            toast(R.string.hint_return_address);
+            return false;
+        } else if (TextUtils.isEmpty(tvCollectBrcode.getText())) {
+            toast(R.string.hint_collect_brcode);
+            return false;
+        }
+        return true;
     }
 
     @Override
@@ -190,6 +224,20 @@ public class CreateOrderActivity extends BaseActivity {
                 info = (ResultGetWashEnterpriseScan) result;
                 setData(info);
                 break;
+            // 点击保存
+            case REQUEST_CODE_SAVE:
+                ResultSaveWashEnterpriseOrder order0 = (ResultSaveWashEnterpriseOrder) result;
+                EventBus.getDefault().post(new CreateOrderEvent(order0.outerCode));
+                finish();
+                break;
+            // 点击添加衣物
+            case REQUEST_CODE_ADD:
+                ResultSaveWashEnterpriseOrder order1 = (ResultSaveWashEnterpriseOrder) result;
+                EventBus.getDefault().post(new CreateOrderEvent(order1.outerCode));
+                toast("跳转到添加衣物:" + order1.outerCode);
+                finish();
+                break;
+
         }
     }
 
@@ -231,7 +279,6 @@ public class CreateOrderActivity extends BaseActivity {
         dialog.show();
     }
 
-    // TODO: lk 2017/5/5
     @OnClick({R.id.ll_branch_code, R.id.ll_collect_brcode, R.id.btn_add_cloth})
     public void onViewClicked(View view) {
         switch (view.getId()) {
@@ -241,13 +288,76 @@ public class CreateOrderActivity extends BaseActivity {
                 break;
             // 收衣袋
             case R.id.ll_collect_brcode:
-                toast("收衣袋");
+                goScanCode();
                 break;
+            // 添加衣物
             case R.id.btn_add_cloth:
-                toast("添加衣物");
+                if (check()) {
+                    showWaitDialog();
+                    RequestEnterpriseOrderInfo sendInfo = new RequestEnterpriseOrderInfo(branchCode,
+                            tvCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
+                            etEmployeeExtension.getText().toString(), etBackup.getText().toString
+                            ());
+                    EnterpriseApi.saveWashEnterpriseOrder(sendInfo, getToken(),
+                            getNewHandler(REQUEST_CODE_ADD, ResultSaveWashEnterpriseOrder.class));
+                }
                 break;
         }
     }
 
+    /**
+     * 打开扫码界面
+     */
+    private void goScanCode() {
+        PublicUtil.openClothScan(this, getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN);
+    }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_CANCELED) {
+            return;
+        }
+
+        switch (requestCode) {
+            case Constants.REQUEST_SCAN:
+                // 扫码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    handleScanCodeBack(resultStr);
+                }
+                //   跳转到手动输入
+                else if (resultCode == Constants.RESULT_SCAN) {
+                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
+                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
+                }
+                break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
+                    handleScanCodeBack(resultStr);
+                }
+                //  跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    /**
+     * 新增模式下处理扫码、手动输入数字码返回
+     */
+    private void handleScanCodeBack(String code) {
+        tvCollectBrcode.setText(code);
+    }
 }

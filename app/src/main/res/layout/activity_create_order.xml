@@ -224,6 +224,7 @@
                         android:paddingBottom="15dp"
                         android:paddingTop="15dp"
                         android:singleLine="false"
+                        android:textColor="@color/text_black_light"
                         android:textColorHint="@color/text_grep"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_15"/>
