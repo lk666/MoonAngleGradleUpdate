@@ -1429,4 +1429,11 @@
     <string name="pay_time">扣款时间</string>
     <string name="cancel_time">取消时间</string>
     <string name="create_time">下单时间</string>
+    <string name="txt_all">全部</string>
+    <string name="txt_company">公司</string>
+    <string name="txt_company_sub">分支机构</string>
+    <string name="order_custom">下单人</string>
+    <string name="input_filter_hint">请输入姓名/手机号/分机号</string>
+    <string name="input_company">请先选择公司</string>
+    <string name="history_count">共%d条</string>
 </resources>

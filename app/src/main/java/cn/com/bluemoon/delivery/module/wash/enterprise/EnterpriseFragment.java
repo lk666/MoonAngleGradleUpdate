@@ -75,7 +75,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
             ResultBase result) {
         currentPage++;
         ResultEnterpriseList resultObj = (ResultEnterpriseList) result;
-        return resultObj.getEnterpriseOrderList();
+        return resultObj.enterpriseOrderList;
     }
 
     @Override
@@ -83,59 +83,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
         return new ItemAdapter(getActivity(), this);
     }
 
-    class ItemAdapter extends BaseListAdapter<EnterpriseOrderListBean> {
 
-
-        public ItemAdapter(Context context, OnListItemClickListener listener) {
-            super(context, listener);
-        }
-
-        @Override
-        protected int getLayoutId() {
-            return R.layout.item_enterprise ;
-        }
-
-        @Override
-        protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            EnterpriseOrderListBean item = (EnterpriseOrderListBean) getItem(position);
-
-            if (item == null) {
-                return;
-            }
-
-            TextView tvNumber = getViewById(R.id.tv_number);
-            TextView tvTime = getViewById(R.id.tv_time);
-            TextView tvState = getViewById(R.id.tv_state);
-            TextView tvEmployeeCode = getViewById(R.id.tv_employee_code);
-            LinearLayout layoutRightAction = getViewById(R.id.layout_right_action);
-            TextView tvCustomerName = getViewById(R.id.tv_customer_name);
-            TextView tvAddress = getViewById(R.id.tv_address);
-            TextView tvAmount = getViewById(R.id.tv_amount);
-            TextView tvPrice = getViewById(R.id.tv_price);
-            TextView tvAddClothes = getViewById(R.id.tv_add_clothes);
-            TextView tvCancelOrder = getViewById(R.id.tv_cancel_order);
-            tvNumber.setText(item.getOuterCode());
-            tvTime.setText(DateUtil.getTime(item.getCreateTime(), "yyyy/MM/dd HH:mm:ss"));
-            tvState.setText(item.getStateName());
-            tvEmployeeCode.setText(item.getCollectBrcode());
-            // 机构名称
-            tvCustomerName.setText(item.getEmployeeName());
-            tvAddress.setText(item.getBranchName());
-            if (Constants.OUTER_ACCEPT_CLOTHES.equals(item.getState())) {
-                tvAddClothes.setVisibility(View.VISIBLE);
-            } else {
-                tvAddClothes.setVisibility(View.GONE);
-            }
-            if (Constants.OUTER_CANCEL.equals(item.getState())) {
-                tvCancelOrder.setVisibility(View.INVISIBLE);
-            } else {
-                tvCancelOrder.setVisibility(View.VISIBLE);
-            }
-            tvAmount.setText(getString(R.string.enterprise_order_amount, item.getActualCount()));
-            tvPrice.setText(getString(R.string.order_money, PublicUtil.getPriceFrom(item.getPayTotal())));
-            setClickEvent(isNew, position, layoutRightAction, tvCancelOrder);
-        }
-    }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
@@ -156,11 +104,11 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
         index = position;
         switch (view.getId()) {
             case R.id.layout_right_action :
-                EnterpriseOrderDetailActivity.startAct(getActivity(), bean.getOuterCode(), bean.getState());
+                EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
                 break;
             case R.id.tv_cancel_order :
                 showWaitDialog();
-                EnterpriseApi.cancelWashEnterpriseOrder(bean.getOuterCode(), getToken(), getNewHandler(REQUEST_CODE_CANCEL, ResultBase.class));
+                EnterpriseApi.cancelWashEnterpriseOrder(bean.outerCode, getToken(), getNewHandler(REQUEST_CODE_CANCEL, ResultBase.class));
                 break;
         }
     }

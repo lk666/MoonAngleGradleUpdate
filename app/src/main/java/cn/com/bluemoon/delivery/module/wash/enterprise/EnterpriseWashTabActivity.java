@@ -21,7 +21,7 @@ public class EnterpriseWashTabActivity extends BaseTabActivity {
         ArrayList<TabState> tabs = new ArrayList<>();
         tabs.add(new DrawableTabState(EnterpriseFragment.class,R.mipmap.tab_company_active,
                 R.mipmap.tab_company_normal,R.string.tab_enterprise_txt));
-        tabs.add(new DrawableTabState(AppointmentHistoryFragment.class,R.mipmap.tab_history_normal,
+        tabs.add(new DrawableTabState(EnterpriseHistoryFragment.class,R.mipmap.tab_history_normal,
                 R.mipmap.tab_history_disable,R.string.card_search_history));
         actionStart(context, tabs, EnterpriseWashTabActivity.class);
     }
