@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * 8.02手动搜索列表展示,订单信息
  */
-public class EnterpriseOrderListBean implements Serializable {
+public class EnterpriseOrderListBeanBase implements Serializable {
 
     /** 机构编码 */
     public String branchCode;

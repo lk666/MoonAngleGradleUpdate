@@ -72,12 +72,14 @@ public class EnterpriseApi extends DeliveryApi {
     /**
      * 8.10企业收衣历史记录列表
      */
-    public static void getWashEnterpriseRecordList(long timestamp, QueryInfo queryInfo, AsyncHttpResponseHandler
+    public static void getWashEnterpriseRecordList(long timestamp, QueryInfo queryInfo,
+                                                   AsyncHttpResponseHandler
             handler) {
         Map<String, Object> params = new HashMap<>();
         params.put("queryInfo", queryInfo);
         params.put("timestamp", timestamp);
-        postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseRecordList%s", handler);
+        postRequest(params, "washingService-controller/wash/enterprise" +
+                "/getWashEnterpriseRecordList%s", handler);
     }
 
 
@@ -110,7 +112,8 @@ public class EnterpriseApi extends DeliveryApi {
      * @param outerCode 洗衣订单编码 String
      * @param token     登录凭证(必填) String
      */
-    public static void cancelWashEnterpriseOrder(String outerCode, String token, AsyncHttpResponseHandler
+    public static void cancelWashEnterpriseOrder(String outerCode, String token,
+                                                 AsyncHttpResponseHandler
             handler) {
         if (null == token || outerCode == null) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
@@ -122,7 +125,8 @@ public class EnterpriseApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("outerCode", outerCode);
         params.put(TOKEN, token);
-        postRequest(params, "washingService-controller/wash/enterprise/cancelWashEnterpriseOrder%s", handler);
+        postRequest(params, "washingService-controller/wash/enterprise/cancelWashEnterpriseOrder" +
+                "%s", handler);
     }
 
     /**
@@ -140,7 +144,8 @@ public class EnterpriseApi extends DeliveryApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        postRequest(params, "washingService-controller/wash/enterprise/getEnterpriseRecordQuery%s", handler);
+        postRequest(params, "washingService-controller/wash/enterprise/getEnterpriseRecordQuery%s" +
+                "", handler);
     }
 
     /**
@@ -162,6 +167,75 @@ public class EnterpriseApi extends DeliveryApi {
         params.put("queryCode", queryCode);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseQuery%s",
+                handler);
+    }
+
+    /**
+     * 8.06企业收衣提交扣款（确认无误）接口
+     *
+     * @param outerCode 洗衣订单编号 String
+     * @param token     登录凭证 String
+     */
+    public static void payWashEnterpriseOrder(String outerCode, String token,
+                                              AsyncHttpResponseHandler handler) {
+        if (null == outerCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == outerCode ? " null=queryCode" : "") + (null == token
+                            ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/payWashEnterpriseOrder%s",
+                handler);
+    }
+
+    /**
+     * 8.08企业收衣衣物保存接口
+     *
+     * @param outerCode 洗衣订单编号 String
+     * @param washCode  商品编码 String
+     * @param token     登录凭证 String
+     */
+    public static void saveWashClothes(String outerCode, String washCode, String token,
+                                       AsyncHttpResponseHandler handler) {
+        if (null == outerCode || null == token || null == washCode) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == outerCode ? " null=queryCode" : "") + (null == token
+                            ? " null=token" : "") + (null == token
+                            ? " null=washCode" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put("washCode", washCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/saveWashClothes%s",
+                handler);
+    }
+
+    /**
+     * 8.03企业收衣扫一扫
+     *
+     * @param queryCode 查询编码 String
+     * @param token     登陆凭证 String
+     */
+    public static void getWashEnterpriseScan(String queryCode, String token,
+                                             AsyncHttpResponseHandler handler) {
+        if (null == queryCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == queryCode ? " null=queryCode" : "") + (null == token
+                            ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("queryCode", queryCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/getWashEnterpriseScan%s",
                 handler);
     }
 }
