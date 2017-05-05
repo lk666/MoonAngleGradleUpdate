@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:search="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical"
+    >
+
+    <cn.com.bluemoon.lib.view.CommonSearchView
+        android:id="@+id/search_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        search:text_hint="@string/order_query_hint"
+        search:hide_history="true"
+        />
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listView_history"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:cacheColorHint="#00000000"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:scrollbars="none"
+        ptr:ptrMode="disabled"/>
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_workplace"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="#00000000"
+        android:divider="@color/line_soild_bg"
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none"
+        android:visibility="gone"
+        ptr:ptrMode="both"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black" />
+
+</LinearLayout>

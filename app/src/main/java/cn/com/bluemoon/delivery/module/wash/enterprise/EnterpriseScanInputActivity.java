@@ -69,7 +69,7 @@ public class EnterpriseScanInputActivity extends BaseScanActivity{
 
     @OnClick(R.id.btn_input)
     public void onClick() {
-        toast("----");
+        EmployOrderQueryActivity.startAct(this);
     }
 
 }

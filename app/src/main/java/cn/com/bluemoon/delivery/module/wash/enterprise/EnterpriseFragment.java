@@ -54,7 +54,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        EnterpriseScanInputActivity.actStart(this, getString(R.string.hand_query), 1);
+        EnterpriseScanInputActivity.actStart(this, getString(R.string.hand_query_with_space), 1);
     }
 
     @Override
