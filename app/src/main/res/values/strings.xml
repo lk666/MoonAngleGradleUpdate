@@ -1453,4 +1453,6 @@
     <string name="hint_backup">请输入备注，60字以内</string>
     <string name="txt_balance">账户余额</string>
     <string name="txt_point">剩余点值</string>
+    <string name="txt_order_info">订单信息</string>
+    <string name="txt_employee_info">员工信息</string>
 </resources>

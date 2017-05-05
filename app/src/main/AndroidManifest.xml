@@ -794,6 +794,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".module.wash.enterprise.EmployOrderQueryActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan"/>
     </application>
 
 </manifest>

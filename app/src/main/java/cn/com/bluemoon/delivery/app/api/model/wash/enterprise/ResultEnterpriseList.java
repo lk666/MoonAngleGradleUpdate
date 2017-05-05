@@ -14,16 +14,12 @@ public class ResultEnterpriseList extends ResultBase {
     public List<EnterpriseOrderListBean> enterpriseOrderList;
     public long timestamp;
 
-    public static class EnterpriseOrderListBean {
+    public static class EnterpriseOrderListBean extends EnterpriseOrderListBeanBase {
 
         public int actualCount;
-        public String branchCode;
-        public String branchName;
-        public String collectBrcode;
         public long createTime;
         public String employeeCode;
         public String employeeName;
-        public String outerCode;
         public int payTotal;
         public String state;
         public String stateName;

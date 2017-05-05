@@ -1,14 +1,10 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ObjectAnimator;
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -16,21 +12,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import cn.com.bluemoon.delivery.AppContext;
+import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.card.ResultWorkPlaceList;
-import cn.com.bluemoon.delivery.app.api.model.card.Workplace;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.BranchBean;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.Employee;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.EnterpriseOrderListBeanBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseQuery;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.card.CardUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
@@ -43,18 +38,18 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
     @Bind(R.id.search_view)
     CommonSearchView searchView;
-    @Bind(R.id.listView_history)
-    PullToRefreshListView listViewHistory;
-    @Bind(R.id.listview_workplace)
-    PullToRefreshListView listviewWorkplace;
-    private GetWordPlaceAdapter getWordPlaceAdapter;
-    private GetHistoryAdapter getHistoryAdapter;
-    private long timestamp = 0;
-    private boolean isPullUp;
-    private boolean isPullDown;
-    private List<Workplace> items;
-    private List<Workplace> listHistory;
-    private final static int HISTORY_SIZE = 5;
+    @Bind(R.id.layout_init)
+    LinearLayout layoutInit;
+    @Bind(R.id.layout_title)
+    LinearLayout layoutTitle;
+    @Bind(R.id.txt_title)
+    TextView txtTitle;
+    @Bind(R.id.lv_query)
+    ListView lvQuery;
+    @Bind(R.id.layout_scan)
+    LinearLayout layoutScan;
+    private ItemAdapter adapter;
+    private List<BranchBean> items = new ArrayList<>();
 
     @Override
     protected int getLayoutId() {
@@ -68,6 +63,9 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
     @Override
     public void initView() {
+        adapter = new ItemAdapter(this, this);
+        adapter.setList(items);
+        lvQuery.setAdapter(adapter);
         searchView.setSearchViewListener(new CommonSearchView.SearchViewListener() {
             @Override
             public void onSearch(CommonSearchView view, String str) {
@@ -79,25 +77,12 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
             }
         });
-        PublicUtil.setEmptyView(listViewHistory, getString(R.string.card_search_history),null);
-        PublicUtil.setEmptyView(listviewWorkplace, null, new CommonEmptyView.EmptyListener() {
+        ViewUtil.setViewVisibility(layoutInit, View.VISIBLE);
+        ViewUtil.setViewVisibility(lvQuery, View.GONE);
+        PublicUtil.setEmptyView(lvQuery, null, new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
-                getList();
-            }
-        });
-        listviewWorkplace.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
-            @Override
-            public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
-                isPullDown = true;
-                isPullUp = false;
-                getList();
-            }
-
-            @Override
-            public void onPullUpToRefresh(PullToRefreshBase<ListView> refreshView) {
-                isPullDown = false;
-                isPullUp = true;
+                showWaitDialog();
                 getList();
             }
         });
@@ -105,209 +90,105 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
     @Override
     public void initData() {
-        showHistory();
+    }
+
+    @OnClick({R.id.layout_scan})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.layout_scan:
+                //EnterpriseScanInputActivity.actStart();
+                break;
+        }
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        ResultWorkPlaceList resultWorkPlaceList = (ResultWorkPlaceList) result;
-        listviewWorkplace.onRefreshComplete();
-        if (resultWorkPlaceList.getTimestamp() != 0) {
-            timestamp = resultWorkPlaceList.getTimestamp();
-        }
-        ViewUtil.setViewVisibility(listViewHistory, View.GONE);
-        ViewUtil.setViewVisibility(listviewWorkplace, View.VISIBLE);
-        setData(resultWorkPlaceList.getWorkplaceList());
+        ResultGetWashEnterpriseQuery queryResult = (ResultGetWashEnterpriseQuery) result;
+        ViewUtil.setViewVisibility(layoutInit, View.GONE);
+        ViewUtil.setViewVisibility(lvQuery, View.VISIBLE);
+        setData(queryResult);
 
     }
 
-    @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        listviewWorkplace.onRefreshComplete();
-    }
-
-    @Override
-    public void onSuccessException(int requestCode, Throwable t) {
-        super.onSuccessException(requestCode, t);
-        listviewWorkplace.onRefreshComplete();
-    }
-
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
-        listviewWorkplace.onRefreshComplete();
-    }
-
-    private void showHistory() {
-        if (getHistoryAdapter == null) {
-            getHistoryAdapter = new GetHistoryAdapter(this, null);
-        }
-        if (listHistory == null) {
-            listHistory = ClientStateManager.getCardSearchHistory();
-        }
-        getHistoryAdapter.setList(listHistory);
-        listViewHistory.setAdapter(getHistoryAdapter);
-    }
 
     private void getList() {
-        if (!isPullUp) {
-            timestamp = 0;
-        }
-        if (!isPullUp && !isPullDown) {
-            showWaitDialog();
-        }
-        DeliveryApi.getWorkplaceList(getToken(), searchView.getText(),
-                AppContext.PAGE_SIZE * 2, timestamp, getNewHandler(0, ResultWorkPlaceList.class));
+        EnterpriseApi.getWashEnterpriseQuery(searchView.getText(), getToken(), getNewHandler(0, ResultGetWashEnterpriseQuery.class));
     }
 
-    private void setData(List<Workplace> workplaces) {
-        if (items == null) {
-            items = new ArrayList<>();
-        }
-        if (workplaces == null || workplaces.size() == 0) {
-            if (isPullUp) {
-                PublicUtil.showToast(R.string.card_no_list_data);
-                return;
-            } else {
-                items.clear();
+    private void setData(ResultGetWashEnterpriseQuery queryResult) {
+        List<BranchBean> branchList = new ArrayList<>();
+        if (queryResult.employeeList != null && queryResult.employeeList.size() > 0) {
+            layoutTitle.setVisibility(View.VISIBLE);
+            txtTitle.setText(R.string.txt_employee_info);
+            for (Employee bean : queryResult.employeeList) {
+                branchList.add(bean);
             }
+        } else if (queryResult.enterpriseOrderList != null && queryResult.enterpriseOrderList.size() > 0) {
+            layoutTitle.setVisibility(View.VISIBLE);
+            txtTitle.setText(R.string.txt_order_info);
+            for (EnterpriseOrderListBeanBase bean : queryResult.enterpriseOrderList) {
+                branchList.add(bean);
+            }
+        }
+        items.clear();
+        if (branchList.size() > 0) {
+            items.addAll(branchList);
         } else {
-            List<Workplace> list = new ArrayList<>();
-            for (int i = 0; i < workplaces.size(); i++) {
-                list.add(workplaces.get(i));
-            }
-            if (isPullUp) {
-                items.addAll(list);
-            } else {
-                items = list;
-            }
+            layoutTitle.setVisibility(View.GONE);
         }
-        if (getWordPlaceAdapter == null) {
-            getWordPlaceAdapter = new GetWordPlaceAdapter(this, this);
-        }
-        getWordPlaceAdapter.setList(items);
-        if (isPullUp) {
-            getWordPlaceAdapter.notifyDataSetChanged();
-        } else {
-            listviewWorkplace.setAdapter(getWordPlaceAdapter);
-        }
+        adapter.notifyDataSetChanged();
     }
 
-    private void refreshHistoryItem(Workplace workplace, boolean isAdd) {
-        if (workplace == null || TextUtils.isEmpty(workplace.getWorkplaceCode())) {
-            return;
-        }
-        if (listHistory == null) {
-            listHistory = ClientStateManager.getCardSearchHistory();
-        }
-        if (isAdd) {
-            for (int i = 0; i < listHistory.size(); i++) {
-                if (i >= HISTORY_SIZE - 1) {
-                    listHistory.remove(i);
-                    i--;
-                } else {
-                    if (listHistory.get(i).getWorkplaceCode().equals(workplace.getWorkplaceCode())) {
-                        listHistory.remove(i);
-                        i--;
-                    }
-                }
-            }
-            listHistory.add(0, workplace);
-        } else {
-            listHistory.remove(workplace);
-        }
-        ClientStateManager.setCardSearhHistory(listHistory);
-    }
-
-    private void returnOK(Workplace workplace) {
-        Intent intent = new Intent();
-        intent.putExtra("code", workplace.getWorkplaceCode());
-        setResult(RESULT_OK, intent);
-        finish();
-    }
-
-    class GetHistoryAdapter extends BaseListAdapter<Workplace> {
+    class ItemAdapter extends BaseListAdapter<BranchBean> {
 
 
-        public GetHistoryAdapter(Context context, OnListItemClickListener listener) {
+        public ItemAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
         }
 
         @Override
         protected int getLayoutId() {
-            return R.layout.item_workplace_history_list;
-        }
-
-        @Override
-        protected void setView(final int position, final View convertView, ViewGroup parent, boolean isNew) {
-            final Workplace workplace = list.get(position);
-            TextView txtCode = getViewById(R.id.txt_code);
-            ImageView imgDelete = getViewById(R.id.img_delete);
-            TextView txtName = getViewById(R.id.txt_name);
-            txtCode.setText(workplace.getWorkplaceCode());
-            txtName.setText(workplace.getWorkplaceName());
-            if (isNew) {
-                imgDelete.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        refreshHistoryItem(list.get(position), false);
-                        ViewUtil.hideIM(v);
-                        int x = AppContext.getInstance().getDisplayWidth();
-                        ObjectAnimator animator = ObjectAnimator.ofFloat(convertView, "translationX", 0.0f,-x);
-                        animator.start();
-                        animator.addListener(new AnimatorListenerAdapter() {
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                super.onAnimationEnd(animation);
-                                ObjectAnimator animator = ObjectAnimator.ofFloat(convertView, "translationX", 0.0f);
-                                animator.setDuration(10);
-                                animator.start();
-                                notifyDataSetChanged();
-                            }
-                        });
-                    }
-                });
-                convertView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        returnOK(workplace);
-                    }
-                });
-            }
-
-        }
-    }
-
-    class GetWordPlaceAdapter extends BaseListAdapter<Workplace> {
-
-
-        public GetWordPlaceAdapter(Context context, OnListItemClickListener listener) {
-            super(context, listener);
-        }
-
-        @Override
-        protected int getLayoutId() {
-            return R.layout.item_workplace_list;
+            return R.layout.item_employee;
         }
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            final Workplace workplace = list.get(position);
-            TextView txtCode = getViewById(R.id.txt_code);
+            Object branchBean = getItem(position);
+            View view = getViewById(R.id.view);
+            TextView txtPhone = getViewById(R.id.txt_phone);
             TextView txtName = getViewById(R.id.txt_name);
+            TextView txtCode = getViewById(R.id.txt_code);
             TextView txtAddress = getViewById(R.id.txt_address);
-            txtCode.setText(workplace.getWorkplaceCode());
-            txtName.setText(workplace.getWorkplaceName());
-            txtAddress.setText(CardUtils.getWorkPlaceAddress(workplace));
-            setClickEvent(isNew, position, convertView);
+            if (branchBean instanceof Employee) {
+                view.setVisibility(View.GONE);
+                txtPhone.setVisibility(View.VISIBLE);
+                Employee bean = (Employee)branchBean;
+                txtName.setText(bean.employeeName);
+                txtCode.setText(bean.employeeCode);
+                txtPhone.setText(bean.employeePhone);
+                txtAddress.setText(bean.branchName);
+            } else {
+                EnterpriseOrderListBeanBase bean = (EnterpriseOrderListBeanBase)branchBean;
+                view.setVisibility(View.VISIBLE);
+                txtPhone.setVisibility(View.GONE);
+                txtName.setText(bean.outerCode);
+                txtCode.setText(bean.collectBrcode);
+                txtAddress.setText(bean.branchName);
+            }
+            setClickEvent(true, position, convertView);
         }
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        Workplace workplace = (Workplace) item;
-        refreshHistoryItem(workplace, true);
-        returnOK(workplace);
+        //TODO
+        if (item instanceof Employee) {
+            Employee employee = (Employee)item;
+            toast("employee--> employeeCode=" + employee.employeeCode);
+        } else {
+            EnterpriseOrderListBeanBase order = (EnterpriseOrderListBeanBase)item;
+            toast("order--> outerCode=" + order.outerCode);
+        }
+
     }
 }

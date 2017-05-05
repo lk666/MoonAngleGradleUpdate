@@ -10,17 +10,9 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 public class ResultEnterpriseDetail extends ResultBase {
 
-    public EmployeeInfoBean employeeInfo;
+    public Employee employeeInfo;
     public EnterpriseOrderInfoBean enterpriseOrderInfo;
 
-    public static class EmployeeInfoBean {
-        public String branchCode;
-        public String branchName;
-        public String employeeCode;
-        public String employeeExtension;
-        public String employeeName;
-        public String employeePhone;
-    }
 
     public static class EnterpriseOrderInfoBean {
 
