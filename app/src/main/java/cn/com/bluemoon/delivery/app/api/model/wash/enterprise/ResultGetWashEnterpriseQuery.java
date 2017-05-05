@@ -11,9 +11,9 @@ public class ResultGetWashEnterpriseQuery extends ResultBase {
     /**
      * 员工信息
      */
-    public List<EmployeeListBean> employeeList;
+    public List<Employee> employeeList;
     /**
      * 订单信息
      */
-    public List<EnterpriseOrderListBean> enterpriseOrderList;
+    public List<EnterpriseOrderListBeanBase> enterpriseOrderList;
 }

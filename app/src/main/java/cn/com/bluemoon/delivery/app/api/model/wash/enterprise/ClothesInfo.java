@@ -1,10 +1,12 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.enterprise;
 
+import java.io.Serializable;
+
 /**
  * Created by tangqiwei on 2017/5/5.
  */
 
-public class ClothesInfo {
+public class ClothesInfo implements Serializable {
 //    clothesId	衣物id	string	@mock=@id
     public String clothesId;
 //    imgPath	商品图片地址	string	@mock=/images/icon/logo-white@3x.png

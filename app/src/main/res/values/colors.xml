@@ -50,6 +50,8 @@
     <color name="btn_red_disable">#ffdad1</color><!-- 不可点击红色 -->
 
     <color name="btn_blue">#1fb8ff</color><!-- 蓝色 -->
+    <color name="btn_blue_20">#331fb8ff</color><!-- 蓝色 20%-->
+    <color name="btn_blue_35">#591fb8ff</color><!-- 蓝色 35%-->
     <color name="btn_blue_pressed">#1ca6e5</color><!-- 点击蓝色 -->
     <color name="btn_blue_disable">#bce1f3</color><!-- 不可点击蓝色 -->
 
