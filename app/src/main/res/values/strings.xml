@@ -1439,4 +1439,16 @@
     <string name="scan_qrcode_content">请将员工/收衣袋二维码置于取景框内</string>
     <string name="hand_query">手 动 搜 索</string>
     <string name="btn_reset_space">重 置</string>
+
+    <!--企业收衣-->
+    <string name="title_create_order">创建订单</string>
+    <string name="employee_extension">分机电话</string>
+    <string name="hint_employee_extension">请输入分机电话</string>
+    <string name="txt_add_clothes">添 加 衣 物</string>
+    <string name="return_address">还衣地点</string>
+    <string name="hint_return_address">请选择还衣地点</string>
+    <string name="hint_collect_brcode">请扫描或输入收衣袋编号</string>
+    <string name="hint_backup">请输入备注，60字以内</string>
+    <string name="txt_balance">账户余额</string>
+    <string name="txt_point">剩余点值</string>
 </resources>

@@ -2,341 +2,222 @@ package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.drawable.Drawable;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.AppointmentApi;
+import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ClothesInfo;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.LaundryLog;
-import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentCollectDetail;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.Employee;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothesDetailActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothesInfoAdapter;
-import cn.com.bluemoon.delivery.module.wash.collect.DeliverLogAdapter;
-import cn.com.bluemoon.delivery.ui.NoScrollListView;
-import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * 创建订单页面
  */
-public class CreateOrderActivity extends BaseActivity implements OnListItemClickListener {
+public class CreateOrderActivity extends BaseActivity {
 
-    private static final int REQUEST_CODE_GET_DATA = 0x777;
-    /**
-     * 洗衣中心名称，状态
-     */
-    @Bind(R.id.txt_log)
-    TextView txtLog;
-    /**
-     * 日期
-     */
-    @Bind(R.id.txt_time)
-    TextView txtTime;
-    /**
-     * 洗衣中心名称，状态/n日期 收起、展开
-     */
-    @Bind(R.id.txt_log_open)
-    TextView txtLogOpen;
-    /**
-     * 动作历史layout
-     */
-    @Bind(R.id.layout_logs)
-    LinearLayout layoutLogs;
-    /**
-     * 动作历史layout分割线
-     */
-    @Bind(R.id.line_logs)
-    View lineLogs;
-    /**
-     * 动作历史列表
-     */
-    @Bind(R.id.list_view_log)
-    NoScrollListView listViewLog;
-    /**
-     * 洗衣订单号
-     */
-    @Bind(R.id.txt_outer_code)
-    TextView txtOuterCode;
-    /**
-     * 洗衣订单详情分割线
-     */
-    @Bind(R.id.div_outer_code)
-    View divOuterCode;
-    /**
-     * 洗衣订单详情layout
-     */
-    @Bind(R.id.ll_outer_detail)
-    LinearLayout llOuterDetail;
-    /**
-     * 洗衣订单标题
-     */
-    @Bind(R.id.ll_outer_code)
-    LinearLayout llOuterCode;
-    /**
-     * 洗衣订单号 收起、展开
-     */
-    @Bind(R.id.txt_type_open)
-    TextView txtOuterOpen;
-    /**
-     * 预约单号
-     */
-    @Bind(R.id.tv_appointment_code)
-    TextView tvAppointmentCode;
-    /**
-     * 消费者姓名
-     */
-    @Bind(R.id.txt_username)
-    TextView txtUsername;
-    /**
-     * 消费者电话
-     */
-    @Bind(R.id.txt_user_phone)
-    TextView txtUserPhone;
-    /**
-     * 消费者地址
-     */
-    @Bind(R.id.txt_address)
-    TextView txtAddress;
-    /**
-     * 收衣单号
-     */
-    @Bind(R.id.txt_collect_code)
-    TextView txtCollectCode;
-    /**
-     * 收衣列表分割线
-     */
-    @Bind(R.id.div_listview_info)
-    View divListviewInfo;
-    /**
-     * 收衣列表
-     */
-    @Bind(R.id.listview_info)
-    NoScrollListView listviewInfo;
-    /**
-     * 实收数量
-     */
-    @Bind(R.id.tv_actual_sum)
-    TextView tvActualSum;
-    /**
-     * 订单总价
-     */
-    @Bind(R.id.tv_fee_total)
-    TextView tvFeeTotal;
+    private static final String EXTRA_INFO = "EXTRA_INFO";
+    private static final String EXTRA_EMPLOYEE = "EXTRA_EMPLOYEE";
+    private static final int REQUEST_CODE_SCAN = 0x777;
+    @Bind(R.id.tv_employee_name)
+    TextView tvEmployeeName;
+    @Bind(R.id.tv_employee_phone)
+    TextView tvEmployeePhone;
+    @Bind(R.id.et_employee_extension)
+    EditText etEmployeeExtension;
+    @Bind(R.id.tv_return_address)
+    TextView tvReturnAddress;
+    @Bind(R.id.ll_branch_code)
+    LinearLayout llBranchCode;
+    @Bind(R.id.tv_collect_brcode)
+    TextView tvCollectBrcode;
+    @Bind(R.id.ll_collect_brcode)
+    LinearLayout llCollectBrcode;
+    @Bind(R.id.et_backup)
+    EditText etBackup;
+    @Bind(R.id.tv_balance)
+    TextView tvBalance;
+    @Bind(R.id.tv_point)
+    TextView tvPoint;
+    @Bind(R.id.btn_add_cloth)
+    Button btnAddCloth;
 
-    @Bind(R.id.sc_main)
-    ScrollView scMain;
-    private String collectCode;
+    private ResultGetWashEnterpriseScan info;
+    private Employee employee;
 
-    private List<ClothesInfo> clothes;
-    private DeliverLogAdapter deliveryAdapter;
-    private ClothesInfoAdapter clothingInfoAdapter;
-
-    public static void actionStart(Context context, String collectCode) {
+    /**
+     * 扫一扫入口
+     */
+    public static void actionStart(Context context, ResultGetWashEnterpriseScan info) {
         Intent intent = new Intent(context, CreateOrderActivity.class);
-        intent.putExtra("collectCode", collectCode);
+        intent.putExtra(EXTRA_INFO, info);
+        context.startActivity(intent);
+    }
+
+    /**
+     * 手动搜索入口
+     */
+    public static void actionStart(Context context, Employee employee) {
+        Intent intent = new Intent(context, CreateOrderActivity.class);
+        intent.putExtra(EXTRA_EMPLOYEE, employee);
         context.startActivity(intent);
     }
 
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
-        collectCode = getIntent().getStringExtra("collectCode");
+        info = (ResultGetWashEnterpriseScan) getIntent().getSerializableExtra(EXTRA_INFO);
+        employee = (Employee) getIntent().getSerializableExtra(EXTRA_EMPLOYEE);
     }
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.clothing_record_detail);
+        return getString(R.string.title_create_order);
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar titleBar) {
+        super.setActionBar(titleBar);
+        titleBar.getTvRightView().setVisibility(View.VISIBLE);
+        titleBar.getTvRightView().setText(R.string.btn_save);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        // TODO: lk 2017/5/5
+        toast("保存");
     }
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_appointment_details;
+        return R.layout.activity_create_order;
     }
 
     @Override
     public void initView() {
-        clothes = new ArrayList<>();
+        tvCollectBrcode.setText("");
 
-        deliveryAdapter = new DeliverLogAdapter(this, this);
-        clothingInfoAdapter = new ClothesInfoAdapter(this, this);
+        etBackup.setText("");
+        etBackup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-        clothingInfoAdapter.setList(clothes);
+            }
 
-        listViewLog.setAdapter(deliveryAdapter);
-        listviewInfo.setAdapter(clothingInfoAdapter);
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
 
-        closeLog();
-        closeOuter();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (etBackup.getLineCount() > 1) {
+                    etBackup.setGravity(Gravity.START);
+                } else {
+                    etBackup.setGravity(Gravity.END);
+                }
+            }
+        });
+
+        if (info != null) {
+            setData(info);
+        } else if (employee != null) {
+            setData(employee);
+        }
+    }
+
+    private String branchCode;
+
+    private void setData(Employee employee) {
+        if (employee == null) {
+            return;
+        }
+        tvEmployeeName.setText(employee.employeeName);
+        tvEmployeePhone.setText(employee.employeePhone);
+        etEmployeeExtension.setText(employee.employeeExtension);
+        tvReturnAddress.setText(employee.branchName);
+        branchCode = employee.branchCode;
+    }
+
+    private void setData(ResultGetWashEnterpriseScan info) {
+        if (info == null || info.amountInfo == null || info.employeeInfo == null) {
+            return;
+        }
+        tvEmployeeName.setText(info.employeeInfo.employeeName);
+        tvEmployeePhone.setText(info.employeeInfo.employeePhone);
+
+        etEmployeeExtension.setText(info.employeeInfo.employeeExtension);
+
+        tvReturnAddress.setText(info.employeeInfo.branchName);
+        branchCode = info.employeeInfo.branchCode;
+
+        tvBalance.setText(getString(R.string.order_money,
+                StringUtil.formatPriceByFen(info.amountInfo.accountBalance)));
+
+        tvPoint.setText(String.valueOf(info.amountInfo.integralBalance));
     }
 
     @Override
     public void initData() {
-        showWaitDialog();
-        AppointmentApi.appointmentCollectDetail(collectCode, getToken(),
-                getNewHandler(REQUEST_CODE_GET_DATA, ResultAppointmentCollectDetail.class));
+        // 手动搜索入口进来的要再调用一下扫一扫
+        if (info == null && employee != null) {
+            showWaitDialog();
+            EnterpriseApi.getWashEnterpriseScan(employee.employeeCode, getToken(),
+                    getNewHandler(REQUEST_CODE_SCAN, ResultGetWashEnterpriseScan.class));
+        }
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
-            case REQUEST_CODE_GET_DATA:
-                ResultAppointmentCollectDetail resultObj = (ResultAppointmentCollectDetail) result;
-                setData(resultObj);
+            // 手动搜索入口进来的,再调用一下扫一扫返回
+            case REQUEST_CODE_SCAN:
+                setData((ResultGetWashEnterpriseScan) result);
                 break;
         }
     }
 
-    private void setData(ResultAppointmentCollectDetail resultObj) {
-        // 历史
-        txtLogOpen.setVisibility(View.GONE);
-        layoutLogs.setEnabled(false);
-        closeLog();
-        if (null != resultObj.getLaundryLog()) {
-            List<LaundryLog> logs = resultObj.getLaundryLog();
-            if (logs.size() > 0) {
-                txtLog.setText(String.format("%s，%s，%s", logs.get(0).getNodeName(),
-                        logs.get(0).getPhone(), logs.get(0).getAction())
-                );
-                txtTime.setText(DateUtil.getTime(logs.get(0).getOpTime(), "yyyy-MM-dd HH:mm"));
-            }
-            if (logs.size() > 1) {
-                logs.remove(0);
-                txtLogOpen.setVisibility(View.VISIBLE);
-                layoutLogs.setEnabled(true);
-                deliveryAdapter.setList(logs);
-                deliveryAdapter.notifyDataSetChanged();
-            }
-
-        }
-
-        // 洗衣订单
-        txtOuterCode.setText(getString(R.string.outer_code, resultObj.getOuterCode()));
-        tvAppointmentCode.setText(getString(R.string.appointment_code,
-                resultObj.getAppointmentCode()));
-        txtUsername.setText(resultObj.getCustomerName());
-        txtUserPhone.setText(resultObj.getCustomerPhone());
-        txtAddress.setText(String.format("%s%s%s%s%s%s", resultObj.getProvince(),
-                resultObj.getCity(),
-                resultObj.getCounty(),
-                resultObj.getVillage(),
-                resultObj.getStreet(),
-                resultObj.getAddress()));
-
-        //收衣单
-        txtCollectCode.setText(getString(R.string.with_order_collect_collect_number_text_num,
-                resultObj.getCollectCode()));
-        tvActualSum.setText(getString(R.string.with_order_collect_order_receive_count_num,
-                resultObj.getReceivableTotal() + ""));
-        tvFeeTotal.setText(getString(R.string.pay_total,
-                StringUtil.formatPriceByFen(resultObj.getPayTotal())));
-
-        clothes.clear();
-        if (null != resultObj.getCollectOrderDetail()
-                && resultObj.getCollectOrderDetail().size() > 0) {
-            clothes.addAll(resultObj.getCollectOrderDetail());
-            clothingInfoAdapter.notifyDataSetChanged();
-            divListviewInfo.setVisibility(View.VISIBLE);
-            listviewInfo.setVisibility(View.VISIBLE);
-        } else {
-            divListviewInfo.setVisibility(View.GONE);
-            listviewInfo.setVisibility(View.GONE);
-        }
-
-        scMain.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                scMain.scrollTo(0, 0);
-            }
-        }, 100);
-    }
-
-    private void openLog() {
-        lineLogs.setVisibility(View.VISIBLE);
-        if (deliveryAdapter.getCount() < 1) {
-            listViewLog.setVisibility(View.GONE);
-        } else {
-            listViewLog.setVisibility(View.VISIBLE);
-        }
-        txtLogOpen.setText(getString(R.string.txt_close));
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
-        assert drawable != null;
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
-                .getMinimumHeight());
-        txtLogOpen.setCompoundDrawables(null, null, drawable, null);
-    }
-
-    private void closeLog() {
-        lineLogs.setVisibility(View.GONE);
-        listViewLog.setVisibility(View.GONE);
-        txtLogOpen.setText(getString(R.string.txt_open));
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_down);
-        assert drawable != null;
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
-                .getMinimumHeight());
-        txtLogOpen.setCompoundDrawables(null, null, drawable, null);
-    }
-
-    private void openOuter() {
-        divOuterCode.setVisibility(View.VISIBLE);
-        llOuterDetail.setVisibility(View.VISIBLE);
-        txtOuterOpen.setText(getString(R.string.txt_close));
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_up);
-        assert drawable != null;
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
-                .getMinimumHeight());
-        txtOuterOpen.setCompoundDrawables(null, null, drawable, null);
-    }
-
-    private void closeOuter() {
-        divOuterCode.setVisibility(View.GONE);
-        llOuterDetail.setVisibility(View.GONE);
-        txtOuterOpen.setText(getString(R.string.txt_open));
-        Drawable drawable = getResources().getDrawable(R.mipmap.ic_down);
-        assert drawable != null;
-        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable
-                .getMinimumHeight());
-        txtOuterOpen.setCompoundDrawables(null, null, drawable, null);
-    }
-
-    @OnClick({R.id.layout_logs, R.id.ll_outer_code})
-    public void onClick(View view) {
+    // TODO: lk 2017/5/5
+    @OnClick({R.id.ll_branch_code, R.id.ll_collect_brcode, R.id.btn_add_cloth})
+    public void onViewClicked(View view) {
         switch (view.getId()) {
-            // 收起展开历史
-            case R.id.layout_logs:
-                if (lineLogs.getVisibility() == View.GONE) {
-                    openLog();
-                } else {
-                    closeLog();
-                }
+            // 还衣地点
+            case R.id.ll_branch_code:
+                //                new SingleOptionSelectDialog(this, "",
+                //                        list, index, new SingleOptionSelectDialog
+                // .OnButtonClickListener() {
+                //                    @Override
+                //                    public void onOKButtonClick(int index, String text) {
+                //                        txtRegion.setText(text);
+                //                    }
+                //
+                //                    @Override
+                //                    public void onCancleButtonClick() {
+                //
+                //                    }
+                //                }).show();
+                toast("分支机构：" + info.branchList.size());
                 break;
-            // 收起洗衣订单
-            case R.id.ll_outer_code:
-                if (divOuterCode.getVisibility() == View.GONE) {
-                    openOuter();
-                } else {
-                    closeOuter();
-                }
+            // 收衣袋
+            case R.id.ll_collect_brcode:
+                toast("收衣袋");
+                break;
+            case R.id.btn_add_cloth:
+                toast("添加衣物");
                 break;
         }
     }
 
-    @Override
-    public void onItemClick(Object item, View view, int position) {
-        if (item instanceof ClothesInfo) {
-            ClothesInfo info = (ClothesInfo) item;
-            ClothesDetailActivity.actionStart(this, info.getClothesCode());
-        }
-    }
+
 }

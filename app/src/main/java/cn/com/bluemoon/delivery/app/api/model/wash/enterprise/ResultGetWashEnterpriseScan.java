@@ -50,7 +50,7 @@ public class ResultGetWashEnterpriseScan extends ResultBase {
         public List<ClothesInfo> clothesDetails;
     }
 
-    public static class BranchListBean {
+    public static class BranchListBean implements Serializable {
         /**
          * 机构编码
          */
