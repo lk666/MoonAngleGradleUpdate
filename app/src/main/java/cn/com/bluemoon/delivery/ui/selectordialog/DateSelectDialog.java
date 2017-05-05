@@ -18,7 +18,7 @@ import cn.com.bluemoon.delivery.R;
  * Created by lk on 2016/9/4.
  */
 public class DateSelectDialog extends Dialog {
-    @Bind(R.id.btn_cancle)
+    @Bind(R.id.btn_cancel)
     View btnCancle;
     @Bind(R.id.tv_title)
     TextView tvTitle;
@@ -104,11 +104,11 @@ public class DateSelectDialog extends Dialog {
         initSelectView();
     }
 
-    @OnClick({R.id.btn_cancle, R.id.btn_ok, R.id.rl_main})
+    @OnClick({R.id.btn_cancel, R.id.btn_ok, R.id.rl_main})
     public void onClick(View view) {
         switch (view.getId()) {
             // 取消
-            case R.id.btn_cancle:
+            case R.id.btn_cancel:
                 if (listener != null) {
                     dismiss();
                     listener.onCancleButtonClick();

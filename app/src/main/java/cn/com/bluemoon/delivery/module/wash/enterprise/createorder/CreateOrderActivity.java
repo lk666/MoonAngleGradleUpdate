@@ -11,6 +11,8 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -20,6 +22,8 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.Employee;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
+import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
@@ -183,9 +187,48 @@ public class CreateOrderActivity extends BaseActivity {
         switch (requestCode) {
             // 手动搜索入口进来的,再调用一下扫一扫返回
             case REQUEST_CODE_SCAN:
-                setData((ResultGetWashEnterpriseScan) result);
+                info = (ResultGetWashEnterpriseScan) result;
+                setData(info);
                 break;
         }
+    }
+
+    private TextSingleOptionSelectDialog dialog;
+
+    /**
+     * 选择还衣地址
+     */
+    private void showSelectReturn() {
+        if (info == null || info.branchList == null) {
+            return;
+        }
+        if (dialog == null) {
+            ArrayList<String> list = new ArrayList<>();
+            int index = 0;
+            int size = info.branchList.size();
+            for (int i = 0; i < size; i++) {
+                ResultGetWashEnterpriseScan.BranchListBean branch = info.branchList.get(i);
+                list.add(branch.branchName);
+                if (branch.branchCode.equals(branchCode)) {
+                    index = i;
+                }
+            }
+
+            dialog = new TextSingleOptionSelectDialog(this, "",
+                    list, index, new SingleOptionSelectDialog.OnButtonClickListener() {
+                @Override
+                public void onOKButtonClick(int index, String text) {
+                    tvReturnAddress.setText(text);
+                    branchCode = info.branchList.get(index).branchCode;
+                }
+
+                @Override
+                public void onCancelButtonClick() {
+
+                }
+            });
+        }
+        dialog.show();
     }
 
     // TODO: lk 2017/5/5
@@ -194,20 +237,7 @@ public class CreateOrderActivity extends BaseActivity {
         switch (view.getId()) {
             // 还衣地点
             case R.id.ll_branch_code:
-                //                new SingleOptionSelectDialog(this, "",
-                //                        list, index, new SingleOptionSelectDialog
-                // .OnButtonClickListener() {
-                //                    @Override
-                //                    public void onOKButtonClick(int index, String text) {
-                //                        txtRegion.setText(text);
-                //                    }
-                //
-                //                    @Override
-                //                    public void onCancleButtonClick() {
-                //
-                //                    }
-                //                }).show();
-                toast("分支机构：" + info.branchList.size());
+                showSelectReturn();
                 break;
             // 收衣袋
             case R.id.ll_collect_brcode:
