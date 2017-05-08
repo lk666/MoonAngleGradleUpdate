@@ -47,11 +47,12 @@
     <View style="@style/line_solid_padding_left_style" />
 
     <RelativeLayout
+        android:id="@+id/layout_detail"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_white">
 
         <LinearLayout
-            android:id="@+id/layout_right_action"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

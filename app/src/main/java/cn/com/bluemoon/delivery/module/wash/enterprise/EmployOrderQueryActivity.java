@@ -1,7 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise;
-
 import android.content.Context;
 import android.content.Intent;
+import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -23,17 +23,17 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnter
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonSearchView;
 
 public class EmployOrderQueryActivity extends BaseActivity implements OnListItemClickListener {
 
-    public static void startAct(Context context) {
-        Intent intent = new Intent(context, EmployOrderQueryActivity.class);
-        context.startActivity(intent);
+    public static void startAct(Fragment fragment, int requestCode) {
+        Intent intent = new Intent(fragment.getActivity(), EmployOrderQueryActivity.class);
+        fragment.startActivityForResult(intent, requestCode);
     }
 
     @Bind(R.id.search_view)
@@ -96,7 +96,8 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_scan:
-                //EnterpriseScanInputActivity.actStart();
+                setResult(1);
+                finish();
                 break;
         }
     }
@@ -181,14 +182,14 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-        //TODO
         if (item instanceof Employee) {
             Employee employee = (Employee)item;
-            toast("employee--> employeeCode=" + employee.employeeCode);
+            CreateOrderActivity.actionStart(this, employee);
         } else {
             EnterpriseOrderListBeanBase order = (EnterpriseOrderListBeanBase)item;
+            //TODO 跳到添加衣物
             toast("order--> outerCode=" + order.outerCode);
         }
-
+        finish();
     }
 }

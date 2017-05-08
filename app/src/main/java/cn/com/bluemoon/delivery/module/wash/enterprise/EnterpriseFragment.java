@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -12,7 +15,10 @@ import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList.EnterpriseOrderListBean;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
+import cn.com.bluemoon.delivery.module.event.EnterpriseListChangeEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -25,7 +31,7 @@ import cn.com.bluemoon.lib.utils.LibConstants;
 public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     private static final int REQUEST_CODE_CANCEL = 0x777;
-    private static final int REQUEST_CODE_CREATE_COLLECT = 0x77;
+    private static final int REQUEST_CODE_SCAN = 0x666;
     private int index;
     /**
      * 分页标识
@@ -100,7 +106,6 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
     }
 
 
-
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
@@ -111,20 +116,29 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
             if (getList().isEmpty()) {
                 initData();
             }
+        } else if (requestCode == REQUEST_CODE_SCAN) {
+            ResultGetWashEnterpriseScan resultGetWashEnterpriseScan = (ResultGetWashEnterpriseScan) result;
+            if (resultGetWashEnterpriseScan.enterpriseOrderInfo != null) {
+                //TODO 跳到添加衣物
+                CreateOrderActivity.actionStart(getActivity(), resultGetWashEnterpriseScan);
+            } else {
+                CreateOrderActivity.actionStart(getActivity(), resultGetWashEnterpriseScan);
+            }
         }
     }
 
     @Override
     public void onItemClick(Object obj, View view, int position) {
-        EnterpriseOrderListBean bean = (EnterpriseOrderListBean)obj;
+        EnterpriseOrderListBean bean = (EnterpriseOrderListBean) obj;
         index = position;
         switch (view.getId()) {
-            case R.id.layout_right_action :
+            case R.id.layout_detail:
                 EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
                 break;
-            case R.id.tv_cancel_order :
+            case R.id.tv_cancel_order:
                 showWaitDialog();
-                EnterpriseApi.cancelWashEnterpriseOrder(bean.outerCode, getToken(), getNewHandler(REQUEST_CODE_CANCEL, ResultBase.class));
+                EnterpriseApi.cancelWashEnterpriseOrder(bean.outerCode, getToken(),
+                        getNewHandler(REQUEST_CODE_CANCEL, ResultBase.class));
                 break;
         }
     }
@@ -134,8 +148,27 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 1 && data != null) {
-                toast(data.getStringExtra(LibConstants.SCAN_RESULT));
+                showWaitDialog();
+                String code = data.getStringExtra(LibConstants.SCAN_RESULT);
+                EnterpriseApi.getWashEnterpriseScan(code,
+                        getToken(), getNewHandler(REQUEST_CODE_SCAN, ResultGetWashEnterpriseScan.class));
+            }
+        } else if (resultCode == 1) {
+            if (requestCode == 1) {
+                EmployOrderQueryActivity.startAct(this, 2);
+            } else if (requestCode == 2) {
+                EnterpriseScanInputActivity.actStart(this, getString(R.string.hand_query_with_space), 1);
             }
         }
+    }
+
+    @Override
+    protected boolean isUseEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(EnterpriseListChangeEvent event) {
+        initData();
     }
 }

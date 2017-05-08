@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
@@ -13,6 +14,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 class ItemAdapter extends BaseListAdapter<EnterpriseOrderListBean> {
 
@@ -38,7 +40,7 @@ class ItemAdapter extends BaseListAdapter<EnterpriseOrderListBean> {
             TextView tvTime = getViewById(R.id.tv_time);
             TextView tvState = getViewById(R.id.tv_state);
             TextView tvEmployeeCode = getViewById(R.id.tv_employee_code);
-            LinearLayout layoutRightAction = getViewById(R.id.layout_right_action);
+            RelativeLayout layoutDetail = getViewById(R.id.layout_detail);
             TextView tvCustomerName = getViewById(R.id.tv_customer_name);
             TextView tvAddress = getViewById(R.id.tv_address);
             TextView tvAmount = getViewById(R.id.tv_amount);
@@ -57,13 +59,14 @@ class ItemAdapter extends BaseListAdapter<EnterpriseOrderListBean> {
             } else {
                 tvAddClothes.setVisibility(View.GONE);
             }
-            if (Constants.OUTER_CANCEL.equals(item.state)) {
-                tvCancelOrder.setVisibility(View.INVISIBLE);
-            } else {
+            if (Constants.OUTER_WAIT_PAY.equals(item.state)
+                    || Constants.OUTER_ACCEPT_CLOTHES.equals(item.state)) {
                 tvCancelOrder.setVisibility(View.VISIBLE);
+            } else {
+                tvCancelOrder.setVisibility(View.INVISIBLE);
             }
             tvAmount.setText(context.getString(R.string.enterprise_order_amount, item.actualCount));
-            tvPrice.setText(context.getString(R.string.order_money, PublicUtil.getPriceFrom(item.payTotal)));
-            setClickEvent(isNew, position, layoutRightAction, tvCancelOrder);
+            tvPrice.setText(context.getString(R.string.order_money, StringUtil.formatPriceByFen(item.payTotal)));
+            setClickEvent(isNew, position, layoutDetail, tvCancelOrder);
         }
     }

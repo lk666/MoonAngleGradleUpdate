@@ -15,7 +15,6 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseLi
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList.EnterpriseOrderListBean;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
-import cn.com.bluemoon.delivery.module.order.TimerFilterWindow;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -30,8 +29,8 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
     private long timestamp = 0;
     private long startTime = 0;
     private long endTime = 0;
-    private String branchCode = "";	//机构编码
-    private String enterpriseCode = "";	//企业编码
+    private String branchCode = "";    //机构编码
+    private String enterpriseCode = "";    //企业编码
     private String queryCode = "";
     private View viewPopStart;
     private TextView tvDate;
@@ -147,12 +146,18 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        EnterpriseApi.getWashEnterpriseRecordList(timestamp, new QueryInfo(startTime, endTime, enterpriseCode, branchCode, queryCode),
+        EnterpriseApi.getWashEnterpriseRecordList(timestamp,
+                new QueryInfo(startTime, endTime, enterpriseCode, branchCode, queryCode),
                 getNewHandler(requestCode, ResultEnterpriseList.class));
     }
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-
+        EnterpriseOrderListBean bean = (EnterpriseOrderListBean) item;
+        switch (view.getId()) {
+            case R.id.layout_detail:
+                EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
+                break;
+        }
     }
 }
