@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.enterprise;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -14,7 +15,7 @@ public class ResultEnterpriseDetail extends ResultBase {
     public EnterpriseOrderInfoBean enterpriseOrderInfo;
 
 
-    public static class EnterpriseOrderInfoBean {
+    public static class EnterpriseOrderInfoBean implements Serializable{
 
         public int actualCount;
         public long cancelTime;
@@ -30,7 +31,7 @@ public class ResultEnterpriseDetail extends ResultBase {
         public int sumAmount;
         public List<ClothesDetailsBean> clothesDetails;
 
-        public static class ClothesDetailsBean {
+        public static class ClothesDetailsBean implements Serializable{
 
             public String clothesId;
             public String imgPath;
