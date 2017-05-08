@@ -29,15 +29,6 @@ public class ResultEnterpriseDetail extends ResultBase {
         public String state;
         public String stateName;
         public int sumAmount;
-        public List<ClothesDetailsBean> clothesDetails;
-
-        public static class ClothesDetailsBean implements Serializable{
-
-            public String clothesId;
-            public String imgPath;
-            public int memberPrice;
-            public String washCode;
-            public String washName;
-        }
+        public List<ClothesInfo> clothesDetails;
     }
 }

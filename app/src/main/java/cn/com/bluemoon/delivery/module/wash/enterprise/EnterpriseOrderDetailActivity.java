@@ -18,10 +18,10 @@ import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.Employee;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseDetail;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseDetail.EnterpriseOrderInfoBean;
-import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseDetail.EnterpriseOrderInfoBean.ClothesDetailsBean;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -174,7 +174,7 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
 
     }
 
-    class ItemAdapter extends BaseListAdapter<ClothesDetailsBean> {
+    class ItemAdapter extends BaseListAdapter<ClothesInfo> {
 
         public ItemAdapter(Context context) {
             super(context, null);
