@@ -69,7 +69,8 @@ public class EnterpriseScanInputActivity extends BaseScanActivity{
 
     @OnClick(R.id.btn_input)
     public void onClick() {
-        EmployOrderQueryActivity.startAct(this);
+        setResult(1);
+        finish();
     }
 
 }

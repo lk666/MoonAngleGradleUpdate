@@ -1,14 +1,14 @@
 package cn.com.bluemoon.delivery;
 
 import android.annotation.TargetApi;
-import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
 import android.os.Build;
+import android.support.multidex.MultiDexApplication;
 
 
-public class BaseApplication extends Application {
+public class BaseApplication extends MultiDexApplication {
 
     private static String LAST_REFRESH_TIME = "last_refresh_time.pref";
     static Context _context;
