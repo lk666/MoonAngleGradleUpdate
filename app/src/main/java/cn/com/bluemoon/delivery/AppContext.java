@@ -139,6 +139,9 @@ public class AppContext extends BaseApplication {
         return ((WindowManager) getSystemService(WINDOW_SERVICE))
                 .getDefaultDisplay().getWidth();
     }
-
+    public int getDisplayHeight() {
+        return ((WindowManager) getSystemService(WINDOW_SERVICE))
+                .getDefaultDisplay().getHeight();
+    }
 }
   

@@ -1,6 +1,12 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
+import android.app.ActionBar;
+import android.content.Context;
+import android.content.Intent;
 import android.text.TextUtils;
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -13,12 +19,16 @@ import java.util.Map;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseDetail;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
+import cn.com.bluemoon.delivery.utils.DensityUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * 确认订单信息
@@ -43,22 +53,42 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     TextView txtCollectBag;
     @Bind(R.id.txt_collect_remark)
     TextView txtCollectRemark;
+    @Bind(R.id.llayout_screen_bottom)
+    LinearLayout layoutScreenBottom;
+    @Bind(R.id.llayout_scroll)
+    LinearLayout layoutScroll;
+    @Bind(R.id.llayout_order_details)
+    LinearLayout layoutOrderDetails;
 
-    private final static String PREFIX_NUMBER="x";
-    private final static String PREFIX_PRICE="¥";
+
+    private final static String PREFIX_NUMBER = "x";
+    private final static String PREFIX_PRICE = "¥";
 
     private List<Map<String, String>> list;
     private ResultEnterpriseDetail enterpriseDetail;
     private String outerCode;
+
+    private int layoutHeight;
 
     /**
      * 商品名称、商品数量、商品价格、衣物ID、商品编码
      */
     private String[] KEYS = new String[]{"name", "number", "price", "clothesId", "washCode"};
 
+    public static void actionStart(Context context, String outerCode) {
+        Intent intent = new Intent(context, EnterpriseConfirmOrderActivity.class);
+        intent.putExtra("outerCode", outerCode);
+        context.startActivity(intent);
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_confirm_order;
+    }
+
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.title_affirm_order_info);
     }
 
     @Override
@@ -70,26 +100,48 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     public void initData() {
         outerCode = getIntent().getStringExtra("outerCode");
         EnterpriseApi.getWashEnterpriseDetail(outerCode, getToken(), getNewHandler(1, ResultEnterpriseDetail.class));
+        ViewTreeObserver layoutVto = layoutOrderDetails.getViewTreeObserver();
+        layoutVto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                layoutOrderDetails.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                layoutHeight = layoutOrderDetails.getHeight();
+                setButtonLocation();
+            }
+        });
+    }
+
+    /**
+     * 设置按钮位置
+     */
+    private void setButtonLocation() {
+        if (layoutHeight > 0 ) {
+            if (AppContext.getInstance().getDisplayHeight() > layoutHeight  + DensityUtil.dip2px(this, 45+50)) {
+                layoutScreenBottom.setVisibility(View.VISIBLE);
+            }else{
+                layoutScroll.setVisibility(View.VISIBLE);
+            }
+        }
     }
 
     private void iniListDate(List<ResultEnterpriseDetail.EnterpriseOrderInfoBean.ClothesDetailsBean> clothesList) {
         list = new ArrayList<>();
         for (ResultEnterpriseDetail.EnterpriseOrderInfoBean.ClothesDetailsBean clothesDetailsBean : clothesList) {
-            boolean isNew=true;//默认是新的商品编码
+            boolean isNew = true;//默认是新的商品编码
             for (Map<String, String> stringMap : list) {
                 if (stringMap.get(KEYS[4]).equals(clothesDetailsBean.washCode)) {
                     stringMap.put(KEYS[1], String.valueOf(Integer.valueOf(stringMap.get(KEYS[1])) + 1));
-                    isNew=false;//发现已有商品，直接增加数量
+                    isNew = false;//发现已有商品，直接增加数量
                     break;
                 }
             }
-            if(isNew){
+            if (isNew) {
                 Map<String, String> m = new HashMap<>();
-                m.put(KEYS[0],clothesDetailsBean.washName);
-                m.put(KEYS[1],"1");
-                m.put(KEYS[2],String.valueOf(clothesDetailsBean.memberPrice));
-                m.put(KEYS[3],clothesDetailsBean.clothesId);
-                m.put(KEYS[4],clothesDetailsBean.washCode);
+                m.put(KEYS[0], clothesDetailsBean.washName);
+                m.put(KEYS[1], "1");
+                m.put(KEYS[2], String.valueOf(clothesDetailsBean.memberPrice));
+                m.put(KEYS[3], clothesDetailsBean.clothesId);
+                m.put(KEYS[4], clothesDetailsBean.washCode);
                 list.add(m);
             }
         }
@@ -107,10 +159,13 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
         iniListDate(enterpriseDetail.enterpriseOrderInfo.clothesDetails);
         for (Map<String, String> stringMap : list) {//增加前缀
-            stringMap.put(KEYS[1],new StringBuffer().append(PREFIX_NUMBER).append(stringMap.get(KEYS[1])).toString());
-            stringMap.put(KEYS[2],new StringBuffer().append(PREFIX_PRICE).append(stringMap.get(KEYS[2])).toString());
+            stringMap.put(KEYS[1], new StringBuffer().append(PREFIX_NUMBER).append(stringMap.get(KEYS[1])).toString());
+            stringMap.put(KEYS[2], new StringBuffer().append(PREFIX_PRICE).append(stringMap.get(KEYS[2])).toString());
         }
-        lvClothes.setAdapter(new SimpleAdapter(this,list,R.layout.item_confirm_order,new String[]{KEYS[0],KEYS[1],KEYS[2]},new int[]{R.id.txt_commodity_name,R.id.txt_commodity_number,R.id.txt_commodity_price}));
+        if (list.size() > 0) {
+            lvClothes.setVisibility(View.VISIBLE);
+        }
+        lvClothes.setAdapter(new SimpleAdapter(this, list, R.layout.item_confirm_order, new String[]{KEYS[0], KEYS[1], KEYS[2]}, new int[]{R.id.txt_commodity_name, R.id.txt_commodity_number, R.id.txt_commodity_price}));
 
         txtCollectBag.setText(enterpriseDetail.enterpriseOrderInfo.collectBrcode);
         txtCollectRemark.setText(enterpriseDetail.enterpriseOrderInfo.remark);
@@ -121,27 +176,27 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         switch (requestCode) {
             case 0:
                 EventBus.getDefault().post(new Object());
-                if(!isFinishing())
-                finish();
+                if (!isFinishing())
+                    finish();
                 break;
             case 1:
                 enterpriseDetail = (ResultEnterpriseDetail) result;
-                if(enterpriseDetail!=null)
-                initOrderData(enterpriseDetail);
+                if (enterpriseDetail != null)
+                    initOrderData(enterpriseDetail);
                 break;
         }
     }
 
 
-    @OnClick(R.id.btn_deduction_cancel)
+    @OnClick({R.id.btn_deduction_cancel_scroll, R.id.btn_deduction_cancel_screen_bottom})
     public void cancel() {
         finish();
     }
 
-    @OnClick(R.id.btn_deduction_affirm)
+    @OnClick({R.id.btn_deduction_affirm_scroll, R.id.btn_deduction_affirm_screen_bottom})
     public void affirm() {
-        if(enterpriseDetail!=null&& !TextUtils.isEmpty(outerCode)){
-            EnterpriseApi.payWashEnterpriseOrder(outerCode,getToken(),getNewHandler(0,ResultBase.class));
+        if (enterpriseDetail != null && !TextUtils.isEmpty(outerCode)) {
+            EnterpriseApi.payWashEnterpriseOrder(outerCode, getToken(), getNewHandler(0, ResultBase.class));
         }
     }
 

@@ -1444,6 +1444,7 @@
 
     <!--企业收衣-->
     <string name="title_create_order">创建订单</string>
+    <string name="title_affirm_order_info">确认订单信息</string>
     <string name="employee_extension">分机电话</string>
     <string name="hint_employee_extension">请输入分机电话</string>
     <string name="txt_add_clothes">添 加 衣 物</string>
