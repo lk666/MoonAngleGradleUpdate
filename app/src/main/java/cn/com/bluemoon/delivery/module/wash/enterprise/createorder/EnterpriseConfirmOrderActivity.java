@@ -44,6 +44,9 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     @Bind(R.id.txt_collect_remark)
     TextView txtCollectRemark;
 
+    private final static String PREFIX_NUMBER="x";
+    private final static String PREFIX_PRICE="¥";
+
     private List<Map<String, String>> list;
     private ResultEnterpriseDetail enterpriseDetail;
     private String outerCode;
@@ -103,6 +106,10 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         txtPhone.setText(enterpriseDetail.employeeInfo.employeePhone);
 
         iniListDate(enterpriseDetail.enterpriseOrderInfo.clothesDetails);
+        for (Map<String, String> stringMap : list) {//增加前缀
+            stringMap.put(KEYS[1],new StringBuffer().append(PREFIX_NUMBER).append(stringMap.get(KEYS[1])).toString());
+            stringMap.put(KEYS[2],new StringBuffer().append(PREFIX_PRICE).append(stringMap.get(KEYS[2])).toString());
+        }
         lvClothes.setAdapter(new SimpleAdapter(this,list,R.layout.item_confirm_order,new String[]{KEYS[0],KEYS[1],KEYS[2]},new int[]{R.id.txt_commodity_name,R.id.txt_commodity_number,R.id.txt_commodity_price}));
 
         txtCollectBag.setText(enterpriseDetail.enterpriseOrderInfo.collectBrcode);
