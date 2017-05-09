@@ -185,15 +185,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
             case REQUEST_CODE_QUERY:
                 setData((ResultEnterpriseDetail) result);
                 break;
-            //                    // 点击保存
-            //                    case REQUEST_CODE_SAVE:
-            //                        ResultSaveWashEnterpriseOrder order0 =
-            // (ResultSaveWashEnterpriseOrder)
-            //         result;
-            //                        EventBus.getDefault().post(new CreateOrderEvent
-            // (order0.outerCode));
-            //                        finish();
-            //                        break;
+
             // 点击删除衣物
             case REQUEST_CODE_DELETE:
                 if (result.isSuccess) {
@@ -257,13 +249,12 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         txtAddress.setText(info.employeeInfo.branchName);
     }
 
-    // TODO: lk 2017/5/8
     @OnClick({R.id.btn_send, R.id.ic_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 添加衣物
             case R.id.ic_add:
-                toast("添加衣物");
+                SelectClothesTypeActivity.actionStart(this, outerCode);
                 break;
             // 提交扣款
             case R.id.btn_send:

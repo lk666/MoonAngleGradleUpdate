@@ -1458,4 +1458,6 @@
     <string name="txt_employee_info">员工信息</string>
     <string name="affirm_deducyion">确认无误，发起扣款</string>
     <string name="go_deducyion">提 交 扣 款</string>
+    <string name="select_clothes_type">选择衣物类型</string>
+    <string name="confirm2_with_space">确&#160;认</string>
 </resources>

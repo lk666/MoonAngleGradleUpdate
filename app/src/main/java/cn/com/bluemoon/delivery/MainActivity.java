@@ -61,6 +61,7 @@ import cn.com.bluemoon.delivery.module.wash.appointment.AppointmentTabActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.EnterpriseWashTabActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.SelectClothesTypeActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
@@ -811,7 +812,7 @@ public class MainActivity extends SlidingActivity {
             }
             //企业洗衣
             else if (compare(MenuCode.company_wash, menuCode)) {
-                EnterpriseWashTabActivity.actionStart(main);
+//                EnterpriseWashTabActivity.actionStart(main);
 //                Employee resultObj = JSON.parseObject(
 //                        " {\n" +
 //                                "            \"branchCode\": \"bh2341\",\n" +
@@ -822,9 +823,9 @@ public class MainActivity extends SlidingActivity {
 //                                "            \"employeePhone\": \"13560887921\"\n" +
 //                                "        }",
 //                        Employee.class);
-//
-//                CreateOrderActivity.actionStart(main, resultObj);
 
+
+                SelectClothesTypeActivity.actionStart(this, "sd");
 
             } else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
