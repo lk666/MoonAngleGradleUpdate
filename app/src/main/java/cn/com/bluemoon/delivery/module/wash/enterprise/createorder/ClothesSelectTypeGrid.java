@@ -38,6 +38,10 @@ public class ClothesSelectTypeGrid extends ScrollGridView implements OnListItemC
         setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
     }
 
+    public void refreshData() {
+        adapter.notifyDataSetChanged();
+    }
+
     public interface IClothesSelectTypeGrid {
         void onSelectedChanged(int onLevelPosition, int twoLevelPosition);
     }
@@ -90,7 +94,7 @@ public class ClothesSelectTypeGrid extends ScrollGridView implements OnListItemC
     public void onItemClick(Object item, View view, int position) {
         ResultGetCooperationList.GoodsInfoListBean bean = (ResultGetCooperationList
                 .GoodsInfoListBean) item;
-        if (bean != null && listener != null) {
+        if (bean != null && listener != null && !bean.isSelected) {
             listener.onSelectedChanged(onLevelPosition, position);
         }
     }

@@ -1,7 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetCooperationList;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultSaveWashClothes;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 
 /**
@@ -32,6 +33,7 @@ public class SelectClothesTypeActivity extends BaseActivity implements
 
     private static final int REQUEST_CODE_QUERY = 0x777;
     private static final int REQUEST_CODE_SAVE = 0x666;
+    public static final String EXTRA_CLOTHES = "EXTRA_CLOTHES";
     @Bind(R.id.elv)
     ExpandableListView elv;
     @Bind(R.id.btn_cancel)
@@ -44,15 +46,16 @@ public class SelectClothesTypeActivity extends BaseActivity implements
     private String outerCode;
 
     private List<ResultGetCooperationList.WashListBean> list;
+    private List<ResultGetCooperationList.GoodsInfoListBean> goodsInfoList;
     private ItemAdapter adapter;
 
     /**
      * @param outerCode 洗衣订单编码
      */
-    public static void actionStart(Context context, String outerCode) {
+    public static void actionStart(Activity context, String outerCode, int requestCode) {
         Intent intent = new Intent(context, SelectClothesTypeActivity.class);
         intent.putExtra(EXTRA_OUTER_CODE, outerCode);
-        context.startActivity(intent);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -73,6 +76,7 @@ public class SelectClothesTypeActivity extends BaseActivity implements
 
     @Override
     public void initView() {
+        goodsInfoList = new ArrayList<>();
         list = new ArrayList<>();
         adapter = new ItemAdapter();
         adapter.setList(list);
@@ -94,24 +98,18 @@ public class SelectClothesTypeActivity extends BaseActivity implements
                 setData((ResultGetCooperationList) result);
                 break;
 
-            //            // 点击删除衣物
-            //            case REQUEST_CODE_DELETE:
-            //                if (result.isSuccess) {
-            //                    list.remove(deletePos);
-            //                    adapter.notifyDataSetChanged();
-            //
-            //                    if (list.size() > 0) {
-            //                        divList.setVisibility(View.VISIBLE);
-            //                        btnSend.setEnabled(true);
-            //                    } else {
-            //                        divList.setVisibility(View.GONE);
-            //                        btnSend.setEnabled(false);
-            //                    }
-            //                }
-            //                break;
+            // 添加衣物成功
+            case REQUEST_CODE_SAVE:
+                ResultSaveWashClothes clothes = (ResultSaveWashClothes) result;
+                Intent i = new Intent();
+                i.putExtra(EXTRA_CLOTHES, clothes.clothesInfo);
+                setResult(RESULT_OK, i);
+                finish();
+                break;
         }
     }
 
+    private ClothesSelectTypeHeader header;
 
     /**
      * 设置数据
@@ -123,10 +121,23 @@ public class SelectClothesTypeActivity extends BaseActivity implements
 
         lastOnLevelPosition = -1;
         lastTwoLevelPosition = -1;
-        lastView = null;
+
         // 头
-        // TODO: lk 2017/5/9
-        //        elv.addHeaderView();
+        goodsInfoList.clear();
+        if (info.goodsInfoList != null) {
+            goodsInfoList.addAll(info.goodsInfoList);
+            if (header == null) {
+                header = new ClothesSelectTypeHeader(this);
+                header.setListener(this);
+                elv.addHeaderView(header);
+            }
+            header.setData(info.goodsInfoList);
+            header.setVisibility(View.VISIBLE);
+        } else {
+            if (header == null) {
+                header.setVisibility(View.GONE);
+            }
+        }
 
         list.clear();
         list.addAll(info.washList);
@@ -146,29 +157,76 @@ public class SelectClothesTypeActivity extends BaseActivity implements
                 finish();
                 break;
             case R.id.btn_ok:
-                // TODO: lk 2017/5/9
+                String washCode;
+                if (lastOnLevelPosition == ClothesSelectTypeHeader.DEF_ONE_LEVEL) {
+                    washCode = goodsInfoList.get(lastTwoLevelPosition).washCode;
+                } else if (lastOnLevelPosition > -1 && lastTwoLevelPosition > -1) {
+                    washCode = list.get(lastOnLevelPosition).twoLevelList.get
+                            (lastTwoLevelPosition).washCode;
+                } else {
+                    toast(getString(R.string.hint_select_type));
+                    return;
+                }
+
+                showWaitDialog();
+                EnterpriseApi.saveWashClothes(outerCode, washCode, getToken(),
+                        getNewHandler(REQUEST_CODE_SAVE, ResultSaveWashClothes.class));
                 break;
         }
     }
 
     private int lastOnLevelPosition = -1;
     private int lastTwoLevelPosition = -1;
-    private ClothesSelectTypeView lastView = null;
 
     @Override
     public void onSelectedChanged(int onLevelPosition, int twoLevelPosition) {
-        if (lastOnLevelPosition != -1 && lastTwoLevelPosition != -1) {
-            list.get(lastOnLevelPosition).twoLevelList.get(lastTwoLevelPosition).isSelected = false;
+        // 选中头部
+        if (ClothesSelectTypeHeader.DEF_ONE_LEVEL == onLevelPosition) {
+            goodsInfoList.get(twoLevelPosition).isSelected = true;
+            // 取消之前的选中的头部数据
+            if (lastOnLevelPosition == ClothesSelectTypeHeader.DEF_ONE_LEVEL) {
+                goodsInfoList.get(lastTwoLevelPosition).isSelected = false;
+            }
+            // 取消之前的选中的列表
+            else {
+                if (lastOnLevelPosition > -1 && lastTwoLevelPosition > -1) {
+                    list.get(lastOnLevelPosition).twoLevelList.get(lastTwoLevelPosition)
+                            .isSelected = false;
+                }
+
+                if (adapter != null) {
+                    adapter.notifyDataSetChanged();
+                }
+            }
+
+            header.refreshData();
+            lastOnLevelPosition = onLevelPosition;
+            lastTwoLevelPosition = twoLevelPosition;
         }
+        // 选中列表
+        else {
+            // 上次选中默认项
+            if (lastOnLevelPosition == ClothesSelectTypeHeader.DEF_ONE_LEVEL) {
+                goodsInfoList.get(lastTwoLevelPosition).isSelected = false;
+                header.refreshData();
+            }
+            // 取消之前的选中的列表
+            else {
+                if (lastOnLevelPosition > -1 && lastTwoLevelPosition > -1) {
+                    list.get(lastOnLevelPosition).twoLevelList.get(lastTwoLevelPosition)
+                            .isSelected = false;
+                }
+            }
 
-        list.get(onLevelPosition).twoLevelList.get(twoLevelPosition).isSelected = true;
+            // 选中当前列表项
+            list.get(onLevelPosition).twoLevelList.get(twoLevelPosition).isSelected = true;
 
-        //        elv.collapseGroup(lastOnLevelPosition);
-
-        lastOnLevelPosition = onLevelPosition;
-        lastTwoLevelPosition = twoLevelPosition;
-        if (adapter!=null) {
-            adapter.notifyDataSetChanged();
+            //     elv.collapseGroup(lastOnLevelPosition);
+            lastOnLevelPosition = onLevelPosition;
+            lastTwoLevelPosition = twoLevelPosition;
+            if (adapter != null) {
+                adapter.notifyDataSetChanged();
+            }
         }
     }
 

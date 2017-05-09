@@ -301,7 +301,7 @@ public class EnterpriseApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put("outerCode", outerCode);
         params.put(TOKEN, token);
-        postRequest(params, "washingService-controller/wash/enterprise/getCooperationList%s", handler);
+        postRequest(params, "washingService-controller/wash/enterprise/getCooperationList%s",
+                handler);
     }
-
 }

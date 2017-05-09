@@ -14,11 +14,15 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList;
-import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList.EnterpriseOrderListBean;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList
+        .EnterpriseOrderListBean;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.event.EnterpriseListChangeEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -117,10 +121,11 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 initData();
             }
         } else if (requestCode == REQUEST_CODE_SCAN) {
-            ResultGetWashEnterpriseScan resultGetWashEnterpriseScan = (ResultGetWashEnterpriseScan) result;
+            ResultGetWashEnterpriseScan resultGetWashEnterpriseScan =
+                    (ResultGetWashEnterpriseScan) result;
             if (resultGetWashEnterpriseScan.enterpriseOrderInfo != null) {
-                //TODO 跳到添加衣物
-                CreateOrderActivity.actionStart(getActivity(), resultGetWashEnterpriseScan);
+                // 跳到添加衣物
+                AddClothesActivity.actionStart(getActivity(), resultGetWashEnterpriseScan);
             } else {
                 CreateOrderActivity.actionStart(getActivity(), resultGetWashEnterpriseScan);
             }
@@ -151,13 +156,15 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 showWaitDialog();
                 String code = data.getStringExtra(LibConstants.SCAN_RESULT);
                 EnterpriseApi.getWashEnterpriseScan(code,
-                        getToken(), getNewHandler(REQUEST_CODE_SCAN, ResultGetWashEnterpriseScan.class));
+                        getToken(), getNewHandler(REQUEST_CODE_SCAN, ResultGetWashEnterpriseScan
+                                .class));
             }
         } else if (resultCode == 1) {
             if (requestCode == 1) {
                 EmployOrderQueryActivity.startAct(this, 2);
             } else if (requestCode == 2) {
-                EnterpriseScanInputActivity.actStart(this, getString(R.string.hand_query_with_space), 1);
+                EnterpriseScanInputActivity.actStart(this, getString(R.string
+                        .hand_query_with_space), 1);
             }
         }
     }
@@ -169,6 +176,16 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(EnterpriseListChangeEvent event) {
+        initData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ConfirmEvent event) {
+        initData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(CreateOrderEvent event) {
         initData();
     }
 }

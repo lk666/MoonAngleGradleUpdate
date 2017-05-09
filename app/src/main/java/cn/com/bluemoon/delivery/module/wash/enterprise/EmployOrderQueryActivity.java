@@ -1,4 +1,5 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise;
+
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
@@ -23,6 +24,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnter
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -113,7 +115,8 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
 
     private void getList() {
-        EnterpriseApi.getWashEnterpriseQuery(searchView.getText(), getToken(), getNewHandler(0, ResultGetWashEnterpriseQuery.class));
+        EnterpriseApi.getWashEnterpriseQuery(searchView.getText(), getToken(), getNewHandler(0,
+                ResultGetWashEnterpriseQuery.class));
     }
 
     private void setData(ResultGetWashEnterpriseQuery queryResult) {
@@ -124,7 +127,8 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
             for (Employee bean : queryResult.employeeList) {
                 branchList.add(bean);
             }
-        } else if (queryResult.enterpriseOrderList != null && queryResult.enterpriseOrderList.size() > 0) {
+        } else if (queryResult.enterpriseOrderList != null && queryResult.enterpriseOrderList
+                .size() > 0) {
             layoutTitle.setVisibility(View.VISIBLE);
             txtTitle.setText(R.string.txt_order_info);
             for (EnterpriseOrderListBeanBase bean : queryResult.enterpriseOrderList) {
@@ -163,13 +167,13 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
             if (branchBean instanceof Employee) {
                 view.setVisibility(View.GONE);
                 txtPhone.setVisibility(View.VISIBLE);
-                Employee bean = (Employee)branchBean;
+                Employee bean = (Employee) branchBean;
                 txtName.setText(bean.employeeName);
                 txtCode.setText(bean.employeeCode);
                 txtPhone.setText(bean.employeePhone);
                 txtAddress.setText(bean.branchName);
             } else {
-                EnterpriseOrderListBeanBase bean = (EnterpriseOrderListBeanBase)branchBean;
+                EnterpriseOrderListBeanBase bean = (EnterpriseOrderListBeanBase) branchBean;
                 view.setVisibility(View.VISIBLE);
                 txtPhone.setVisibility(View.GONE);
                 txtName.setText(bean.outerCode);
@@ -183,12 +187,12 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     @Override
     public void onItemClick(Object item, View view, int position) {
         if (item instanceof Employee) {
-            Employee employee = (Employee)item;
+            Employee employee = (Employee) item;
             CreateOrderActivity.actionStart(this, employee);
         } else {
-            EnterpriseOrderListBeanBase order = (EnterpriseOrderListBeanBase)item;
-            //TODO 跳到添加衣物
-            toast("order--> outerCode=" + order.outerCode);
+            EnterpriseOrderListBeanBase order = (EnterpriseOrderListBeanBase) item;
+            // 跳到添加衣物
+            AddClothesActivity.actionStart(this, order.outerCode);
         }
         finish();
     }
