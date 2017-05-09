@@ -261,4 +261,25 @@ public class EnterpriseApi extends DeliveryApi {
         postRequest(params, "washingService-controller/wash/enterprise/saveWashEnterpriseOrder%s" +
                 "", handler);
     }
+
+    /**
+     * 8.09企业收衣删除衣物
+     *
+     * @param clothesId 衣物id String
+     * @param token     登陆凭证 String
+     */
+    public static void deleteClothes(String clothesId, String token, AsyncHttpResponseHandler
+            handler) {
+        if (null == clothesId || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == clothesId ? " null=clothesId" : "") + (null == token
+                            ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("clothesId", clothesId);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/deleteClothes%s", handler);
+    }
 }

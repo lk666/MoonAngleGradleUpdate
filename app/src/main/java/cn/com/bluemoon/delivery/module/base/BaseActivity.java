@@ -173,7 +173,7 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
     /**
      * 是否有使用EventBus
      */
-    private boolean isUseEventBus() {
+    protected boolean isUseEventBus() {
         return false;
     }
 

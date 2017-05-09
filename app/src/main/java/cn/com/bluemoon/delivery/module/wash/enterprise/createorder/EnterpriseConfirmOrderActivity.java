@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
-import android.app.ActionBar;
-import android.content.Context;
+import android.app.Activity;
 import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
@@ -23,12 +22,12 @@ import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ClothesInfo;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseDetail;
-import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.DensityUtil;
-import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * 确认订单信息
@@ -75,10 +74,10 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
      */
     private String[] KEYS = new String[]{"name", "number", "price", "clothesId", "washCode"};
 
-    public static void actionStart(Context context, String outerCode) {
+    public static void actionStart(Activity context, String outerCode, int requestCode) {
         Intent intent = new Intent(context, EnterpriseConfirmOrderActivity.class);
         intent.putExtra("outerCode", outerCode);
-        context.startActivity(intent);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -99,7 +98,8 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     @Override
     public void initData() {
         outerCode = getIntent().getStringExtra("outerCode");
-        EnterpriseApi.getWashEnterpriseDetail(outerCode, getToken(), getNewHandler(1, ResultEnterpriseDetail.class));
+        EnterpriseApi.getWashEnterpriseDetail(outerCode, getToken(), getNewHandler(1,
+                ResultEnterpriseDetail.class));
         ViewTreeObserver layoutVto = layoutOrderDetails.getViewTreeObserver();
         layoutVto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
@@ -115,22 +115,25 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
      * 设置按钮位置
      */
     private void setButtonLocation() {
-        if (layoutHeight > 0 ) {
-            if (AppContext.getInstance().getDisplayHeight() > layoutHeight  + DensityUtil.dip2px(this, 45+50)) {
+        if (layoutHeight > 0) {
+            if (AppContext.getInstance().getDisplayHeight() > layoutHeight + DensityUtil.dip2px
+                    (this, 45 + 50)) {
                 layoutScreenBottom.setVisibility(View.VISIBLE);
-            }else{
+            } else {
                 layoutScroll.setVisibility(View.VISIBLE);
             }
         }
     }
 
-    private void iniListDate(List<ResultEnterpriseDetail.EnterpriseOrderInfoBean.ClothesDetailsBean> clothesList) {
+    private void iniListDate(List<ClothesInfo> clothesList) {
         list = new ArrayList<>();
-        for (ResultEnterpriseDetail.EnterpriseOrderInfoBean.ClothesDetailsBean clothesDetailsBean : clothesList) {
+        for (ClothesInfo clothesDetailsBean
+                : clothesList) {
             boolean isNew = true;//默认是新的商品编码
             for (Map<String, String> stringMap : list) {
                 if (stringMap.get(KEYS[4]).equals(clothesDetailsBean.washCode)) {
-                    stringMap.put(KEYS[1], String.valueOf(Integer.valueOf(stringMap.get(KEYS[1])) + 1));
+                    stringMap.put(KEYS[1], String.valueOf(Integer.valueOf(stringMap.get(KEYS[1]))
+                            + 1));
                     isNew = false;//发现已有商品，直接增加数量
                     break;
                 }
@@ -159,13 +162,17 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
         iniListDate(enterpriseDetail.enterpriseOrderInfo.clothesDetails);
         for (Map<String, String> stringMap : list) {//增加前缀
-            stringMap.put(KEYS[1], new StringBuffer().append(PREFIX_NUMBER).append(stringMap.get(KEYS[1])).toString());
-            stringMap.put(KEYS[2], new StringBuffer().append(PREFIX_PRICE).append(stringMap.get(KEYS[2])).toString());
+            stringMap.put(KEYS[1], new StringBuffer().append(PREFIX_NUMBER).append(stringMap.get
+                    (KEYS[1])).toString());
+            stringMap.put(KEYS[2], new StringBuffer().append(PREFIX_PRICE).append(stringMap.get
+                    (KEYS[2])).toString());
         }
         if (list.size() > 0) {
             lvClothes.setVisibility(View.VISIBLE);
         }
-        lvClothes.setAdapter(new SimpleAdapter(this, list, R.layout.item_confirm_order, new String[]{KEYS[0], KEYS[1], KEYS[2]}, new int[]{R.id.txt_commodity_name, R.id.txt_commodity_number, R.id.txt_commodity_price}));
+        lvClothes.setAdapter(new SimpleAdapter(this, list, R.layout.item_confirm_order, new
+                String[]{KEYS[0], KEYS[1], KEYS[2]}, new int[]{R.id.txt_commodity_name, R.id
+                .txt_commodity_number, R.id.txt_commodity_price}));
 
         txtCollectBag.setText(enterpriseDetail.enterpriseOrderInfo.collectBrcode);
         txtCollectRemark.setText(enterpriseDetail.enterpriseOrderInfo.remark);
@@ -175,7 +182,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
             case 0:
-                EventBus.getDefault().post(new Object());
+                EventBus.getDefault().post(new ConfirmEvent(outerCode));
                 if (!isFinishing())
                     finish();
                 break;
@@ -196,7 +203,8 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     @OnClick({R.id.btn_deduction_affirm_scroll, R.id.btn_deduction_affirm_screen_bottom})
     public void affirm() {
         if (enterpriseDetail != null && !TextUtils.isEmpty(outerCode)) {
-            EnterpriseApi.payWashEnterpriseOrder(outerCode, getToken(), getNewHandler(0, ResultBase.class));
+            EnterpriseApi.payWashEnterpriseOrder(outerCode, getToken(), getNewHandler(0,
+                    ResultBase.class));
         }
     }
 

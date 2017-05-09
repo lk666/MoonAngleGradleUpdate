@@ -68,7 +68,7 @@ public class CreateOrderActivity extends BaseActivity {
     TextView tvBalance;
     @Bind(R.id.tv_point)
     TextView tvPoint;
-    @Bind(R.id.btn_add_cloth)
+    @Bind(R.id.btn_send)
     Button btnAddCloth;
 
     private ResultGetWashEnterpriseScan info;
@@ -234,7 +234,7 @@ public class CreateOrderActivity extends BaseActivity {
             case REQUEST_CODE_ADD:
                 ResultSaveWashEnterpriseOrder order1 = (ResultSaveWashEnterpriseOrder) result;
                 EventBus.getDefault().post(new CreateOrderEvent(order1.outerCode));
-                toast("跳转到添加衣物:" + order1.outerCode);
+                AddClothesActivity.actionStart(this, order1.outerCode);
                 finish();
                 break;
 
@@ -279,7 +279,7 @@ public class CreateOrderActivity extends BaseActivity {
         dialog.show();
     }
 
-    @OnClick({R.id.ll_branch_code, R.id.ll_collect_brcode, R.id.btn_add_cloth})
+    @OnClick({R.id.ll_branch_code, R.id.ll_collect_brcode, R.id.btn_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 还衣地点
@@ -291,7 +291,7 @@ public class CreateOrderActivity extends BaseActivity {
                 goScanCode();
                 break;
             // 添加衣物
-            case R.id.btn_add_cloth:
+            case R.id.btn_send:
                 if (check()) {
                     showWaitDialog();
                     RequestEnterpriseOrderInfo sendInfo = new RequestEnterpriseOrderInfo(branchCode,
