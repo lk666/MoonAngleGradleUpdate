@@ -188,4 +188,25 @@ public class AppointmentApi extends DeliveryApi {
         postRequest(params, "washingService-controller/wash/appointment/washGoodsList%s", handler);
     }
 
+    /**
+     * 7.8预约单收衣扫一扫
+     *
+     * @param queryCode 扫一扫预约单号 String
+     * @param token     登陆凭证 String
+     */
+    public static void appointmentOrderScan(String queryCode, String token,
+                                            AsyncHttpResponseHandler handler) {
+        if (null == queryCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == queryCode ? " null=queryCode" : "") + (null == token
+                            ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("queryCode", queryCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/appointment/appointmentOrderScan%s",
+                handler);
+    }
 }
