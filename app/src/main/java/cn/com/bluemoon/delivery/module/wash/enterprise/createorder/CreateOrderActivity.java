@@ -211,7 +211,7 @@ public class CreateOrderActivity extends BaseActivity {
         // 手动搜索入口进来的要再调用一下扫一扫
         if (info == null && employee != null) {
             showWaitDialog();
-            EnterpriseApi.getWashEnterpriseScan(employee.employeeCode, getToken(),
+            EnterpriseApi.getWashEnterpriseScan(employee.employeePhone, getToken(),
                     getNewHandler(REQUEST_CODE_SCAN, ResultGetWashEnterpriseScan.class));
         }
     }
