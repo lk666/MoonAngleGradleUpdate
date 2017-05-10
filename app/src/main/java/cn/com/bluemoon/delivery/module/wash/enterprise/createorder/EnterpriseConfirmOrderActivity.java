@@ -28,6 +28,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.DensityUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * 确认订单信息
@@ -142,7 +143,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
                 Map<String, String> m = new HashMap<>();
                 m.put(KEYS[0], clothesDetailsBean.washName);
                 m.put(KEYS[1], "1");
-                m.put(KEYS[2], String.valueOf(clothesDetailsBean.memberPrice));
+                m.put(KEYS[2], StringUtil.formatPriceByFen(clothesDetailsBean.memberPrice));
                 m.put(KEYS[3], clothesDetailsBean.clothesId);
                 m.put(KEYS[4], clothesDetailsBean.washCode);
                 list.add(m);
