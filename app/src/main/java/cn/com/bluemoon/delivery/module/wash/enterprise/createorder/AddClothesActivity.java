@@ -136,18 +136,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         if (info.enterpriseOrderInfo.clothesDetails != null) {
             list.clear();
             list.addAll(info.enterpriseOrderInfo.clothesDetails);
-
-            txtCollectNum.setText(getString(R.string.clothes_total_amount,
-                    list.size()));
-            adapter.notifyDataSetChanged();
-
-            if (list.size() > 0) {
-                divList.setVisibility(View.VISIBLE);
-                btnSend.setEnabled(true);
-            } else {
-                divList.setVisibility(View.GONE);
-                btnSend.setEnabled(false);
-            }
+            refreshClothesData();
         } else {
             divList.setVisibility(View.GONE);
             btnSend.setEnabled(false);
@@ -190,17 +179,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
             case REQUEST_CODE_DELETE:
                 if (result.isSuccess) {
                     list.remove(deletePos);
-                    txtCollectNum.setText(getString(R.string.clothes_total_amount,
-                            list.size()));
-                    adapter.notifyDataSetChanged();
-
-                    if (list.size() > 0) {
-                        divList.setVisibility(View.VISIBLE);
-                        btnSend.setEnabled(true);
-                    } else {
-                        divList.setVisibility(View.GONE);
-                        btnSend.setEnabled(false);
-                    }
+                    refreshClothesData();
                 }
                 break;
 
@@ -228,17 +207,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         if (info.enterpriseOrderInfo.clothesDetails != null) {
             list.clear();
             list.addAll(info.enterpriseOrderInfo.clothesDetails);
-            txtCollectNum.setText(getString(R.string.clothes_total_amount,
-                    list.size()));
-            adapter.notifyDataSetChanged();
-
-            if (list.size() > 0) {
-                divList.setVisibility(View.VISIBLE);
-                btnSend.setEnabled(true);
-            } else {
-                divList.setVisibility(View.GONE);
-                btnSend.setEnabled(false);
-            }
+            refreshClothesData();
         } else {
             divList.setVisibility(View.GONE);
             btnSend.setEnabled(false);
@@ -286,12 +255,26 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
                         (SelectClothesTypeActivity.EXTRA_CLOTHES);
                 if (clothes != null) {
                     list.add(clothes);
-                    txtCollectNum.setText(getString(R.string.clothes_total_amount,
-                            list.size()));
-                    adapter.notifyDataSetChanged();
+                    refreshClothesData();
                 }
                 break;
         }
+    }
+
+    /**
+     * 刷新衣物数据
+     */
+    private void refreshClothesData() {
+        txtCollectNum.setText(getString(R.string.clothes_total_amount,
+                list.size()));
+        if (list.size() > 0) {
+            divList.setVisibility(View.VISIBLE);
+            btnSend.setEnabled(true);
+        } else {
+            divList.setVisibility(View.GONE);
+            btnSend.setEnabled(false);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     class ItemAdapter extends BaseListAdapter<ClothesInfo> {

@@ -247,7 +247,7 @@ public class CreateOrderActivity extends BaseActivity {
      * 选择还衣地址
      */
     private void showSelectReturn() {
-        if (info == null || info.branchList == null||info.branchList.isEmpty()) {
+        if (info == null || info.branchList == null || info.branchList.isEmpty()) {
             return;
         }
         if (dialog == null) {

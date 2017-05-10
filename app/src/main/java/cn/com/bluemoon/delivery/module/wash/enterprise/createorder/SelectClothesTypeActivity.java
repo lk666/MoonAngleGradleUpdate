@@ -134,7 +134,7 @@ public class SelectClothesTypeActivity extends BaseActivity implements
             header.setData(info.goodsInfoList);
             header.setVisibility(View.VISIBLE);
         } else {
-            if (header == null) {
+            if (header != null) {
                 header.setVisibility(View.GONE);
             }
         }
