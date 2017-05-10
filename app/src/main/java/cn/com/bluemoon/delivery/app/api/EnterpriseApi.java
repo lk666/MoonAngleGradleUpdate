@@ -48,12 +48,13 @@ public class EnterpriseApi extends DeliveryApi {
     /**
      * 8.10企业收衣历史记录列表
      */
-    public static void getWashEnterpriseRecordList(long timestamp, QueryInfo queryInfo,
+    public static void getWashEnterpriseRecordList(String token, long timestamp, QueryInfo queryInfo,
                                                    AsyncHttpResponseHandler
                                                            handler) {
         Map<String, Object> params = new HashMap<>();
         params.put("queryInfo", queryInfo);
         params.put("timestamp", timestamp);
+        params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise" +
                 "/getWashEnterpriseRecordList%s", handler);
     }
