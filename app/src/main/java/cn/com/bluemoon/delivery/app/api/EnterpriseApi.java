@@ -1,8 +1,5 @@
 package cn.com.bluemoon.delivery.app.api;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.http.Header;
@@ -11,11 +8,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.QueryInfo;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.RequestEnterpriseOrderInfo;
-import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.utils.Constants;
 
 /**
@@ -23,31 +18,6 @@ import cn.com.bluemoon.delivery.utils.Constants;
  * Created by ljl on 2017/4/28.
  */
 public class EnterpriseApi extends DeliveryApi {
-
-    /**
-     * 提交http请求
-     *
-     * @param params  参数列表
-     * @param subUrl  请求的url子部
-     * @param handler 回调
-     */
-    protected static void postRequest(Map<String, Object> params, String subUrl,
-                                      AsyncHttpResponseHandler handler) {
-        //TODO jl Mock 联调要删除这个方法
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
-
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
-        }
-        if (!BuildConfig.RELEASE) {
-            ApiHttpClient.postMock(context, url, jsonString, handler);
-        } else {
-            ApiHttpClient.post(context, url, jsonString, handler);
-        }
-    }
-
 
     /**
      * 8.01企业收衣列表展示
@@ -281,5 +251,27 @@ public class EnterpriseApi extends DeliveryApi {
         params.put("clothesId", clothesId);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise/deleteClothes%s", handler);
+    }
+
+    /**
+     * 8.05企业收衣获取合作品类商品
+     *
+     * @param outerCode 订单编码 String
+     * @param token     登陆凭证 String
+     */
+    public static void getCooperationList(String outerCode, String token,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == outerCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == outerCode ? " null=outerCode" : "") + (null == token
+                            ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("outerCode", outerCode);
+        params.put(TOKEN, token);
+        postRequest(params, "washingService-controller/wash/enterprise/getCooperationList%s",
+                handler);
     }
 }

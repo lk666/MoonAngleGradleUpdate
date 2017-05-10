@@ -134,11 +134,11 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
 
         if (info.enterpriseOrderInfo.clothesDetails != null) {
-            txtCollectNum.setText(getString(R.string.clothes_total_amount,
-                    info.enterpriseOrderInfo.actualCount));
-
             list.clear();
             list.addAll(info.enterpriseOrderInfo.clothesDetails);
+
+            txtCollectNum.setText(getString(R.string.clothes_total_amount,
+                    list.size()));
             adapter.notifyDataSetChanged();
 
             if (list.size() > 0) {
@@ -185,19 +185,13 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
             case REQUEST_CODE_QUERY:
                 setData((ResultEnterpriseDetail) result);
                 break;
-            //                    // 点击保存
-            //                    case REQUEST_CODE_SAVE:
-            //                        ResultSaveWashEnterpriseOrder order0 =
-            // (ResultSaveWashEnterpriseOrder)
-            //         result;
-            //                        EventBus.getDefault().post(new CreateOrderEvent
-            // (order0.outerCode));
-            //                        finish();
-            //                        break;
+
             // 点击删除衣物
             case REQUEST_CODE_DELETE:
                 if (result.isSuccess) {
                     list.remove(deletePos);
+                    txtCollectNum.setText(getString(R.string.clothes_total_amount,
+                            list.size()));
                     adapter.notifyDataSetChanged();
 
                     if (list.size() > 0) {
@@ -232,11 +226,10 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
 
         if (info.enterpriseOrderInfo.clothesDetails != null) {
-            txtCollectNum.setText(getString(R.string.clothes_total_amount,
-                    info.enterpriseOrderInfo.actualCount));
-
             list.clear();
             list.addAll(info.enterpriseOrderInfo.clothesDetails);
+            txtCollectNum.setText(getString(R.string.clothes_total_amount,
+                    list.size()));
             adapter.notifyDataSetChanged();
 
             if (list.size() > 0) {
@@ -257,13 +250,12 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         txtAddress.setText(info.employeeInfo.branchName);
     }
 
-    // TODO: lk 2017/5/8
     @OnClick({R.id.btn_send, R.id.ic_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 添加衣物
             case R.id.ic_add:
-                toast("添加衣物");
+                SelectClothesTypeActivity.actionStart(this, outerCode, 0x66);
                 break;
             // 提交扣款
             case R.id.btn_send:
@@ -276,8 +268,30 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        showWaitDialog();
-        refreshData(outerCode);
+        // 提交扣款
+        if (requestCode == 0x77) {
+            showWaitDialog();
+            refreshData(outerCode);
+            return;
+        }
+
+        if (resultCode != RESULT_OK) {
+            return;
+        }
+
+        switch (requestCode) {
+            // 添加衣物成功
+            case 0x66:
+                ClothesInfo clothes = (ClothesInfo) data.getSerializableExtra
+                        (SelectClothesTypeActivity.EXTRA_CLOTHES);
+                if (clothes != null) {
+                    list.add(clothes);
+                    txtCollectNum.setText(getString(R.string.clothes_total_amount,
+                            list.size()));
+                    adapter.notifyDataSetChanged();
+                }
+                break;
+        }
     }
 
     class ItemAdapter extends BaseListAdapter<ClothesInfo> {

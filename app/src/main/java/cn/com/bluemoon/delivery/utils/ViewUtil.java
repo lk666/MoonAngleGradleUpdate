@@ -1,7 +1,10 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.animation.ObjectAnimator;
+import android.content.Context;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
@@ -13,7 +16,7 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 public class ViewUtil extends LibViewUtil {
 
     public static void longToast(String msg) {
-        longToast(AppContext.getInstance(),msg);
+        longToast(AppContext.getInstance(), msg);
     }
 
     public static void toast(String msg) {
@@ -44,7 +47,6 @@ public class ViewUtil extends LibViewUtil {
 
     /**
      * 服务器超时提示
-     *
      */
     public static void toastOvertime() {
         toast(R.string.request_server_overtime);
@@ -57,24 +59,36 @@ public class ViewUtil extends LibViewUtil {
         toast(R.string.get_data_busy);
     }
 
-    public static void showTextAmin(View view){
+    public static void showTextAmin(View view) {
         ViewUtil.setViewVisibility(view, View.VISIBLE);
         ObjectAnimator.ofFloat(view, "alpha", 1.0f, 0.0f).setDuration(3000).start();
     }
 
-    public static void showBtnAmin(View view){
+    public static void showBtnAmin(View view) {
         float translationX = view.getResources().getDimensionPixelOffset(R.dimen.translation_x);
-        ObjectAnimator.ofFloat(view, "translationX", 0.0f, -translationX, translationX, 0.0f).setDuration(400).start();
+        ObjectAnimator.ofFloat(view, "translationX", 0.0f, -translationX, translationX, 0.0f)
+                .setDuration(400).start();
     }
 
     /**
      * 提交按钮动画方法
+     *
      * @param btnView 提交按钮
      * @param txtView 错误提示控件
      */
-    public static void showSubmitAmin(View btnView, View txtView){
+    public static void showSubmitAmin(View btnView, View txtView) {
         showBtnAmin(btnView);
         showTextAmin(txtView);
+    }
+
+    /**
+     * 获得屏幕宽度
+     */
+    public static int getScreenWidth(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.widthPixels;
     }
 
 }
