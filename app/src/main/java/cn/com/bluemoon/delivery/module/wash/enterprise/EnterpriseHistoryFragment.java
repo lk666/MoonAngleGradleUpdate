@@ -146,7 +146,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        EnterpriseApi.getWashEnterpriseRecordList(timestamp,
+        EnterpriseApi.getWashEnterpriseRecordList(getToken(), timestamp,
                 new QueryInfo(startTime, endTime, enterpriseCode, branchCode, queryCode),
                 getNewHandler(requestCode, ResultEnterpriseList.class));
     }

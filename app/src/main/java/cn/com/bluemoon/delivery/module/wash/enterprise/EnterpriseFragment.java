@@ -24,6 +24,7 @@ import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderAc
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
@@ -138,7 +139,11 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
         index = position;
         switch (view.getId()) {
             case R.id.layout_detail:
-                EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
+                if (Constants.OUTER_ACCEPT_CLOTHES.equals(bean.state)) {
+                    AddClothesActivity.actionStart(getActivity(), bean.outerCode);
+                } else {
+                    EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
+                }
                 break;
             case R.id.tv_cancel_order:
                 showWaitDialog();

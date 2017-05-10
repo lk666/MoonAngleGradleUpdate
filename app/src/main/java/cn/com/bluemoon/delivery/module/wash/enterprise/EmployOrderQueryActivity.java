@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -40,8 +41,8 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
     @Bind(R.id.search_view)
     CommonSearchView searchView;
-    @Bind(R.id.layout_init)
-    LinearLayout layoutInit;
+    @Bind(R.id.image_search)
+    ImageView imageSearch;
     @Bind(R.id.layout_title)
     LinearLayout layoutTitle;
     @Bind(R.id.txt_title)
@@ -79,7 +80,7 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
             }
         });
-        ViewUtil.setViewVisibility(layoutInit, View.VISIBLE);
+        ViewUtil.setViewVisibility(imageSearch, View.VISIBLE);
         ViewUtil.setViewVisibility(lvQuery, View.GONE);
         PublicUtil.setEmptyView(lvQuery, null, new CommonEmptyView.EmptyListener() {
             @Override
@@ -107,7 +108,7 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ResultGetWashEnterpriseQuery queryResult = (ResultGetWashEnterpriseQuery) result;
-        ViewUtil.setViewVisibility(layoutInit, View.GONE);
+        ViewUtil.setViewVisibility(imageSearch, View.GONE);
         ViewUtil.setViewVisibility(lvQuery, View.VISIBLE);
         setData(queryResult);
 
