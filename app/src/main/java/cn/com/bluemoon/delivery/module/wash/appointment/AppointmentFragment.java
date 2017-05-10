@@ -15,13 +15,19 @@ import java.util.List;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentOrderScan;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentQueryList;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
  * 预约收衣界面
@@ -31,6 +37,8 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
     private static final int REQUEST_CODE_RECEIVE = 0x777;
     private static final int REQUEST_CODE_CREATE_COLLECT = 0x77;
+    private static final int REQUEST_CODE_MANUAL = 0x66;
+    private static final int REQUEST_CODE_QUERY = 0x666;
     /**
      * 分页标识
      */
@@ -39,6 +47,28 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected String getTitleString() {
         return getString(R.string.appointment_title);
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar titleBar) {
+        super.setActionBar(titleBar);
+        titleBar.getImgRightView().setVisibility(View.VISIBLE);
+        titleBar.getImgRightView().setImageResource(R.mipmap.ewmtxm);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        goScanCode();
+    }
+
+    /**
+     * 打开扫码界面
+     */
+    private void goScanCode() {
+        PublicUtil.openClothScan(getActivity(), AppointmentFragment.this,
+                getString(R.string.coupons_scan_code_title),
+                getString(R.string.with_order_collect_manual_input_code_btn),
+                Constants.REQUEST_SCAN);
     }
 
     @Override
@@ -214,20 +244,70 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                         .APPOINTMENT_ALREADY_ORDERS);
                 getAdapter().notifyDataSetChanged();
                 break;
+            // 扫一扫预约单成功
+            case REQUEST_CODE_QUERY:
+                ResultAppointmentOrderScan data = (ResultAppointmentOrderScan) result;
+                if (data.appointmentInfo != null) {
+                    CreateAppointmentCollectOrderActivity.actionStart(this, data.appointmentInfo,
+                            REQUEST_CODE_CREATE_COLLECT);
+                }
+                break;
         }
     }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode != Activity.RESULT_OK) {
+
+
+        if (resultCode == Activity.RESULT_CANCELED) {
             return;
         }
+
         switch (requestCode) {
             // 已接单,创建收衣单成功的返回
             case REQUEST_CODE_CREATE_COLLECT:
-                initData();
+                if (resultCode == Activity.RESULT_OK) {
+                    initData();
+                }
+                break;
+            case Constants.REQUEST_SCAN:
+                // 扫码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
+                    handleScanCodeBack(resultStr);
+                }
+                //   跳转到手动输入
+                else if (resultCode == Constants.RESULT_SCAN) {
+                    Intent intent = new Intent(getActivity(), ManualInputCodeActivity.class);
+                    AppointmentFragment.this.startActivityForResult(intent,
+                            REQUEST_CODE_MANUAL);
+                }
+                break;
+
+            // 手动输入返回
+            case REQUEST_CODE_MANUAL:
+                // 数字码返回
+                if (resultCode == Activity.RESULT_OK) {
+                    String resultStr = data.getStringExtra(ManualInputCodeActivity
+                            .RESULT_EXTRA_CODE);
+                    handleScanCodeBack(resultStr);
+                }
+                //   跳转到扫码输入
+                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
+                    goScanCode();
+                }
                 break;
         }
+    }
+
+
+    /**
+     * 处理扫码、手动输入数字码返回
+     */
+    private void handleScanCodeBack(String code) {
+        showWaitDialog();
+        AppointmentApi.appointmentOrderScan(code, getToken(),
+                getNewHandler(REQUEST_CODE_QUERY, ResultAppointmentOrderScan.class));
     }
 }
