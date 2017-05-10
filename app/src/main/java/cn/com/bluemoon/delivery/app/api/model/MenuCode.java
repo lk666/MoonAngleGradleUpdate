@@ -33,7 +33,7 @@ public enum MenuCode {
     wash_clothes_check,//衣物清点
     my_deposit,//我的保证金
     receive_appointment_manager,//预约收衣
-    company_wash //企业洗衣
+    receive_enterprise_manager //企业洗衣
 
 }
 

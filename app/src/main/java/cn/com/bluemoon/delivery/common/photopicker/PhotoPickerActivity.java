@@ -442,7 +442,6 @@ public class PhotoPickerActivity extends AppCompatActivity {
         boolean hasSelected = resultList.size() > 0;
         menuDoneItem.setEnabled(hasSelected);
         btnPreview.setEnabled(hasSelected);
-        //TODO
         if(hasSelected){
             btnPreview.setText(getResources().getString(R.string.preview) + "(" + (resultList.size()) + ")");
         } else {

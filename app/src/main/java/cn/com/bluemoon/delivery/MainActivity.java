@@ -447,7 +447,7 @@ public class MainActivity extends SlidingActivity {
 
                     // TODO: lk 2016/12/20
                     if (!BuildConfig.RELEASE) {
-                        mockData();
+                        //mockData();
                     }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
@@ -476,7 +476,7 @@ public class MainActivity extends SlidingActivity {
 
     private void mockData() {
         UserRight item1 = new UserRight();
-        item1.setMenuCode(MenuCode.company_wash.toString());
+        item1.setMenuCode(MenuCode.receive_enterprise_manager.toString());
         item1.setMenuName("企业收衣");
         item1.setIconImg(listRight.get(0).getIconImg());
         item1.setGroupNum(1);
@@ -810,22 +810,8 @@ public class MainActivity extends SlidingActivity {
                 AppointmentTabActivity.actionStart(main);
             }
             //企业洗衣
-            else if (compare(MenuCode.company_wash, menuCode)) {
+            else if (compare(MenuCode.receive_enterprise_manager, menuCode)) {
                 EnterpriseWashTabActivity.actionStart(main);
-//                Employee resultObj = JSON.parseObject(
-//                        " {\n" +
-//                                "            \"branchCode\": \"bh2341\",\n" +
-//                                "            \"branchName\": \"易方达-广州三银大厦办事处\",\n" +
-//                                "            \"employeeCode\": \"3211\",\n" +
-//                                "            \"employeeExtension\": \"21039012384\",\n" +
-//                                "            \"employeeName\": \"Adam Lee\",\n" +
-//                                "            \"employeePhone\": \"13560887921\"\n" +
-//                                "        }",
-//                        Employee.class);
-//
-//                CreateOrderActivity.actionStart(main, resultObj);
-
-
             } else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (!userRight.getUrl().contains("?") ? "?" : "&")

@@ -25,31 +25,6 @@ import cn.com.bluemoon.delivery.utils.Constants;
 public class EnterpriseApi extends DeliveryApi {
 
     /**
-     * 提交http请求
-     *
-     * @param params  参数列表
-     * @param subUrl  请求的url子部
-     * @param handler 回调
-     */
-    protected static void postRequest(Map<String, Object> params, String subUrl,
-                                      AsyncHttpResponseHandler handler) {
-        //TODO jl Mock 联调要删除这个方法
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
-
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
-        }
-        if (!BuildConfig.RELEASE) {
-            ApiHttpClient.postMock(context, url, jsonString, handler);
-        } else {
-            ApiHttpClient.post(context, url, jsonString, handler);
-        }
-    }
-
-
-    /**
      * 8.01企业收衣列表展示
      *
      * @param currentPage 当前页数 int

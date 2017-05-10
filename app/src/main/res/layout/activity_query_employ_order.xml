@@ -52,6 +52,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:cacheColorHint="#00000000"
+        android:divider="@null"
         android:scrollbars="none"
         android:visibility="gone" />
     <include layout="@layout/line_solid_view_e5"/>
