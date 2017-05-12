@@ -2,9 +2,13 @@ package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -51,8 +55,8 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     NoScrollListView lvClothes;
     @Bind(R.id.txt_collect_bag)
     TextView txtCollectBag;
-    @Bind(R.id.txt_collect_remark)
-    TextView txtCollectRemark;
+    @Bind(R.id.et_backup)
+    EditText etBackup;
     @Bind(R.id.llayout_screen_bottom)
     LinearLayout layoutScreenBottom;
     @Bind(R.id.llayout_scroll)
@@ -94,6 +98,26 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     @Override
     public void initView() {
 
+        etBackup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (etBackup.getLineCount() > 1) {
+                    etBackup.setGravity(Gravity.START);
+                } else {
+                    etBackup.setGravity(Gravity.END);
+                }
+            }
+        });
     }
 
     @Override
@@ -176,7 +200,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
                 .txt_commodity_number, R.id.txt_commodity_price}));
 
         txtCollectBag.setText(enterpriseDetail.enterpriseOrderInfo.collectBrcode);
-        txtCollectRemark.setText(enterpriseDetail.enterpriseOrderInfo.remark);
+        etBackup.setText(enterpriseDetail.enterpriseOrderInfo.remark);
     }
 
     @Override
@@ -204,8 +228,8 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     @OnClick({R.id.btn_deduction_affirm_scroll, R.id.btn_deduction_affirm_screen_bottom})
     public void affirm() {
         if (enterpriseDetail != null && !TextUtils.isEmpty(outerCode)) {
-            EnterpriseApi.payWashEnterpriseOrder(outerCode, getToken(), getNewHandler(0,
-                    ResultBase.class));
+            EnterpriseApi.payWashEnterpriseOrder(outerCode, etBackup.getText().toString(),
+                    getToken(), getNewHandler(0, ResultBase.class));
         }
     }
 

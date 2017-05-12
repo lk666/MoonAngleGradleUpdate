@@ -148,7 +148,7 @@ public class EnterpriseApi extends DeliveryApi {
      * @param outerCode 洗衣订单编号 String
      * @param token     登录凭证 String
      */
-    public static void payWashEnterpriseOrder(String outerCode, String token,
+    public static void payWashEnterpriseOrder(String outerCode, String remark, String token,
                                               AsyncHttpResponseHandler handler) {
         if (null == outerCode || null == token) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
@@ -159,6 +159,7 @@ public class EnterpriseApi extends DeliveryApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put("outerCode", outerCode);
+        params.put("remark", remark);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/enterprise/payWashEnterpriseOrder%s",
                 handler);
