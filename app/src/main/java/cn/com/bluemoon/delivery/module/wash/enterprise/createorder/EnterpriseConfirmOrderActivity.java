@@ -41,6 +41,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
+    public static final int RESULT_CANCEL_CONFIRM = 0x7777;
     @Bind(R.id.txt_order_code)
     TextView txtOrderCode;
     @Bind(R.id.txt_state)
@@ -222,6 +223,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
     @OnClick({R.id.btn_deduction_cancel_scroll, R.id.btn_deduction_cancel_screen_bottom})
     public void cancel() {
+        setResult(RESULT_CANCEL_CONFIRM);
         finish();
     }
 

@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.event.EnterpriseListChangeEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ClothesChangedEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -192,6 +193,11 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(CreateOrderEvent event) {
+        initData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ClothesChangedEvent event) {
         initData();
     }
 }

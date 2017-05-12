@@ -12,8 +12,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +28,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnter
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ClothesChangedEvent;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 
 /**
@@ -115,7 +114,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         adapter = new ItemAdapter(this, this);
         adapter.setList(list);
         lvClothes.setAdapter(adapter);
-
+        isClothesChanged = false;
         if (info != null) {
             setData(info);
         }
@@ -178,6 +177,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
             // 点击删除衣物
             case REQUEST_CODE_DELETE:
                 if (result.isSuccess) {
+                    isClothesChanged = true;
                     list.remove(deletePos);
                     refreshClothesData();
                 }
@@ -239,8 +239,13 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
 
         // 提交扣款
         if (requestCode == 0x77) {
-            showWaitDialog();
-            refreshData(outerCode);
+            if (resultCode == EnterpriseConfirmOrderActivity.RESULT_CANCEL_CONFIRM) {
+                showWaitDialog();
+                refreshData(outerCode);
+            } else {
+                finish();
+            }
+
             return;
         }
 
@@ -254,6 +259,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
                 ClothesInfo clothes = (ClothesInfo) data.getSerializableExtra
                         (SelectClothesTypeActivity.EXTRA_CLOTHES);
                 if (clothes != null) {
+                    isClothesChanged = true;
                     list.add(clothes);
                     refreshClothesData();
                 }
@@ -318,14 +324,16 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
     }
 
-    @Override
-    protected boolean isUseEventBus() {
-        return true;
-    }
+    /**
+     * 衣物发生变更，通知主页刷新
+     */
+    private boolean isClothesChanged = false;
 
-    // 提交扣款成功，结束页面
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ConfirmEvent event) {
-        finish();
+    @Override
+    public void finish() {
+        if (isClothesChanged) {
+            EventBus.getDefault().post(new ClothesChangedEvent());
+        }
+        super.finish();
     }
 }
