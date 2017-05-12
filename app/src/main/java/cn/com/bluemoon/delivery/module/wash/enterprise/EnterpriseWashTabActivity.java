@@ -28,19 +28,4 @@ public class EnterpriseWashTabActivity extends BaseTabActivity {
                 R.mipmap.tab_history_disable, R.string.card_search_history));
         actionStart(context, tabs, EnterpriseWashTabActivity.class);
     }
-
-    @Override
-    protected boolean isUseEventBus() {
-        return true;
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ConfirmEvent event) {
-        tabhost.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                tabhost.setCurrentTab(1);
-            }
-        }, 200);
-    }
 }
