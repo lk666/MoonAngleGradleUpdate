@@ -142,7 +142,8 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 if (Constants.OUTER_ACCEPT_CLOTHES.equals(bean.state)) {
                     AddClothesActivity.actionStart(getActivity(), bean.outerCode);
                 } else {
-                    EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
+                    EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean
+                            .state);
                 }
                 break;
             case R.id.tv_cancel_order:
