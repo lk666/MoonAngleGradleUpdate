@@ -2,13 +2,15 @@ package cn.com.bluemoon.delivery.module.wash.enterprise;
 
 import android.content.Context;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,6 +29,8 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.SaveOrderEvent;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
@@ -34,9 +38,9 @@ import cn.com.bluemoon.lib.view.CommonSearchView;
 
 public class EmployOrderQueryActivity extends BaseActivity implements OnListItemClickListener {
 
-    public static void startAct(Fragment fragment, int requestCode) {
-        Intent intent = new Intent(fragment.getActivity(), EmployOrderQueryActivity.class);
-        fragment.startActivityForResult(intent, requestCode);
+    public static void startAct(Context context) {
+        Intent intent = new Intent(context, EmployOrderQueryActivity.class);
+        context.startActivity(intent);
     }
 
     @Bind(R.id.search_view)
@@ -99,7 +103,8 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_scan:
-                setResult(1);
+                EnterpriseScanInputActivity.actStart(this, getString(R.string
+                        .hand_query_with_space));
                 finish();
                 break;
         }
@@ -195,6 +200,20 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
             // 跳到添加衣物
             AddClothesActivity.actionStart(this, order.outerCode);
         }
+    }
+
+    @Override
+    protected boolean isUseEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ConfirmEvent event) {
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(SaveOrderEvent event) {
         finish();
     }
 }

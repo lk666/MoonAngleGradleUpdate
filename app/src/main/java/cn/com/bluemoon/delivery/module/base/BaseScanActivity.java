@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.base;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -14,6 +15,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
@@ -47,6 +49,14 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
         super.onBeforeSetContentLayout();
         ActivityManager.getInstance().pushOneActivity(this);
         initCustomActionBar();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        if (isUseEventBus()) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     @Override
@@ -98,6 +108,9 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     @Override
     protected void onDestroy() {
         hideWaitDialog();
+        if (isUseEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
         ApiHttpClient.cancelAll(this);
         ActivityManager.getInstance().popOneActivity(this);
@@ -160,6 +173,13 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     }
 
     ///////////// 工具方法 ////////////////
+
+    /**
+     * 是否有使用EventBus
+     */
+    protected boolean isUseEventBus() {
+        return false;
+    }
 
     /**
      * 获取token

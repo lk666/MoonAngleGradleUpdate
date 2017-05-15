@@ -39,7 +39,7 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     private static final int REQUEST_CODE_CANCEL = 0x777;
-    private static final int REQUEST_CODE_SCAN = 0x666;
+
     /**
      * 分页标识
      */
@@ -67,7 +67,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        EnterpriseScanInputActivity.actStart(this, getString(R.string.hand_query_with_space), 1);
+        EnterpriseScanInputActivity.actStart(getActivity(), getString(R.string.hand_query_with_space));
     }
 
     @Override
@@ -119,15 +119,6 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
         if (requestCode == REQUEST_CODE_CANCEL) {
             toast(result.getResponseMsg());
             initData();
-        } else if (requestCode == REQUEST_CODE_SCAN) {
-            ResultGetWashEnterpriseScan resultGetWashEnterpriseScan =
-                    (ResultGetWashEnterpriseScan) result;
-            if (resultGetWashEnterpriseScan.enterpriseOrderInfo != null) {
-                // 跳到添加衣物
-                AddClothesActivity.actionStart(getActivity(), resultGetWashEnterpriseScan);
-            } else {
-                CreateOrderActivity.actionStart(getActivity(), resultGetWashEnterpriseScan);
-            }
         }
     }
 
@@ -154,27 +145,6 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 }).setPositiveButton(R.string.cancel_with_space, null).show();
 
                 break;
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 1 && data != null) {
-                showWaitDialog();
-                String code = data.getStringExtra(LibConstants.SCAN_RESULT);
-                EnterpriseApi.getWashEnterpriseScan(code,
-                        getToken(), getNewHandler(REQUEST_CODE_SCAN, ResultGetWashEnterpriseScan
-                                .class));
-            }
-        } else if (resultCode == 1) {
-            if (requestCode == 1) {
-                EmployOrderQueryActivity.startAct(this, 2);
-            } else if (requestCode == 2) {
-                EnterpriseScanInputActivity.actStart(this, getString(R.string
-                        .hand_query_with_space), 1);
-            }
         }
     }
 
