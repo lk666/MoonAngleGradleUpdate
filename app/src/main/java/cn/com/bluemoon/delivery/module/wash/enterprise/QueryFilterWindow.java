@@ -34,8 +34,10 @@ import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseRecord;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseRecord.EnterpriseListBean;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseRecord.EnterpriseListBean.BranchListBean;
+import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
+import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
@@ -311,7 +313,9 @@ public class QueryFilterWindow extends PopupWindow {
         }
     };
 
+    private SingleOptionSelectDialog dialog;
     private void showSelectView() {
+
         if (!isClickCompany && !StringUtils.isNoneBlank(enterpriseCode)) {
             Toast.makeText(mContext, R.string.input_company, Toast.LENGTH_SHORT).show();
             return;
@@ -330,31 +334,37 @@ public class QueryFilterWindow extends PopupWindow {
                     }
                 }
             }
-
         }
-        int index = itemList.size() > 2 ? 1 : 0;
-        new SingleOptionSelectDialog(mContext, "",
-                itemList, index, new SingleOptionSelectDialog.OnButtonClickListener() {
-            @Override
-            public void onOKButtonClick(int index, String text) {
-                if (isClickCompany) {
-                    txtCompany.setText(text);
-                    enterpriseCode = list.get(index).enterpriseCode;
-                } else {
-                    txtCompanySub.setText(text);
-                    for (EnterpriseListBean bean : list) {
-                        if (enterpriseCode.equals(bean.enterpriseCode)) {
-                            branchCode = bean.branchList.get(index).branchCode;
+        if (itemList.isEmpty()) {
+            return;
+        }
+
+        if (dialog == null) {
+            int index = itemList.size() > 2 ? 1 : 0;
+            dialog = new TextSingleOptionSelectDialog(mContext, "",
+                    itemList, index, new SingleOptionSelectDialog.OnButtonClickListener() {
+                @Override
+                public void onOKButtonClick(int index, String text) {
+                    if (isClickCompany) {
+                        txtCompany.setText(text);
+                        enterpriseCode = list.get(index).enterpriseCode;
+                    } else {
+                        txtCompanySub.setText(text);
+                        for (EnterpriseListBean bean : list) {
+                            if (enterpriseCode.equals(bean.enterpriseCode)) {
+                                branchCode = bean.branchList.get(index).branchCode;
+                            }
                         }
                     }
                 }
-            }
 
-            @Override
-            public void onCancelButtonClick() {
+                @Override
+                public void onCancelButtonClick() {
 
-            }
-        }).show();
+                }
+            });
+        }
+        dialog.show();
 
     }
     private List<EnterpriseListBean> list;

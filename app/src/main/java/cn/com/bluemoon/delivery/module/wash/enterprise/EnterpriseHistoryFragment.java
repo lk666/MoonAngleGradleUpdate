@@ -76,7 +76,6 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
                             if (startTime == 0 && endTime == 0) {
                                 return;
                             }
-                            setHead(View.VISIBLE);
                             initData();
                         }
                     }
@@ -91,7 +90,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
     }
 
     private void setHead(int visibility) {
-        if (visibility == View.VISIBLE && startTime < endTime) {
+        if (visibility == View.VISIBLE) {
             setHeadViewVisibility(View.VISIBLE);
             tvDate.setText(getString(R.string.start_to_end, DateUtil.getTime(startTime, "yyyy/MM/dd"),
                     DateUtil.getTime(endTime, "yyyy/MM/dd")));
@@ -154,6 +153,14 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
         EnterpriseApi.getWashEnterpriseRecordList(getToken(), timestamp,
                 new QueryInfo(startTime, endTime, enterpriseCode, branchCode, queryCode),
                 getNewHandler(requestCode, ResultEnterpriseList.class));
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        if (startTime > 0) {
+            setHead(View.VISIBLE);
+        }
     }
 
     @Override

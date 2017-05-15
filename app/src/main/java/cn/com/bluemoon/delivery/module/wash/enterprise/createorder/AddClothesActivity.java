@@ -86,7 +86,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
      * 扫一扫入口
      */
     public static void actionStart(Context context, ResultGetWashEnterpriseScan info) {
-        Intent intent = new Intent(context, CreateOrderActivity.class);
+        Intent intent = new Intent(context, AddClothesActivity.class);
         intent.putExtra(EXTRA_INFO, info);
         context.startActivity(intent);
     }

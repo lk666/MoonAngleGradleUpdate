@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
@@ -29,6 +30,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * 企业收衣界面
@@ -38,7 +40,6 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     private static final int REQUEST_CODE_CANCEL = 0x777;
     private static final int REQUEST_CODE_SCAN = 0x666;
-    private int index;
     /**
      * 分页标识
      */
@@ -117,11 +118,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == REQUEST_CODE_CANCEL) {
             toast(result.getResponseMsg());
-            getList().remove(index);
-            getAdapter().notifyDataSetChanged();
-            if (getList().isEmpty()) {
-                initData();
-            }
+            initData();
         } else if (requestCode == REQUEST_CODE_SCAN) {
             ResultGetWashEnterpriseScan resultGetWashEnterpriseScan =
                     (ResultGetWashEnterpriseScan) result;
@@ -136,8 +133,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     public void onItemClick(Object obj, View view, int position) {
-        EnterpriseOrderListBean bean = (EnterpriseOrderListBean) obj;
-        index = position;
+        final EnterpriseOrderListBean bean = (EnterpriseOrderListBean) obj;
         switch (view.getId()) {
             case R.id.layout_detail:
                 if (Constants.OUTER_ACCEPT_CLOTHES.equals(bean.state)) {
@@ -148,9 +144,15 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 }
                 break;
             case R.id.tv_cancel_order:
-                showWaitDialog();
-                EnterpriseApi.cancelWashEnterpriseOrder(bean.outerCode, getToken(),
-                        getNewHandler(REQUEST_CODE_CANCEL, ResultBase.class));
+                new CommonAlertDialog.Builder(getActivity()).setMessage(R.string.enterprise_cancel).setNegativeButton(R.string.btn_ok_with_space, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        showWaitDialog();
+                        EnterpriseApi.cancelWashEnterpriseOrder(bean.outerCode, getToken(),
+                                getNewHandler(REQUEST_CODE_CANCEL, ResultBase.class));
+                    }
+                }).setPositiveButton(R.string.cancel_with_space, null).show();
+
                 break;
         }
     }
