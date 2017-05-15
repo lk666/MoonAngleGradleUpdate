@@ -40,6 +40,8 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
     TextView txtTotalPrice2;
     @Bind(R.id.txt_preferential)
     TextView txtPreferential;
+    @Bind(R.id.layout_preferential)
+    LinearLayout layoutPreferential;
     @Bind(R.id.txt_actual_price)
     TextView txtActualPrice;
     @Bind(R.id.layout_total_price2)
@@ -139,10 +141,15 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                     layoutTotalPrice2.setVisibility(View.VISIBLE);
                     txtTotalPrice2.setText(getString(R.string.order_money,
                             StringUtil.formatPriceByFen(enterpriseOrderInfo.sumAmount)));
-                    txtPreferential.setText("- " + getString(R.string.order_money,
-                            StringUtil.formatPriceByFen(enterpriseOrderInfo.integralAmount)));
+                    if (enterpriseOrderInfo.integralAmount == 0) {
+                        layoutPreferential.setVisibility(View.GONE);
+                    } else {
+                        txtPreferential.setText("- " + getString(R.string.order_money,
+                                StringUtil.formatPriceByFen(enterpriseOrderInfo.integralAmount)));
+                    }
+
                     txtActualPrice.setText(getString(R.string.order_money,
-                            StringUtil.formatPriceByFen(enterpriseOrderInfo.payTotal)));
+                            StringUtil.formatPriceByFen(enterpriseOrderInfo.sumAmount - enterpriseOrderInfo.integralAmount)));
 
                 } else if (Constants.OUTER_CANCEL.equals(type)) {
                     layoutCancelTime.setVisibility(View.VISIBLE);

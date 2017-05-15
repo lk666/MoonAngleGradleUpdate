@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -387,6 +388,7 @@ public class MainActivity extends SlidingActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         isDestory = false;
+        backCount = 0;
         if (listRight != null) {
             DeliveryApi.getModelNum(token, getAmountHandler);
         }
@@ -400,11 +402,17 @@ public class MainActivity extends SlidingActivity {
             progressDialog.dismiss();
     }
 
+    private int backCount = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            DialogUtil.getExitDialog(this).show();
+            if (backCount == 0) {
+                backCount = 1;
+                Toast.makeText(this, R.string.app_quit_txt, Toast.LENGTH_SHORT).show();
+            } else {
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
