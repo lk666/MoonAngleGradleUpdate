@@ -131,7 +131,7 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                     AddClothesActivity.actionStart(getActivity(), bean.outerCode);
                 } else {
                     EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean
-                            .state);
+                            .state, false);
                 }
                 break;
             case R.id.tv_cancel_order:

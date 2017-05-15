@@ -168,7 +168,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
         EnterpriseOrderListBean bean = (EnterpriseOrderListBean) item;
         switch (view.getId()) {
             case R.id.layout_detail:
-                EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
+                EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state, true);
                 break;
         }
     }

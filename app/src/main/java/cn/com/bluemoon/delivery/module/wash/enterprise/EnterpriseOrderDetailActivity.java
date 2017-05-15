@@ -81,12 +81,16 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
     TextView txtTotalPrice;
     @Bind(R.id.layout_total_price)
     LinearLayout layoutTotalPrice;
+    @Bind(R.id.line_clothes)
+    View lineClothes;
     private final String FORMAT_TIME = "yyyy/MM/dd HH:mm:ss";
+    private boolean isHistory;
 
-    public static void startAct(Context context, String outerCode, String type) {
+    public static void startAct(Context context, String outerCode, String type, boolean isHistory) {
         Intent intent = new Intent(context, EnterpriseOrderDetailActivity.class);
         intent.putExtra("outerCode", outerCode);
         intent.putExtra("type", type);
+        intent.putExtra("isHistory", isHistory);
         context.startActivity(intent);
     }
 
@@ -109,6 +113,7 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
     public void initData() {
         String outerCode = getIntent().getStringExtra("outerCode");
         type = getIntent().getStringExtra("type");
+        isHistory = getIntent().getBooleanExtra("isHistory", false);
         EnterpriseApi.getWashEnterpriseDetail(outerCode, getToken(), getNewHandler(1, ResultEnterpriseDetail.class));
     }
 
@@ -128,9 +133,13 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                 }
                 if (enterpriseOrderInfo.clothesDetails != null) {
                     txtCollectNum.setText(getString(R.string.clothes_total_amount, enterpriseOrderInfo.clothesDetails.size()));
-                    ItemAdapter adapter = new ItemAdapter(this);
-                    adapter.setList(enterpriseOrderInfo.clothesDetails);
-                    lvClothes.setAdapter(adapter);
+                    if (enterpriseOrderInfo.clothesDetails.size() > 0) {
+                        lineClothes.setVisibility(View.VISIBLE);
+                        ItemAdapter adapter = new ItemAdapter(this);
+                        adapter.setList(enterpriseOrderInfo.clothesDetails);
+                        lvClothes.setAdapter(adapter);
+                    }
+
                 }
                 txtOrderTime.setText(DateUtil.getTime(enterpriseOrderInfo.createTime, FORMAT_TIME));
                 if (Constants.OUTER_WAIT_PAY.equals(type)) {
@@ -168,14 +177,19 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                 txtNameCode.setText(employeeInfo.employeeCode);
                 txtPhone.setText(employeeInfo.employeePhone);
                 txtAddress.setText(employeeInfo.branchName);
-                txtPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
-                txtPhone.getPaint().setAntiAlias(true);
-                txtPhone.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        PublicUtil.showCallPhoneDialog2(EnterpriseOrderDetailActivity.this, employeeInfo.employeePhone);
-                    }
-                });
+                if (isHistory) {
+                    txtPhone.setTextColor(getResources().getColor(R.color.text_black));
+                } else {
+                    txtPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                    txtPhone.getPaint().setAntiAlias(true);
+                    txtPhone.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            PublicUtil.showCallPhoneDialog2(EnterpriseOrderDetailActivity.this, employeeInfo.employeePhone);
+                        }
+                    });
+                }
+
             }
         }
 
