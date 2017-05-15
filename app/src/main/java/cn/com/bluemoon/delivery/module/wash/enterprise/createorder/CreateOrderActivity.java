@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -29,6 +30,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultSaveWashEnte
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.SaveOrderEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
@@ -36,6 +38,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * 创建订单页面
@@ -226,18 +229,50 @@ public class CreateOrderActivity extends BaseActivity {
             // 点击保存
             case REQUEST_CODE_SAVE:
                 ResultSaveWashEnterpriseOrder order0 = (ResultSaveWashEnterpriseOrder) result;
-                EventBus.getDefault().post(new CreateOrderEvent(order0.outerCode));
-                finish();
+                EventBus.getDefault().post(new SaveOrderEvent(order0.outerCode));
+                finish(false);
                 break;
             // 点击添加衣物
             case REQUEST_CODE_ADD:
                 ResultSaveWashEnterpriseOrder order1 = (ResultSaveWashEnterpriseOrder) result;
                 EventBus.getDefault().post(new CreateOrderEvent(order1.outerCode));
                 AddClothesActivity.actionStart(this, order1.outerCode);
-                finish();
+                finish(false);
                 break;
 
         }
+    }
+
+    @Override
+    protected void onActionBarBtnLeftClick() {
+        setResult(Activity.RESULT_CANCELED);
+        finish(true);
+    }
+
+    private void finish(boolean isFinishManual) {
+        // 手动后退，确认
+        if (isFinishManual) {
+            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(this);
+            dialog.setMessage(getString(R.string.cancel_create_order));
+            dialog.setNegativeButton(R.string.btn_ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+
+                    });
+            dialog.setPositiveButton(R.string.btn_cancel, null);
+            dialog.show();
+        } else {
+            finish();
+        }
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        finish(true);
     }
 
     private TextSingleOptionSelectDialog dialog;

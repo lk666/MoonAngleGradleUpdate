@@ -1462,4 +1462,5 @@
     <string name="confirm2_with_space">确&#160;认</string>
     <string name="txt_cop_type">合作类型</string>
     <string name="hint_select_type">请选择洗衣类型</string>
+    <string name="cancel_create_order">确定取消本次录入?</string>
 </resources>
