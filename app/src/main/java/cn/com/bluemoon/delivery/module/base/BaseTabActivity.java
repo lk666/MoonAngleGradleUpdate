@@ -19,6 +19,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +59,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     private ProgressDialog waitDialog;
     private LayoutInflater layoutInflater;
 
-    private List<TabState> tabs;
+    protected List<TabState> tabs;
     protected List<TextView> amountTvs;
 
     protected static void actionStart(Context context, ArrayList<TabState> tabs, Class clazz) {
@@ -80,6 +81,9 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
 
         initView();
         initData();
+        if (isUseEventBus()) {
+            EventBus.getDefault().register(this);
+        }
     }
 
     private void onBeforeSetContentLayout() {
@@ -91,6 +95,9 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
 
     @Override
     protected void onDestroy() {
+        if (isUseEventBus()) {
+            EventBus.getDefault().unregister(this);
+        }
         super.onDestroy();
         ActivityManager.getInstance().popOneActivity(this);
     }
@@ -99,6 +106,9 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     public void initView() {
         tabhost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         tabhost.getTabWidget().setDividerDrawable(null);
+
+
+
         amountTvs = new ArrayList<>();
     }
 
@@ -109,7 +119,8 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
             View view;
             if (ts instanceof DrawableTabState) {
                 DrawableTabState dts = (DrawableTabState) ts;
-                view = getTabItemView(dts.getImgNormal(), dts.getImgSelected(), getResources().getString(dts.getContent()));
+                view = getTabItemView(dts.getImgNormal(), dts.getImgSelected(), getResources()
+                        .getString(dts.getContent()));
             } else {
                 view = getTabItemView(ts.getImage(), getResources().getString(ts.getContent()));
             }
@@ -123,10 +134,9 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
                         ((ArgumentTabState) ts).getBundleData());
             }
 
-
             tabhost.addTab(tabSpec, ts.getClazz(), bundle);
-            tabhost.setCurrentTab(getCurrentIndex());
         }
+        tabhost.setCurrentTab(getCurrentIndex());
     }
 
     private View getTabItemView(int resId, String content) {
@@ -323,9 +333,11 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
      */
     final public void getAmount() {
         if (getModeType() != null) {
-            ReturningApi.queryCornerNum(getModeType().name(), getToken(), getNewHandler(REQUESTCODE_MODE, ResultCornerNum.class));
+            ReturningApi.queryCornerNum(getModeType().name(), getToken(), getNewHandler
+                    (REQUESTCODE_MODE, ResultCornerNum.class));
         }
     }
+
     /**
      * 获取并设置角标数量的方法
      */
@@ -338,6 +350,13 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     }
 
     ///////////// 可选重写 ////////////////
+
+    /**
+     * 是否有使用EventBus
+     */
+    protected boolean isUseEventBus() {
+        return false;
+    }
 
     /**
      * 默认TAG

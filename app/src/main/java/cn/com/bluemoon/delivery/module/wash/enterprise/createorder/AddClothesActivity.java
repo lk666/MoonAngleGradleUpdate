@@ -2,18 +2,20 @@ package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 
-import org.greenrobot.eventbus.Subscribe;
-import org.greenrobot.eventbus.ThreadMode;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +31,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnter
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ClothesChangedEvent;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 
 /**
@@ -52,8 +54,6 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
     TextView txtAddress;
     @Bind(R.id.txt_collect_bag)
     TextView txtCollectBag;
-    @Bind(R.id.txt_collect_remark)
-    TextView txtCollectRemark;
     @Bind(R.id.txt_collect_num)
     TextView txtCollectNum;
     @Bind(R.id.ic_add)
@@ -62,6 +62,8 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
     NoScrollListView lvClothes;
     @Bind(R.id.div_list)
     View divList;
+    @Bind(R.id.et_backup)
+    EditText etBackup;
 
     @Bind(R.id.btn_send)
     Button btnSend;
@@ -108,6 +110,27 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
 
     @Override
     public void initView() {
+        etBackup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (etBackup.getLineCount() > 1) {
+                    etBackup.setGravity(Gravity.START);
+                } else {
+                    etBackup.setGravity(Gravity.END);
+                }
+            }
+        });
+
         divList.setVisibility(View.GONE);
         btnSend.setEnabled(false);
 
@@ -115,8 +138,10 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         adapter = new ItemAdapter(this, this);
         adapter.setList(list);
         lvClothes.setAdapter(adapter);
-
+        isClothesChanged = false;
         if (info != null) {
+            isInited = true;
+            curRemark = info.enterpriseOrderInfo.remark;
             setData(info);
         }
     }
@@ -127,11 +152,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
         txtOrderCode.setText(info.enterpriseOrderInfo.outerCode);
         txtCollectBag.setText(info.enterpriseOrderInfo.collectBrcode);
-        if (TextUtils.isEmpty(info.enterpriseOrderInfo.remark)) {
-            txtCollectRemark.setText(getString(R.string.promote_none));
-        } else {
-            txtCollectRemark.setText(info.enterpriseOrderInfo.remark);
-        }
+        etBackup.setText(info.enterpriseOrderInfo.remark);
 
         if (info.enterpriseOrderInfo.clothesDetails != null) {
             list.clear();
@@ -155,6 +176,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         // 手动搜索等入口进来的查询信息
         if (info == null && outerCode != null) {
             showWaitDialog();
+            isInited = false;
             refreshData(outerCode);
         }
     }
@@ -167,6 +189,11 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
                 getNewHandler(REQUEST_CODE_QUERY, ResultEnterpriseDetail.class));
     }
 
+    /**
+     * 手动搜索等入口进来的查询信息是否初始化完
+     */
+    private boolean isInited = false;
+
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
@@ -178,6 +205,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
             // 点击删除衣物
             case REQUEST_CODE_DELETE:
                 if (result.isSuccess) {
+                    isClothesChanged = true;
                     list.remove(deletePos);
                     refreshClothesData();
                 }
@@ -198,10 +226,13 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
         txtOrderCode.setText(info.enterpriseOrderInfo.outerCode);
         txtCollectBag.setText(info.enterpriseOrderInfo.collectBrcode);
-        if (TextUtils.isEmpty(info.enterpriseOrderInfo.remark)) {
-            txtCollectRemark.setText(getString(R.string.promote_none));
+
+        if (!isInited) {
+            isInited = true;
+            curRemark = info.enterpriseOrderInfo.remark;
+            etBackup.setText(info.enterpriseOrderInfo.remark);
         } else {
-            txtCollectRemark.setText(info.enterpriseOrderInfo.remark);
+            etBackup.setText(curRemark);
         }
 
         if (info.enterpriseOrderInfo.clothesDetails != null) {
@@ -228,10 +259,13 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
                 break;
             // 提交扣款
             case R.id.btn_send:
-                EnterpriseConfirmOrderActivity.actionStart(this, outerCode, 0x77);
+                curRemark = etBackup.getText().toString();
+                EnterpriseConfirmOrderActivity.actionStart(this, outerCode, curRemark, 0x77);
                 break;
         }
     }
+
+    private String curRemark;
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -239,8 +273,13 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
 
         // 提交扣款
         if (requestCode == 0x77) {
-            showWaitDialog();
-            refreshData(outerCode);
+            if (resultCode == EnterpriseConfirmOrderActivity.RESULT_CANCEL_CONFIRM) {
+                showWaitDialog();
+                refreshData(outerCode);
+            } else {
+                finish();
+            }
+
             return;
         }
 
@@ -254,6 +293,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
                 ClothesInfo clothes = (ClothesInfo) data.getSerializableExtra
                         (SelectClothesTypeActivity.EXTRA_CLOTHES);
                 if (clothes != null) {
+                    isClothesChanged = true;
                     list.add(clothes);
                     refreshClothesData();
                 }
@@ -318,14 +358,16 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
     }
 
-    @Override
-    protected boolean isUseEventBus() {
-        return true;
-    }
+    /**
+     * 衣物发生变更，通知主页刷新
+     */
+    private boolean isClothesChanged = false;
 
-    // 提交扣款成功，结束页面
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ConfirmEvent event) {
-        finish();
+    @Override
+    public void finish() {
+        if (isClothesChanged) {
+            EventBus.getDefault().post(new ClothesChangedEvent());
+        }
+        super.finish();
     }
 }

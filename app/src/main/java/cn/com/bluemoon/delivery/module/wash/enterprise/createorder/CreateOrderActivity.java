@@ -145,7 +145,6 @@ public class CreateOrderActivity extends BaseActivity {
     @Override
     public void initView() {
         tvCollectBrcode.setText("");
-
         etBackup.setText("");
         etBackup.addTextChangedListener(new TextWatcher() {
             @Override
@@ -331,6 +330,7 @@ public class CreateOrderActivity extends BaseActivity {
                 //   跳转到手动输入
                 else if (resultCode == Constants.RESULT_SCAN) {
                     Intent intent = new Intent(this, ManualInputCodeActivity.class);
+                    intent.putExtra(ManualInputCodeActivity.EXTRA_MAX_LENGTH, 32);
                     startActivityForResult(intent, REQUEST_CODE_MANUAL);
                 }
                 break;

@@ -5,6 +5,9 @@ import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -15,6 +18,8 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseLi
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList.EnterpriseOrderListBean;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
+import cn.com.bluemoon.delivery.module.event.EnterpriseListChangeEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -166,5 +171,15 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
                 EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
                 break;
         }
+    }
+
+    @Override
+    protected boolean isUseEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ConfirmEvent event) {
+        initData();
     }
 }

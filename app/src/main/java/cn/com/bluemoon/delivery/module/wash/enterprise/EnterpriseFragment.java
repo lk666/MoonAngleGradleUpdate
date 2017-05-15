@@ -22,6 +22,7 @@ import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.event.EnterpriseListChangeEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.ClothesChangedEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -138,7 +139,8 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 if (Constants.OUTER_ACCEPT_CLOTHES.equals(bean.state)) {
                     AddClothesActivity.actionStart(getActivity(), bean.outerCode);
                 } else {
-                    EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean.state);
+                    EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean
+                            .state);
                 }
                 break;
             case R.id.tv_cancel_order:
@@ -193,6 +195,11 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(CreateOrderEvent event) {
+        initData();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ClothesChangedEvent event) {
         initData();
     }
 }

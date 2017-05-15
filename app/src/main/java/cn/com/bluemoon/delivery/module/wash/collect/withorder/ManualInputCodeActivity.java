@@ -45,6 +45,10 @@ public class ManualInputCodeActivity extends BaseActivity implements OnClickList
      * 输入的数字码
      */
     public final static String RESULT_EXTRA_CODE = "RESULT_EXTRA_CODE";
+    /**
+     * 数字码长度
+     */
+    public final static String EXTRA_MAX_LENGTH = "EXTRA_MAX_LENGTH";
 
     /**
      * 换成扫码输入
@@ -59,6 +63,10 @@ public class ManualInputCodeActivity extends BaseActivity implements OnClickList
 
         initCustomActionBar();
 
+        int max = getIntent().getIntExtra(EXTRA_MAX_LENGTH, -1);
+        if (max > 0) {
+            etNumber.setMaxLength(max);
+        }
         etNumber.setHint(getString(R.string.manual_input_code_hint));
         btnScan.setText(getString(R.string.coupons_scan_code_title));
 

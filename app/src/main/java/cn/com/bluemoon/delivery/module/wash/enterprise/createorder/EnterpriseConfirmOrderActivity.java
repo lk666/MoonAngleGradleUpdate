@@ -2,9 +2,13 @@ package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -37,6 +41,7 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
+    public static final int RESULT_CANCEL_CONFIRM = 0x7777;
     @Bind(R.id.txt_order_code)
     TextView txtOrderCode;
     @Bind(R.id.txt_state)
@@ -51,8 +56,8 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     NoScrollListView lvClothes;
     @Bind(R.id.txt_collect_bag)
     TextView txtCollectBag;
-    @Bind(R.id.txt_collect_remark)
-    TextView txtCollectRemark;
+    @Bind(R.id.et_backup)
+    EditText etBackup;
     @Bind(R.id.llayout_screen_bottom)
     LinearLayout layoutScreenBottom;
     @Bind(R.id.llayout_scroll)
@@ -75,9 +80,11 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
      */
     private String[] KEYS = new String[]{"name", "number", "price", "clothesId", "washCode"};
 
-    public static void actionStart(Activity context, String outerCode, int requestCode) {
+    public static void actionStart(Activity context, String outerCode, String curRemark, int
+            requestCode) {
         Intent intent = new Intent(context, EnterpriseConfirmOrderActivity.class);
         intent.putExtra("outerCode", outerCode);
+        intent.putExtra("curRemark", curRemark);
         context.startActivityForResult(intent, requestCode);
     }
 
@@ -94,11 +101,34 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     @Override
     public void initView() {
 
+        etBackup.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (etBackup.getLineCount() > 1) {
+                    etBackup.setGravity(Gravity.START);
+                } else {
+                    etBackup.setGravity(Gravity.END);
+                }
+            }
+        });
     }
+
+    private String curRemark;
 
     @Override
     public void initData() {
         outerCode = getIntent().getStringExtra("outerCode");
+        curRemark = getIntent().getStringExtra("curRemark");
         EnterpriseApi.getWashEnterpriseDetail(outerCode, getToken(), getNewHandler(1,
                 ResultEnterpriseDetail.class));
         ViewTreeObserver layoutVto = layoutOrderDetails.getViewTreeObserver();
@@ -133,8 +163,11 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
             boolean isNew = true;//默认是新的商品编码
             for (Map<String, String> stringMap : list) {
                 if (stringMap.get(KEYS[4]).equals(clothesDetailsBean.washCode)) {
-                    stringMap.put(KEYS[1], String.valueOf(Integer.valueOf(stringMap.get(KEYS[1]))
+                    int number=Integer.valueOf(stringMap.get(KEYS[1]));
+                    double price=Double.valueOf(stringMap.get(KEYS[2]));
+                    stringMap.put(KEYS[1], String.valueOf(number
                             + 1));
+                    stringMap.put(KEYS[2], String.valueOf(price/number*(number+1)));
                     isNew = false;//发现已有商品，直接增加数量
                     break;
                 }
@@ -176,7 +209,8 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
                 .txt_commodity_number, R.id.txt_commodity_price}));
 
         txtCollectBag.setText(enterpriseDetail.enterpriseOrderInfo.collectBrcode);
-        txtCollectRemark.setText(enterpriseDetail.enterpriseOrderInfo.remark);
+
+        etBackup.setText(curRemark);
     }
 
     @Override
@@ -198,14 +232,16 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
     @OnClick({R.id.btn_deduction_cancel_scroll, R.id.btn_deduction_cancel_screen_bottom})
     public void cancel() {
+        setResult(RESULT_CANCEL_CONFIRM);
         finish();
     }
 
     @OnClick({R.id.btn_deduction_affirm_scroll, R.id.btn_deduction_affirm_screen_bottom})
     public void affirm() {
         if (enterpriseDetail != null && !TextUtils.isEmpty(outerCode)) {
-            EnterpriseApi.payWashEnterpriseOrder(outerCode, getToken(), getNewHandler(0,
-                    ResultBase.class));
+            showWaitDialog();
+            EnterpriseApi.payWashEnterpriseOrder(outerCode, etBackup.getText().toString(),
+                    getToken(), getNewHandler(0, ResultBase.class));
         }
     }
 
