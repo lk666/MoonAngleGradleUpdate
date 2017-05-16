@@ -378,7 +378,12 @@
 
         </LinearLayout>
 
-        <include layout="@layout/line_solid_view_d7" />
+        <View
+            android:id="@+id/line_price"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:visibility="gone"
+            android:background="@color/line_solid_deep_bg"/>
 
         <!--时间-->
         <LinearLayout

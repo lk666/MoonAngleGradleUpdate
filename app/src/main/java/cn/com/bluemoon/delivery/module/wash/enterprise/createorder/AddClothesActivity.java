@@ -164,7 +164,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
 
         txtName.setText(info.employeeInfo.employeeName);
-        txtNameCode.setText(info.employeeInfo.employeeCode);
+        txtNameCode.setText(info.employeeInfo.employeeExtension);
         txtPhone.setText(info.employeeInfo.employeePhone);
         txtAddress.setText(info.employeeInfo.branchName);
 
@@ -245,7 +245,7 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         }
 
         txtName.setText(info.employeeInfo.employeeName);
-        txtNameCode.setText(info.employeeInfo.employeeCode);
+        txtNameCode.setText(info.employeeInfo.employeeExtension);
         txtPhone.setText(info.employeeInfo.employeePhone);
         txtAddress.setText(info.employeeInfo.branchName);
     }
