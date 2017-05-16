@@ -18,7 +18,6 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseLi
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList.EnterpriseOrderListBean;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
-import cn.com.bluemoon.delivery.module.event.EnterpriseListChangeEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
@@ -32,6 +31,7 @@ import cn.com.bluemoon.lib.utils.LibDateUtil;
 public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment {
 
     private long timestamp = 0;
+    private int count = 0;
     private long startTime = 0;
     private long endTime = 0;
     private String branchCode = "";    //机构编码
@@ -94,7 +94,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
             setHeadViewVisibility(View.VISIBLE);
             tvDate.setText(getString(R.string.start_to_end, DateUtil.getTime(startTime, "yyyy/MM/dd"),
                     DateUtil.getTime(endTime, "yyyy/MM/dd")));
-            tvTotal.setText(getString(R.string.history_count, getList().size()));
+            tvTotal.setText(getString(R.string.history_count, count));
         } else {
             setHeadViewVisibility(View.GONE);
         }
@@ -145,6 +145,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
             ResultBase result) {
         ResultEnterpriseList resultObj = (ResultEnterpriseList) result;
         timestamp = resultObj.timestamp;
+        count = resultObj.count;
         return resultObj.enterpriseOrderList;
     }
 

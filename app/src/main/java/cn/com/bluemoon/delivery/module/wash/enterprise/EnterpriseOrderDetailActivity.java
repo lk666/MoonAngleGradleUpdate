@@ -138,6 +138,8 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                         ItemAdapter adapter = new ItemAdapter(this);
                         adapter.setList(enterpriseOrderInfo.clothesDetails);
                         lvClothes.setAdapter(adapter);
+                    } else {
+                        lineClothes.setVisibility(View.GONE);
                     }
 
                 }
@@ -174,7 +176,7 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
             final Employee employeeInfo = resultEnterpriseDetail.employeeInfo;
             if (employeeInfo != null) {
                 txtName.setText(employeeInfo.employeeName);
-                txtNameCode.setText(employeeInfo.employeeCode);
+                txtNameCode.setText(employeeInfo.employeeExtension);
                 txtPhone.setText(employeeInfo.employeePhone);
                 txtAddress.setText(employeeInfo.branchName);
                 if (isHistory) {
