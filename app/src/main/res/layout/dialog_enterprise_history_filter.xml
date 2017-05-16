@@ -158,7 +158,7 @@
                         android:layout_weight="1"
                         android:textColor="@color/text_black_light"
                         android:hint="@string/input_filter_hint"
-                        android:textColorHint="@color/text_grep"
+                        android:textColorHint="@color/text_hint"
                         android:gravity="right"
                         android:singleLine="true"
                         android:layout_marginLeft="10dp"

@@ -23,41 +23,18 @@
         scan:content_text="@string/scan_qrcode_content"
         scan:content_color="@color/white"
         />
-
-    <TextView
-        android:id="@+id/txt_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/white"
-        android:textSize="@dimen/text_size_17"
-        android:background="@color/tiket_content_bg"
-        android:padding="10dp"
-        android:visibility="gone"
-        />
-    <TextView
-        android:id="@+id/txt_count"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/txt_name"
-        android:textColor="@color/tiket_content_color"
-        android:textSize="@dimen/text_size_15"
-        android:background="@color/tiket_content_bg"
-        android:paddingLeft="10dp"
-        android:paddingBottom="10dp"
-        android:visibility="gone"
-        />
-
     <Button
         android:id="@+id/btn_input"
         android:layout_width="200dp"
         android:layout_height="44dp"
-        android:layout_marginTop="400dp"
         android:layout_centerHorizontal="true"
         android:drawableLeft="@mipmap/icon_input"
         android:paddingLeft="50dp"
         android:paddingRight="50dp"
         android:background="@drawable/btn_blue_shape4"
         android:textColor="@color/white"
+        android:layout_marginBottom="50dp"
+        android:layout_alignParentBottom="true"
         android:textSize="@dimen/text_size_15"/>
 
 </RelativeLayout>
