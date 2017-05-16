@@ -83,6 +83,8 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
     LinearLayout layoutTotalPrice;
     @Bind(R.id.line_clothes)
     View lineClothes;
+    @Bind(R.id.line_price)
+    View linePrice;
     private final String FORMAT_TIME = "yyyy/MM/dd HH:mm:ss";
     private boolean isHistory;
 
@@ -145,10 +147,14 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                 }
                 txtOrderTime.setText(DateUtil.getTime(enterpriseOrderInfo.createTime, FORMAT_TIME));
                 if (Constants.OUTER_WAIT_PAY.equals(type)) {
+                    //总价
+                    linePrice.setVisibility(View.VISIBLE);
                     layoutTotalPrice.setVisibility(View.VISIBLE);
                     txtTotalPrice.setText(getString(R.string.order_money,
                             StringUtil.formatPriceByFen(enterpriseOrderInfo.sumAmount)));
                 } else if (Constants.OUTER_TO_BE_WASHED.equals(type)) {
+                    //总价、点值、实付金额
+                    linePrice.setVisibility(View.VISIBLE);
                     layoutTotalPrice2.setVisibility(View.VISIBLE);
                     txtTotalPrice2.setText(getString(R.string.order_money,
                             StringUtil.formatPriceByFen(enterpriseOrderInfo.sumAmount)));
@@ -158,7 +164,6 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                         txtPreferential.setText("- " + getString(R.string.order_money,
                                 StringUtil.formatPriceByFen(enterpriseOrderInfo.integralAmount)));
                     }
-
                     txtActualPrice.setText(getString(R.string.order_money,
                             StringUtil.formatPriceByFen(enterpriseOrderInfo.sumAmount - enterpriseOrderInfo.integralAmount)));
 

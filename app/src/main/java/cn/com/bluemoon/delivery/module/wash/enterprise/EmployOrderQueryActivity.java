@@ -2,6 +2,9 @@ package cn.com.bluemoon.delivery.module.wash.enterprise;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -9,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -57,6 +61,7 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     LinearLayout layoutScan;
     private ItemAdapter adapter;
     private List<BranchBean> items = new ArrayList<>();
+    private String searchKey;
 
     @Override
     protected int getLayoutId() {
@@ -121,7 +126,8 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
 
     private void getList() {
-        EnterpriseApi.getWashEnterpriseQuery(searchView.getText(), getToken(), getNewHandler(0,
+        searchKey = searchView.getText();
+        EnterpriseApi.getWashEnterpriseQuery(searchKey, getToken(), getNewHandler(0,
                 ResultGetWashEnterpriseQuery.class));
     }
 
@@ -170,23 +176,36 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
             TextView txtName = getViewById(R.id.txt_name);
             TextView txtCode = getViewById(R.id.txt_code);
             TextView txtAddress = getViewById(R.id.txt_address);
+
             if (branchBean instanceof Employee) {
                 view.setVisibility(View.GONE);
                 txtPhone.setVisibility(View.VISIBLE);
                 Employee bean = (Employee) branchBean;
-                txtName.setText(bean.employeeName);
-                txtCode.setText(bean.employeeCode);
-                txtPhone.setText(bean.employeePhone);
+                setSpan(txtName, bean.employeeName);
+                setSpan(txtCode, bean.employeeExtension);
+                setSpan(txtPhone, bean.employeePhone);
                 txtAddress.setText(bean.branchName);
             } else {
                 EnterpriseOrderListBeanBase bean = (EnterpriseOrderListBeanBase) branchBean;
                 view.setVisibility(View.VISIBLE);
                 txtPhone.setVisibility(View.GONE);
                 txtName.setText(bean.outerCode);
-                txtCode.setText(bean.collectBrcode);
+                setSpan(txtCode, bean.collectBrcode);
                 txtAddress.setText(bean.branchName);
             }
             setClickEvent(true, position, convertView);
+        }
+    }
+
+    private void setSpan(TextView tv, String str) {
+        if (StringUtils.isNoneBlank(searchKey) && str.contains(searchKey)) {
+            SpannableStringBuilder builder = new SpannableStringBuilder(str);
+            ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.btn_red));
+            int index = str.indexOf(searchKey);
+            builder.setSpan(redSpan, index, index + searchKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            tv.setText(builder);
+        } else {
+            tv.setText(str);
         }
     }
 
