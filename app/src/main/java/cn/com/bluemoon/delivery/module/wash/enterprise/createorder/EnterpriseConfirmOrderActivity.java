@@ -153,11 +153,9 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
      */
     private void setButtonLocation() {
         if (layoutHeight > 0 && layoutParentHeight > 0) {
-            if (layoutParentHeight > layoutHeight) {
+            if (layoutParentHeight > layoutHeight+DensityUtil.dip2px(this,50)) {
                 layoutScreenBottom.setVisibility(View.VISIBLE);
-                layoutScroll.setVisibility(View.GONE);
             } else {
-                layoutScreenBottom.setVisibility(View.GONE);
                 layoutScroll.setVisibility(View.VISIBLE);
             }
         }
