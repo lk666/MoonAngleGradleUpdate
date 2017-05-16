@@ -82,7 +82,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:textColor="@color/text_black_light"
-                                android:textSize="15sp"/>
+                                android:textSize="14sp"/>
 
                             <TextView
                                 android:id="@+id/txt_name_code"
@@ -92,7 +92,7 @@
                                 android:ellipsize="end"
                                 android:singleLine="true"
                                 android:textColor="@color/text_black_light"
-                                android:textSize="15sp"/>
+                                android:textSize="14sp"/>
                         </LinearLayout>
                     </LinearLayout>
 
@@ -111,7 +111,7 @@
                         android:ellipsize="end"
                         android:singleLine="true"
                         android:textColor="@color/text_black_light"
-                        android:textSize="15sp"/>
+                        android:textSize="14sp"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -124,6 +124,7 @@
                     <ImageView
                         android:layout_width="14dp"
                         android:layout_height="14dp"
+                        android:layout_marginTop="2dp"
                         android:src="@mipmap/workspot_blue"/>
 
                     <TextView
@@ -132,7 +133,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
                         android:textColor="@color/text_black_light"
-                        android:textSize="15sp"/>
+                        android:textSize="14sp"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -186,7 +187,8 @@
                         android:textColor="@color/text_black"
                         android:textSize="@dimen/text_size_15"/>
 
-                    <EditText
+                    <cn.com.bluemoon.lib.view.ClearEditText
+                        android:drawablePadding="5dp"
                         android:id="@+id/et_backup"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -199,7 +201,7 @@
                         android:paddingTop="15dp"
                         android:singleLine="false"
                         android:textColor="@color/text_black_light"
-                        android:textColorHint="@color/text_grep"
+                        android:textColorHint="@color/text_hint"
                         android:textCursorDrawable="@null"
                         android:textSize="@dimen/text_size_15"/>
                 </LinearLayout>
@@ -220,33 +222,43 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
-                    android:gravity="center_vertical"
-                    android:paddingLeft="10dp"
-                    android:paddingRight="10dp">
+                    android:gravity="center_vertical">
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:layout_marginLeft="10dp"
                         android:text="@string/collect_clothes"
                         android:textColor="@color/text_black"
                         android:textSize="15sp"/>
 
-                    <TextView
-                        android:id="@+id/txt_collect_num"
+                    <LinearLayout
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:textColor="@color/btn_red"
-                        android:textSize="15sp"/>
+                        android:orientation="horizontal"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
+                        android:id="@+id/ll_add"
+                        android:gravity="center_vertical"
+                        android:layout_height="match_parent">
 
-                    <ImageView
-                        android:id="@+id/ic_add"
-                        android:layout_width="22dp"
-                        android:layout_height="22dp"
-                        android:layout_marginLeft="10dp"
-                        android:clickable="true"
-                        android:src="@drawable/add_selector"/>
+                        <TextView
+                            android:id="@+id/txt_collect_num"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/btn_red"
+                            android:textSize="15sp"/>
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_marginLeft="10dp"
+                            android:clickable="true"
+                            android:src="@drawable/add_selector"/>
+                    </LinearLayout>
+
+
+
 
                 </LinearLayout>
 

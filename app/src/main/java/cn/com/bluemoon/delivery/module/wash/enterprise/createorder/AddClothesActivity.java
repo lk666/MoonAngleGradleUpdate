@@ -56,8 +56,6 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
     TextView txtCollectBag;
     @Bind(R.id.txt_collect_num)
     TextView txtCollectNum;
-    @Bind(R.id.ic_add)
-    ImageView icAdd;
     @Bind(R.id.lv_clothes)
     NoScrollListView lvClothes;
     @Bind(R.id.div_list)
@@ -250,11 +248,11 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         txtAddress.setText(info.employeeInfo.branchName);
     }
 
-    @OnClick({R.id.btn_send, R.id.ic_add})
+    @OnClick({R.id.btn_send, R.id.ll_add})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 添加衣物
-            case R.id.ic_add:
+            case R.id.ll_add:
                 SelectClothesTypeActivity.actionStart(this, outerCode, 0x66);
                 break;
             // 提交扣款

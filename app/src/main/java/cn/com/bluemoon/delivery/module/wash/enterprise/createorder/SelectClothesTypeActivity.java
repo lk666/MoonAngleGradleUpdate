@@ -81,7 +81,21 @@ public class SelectClothesTypeActivity extends BaseActivity implements
         adapter = new ItemAdapter();
         adapter.setList(list);
         elv.setAdapter(adapter);
+
+        lastGroup = -1;
+        elv.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
+            @Override
+            public void onGroupExpand(int groupPosition) {
+                if (lastGroup != groupPosition && lastGroup > -1) {
+                    elv.collapseGroup(lastGroup);
+                }
+                lastGroup = groupPosition;
+            }
+        });
     }
+
+    private int lastGroup = -1;
+
 
     @Override
     public void initData() {
@@ -221,7 +235,6 @@ public class SelectClothesTypeActivity extends BaseActivity implements
             // 选中当前列表项
             list.get(onLevelPosition).twoLevelList.get(twoLevelPosition).isSelected = true;
 
-            //     elv.collapseGroup(lastOnLevelPosition);
             lastOnLevelPosition = onLevelPosition;
             lastTwoLevelPosition = twoLevelPosition;
             if (adapter != null) {
@@ -332,6 +345,7 @@ public class SelectClothesTypeActivity extends BaseActivity implements
             } else {
                 iv.setImageResource(R.mipmap.ic_arrow_down);
             }
+
             return convertView;
         }
 
