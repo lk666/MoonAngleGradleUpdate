@@ -163,8 +163,15 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
     private void iniListDate(List<ClothesInfo> clothesList) {
         list = new ArrayList<>();
+        String totalPriceName="总价";
+        int totalNumber=0;
+        int totalPrice=0;
+        String totalCode="totalCode";
+        String totalId="totalId";
         for (ClothesInfo clothesDetailsBean
                 : clothesList) {
+            totalNumber++;
+            totalPrice+=clothesDetailsBean.memberPrice;
             boolean isNew = true;//默认是新的商品编码
             for (Map<String, String> stringMap : list) {
                 if (stringMap.get(KEYS[4]).equals(clothesDetailsBean.washCode)) {
@@ -187,6 +194,13 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
                 list.add(m);
             }
         }
+        Map<String, String> m = new HashMap<>();
+        m.put(KEYS[0], totalPriceName);
+        m.put(KEYS[1], String.valueOf(totalNumber));
+        m.put(KEYS[2], StringUtil.formatPriceByFen(totalPrice));
+        m.put(KEYS[3], totalId);
+        m.put(KEYS[4], totalCode);
+        list.add(m);
     }
 
     /**
@@ -206,7 +220,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
         txtOrderCode.setText(enterpriseDetail.enterpriseOrderInfo.outerCode);
         txtName.setText(enterpriseDetail.employeeInfo.employeeName);
-        txtNameCode.setText(enterpriseDetail.employeeInfo.employeeCode);
+        txtNameCode.setText(enterpriseDetail.employeeInfo.employeeExtension);
         txtPhone.setText(enterpriseDetail.employeeInfo.employeePhone);
 
         iniListDate(enterpriseDetail.enterpriseOrderInfo.clothesDetails);
