@@ -117,7 +117,6 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == REQUEST_CODE_CANCEL) {
-            toast(result.getResponseMsg());
             initData();
         }
     }
