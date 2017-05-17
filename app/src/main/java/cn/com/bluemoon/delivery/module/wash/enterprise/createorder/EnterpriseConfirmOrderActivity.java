@@ -9,6 +9,7 @@ import android.view.Gravity;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -31,6 +32,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseDe
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DensityUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
@@ -64,6 +66,10 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     LinearLayout layoutScroll;
     @Bind(R.id.llayout_order_details)
     LinearLayout layoutOrderDetails;
+    @Bind(R.id.llayout_listview)
+    LinearLayout llayoutListview;
+    @Bind(R.id.flayout_parent)
+    FrameLayout flayoutParent;
 
 
     private final static String PREFIX_NUMBER = "x";
@@ -74,6 +80,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     private String outerCode;
 
     private int layoutHeight;
+    private int layoutParentHeight;
 
     /**
      * 商品名称、商品数量、商品价格、衣物ID、商品编码
@@ -131,12 +138,12 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         curRemark = getIntent().getStringExtra("curRemark");
         EnterpriseApi.getWashEnterpriseDetail(outerCode, getToken(), getNewHandler(1,
                 ResultEnterpriseDetail.class));
-        ViewTreeObserver layoutVto = layoutOrderDetails.getViewTreeObserver();
-        layoutVto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+        ViewTreeObserver layoutParentVto = flayoutParent.getViewTreeObserver();
+        layoutParentVto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             @Override
             public void onGlobalLayout() {
-                layoutOrderDetails.getViewTreeObserver().removeGlobalOnLayoutListener(this);
-                layoutHeight = layoutOrderDetails.getHeight();
+                flayoutParent.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                layoutParentHeight = flayoutParent.getHeight();
                 setButtonLocation();
             }
         });
@@ -146,9 +153,8 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
      * 设置按钮位置
      */
     private void setButtonLocation() {
-        if (layoutHeight > 0) {
-            if (AppContext.getInstance().getDisplayHeight() > layoutHeight + DensityUtil.dip2px
-                    (this, 45 + 50)) {
+        if (layoutHeight > 0 && layoutParentHeight > 0) {
+            if (layoutParentHeight > layoutHeight+DensityUtil.dip2px(this,50)) {
                 layoutScreenBottom.setVisibility(View.VISIBLE);
             } else {
                 layoutScroll.setVisibility(View.VISIBLE);
@@ -158,16 +164,23 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
     private void iniListDate(List<ClothesInfo> clothesList) {
         list = new ArrayList<>();
+        String totalPriceName="总价";
+        int totalNumber=0;
+        int totalPrice=0;
+        String totalCode="totalCode";
+        String totalId="totalId";
         for (ClothesInfo clothesDetailsBean
                 : clothesList) {
+            totalNumber++;
+            totalPrice+=clothesDetailsBean.memberPrice;
             boolean isNew = true;//默认是新的商品编码
             for (Map<String, String> stringMap : list) {
                 if (stringMap.get(KEYS[4]).equals(clothesDetailsBean.washCode)) {
-                    int number=Integer.valueOf(stringMap.get(KEYS[1]));
-                    double price=Double.valueOf(stringMap.get(KEYS[2]));
+                    int number = Integer.valueOf(stringMap.get(KEYS[1]));
+                    double price = Double.valueOf(stringMap.get(KEYS[2]));
                     stringMap.put(KEYS[1], String.valueOf(number
                             + 1));
-                    stringMap.put(KEYS[2], String.valueOf(price/number*(number+1)));
+                    stringMap.put(KEYS[2], String.valueOf(price / number * (number + 1)));
                     isNew = false;//发现已有商品，直接增加数量
                     break;
                 }
@@ -182,6 +195,13 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
                 list.add(m);
             }
         }
+        Map<String, String> m = new HashMap<>();
+        m.put(KEYS[0], totalPriceName);
+        m.put(KEYS[1], String.valueOf(totalNumber));
+        m.put(KEYS[2], StringUtil.formatPriceByFen(totalPrice));
+        m.put(KEYS[3], totalId);
+        m.put(KEYS[4], totalCode);
+        list.add(m);
     }
 
     /**
@@ -189,9 +209,19 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
      */
     private void initOrderData(ResultEnterpriseDetail enterpriseDetail) {
 
+        ViewTreeObserver layoutVto = layoutOrderDetails.getViewTreeObserver();
+        layoutVto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                layoutOrderDetails.getViewTreeObserver().removeGlobalOnLayoutListener(this);
+                layoutHeight = layoutOrderDetails.getHeight();
+                setButtonLocation();
+            }
+        });
+
         txtOrderCode.setText(enterpriseDetail.enterpriseOrderInfo.outerCode);
         txtName.setText(enterpriseDetail.employeeInfo.employeeName);
-        txtNameCode.setText(enterpriseDetail.employeeInfo.employeeCode);
+        txtNameCode.setText(enterpriseDetail.employeeInfo.employeeExtension);
         txtPhone.setText(enterpriseDetail.employeeInfo.employeePhone);
 
         iniListDate(enterpriseDetail.enterpriseOrderInfo.clothesDetails);
@@ -202,7 +232,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
                     (KEYS[2])).toString());
         }
         if (list.size() > 0) {
-            lvClothes.setVisibility(View.VISIBLE);
+            llayoutListview.setVisibility(View.VISIBLE);
         }
         lvClothes.setAdapter(new SimpleAdapter(this, list, R.layout.item_confirm_order, new
                 String[]{KEYS[0], KEYS[1], KEYS[2]}, new int[]{R.id.txt_commodity_name, R.id
@@ -229,6 +259,14 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        if(result.getResponseCode() == Constants.RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS){
+            EventBus.getDefault().post(new ConfirmEvent(outerCode, false));
+            finish();
+        }
+        super.onErrorResponse(requestCode, result);
+    }
 
     @OnClick({R.id.btn_deduction_cancel_scroll, R.id.btn_deduction_cancel_screen_bottom})
     public void cancel() {

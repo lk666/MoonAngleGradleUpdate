@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
+    android:id="@+id/flayout_parent"
              android:background="@color/page_bg_f8">
 
     <ScrollView
@@ -26,12 +27,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@color/white"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
+                        android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:gravity="center_vertical">
 
@@ -59,9 +60,14 @@
                             android:textSize="15sp"/>
                     </LinearLayout>
 
-                    <include layout="@layout/line_solid_view_e5"/>
+                    <include
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        layout="@layout/line_solid_view_e5"/>
 
                     <LinearLayout
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="10dp"
@@ -90,7 +96,7 @@
                             android:layout_weight="1"
                             android:singleLine="true"
                             android:textColor="@color/text_black_light"
-                            android:textSize="15sp"/>
+                            android:textSize="14sp"/>
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -102,9 +108,12 @@
                             android:id="@+id/txt_phone"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:textColor="@color/text_blue"
-                            android:textSize="15sp"/>
+                            android:textColor="@color/text_black_light"
+                            android:textSize="14sp"/>
                     </LinearLayout>
+
+                    <include
+                        layout="@layout/line_solid_view_d7"/>
                 </LinearLayout>
 
                 <!--2-->
@@ -113,17 +122,20 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp">
+                    android:visibility="gone"
+                    android:id="@+id/llayout_listview"
+                    android:orientation="vertical">
 
                     <cn.com.bluemoon.delivery.ui.NoScrollListView
                         android:id="@+id/lv_clothes"
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:divider="@color/line_soild_bg"
                         android:dividerHeight="0.5dp"
                         android:listSelector="@color/white"/>
-
+                    <include
+                        layout="@layout/line_solid_view_d7"/>
                 </LinearLayout>
                 <!--3-->
                 <LinearLayout
@@ -131,10 +143,10 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:background="@color/white"
-                    android:orientation="vertical"
-                    android:paddingLeft="10dp">
+                    android:orientation="vertical">
 
                     <LinearLayout
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="45dp"
                         android:gravity="center">
@@ -156,9 +168,14 @@
                             android:textSize="15sp"/>
                     </LinearLayout>
 
-                    <include layout="@layout/line_solid_view_e5"/>
+                    <include
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:layout_marginLeft="10dp"
+                        layout="@layout/line_solid_view_e5"/>
 
                     <LinearLayout
+                        android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal">
@@ -192,6 +209,8 @@
                             android:textSize="@dimen/text_size_15"/>
                     </LinearLayout>
                 </LinearLayout>
+                <include
+                    layout="@layout/line_solid_view_d7"/>
             </LinearLayout>
 
             <LinearLayout
@@ -200,10 +219,10 @@
                 android:layout_height="50dp"
                 android:layout_gravity="bottom"
                 android:orientation="horizontal"
+                android:visibility="gone"
                 android:paddingBottom="10dp"
                 android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:visibility="gone">
+                android:paddingRight="10dp">
 
                 <Button
                     android:id="@+id/btn_deduction_cancel_scroll"

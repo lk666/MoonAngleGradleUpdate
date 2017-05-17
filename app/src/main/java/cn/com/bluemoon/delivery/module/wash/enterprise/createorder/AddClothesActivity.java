@@ -248,11 +248,12 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
         txtAddress.setText(info.employeeInfo.branchName);
     }
 
-    @OnClick({R.id.btn_send, R.id.ll_add})
+    @OnClick({R.id.btn_send, R.id.iv_add, R.id.txt_collect_num})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 添加衣物
-            case R.id.ll_add:
+            case R.id.iv_add:
+            case R.id.txt_collect_num:
                 SelectClothesTypeActivity.actionStart(this, outerCode, 0x66);
                 break;
             // 提交扣款
