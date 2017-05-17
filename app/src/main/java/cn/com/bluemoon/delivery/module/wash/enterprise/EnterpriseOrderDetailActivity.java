@@ -185,7 +185,7 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                 txtPhone.setText(employeeInfo.employeePhone);
                 txtAddress.setText(employeeInfo.branchName);
                 if (isHistory) {
-                    txtPhone.setTextColor(getResources().getColor(R.color.text_black));
+                    txtPhone.setTextColor(getResources().getColor(R.color.text_black_light));
                 } else {
                     txtPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
                     txtPhone.getPaint().setAntiAlias(true);
