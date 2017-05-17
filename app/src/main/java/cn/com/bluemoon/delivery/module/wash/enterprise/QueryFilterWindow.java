@@ -39,6 +39,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 
@@ -62,10 +63,14 @@ public class QueryFilterWindow extends PopupWindow {
     EditText etName;
     private boolean touchStartDate = true;
     private boolean isClickCompany;
+    private long startTime;
+    private long endTime;
+    private long currentTime;
+    private boolean noData;
 
-    public QueryFilterWindow(Context context,
-                             TimerFilterListener listener) {
+    public QueryFilterWindow(Context context, TimerFilterListener listener, boolean noData) {
         mContext = context;
+        this.noData = noData;
         Init(listener);
     }
 
@@ -155,21 +160,10 @@ public class QueryFilterWindow extends PopupWindow {
             @Override
             public void onClick(View v) {
                 long startDate = Long.valueOf(getStartDateTime());
-                long currentDate = getCurDate();
                 long endDate = Long.valueOf(getEndDateTime());
-                if (startDate == 0 && endDate > 0) {
-                    PublicUtil.showToast(R.string.alert_message_input_start_time);
-                } else if (startDate > currentDate) {
-                    PublicUtil.showToast(R.string.alert_message_start_after_current);
-                } else if (endDate > 0 && startDate > endDate) {
-                    PublicUtil.showToast(R.string.alert_message_start_before_end);
-                } else {
-                    if (startDate > 0 && endDate == 0) {
-                        endDate = currentDate + 235959;
-                    }
-                    listener.callBack(startDate, endDate, enterpriseCode, branchCode, etName.getText().toString());
-                    dismiss();
-                }
+                listener.callBack(startDate, endDate, enterpriseCode, branchCode, etName.getText().toString());
+                dismiss();
+
             }
         });
 
@@ -180,10 +174,14 @@ public class QueryFilterWindow extends PopupWindow {
     private void setDefaultTime() {
         //初始化
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
+        SimpleDateFormat sdf2 = new SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
         endDateChoice.setText(sdf.format(c.getTime()));
+        endTime = Long.valueOf(sdf2.format(c.getTime()));
+        currentTime = Long.valueOf(sdf2.format(c.getTime()));
         c.add(Calendar.DATE, -6);
         startDateChoice.setText(sdf.format(c.getTime()));
+        startTime = Long.valueOf(sdf2.format(c.getTime()));
     }
 
     public void showPopwindow(View popStart) {
@@ -192,12 +190,30 @@ public class QueryFilterWindow extends PopupWindow {
 
     public void showDatePickerDialog() {
         setCurDate();
+        final int mIYear = Integer.valueOf(mYear);
+        final int mIMon = Integer.valueOf(mMon);
+        final int mIDay = Integer.valueOf(mDay);
         if (touchStartDate && startDatePicker == null) {
             String[] value = startDateChoice.getText().toString().split("/");
-            startDatePicker = new CommonDatePickerDialog(mContext, mDateSetListener,
-                    Integer.valueOf(value[0]), Integer.valueOf(value[1]) - 1,
-                    Integer.valueOf(value[2]));
+            int year = Integer.valueOf(value[0]);
+            int mon = Integer.valueOf(value[1]) - 1;
+            int day = Integer.valueOf(value[2]);
+            startDatePicker = new CommonDatePickerDialog(mContext, mDateSetListener, year, mon, day);
             startDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+            //时间范围控制，结束时间之前
+            startDatePicker.getDatePicker().init(year, mon, day, new DatePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                    long time = getFormatTime(i, i1, i2);
+                    if (time > endTime) {
+                        String timeStr = String.valueOf(endTime);
+                        int year = Integer.valueOf(timeStr.substring(0, 4));
+                        int mon = Integer.valueOf(timeStr.substring(4, 6));
+                        int day = Integer.valueOf(timeStr.substring(6, 8));
+                        datePicker.init(year, mon - 1, day, this);
+                    }
+                }
+            });
             startDatePicker.show();
         } else if (touchStartDate) {
             if (!startDatePicker.isShowing()) {
@@ -206,7 +222,7 @@ public class QueryFilterWindow extends PopupWindow {
                     startDatePicker.updateDate(Integer.valueOf(value[0]),
                             Integer.valueOf(value[1]) - 1, Integer.valueOf(value[2]));
                 } else {
-                    startDatePicker.updateDate(Integer.valueOf(mYear), Integer.valueOf(mMon), Integer.valueOf(mDay));
+                    startDatePicker.updateDate(mIYear, mIMon, mIDay);
                 }
                 startDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
                 startDatePicker.show();
@@ -214,50 +230,62 @@ public class QueryFilterWindow extends PopupWindow {
         }
 
         if (!touchStartDate && endDatePicker == null) {
-            endDatePicker = new CommonDatePickerDialog(mContext, mDateSetListener,
-                    Integer.valueOf(mYear), Integer.valueOf(mMon),
-                    Integer.valueOf(mDay));
+            endDatePicker = new CommonDatePickerDialog(mContext, mDateSetListener, mIYear, mIMon, mIDay);
             endDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+            //时间范围控制，开始时间和当前时间之间
+            endDatePicker.getDatePicker().init(mIYear, mIMon, mIDay, new DatePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(DatePicker datePicker, int i, int i1, int i2) {
+                    long time = getFormatTime(i, i1, i2);
+                    String timeStr = null;
+                    if (time < startTime) {
+                        timeStr = String.valueOf(startTime);
+                    } else if (time > currentTime) {
+                        timeStr = String.valueOf(currentTime);
+                    }
+                    if (StringUtils.isNoneBlank(timeStr)) {
+                        int year = Integer.valueOf(timeStr.substring(0, 4));
+                        int mon = Integer.valueOf(timeStr.substring(4, 6));
+                        int day = Integer.valueOf(timeStr.substring(6, 8));
+                        datePicker.init(year, mon - 1, day, this);
+                    }
+                }
+            });
             endDatePicker.show();
         } else if (!touchStartDate) {
             if (!endDatePicker.isShowing()) {
                 if (!"".equals(endDateChoice.getText().toString())) {
                     String[] value = endDateChoice.getText().toString().split("/");
-                    endDatePicker.updateDate(Integer.valueOf(value[0]),
-                            Integer.valueOf(value[1]) - 1, Integer.valueOf(value[2]));
+                    int year = Integer.valueOf(value[0]);
+                    int mon = Integer.valueOf(value[1]) - 1;
+                    int day = Integer.valueOf(value[2]);
+                    endDatePicker.updateDate(year, mon, day);
                 } else {
-                    endDatePicker.updateDate(Integer.valueOf(mYear), Integer.valueOf(mMon), Integer.valueOf(mDay));
+                    endDatePicker.updateDate(mIYear, mIMon, mIDay);
                 }
-
-
                 endDatePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
                 endDatePicker.show();
             }
         }
     }
 
-    public long getCurDate() {
-        Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
-        String year = String.valueOf(dateAndTime.get(Calendar.YEAR));
-        int monthOfYear = dateAndTime.get(Calendar.MONTH);
-        String month = "";
-        if (monthOfYear <= 8) {
-            month = "0" + (monthOfYear + 1);
-        } else {
-            month = String.valueOf(monthOfYear + 1);
-        }
-        int dayOfMonth = dateAndTime.get(Calendar.DAY_OF_MONTH);
-        String day = "";
-        if (dayOfMonth <= 9) {
-            day = String.valueOf("0" + dayOfMonth);
-        } else {
-            day = String.valueOf(dayOfMonth);
-        }
+    /**
+     * 格式化获取时间
+     *
+     * @return
+     */
+    private long getFormatTime(int i, int i1, int i2) {
         StringBuffer sb = new StringBuffer();
-        sb.append(year);
-        sb.append(month);
-        sb.append(day);
-        sb.append("000000");
+        sb.append(i);
+        int mon = i1 + 1;
+        if (mon < 10) {
+            sb.append(0);
+        }
+        sb.append(mon);
+        if (i2 < 10) {
+            sb.append(0);
+        }
+        sb.append(i2);
         return Long.valueOf(sb.toString());
     }
 
@@ -306,18 +334,24 @@ public class QueryFilterWindow extends PopupWindow {
                 mDay = String.valueOf(dayOfMonth);
             }
             if (touchStartDate) {
+                startTime = Long.valueOf(mYear + mMonth + mDay);
                 startDateChoice.setText(getDate());
             } else {
+                endTime = Long.valueOf(mYear + mMonth + mDay);
                 endDateChoice.setText(getDate());
             }
         }
     };
 
     private SingleOptionSelectDialog dialog;
+
     private void showSelectView() {
 
         if (!isClickCompany && !StringUtils.isNoneBlank(enterpriseCode)) {
             Toast.makeText(mContext, R.string.input_company, Toast.LENGTH_SHORT).show();
+            return;
+        } else if (noData) {
+            Toast.makeText(mContext, R.string.no_company, Toast.LENGTH_SHORT).show();
             return;
         }
         List<String> itemList = new ArrayList<>();
@@ -338,35 +372,33 @@ public class QueryFilterWindow extends PopupWindow {
         if (itemList.isEmpty()) {
             return;
         }
-
-        if (dialog == null) {
-            int index = itemList.size() > 2 ? 1 : 0;
-            dialog = new TextSingleOptionSelectDialog(mContext, "",
-                    itemList, index, new SingleOptionSelectDialog.OnButtonClickListener() {
-                @Override
-                public void onOKButtonClick(int index, String text) {
-                    if (isClickCompany) {
-                        txtCompany.setText(text);
-                        enterpriseCode = list.get(index).enterpriseCode;
-                    } else {
-                        txtCompanySub.setText(text);
-                        for (EnterpriseListBean bean : list) {
-                            if (enterpriseCode.equals(bean.enterpriseCode)) {
-                                branchCode = bean.branchList.get(index).branchCode;
-                            }
+        int index = itemList.size() > 2 ? 1 : 0;
+        dialog = new TextSingleOptionSelectDialog(mContext, "",
+                itemList, index, new SingleOptionSelectDialog.OnButtonClickListener() {
+            @Override
+            public void onOKButtonClick(int index, String text) {
+                if (isClickCompany) {
+                    txtCompany.setText(text);
+                    enterpriseCode = list.get(index).enterpriseCode;
+                } else {
+                    txtCompanySub.setText(text);
+                    for (EnterpriseListBean bean : list) {
+                        if (enterpriseCode.equals(bean.enterpriseCode)) {
+                            branchCode = bean.branchList.get(index).branchCode;
                         }
                     }
                 }
+            }
 
-                @Override
-                public void onCancelButtonClick() {
+            @Override
+            public void onCancelButtonClick() {
 
-                }
-            });
-        }
+            }
+        });
         dialog.show();
 
     }
+
     private List<EnterpriseListBean> list;
     private String enterpriseCode;
     private String branchCode;
@@ -374,6 +406,7 @@ public class QueryFilterWindow extends PopupWindow {
         @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             try {
+                LogUtils.d("test", responseString);
                 Object resultObj;
                 resultObj = JSON.parseObject(responseString, ResultEnterpriseRecord.class);
                 if (resultObj instanceof ResultEnterpriseRecord) {

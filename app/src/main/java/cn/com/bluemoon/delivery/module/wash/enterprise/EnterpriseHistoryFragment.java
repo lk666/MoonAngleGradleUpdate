@@ -40,6 +40,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
     private View viewPopStart;
     private TextView tvDate;
     private TextView tvTotal;
+    private boolean isEmpty;
 
     @Override
     protected String getTitleString() {
@@ -79,7 +80,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
                             initData();
                         }
                     }
-                });
+                }, isEmpty);
 
         popupWindow.showPopwindow(viewPopStart);
     }
@@ -146,6 +147,9 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
         ResultEnterpriseList resultObj = (ResultEnterpriseList) result;
         timestamp = resultObj.timestamp;
         count = resultObj.count;
+        if(startTime == 0 && resultObj.enterpriseOrderList.size() == 0) {
+            isEmpty = true;
+        }
         return resultObj.enterpriseOrderList;
     }
 

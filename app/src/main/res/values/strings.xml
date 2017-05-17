@@ -1434,6 +1434,7 @@
     <string name="order_custom">下单人</string>
     <string name="input_filter_hint">请输入姓名/手机号/分机号</string>
     <string name="input_company">请先选择公司</string>
+    <string name="no_company">暂无可选公司</string>
     <string name="history_count">共%d条</string>
     <string name="add_collect_wash">新增</string>
     <string name="scan_qrcode_content">请将员工/收衣袋二维码置于取景框内</string>
