@@ -1466,4 +1466,7 @@
     <string name="cancel_create_order">确定取消本次录入?</string>
     <string name="app_quit_txt">再按一次就退出应用</string>
     <string name="enterprise_cancel">确定取消订单?</string>
+
+    <string name="alert_delete_clothes">确定删除？</string>
+
 </resources>

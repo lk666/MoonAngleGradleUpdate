@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise.createorder;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -33,6 +34,7 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ClothesChangedEvent;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * 添加衣物页面
@@ -347,13 +349,25 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
     private int deletePos;
 
     @Override
-    public void onItemClick(Object item, View view, int position) {
-        ClothesInfo cf = (ClothesInfo) item;
+    public void onItemClick(Object item, View view, final int position) {
+        final ClothesInfo cf = (ClothesInfo) item;
         if (cf != null) {
-            showWaitDialog();
-            deletePos = position;
-            EnterpriseApi.deleteClothes(cf.clothesId, getToken(),
-                    getNewHandler(REQUEST_CODE_DELETE, ResultBase.class));
+            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(this);
+            dialog.setMessage(getString(R.string.alert_delete_clothes));
+            dialog.setNegativeButton(R.string.btn_ok,
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            showWaitDialog();
+                            deletePos = position;
+                            EnterpriseApi.deleteClothes(cf.clothesId, getToken(),
+                                    getNewHandler(REQUEST_CODE_DELETE, ResultBase.class));
+                        }
+
+                    });
+            dialog.setPositiveButton(R.string.btn_cancel, null);
+            dialog.show();
+
         }
     }
 
