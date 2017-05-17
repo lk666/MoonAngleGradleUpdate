@@ -32,6 +32,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseDe
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DensityUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
@@ -258,6 +259,14 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        if(result.getResponseCode() == Constants.RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS){
+            EventBus.getDefault().post(new ConfirmEvent(outerCode, false));
+            finish();
+        }
+        super.onErrorResponse(requestCode, result);
+    }
 
     @OnClick({R.id.btn_deduction_cancel_scroll, R.id.btn_deduction_cancel_screen_bottom})
     public void cancel() {

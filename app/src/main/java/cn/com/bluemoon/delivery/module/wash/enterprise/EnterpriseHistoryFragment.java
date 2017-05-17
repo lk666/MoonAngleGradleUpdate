@@ -173,14 +173,4 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
                 break;
         }
     }
-
-    @Override
-    protected boolean isUseEventBus() {
-        return true;
-    }
-
-    @Subscribe(threadMode = ThreadMode.MAIN)
-    public void onMessageEvent(ConfirmEvent event) {
-        initData();
-    }
 }

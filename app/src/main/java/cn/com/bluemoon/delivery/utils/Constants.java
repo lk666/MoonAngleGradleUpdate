@@ -20,6 +20,7 @@ public class Constants {
     public static final int RESPONSE_RESULT_SMS_VAILD = 2403;
     public static final int RESPONSE_RESULT_TOKEN_NOT_EXIST = 2302;
     public static final int RESPONSE_RESULT_CARD_FAIL = 1207;
+    public static final int RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS = 80601;
 
     public static final int SALE_MAX_NUM = 99999;
     public static final double UNKNOW_LATITUDE = 999;
