@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.HeaderViewListAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -77,10 +78,6 @@ public class SelectClothesTypeActivity extends BaseActivity implements
     @Override
     public void initView() {
         goodsInfoList = new ArrayList<>();
-        list = new ArrayList<>();
-        adapter = new ItemAdapter();
-        adapter.setList(list);
-        elv.setAdapter(adapter);
 
         lastGroup = -1;
         elv.setOnGroupExpandListener(new ExpandableListView.OnGroupExpandListener() {
@@ -140,19 +137,23 @@ public class SelectClothesTypeActivity extends BaseActivity implements
         goodsInfoList.clear();
         if (info.goodsInfoList != null) {
             goodsInfoList.addAll(info.goodsInfoList);
-            if (header == null) {
-                header = new ClothesSelectTypeHeader(this);
-                header.setListener(this);
-                elv.addHeaderView(header);
-            }
-            header.setData(info.goodsInfoList);
-            header.setVisibility(View.VISIBLE);
-        } else {
-            if (header != null) {
-                header.setVisibility(View.GONE);
-            }
         }
-
+        if (header == null) {
+            header = new ClothesSelectTypeHeader(this);
+            header.setListener(this);
+            elv.addHeaderView(header);
+        }
+        header.setData(info.goodsInfoList);
+        header.setVisibility(View.VISIBLE);
+        
+        // 列表 
+        // TODO: lk 2017/5/18 API19以下，addHeaderView需在setAdapter前使用 
+        if (adapter == null) {
+            list = new ArrayList<>();
+            adapter = new ItemAdapter();
+            adapter.setList(list);
+            elv.setAdapter(adapter);
+        }
         list.clear();
         list.addAll(info.washList);
         adapter.notifyDataSetChanged();

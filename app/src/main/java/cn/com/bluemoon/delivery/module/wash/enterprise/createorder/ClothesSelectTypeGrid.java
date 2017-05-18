@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.GridView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -36,6 +37,11 @@ public class ClothesSelectTypeGrid extends ScrollGridView implements OnListItemC
         setVelocityScale(0);
         setNumColumns(3);
         setStretchMode(GridView.STRETCH_COLUMN_WIDTH);
+
+        this.list = new ArrayList<>();
+        adapter = new ItemAdapter(getContext(), this);
+        adapter.setList(this.list);
+        setAdapter(adapter);
     }
 
     public void refreshData() {
@@ -83,11 +89,12 @@ public class ClothesSelectTypeGrid extends ScrollGridView implements OnListItemC
 
     public void setData(int onLevelPosition, List<ResultGetCooperationList.GoodsInfoListBean>
             list) {
-        this.list = list;
         this.onLevelPosition = onLevelPosition;
-        adapter = new ItemAdapter(getContext(), this);
-        adapter.setList(this.list);
-        setAdapter(adapter);
+        this.list.clear();
+        if (list != null) {
+            this.list.addAll(list);
+        }
+        adapter.notifyDataSetChanged();
     }
 
     @Override
