@@ -246,6 +246,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         switch (requestCode) {
             case 0:
                 EventBus.getDefault().post(new ConfirmEvent(outerCode));
+                longToast("扣款成功");
                 if (!isFinishing())
                     finish();
                 break;
@@ -261,7 +262,9 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
     public void onErrorResponse(int requestCode, ResultBase result) {
         if (result.getResponseCode() == Constants.RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS) {
             EventBus.getDefault().post(new ConfirmEvent(outerCode, false));
+            longToast(result.getResponseMsg());
             finish();
+            return;
         }
         super.onErrorResponse(requestCode, result);
     }
