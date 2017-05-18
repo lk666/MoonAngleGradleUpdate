@@ -128,9 +128,6 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
             case R.id.layout_detail:
                 goToDetail(bean);
                 break;
-            case R.id.layout_order:
-                goToDetail(bean);
-                break;
             case R.id.tv_cancel_order:
                 new CommonAlertDialog.Builder(getActivity()).setMessage(R.string.enterprise_cancel).setNegativeButton(R.string.btn_ok_with_space, new DialogInterface.OnClickListener() {
                     @Override
