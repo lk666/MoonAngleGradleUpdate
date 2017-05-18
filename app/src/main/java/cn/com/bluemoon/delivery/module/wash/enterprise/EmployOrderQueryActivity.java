@@ -51,10 +51,6 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     CommonSearchView searchView;
     @Bind(R.id.image_search)
     ImageView imageSearch;
-    @Bind(R.id.layout_title)
-    LinearLayout layoutTitle;
-    @Bind(R.id.txt_title)
-    TextView txtTitle;
     @Bind(R.id.lv_query)
     ListView lvQuery;
     @Bind(R.id.layout_scan)
@@ -132,15 +128,11 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     private void setData(ResultGetWashEnterpriseQuery queryResult) {
         List<BranchBean> branchList = new ArrayList<>();
         if (queryResult.employeeList != null && queryResult.employeeList.size() > 0) {
-            layoutTitle.setVisibility(View.VISIBLE);
-            txtTitle.setText(R.string.txt_employee_info);
             for (Employee bean : queryResult.employeeList) {
                 branchList.add(bean);
             }
         } else if (queryResult.enterpriseOrderList != null && queryResult.enterpriseOrderList
                 .size() > 0) {
-            layoutTitle.setVisibility(View.VISIBLE);
-            txtTitle.setText(R.string.txt_order_info);
             for (EnterpriseOrderListBeanBase bean : queryResult.enterpriseOrderList) {
                 branchList.add(bean);
             }
@@ -148,8 +140,6 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
         items.clear();
         if (branchList.size() > 0) {
             items.addAll(branchList);
-        } else {
-            layoutTitle.setVisibility(View.GONE);
         }
         adapter.notifyDataSetChanged();
     }
@@ -174,33 +164,56 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
             TextView txtName = getViewById(R.id.txt_name);
             TextView txtCode = getViewById(R.id.txt_code);
             TextView txtAddress = getViewById(R.id.txt_address);
+            LinearLayout layoutTitle = getViewById(R.id.layout_title);
+            TextView txtTitle = getViewById(R.id.txt_title);
 
             if (branchBean instanceof Employee) {
                 view.setVisibility(View.GONE);
                 txtPhone.setVisibility(View.VISIBLE);
                 Employee bean = (Employee) branchBean;
-                setSpan(txtName, bean.employeeName);
-                setSpan(txtCode, bean.employeeExtension);
-                setSpan(txtPhone, bean.employeePhone);
+                setSpan(txtName, bean.employeeName, false);
+                setSpan(txtCode, bean.employeeExtension, true);
+                setSpan(txtPhone, bean.employeePhone, true);
                 txtAddress.setText(bean.branchName);
+                txtTitle.setText(R.string.txt_employee_info);
             } else {
                 EnterpriseOrderListBeanBase bean = (EnterpriseOrderListBeanBase) branchBean;
                 view.setVisibility(View.VISIBLE);
                 txtPhone.setVisibility(View.GONE);
                 txtName.setText(bean.outerCode);
-                setSpan(txtCode, bean.collectBrcode);
+                setSpan(txtCode, bean.collectBrcode, true);
                 txtAddress.setText(bean.branchName);
+                txtTitle.setText(R.string.txt_order_info);
             }
+            layoutTitle.setVisibility(position == 0 ? View.VISIBLE : View.GONE);
             setClickEvent(true, position, convertView);
         }
     }
 
-    private void setSpan(TextView tv, String str) {
+    /**
+     *
+     * @param tv
+     * @param str
+     * @param isExactQuery 是否是精确搜索
+     */
+    private void setSpan(TextView tv, String str, boolean isExactQuery) {
         if (StringUtils.isNoneBlank(searchKey) && str.contains(searchKey)) {
             SpannableStringBuilder builder = new SpannableStringBuilder(str);
             ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.btn_red));
-            int index = str.indexOf(searchKey);
-            builder.setSpan(redSpan, index, index + searchKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            if (isExactQuery) {
+                if (searchKey.equalsIgnoreCase(str)) {
+                    builder.setSpan(redSpan, 0, searchKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                } else {
+                    tv.setText(str);
+                }
+            } else {
+                int startIndex = 0;
+                do {
+                    int index = str.indexOf(searchKey, startIndex);
+                    builder.setSpan(redSpan, index, index + searchKey.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+                    startIndex = index + searchKey.length();
+                } while (str.indexOf(searchKey, startIndex) != -1);
+            }
             tv.setText(builder);
         } else {
             tv.setText(str);

@@ -149,9 +149,6 @@
 
         <View style="@style/line_solid_padding_left_style" />
     </LinearLayout>
-
-
-
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -191,12 +188,7 @@
         </LinearLayout>
 
     </RelativeLayout>
-
-
-
-    <View
-        android:id="@+id/div_remark"
-        style="@style/line_solid_padding_left_style" />
+    <include layout="@layout/line_solid_view_d7"/>
 
 
 
