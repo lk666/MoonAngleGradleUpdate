@@ -262,6 +262,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         if (result.getResponseCode() == Constants.RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS) {
             EventBus.getDefault().post(new ConfirmEvent(outerCode, false));
             finish();
+            return;
         }
         super.onErrorResponse(requestCode, result);
     }
