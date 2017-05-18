@@ -154,7 +154,7 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
      */
     private void setButtonLocation() {
         if (layoutHeight > 0 && layoutParentHeight > 0) {
-            if (layoutParentHeight > layoutHeight+DensityUtil.dip2px(this,50)) {
+            if (layoutParentHeight > layoutHeight + DensityUtil.dip2px(this, 50)) {
                 layoutScreenBottom.setVisibility(View.VISIBLE);
             } else {
                 layoutScroll.setVisibility(View.VISIBLE);
@@ -164,15 +164,15 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
     private void iniListDate(List<ClothesInfo> clothesList) {
         list = new ArrayList<>();
-        String totalPriceName="总价";
-        int totalNumber=0;
-        int totalPrice=0;
-        String totalCode="totalCode";
-        String totalId="totalId";
+        String totalPriceName = "总价";
+        int totalNumber = 0;
+        int totalPrice = 0;
+        String totalCode = "totalCode";
+        String totalId = "totalId";
         for (ClothesInfo clothesDetailsBean
                 : clothesList) {
             totalNumber++;
-            totalPrice+=clothesDetailsBean.memberPrice;
+            totalPrice += clothesDetailsBean.memberPrice;
             boolean isNew = true;//默认是新的商品编码
             for (Map<String, String> stringMap : list) {
                 if (stringMap.get(KEYS[4]).equals(clothesDetailsBean.washCode)) {
@@ -180,28 +180,26 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
                     double price = Double.valueOf(stringMap.get(KEYS[2]));
                     stringMap.put(KEYS[1], String.valueOf(number
                             + 1));
-                    stringMap.put(KEYS[2], String.valueOf(price / number * (number + 1)));
+                    stringMap.put(KEYS[2], StringUtil.formatPriceByFen((int) (price / number * (number + 1) * 100)));
                     isNew = false;//发现已有商品，直接增加数量
                     break;
                 }
             }
             if (isNew) {
-                Map<String, String> m = new HashMap<>();
-                m.put(KEYS[0], clothesDetailsBean.washName);
-                m.put(KEYS[1], "1");
-                m.put(KEYS[2], StringUtil.formatPriceByFen(clothesDetailsBean.memberPrice));
-                m.put(KEYS[3], clothesDetailsBean.clothesId);
-                m.put(KEYS[4], clothesDetailsBean.washCode);
-                list.add(m);
+                list.add(createMap(clothesDetailsBean.washName, "1", StringUtil.formatPriceByFen(clothesDetailsBean.memberPrice), clothesDetailsBean.clothesId, clothesDetailsBean.washCode));
             }
         }
+        list.add(createMap(totalPriceName, String.valueOf(totalNumber), StringUtil.formatPriceByFen(totalPrice), totalId, totalCode));
+    }
+
+    private Map<String, String> createMap(String name, String number, String price, String clothesId, String washCode) {
         Map<String, String> m = new HashMap<>();
-        m.put(KEYS[0], totalPriceName);
-        m.put(KEYS[1], String.valueOf(totalNumber));
-        m.put(KEYS[2], StringUtil.formatPriceByFen(totalPrice));
-        m.put(KEYS[3], totalId);
-        m.put(KEYS[4], totalCode);
-        list.add(m);
+        m.put(KEYS[0], name);
+        m.put(KEYS[1], number);
+        m.put(KEYS[2], price);
+        m.put(KEYS[3], clothesId);
+        m.put(KEYS[4], washCode);
+        return m;
     }
 
     /**
@@ -261,9 +259,10 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        if(result.getResponseCode() == Constants.RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS){
+        if (result.getResponseCode() == Constants.RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS) {
             EventBus.getDefault().post(new ConfirmEvent(outerCode, false));
             finish();
+            return;
         }
         super.onErrorResponse(requestCode, result);
     }
