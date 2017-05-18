@@ -31,6 +31,8 @@ public class ClothesSelectTypeView extends SquareLayout {
     ImageView iv;
     @Bind(R.id.tv)
     TextView tv;
+    @Bind(R.id.ll)
+    LinearLayout ll;
 
     public ClothesSelectTypeView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -89,11 +91,11 @@ public class ClothesSelectTypeView extends SquareLayout {
         if (data.isSelected) {
             ivSelected.setVisibility(VISIBLE);
             tv.setTextColor(getContext().getResources().getColor(R.color.text_blue_1eb8ff));
-            setBackgroundResource(R.drawable.border_blue);
+            ll.setBackgroundResource(R.drawable.border_blue);
         } else {
             ivSelected.setVisibility(GONE);
             tv.setTextColor(getContext().getResources().getColor(R.color.text_black_light));
-            setBackgroundColor(getResources().getColor(R.color.transparent));
+            ll.setBackgroundColor(getResources().getColor(R.color.transparent));
         }
     }
 }

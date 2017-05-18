@@ -38,6 +38,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.ClearEditText;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
@@ -56,7 +57,7 @@ public class CreateOrderActivity extends BaseActivity {
     @Bind(R.id.tv_employee_phone)
     TextView tvEmployeePhone;
     @Bind(R.id.et_employee_extension)
-    EditText etEmployeeExtension;
+    ClearEditText etEmployeeExtension;
     @Bind(R.id.tv_return_address)
     TextView tvReturnAddress;
     @Bind(R.id.ll_branch_code)
@@ -169,6 +170,8 @@ public class CreateOrderActivity extends BaseActivity {
                 }
             }
         });
+
+        etEmployeeExtension.setMaxLength(30);
 
         if (info != null) {
             setData(info);

@@ -116,7 +116,7 @@
                         android:layout_height="wrap_content"
                         android:lines="1"
                         android:paddingLeft="10dp"
-                        android:textColor="@color/text_blue_light"
+                        android:textColor="@color/btn_blue"
                         android:textSize="14sp" />
                 </LinearLayout>
 
