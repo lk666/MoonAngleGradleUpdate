@@ -147,7 +147,7 @@ public class EnterpriseHistoryFragment extends BasePullToRefreshListViewFragment
         ResultEnterpriseList resultObj = (ResultEnterpriseList) result;
         timestamp = resultObj.timestamp;
         count = resultObj.count;
-        if(startTime == 0 && resultObj.enterpriseOrderList.size() == 0) {
+        if(startTime == 0 && count == 0) {
             isEmpty = true;
         }
         return resultObj.enterpriseOrderList;
