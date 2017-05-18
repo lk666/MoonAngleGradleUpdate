@@ -39,6 +39,7 @@ class ItemAdapter extends BaseListAdapter<EnterpriseOrderListBean> {
             TextView tvState = getViewById(R.id.tv_state);
             TextView tvEmployeeCode = getViewById(R.id.tv_employee_code);
             RelativeLayout layoutDetail = getViewById(R.id.layout_detail);
+            RelativeLayout layoutOrder = getViewById(R.id.layout_order);
             TextView tvCustomerName = getViewById(R.id.tv_customer_name);
             TextView tvAddress = getViewById(R.id.tv_address);
             TextView tvAmount = getViewById(R.id.tv_amount);
@@ -65,6 +66,6 @@ class ItemAdapter extends BaseListAdapter<EnterpriseOrderListBean> {
             }
             tvAmount.setText(context.getString(R.string.enterprise_order_amount, item.actualCount));
             tvPrice.setText(context.getString(R.string.order_money, StringUtil.formatPriceByFen(item.payTotal)));
-            setClickEvent(isNew, position, layoutDetail, tvCancelOrder);
+            setClickEvent(isNew, position, layoutOrder, layoutDetail, tvCancelOrder);
         }
     }

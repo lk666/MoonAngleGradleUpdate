@@ -117,7 +117,6 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == REQUEST_CODE_CANCEL) {
-            toast(result.getResponseMsg());
             initData();
         }
     }
@@ -127,12 +126,10 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
         final EnterpriseOrderListBean bean = (EnterpriseOrderListBean) obj;
         switch (view.getId()) {
             case R.id.layout_detail:
-                if (Constants.OUTER_ACCEPT_CLOTHES.equals(bean.state)) {
-                    AddClothesActivity.actionStart(getActivity(), bean.outerCode);
-                } else {
-                    EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean
-                            .state, false);
-                }
+                goToDetail(bean);
+                break;
+            case R.id.layout_order:
+                goToDetail(bean);
                 break;
             case R.id.tv_cancel_order:
                 new CommonAlertDialog.Builder(getActivity()).setMessage(R.string.enterprise_cancel).setNegativeButton(R.string.btn_ok_with_space, new DialogInterface.OnClickListener() {
@@ -145,6 +142,15 @@ public class EnterpriseFragment extends BasePullToRefreshListViewFragment {
                 }).setPositiveButton(R.string.cancel_with_space, null).show();
 
                 break;
+        }
+    }
+
+    private void goToDetail(EnterpriseOrderListBean bean) {
+        if (Constants.OUTER_ACCEPT_CLOTHES.equals(bean.state)) {
+            AddClothesActivity.actionStart(getActivity(), bean.outerCode);
+        } else {
+            EnterpriseOrderDetailActivity.startAct(getActivity(), bean.outerCode, bean
+                    .state, false);
         }
     }
 

@@ -108,8 +108,6 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.layout_scan:
-                EnterpriseScanInputActivity.actStart(this, getString(R.string
-                        .hand_query_with_space));
                 finish();
                 break;
         }
