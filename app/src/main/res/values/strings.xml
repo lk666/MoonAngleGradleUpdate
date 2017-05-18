@@ -1451,7 +1451,7 @@
     <string name="txt_add_clothes">添 加 衣 物</string>
     <string name="return_address">还衣地点</string>
     <string name="hint_return_address">请选择还衣地点</string>
-    <string name="hint_collect_brcode">请扫描或输入收衣袋编号</string>
+    <string name="hint_collect_brcode">请输入或扫描收衣袋编号</string>
     <string name="hint_backup">请输入备注，60字以内</string>
     <string name="txt_balance">账户余额</string>
     <string name="txt_point">剩余点值</string>
@@ -1460,7 +1460,7 @@
     <string name="affirm_deducyion">确认无误，发起扣款</string>
     <string name="go_deducyion">提 交 扣 款</string>
     <string name="select_clothes_type">选择衣物类型</string>
-    <string name="confirm2_with_space">确&#160;认</string>
+    <string name="confirm2_with_space">确&#160;定</string>
     <string name="txt_cop_type">合作类型</string>
     <string name="hint_select_type">请选择衣物类型</string>
     <string name="cancel_create_order">确定取消本次录入?</string>
@@ -1468,5 +1468,6 @@
     <string name="enterprise_cancel">确定取消订单?</string>
 
     <string name="alert_delete_clothes">确定删除？</string>
-
+    <string name="alert_empty_employee_extension">您还未输入分机号码！</string>
+    <string name="alert_empty_collect_brcode">您还未输入收衣袋编号！</string>
 </resources>
