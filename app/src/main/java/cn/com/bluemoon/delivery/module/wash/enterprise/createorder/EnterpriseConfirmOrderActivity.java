@@ -262,9 +262,20 @@ public class EnterpriseConfirmOrderActivity extends BaseActivity {
         if (result.getResponseCode() == Constants.RESPONSE_RESULT_NOT_SUFFICIENT_FUNDS) {
             EventBus.getDefault().post(new ConfirmEvent(outerCode, false));
             finish();
-            return;
         }
         super.onErrorResponse(requestCode, result);
+    }
+
+    @Override
+    protected void onActionBarBtnLeftClick() {
+        setResult(RESULT_CANCEL_CONFIRM);
+        finish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(RESULT_CANCEL_CONFIRM);
+        finish();
     }
 
     @OnClick({R.id.btn_deduction_cancel_scroll, R.id.btn_deduction_cancel_screen_bottom})

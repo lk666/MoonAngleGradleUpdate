@@ -129,13 +129,13 @@ public class CreateOrderActivity extends BaseActivity {
 
     private boolean check() {
         if (TextUtils.isEmpty(etEmployeeExtension.getText().toString())) {
-            toast(R.string.hint_employee_extension);
+            toast(R.string.alert_empty_employee_extension);
             return false;
         } else if (TextUtils.isEmpty(branchCode)) {
             toast(R.string.hint_return_address);
             return false;
         } else if (TextUtils.isEmpty(tvCollectBrcode.getText())) {
-            toast(R.string.hint_collect_brcode);
+            toast(R.string.alert_empty_collect_brcode);
             return false;
         }
         return true;
