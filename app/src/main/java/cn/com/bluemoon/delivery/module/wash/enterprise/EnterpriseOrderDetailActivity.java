@@ -170,12 +170,10 @@ public class EnterpriseOrderDetailActivity extends BaseActivity {
                 } else if (Constants.OUTER_CANCEL.equals(type)) {
                     layoutCancelTime.setVisibility(View.VISIBLE);
                     txtCancelTime.setText(DateUtil.getTime(enterpriseOrderInfo.cancelTime, FORMAT_TIME));
-                } else {
-                    if (enterpriseOrderInfo.payTime > 0) {
-                        layoutPayTime.setVisibility(View.VISIBLE);
-                        txtPayTime.setText(DateUtil.getTime(enterpriseOrderInfo.payTime, FORMAT_TIME));
-                    }
-
+                }
+                if (enterpriseOrderInfo.payTime > 0) {
+                    layoutPayTime.setVisibility(View.VISIBLE);
+                    txtPayTime.setText(DateUtil.getTime(enterpriseOrderInfo.payTime, FORMAT_TIME));
                 }
             }
             final Employee employeeInfo = resultEnterpriseDetail.employeeInfo;
