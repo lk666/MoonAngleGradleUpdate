@@ -28,7 +28,6 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.RequestEnterpriseO
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultSaveWashEnterpriseOrder;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.SaveOrderEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
@@ -50,7 +49,6 @@ public class CreateOrderActivity extends BaseActivity {
     private static final String EXTRA_EMPLOYEE = "EXTRA_EMPLOYEE";
     private static final int REQUEST_CODE_SCAN = 0x777;
     private static final int REQUEST_CODE_SAVE = 0x666;
-    private static final int REQUEST_CODE_MANUAL = 0x77;
     private static final int REQUEST_CODE_ADD = 0x555;
     @Bind(R.id.tv_employee_name)
     TextView tvEmployeeName;
@@ -62,10 +60,8 @@ public class CreateOrderActivity extends BaseActivity {
     TextView tvReturnAddress;
     @Bind(R.id.ll_branch_code)
     LinearLayout llBranchCode;
-    @Bind(R.id.tv_collect_brcode)
-    TextView tvCollectBrcode;
-    @Bind(R.id.ll_collect_brcode)
-    LinearLayout llCollectBrcode;
+    @Bind(R.id.et_collect_brcode)
+    EditText etCollectBrcode;
     @Bind(R.id.et_backup)
     EditText etBackup;
     @Bind(R.id.tv_balance)
@@ -120,7 +116,7 @@ public class CreateOrderActivity extends BaseActivity {
         if (check()) {
             showWaitDialog();
             RequestEnterpriseOrderInfo sendInfo = new RequestEnterpriseOrderInfo(branchCode,
-                    tvCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
+                    etCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
                     etEmployeeExtension.getText().toString(), etBackup.getText().toString());
             EnterpriseApi.saveWashEnterpriseOrder(sendInfo, getToken(),
                     getNewHandler(REQUEST_CODE_SAVE, ResultSaveWashEnterpriseOrder.class));
@@ -134,7 +130,7 @@ public class CreateOrderActivity extends BaseActivity {
         } else if (TextUtils.isEmpty(branchCode)) {
             toast(R.string.hint_return_address);
             return false;
-        } else if (TextUtils.isEmpty(tvCollectBrcode.getText())) {
+        } else if (TextUtils.isEmpty(etCollectBrcode.getText().toString())) {
             toast(R.string.alert_empty_collect_brcode);
             return false;
         }
@@ -148,7 +144,7 @@ public class CreateOrderActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        tvCollectBrcode.setText("");
+        etCollectBrcode.setText("");
         etBackup.setText("");
         etBackup.addTextChangedListener(new TextWatcher() {
             @Override
@@ -316,7 +312,7 @@ public class CreateOrderActivity extends BaseActivity {
         dialog.show();
     }
 
-    @OnClick({R.id.ll_branch_code, R.id.ll_collect_brcode, R.id.btn_send})
+    @OnClick({R.id.ll_branch_code, R.id.iv_scan_code, R.id.btn_send})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             // 还衣地点
@@ -324,7 +320,7 @@ public class CreateOrderActivity extends BaseActivity {
                 showSelectReturn();
                 break;
             // 收衣袋
-            case R.id.ll_collect_brcode:
+            case R.id.iv_scan_code:
                 goScanCode();
                 break;
             // 添加衣物
@@ -332,7 +328,7 @@ public class CreateOrderActivity extends BaseActivity {
                 if (check()) {
                     showWaitDialog();
                     RequestEnterpriseOrderInfo sendInfo = new RequestEnterpriseOrderInfo(branchCode,
-                            tvCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
+                            etCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
                             etEmployeeExtension.getText().toString(), etBackup.getText().toString
                             ());
                     EnterpriseApi.saveWashEnterpriseOrder(sendInfo, getToken(),
@@ -346,8 +342,7 @@ public class CreateOrderActivity extends BaseActivity {
      * 打开扫码界面
      */
     private void goScanCode() {
-        PublicUtil.openClothScan(this, getString(R.string.coupons_scan_code_title),
-                getString(R.string.with_order_collect_manual_input_code_btn),
+        PublicUtil.openClothScan(this, getString(R.string.code_title), null,
                 Constants.REQUEST_SCAN);
     }
 
@@ -365,26 +360,6 @@ public class CreateOrderActivity extends BaseActivity {
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
                     handleScanCodeBack(resultStr);
                 }
-                //   跳转到手动输入
-                else if (resultCode == Constants.RESULT_SCAN) {
-                    Intent intent = new Intent(this, ManualInputCodeActivity.class);
-                    intent.putExtra(ManualInputCodeActivity.EXTRA_MAX_LENGTH, 32);
-                    startActivityForResult(intent, REQUEST_CODE_MANUAL);
-                }
-                break;
-
-            // 手动输入返回
-            case REQUEST_CODE_MANUAL:
-                // 数字码返回
-                if (resultCode == Activity.RESULT_OK) {
-                    String resultStr = data.getStringExtra(ManualInputCodeActivity
-                            .RESULT_EXTRA_CODE);
-                    handleScanCodeBack(resultStr);
-                }
-                //  跳转到扫码输入
-                else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
-                    goScanCode();
-                }
                 break;
 
             default:
@@ -396,6 +371,6 @@ public class CreateOrderActivity extends BaseActivity {
      * 新增模式下处理扫码、手动输入数字码返回
      */
     private void handleScanCodeBack(String code) {
-        tvCollectBrcode.setText(code);
+        etCollectBrcode.setText(code);
     }
 }
