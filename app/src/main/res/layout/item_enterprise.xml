@@ -151,18 +151,16 @@
     </LinearLayout>
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="45dp">
         <TextView
             android:id="@+id/tv_cancel_order"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center_vertical"
+            android:layout_width="70dp"
+            android:layout_height="30dp"
+            android:gravity="center"
             android:textColor="@color/text_grep"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
             android:layout_marginLeft="12dp"
-            android:padding="8dp"
             android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
             android:background="@drawable/btn_border_grep_shape18"
             android:text="@string/cancle_enterprise_order"
             android:textSize="14sp" />
