@@ -18,6 +18,7 @@ import cn.com.bluemoon.delivery.module.base.BaseScanActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.SaveOrderEvent;
 
 /**
@@ -101,6 +102,11 @@ public class EnterpriseScanInputActivity extends BaseScanActivity {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ConfirmEvent event) {
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(CreateOrderEvent event) {
         finish();
     }
 
