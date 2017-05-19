@@ -38,6 +38,7 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     private static final int REQUEST_CODE_RECEIVE = 0x777;
     private static final int REQUEST_CODE_CREATE_COLLECT = 0x77;
     private static final int REQUEST_CODE_MANUAL = 0x66;
+    private static final int REQUEST_CODE_SCAN_CREATE_COLLECT = 0x55;
     private static final int REQUEST_CODE_QUERY = 0x666;
     /**
      * 分页标识
@@ -249,7 +250,7 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                 ResultAppointmentOrderScan data = (ResultAppointmentOrderScan) result;
                 if (data.appointmentInfo != null) {
                     CreateAppointmentCollectOrderActivity.actionStart(this, data.appointmentInfo,
-                            REQUEST_CODE_CREATE_COLLECT);
+                            REQUEST_CODE_SCAN_CREATE_COLLECT);
                 }
                 break;
         }
@@ -259,6 +260,9 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
+        if (requestCode == REQUEST_CODE_SCAN_CREATE_COLLECT) {
+            initData();
+        }
 
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
