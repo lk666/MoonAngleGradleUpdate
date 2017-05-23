@@ -44,9 +44,9 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         public void onReceive(Context context, Intent intent) {
             Remind remind = null;
 
-            if(Reminds.ALARM_ALERT_ACTION.equals(intent.getAction())) {
+            if (Reminds.ALARM_ALERT_ACTION.equals(intent.getAction())) {
                 try {
-                  //  remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
+                    //  remind = (Remind) intent.getSerializableExtra(Reminds.ALARM_INTENT_EXTRA);
                     long remindId = intent.getLongExtra(Reminds.ALARM_INTENT_EXTRA, 0);
                     if (remindId != 0) {
                         remind = Reminds.getRemind(context.getContentResolver(), remindId);
@@ -62,10 +62,10 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
                 // Disable this alarm if it does not repeat.
                 if (!new DaysOfWeek(remind.getRemindWeek()).isRepeatSet()) {
                     Reminds.enableAlarm(context, remind.getRemindId(), false);
-                    if(list!=null && list.size()>0){
-                        for (Remind alarm:list
-                             ) {
-                            if(alarm.getRemindId()==remind.getRemindId()){
+                    if (list != null && list.size() > 0) {
+                        for (Remind alarm : list
+                                ) {
+                            if (alarm.getRemindId() == remind.getRemindId()) {
                                 alarm.isClose = true;
                                 adapter.notifyDataSetChanged();
                             }
@@ -84,8 +84,9 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
-//        ptrlv.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
-//        ptrlv.setDividerDrawable(getResources().getDrawable(R.drawable.div_left_padding_16));
+        //        ptrlv.setShowDividers(LinearLayout.SHOW_DIVIDER_MIDDLE);
+        //        ptrlv.setDividerDrawable(getResources().getDrawable(R.drawable
+        // .div_left_padding_16));
         ptrlv.getRefreshableView().setDividerHeight(getResources().getDimensionPixelSize(R.dimen
                 .div_height_none));
     }
@@ -122,7 +123,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         ptrlv.setBackgroundColor(getResources().getColor(R.color.white));
         adapter = getNewAdapter();
 
-       list= new ArrayList<>();
+        list = new ArrayList<>();
         Cursor mCursor = Reminds.getAlarmsCursor(getActivity().getContentResolver());
 
         if (mCursor != null) {
@@ -157,64 +158,99 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
         }
 
         @Override
-        protected void setView(int position, final View convertView, final ViewGroup parent, boolean isNew) {
-            final Remind remind = (Remind) getItem(position);
+        protected void setView(int position, final View convertView, final ViewGroup parent,
+                               boolean isNew) {
+            Remind remind = (Remind) getItem(position);
             LinearLayout layoutAlarm = getViewById(R.id.layout_alarm);
             TextView txtAlarmTime = getViewById(R.id.txt_alarm_time);
-            TextView txtAlamTitle = getViewById(R.id.txt_alarm_title);
+            TextView txtAlarmTitle = getViewById(R.id.txt_alarm_title);
             TextView txtAlert = getViewById(R.id.txt_repeat_content);
-            final SwitchButton sbOpen = getViewById(R.id.sb_open);
+            SwitchButton sbOpen = getViewById(R.id.sb_open);
 
             txtAlarmTime.setText(DateUtil.getTime(Reminds.calculateAlarm(remind), "HH:mm"));
-            txtAlamTitle.setText(remind.getRemindTitle());
+            txtAlarmTitle.setText(remind.getRemindTitle());
             DaysOfWeek daysOfWeek = new DaysOfWeek(remind.getRemindWeek());
             if (daysOfWeek.getCoded() != 0 && daysOfWeek.getCoded() != 0x7f) {
-                txtAlert.setText(getString(R.string.alarm_repeat)+getString(R.string.week) + daysOfWeek.toString(getActivity(), true));
+                txtAlert.setText(getString(R.string.alarm_repeat) + getString(R.string.week) +
+                        daysOfWeek.toString(getActivity(), true));
             } else {
-                txtAlert.setText(getString(R.string.alarm_repeat)+daysOfWeek.toString(getActivity(), true));
+                txtAlert.setText(getString(R.string.alarm_repeat) + daysOfWeek.toString
+                        (getActivity(), true));
             }
+
+
+            layoutAlarm.setTag(R.id.tag_position, position);
+            sbOpen.setTag(R.id.tag_position, position);
+
             sbOpen.setChecked(!remind.isClose);
-            if (sbOpen.isChecked()) {
+            setBg(layoutAlarm, txtAlarmTime, txtAlarmTitle, txtAlert, !remind.isClose);
+
+            if (isNew) {
+                layoutAlarm.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Remind remind = (Remind) getItem((int) v.getTag(R.id.tag_position));
+                        AlarmModifyActivity.startAction(AlarmSettingFragment.this, remind);
+                    }
+                });
+
+                sbOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        Remind remind =
+                                (Remind) getItem((int) buttonView.getTag(R.id.tag_position));
+                        if (remind.isClose == isChecked) {
+                            remind.isClose = !isChecked;
+                            View parent = (View) buttonView.getParent().getParent();
+                            LinearLayout layoutAlarm = (LinearLayout) parent.findViewById(R.id
+                                    .layout_alarm);
+                            TextView txtAlarmTime = (TextView) parent.findViewById(R.id
+                                    .txt_alarm_time);
+                            TextView txtAlarmTitle = (TextView) parent.findViewById(R.id
+                                    .txt_alarm_title);
+                            TextView txtAlert = (TextView) parent.findViewById(R.id
+                                    .txt_repeat_content);
+                            setBg(layoutAlarm, txtAlarmTime, txtAlarmTitle, txtAlert, !remind
+                                    .isClose);
+
+                            Reminds.enableAlarm(getActivity(), remind.getRemindId(), !remind
+                                    .isClose);
+                            DeliveryApi.turnRemindOnOrOff(getToken(), remind.getRemindId(), !remind
+                                    .isClose, getNewHandler(999, ResultBase.class));
+                        }
+                    }
+                });
+            }
+        }
+
+        private void setBg(LinearLayout layoutAlarm, TextView txtAlarmTime, TextView
+                txtAlamTitle, TextView txtAlert, boolean isOpen) {
+            if (isOpen) {
                 if (Build.VERSION.SDK_INT > 15) {
-                    layoutAlarm.setBackground(getResources().getDrawable(R.drawable.btn_border_blue_alarm));
+                    layoutAlarm.setBackground(getResources().getDrawable(R.drawable
+                            .btn_border_blue_alarm));
                 } else {
-                    layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_border_blue_alarm));
+                    layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable
+                            .btn_border_blue_alarm));
                 }
                 txtAlarmTime.setTextColor(getResources().getColor(R.color.btn_blue));
                 txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep));
                 txtAlert.setTextColor(getResources().getColor(R.color.text_black));
             } else {
                 if (Build.VERSION.SDK_INT > 15) {
-                    layoutAlarm.setBackground(getResources().getDrawable(R.drawable.btn_border_grey_alarm));
+                    layoutAlarm.setBackground(getResources().getDrawable(R.drawable
+                            .btn_border_grey_alarm));
                 } else {
-                    layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable.btn_border_grey_alarm));
+                    layoutAlarm.setBackgroundDrawable(getResources().getDrawable(R.drawable
+                            .btn_border_grey_alarm));
                 }
 
                 txtAlarmTime.setTextColor(getResources().getColor(R.color.text_grep_a));
                 txtAlamTitle.setTextColor(getResources().getColor(R.color.text_grep_a));
                 txtAlert.setTextColor(getResources().getColor(R.color.text_grep_a));
             }
-
-
-            layoutAlarm.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    AlarmModifyActivity.startAction(AlarmSettingFragment.this, remind);
-                }
-            });
-
-            sbOpen.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    remind.isClose = !sbOpen.isChecked();
-                    adapter.notifyDataSetChanged();
-                    Reminds.enableAlarm(getActivity(), remind.getRemindId(), !remind.isClose);
-                    DeliveryApi.turnRemindOnOrOff(getToken(), remind.getRemindId(), !remind.isClose, getNewHandler(999, ResultBase.class));
-                }
-            });
         }
     }
-
 
     @Override
     protected String getTitleString() {
