@@ -84,7 +84,6 @@
                         android:layout_marginLeft="10dp"
                         android:layout_marginRight="10dp"
                         android:background="@null"
-                        android:inputType="number"
                         android:drawablePadding="5dp"
                         android:gravity="right|center_vertical"
                         android:hint="@string/hint_employee_extension"
@@ -130,7 +129,7 @@
                         android:gravity="center_vertical|right"
                         android:hint="@string/hint_return_address"
                         android:textColor="@color/text_black_light"
-                        android:textColorHint="@color/text_grep"
+                        android:textColorHint="@color/text_hint"
                         android:textSize="@dimen/text_size_15"/>
 
                     <ImageView
@@ -152,7 +151,6 @@
                 android:orientation="vertical">
 
                 <LinearLayout
-                    android:id="@+id/ll_collect_brcode"
                     android:layout_width="match_parent"
                     android:layout_height="45dp"
                     android:gravity="center_vertical"
@@ -174,14 +172,18 @@
                         android:textColor="@color/text_red"
                         android:textSize="@dimen/text_size_15"/>
 
-                    <TextView
-                        android:id="@+id/tv_collect_brcode"
+                    <cn.com.bluemoon.lib.view.ClearEditText
+                        android:id="@+id/et_collect_brcode"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_marginLeft="10dp"
                         android:layout_weight="1"
                         android:ellipsize="end"
+                        android:maxLength="30"
                         android:singleLine="true"
+                        android:background="@null"
+                        android:drawablePadding="5dp"
+                        android:textCursorDrawable="@null"
                         android:gravity="center_vertical|right"
                         android:hint="@string/hint_collect_brcode"
                         android:textColor="@color/text_black_light"
@@ -189,10 +191,11 @@
                         android:textSize="@dimen/text_size_15"/>
 
                     <ImageView
-                        android:layout_width="14dp"
-                        android:layout_height="14dp"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginRight="10dp"
+                        android:id="@+id/iv_scan_code"
+                        android:layout_width="44dp"
+                        android:layout_height="match_parent"
+                        android:paddingLeft="10dp"
+                        android:paddingRight="10dp"
                         android:scaleType="centerInside"
                         android:src="@mipmap/icon_scan_small"/>
                 </LinearLayout>

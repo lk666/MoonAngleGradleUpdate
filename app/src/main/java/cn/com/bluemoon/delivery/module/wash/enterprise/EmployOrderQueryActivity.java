@@ -34,6 +34,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
+import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.SaveOrderEvent;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -239,6 +240,11 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(ConfirmEvent event) {
+        finish();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(CreateOrderEvent event) {
         finish();
     }
 
