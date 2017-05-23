@@ -29,6 +29,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 
 /**
  * Created by allenli on 2016/9/7.
@@ -162,7 +163,7 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
             TextView txtAlarmTime = getViewById(R.id.txt_alarm_time);
             TextView txtAlamTitle = getViewById(R.id.txt_alarm_title);
             TextView txtAlert = getViewById(R.id.txt_repeat_content);
-            cn.com.bluemoon.lib.view.switchbutton.SwitchButton sbOpen = getViewById(R.id.sb_open);
+            final SwitchButton sbOpen = getViewById(R.id.sb_open);
 
             txtAlarmTime.setText(DateUtil.getTime(Reminds.calculateAlarm(remind), "HH:mm"));
             txtAlamTitle.setText(remind.getRemindTitle());
@@ -202,20 +203,15 @@ public class AlarmSettingFragment extends BasePullToRefreshListViewFragment {
                 }
             });
 
-
-            sbOpen.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            sbOpen.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    remind.isClose = !isChecked;
-
+                public void onClick(View view) {
+                    remind.isClose = !sbOpen.isChecked();
                     adapter.notifyDataSetChanged();
-                    Reminds.enableAlarm(getActivity(), remind.getRemindId(), isChecked);
-                    DeliveryApi.turnRemindOnOrOff(getToken(), remind.getRemindId(), isChecked, getNewHandler(999, ResultBase.class));
-
+                    Reminds.enableAlarm(getActivity(), remind.getRemindId(), !remind.isClose);
+                    DeliveryApi.turnRemindOnOrOff(getToken(), remind.getRemindId(), !remind.isClose, getNewHandler(999, ResultBase.class));
                 }
             });
-
-
         }
     }
 

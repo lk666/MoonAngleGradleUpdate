@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery.module.account;
 
 import android.content.Context;
 import android.content.Intent;
-import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -23,7 +22,6 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -136,11 +134,17 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    private int backCount = 0;
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            DialogUtil.getExitDialog(this).show();
+            if (backCount == 0) {
+                backCount = 1;
+                toast(R.string.app_quit_txt);
+            } else {
+                finish();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
