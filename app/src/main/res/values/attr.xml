@@ -94,4 +94,12 @@
         <attr name="border_outside_color" format="color" />
         <attr name="is_draw_border" format="boolean" />
     </declare-styleable>
+
+    <!--通用组件 start-->
+    <declare-styleable name="BmCellTextView">
+        <attr name="txt_title" format="reference" />
+        <attr name="txt_content" format="reference" />
+    </declare-styleable>
+    <!--通用组件 end-->
+
 </resources>
