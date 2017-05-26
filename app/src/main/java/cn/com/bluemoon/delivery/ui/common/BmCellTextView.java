@@ -43,8 +43,8 @@ public class BmCellTextView extends FrameLayout {
     private void getInitData(AttributeSet attrs){
         if(attrs!=null){
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BmCellTextView);
-            title=  typedArray.getResourceId(R.styleable.BmCellTextView_txt_title,-1);
-            content=  typedArray.getResourceId(R.styleable.BmCellTextView_txt_content,-1);
+            title=  typedArray.getResourceId(R.styleable.BmCellTextView_cell_text_txt_title,-1);
+            content=  typedArray.getResourceId(R.styleable.BmCellTextView_cell_text_txt_content,-1);
             typedArray.recycle();
         }
     }

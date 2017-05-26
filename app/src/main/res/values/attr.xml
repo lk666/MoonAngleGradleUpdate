@@ -97,13 +97,23 @@
 
     <!--通用组件 start-->
     <declare-styleable name="BmCellTextView">
-        <attr name="txt_title" format="reference" />
-        <attr name="txt_content" format="reference" />
+        <attr name="cell_text_txt_title" format="reference" />
+        <attr name="cell_text_txt_content" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="BmCellParagraphView">
-        <attr name="txt_title" format="reference" />
-        <attr name="txt_content" format="reference" />
+        <attr name="cell_paragraph_txt_title" format="reference" />
+        <attr name="cell_paragraph_txt_content" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="BmMarkView">
+        <attr name="txt_number" format="integer" />
+        <attr name="color_bg" format="color" />
+        <attr name="mark_height" format="dimension" />
+        <attr name="mark_show_mode">
+            <enum name="MODE_SHOW_APOSTROPHE" value="0"/>
+            <enum name="MODE_SHOW_PLUS_SIGN" value="1"/>
+        </attr>
     </declare-styleable>
     <!--通用组件 end-->
 

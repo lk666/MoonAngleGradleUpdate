@@ -42,8 +42,8 @@ public class BmCellParagraphView extends FrameLayout {
     private void getInitData(AttributeSet attrs) {
         if(attrs!=null){
             TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BmCellParagraphView);
-            title=  typedArray.getResourceId(R.styleable.BmCellParagraphView_txt_title,-1);
-            content=  typedArray.getResourceId(R.styleable.BmCellParagraphView_txt_content,-1);
+            title=  typedArray.getResourceId(R.styleable.BmCellParagraphView_cell_paragraph_txt_title,-1);
+            content=  typedArray.getResourceId(R.styleable.BmCellParagraphView_cell_paragraph_txt_content,-1);
             typedArray.recycle();
         }
     }

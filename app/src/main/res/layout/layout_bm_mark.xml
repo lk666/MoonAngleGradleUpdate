@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/txt_mark"
+    android:layout_width="12dp"
+    android:layout_height="12dp"
+    android:background="#ff6c47"
+    android:gravity="center"
+    android:textColor="#FFF"
+    android:textSize="10dp" />
