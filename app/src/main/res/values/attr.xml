@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="LinearLayoutForTabSelector">
-        <attr name="left_text" format="string" />
-        <attr name="right_text" format="string" />
+        <attr name="left_text" format="string"/>
+        <attr name="right_text" format="string"/>
     </declare-styleable>
     <declare-styleable name="TabSelector">
-        <attr name="text" format="string" />
-        <attr name="color_select_text" format="color" />
-        <attr name="color_normal_text" format="color" />
-        <attr name="text_size" format="dimension" />
-        <attr name="margin_left" format="dimension" />
-        <attr name="margin_right" format="dimension" />
+        <attr name="text" format="string"/>
+        <attr name="color_select_text" format="color"/>
+        <attr name="color_normal_text" format="color"/>
+        <attr name="text_size" format="dimension"/>
+        <attr name="margin_left" format="dimension"/>
+        <attr name="margin_right" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="UpDownTextView">
-        <attr name="tip_text" format="string" />
-        <attr name="is_up" format="boolean" />
-        <attr name="has_text" format="boolean" />
-        <attr name="utext_size" format="dimension" />
-        <attr name="utext_color" format="color" />
-        <attr name="ic_up" format="integer" />
-        <attr name="ic_down" format="integer" />
+        <attr name="tip_text" format="string"/>
+        <attr name="is_up" format="boolean"/>
+        <attr name="has_text" format="boolean"/>
+        <attr name="utext_size" format="dimension"/>
+        <attr name="utext_color" format="color"/>
+        <attr name="ic_up" format="integer"/>
+        <attr name="ic_down" format="integer"/>
     </declare-styleable>
     <declare-styleable name="SimpleWheelView">
-        <attr name="unitHeight" format="dimension" />
+        <attr name="unitHeight" format="dimension"/>
         <attr name="itemNumber" format="integer"/>
 
-        <attr name="normalTextColor" format="color" />
-        <attr name="normalTextSize" format="dimension" />
-        <attr name="selectedTextColor" format="color" />
-        <attr name="selectedTextSize" format="dimension" />
+        <attr name="normalTextColor" format="color"/>
+        <attr name="normalTextSize" format="dimension"/>
+        <attr name="selectedTextColor" format="color"/>
+        <attr name="selectedTextSize" format="dimension"/>
 
         <attr name="isEnable" format="boolean"/>
         <attr name="isLoop" format="boolean"/>
@@ -52,46 +52,76 @@
     </declare-styleable>
 
     <declare-styleable name="ArrowTextView">
-        <attr name="arrowRadius" format="dimension" />
-        <attr name="arrowWidth" format="dimension" />
-        <attr name="arrowInWidth" format="dimension" />
-        <attr name="arrowBg" format="color" />
+        <attr name="arrowRadius" format="dimension"/>
+        <attr name="arrowWidth" format="dimension"/>
+        <attr name="arrowInWidth" format="dimension"/>
+        <attr name="arrowBg" format="color"/>
     </declare-styleable>
     <declare-styleable name="MySetItemView">
-        <attr name="setMyLeftDrawable" format="reference" />
-        <attr name="setMyHintColor" format="color" />
-        <attr name="setMyContentColor" format="color" />
-        <attr name="setMyContentTxt" format="string" />
-        <attr name="setMyHintTxt" format="string" />
-        <attr name="setMyRightVisible" format="boolean" />
+        <attr name="setMyLeftDrawable" format="reference"/>
+        <attr name="setMyHintColor" format="color"/>
+        <attr name="setMyContentColor" format="color"/>
+        <attr name="setMyContentTxt" format="string"/>
+        <attr name="setMyHintTxt" format="string"/>
+        <attr name="setMyRightVisible" format="boolean"/>
     </declare-styleable>
 
     <!--sz tasttextview-->
     <declare-styleable name="TaskTextView">
-        <attr name="rt_line_lenght" format="integer" />
-        <attr name="rt_max_lenght" format="integer" />
-        <attr name="text_size_left" format="dimension" />
-        <attr name="text_size_right" format="dimension" />
-        <attr name="tv_height" format="dimension" />
-        <attr name="text_right" format="string" />
-        <attr name="text_left" format="string" />
-        <attr name="text_right_hint" format="string" />
-        <attr name="text_left_hint" format="string" />
+        <attr name="rt_line_lenght" format="integer"/>
+        <attr name="rt_max_lenght" format="integer"/>
+        <attr name="text_size_left" format="dimension"/>
+        <attr name="text_size_right" format="dimension"/>
+        <attr name="tv_height" format="dimension"/>
+        <attr name="text_right" format="string"/>
+        <attr name="text_left" format="string"/>
+        <attr name="text_right_hint" format="string"/>
+        <attr name="text_left_hint" format="string"/>
         <attr name="rt_gravityStyle" format="enum">
-            <enum name="left" value="0"></enum>
-            <enum name="right" value="1"></enum>
+            <enum name="left" value="0"/>
+            <enum name="right" value="1"/>
         </attr>
         <attr name="hideArrow" format="enum">
-            <enum name="gone" value="0"></enum>
-            <enum name="visible" value="1"></enum>
+            <enum name="gone" value="0"/>
+            <enum name="visible" value="1"/>
         </attr>
     </declare-styleable>
 
     <!--圆形imageview-->
     <declare-styleable name="roundedimageview">
-        <attr name="border_thickness" format="dimension" />
-        <attr name="border_inside_color" format="color" />
-        <attr name="border_outside_color" format="color" />
-        <attr name="is_draw_border" format="boolean" />
+        <attr name="border_thickness" format="dimension"/>
+        <attr name="border_inside_color" format="color"/>
+        <attr name="border_outside_color" format="color"/>
+        <attr name="is_draw_border" format="boolean"/>
+    </declare-styleable>
+
+    <!--通用组件：列表底部-->
+    <declare-styleable name="BMListPaginationView">
+        <attr name="pag_text" format="string|reference"/>
+        <attr name="pag_text_color" format="color"/>
+        <attr name="pag_line_color" format="color"/>
+        <attr name="pag_line_size" format="dimension"/>
+    </declare-styleable>
+
+    <!--通用组件：多行输入框-->
+    <declare-styleable name="BMFieldParagraphView">
+        <attr name="field_title" format="string|reference"/>
+        <attr name="field_title_color" format="color"/>
+        <attr name="field_title_size" format="dimension"/>
+        <attr name="field_count_color" format="color"/>
+        <attr name="field_count_size" format="dimension"/>
+        <attr name="field_hint" format="string|reference"/>
+        <attr name="field_hint_color" format="color"/>
+        <attr name="field_content" format="string|reference"/>
+        <attr name="field_content_color" format="color"/>
+        <attr name="field_content_size" format="dimension"/>
+        <attr name="field_line_color" format="color"/>
+        <attr name="field_line_padding_left" format="dimension"/>
+        <attr name="field_line_padding_right" format="dimension"/>
+        <attr name="field_content_maxLength" format="integer"/>
+        <attr name="field_count_visible" format="enum">
+            <enum name="gone" value="0x00000008"/>
+            <enum name="visible" value="0x00000000"/>
+        </attr>
     </declare-styleable>
 </resources>

@@ -48,11 +48,11 @@
     <string name="main_menu_title">菜单</string>
 
     <!-- BTN-->
-    <string name="btn_ok_with_space">确  定</string>
-    <string name="btn_ok2_with_space">确  认</string>
+    <string name="btn_ok_with_space">确 定</string>
+    <string name="btn_ok2_with_space">确 认</string>
     <string name="btn_ok3">确认</string>
-    <string name="btn_cancel_with_space">取  消</string>
-    <string name="btn_save_with_space">保  存</string>
+    <string name="btn_cancel_with_space">取 消</string>
+    <string name="btn_save_with_space">保 存</string>
     <string name="btn_select_all">全选</string>
 
     <!-- ticket -->
@@ -63,7 +63,7 @@
     <string name="ticket_check_btn_text">开始检票</string>
     <string name="ticket_code_btn_text">输入编码检票</string>
     <string name="ticket_scan_btn_text">扫描二维码检票</string>
-    <string name="ticket_submit_btn_text">确    定</string>
+    <string name="ticket_submit_btn_text">确 定</string>
     <string name="ticket_edit_hint">请输入编码</string>
     <string name="ticket_edit_text_empty">验票码不能为空</string>
     <string name="ticket_appointment_msg">预约信息</string>
@@ -116,8 +116,8 @@
     <string name="login_name_empty">员工编号不能为空！</string>
     <string name="login_password">密码</string>
     <string name="login_password_hint">请输入密码</string>
-    <string name="login_text">登  录</string>
-    <string name="login_submit">提  交</string>
+    <string name="login_text">登 录</string>
+    <string name="login_submit">提 交</string>
     <string name="login_phone">手机验证</string>
     <string name="login_new_psw">新密码</string>
     <string name="login_new_psw_hint">请输入新密码</string>
@@ -247,7 +247,7 @@
     <!-- 待签收 -->
     <string name="pending_order_edit_appointment">修改预约</string>
     <string name="pending_order_receive_content">请填写退货说明</string>
-    <string name="pending_order_receive_sign_title">签  收</string>
+    <string name="pending_order_receive_sign_title">签 收</string>
     <string name="pending_order_receive_sign_sms_title">发送验证码</string>
     <string name="pending_order_receive_sign_scan_btn">输入收货验证码</string>
     <string name="pending_order_receive_sign_sms_desc">亲，顾客没有收到验证码吗？如果没收到，请确认重发！</string>
@@ -500,7 +500,7 @@
     <string name="text_store_address_detail_hint">请输入详细地址</string>
     <string name="user_phone_hint_hint">请收入手机号码</string>
     <string name="text_store">仓库</string>
-    <string name="text_store_btn_save">保  存</string>
+    <string name="text_store_btn_save">保 存</string>
     <string name="text_store_title_address_edit">编辑收货地址</string>
     <string name="text_store_title_address_new">新建收货地址</string>
 
@@ -528,7 +528,7 @@
     <string name="card_input_work">工作任务</string>
     <string name="card_input_choose">请选择</string>
     <string name="card_input_address_detail">详细地址</string>
-    <string name="card_btn_punch_card">打    卡</string>
+    <string name="card_btn_punch_card">打 卡</string>
     <string name="card_worktask_cannot_empty">工作任务还没有选择呢！</string>
     <string name="card_workplace_cannot_empty">您还没有选择地点哦！</string>
     <string name="card_address_cannot_empty">您还没有填写详细地址哦！</string>
@@ -688,7 +688,9 @@
     <string name="promote_append2">%1$s—%2$s，%3$s</string>
 
     <!--keyListener-->
-    <string name="key_limit_number_letter">abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789</string>
+    <string name="key_limit_number_letter">
+        abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789
+    </string>
 
     <!-- TODO: Remove or change this placeholder text -->
 
@@ -918,9 +920,11 @@
     <string name="load_more">向上滑加载更多</string>
     <string name="recent_update">最近更新</string>
     <string name="default_book_count">1</string>
-    <string name="forget_pwd"><u>忘记密码？</u></string>
+    <string name="forget_pwd">
+        <u>忘记密码？</u>
+    </string>
     <string name="reset">重置</string>
-    <string name="reset_space">重  置</string>
+    <string name="reset_space">重 置</string>
     <string name="back">返回</string>
     <string name="finish">完成</string>
     <string name="finish_with_space">完&#160;&#160;成</string>
@@ -1058,7 +1062,7 @@
     <string name="close_box_scan_back_code_title">扫描还衣单标签</string>
     <string name="close_box_scan_back_code">箱%s内的还衣单</string>
     <string name="duplicate_code">该条码重复扫描</string>
-    <string name="not_in_code"> 该还衣单不属于当前衣物箱！请扫描正确标签</string>
+    <string name="not_in_code">该还衣单不属于当前衣物箱！请扫描正确标签</string>
     <string name="scan_finish">扫描完成</string>
     <string name="scan_succeed">扫描成功</string>
     <string name="close_box_tag_count">收衣来源数量：%s</string>
@@ -1066,7 +1070,7 @@
     <string name="close_box_detail_tag_code">封 箱 条 码：</string>
     <string name="close_box_scan_tag_code">箱%s内的封箱标签</string>
     <string name="duplicate_tag_code">该封箱标签重复扫描</string>
-    <string name="not_in_tag_code"> 当前所扫标签错误，请扫描正确封箱标签</string>
+    <string name="not_in_tag_code">当前所扫标签错误，请扫描正确封箱标签</string>
     <string name="close_box_finish">封箱成功</string>
     <string name="close_box_success">封箱标签%s扫描成功</string>
 
@@ -1090,7 +1094,7 @@
     <string name="driver_load_address">装车地点：%s</string>
     <string name="driver_box_code">箱号-%s</string>
     <string name="driver_center_num">%s个收衣点</string>
-    <string name="driver_btn_load">装  车</string>
+    <string name="driver_btn_load">装 车</string>
     <string name="driver_btn_load_finish">装车完成</string>
     <string name="driver_tab_wait_load">待装车</string>
     <string name="driver_tab_wait_send">待送达</string>
@@ -1120,7 +1124,7 @@
     <string name="wait_sign_btn_sign">签&#160;&#160;收</string>
     <string name="wait_sign_scan_tag_title">扫描封箱标签</string>
     <string name="wait_sign_duplicate_code">该封箱标签已被签收</string>
-    <string name="wait_sign_not_in_code"> 当前标签不属于封箱标签，请核实后重新扫描</string>
+    <string name="wait_sign_not_in_code">当前标签不属于封箱标签，请核实后重新扫描</string>
 
     <string name="sign_finish">签收完成</string>
     <string name="sign_succeed">签收成功</string>
@@ -1146,7 +1150,7 @@
     <string name="pack_pending_pack_num">共%1$d单</string>
     <string name="pack_scan_repeat">该编码重复扫描</string>
     <string name="pack_scan_not_exist">该编码不属于此还衣单！请扫描正确编码</string>
-    <string name="btn_pack_desc">打  包</string>
+    <string name="btn_pack_desc">打 包</string>
     <string name="pack_pending_num">待打包：%1$d</string>
     <string name="pack_pending_total">规划数量：</string>
     <string name="pack_pending_finish">实际入柜：</string>
@@ -1166,7 +1170,7 @@
     <string name="pack_back_order_phone">联系方式：%1$s</string>
     <string name="pack_back_box_address">收货地址：</string>
     <string name="pack_back_order_clothes_num">衣物数量：共%1$d件</string>
-    <string name="pack_back_order_clothes_num2">折叠%1$d件  悬挂%2$d件</string>
+    <string name="pack_back_order_clothes_num2">折叠%1$d件 悬挂%2$d件</string>
     <string name="pack_back_order_clothes_resource">衣物来源：%1$s</string>
     <string name="print_pack_tag">打印标签</string>
     <string name="pack_back_order_clothes_code">还衣单-%1$s</string>

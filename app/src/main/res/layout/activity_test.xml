@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:pag="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+
+    <cn.com.bluemoon.delivery.ui.common.BMListPaginationView
+        android:id="@+id/view_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        pag:pag_line_color="#e5e5e5"
+        pag:pag_line_size="0.5dp"
+        pag:pag_text="真的到底了，不要再拉啦"
+        pag:pag_text_color="#999999"
+    />
+
+    <cn.com.bluemoon.delivery.ui.common.BMFieldParagraphView
+        android:id="@+id/view_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        pag:field_title="这里是标题"
+        pag:field_hint="请输入内容"
+        pag:field_content_maxLength="44"
+        pag:field_count_visible="visible"
+    />
+
+
+</LinearLayout>

@@ -69,12 +69,14 @@ import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
+import cn.com.bluemoon.delivery.ui.common.TestActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -138,9 +140,9 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-                PublicUtil.openScanView(main, null, null, 0);
-                /*PublicUtil.openWebView(main, "http://tmallapi.bluemoon.com" +
-                        ".cn/FE/angue/operationStandard/details", "测试");*/
+//                PublicUtil.openScanView(main, null, null, 0);
+                // TODO: 2017/5/25 测试
+                ViewUtil.showActivity(main, TestActivity.class);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);

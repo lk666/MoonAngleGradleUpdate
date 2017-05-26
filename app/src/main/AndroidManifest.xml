@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.com.bluemoon.delivery">
+<manifest package="cn.com.bluemoon.delivery"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -58,7 +58,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
             android:launchMode="singleTask"
@@ -770,7 +769,6 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateHidden|adjustResize"/>
-
         <activity
             android:name=".module.order.QuestionCallBackActivity"
             android:screenOrientation="portrait"
@@ -813,6 +811,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
+        <activity
+            android:name=".ui.common.TestActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
     </application>
 
 </manifest>
