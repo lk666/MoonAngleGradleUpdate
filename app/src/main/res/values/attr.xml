@@ -124,4 +124,29 @@
             <enum name="visible" value="0x00000000"/>
         </attr>
     </declare-styleable>
+
+    <!--通用组件：单选item-->
+    <declare-styleable name="BMRadioItemView">
+        <attr name="radio_item_drawable_normal" format="reference"/>
+        <attr name="radio_item_drawable_select" format="reference"/>
+        <attr name="radio_item_drawable_disable" format="reference"/>
+        <attr name="radio_item_text" format="string|reference"/>
+        <attr name="radio_item_text_color_normal" format="color"/>
+        <attr name="radio_item_text_color_select" format="color"/>
+        <attr name="radio_item_text_color_disable" format="color"/>
+        <attr name="radio_item_text_size" format="dimension"/>
+        <attr name="radio_item_line_color" format="color"/>
+        <attr name="radio_item_line_size" format="dimension"/>
+        <attr name="radio_item_line_padding_left" format="dimension"/>
+        <attr name="radio_item_line_padding_right" format="dimension"/>
+        <attr name="radio_item_line_visible" format="enum">
+            <enum name="gone" value="0x00000008"/>
+            <enum name="visible" value="0x00000000"/>
+        </attr>
+    </declare-styleable>
+
+    <!--通用组件：单选列表-->
+    <declare-styleable name="BMRadioListView">
+        <attr name="radio_list_item_layout" format="reference"/>
+    </declare-styleable>
 </resources>

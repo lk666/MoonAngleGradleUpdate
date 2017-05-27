@@ -6,8 +6,10 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.TextWatcher;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -94,10 +96,10 @@ public class BMFieldParagraphView extends RelativeLayout {
                     setLineColor(attribute.getColor(attr, 0));
                     break;
                 case R.styleable.BMFieldParagraphView_field_line_padding_left:
-                    setLinePaddingLeft(attribute.getDimensionPixelOffset(attr, -1));
+                    setLineMarginLeft(attribute.getDimensionPixelOffset(attr, -1));
                     break;
                 case R.styleable.BMFieldParagraphView_field_line_padding_right:
-                    setLinePaddingRight(attribute.getDimensionPixelOffset(attr, -1));
+                    setLineMarginRight(attribute.getDimensionPixelOffset(attr, -1));
                     break;
                 case R.styleable.BMFieldParagraphView_field_count_visible:
                     setCountVisible(attribute.getInt(attr, -1));
@@ -138,7 +140,7 @@ public class BMFieldParagraphView extends RelativeLayout {
 
     //设置标题大小，默认11
     public void setTitleSize(float size) {
-        txtTitle.setTextSize(size);
+        txtTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX,size);
     }
 
     //设置字数颜色，默认#ff6c47
@@ -148,7 +150,7 @@ public class BMFieldParagraphView extends RelativeLayout {
 
     //设置字数大小，默认11
     public void setCountSize(float size) {
-        txtCount.setTextSize(size);
+        txtCount.setTextSize(TypedValue.COMPLEX_UNIT_PX,size);
     }
 
     //设置字数大小，默认11
@@ -179,7 +181,7 @@ public class BMFieldParagraphView extends RelativeLayout {
 
     //设置正文大小，默认14
     public void setContentSize(float size) {
-        etContent.setTextSize(size);
+        etContent.setTextSize(TypedValue.COMPLEX_UNIT_PX,size);
     }
 
     //设置字数限制
@@ -196,23 +198,25 @@ public class BMFieldParagraphView extends RelativeLayout {
         txtCount.setText(etContent.getText().toString().length() + "/" + maxCount);
     }
 
-    //设置分割线颜色，默认#e5e5e5
+    //设置底边颜色，默认#e5e5e5
     public void setLineColor(int color) {
         lineBottom.setBackgroundColor(color);
     }
 
-    //设置分割线左右边距，默认为0
-    public void setLinePaddingLeft(int left) {
+    //设置底边左右边距，默认为0
+    public void setLineMarginLeft(int left) {
         if (left == -1) return;
-        int right = lineBottom.getPaddingRight();
-        lineBottom.setPadding(left, 0, right, 0);
+        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) lineBottom.getLayoutParams();
+        params.leftMargin = left;
+        lineBottom.setLayoutParams(params);
     }
 
-    //设置分割线左右边距，默认为0
-    public void setLinePaddingRight(int right) {
+    //设置底边左右边距，默认为0
+    public void setLineMarginRight(int right) {
         if (right == -1) return;
-        int left = lineBottom.getPaddingLeft();
-        lineBottom.setPadding(left, 0, right, 0);
+        ViewGroup.MarginLayoutParams params = (MarginLayoutParams) lineBottom.getLayoutParams();
+        params.rightMargin = right;
+        lineBottom.setLayoutParams(params);
     }
 
 }
