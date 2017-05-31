@@ -170,6 +170,28 @@
             <enum name="MODE_SHOW_PLUS_SIGN" value="1"/>
         </attr>
     </declare-styleable>
+
+    <declare-styleable name="BmSegmentView">
+        <attr name="segmentview_height" format="dimension"/>
+        <attr name="segmentview_width" format="dimension"/>
+        <attr name="segmentview_colorBg" format="color"/>
+        <attr name="segmentview_translationZ" format="dimension"/>
+        <attr name="segmentview_showMode">
+            <enum name="MODE_FIXED_WIDTH" value="0"/>
+            <enum name="MODE_DIVIDE" value="1"/>
+            <enum name="MODE_ADAPTIVE" value="2"/>
+        </attr>
+        <attr name="segmentview_lineWidth" format="dimension"/>
+        <attr name="segmentview_lineHeight" format="dimension"/>
+        <attr name="segmentview_textSizeCheck" format="dimension"/>
+        <attr name="segmentview_textSizeUnCheck" format="dimension"/>
+        <attr name="segmentview_textColorCheck" format="color"/>
+        <attr name="segmentview_textColorUnCheck" format="color"/>
+        <attr name="segmentview_lineBottomMargin" format="dimension"/>
+        <attr name="segmentview_markTopMargin" format="dimension"/>
+        <attr name="segmentview_paddingLeft" format="dimension"/>
+        <attr name="segmentview_paddingRight" format="dimension"/>
+    </declare-styleable>
     <!--通用组件 end-->
 
 </resources>
