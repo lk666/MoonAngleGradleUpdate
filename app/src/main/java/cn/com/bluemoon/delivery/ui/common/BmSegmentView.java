@@ -80,6 +80,21 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
 
     public BmSegmentView(Context context) {
         super(context);
+        height = dip2px(50);
+        width = dip2px(120);
+        colorBg = Color.parseColor("#1fb8ff");
+        translationZ = dip2px(2);
+        showMode = MODE_DIVIDE;
+        lineWidth = dip2px(70);
+        lineHeight = dip2px(2);
+        textSizeCheck = sp2px(15);
+        textSizeUnCheck = sp2px(14);
+        textColorCheck = Color.parseColor("#ffffff");
+        textColorUnCheck = Color.parseColor("#a3e2ff");
+        lineBottomMargin = dip2px(2);
+        markTopMargin = dip2px(4);
+        paddingLeft =  dip2px(10);
+        paddingRight = dip2px(10);
         init();
     }
 
