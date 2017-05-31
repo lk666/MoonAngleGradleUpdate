@@ -1,7 +1,9 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.animation.ObjectAnimator;
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
@@ -89,6 +91,30 @@ public class ViewUtil extends LibViewUtil {
         DisplayMetrics outMetrics = new DisplayMetrics();
         wm.getDefaultDisplay().getMetrics(outMetrics);
         return outMetrics.widthPixels;
+    }
+
+    /**
+     * 跳转页面
+     *
+     * @param aty
+     * @param cls
+     */
+    public static void showActivity(Context aty, Class<?> cls) {
+        Intent intent = new Intent();
+        intent.setClass(aty, cls);
+        aty.startActivity(intent);
+    }
+
+    /**
+     * 跳转页面
+     *
+     * @param aty
+     * @param cls
+     */
+    public static void showActivityForResult(Activity aty, Class<?> cls, int requestCode) {
+        Intent intent = new Intent();
+        intent.setClass(aty, cls);
+        aty.startActivityForResult(intent,requestCode);
     }
 
 }

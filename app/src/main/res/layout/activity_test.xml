@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg_f2">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical"
+            android:paddingBottom="20dp">
+
+            <cn.com.bluemoon.delivery.ui.common.BMListPaginationView
+                android:id="@+id/view_bottom"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:pag_line_color="#e5e5e5"
+                app:pag_line_size="0.5dp"
+                app:pag_text="真的到底了，不要再拉啦"
+                app:pag_text_color="#999999"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BMFieldParagraphView
+                android:id="@+id/view_field"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                app:field_content_maxLength="44"
+                app:field_count_visible="visible"
+                app:field_hint="请输入内容"
+                app:field_title="这里是标题"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BMRadioItemView
+                android:id="@+id/item_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:radio_item_drawable_disable="@mipmap/bm_radio_selected"
+                app:radio_item_drawable_normal="@mipmap/bm_radio_disable"
+                app:radio_item_drawable_select="@mipmap/bm_radio_normal"
+                app:radio_item_line_color="#ff00ff"
+                app:radio_item_line_padding_left="10dp"
+                app:radio_item_line_padding_right="10dp"
+                app:radio_item_line_size="1dp"
+                app:radio_item_text="测试内容内容测试内容内容测试内容内容测试"
+                app:radio_item_text_color_disable="#999999"
+                app:radio_item_text_color_normal="#333333"
+                app:radio_item_text_color_select="#666666"
+                app:radio_item_text_size="14sp"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BMRadioListView
+                android:id="@+id/list_radio"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:radio_list_item_layout="@layout/item_bm_radio_item_view"
+            />
+        </LinearLayout>
+
+    </ScrollView>
+
+</FrameLayout>
