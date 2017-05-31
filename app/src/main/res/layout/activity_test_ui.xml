@@ -5,10 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     android:orientation="vertical">
-<cn.com.bluemoon.delivery.ui.common.BmSegmentView
+<cn.com.bluemoon.delivery.ui.common.BmRankStar1
     android:layout_width="match_parent"
-    android:id="@+id/segment_view"
-    android:layout_height="50dp">
-
-</cn.com.bluemoon.delivery.ui.common.BmSegmentView>
+    android:id="@+id/bmrankstar_view"
+    app:rank_star1_titleText="测试标题"
+    android:layout_height="wrap_content"/>
 </LinearLayout>
