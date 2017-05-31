@@ -52,6 +52,7 @@ import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
+import cn.com.bluemoon.delivery.module.offline.StudentActivity;
 import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
@@ -140,9 +141,7 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-//                PublicUtil.openScanView(main, null, null, 0);
-                // TODO: 2017/5/25 测试
-                ViewUtil.showActivity(main, TestActivity.class);
+                PublicUtil.openScanView(main, null, null, 0);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -454,7 +453,7 @@ public class MainActivity extends SlidingActivity {
 
                     // TODO: lk 2016/12/20
                     if (!BuildConfig.RELEASE) {
-                        //mockData();
+                        mockData();
                     }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
@@ -483,11 +482,19 @@ public class MainActivity extends SlidingActivity {
 
     private void mockData() {
         UserRight item1 = new UserRight();
-        item1.setMenuCode(MenuCode.receive_enterprise_manager.toString());
-        item1.setMenuName("企业收衣");
+        item1.setMenuCode(MenuCode.offline_student.toString());
+        item1.setMenuName(getString(R.string.offline_my_train));
         item1.setIconImg(listRight.get(0).getIconImg());
         item1.setGroupNum(1);
         listRight.add(item1);
+
+        UserRight item2 = new UserRight();
+        item2.setMenuCode(MenuCode.offline_teacher.toString());
+        item2.setMenuName("我的授课");
+        item2.setIconImg(listRight.get(0).getIconImg());
+        item2.setGroupNum(1);
+        listRight.add(item2);
+
     }
 
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -819,7 +826,16 @@ public class MainActivity extends SlidingActivity {
             //企业洗衣
             else if (compare(MenuCode.receive_enterprise_manager, menuCode)) {
                 EnterpriseWashTabActivity.actionStart(main);
-            } else if (compare(MenuCode.card_coupons_web, menuCode)) {
+            }
+            //我的培训
+            else if (compare(MenuCode.offline_student, menuCode)) {
+                ViewUtil.showActivity(main,StudentActivity.class);
+            }
+            //我的授课
+            else if (compare(MenuCode.offline_teacher, menuCode)) {
+                EnterpriseWashTabActivity.actionStart(main);
+            }
+            else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (!userRight.getUrl().contains("?") ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(),

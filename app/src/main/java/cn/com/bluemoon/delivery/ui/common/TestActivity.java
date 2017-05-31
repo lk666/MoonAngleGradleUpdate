@@ -37,10 +37,10 @@ public class TestActivity extends BaseActivity {
     @Override
     public void initView() {
         List<RadioItem> list = new ArrayList<>();
-        list.add(new RadioItem("不可选",-1));
-        list.add(new RadioItem("未选择",0));
-        list.add(new RadioItem("未选择未选择未选择未选择未选择未选择未选择未选择未选择未选择未选",0));
-        list.add(new RadioItem("已选择",1));
+        list.add(new RadioItem("0","不可选",-1));
+        list.add(new RadioItem("1","未选择",0));
+        list.add(new RadioItem("2","未选择未选择未选择未选择未选择未选择未选择未选择未选择未选择未选",0));
+        list.add(new RadioItem("3","已选择",1));
         listRadio.setData(list);
 
     }

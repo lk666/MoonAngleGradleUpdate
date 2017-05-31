@@ -816,6 +816,16 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
         </activity>
+        <activity
+            android:name=".module.offline.StudentActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
+        <activity
+            android:name=".module.offline.SelectSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
     </application>
 
 </manifest>

@@ -25,7 +25,8 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
     private ListView listView;
     private RadioAdapter radioAdapter;
     private List<RadioItem> itemList;
-    private int layoutId;
+    private int layoutId = -1;
+    private String curKey;
 
     public BMRadioListView(Context context) {
         super(context);
@@ -87,14 +88,23 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
         }
     }
 
+    public String getCurKey(){
+        return curKey;
+    }
+
     @Override
     public void onItemClick(Object item, View view, int position) {
         RadioItem radioItem = (RadioItem) item;
         if (radioItem.type != BMRadioItemView.TYPE_NORMAL) return;
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).type != -1) {
-                itemList.get(i).type = i == position ? BMRadioItemView.TYPE_SELECT :
-                        BMRadioItemView.TYPE_NORMAL;
+                if(i == position){
+                    itemList.get(i).type =  BMRadioItemView.TYPE_SELECT;
+                    //更改当前选中的key
+                    curKey = radioItem.key;
+                }else{
+                    itemList.get(i).type =  BMRadioItemView.TYPE_NORMAL;
+                }
             }
         }
         updateAdapter(itemList);
@@ -123,7 +133,7 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
                 RadioItem item = list.get(position);
                 ((BMRadioItemView) convertView).setType(item.type);
                 ((BMRadioItemView) convertView).setContent(item.text);
-                setClickEvent(isNew, position, convertView);
+                setClickEvent(isNew, position, ((BMRadioItemView) convertView).getLayoutMain());
             }
         }
     }

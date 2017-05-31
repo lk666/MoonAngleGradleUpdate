@@ -8,6 +8,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.zxing.common.StringUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
+import org.apache.http.Header;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +18,7 @@ import java.util.UUID;
 import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchParam;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.UploadClothesInfo;
@@ -43,6 +46,13 @@ import static org.apache.commons.lang3.StringUtils.*;
 public class DeliveryApi {
 
     protected static final String TOKEN = "token";
+
+    protected static void onError(AsyncHttpResponseHandler handler){
+        if(handler!=null)
+        handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                null, new Exception(AppContext.getInstance().getString(R.string
+                        .error_local_param)));
+    }
 
     /**
      * 提交http请求

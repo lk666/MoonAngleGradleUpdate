@@ -203,6 +203,10 @@ public class BMRadioItemView extends RelativeLayout {
 
     //公共方法
 
+    public View getLayoutMain(){
+        return layoutMain;
+    }
+
     //设置图片资源
     public void setImgCheck(int resId) {
         if (resId == -1) return;

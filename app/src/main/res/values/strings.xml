@@ -1474,4 +1474,9 @@
     <string name="alert_delete_clothes">确定删除？</string>
     <string name="alert_empty_employee_extension">您还未输入分机号码！</string>
     <string name="alert_empty_collect_brcode">您还未输入收衣袋编号！</string>
+
+    <string name="offline_my_train">我的培训</string>
+    <string name="offline_sign_course">课程：%s</string>
+    <string name="offline_sign_teacher">讲师：%s</string>
+    <string name="offline_select_sign_course">选择签到课程</string>
 </resources>
