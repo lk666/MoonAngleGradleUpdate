@@ -2,10 +2,13 @@ package cn.com.bluemoon.delivery.ui.common;
 
 import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
@@ -16,6 +19,11 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.com.bluemoon.delivery.R;
+
+import static cn.com.bluemoon.delivery.R.id.text;
+import static cn.com.bluemoon.delivery.R.id.textView;
 
 /**
  * Created by tangqiwei on 2017/5/26.
@@ -33,13 +41,13 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
 
     private int height;//高度
     private int width;//宽度
-    private int colorBg;//底色
-    private float translationZ;//z轴高度
-    private int showMode;//z轴高度
+    private int colorBg;//底色 默认颜色#1fb8ff
+    private float translationZ;//z轴高度 默认为2
+    private int showMode;//模式
     private int lineWidth;//底部线的宽度 默认70
     private int lineHeight;//底部线的高度 默认2
-    private int textSizeCheck;//选中的字体大小 默认15
-    private int textSizeUnCheck;//没选中的字体大小 默认14
+    private float textSizeCheck;//选中的字体大小 默认15
+    private float textSizeUnCheck;//没选中的字体大小 默认14
     private int textColorCheck;//选中的颜色 默认#fff
     private int textColorUnCheck;//没选中的字体颜色 默认#a3e2ff
     private int lineBottomMargin;//线距离底部多远 默认2
@@ -47,18 +55,23 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
     private int paddingLeft;//自适应模式-MODE_ADAPTIVE，左边内间距 默认10
     private int paddingRight;//自适应模式-MODE_ADAPTIVE，右边内间距 默认10
 
+    private CheckCallBack checkCallBack;
+
     private List<String> textList;
+
+    private List<Integer> numberList;
 
     private List<ViewCollective> viewCollectiveList;
 
     private class ViewCollective {
 
-        public ViewCollective(RelativeLayout layout,TextView textView,View lineView,BmMarkView markView){
-            this.layout=layout;
-            this.textView=textView;
-            this.lineView=lineView;
-            this.markView=markView;
+        public ViewCollective(RelativeLayout layout, TextView textView, View lineView, BmMarkView markView) {
+            this.layout = layout;
+            this.textView = textView;
+            this.lineView = lineView;
+            this.markView = markView;
         }
+
         public RelativeLayout layout;
         public TextView textView;
         public View lineView;
@@ -67,6 +80,21 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
 
     public BmSegmentView(Context context) {
         super(context);
+        height = dip2px(50);
+        width = dip2px(120);
+        colorBg = Color.parseColor("#1fb8ff");
+        translationZ = dip2px(2);
+        showMode = MODE_DIVIDE;
+        lineWidth = dip2px(70);
+        lineHeight = dip2px(2);
+        textSizeCheck = sp2px(15);
+        textSizeUnCheck = sp2px(14);
+        textColorCheck = Color.parseColor("#ffffff");
+        textColorUnCheck = Color.parseColor("#a3e2ff");
+        lineBottomMargin = dip2px(2);
+        markTopMargin = dip2px(4);
+        paddingLeft =  dip2px(10);
+        paddingRight = dip2px(10);
         init();
     }
 
@@ -83,7 +111,25 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
     }
 
     private void getInitData(AttributeSet attrs) {
-
+        if (attrs != null) {
+            TypedArray typeArray = getContext().obtainStyledAttributes(attrs, R.styleable.BmSegmentView);
+            height = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_height, dip2px(50));
+            width = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_width, dip2px(120));
+            colorBg = typeArray.getColor(R.styleable.BmSegmentView_segmentview_colorBg, Color.parseColor("#1fb8ff"));
+            translationZ = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_translationZ, dip2px(2));
+            showMode = typeArray.getInt(R.styleable.BmSegmentView_segmentview_showMode, MODE_DIVIDE);
+            lineWidth = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_lineWidth, dip2px(70));
+            lineHeight = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_lineHeight, dip2px(2));
+            textSizeCheck = typeArray.getDimension(R.styleable.BmSegmentView_segmentview_textSizeCheck, sp2px(15));
+            textSizeUnCheck = typeArray.getDimension(R.styleable.BmSegmentView_segmentview_textSizeUnCheck, sp2px(14));
+            textColorCheck = typeArray.getColor(R.styleable.BmSegmentView_segmentview_textColorCheck, Color.parseColor("#ffffff"));
+            textColorUnCheck = typeArray.getColor(R.styleable.BmSegmentView_segmentview_textColorUnCheck, Color.parseColor("#a3e2ff"));
+            lineBottomMargin = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_lineBottomMargin, dip2px(2));
+            markTopMargin = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_markTopMargin, dip2px(4));
+            paddingLeft = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_paddingLeft, dip2px(10));
+            paddingRight = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_paddingRight, dip2px(10));
+            typeArray.recycle();
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -94,18 +140,64 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         parentGroup.setBackgroundColor(colorBg);
         parentGroup.setTranslationZ(translationZ);
         addView(parentGroup);
-        viewCollectiveList=new ArrayList<>();
+        viewCollectiveList = new ArrayList<>();
     }
 
     public void setTextList(List<String> textList) {
-        this.textList = textList;
+        if (textList == null) {
+            this.textList = new ArrayList<>();
+        } else {
+            this.textList = textList;
+        }
+        addTabLayout();
     }
 
+    public void setNumberList(List<Integer> numberList) {
+        this.numberList = new ArrayList<>();
+        if (numberList != null) {
+            this.numberList.addAll(numberList);
+        }
+        int gap=textList.size()-this.numberList.size();
+        if(gap>0){
+            for (int i = 0; i < gap; i++) {
+                this.numberList.add(0);
+            }
+        }
+        adjustBmMarkViewLocation();
+
+    }
+
+    public void setCheckCallBack(CheckCallBack checkCallBack) {
+        this.checkCallBack = checkCallBack;
+    }
 
     @Override
     public void onClick(View v) {
         int position = (int) v.getTag();
+        checkUIChange(position);
+        if (checkCallBack != null) {
+            checkCallBack.checkListener(position);
+        }
+    }
 
+    /**
+     * 选中时UI的变化
+     *
+     * @param position
+     */
+    private void checkUIChange(int position) {
+        for (int i = 0; i < viewCollectiveList.size(); i++) {
+            ViewCollective viewCollective = viewCollectiveList.get(i);
+            if (position == i) {
+                viewCollective.textView.setTextColor(textColorCheck);
+                viewCollective.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSizeCheck);
+                viewCollective.lineView.setVisibility(View.VISIBLE);
+            } else {
+                viewCollective.textView.setTextColor(textColorUnCheck);
+                viewCollective.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSizeUnCheck);
+                viewCollective.lineView.setVisibility(View.INVISIBLE);
+            }
+        }
     }
 
     /**
@@ -129,11 +221,13 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         }
     }
 
-    private void addTabLayout(int size, int showMode) {
-        int width = calculativeWidth(size, showMode);
-        for (int i = 0; i < size; i++) {
+    private void addTabLayout() {
+        int width = calculativeWidth(textList.size(), showMode);
+        for (int i = 0; i < textList.size(); i++) {
             parentGroup.addView(getTabLayout(width, i));
         }
+        if (textList.size() > 0)
+            checkUIChange(0);
     }
 
     private RelativeLayout getTabLayout(int width, int position) {
@@ -150,7 +244,7 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         layoutGroup.addView(bmMarkView);
         layoutGroup.setTag(position);
         layoutGroup.setOnClickListener(this);
-        viewCollectiveList.add(new ViewCollective(layoutGroup,textView,lineView,bmMarkView));
+        viewCollectiveList.add(new ViewCollective(layoutGroup, textView, lineView, bmMarkView));
         return layoutGroup;
     }
 
@@ -167,6 +261,7 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         params.bottomMargin = lineBottomMargin;
         line.setLayoutParams(params);
         line.setBackgroundColor(textColorCheck);
+        line.setVisibility(View.INVISIBLE);
         return line;
     }
 
@@ -180,9 +275,10 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.CENTER_IN_PARENT);
         textView.setTextColor(textColorUnCheck);
-        textView.setTextSize(textSizeUnCheck);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSizeUnCheck);
         textView.setLayoutParams(params);
-        textView.setId(position);
+        textView.setId(position+1);
+        textView.setText(textList.get(position));
         return textView;
     }
 
@@ -196,9 +292,27 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         RelativeLayout.LayoutParams params = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
         params.addRule(RelativeLayout.ALIGN_RIGHT, textView.getId());
         params.topMargin = markTopMargin;
-        markView.setTag(textView.getId());
         markView.setLayoutParams(params);
         return markView;
+    }
+
+    /**
+     * 调整红点位置
+     * 设置值
+     * @return
+     */
+    private void adjustBmMarkViewLocation() {
+        for (int i = 0; i < viewCollectiveList.size(); i++) {
+            BmMarkView markView = viewCollectiveList.get(i).markView;
+            RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) markView.getLayoutParams();
+            params.rightMargin = -markView.setMarkViewWidthAndText(numberList.get(i)) / 2;
+            markView.setLayoutParams(params);
+        }
+    }
+
+
+    public interface CheckCallBack {
+        void checkListener(int position);
     }
 
     /**
@@ -220,5 +334,16 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
     public int dip2px(float dpValue) {
         final float scale = getContext().getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
+    }
+
+    /**
+     * sp  转 px
+     *
+     * @param spValue
+     * @return
+     */
+    public int sp2px(float spValue) {
+        final float fontScale = getContext().getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
     }
 }

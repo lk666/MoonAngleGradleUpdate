@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:padding="20dp"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     android:orientation="vertical">
-<cn.com.bluemoon.delivery.ui.common.BmMarkView
-    android:layout_width="wrap_content"
-    android:id="@+id/mark_view"
-    app:mark_show_mode="MODE_SHOW_APOSTROPHE"
-    android:layout_height="wrap_content">
+<cn.com.bluemoon.delivery.ui.common.BmRankStar1
+    android:layout_width="match_parent"
+    android:id="@+id/bmrankstar1_view"
+    app:rank_star1_titleText="测试标题"
+    android:layout_height="wrap_content"/>
 
-</cn.com.bluemoon.delivery.ui.common.BmMarkView>
+    <cn.com.bluemoon.delivery.ui.common.BmRankStar2
+        android:layout_width="match_parent"
+        android:id="@+id/bmrankstar2_view"
+        app:rank_star2_titleText="测试标题"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

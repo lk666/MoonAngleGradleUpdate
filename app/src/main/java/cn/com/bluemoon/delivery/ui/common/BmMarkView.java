@@ -51,6 +51,10 @@ public class BmMarkView extends FrameLayout {
 
     public BmMarkView(Context context) {
         super(context);
+        number = 0;
+        color = -1;
+        defaultHeight = dip2px(12);
+        showMode=MODE_SHOW_PLUS_SIGN;
         init();
     }
 
@@ -88,7 +92,7 @@ public class BmMarkView extends FrameLayout {
     /**
      * @param number
      */
-    public void setMarkViewWidthAndText(int number) {
+    public int setMarkViewWidthAndText(int number) {
         ViewGroup.LayoutParams params = markView.getLayoutParams();
         params.height = defaultHeight;
         int height = params.height;
@@ -117,6 +121,7 @@ public class BmMarkView extends FrameLayout {
         }
         markView.setText(txtNumber);
         markView.setLayoutParams(params);
+        return params.width;
     }
 
     /**

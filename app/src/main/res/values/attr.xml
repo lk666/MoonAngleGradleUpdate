@@ -154,7 +154,7 @@
 
     <declare-styleable name="BmCellTextView">
         <attr name="cell_text_txt_title" format="reference" />
-        <attr name="cell_text_txt_content" format="string|reference" />
+        <attr name="cell_text_txt_content" format="reference" />
     </declare-styleable>
 
     <declare-styleable name="BmCellParagraphView">
@@ -205,6 +205,47 @@
     </declare-styleable>
 
 
+
+    <declare-styleable name="BmSegmentView">
+        <attr name="segmentview_height" format="dimension"/>
+        <attr name="segmentview_width" format="dimension"/>
+        <attr name="segmentview_colorBg" format="color"/>
+        <attr name="segmentview_translationZ" format="dimension"/>
+        <attr name="segmentview_showMode">
+            <enum name="MODE_FIXED_WIDTH" value="0"/>
+            <enum name="MODE_DIVIDE" value="1"/>
+            <enum name="MODE_ADAPTIVE" value="2"/>
+        </attr>
+        <attr name="segmentview_lineWidth" format="dimension"/>
+        <attr name="segmentview_lineHeight" format="dimension"/>
+        <attr name="segmentview_textSizeCheck" format="dimension"/>
+        <attr name="segmentview_textSizeUnCheck" format="dimension"/>
+        <attr name="segmentview_textColorCheck" format="color"/>
+        <attr name="segmentview_textColorUnCheck" format="color"/>
+        <attr name="segmentview_lineBottomMargin" format="dimension"/>
+        <attr name="segmentview_markTopMargin" format="dimension"/>
+        <attr name="segmentview_paddingLeft" format="dimension"/>
+        <attr name="segmentview_paddingRight" format="dimension"/>
+    </declare-styleable>
+
+    <declare-styleable name="BmRankStar1">
+        <attr name="rank_star1_titleSize" format="dimension" />
+        <attr name="rank_star1_titleColor" format="color" />
+        <attr name="rank_star1_titleText" format="string|reference" />
+        <attr name="rank_star1_progressDrawable" format="reference" />
+        <attr name="rank_star1_backgroundDrawable" format="reference" />
+        <attr name="rank_star1_rating" format="float" />
+    </declare-styleable>
+
+    <declare-styleable name="BmRankStar2">
+        <attr name="rank_star2_titleSize" format="dimension" />
+        <attr name="rank_star2_titleColor" format="color" />
+        <attr name="rank_star2_titleText" format="string|reference" />
+        <attr name="rank_star2_progressDrawable" format="reference" />
+        <attr name="rank_star2_backgroundDrawable" format="reference" />
+        <attr name="rank_star2_rating" format="integer" />
+        <attr name="rank_star2_height" format="dimension" />
+    </declare-styleable>
     <!--通用组件 end-->
 
 </resources>
