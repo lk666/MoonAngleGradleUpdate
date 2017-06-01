@@ -14,10 +14,12 @@ import cn.com.bluemoon.delivery.R;
 
 public class TestUiAcitivty extends Activity {
     BmRankStar1 bmRankStar1;
+    BmRankStar2 bmRankStar2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_ui);
-        bmRankStar1= (BmRankStar1) findViewById(R.id.bmrankstar_view);
+        bmRankStar1= (BmRankStar1) findViewById(R.id.bmrankstar1_view);
+        bmRankStar2= (BmRankStar2) findViewById(R.id.bmrankstar2_view);
     }
 }

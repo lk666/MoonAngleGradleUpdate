@@ -201,6 +201,16 @@
         <attr name="rank_star1_backgroundDrawable" format="reference" />
         <attr name="rank_star1_rating" format="float" />
     </declare-styleable>
+
+    <declare-styleable name="BmRankStar2">
+        <attr name="rank_star2_titleSize" format="dimension" />
+        <attr name="rank_star2_titleColor" format="color" />
+        <attr name="rank_star2_titleText" format="string|reference" />
+        <attr name="rank_star2_progressDrawable" format="reference" />
+        <attr name="rank_star2_backgroundDrawable" format="reference" />
+        <attr name="rank_star2_rating" format="integer" />
+        <attr name="rank_star2_height" format="dimension" />
+    </declare-styleable>
     <!--通用组件 end-->
 
 </resources>
