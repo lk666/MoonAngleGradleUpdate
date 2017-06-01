@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/offline_training_item_bg"
+    android:orientation="vertical"
+    android:paddingBottom="4dp"
+    android:paddingLeft="12dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="12dp"
+    android:paddingRight="12dp"
+    android:id="@+id/llayout_parent"
+    android:paddingTop="12dp"
+    android:translationZ="2dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_course_title"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:ellipsize="end"
+            android:lines="1"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_15" />
+
+        <TextView
+            android:id="@+id/txt_state"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:visibility="gone"
+            android:textColor="@color/text_color_offline_training_item_state_selector"
+            android:textSize="@dimen/text_size_12" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_ytd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/text_black_light"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/txt_time_quantum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
+            android:textColor="@color/text_black_light"
+            android:textSize="12sp" />
+    </LinearLayout>
+
+    <include layout="@layout/line_solid_view_e5" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginTop="4dp"
+        android:orientation="horizontal"
+        android:paddingBottom="8dp">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llayout_sign_in_time"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_sign_in" />
+
+                <TextView
+                    android:id="@+id/txt_sign_in_time"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_lecturer_name"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_lecturer" />
+
+                <TextView
+                    android:id="@+id/txt_lecturer_name"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/layout_classroom"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_classroom" />
+
+                <TextView
+                    android:id="@+id/txt_classroom"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_address"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_address" />
+
+                <TextView
+                    android:id="@+id/txt_address"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_willnum"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_willnum" />
+
+                <TextView
+                    android:id="@+id/txt_willnum"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_signed_in_the_number_of"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_signed_in_the_number_of" />
+
+                <TextView
+                    android:id="@+id/txt_signed_in_the_number_of"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_train_classroom"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_train_classroom" />
+
+                <TextView
+                    android:id="@+id/txt_train_classroom"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_train_address"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_train_address" />
+
+                <TextView
+                    android:id="@+id/txt_train_address"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/llayout_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="12dp"
+            android:gravity="center_horizontal"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/btn_btn"
+                android:layout_width="60dp"
+                android:layout_height="35dp" />
+
+            <TextView
+                android:visibility="gone"
+                android:id="@+id/txt_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="@string/offline_btn_evaluation_student"
+                android:textColor="@color/text_red"
+                android:textSize="@dimen/text_size_14" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>
