@@ -54,8 +54,12 @@ public class BmCellTextView extends FrameLayout {
         titleView= (TextView) findViewById(R.id.txt_title);
         contentView= (TextView) findViewById(R.id.txt_content);
 
-        titleView.setText(title);
-        contentView.setText(content);
+        if(title!=-1){
+            titleView.setText(title);
+        }
+        if(content!=-1){
+            contentView.setText(content);
+        }
     }
 
     public String getContentText() {

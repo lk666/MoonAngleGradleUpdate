@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.ui.common;
+package cn.com.bluemoon.delivery.ui.common.entity;
 
 /**
  * Created by bm on 2017/5/27.

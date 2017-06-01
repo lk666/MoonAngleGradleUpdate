@@ -1,16 +1,14 @@
 package cn.com.bluemoon.delivery.ui.common;
 
-import android.os.Bundle;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
 
 public class TestActivity extends BaseActivity {
 
@@ -55,9 +53,5 @@ public class TestActivity extends BaseActivity {
 
     }
 
-    @OnClick(R.id.item_radio)
-    public void onClick() {
-
-    }
 
 }

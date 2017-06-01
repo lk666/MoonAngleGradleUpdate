@@ -16,7 +16,7 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical"
-            android:paddingBottom="20dp">
+            android:paddingBottom="50dp">
 
             <cn.com.bluemoon.delivery.ui.common.BMListPaginationView
                 android:id="@+id/view_bottom"
@@ -62,6 +62,37 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:radio_list_item_layout="@layout/item_bm_radio_item_view"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View
+                android:id="@+id/btn3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:btn_text="@string/offline_sign_up"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View
+                android:id="@+id/btn1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:btn_text="@string/offline_sign_up"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:btn_text="@string/offline_sign_up"
+                app:btn_type="red"
+            />
+            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:btn_color_disable="#ff0000ff"
+                app:btn_color_normal="#ffff00ff"
+                app:btn_color_pressed="#ffff0000"
+                app:btn_text="@string/offline_sign_up"
+                app:btn_text_size="17sp"
+                app:btn_type="blue"
             />
         </LinearLayout>
 

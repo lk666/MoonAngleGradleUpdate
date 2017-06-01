@@ -1479,4 +1479,7 @@
     <string name="offline_sign_course">课程：%s</string>
     <string name="offline_sign_teacher">讲师：%s</string>
     <string name="offline_select_sign_course">选择签到课程</string>
+    <string name="offline_sign_up">签&#160;到</string>
+    <string name="offline_room">培训教室</string>
+    <string name="offline_sign_date">签到日期</string>
 </resources>

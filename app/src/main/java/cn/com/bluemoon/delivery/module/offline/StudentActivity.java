@@ -38,8 +38,8 @@ public class StudentActivity extends BaseActivity {
 
     @OnClick(R.id.btn_scan)
     public void onClick() {
-        PublicUtil.openScanView(this, null, null, 0);
-//        SelectSignActivity.actionStart(this,"111");
+//        PublicUtil.openScanView(this, null, null, 0);
+        SelectSignActivity.actionStart(this,"111");
     }
 
     @Override

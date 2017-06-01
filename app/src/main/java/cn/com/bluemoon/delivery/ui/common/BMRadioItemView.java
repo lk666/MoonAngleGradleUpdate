@@ -1,26 +1,19 @@
 package cn.com.bluemoon.delivery.ui.common;
 
 import android.content.Context;
-import android.content.res.ColorStateList;
 import android.content.res.TypedArray;
-import android.graphics.drawable.Drawable;
-import android.graphics.drawable.StateListDrawable;
-import android.text.Editable;
-import android.text.InputFilter;
-import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.common.photopicker.Image;
+import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
 
 /**
  * Created by bm on 2017/5/25.
@@ -85,9 +78,10 @@ public class BMRadioItemView extends RelativeLayout {
         initAttrs(attrs);
 
         //设置按钮和文字的样式选择器
-        txtContent.setTextColor(createColorStateList(colorNormal, colorSelect, colorDisable));
-        imgCheck.setImageDrawable(createStateListDrawable(drawableNormal, drawableSelect,
-                drawableDisable));
+        txtContent.setTextColor(WidgeUtil.createSelectColorList(colorNormal, colorSelect,
+                colorDisable));
+        imgCheck.setImageDrawable(WidgeUtil.createSelectListDrawable(getContext(),
+                drawableNormal, drawableSelect, drawableDisable));
     }
 
     //初始化属性值
@@ -100,25 +94,25 @@ public class BMRadioItemView extends RelativeLayout {
             int attr = attribute.getIndex(i);
             switch (attr) {
                 case R.styleable.BMRadioItemView_radio_item_drawable_normal:
-                    drawableNormal = attribute.getResourceId(attr,-1);
+                    drawableNormal = attribute.getResourceId(attr, -1);
                     break;
                 case R.styleable.BMRadioItemView_radio_item_drawable_select:
-                    drawableSelect = attribute.getResourceId(attr,-1);
+                    drawableSelect = attribute.getResourceId(attr, -1);
                     break;
                 case R.styleable.BMRadioItemView_radio_item_drawable_disable:
-                    drawableDisable = attribute.getResourceId(attr,-1);
+                    drawableDisable = attribute.getResourceId(attr, -1);
                     break;
                 case R.styleable.BMRadioItemView_radio_item_text:
                     setContent(attribute.getText(attr));
                     break;
                 case R.styleable.BMRadioItemView_radio_item_text_color_normal:
-                    colorNormal = attribute.getColor(attr,0);
+                    colorNormal = attribute.getColor(attr, 0);
                     break;
                 case R.styleable.BMRadioItemView_radio_item_text_color_select:
-                    colorSelect = attribute.getColor(attr,0);
+                    colorSelect = attribute.getColor(attr, 0);
                     break;
                 case R.styleable.BMRadioItemView_radio_item_text_color_disable:
-                    colorDisable = attribute.getColor(attr,0);
+                    colorDisable = attribute.getColor(attr, 0);
                     break;
                 case R.styleable.BMRadioItemView_radio_item_text_size:
                     setContentSize(attribute.getDimension(attr, -1));
@@ -175,36 +169,15 @@ public class BMRadioItemView extends RelativeLayout {
         setDisable(true);
     }
 
-    //获取颜色选择器
-    private ColorStateList createColorStateList(int normal, int select, int disable) {
-        int[] colors = new int[]{normal, select, disable};
-        int[][] states = new int[3][];
-        states[0] = new int[]{-android.R.attr.state_selected, android.R.attr.state_enabled};
-        states[1] = new int[]{android.R.attr.state_selected, android.R.attr.state_enabled};
-        states[2] = new int[]{-android.R.attr.state_enabled};
-        return new ColorStateList(states, colors);
-    }
-
-    //获取图片资源选择器
-    private StateListDrawable createStateListDrawable(int idNormal, int idSelect, int idDisable) {
-        StateListDrawable stateList = new StateListDrawable();
-        Drawable normal = idNormal == -1 ? null : getContext().getResources().getDrawable(idNormal);
-        Drawable select = idSelect == -1 ? null : getContext().getResources().getDrawable(idSelect);
-        Drawable disable = idDisable == -1 ? null : getContext().getResources().getDrawable
-                (idDisable);
-        stateList.addState(new int[]{-android.R.attr.state_selected, android.R.attr
-                .state_enabled}, normal);
-        stateList.addState(new int[]{android.R.attr.state_selected, android.R.attr
-                .state_enabled}, select);
-        stateList.addState(new int[]{-android.R.attr.state_enabled}, disable);
-        return stateList;
-    }
-
-
     //公共方法
 
-    public View getLayoutMain(){
+    public View getLayoutMain() {
         return layoutMain;
+    }
+
+    //获取控件状态
+    public int getType(){
+        return type;
     }
 
     //设置图片资源
