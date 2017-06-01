@@ -15,6 +15,7 @@ import java.util.List;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
 
 /**
  * Created by bm on 2017/5/26.
@@ -27,6 +28,7 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
     private List<RadioItem> itemList;
     private int layoutId = -1;
     private String curKey;
+    private ClickListener listener;
 
     public BMRadioListView(Context context) {
         super(context);
@@ -61,13 +63,18 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
         attribute.recycle();
     }
 
+    //设置选择监听
+    public void setListener(ClickListener listener){
+        this.listener = listener;
+    }
+
     //设置数据
     public void setData(List<RadioItem> list) {
         if (list == null) {
             list = new ArrayList<>();
         }
         itemList = list;
-        updateAdapter(list);
+        updateAdapter();
     }
 
     //设置item布局样式（必须为BMRadioItemView）
@@ -76,19 +83,33 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
     }
 
     //更新列表数据
-    private void updateAdapter(List<RadioItem> list){
+    private void updateAdapter() {
+        if(itemList==null){
+            itemList = new ArrayList<>();
+        }
         if (radioAdapter == null) {
             radioAdapter = new RadioAdapter(getContext(), this);
             radioAdapter.setLayoutId(layoutId);
-            radioAdapter.setList(list);
+            radioAdapter.setList(itemList);
             listView.setAdapter(radioAdapter);
         } else {
-            radioAdapter.setList(list);
+            radioAdapter.setList(itemList);
             radioAdapter.notifyDataSetChanged();
+        }
+        for (int i=0;i<itemList.size();i++){
+            if(BMRadioItemView.TYPE_SELECT==itemList.get(i).type){
+                curKey = itemList.get(i).key;
+                //监听触发
+                if(listener!=null){
+                    listener.onSelected(i,curKey);
+                }
+                //单选
+                break;
+            }
         }
     }
 
-    public String getCurKey(){
+    public String getCurKey() {
         return curKey;
     }
 
@@ -98,16 +119,15 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
         if (radioItem.type != BMRadioItemView.TYPE_NORMAL) return;
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).type != -1) {
-                if(i == position){
-                    itemList.get(i).type =  BMRadioItemView.TYPE_SELECT;
-                    //更改当前选中的key
-                    curKey = radioItem.key;
-                }else{
-                    itemList.get(i).type =  BMRadioItemView.TYPE_NORMAL;
+                if (i == position) {
+                    itemList.get(i).type = BMRadioItemView.TYPE_SELECT;
+                } else {
+                    itemList.get(i).type = BMRadioItemView.TYPE_NORMAL;
                 }
             }
         }
-        updateAdapter(itemList);
+        //更新界面
+        updateAdapter();
     }
 
     class RadioAdapter extends BaseListAdapter<RadioItem> {
@@ -136,5 +156,9 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
                 setClickEvent(isNew, position, ((BMRadioItemView) convertView).getLayoutMain());
             }
         }
+    }
+
+    public interface ClickListener {
+        void onSelected(int position, String key);
     }
 }

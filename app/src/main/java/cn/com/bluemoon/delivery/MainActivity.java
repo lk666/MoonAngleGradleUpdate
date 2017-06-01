@@ -141,7 +141,8 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-                PublicUtil.openScanView(main, null, null, 0);
+//                PublicUtil.openScanView(main, null, null, 0);
+                ViewUtil.showActivity(main,TestActivity.class);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);

@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
-import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,18 +9,26 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View;
+import cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View;
 import cn.com.bluemoon.delivery.ui.common.BMRadioListView;
-import cn.com.bluemoon.delivery.ui.common.RadioItem;
+import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
+import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
 public class SelectSignActivity extends BaseActivity {
 
     @Bind(R.id.view_radio)
     BMRadioListView viewRadio;
+    @Bind(R.id.layout_room)
+    BmCellTextView layoutRoom;
+    @Bind(R.id.layout_sign_date)
+    BmCellTextView layoutSignDate;
+    @Bind(R.id.btn_sign)
+    BMAngleBtn1View btnSign;
     private String roomCode;
     private String planCode;
 
@@ -52,11 +59,23 @@ public class SelectSignActivity extends BaseActivity {
 //        showWaitDialog();
 //        OffLineApi.signDetail(getToken(), roomCode, getNewHandler(0, ResultSignDetail.class));
         toast(roomCode);
+        viewRadio.setListener(new BMRadioListView.ClickListener() {
+            @Override
+            public void onSelected(int position, String key) {
+                checkSignButton();
+            }
+        });
     }
 
     @Override
     public void initData() {
+        layoutRoom.setContentText("总部一楼102");
+        layoutSignDate.setContentText(DateUtil.getTime(System.currentTimeMillis()));
         onSuccessResponse(0, null, mockData());
+    }
+
+    private void checkSignButton() {
+        btnSign.setEnabled(viewRadio.getCurKey() != null);
     }
 
     private ResultSignDetail mockData() {
@@ -97,7 +116,7 @@ public class SelectSignActivity extends BaseActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        switch (requestCode){
+        switch (requestCode) {
             case 0:
                 ResultSignDetail detail = (ResultSignDetail) result;
                 planCode = detail.data.planCode;
@@ -122,15 +141,12 @@ public class SelectSignActivity extends BaseActivity {
         return list;
     }
 
-    @OnClick({R.id.btn_sign})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn_sign:
-                String courseCode = viewRadio.getCurKey();
-                OffLineApi.assign(getToken(), courseCode, planCode, getNewHandler(1, ResultBase
-                        .class));
-//                toast(courseCode + "==" + planCode);
-                break;
-        }
+    @OnClick(R.id.btn_sign)
+    public void onClick() {
+        String courseCode = viewRadio.getCurKey();
+//                OffLineApi.assign(getToken(), courseCode, planCode, getNewHandler(1, ResultBase
+//                        .class));
+        // TODO: 2017/5/31 切换接口
+        toast(courseCode + "==" + planCode);
     }
 }

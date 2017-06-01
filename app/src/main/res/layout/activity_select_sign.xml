@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/activity_select_sign"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
     android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@color/page_bg_f2"
         android:scrollbars="none">
         <LinearLayout
             android:layout_width="match_parent"
@@ -18,21 +18,23 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
-            <View
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/layout_room"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/white"/>
-            <View
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_room"/>
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/layout_sign_date"
                 android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:background="@color/text_grep"/>
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_sign_date"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginLeft="12dp"
                 android:layout_marginBottom="6dp"
-                android:text="选择签到课程"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/offline_select_sign_course"
                 android:textColor="@color/text_grep"
                 android:textSize="12dp"/>
             <cn.com.bluemoon.delivery.ui.common.BMRadioListView
@@ -43,16 +45,13 @@
         </LinearLayout>
     </ScrollView>
 
-    <TextView
+    <cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View
         android:id="@+id/btn_sign"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:background="@color/text_red"
-        android:gravity="center"
-        android:text="签 到"
-        android:textColor="@color/white"
-        android:textSize="20dp"
+        android:enabled="false"
+        app:btn_text="@string/offline_sign_up"
     />
 
 </LinearLayout>
