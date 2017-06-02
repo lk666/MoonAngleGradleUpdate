@@ -16,4 +16,8 @@
         android:id="@+id/bmrankstar2_view"
         app:rank_star2_titleText="测试标题"
         android:layout_height="wrap_content"/>
+    <cn.com.bluemoon.delivery.ui.offline.OfflineTrainingItemView
+        android:id="@+id/offlineTrainingItemView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>

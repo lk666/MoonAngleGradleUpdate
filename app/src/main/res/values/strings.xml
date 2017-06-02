@@ -1480,6 +1480,18 @@
     <string name="offline_sign_course">课程：%s</string>
     <string name="offline_sign_teacher">讲师：%s</string>
     <string name="offline_select_sign_course">选择签到课程</string>
+
+    <string name="offline_type_sign_in">签到：</string>
+    <string name="offline_type_lecturer">讲师：</string>
+    <string name="offline_type_classroom">教室：</string>
+    <string name="offline_type_address">地址：</string>
+    <string name="offline_type_train_classroom">培训教室：</string>
+    <string name="offline_type_train_address">培训地址：</string>
+    <string name="offline_type_willnum">报名人数：</string>
+    <string name="offline_type_signed_in_the_number_of">签到人数：</string>
+    <string name="offline_btn_begin_training">开始上课</string>
+    <string name="offline_btn_end_class">结束上课</string>
+    <string name="offline_btn_evaluation_student">评价学员</string>
     <string name="offline_sign_up">签&#160;到</string>
     <string name="offline_room">培训教室</string>
     <string name="offline_sign_date">签到日期</string>

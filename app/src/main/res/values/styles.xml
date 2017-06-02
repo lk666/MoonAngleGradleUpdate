@@ -504,4 +504,24 @@
         <item name="android:textColor">@color/sz_task_evaluate_text_color</item>
         <item name="android:textSize">@dimen/text_size_12</item>
     </style>
+
+    <style name="offline_iten_txt_type_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/text_size_14</item>
+        <item name="android:textColor">@color/text_black_light</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="offline_iten_txt_content_style" parent="offline_iten_txt_type_style">
+        <item name="android:lines">1</item>
+        <item name="android:ellipsize">end</item>
+    </style>
+
+    <style name="offline_item_layout_style">
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginTop">8dp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
 </resources>
