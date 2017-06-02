@@ -79,7 +79,7 @@ public class BmCellTextView extends FrameLayout {
                         titleColor = attribute.getColor(attr,Color.parseColor("#666666"));
                         break;
                     case R.styleable.BmCellTextView_cell_text_title_size:
-                        titleSize = attribute.getDimensionPixelSize(attr,-1);
+                        titleSize = attribute.getDimensionPixelSize(attr,0);
                         break;
                     case R.styleable.BmCellTextView_cell_text_txt_content:
                         content = attribute.getText(attr);
@@ -88,7 +88,7 @@ public class BmCellTextView extends FrameLayout {
                         contentColor = attribute.getColor(attr,Color.parseColor("#333333"));
                         break;
                     case R.styleable.BmCellTextView_cell_text_content_size:
-                        contentSize = attribute.getDimensionPixelSize(attr,-1);
+                        contentSize = attribute.getDimensionPixelSize(attr,0);
                         break;
                     case R.styleable.BmCellTextView_cell_text_line_color:
                         lineBg = attribute.getColor(attr,Color.parseColor("#E5E5E5"));
@@ -109,7 +109,7 @@ public class BmCellTextView extends FrameLayout {
                         paddingRight= attribute.getDimensionPixelSize(attr,0);
                         break;
                     case R.styleable.BmCellTextView_cell_text_min_height:
-                        minHeight= attribute.getDimensionPixelSize(attr,-1);
+                        minHeight= attribute.getDimensionPixelSize(attr,0);
                         break;
                 }
             }
@@ -152,13 +152,21 @@ public class BmCellTextView extends FrameLayout {
             params.height=lineHeight;
             lineView.setLayoutParams(params);
         }
-        if (linePaddingLeft+linePaddingRight>0) {
-            lineView.setPadding(linePaddingLeft,lineView.getPaddingTop(),linePaddingRight,lineView.getPaddingBottom());
+        if(linePaddingLeft>0){
+            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) lineView.getLayoutParams();
+            params.leftMargin=linePaddingLeft;
+            lineView.setLayoutParams(params);
         }
-        if (paddingLeft+paddingRight>0) {
-            layouotParent.setPadding(paddingLeft,
-                    layouotParent.getPaddingTop(),paddingRight,
-                    layouotParent.getPaddingBottom());
+        if (linePaddingRight>0) {
+            LinearLayout.LayoutParams params= (LinearLayout.LayoutParams) lineView.getLayoutParams();
+            params.rightMargin=linePaddingRight;
+            lineView.setLayoutParams(params);
+        }
+        if(paddingLeft>0){
+            layouotParent.setPadding(paddingLeft,layouotParent.getPaddingTop(),layouotParent.getPaddingRight(),layouotParent.getPaddingBottom());
+        }
+        if(paddingRight>0){
+            layouotParent.setPadding(layouotParent.getPaddingLeft(),layouotParent.getPaddingTop(),paddingRight,layouotParent.getPaddingBottom());
         }
     }
 

@@ -169,8 +169,16 @@
     </declare-styleable>
 
     <declare-styleable name="BmCellParagraphView">
-        <attr name="cell_paragraph_txt_title" format="reference" />
-        <attr name="cell_paragraph_txt_content" format="reference" />
+        <attr name="cell_paragraph_txt_title" format="string|reference" />
+        <attr name="cell_paragraph_title_size" format="dimension" />
+        <attr name="cell_paragraph_title_color" format="color" />
+        <attr name="cell_paragraph_txt_content" format="string|reference" />
+        <attr name="cell_paragraph_content_size" format="dimension" />
+        <attr name="cell_paragraph_content_color" format="color" />
+        <attr name="cell_paragraph_line_color" format="color" />
+        <attr name="cell_paragraph_line_height" format="dimension" />
+        <attr name="cell_paragraph_line_paddingleft" format="dimension" />
+        <attr name="cell_paragraph_line_paddingright" format="dimension" />
     </declare-styleable>
 
     <declare-styleable name="BmMarkView">

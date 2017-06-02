@@ -20,4 +20,15 @@
         android:id="@+id/offlineTrainingItemView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
+    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        app:cell_text_txt_content="哈哈"
+        app:cell_text_txt_title="标题"
+        app:cell_text_line_paddingright="10dp"
+        app:cell_text_line_paddingleft="10dp"
+        app:cell_text_paddingright="50dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
 </LinearLayout>
