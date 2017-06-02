@@ -101,6 +101,7 @@
     <string name="new_version_no">稍后再说</string>
     <string name="new_version_error">更新出现异常！</string>
     <string name="btn_submit">提交</string>
+    <string name="btn_submit_space">提&#160;交</string>
     <string name="btn_submit_sure">确定提交</string>
     <string name="btn_later">稍后</string>
     <string name="btn_setting">设置</string>
@@ -1495,4 +1496,26 @@
     <string name="offline_sign_up">签&#160;到</string>
     <string name="offline_room">培训教室</string>
     <string name="offline_sign_date">签到日期</string>
+    <string name="offline_course_detail_title">课程详情</string>
+    <string name="offline_evaluate">我要评价</string>
+    <string name="offline_course_detail_name">课程名称</string>
+    <string name="offline_course_detail_state">课程状态</string>
+    <string name="offline_course_detail_time">培训时间</string>
+    <string name="offline_course_detail_sign_time">签到时间</string>
+    <string name="offline_course_detail_info">培训安排信息</string>
+    <string name="offline_course_detail_code">课程编码</string>
+    <string name="offline_course_detail_theme">培训主题</string>
+    <string name="offline_course_detail_contacts">联系人</string>
+    <string name="offline_course_detail_room">培训教室</string>
+    <string name="offline_course_detail_address">培训地址</string>
+    <string name="offline_course_detail_purpose">培训目的</string>
+    <string name="offline_evaluate_time">培训时间</string>
+    <string name="offline_evaluate_teacher">培训讲师</string>
+    <string name="offline_evaluate_content">评价内容</string>
+    <string name="offline_evaluate_info">评价信息</string>
+    <string name="offline_evaluate_teach_content">授课内容</string>
+    <string name="offline_evaluate_teach">讲师</string>
+    <string name="offline_evaluate_suggest">意见及建议</string>
+    <string name="offline_evaluate_hint">课程满足你的期望么？说说他的优点和美中不足的地方吧</string>
+
 </resources>
