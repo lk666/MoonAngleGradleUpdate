@@ -20,8 +20,8 @@ public class BmCellParagraphView extends FrameLayout {
     private TextView titleView;
     private TextView contentView;
 
-    private int title=-1;
-    private int content=-1;
+    private CharSequence title;
+    private CharSequence content;
 
     public BmCellParagraphView(Context context) {
         super(context);
@@ -41,10 +41,21 @@ public class BmCellParagraphView extends FrameLayout {
     }
     private void getInitData(AttributeSet attrs) {
         if(attrs!=null){
-            TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BmCellParagraphView);
-            title=  typedArray.getResourceId(R.styleable.BmCellParagraphView_cell_paragraph_txt_title,-1);
-            content=  typedArray.getResourceId(R.styleable.BmCellParagraphView_cell_paragraph_txt_content,-1);
-            typedArray.recycle();
+            TypedArray attribute = getContext().obtainStyledAttributes(attrs, R.styleable
+                    .BmCellParagraphView);
+            int n = attribute.getIndexCount();
+            for (int i = 0; i < n; i++) {
+                int attr = attribute.getIndex(i);
+                switch (attr) {
+                    case R.styleable.BmCellParagraphView_cell_paragraph_txt_title:
+                        title = attribute.getText(attr);
+                        break;
+                    case R.styleable.BmCellParagraphView_cell_paragraph_txt_content:
+                        content = attribute.getText(attr);
+                        break;
+                }
+            }
+            attribute.recycle();
         }
     }
 

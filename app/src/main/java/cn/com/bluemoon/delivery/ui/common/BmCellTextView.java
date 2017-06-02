@@ -20,8 +20,8 @@ public class BmCellTextView extends FrameLayout {
     private TextView titleView;
     private TextView contentView;
 
-    private int title=-1;
-    private int content=-1;
+    private CharSequence title;
+    private CharSequence content;
 
     public BmCellTextView(Context context) {
         super(context);
@@ -40,26 +40,34 @@ public class BmCellTextView extends FrameLayout {
         init();
     }
 
-    private void getInitData(AttributeSet attrs){
-        if(attrs!=null){
-            TypedArray typedArray = getContext().obtainStyledAttributes(attrs, R.styleable.BmCellTextView);
-            title=  typedArray.getResourceId(R.styleable.BmCellTextView_cell_text_txt_title,-1);
-            content=  typedArray.getResourceId(R.styleable.BmCellTextView_cell_text_txt_content,-1);
-            typedArray.recycle();
+    private void getInitData(AttributeSet attrs) {
+        if (attrs != null) {
+            TypedArray attribute = getContext().obtainStyledAttributes(attrs, R.styleable
+                    .BmCellTextView);
+            int n = attribute.getIndexCount();
+            for (int i = 0; i < n; i++) {
+                int attr = attribute.getIndex(i);
+                switch (attr) {
+                    case R.styleable.BmCellTextView_cell_text_txt_title:
+                        title = attribute.getText(attr);
+                        break;
+                    case R.styleable.BmCellTextView_cell_text_txt_content:
+                        content = attribute.getText(attr);
+                        break;
+                }
+            }
+            attribute.recycle();
         }
     }
+
     private void init() {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_bm_cell_text, this, true);
-        lineView=findViewById(R.id.line_bottom);
-        titleView= (TextView) findViewById(R.id.txt_title);
-        contentView= (TextView) findViewById(R.id.txt_content);
+        lineView = findViewById(R.id.line_bottom);
+        titleView = (TextView) findViewById(R.id.txt_title);
+        contentView = (TextView) findViewById(R.id.txt_content);
 
-        if(title!=-1){
-            titleView.setText(title);
-        }
-        if(content!=-1){
-            contentView.setText(content);
-        }
+        titleView.setText(title);
+        contentView.setText(content);
     }
 
     public String getContentText() {
