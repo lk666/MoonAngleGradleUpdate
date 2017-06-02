@@ -46,6 +46,10 @@ public class DateUtil extends LibDateUtil {
         return getTime(t, "HH:mm");
     }
 
+    public static String getTimeToYMDHM(long t) {
+        return getTime(t, "yyyy-MM-dd HH:mm");
+    }
+
     /**
      * 将当前时间戳转化为字符串
      *

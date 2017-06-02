@@ -144,10 +144,10 @@ public class OfflineTrainingItemView extends FrameLayout {
      * 签到时间
      * @param signInTime
      */
-    public OfflineTrainingItemView setTxtSignInTime(String signInTime) {
+    public OfflineTrainingItemView setTxtSignInTime(String signInTime,boolean isRed) {
         llayoutSignInTime.setVisibility(TextUtils.isEmpty(signInTime)?View.GONE:View.VISIBLE);
         txtSignInTime.setText(signInTime);
-        return this;
+        return setTxtState(TextUtils.isEmpty(signInTime)?"未签到":"已签到",isRed);
     }
 
     /**
@@ -228,47 +228,39 @@ public class OfflineTrainingItemView extends FrameLayout {
     }
 
 
-    private void setBtnBtn(OnClickListener clickListener,String textBtn,Object tag) {
+    public void setBtnBtn(OnClickListener clickListener,String textBtn,Integer typeTag,Integer positionTag) {
         if(clickListener!=null){
             llayoutBtn.setVisibility(View.VISIBLE);
             llayoutBtn.setOnClickListener(clickListener);
             btnBtn.setText(textBtn);
-            btnBtn.setTag(tag);
+            btnBtn.setTag(R.id.tag_position,positionTag);
+            btnBtn.setTag(R.id.tag_type,typeTag);
         }else{
             llayoutBtn.setVisibility(View.GONE);
         }
     }
 
-    private void setTxtBtn(OnClickListener clickListener,String textBtn,Object tag) {
+    public void setTxtBtn(OnClickListener clickListener,String textBtn,Integer typeTag,Integer positionTag) {
         if(clickListener!=null){
             llayoutBtn.setVisibility(View.VISIBLE);
             txtBtn.setVisibility(View.VISIBLE);
             llayoutBtn.setOnClickListener(clickListener);
             txtBtn.setText(textBtn);
-            txtBtn.setTag(tag);
+            btnBtn.setTag(R.id.tag_position,positionTag);
+            txtBtn.setTag(R.id.tag_type,typeTag);
         }else{
             llayoutBtn.setVisibility(View.GONE);
             txtBtn.setVisibility(View.GONE);
         }
     }
 
-    public OfflineTrainingItemView setLlayoutBtn(OnClickListener[] clickListeners,String[] textBtns,Object[] tags) {
-        if(clickListeners!=null&clickListeners.length>0){
-            if(clickListeners.length==1){
-                setBtnBtn(clickListeners[0],textBtns[0],tags[0]);
-            }else if(clickListeners.length==2){
-                setBtnBtn(clickListeners[0],textBtns[0],tags[0]);
-                setTxtBtn(clickListeners[1],textBtns[1],tags[1]);
-            }else{
 
-            }
+    public void setLlayoutParent(boolean isNew,OnClickListener clickListener,Integer typeTag,Integer positionTag){
+        if(isNew){
+            llayoutParent.setOnClickListener(clickListener);
         }
-        return this;
-    }
-
-    public OfflineTrainingItemView setLlayoutParent(OnClickListener clickListener){
-        llayoutParent.setOnClickListener(clickListener);
-        return this;
+        llayoutParent.setTag(R.id.tag_position,positionTag);
+        llayoutParent.setTag(R.id.tag_type,typeTag);
     }
 
 }

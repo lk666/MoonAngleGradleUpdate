@@ -851,6 +851,7 @@
     <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
 
     <item name="tag_position" type="id">0xFFF11222</item>
+    <item name="tag_type" type="id">0xFFF11122</item>
 
     <!-- 我的团队 -->
     <string name="team_group">小组</string>
