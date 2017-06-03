@@ -108,7 +108,7 @@ public class OffLineApi extends DeliveryApi {
      * @param planCode
      * @param handler
      */
-    public static void CourseDetail(String token, String courseCode, String planCode,
+    public static void courseDetail(String token, String courseCode, String planCode,
                                     AsyncHttpResponseHandler handler) {
         if (null == token || null == courseCode || null == planCode) {
             onError(handler);

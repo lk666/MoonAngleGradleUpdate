@@ -1516,5 +1516,6 @@
     <string name="offline_evaluate_teach">讲师</string>
     <string name="offline_evaluate_suggest">意见及建议</string>
     <string name="offline_evaluate_hint">课程满足你的期望么？说说他的优点和美中不足的地方吧</string>
+    <string name="offline_sign_cancel">取消签到</string>
 
 </resources>

@@ -33,6 +33,45 @@
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_time"
             />
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/view_sign_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cell_text_txt_title="@string/offline_course_detail_sign_time"
+            />
+            <LinearLayout
+                android:id="@+id/layout_evaluate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="6dp"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="10dp"
+                    android:text="@string/offline_evaluate_info"
+                    android:textColor="@color/text_grep"
+                    android:textSize="12dp"/>
+                <cn.com.bluemoon.delivery.ui.common.BmRankStar2
+                    android:id="@+id/view_content_star"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rank_star2_titleText="@string/offline_evaluate_teach_content"/>
+                <cn.com.bluemoon.delivery.ui.common.BmRankStar2
+                    android:id="@+id/view_teacher_star"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:rank_star2_titleText="@string/offline_evaluate_teach"/>
+                <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
+                    android:id="@+id/view_suggest"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cell_paragraph_txt_title="@string/offline_evaluate_suggest"
+                />
+            </LinearLayout>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -46,13 +85,13 @@
                 android:id="@+id/view_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_time"
+                app:cell_text_txt_title="@string/offline_course_detail_code"
             />
             <cn.com.bluemoon.delivery.ui.common.BmCellTextView
                 android:id="@+id/view_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_time"
+                app:cell_text_txt_title="@string/offline_course_detail_theme"
             />
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -93,7 +132,6 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="12dp"
                     android:autoLink="all"
-                    android:text="13450103113"
                     android:textColor="@color/text_blue"
                     android:textColorLink="@color/text_blue"
                     android:textSize="@dimen/text_size_14"/>
@@ -137,6 +175,7 @@
         android:id="@+id/btn_evaluate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:btn_text="@string/offline_evaluate"/>
 
 </LinearLayout>

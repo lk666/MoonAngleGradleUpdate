@@ -55,5 +55,8 @@ public class DateUtil extends LibDateUtil {
         return String.valueOf(System.currentTimeMillis());
     }
 
+    public static String getTimes(long start, long end) {
+        return getTime(start) + " " + getTimeToHours(start) + "-" + getTimeToHours(end);
+    }
 
 }
