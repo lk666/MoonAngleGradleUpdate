@@ -49,7 +49,7 @@
         android:icon="@mipmap/icon"
         android:label="@string/app_name">
         <activity
-            android:name=".AppStartActivity"
+            android:name=".ui.common.TestUiAcitivty"
             android:label="@string/app_name"
             android:theme="@style/AnimStartStyle">
             <intent-filter>

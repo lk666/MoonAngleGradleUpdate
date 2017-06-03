@@ -852,6 +852,7 @@
     <string name="cancel_alarm_message">当前页面信息未保存，是否确认返回？</string>
 
     <item name="tag_position" type="id">0xFFF11222</item>
+    <item name="tag_type" type="id">0xFFF11122</item>
 
     <!-- 我的团队 -->
     <string name="team_group">小组</string>
@@ -1516,6 +1517,10 @@
     <string name="offline_evaluate_teach">讲师</string>
     <string name="offline_evaluate_suggest">意见及建议</string>
     <string name="offline_evaluate_hint">课程满足你的期望么？说说他的优点和美中不足的地方吧</string>
+    <string name="offline_my_courses">我的授课</string>
+    <string name="offline_waiting_courses">待授课</string>
+    <string name="offline_courses_ing">授课中</string>
+    <string name="offline_courses_record">授课记录</string>
     <string name="offline_sign_cancel">取消签到</string>
 
 </resources>

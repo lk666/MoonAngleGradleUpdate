@@ -54,7 +54,7 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
         boolean isNew = false;
         if (convertView == null) {
             isNew = true;
-            convertView = LayoutInflater.from(context).inflate(getLayoutId(), null);
+            convertView = getConvertView();
         }
         mConvertView = convertView;
 
@@ -63,6 +63,9 @@ public abstract class BaseListAdapter<T> extends BaseAdapter implements View.OnC
         return convertView;
     }
 
+    protected View getConvertView(){
+        return LayoutInflater.from(context).inflate(getLayoutId(), null);
+    }
     /**
      * 设置点击事件
      */
