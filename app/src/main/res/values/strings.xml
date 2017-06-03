@@ -1517,5 +1517,9 @@
     <string name="offline_evaluate_teach">讲师</string>
     <string name="offline_evaluate_suggest">意见及建议</string>
     <string name="offline_evaluate_hint">课程满足你的期望么？说说他的优点和美中不足的地方吧</string>
+    <string name="offline_my_courses">我的授课</string>
+    <string name="offline_waiting_courses">待授课</string>
+    <string name="offline_courses_ing">授课中</string>
+    <string name="offline_courses_record">授课记录</string>
 
 </resources>

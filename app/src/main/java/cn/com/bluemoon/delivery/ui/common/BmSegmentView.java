@@ -185,7 +185,7 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
      *
      * @param position
      */
-    private void checkUIChange(int position) {
+    public void checkUIChange(int position) {
         for (int i = 0; i < viewCollectiveList.size(); i++) {
             ViewCollective viewCollective = viewCollectiveList.get(i);
             if (position == i) {

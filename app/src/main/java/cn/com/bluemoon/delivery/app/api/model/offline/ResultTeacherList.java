@@ -10,5 +10,5 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
  */
 
 public class ResultTeacherList extends ResultBase {
-    public ArrayList<CurriculumsTable> data;
+    public ListData data;
 }

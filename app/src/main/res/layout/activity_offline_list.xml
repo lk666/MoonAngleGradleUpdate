@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <cn.com.bluemoon.delivery.ui.common.BmSegmentView
+        android:id="@+id/segment_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/listview_offline"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:divider="@null"
+        android:dividerHeight="0dp"
+        android:fadingEdge="none"
+        android:overScrollMode="never"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderBackground="@color/page_bg_f2"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black"
+        ptr:ptrMode="both" />
+</LinearLayout>

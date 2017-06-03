@@ -11,11 +11,5 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 public class ResultStudentList extends ResultBase {
 
-    public Data data;
-
-    public static class Data{
-        public ArrayList<CurriculumsTable> courses;	//学员课程列表	array<object>
-        public int totalCourseNum;//总课程数	number	@mock=
-        public String totalDuration;//	总时长	string	@mock=
-    }
+    public ListData data;
 }
