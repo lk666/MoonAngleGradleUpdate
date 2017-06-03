@@ -52,6 +52,7 @@ import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
+import cn.com.bluemoon.delivery.module.offline.MyCoursesActivity;
 import cn.com.bluemoon.delivery.module.offline.StudentActivity;
 import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
@@ -834,7 +835,7 @@ public class MainActivity extends SlidingActivity {
             }
             //我的授课
             else if (compare(MenuCode.offline_teacher, menuCode)) {
-                EnterpriseWashTabActivity.actionStart(main);
+                MyCoursesActivity.actionStart(main);
             }
             else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()

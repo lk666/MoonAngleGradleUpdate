@@ -2,23 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/offline_training_item_bg"
     android:orientation="vertical"
-    android:paddingBottom="4dp"
-    android:paddingLeft="12dp"
     android:layout_marginLeft="10dp"
     android:layout_marginRight="10dp"
     android:layout_marginBottom="12dp"
-    android:paddingRight="12dp"
     android:id="@+id/llayout_parent"
-    android:paddingTop="12dp"
     android:translationZ="2dp">
 
     <LinearLayout
+        android:layout_marginTop="12dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -46,9 +44,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginBottom="10dp"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="8dp"
         android:gravity="center_vertical"
         android:orientation="horizontal">
 
@@ -68,14 +66,20 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-    <include layout="@layout/line_solid_view_e5" />
+    <include
+        android:layout_marginLeft="12dp"
+        android:layout_marginRight="12dp"
+        android:layout_height="0.5dp"
+        android:layout_width="match_parent"
+        layout="@layout/line_solid_view_e5" />
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="4dp"
-        android:layout_marginRight="4dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginRight="8dp"
         android:layout_marginTop="4dp"
+        android:layout_marginBottom="4dp"
         android:orientation="horizontal"
         android:paddingBottom="8dp">
 
@@ -196,21 +200,25 @@
             android:layout_height="wrap_content"
             android:visibility="gone"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="12dp"
+            android:layout_marginLeft="8dp"
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <Button
+            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View
                 android:id="@+id/btn_btn"
-                android:layout_width="60dp"
-                android:layout_height="35dp" />
+                app:btn_marginBottom="4dp"
+                app:btn_marginTop="4dp"
+                app:btn_marginLeft="4dp"
+                app:btn_marginRight="4dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
 
             <TextView
                 android:visibility="gone"
                 android:id="@+id/txt_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
+                android:layout_marginTop="8dp"
                 android:text="@string/offline_btn_evaluation_student"
                 android:textColor="@color/text_red"
                 android:textSize="@dimen/text_size_14" />

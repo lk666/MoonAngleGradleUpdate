@@ -9,5 +9,5 @@ import java.util.ArrayList;
 public class ListData {
     public ArrayList<CurriculumsTable> courses;	//学员课程列表	array<object>
     public int totalCourseNum;//总课程数	number	@mock=
-    public String totalDuration;//	总时长	string	@mock=
+    public long totalDuration;//	总时长	number	@mock=
 }

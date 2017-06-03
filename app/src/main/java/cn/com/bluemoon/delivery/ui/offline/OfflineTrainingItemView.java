@@ -17,6 +17,8 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View;
+import cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View;
 
 /**
  * Created by tangqiwei on 2017/6/1.
@@ -65,7 +67,7 @@ public class OfflineTrainingItemView extends FrameLayout {
     @Bind(R.id.llayout_train_address)
     LinearLayout llayoutTrainAddress;
     @Bind(R.id.btn_btn)
-    Button btnBtn;
+    BMAngleBtn2View btnBtn;
     @Bind(R.id.txt_btn)
     TextView txtBtn;
     @Bind(R.id.llayout_btn)

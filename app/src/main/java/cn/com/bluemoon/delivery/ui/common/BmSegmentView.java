@@ -135,7 +135,9 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void init() {
         parentGroup = new LinearLayout(getContext());
-        parentGroup.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height));
+        HorizontalScrollView.LayoutParams params=new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
+        params.bottomMargin=dip2px(6);
+        parentGroup.setLayoutParams(params);
         parentGroup.setOrientation(LinearLayout.HORIZONTAL);
         parentGroup.setBackgroundColor(colorBg);
         parentGroup.setTranslationZ(translationZ);
