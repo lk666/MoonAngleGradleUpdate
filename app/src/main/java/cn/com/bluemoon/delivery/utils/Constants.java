@@ -184,4 +184,10 @@ public class Constants {
     public final static String OUTER_BACK_CLOTHES = "OUTER_BACK_CLOTHES";	//还衣中
     public final static String OUTER_ALREADY_RECIVERED = "OUTER_ALREADY_RECIVERED";	//已签收
 
+    //线下培训状态
+    public final static String OFFLINE_STATUS_WAITING_CLASS = "waitingClass";//未上课
+    public final static String OFFLINE_STATUS_IN_CLASS = "inClass";//上课中
+    public final static String OFFLINE_STATUS_END_CLASS = "endClass";//结束上课
+    public final static String OFFLINE_STATUS_CLOSE_CLASS = "closeClass";//关闭上课
+
 }
