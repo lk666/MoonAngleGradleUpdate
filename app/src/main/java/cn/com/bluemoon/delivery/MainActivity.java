@@ -53,6 +53,7 @@ import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.module.offline.MyCoursesActivity;
+import cn.com.bluemoon.delivery.module.offline.MyTrainActivity;
 import cn.com.bluemoon.delivery.module.offline.StudentActivity;
 import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
@@ -71,7 +72,6 @@ import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
-import cn.com.bluemoon.delivery.ui.common.TestActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
@@ -831,7 +831,7 @@ public class MainActivity extends SlidingActivity {
             }
             //我的培训
             else if (compare(MenuCode.offline_student, menuCode)) {
-                ViewUtil.showActivity(main,StudentActivity.class);
+                MyTrainActivity.actionStart(main);
             }
             //我的授课
             else if (compare(MenuCode.offline_teacher, menuCode)) {

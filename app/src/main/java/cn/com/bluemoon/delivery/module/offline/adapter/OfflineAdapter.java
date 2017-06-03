@@ -26,20 +26,20 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
     /**
      * 学生的列表还是教师的列表
      */
-    public final static int LIST_STUDENTS=1,LIST_TEACHER=2;
+    public final static String LIST_STUDENTS="student",LIST_TEACHER="teacher";
     /**
      * 三个列表 未开始 进行中 已结束
      */
     public final static int LIST_NOSTART=0,LIST_ING=1,LIST_END=2;
 
-    private int roleMode;
+    private String roleMode;
     private int positionMode;
 
-    public OfflineAdapter(Context context, OnListItemClickListener listener,int roleMode) {
+    public OfflineAdapter(Context context, OnListItemClickListener listener,String roleMode) {
         this(context,listener,roleMode,LIST_NOSTART);
     }
 
-    public OfflineAdapter(Context context, OnListItemClickListener listener,int roleMode,int positionMode) {
+    public OfflineAdapter(Context context, OnListItemClickListener listener,String roleMode,int positionMode) {
         super(context, listener);
         this.roleMode=roleMode;
         this.positionMode=positionMode;

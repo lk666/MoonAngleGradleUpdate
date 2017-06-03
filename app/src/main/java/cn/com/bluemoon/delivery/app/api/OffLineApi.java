@@ -98,7 +98,7 @@ public class OffLineApi extends DeliveryApi {
      * @param status
      * @param handler
      */
-    public static void list(String token, long date, String status, AsyncHttpResponseHandler
+    public static void studentTrainlist(String token, long date, String status, AsyncHttpResponseHandler
             handler) {
         if (null == token || null == status) {
             onError(handler);

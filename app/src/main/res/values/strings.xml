@@ -1521,6 +1521,9 @@
     <string name="offline_waiting_courses">待授课</string>
     <string name="offline_courses_ing">授课中</string>
     <string name="offline_courses_record">授课记录</string>
+    <string name="offline_waiting_to_teach">待上课</string>
+    <string name="offline_waiting_evaluate">待评价</string>
+    <string name="offline_finish">已完成</string>
     <string name="offline_sign_cancel">取消签到</string>
     <string name="offline_total_courses">总课程数：</string>
     <string name="offline_total_duration">总时长：</string>
