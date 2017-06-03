@@ -83,112 +83,115 @@ public class BMAngleBtn1View extends FrameLayout {
         initColor();
         if (attrs == null) return;
         TypedArray attribute = getContext().obtainStyledAttributes(attrs, R.styleable
-                .BMAngleBtnView);
+                .BMAngleBtn1View);
         int n = attribute.getIndexCount();
         for (int i = 0; i < n; i++) {
             int attr = attribute.getIndex(i);
             switch (attr) {
-                case R.styleable.BMAngleBtnView_btn_color_normal:
+                case R.styleable.BMAngleBtn1View_btn_color_normal:
                     int colorNormal = attribute.getColor(attr, 0);
                     if (colorNormal != 0) {
                         this.colorNormal = colorNormal;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_color_pressed:
+                case R.styleable.BMAngleBtn1View_btn_color_pressed:
                     int colorPressed = attribute.getColor(attr, 0);
                     if (colorPressed != 0) {
                         this.colorPressed = colorPressed;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_color_disable:
+                case R.styleable.BMAngleBtn1View_btn_color_disable:
                     int colorDisable = attribute.getColor(attr, 0);
                     if (colorDisable != 0) {
                         this.colorDisable = colorDisable;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_radius:
+                case R.styleable.BMAngleBtn1View_btn_radius:
                     int radius = attribute.getDimensionPixelSize(attr, -1);
                     if (radius != -1) {
                         this.radius = radius;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_translationZ:
+                case R.styleable.BMAngleBtn1View_btn_translationZ:
                     int shadowZ = attribute.getDimensionPixelSize(attr, -1);
                     if (shadowZ != -1) {
                         this.translationZ = shadowZ;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_height:
+                case R.styleable.BMAngleBtn1View_btn_height:
                     int height = attribute.getDimensionPixelSize(attr, -1);
                     if (height != -1) {
                         this.height = height;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_text:
+                case R.styleable.BMAngleBtn1View_btn_text:
                     setText(attribute.getText(attr));
                     break;
-                case R.styleable.BMAngleBtnView_btn_text_color:
+                case R.styleable.BMAngleBtn1View_btn_text_color:
                     int textColor = attribute.getColor(attr, 0);
                     if (textColor != 0) {
                         this.textColor = textColor;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_text_size:
+                case R.styleable.BMAngleBtn1View_btn_text_size:
                     int textSize = attribute.getDimensionPixelSize(attr, -1);
                     if (textSize != -1) {
                         this.textSize = textSize;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_marginBottom:
+                case R.styleable.BMAngleBtn1View_btn_marginBottom:
                     int marginBottom = attribute.getDimensionPixelSize(attr, -1);
                     if (marginBottom != -1) {
                         this.marginBottom = marginBottom;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_marginTop:
+                case R.styleable.BMAngleBtn1View_btn_marginTop:
                     int marginTop = attribute.getDimensionPixelSize(attr, -1);
                     if (marginTop != -1) {
                         this.marginTop = marginTop;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_marginLeft:
+                case R.styleable.BMAngleBtn1View_btn_marginLeft:
                     int marginLeft = attribute.getDimensionPixelSize(attr, -1);
                     if (marginLeft != -1) {
                         this.marginLeft = marginLeft;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_marginRight:
+                case R.styleable.BMAngleBtn1View_btn_marginRight:
                     int marginRight = attribute.getDimensionPixelSize(attr, -1);
                     if (marginRight != -1) {
                         this.marginRight = marginRight;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_paddingBottom:
+                case R.styleable.BMAngleBtn1View_btn_paddingBottom:
                     int paddingBottom = attribute.getDimensionPixelSize(attr, -1);
                     if (paddingBottom != -1) {
                         this.paddingBottom = paddingBottom;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_paddingTop:
+                case R.styleable.BMAngleBtn1View_btn_paddingTop:
                     int paddingTop = attribute.getDimensionPixelSize(attr, -1);
                     if (paddingTop != -1) {
                         this.paddingTop = paddingTop;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_paddingLeft:
+                case R.styleable.BMAngleBtn1View_btn_paddingLeft:
                     int paddingLeft = attribute.getDimensionPixelSize(attr, -1);
                     if (paddingLeft != -1) {
                         this.paddingLeft = paddingLeft;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_paddingRight:
+                case R.styleable.BMAngleBtn1View_btn_paddingRight:
                     int paddingRight = attribute.getDimensionPixelSize(attr, -1);
                     if (paddingRight != -1) {
                         this.paddingRight = paddingRight;
                     }
                     break;
-                case R.styleable.BMAngleBtnView_btn_type:
+                case R.styleable.BMAngleBtn1View_btn_type:
                     type = attribute.getInt(attr, -1);
+                    break;
+                case R.styleable.BMAngleBtn1View_btn_enable:
+                    setEnabled(attribute.getBoolean(attr,false));
                     break;
             }
         }
@@ -307,4 +310,8 @@ public class BMAngleBtn1View extends FrameLayout {
         btn.setTranslationZ(translationZ);
     }
 
+    @Override
+    public void setEnabled(boolean enabled) {
+        btn.setEnabled(enabled);
+    }
 }

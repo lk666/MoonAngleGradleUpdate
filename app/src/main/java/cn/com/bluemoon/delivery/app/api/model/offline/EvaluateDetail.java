@@ -6,10 +6,14 @@ package cn.com.bluemoon.delivery.app.api.model.offline;
 
 public class EvaluateDetail {
 
-    public String comment = "评价内容";
+    public String comment = "培训评价";
     public String courseCode = "课程编号";
-    public int courseStar = 0;
+    public int courseStar;
     public String planCode = "排课编号";
     public int teacherStar = 3;
+    public String courseName = "课程名称";
+    public String teacherName = "培训讲师";
+    public long startTime;
+    public long endTime = System.currentTimeMillis();
 
 }

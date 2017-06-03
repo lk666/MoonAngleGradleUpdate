@@ -21,7 +21,7 @@ import cn.com.bluemoon.delivery.R;
  * Created by tangqiwei on 2017/5/31.
  */
 
-public class BmRankStar1 extends LinearLayout {
+public class BmRankStar1 extends LinearLayout implements RatingBar.OnRatingBarChangeListener{
 
     private TextView titleView;
     private RatingBar ratingBar;
@@ -32,6 +32,7 @@ public class BmRankStar1 extends LinearLayout {
     private int backgroundDrawable;//图片列表
     private float rating;//初始值
     private String titleText;//标题
+    private RatingListener listener;
 
 
     public BmRankStar1(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -104,6 +105,7 @@ public class BmRankStar1 extends LinearLayout {
         ratingBar= (RatingBar) findViewById(R.id.rb);
         titleView= (TextView) findViewById(R.id.title);
         initView();
+        ratingBar.setOnRatingBarChangeListener(this);
     }
 
     private LayerDrawable getLayerDrawable(int progressId,int backgroundId){
@@ -150,6 +152,7 @@ public class BmRankStar1 extends LinearLayout {
 
     public BmRankStar1 setRating(int rating) {
         this.rating = rating;
+        ratingBar.setRating(rating);
         return this;
     }
 
@@ -160,6 +163,10 @@ public class BmRankStar1 extends LinearLayout {
     public BmRankStar1 setTitleText(String titleText) {
         this.titleText = titleText;
         return this;
+    }
+
+    public void setListener(RatingListener listener){
+        this.listener = listener;
     }
 
     /**
@@ -181,5 +188,16 @@ public class BmRankStar1 extends LinearLayout {
     public int sp2px(float spValue) {
         final float fontScale = getContext().getResources().getDisplayMetrics().scaledDensity;
         return (int) (spValue * fontScale + 0.5f);
+    }
+
+    @Override
+    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+        if(listener!=null){
+            listener.onRatingBarChange();
+        }
+    }
+
+    public interface RatingListener{
+        void onRatingBarChange();
     }
 }

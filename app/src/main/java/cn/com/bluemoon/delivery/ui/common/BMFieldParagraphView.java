@@ -27,7 +27,9 @@ public class BMFieldParagraphView extends RelativeLayout {
     private EditText etContent;
     private View lineBottom;
 
-    private int maxCount = 100;
+    private int maxCount = 200;
+
+    private FieldListener listener;
 
     public BMFieldParagraphView(Context context) {
         super(context);
@@ -123,8 +125,16 @@ public class BMFieldParagraphView extends RelativeLayout {
         @Override
         public void afterTextChanged(Editable s) {
             updateCountText();
+            if(listener!=null){
+                listener.onChangeText(s.toString());
+            }
         }
     };
+
+    public void setListener(FieldListener listener){
+        this.listener = listener;
+    }
+
 
     //公共方法
 
@@ -217,6 +227,15 @@ public class BMFieldParagraphView extends RelativeLayout {
         ViewGroup.MarginLayoutParams params = (MarginLayoutParams) lineBottom.getLayoutParams();
         params.rightMargin = right;
         lineBottom.setLayoutParams(params);
+    }
+
+    //获取编辑框内容
+    public String getContent(){
+        return etContent.getText().toString();
+    }
+
+    public interface FieldListener{
+        void onChangeText(String text);
     }
 
 }

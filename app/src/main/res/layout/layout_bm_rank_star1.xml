@@ -31,8 +31,8 @@
             android:minHeight="24dp"
             android:numStars="5"
             android:progressDrawable="@drawable/bm_rank_star1_layer_list"
-            android:rating="1"
-            android:stepSize="0.5" />
+            android:rating="0"
+            android:stepSize="1" />
     </LinearLayout>
 
     <View
