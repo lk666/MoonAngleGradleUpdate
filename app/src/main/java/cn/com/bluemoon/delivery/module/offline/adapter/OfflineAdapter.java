@@ -89,7 +89,7 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                         break;
                     case LIST_END:
                         if(curriculumsTable.status.equals("endClass")){
-                            itemView.setBtnBtn(this,"结束上课",REQUEST_END,position);
+                            itemView.setBtnBtn(this,"评价学员",TO_NEXT_EVALUATE,position);
                         }else{
                             itemView.setBtnBtn(null,null,null,null);
                         }
