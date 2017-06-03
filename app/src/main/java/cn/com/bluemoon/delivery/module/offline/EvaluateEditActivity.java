@@ -8,6 +8,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.EvaluateDetail;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultEvaluateDetail;
@@ -65,10 +66,12 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldParagra
 
     @Override
     public void initView() {
-
         viewSuggest.setListener(this);
         viewStarContent.setListener(this);
         viewStarTeacher.setListener(this);
+        showWaitDialog();
+        OffLineApi.evaluateDetail(getToken(), courseCode, planCode, getNewHandler(0,
+                ResultEvaluateDetail.class));
     }
 
     @Override
@@ -101,6 +104,13 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldParagra
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
+        // TODO: 2017/6/3  
+//        showWaitDialog();
+//        OffLineApi.evaluate(getToken(), viewSuggest.getContent(), courseCode, viewStarContent
+//                .getRating(), planCode, viewStarTeacher.getRating(), getNewHandler(0, ResultBase
+//                .class));
+        toast(viewStarContent.getRating() + "=" + viewStarTeacher.getRating() + "\n" +
+                viewSuggest.getContent());
     }
 
     @Override

@@ -7,12 +7,12 @@ package cn.com.bluemoon.delivery.app.api.model.offline.request;
 public class EvaluateData {
     public String comment;
     public String courseCode;
-    public int courseStar;
+    public float courseStar;
     public String planCode;
-    public int teacherStar;
+    public float teacherStar;
 
-    public EvaluateData(String comment, String courseCode, int courseStar,
-                        String planCode, int teacherStar){
+    public EvaluateData(String comment, String courseCode, float courseStar,
+                        String planCode, float teacherStar){
         this.comment = comment;
         this.courseCode = courseCode;
         this.courseStar = courseStar;
