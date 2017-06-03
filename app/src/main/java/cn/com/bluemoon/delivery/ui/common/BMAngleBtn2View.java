@@ -36,6 +36,6 @@ public class BMAngleBtn2View extends BMAngleBtn1View {
 
         radius = dip2px(4);
 
-        height = dip2px(48);
+        height = dip2px(30);
     }
 }
