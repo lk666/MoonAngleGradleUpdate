@@ -192,7 +192,7 @@
     </declare-styleable>
 
     <!--通用组件：btn-->
-    <declare-styleable name="BMAngleBtnView">
+    <declare-styleable name="BMAngleBtn1View">
         <attr name="btn_color_normal" format="color"/>
         <attr name="btn_color_pressed" format="color"/>
         <attr name="btn_color_disable" format="color"/>
@@ -216,6 +216,7 @@
         <attr name="btn_marginRight" format="dimension"/>
         <attr name="btn_marginBottom" format="dimension"/>
         <attr name="btn_marginTop" format="dimension"/>
+        <attr name="btn_enable" format="boolean"/>
 
         <attr name="btn_type" format="enum">
             <enum name="red" value="0"/>

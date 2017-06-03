@@ -1527,5 +1527,6 @@
     <string name="offline_sign_cancel">取消签到</string>
     <string name="offline_total_courses">总课程数：</string>
     <string name="offline_total_duration">总时长：</string>
+    <string name="offline_detail_check_teacher">认证讲师</string>
 
 </resources>

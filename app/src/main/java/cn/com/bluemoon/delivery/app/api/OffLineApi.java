@@ -176,6 +176,28 @@ public class OffLineApi extends DeliveryApi {
                 teacherStar));
         postRequest(params, "course/student/evaluate%s", handler);
     }
+
+    /**
+     * 1.5获取评价信息
+     * @param token
+     * @param courseCode
+     * @param planCode
+     * @param handler
+     */
+    public static void evaluateDetail(String token, String courseCode, String planCode,
+                                    AsyncHttpResponseHandler handler) {
+        if (null == token || null == courseCode || null == planCode) {
+            onError(handler);
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", new AssignData(courseCode, planCode));
+        postRequest(params, "course/student/evaluate/detail%s", handler);
+    }
+
+
     /**
      * 2.1 教师开始上课
      *

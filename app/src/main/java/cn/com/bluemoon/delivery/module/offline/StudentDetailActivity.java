@@ -2,14 +2,15 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -18,6 +19,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultStudentDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.TeacherInfoView;
 import cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View;
 import cn.com.bluemoon.delivery.ui.common.BmCellParagraphView;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
@@ -66,7 +68,10 @@ public class StudentDetailActivity extends BaseActivity {
     LinearLayout layoutEvaluate;
     private TextView txtRight;
 
-    private ResultStudentDetail detail;
+    private PopupWindow popupWindow;
+    private TeacherInfoView viewInfo;
+
+    private ResultStudentDetail.StudentDetail detail;
     private String courseCode;
     private String planCode;
 
@@ -111,45 +116,46 @@ public class StudentDetailActivity extends BaseActivity {
         showWaitDialog();
         OffLineApi.courseDetail(getToken(), courseCode, planCode, getNewHandler(0,
                 ResultSignDetail.class));
+        initPopupWindow();
     }
 
     @Override
     public void initData() {
         // TODO: 2017/6/3 测试数据
-        detail = new ResultStudentDetail();
+        detail = new ResultStudentDetail().data;
         if (detail == null) return;
-        setStatus(detail.data.status,detail.data.signTime==0,detail.data.evaluateDetail!=null);
-        viewName.setContentText(detail.data.courseName);
-        viewState.setContentText(detail.data.status);
-        viewTime.setContentText(DateUtil.getTimes(detail.data.startTime, detail.data.endTime));
-        viewCode.setContentText(detail.data.courseCode);
-        viewTheme.setContentText(detail.data.topic);
-        viewTeacher.setContentText(detail.data.teacherName);
-        viewContacts.setContentText(detail.data.contactsName);
-        txtPhone.setText(detail.data.contactsPhone);
-        viewRoom.setContentText(detail.data.room);
-        viewAddress.setContentText(detail.data.address);
-        viewPurpose.setContentText(detail.data.purpose);
+        setStatus(detail.status, detail.signTime != 0, detail.evaluateDetail !=
+                null);
+        viewName.setContentText(detail.courseName);
+        viewState.setContentText(getTextByStatus(detail.status, detail.signTime != 0));
+        viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
+        viewCode.setContentText(detail.courseCode);
+        viewTheme.setContentText(detail.topic);
+        viewTeacher.setContentText(detail.teacherName);
+        viewContacts.setContentText(detail.contactsName);
+        txtPhone.setText(detail.contactsPhone);
+        viewRoom.setContentText(detail.room);
+        viewAddress.setContentText(detail.address);
+        viewPurpose.setContentText(detail.purpose);
+        viewInfo.setData(detail.avatar, detail.teacherName);
     }
 
+    //设置状态显示
     private void setStatus(String status, boolean isSign, boolean isEvaluate) {
         //已签到，未评价，未关闭：显示评价按钮
         //已签到，未评价，未结束：显示签到按钮
         //已签到显示签到信息
         //已评价显示评价信息
-        if(isSign){
-            ViewUtil.setViewVisibility(viewSignTime,View.VISIBLE);
-            viewSignTime.setContentText(DateUtil.getTime(detail.data.signTime, "yyyy-MM-dd HH:mm"));
-            if(isEvaluate){
-                ViewUtil.setViewVisibility(layoutEvaluate,View.VISIBLE);
-                viewContentStar.setRating(detail.data.evaluateDetail.courseStar);
-                viewTeacherStar.setRating(detail.data.evaluateDetail.teacherStar);
-                // TODO: 2017/6/3 这两句刷新待修改了控件就去掉
-                viewContentStar.initView();
-                viewTeacherStar.initView();
-                viewSuggest.setContentText(detail.data.evaluateDetail.comment);
-            }else{
-                if(!Constants.OFFLINE_STATUS_CLOSE_CLASS.equals(status)){
+        if (isSign) {
+            ViewUtil.setViewVisibility(viewSignTime, View.VISIBLE);
+            viewSignTime.setContentText(DateUtil.getTime(detail.signTime, "yyyy-MM-dd HH:mm"));
+            if (isEvaluate) {
+                ViewUtil.setViewVisibility(layoutEvaluate, View.VISIBLE);
+                viewContentStar.setRating(detail.evaluateDetail.courseStar);
+                viewTeacherStar.setRating(detail.evaluateDetail.teacherStar);
+                viewSuggest.setContentText(detail.evaluateDetail.comment);
+            } else {
+                if (!Constants.OFFLINE_STATUS_CLOSE_CLASS.equals(status)) {
                     ViewUtil.setViewVisibility(btnEvaluate, View.VISIBLE);
                     if (!Constants.OFFLINE_STATUS_END_CLASS.equals(status)) {
                         ViewUtil.setViewVisibility(txtRight, View.VISIBLE);
@@ -157,21 +163,44 @@ public class StudentDetailActivity extends BaseActivity {
                 }
             }
         }
-        /*if (isSign && !isEvaluate && !Constants.OFFLINE_STATUS_CLOSE_CLASS.equals(status)) {
-            ViewUtil.setViewVisibility(btnEvaluate, View.VISIBLE);
-            if (!Constants.OFFLINE_STATUS_END_CLASS.equals(status)) {
-                ViewUtil.setViewVisibility(txtRight, View.VISIBLE);
-            }
+    }
+
+    //获取课程状态对应的文本
+    public String getTextByStatus(String status, boolean isSign) {
+        String text = "";
+        if (Constants.OFFLINE_STATUS_WAITING_CLASS.equals(status)) {
+            text = "未开始";
+        } else if (Constants.OFFLINE_STATUS_IN_CLASS.equals(status)) {
+            text = "进行中";
+        } else if (Constants.OFFLINE_STATUS_END_CLASS.equals(status)) {
+            text = "已结束";
+        } else if (Constants.OFFLINE_STATUS_CLOSE_CLASS.equals(status)) {
+            text = "已关闭";
         }
-        ViewUtil.setViewVisibility(viewSignTime, isSign ? View.VISIBLE : View.GONE);
-        ViewUtil.setViewVisibility(layoutEvaluate, isEvaluate ? View.VISIBLE : View.GONE);*/
+        return text += "-" + (isSign ? "已签到" : "未签到");
+    }
+
+    //初始化讲师弹框
+    private void initPopupWindow() {
+        popupWindow = new PopupWindow(this);
+        viewInfo = new TeacherInfoView(this);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(null);
+        popupWindow.setContentView(viewInfo);
+        viewInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
     }
 
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         if (requestCode == 0) {
-            detail = (ResultStudentDetail) result;
+            detail = ((ResultStudentDetail) result).data;
             initData();
         } else if (requestCode == 1) {
             toast(result.getResponseMsg());
@@ -179,14 +208,16 @@ public class StudentDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_teacher, R.id.txt_phone})
+    @OnClick({R.id.img_teacher, R.id.txt_phone, R.id.btn_evaluate})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_teacher:
-                // TODO: 2017/6/2  讲师信息
-                toast("讲师信息");
+                popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0);
                 break;
             case R.id.txt_phone:
+                break;
+            case R.id.btn_evaluate:
+                EvaluateEditActivity.startAction(this, courseCode, planCode);
                 break;
         }
     }

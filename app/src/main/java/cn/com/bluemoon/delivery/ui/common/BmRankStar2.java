@@ -133,6 +133,8 @@ public class BmRankStar2 extends LinearLayout {
 
     public BmRankStar2 setRating(int rating) {
         this.rating = rating;
+        ratingBar.setNumStars(rating);
+        ratingBar.setRating(rating);
         return this;
     }
 

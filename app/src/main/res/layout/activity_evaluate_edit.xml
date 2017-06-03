@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    android:id="@+id/activity_evaluate_edit"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusableInTouchMode="true"
+            android:focusable="true"
+            android:orientation="vertical">
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/view_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_name"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/view_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_evaluate_time"
+            />
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/view_teacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_evaluate_teacher"
+            />
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/page_bg_f2"
+                android:text="@string/offline_evaluate_content"
+                android:textColor="@color/text_grep"
+                android:textSize="@dimen/text_size_12"/>
+            <cn.com.bluemoon.delivery.ui.common.BmRankStar1
+                android:id="@+id/view_star_content"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rank_star1_titleText="@string/offline_evaluate_teach_content"/>
+            <cn.com.bluemoon.delivery.ui.common.BmRankStar1
+                android:id="@+id/view_star_teacher"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:rank_star1_titleText="@string/offline_evaluate_teach"/>
+            <cn.com.bluemoon.delivery.ui.common.BMFieldParagraphView
+                android:id="@+id/view_suggest"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:field_hint="@string/offline_evaluate_hint"
+                app:field_title="@string/offline_evaluate_suggest"
+            />
+
+            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View
+                android:id="@+id/btn_submit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:btn_enable="false"
+                app:btn_text="@string/btn_submit_space"
+
+
+            />
+        </LinearLayout>
+    </ScrollView>
+
+
+</FrameLayout>

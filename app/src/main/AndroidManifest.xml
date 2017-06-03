@@ -841,6 +841,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
         </activity>
+        <activity
+            android:name=".module.offline.EvaluateEditActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
     </application>
 
 </manifest>
