@@ -6,6 +6,7 @@ import android.view.View;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
+import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherAndStudentList;
 import cn.com.bluemoon.delivery.module.offline.adapter.OfflineAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -22,8 +23,9 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
     }
 
     public static void actionStart(Context context, String status) {
-        actionStart(context,status,MyCoursesActivity.class);
+        actionStart(context, status, MyCoursesActivity.class);
     }
+
     @Override
     protected void requestListData(long time) {
         OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(0, ResultTeacherAndStudentList.class));
@@ -41,6 +43,23 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-
+        if (item instanceof CurriculumsTable && view.getTag(R.id.tag_type) != null) {
+            int type = (int) view.getTag(R.id.tag_type);
+            CurriculumsTable curriculumsTable = (CurriculumsTable) item;
+            switch (type) {
+                case OfflineAdapter.TO_NEXT_DETAILS:
+                    toast("进入详情");
+                    break;
+                case OfflineAdapter.TO_NEXT_EVALUATE:
+                    toast("进入评价");
+                    break;
+                case OfflineAdapter.REQUEST_START:
+                    toast("开始上课");
+                    break;
+                case OfflineAdapter.REQUEST_END:
+                    toast("结束上课");
+                    break;
+            }
+        }
     }
 }

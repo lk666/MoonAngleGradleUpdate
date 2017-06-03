@@ -60,6 +60,7 @@ android {
             buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "SHARE_TO_SHORT", "\"http://192.168.236.3:8085/%s\""
+            buildConfigField "String", "OFFLINE_URL", "\"http://angelapi.bluemoon.com.cn:8882/training-web//%s\""
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
