@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 
 import cn.com.bluemoon.delivery.R;
@@ -15,28 +14,28 @@ import cn.com.bluemoon.delivery.utils.Constants;
  * Created by tangqiwei on 2017/6/3.
  */
 
-public class MyCoursesActivity extends OfflineListBaseActivity {
+public class MyTrainActivity extends OfflineListBaseActivity {
 
     public static void actionStart(Context context) {
         actionStart(context, Constants.OFFLINE_STATUS_WAITING_CLASS);
     }
 
     public static void actionStart(Context context, String status) {
-        actionStart(context,status,MyCoursesActivity.class);
+        actionStart(context,status,MyTrainActivity.class);
     }
     @Override
     protected void requestListData(long time) {
-        OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(0, ResultTeacherAndStudentList.class));
+        OffLineApi.studentTrainlist(getToken(), time, getStatus(), getNewHandler(0, ResultTeacherAndStudentList.class));
     }
 
     @Override
     protected String getTeacherOrStudent() {
-        return OfflineAdapter.LIST_TEACHER;
+        return OfflineAdapter.LIST_STUDENTS;
     }
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.offline_my_train);
+        return getString(R.string.offline_my_courses);
     }
 
     @Override

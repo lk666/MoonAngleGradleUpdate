@@ -1,19 +1,25 @@
 package cn.com.bluemoon.delivery.app.api;
 
+import android.content.Context;
+
+import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.AssignData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.CancelData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.CourseListData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.EvaluateData;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.ListNumData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.SignDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.StartOrEndCourseData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TaecherGetEvaluateDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateStudentListData;
+import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 
 /**
  * Created by bm on 2017/5/25.
@@ -21,6 +27,26 @@ import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateStu
 
 public class OffLineApi extends DeliveryApi {
 
+
+    /**
+     * 提交http请求
+     *
+     * @param params  参数列表
+     * @param subUrl  请求的url子部
+     * @param handler 回调
+     */
+    protected static void postRequest(Map<String, Object> params, String subUrl,
+                                      AsyncHttpResponseHandler handler) {
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
+
+        Context context = AppContext.getInstance();
+        if (handler instanceof WithContextTextHttpResponseHandler) {
+            context = ((WithContextTextHttpResponseHandler) handler).getContext();
+        }
+
+        ApiHttpClient.postOffline(context, url, jsonString, handler);
+    }
     /**
      * 1.1取消签到
      *
@@ -72,7 +98,7 @@ public class OffLineApi extends DeliveryApi {
      * @param status
      * @param handler
      */
-    public static void list(String token, long date, String status, AsyncHttpResponseHandler
+    public static void studentTrainlist(String token, long date, String status, AsyncHttpResponseHandler
             handler) {
         if (null == token || null == status) {
             onError(handler);
@@ -291,7 +317,7 @@ public class OffLineApi extends DeliveryApi {
      */
     public static void teacherCourseList(String token, long date, String status, AsyncHttpResponseHandler
             handler) {
-        if (null == token || date<=0 || null == status) {
+        if (null == token  || null == status) {
             onError(handler);
             return;
         }
@@ -340,5 +366,21 @@ public class OffLineApi extends DeliveryApi {
         params.put(TOKEN, token);
         params.put("data", new StartOrEndCourseData(courseCode,planCode));
         postRequest(params, "course/teacher/evaluate/num%s", handler);
+    }
+    /**
+     * 2.9 获取列表角标
+     * @param type
+     * @param handler
+     */
+    public static void listNum(String token,String type,AsyncHttpResponseHandler
+            handler) {
+        if (null==token||null==type) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", new ListNumData(type));
+        postRequest(params, "common/list/num%s", handler);
     }
 }

@@ -204,4 +204,7 @@ public class DateSelectDialog extends Dialog {
                 });
     }
 
+    public ExtraTextNumberWheelView getNwvDate() {
+        return nwvDate;
+    }
 }

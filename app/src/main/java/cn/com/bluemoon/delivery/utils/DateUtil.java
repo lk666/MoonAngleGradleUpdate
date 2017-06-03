@@ -50,6 +50,10 @@ public class DateUtil extends LibDateUtil {
         return getTime(t, "yyyy-MM-dd HH:mm");
     }
 
+    public static String getTimeToYM(long t) {
+        return getTime(t, "yyyy-MM");
+    }
+
     /**
      * 将当前时间戳转化为字符串
      *
