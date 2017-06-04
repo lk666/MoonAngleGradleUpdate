@@ -38,7 +38,7 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.offline_my_train);
+        return getString(R.string.offline_my_courses);
     }
 
     @Override
