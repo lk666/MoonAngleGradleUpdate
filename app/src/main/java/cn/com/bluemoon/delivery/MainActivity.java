@@ -831,7 +831,7 @@ public class MainActivity extends SlidingActivity {
             }
             //我的培训
             else if (compare(MenuCode.offline_student, menuCode)) {
-                MyTrainActivity.actionStart(main);
+                ViewUtil.showActivity(main,StudentActivity.class);
             }
             //我的授课
             else if (compare(MenuCode.offline_teacher, menuCode)) {

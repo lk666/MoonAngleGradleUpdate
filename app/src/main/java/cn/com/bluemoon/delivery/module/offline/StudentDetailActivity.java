@@ -2,15 +2,16 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -21,6 +22,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.TeacherInfoView;
 import cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View;
+import cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View;
 import cn.com.bluemoon.delivery.ui.common.BmCellParagraphView;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
 import cn.com.bluemoon.delivery.ui.common.BmRankStar2;
@@ -28,7 +30,8 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
-public class StudentDetailActivity extends BaseActivity {
+public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1View
+        .FieldArrowListener {
 
     @Bind(R.id.view_name)
     BmCellTextView viewName;
@@ -40,10 +43,6 @@ public class StudentDetailActivity extends BaseActivity {
     BmCellTextView viewCode;
     @Bind(R.id.view_theme)
     BmCellTextView viewTheme;
-    @Bind(R.id.view_teacher)
-    BmCellTextView viewTeacher;
-    @Bind(R.id.img_teacher)
-    ImageView imgTeacher;
     @Bind(R.id.view_contacts)
     BmCellTextView viewContacts;
     @Bind(R.id.txt_phone)
@@ -66,6 +65,8 @@ public class StudentDetailActivity extends BaseActivity {
     BmCellParagraphView viewSuggest;
     @Bind(R.id.layout_evaluate)
     LinearLayout layoutEvaluate;
+    @Bind(R.id.view_teacher)
+    BMFieldArrow1View viewTeacher;
     private TextView txtRight;
 
     private PopupWindow popupWindow;
@@ -116,6 +117,7 @@ public class StudentDetailActivity extends BaseActivity {
         showWaitDialog();
         OffLineApi.courseDetail(getToken(), courseCode, planCode, getNewHandler(0,
                 ResultSignDetail.class));
+        viewTeacher.setListener(this);
         initPopupWindow();
     }
 
@@ -131,7 +133,7 @@ public class StudentDetailActivity extends BaseActivity {
         viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
         viewCode.setContentText(detail.courseCode);
         viewTheme.setContentText(detail.topic);
-        viewTeacher.setContentText(detail.teacherName);
+        viewTeacher.setContent(detail.teacherName);
         viewContacts.setContentText(detail.contactsName);
         txtPhone.setText(detail.contactsPhone);
         viewRoom.setContentText(detail.room);
@@ -208,12 +210,9 @@ public class StudentDetailActivity extends BaseActivity {
 
     }
 
-    @OnClick({R.id.img_teacher, R.id.txt_phone, R.id.btn_evaluate})
+    @OnClick({R.id.txt_phone, R.id.btn_evaluate})
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.img_teacher:
-                popupWindow.showAtLocation(view, Gravity.NO_GRAVITY, 0, 0);
-                break;
             case R.id.txt_phone:
                 break;
             case R.id.btn_evaluate:
@@ -222,4 +221,20 @@ public class StudentDetailActivity extends BaseActivity {
         }
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
+
+    @Override
+    public void onClickLayout() {
+
+    }
+
+    @Override
+    public void onClickRight() {
+        popupWindow.showAtLocation(viewTeacher, Gravity.NO_GRAVITY, 0, 0);
+    }
 }
