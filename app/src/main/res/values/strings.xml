@@ -1488,6 +1488,8 @@
     <string name="offline_type_address">地址：</string>
     <string name="offline_type_grade">分数：</string>
     <string name="offline_type_evaluate">评价：</string>
+    <string name="offline_click_evaluate">评价</string>
+    <string name="offline_click_compile_evaluate">编辑评价</string>
     <string name="offline_type_train_classroom">培训教室：</string>
     <string name="offline_type_train_address">培训地址：</string>
     <string name="offline_type_willnum">报名人数：</string>
