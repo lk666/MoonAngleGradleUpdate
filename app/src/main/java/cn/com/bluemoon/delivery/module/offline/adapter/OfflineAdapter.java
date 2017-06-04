@@ -11,6 +11,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.offline.OfflineTrainingItemView;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
@@ -67,6 +68,9 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                 }
                 if(positionMode==LIST_END){
                     itemView.setTxtSignInTime(DateUtil.getTimeToYMDHM(curriculumsTable.signTime),false);
+                    if(curriculumsTable.signTime>0&&!curriculumsTable.status.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)){
+                        itemView.setBtnBtn(this,"我要评价",TO_NEXT_EVALUATE,position);
+                    }
                 }else {
                     itemView.setTxtSignInTime(DateUtil.getTimeToYMDHM(curriculumsTable.signTime),true);
                 }
