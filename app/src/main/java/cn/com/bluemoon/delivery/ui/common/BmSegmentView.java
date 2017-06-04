@@ -136,7 +136,7 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
     private void init() {
         parentGroup = new LinearLayout(getContext());
         HorizontalScrollView.LayoutParams params=new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, height);
-        params.bottomMargin=dip2px(6);
+        params.bottomMargin= (int) (translationZ*3);
         parentGroup.setLayoutParams(params);
         parentGroup.setOrientation(LinearLayout.HORIZONTAL);
         parentGroup.setBackgroundColor(colorBg);
@@ -179,6 +179,13 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         changeTab(position);
     }
 
+    public int getCurrentPosition(){
+        if(getTag()!=null){
+            return (int) getTag();
+        }else{
+            return 0;
+        }
+    }
     /**
      * 切换tab
      * @param position

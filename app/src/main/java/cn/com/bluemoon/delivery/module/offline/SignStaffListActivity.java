@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.view.View;
 
 import java.util.List;
+
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignStaffList;
@@ -31,6 +33,11 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
         intent.putExtra("courseCode",courseCode);
         intent.putExtra("planCode",planCode);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.offline_course_detail_sign_staff);
     }
 
     @Override

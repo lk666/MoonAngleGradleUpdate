@@ -1,11 +1,13 @@
 package cn.com.bluemoon.delivery.app.api.model.offline;
 
+import java.io.Serializable;
+
 /**
  * 课程列表-单个实体
  * Created by tangqiwei on 2017/6/1.
  */
 
-public class CurriculumsTable {
+public class CurriculumsTable implements Serializable{
     public String address;//地址
     public String courseCode;//课程编号
     public String courseName;//课程名称
