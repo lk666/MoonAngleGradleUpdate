@@ -107,6 +107,7 @@ public class BMFieldArrow1View extends RelativeLayout implements View.OnClickLis
 
     //公共方法
 
+    //设置点击监听，默认不实现右图标点击事件
     public void setListener(FieldArrowListener listener) {
         this.listener = listener;
     }
@@ -182,7 +183,7 @@ public class BMFieldArrow1View extends RelativeLayout implements View.OnClickLis
         return txtContent.getText().toString();
     }
 
-    //设置右图标点击事件
+    //设置右图标是否可点击事件
     public void setRightClickable(boolean clickable) {
         imgRight.setClickable(clickable);
         imgRight.setOnClickListener(clickable ? this : null);
@@ -202,10 +203,10 @@ public class BMFieldArrow1View extends RelativeLayout implements View.OnClickLis
     }
 
     public interface FieldArrowListener {
-        //点击整个控件相应事件
+        //点击整个控件响应事件
         void onClickLayout();
 
-        //点击有图标相应事件
+        //点击有图标响应事件
         void onClickRight();
     }
 }

@@ -242,6 +242,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
             case Constants.OFFLINE_STATUS_IN_CLASS:
                 return OfflineAdapter.LIST_ING;
             case Constants.OFFLINE_STATUS_END_CLASS:
+            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
                 return OfflineAdapter.LIST_END;
             default:
                 return 0;
@@ -265,7 +266,11 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.llayout_time_selector:
-                dialog = new DateSelectDialog(this, "请选择年份月份", 0, System.currentTimeMillis(), curSelectorDate, this);
+                long endTime = System.currentTimeMillis();
+                if(endTime<curSelectorDate){
+                    endTime = curSelectorDate;
+                }
+                dialog = new DateSelectDialog(this, "请选择年份月份", 0, endTime, curSelectorDate, this);
                 dialog.getNwvDate().setVisibility(View.GONE);
                 dialog.show();
                 break;

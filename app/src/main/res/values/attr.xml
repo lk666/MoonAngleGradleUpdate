@@ -140,7 +140,9 @@
         <attr name="field_arrow_line_color" format="color"/>
         <attr name="field_arrow_line_padding_left" format="dimension"/>
         <attr name="field_arrow_line_padding_right" format="dimension"/>
+        //设置右图标
         <attr name="field_arrow_img" format="reference"/>
+        //设置右图标是否可点击
         <attr name="field_arrow_img_clickable" format="boolean"/>
     </declare-styleable>
 

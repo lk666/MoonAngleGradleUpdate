@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:background="@color/page_bg_f2"
-    android:layout_height="match_parent">
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2">
     <cn.com.bluemoon.delivery.ui.common.BmSegmentView
         android:id="@+id/segment_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
-        xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/listview_offline"
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/segment_tab"
         android:layout_marginTop="6dp"
-        android:layout_height="0dp"
-        android:layout_weight="1"
         android:divider="@null"
         android:dividerHeight="0dp"
         android:fadingEdge="none"
@@ -22,5 +23,24 @@
         ptr:ptrHeaderBackground="@color/page_bg_f2"
         ptr:ptrHeaderSubTextColor="@color/text_black"
         ptr:ptrHeaderTextColor="@color/text_black"
-        ptr:ptrMode="both" />
-</LinearLayout>
+        ptr:ptrMode="both"/>
+
+    <Button
+        android:id="@+id/btn_sign"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="12dp"
+        android:layout_marginRight="8dp"
+        android:background="@drawable/btn_oval_red"
+        android:drawableTop="@mipmap/ic_sign"
+        android:gravity="center"
+        android:padding="8dp"
+        android:text="@string/btn_sign"
+        android:textColor="@color/white"
+        android:textSize="12dp"
+        android:translationZ="3dp"
+        android:visibility="gone"/>
+
+</RelativeLayout>

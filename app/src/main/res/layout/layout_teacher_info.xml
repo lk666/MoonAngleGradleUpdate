@@ -21,6 +21,7 @@
             android:layout_height="110dp"
             android:layout_marginBottom="24dp"
             android:layout_marginTop="63dp"
+            android:background="@drawable/bg_oval_white"
             android:scaleType="fitCenter"
             android:src="@mipmap/personal_default"
             android:translationZ="3dp"/>
