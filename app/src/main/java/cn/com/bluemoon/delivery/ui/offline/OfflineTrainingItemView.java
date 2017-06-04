@@ -17,6 +17,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View;
 
 /**
  * Created by tangqiwei on 2017/6/1.
@@ -65,7 +66,7 @@ public class OfflineTrainingItemView extends FrameLayout {
     @Bind(R.id.llayout_train_address)
     LinearLayout llayoutTrainAddress;
     @Bind(R.id.btn_btn)
-    Button btnBtn;
+    BMAngleBtn2View btnBtn;
     @Bind(R.id.txt_btn)
     TextView txtBtn;
     @Bind(R.id.llayout_btn)
@@ -231,7 +232,7 @@ public class OfflineTrainingItemView extends FrameLayout {
     public void setBtnBtn(OnClickListener clickListener,String textBtn,Integer typeTag,Integer positionTag) {
         if(clickListener!=null){
             llayoutBtn.setVisibility(View.VISIBLE);
-            llayoutBtn.setOnClickListener(clickListener);
+            btnBtn.setOnClickListener(clickListener);
             btnBtn.setText(textBtn);
             btnBtn.setTag(R.id.tag_position,positionTag);
             btnBtn.setTag(R.id.tag_type,typeTag);
@@ -244,9 +245,9 @@ public class OfflineTrainingItemView extends FrameLayout {
         if(clickListener!=null){
             llayoutBtn.setVisibility(View.VISIBLE);
             txtBtn.setVisibility(View.VISIBLE);
-            llayoutBtn.setOnClickListener(clickListener);
+            txtBtn.setOnClickListener(clickListener);
             txtBtn.setText(textBtn);
-            btnBtn.setTag(R.id.tag_position,positionTag);
+            txtBtn.setTag(R.id.tag_position,positionTag);
             txtBtn.setTag(R.id.tag_type,typeTag);
         }else{
             llayoutBtn.setVisibility(View.GONE);

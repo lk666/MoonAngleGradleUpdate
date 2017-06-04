@@ -9,6 +9,7 @@
     android:layout_marginRight="10dp"
     android:layout_marginBottom="12dp"
     android:id="@+id/llayout_parent"
+    android:descendantFocusability="afterDescendants"
     android:translationZ="2dp">
 
     <LinearLayout
@@ -216,6 +217,7 @@
             <TextView
                 android:visibility="gone"
                 android:id="@+id/txt_btn"
+                android:clickable="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
