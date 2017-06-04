@@ -104,7 +104,7 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldParagra
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
-        // TODO: 2017/6/3  
+        // TODO: 2017/6/3
 //        showWaitDialog();
 //        OffLineApi.evaluate(getToken(), viewSuggest.getContent(), courseCode, viewStarContent
 //                .getRating(), planCode, viewStarTeacher.getRating(), getNewHandler(0, ResultBase

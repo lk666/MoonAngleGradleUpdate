@@ -127,6 +127,23 @@
         </attr>
     </declare-styleable>
 
+    <!--通用组件：单行选择-->
+    <declare-styleable name="BMFieldArrow1View">
+        <attr name="field_arrow_title" format="string|reference"/>
+        <attr name="field_arrow_title_color" format="color"/>
+        <attr name="field_arrow_title_size" format="dimension"/>
+        <attr name="field_arrow_hint" format="string|reference"/>
+        <attr name="field_arrow_hint_color" format="color"/>
+        <attr name="field_arrow_content" format="string|reference"/>
+        <attr name="field_arrow_content_color" format="color"/>
+        <attr name="field_arrow_content_size" format="dimension"/>
+        <attr name="field_arrow_line_color" format="color"/>
+        <attr name="field_arrow_line_padding_left" format="dimension"/>
+        <attr name="field_arrow_line_padding_right" format="dimension"/>
+        <attr name="field_arrow_img" format="reference"/>
+        <attr name="field_arrow_img_clickable" format="boolean"/>
+    </declare-styleable>
+
     <!--通用组件：单选item-->
     <declare-styleable name="BMRadioItemView">
         <attr name="radio_item_drawable_normal" format="reference"/>
