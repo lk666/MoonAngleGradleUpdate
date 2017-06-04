@@ -195,8 +195,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
      * @param position
      */
     protected void checkTab(int position) {
-        segmentTab.checkUIChange(position);
-        checkListener(position);
+        segmentTab.changeTab(position);
     }
 
     /**

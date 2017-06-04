@@ -176,9 +176,21 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
     @Override
     public void onClick(View v) {
         int position = (int) v.getTag();
-        checkUIChange(position);
-        if (checkCallBack != null) {
-            checkCallBack.checkListener(position);
+        changeTab(position);
+    }
+
+    /**
+     * 切换tab
+     * @param position
+     */
+    public void changeTab(int position){
+        int CurPosition = (int) getTag();
+        if(CurPosition!=position){
+            setTag(position);
+            checkUIChange(position);
+            if (checkCallBack != null) {
+                checkCallBack.checkListener(position);
+            }
         }
     }
 
@@ -228,8 +240,10 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
         for (int i = 0; i < textList.size(); i++) {
             parentGroup.addView(getTabLayout(width, i));
         }
-        if (textList.size() > 0)
+        if (textList.size() > 0){
+            setTag(0);
             checkUIChange(0);
+        }
     }
 
     private RelativeLayout getTabLayout(int width, int position) {

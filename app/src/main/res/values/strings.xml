@@ -1501,10 +1501,14 @@
     <string name="offline_course_detail_name">课程名称</string>
     <string name="offline_course_detail_state">课程状态</string>
     <string name="offline_course_detail_time">培训时间</string>
+    <string name="offline_course_detail_actual_class_time">实际上课时间</string>
+    <string name="offline_course_detail_actual_finish_time">实际结束时间</string>
     <string name="offline_course_detail_sign_time">签到时间</string>
+    <string name="offline_course_detail_sign_staff">签到人员</string>
     <string name="offline_course_detail_info">培训安排信息</string>
     <string name="offline_course_detail_code">课程编码</string>
-    <string name="offline_course_detail_theme">培训主题</string>
+    <string name="offline_course_detail_theme">培训主题</string>>
+    <string name="offline_course_detail_number_participants">报名人数</string>
     <string name="offline_course_detail_contacts">联系人</string>
     <string name="offline_course_detail_room">培训教室</string>
     <string name="offline_course_detail_address">培训地址</string>
@@ -1528,6 +1532,10 @@
     <string name="offline_total_courses">总课程数：</string>
     <string name="offline_total_duration">总时长：</string>
     <string name="offline_detail_check_teacher">认证讲师</string>
+    <string name="offline_course_teacher_state_no_start">未开始</string>
+    <string name="offline_course_teacher_state_ing">进行中</string>
+    <string name="offline_course_teacher_state_finish">已结束</string>
+    <string name="offline_course_teacher_state_close">已关闭</string>
     <string name="btn_sign">签到</string>
 
 </resources>
