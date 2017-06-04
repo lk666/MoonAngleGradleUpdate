@@ -851,6 +851,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
         </activity>
+        <activity
+            android:name=".module.offline.SignStaffListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
     </application>
 
 </manifest>

@@ -267,15 +267,13 @@ public class OffLineApi extends DeliveryApi {
      * 2.4 教师评价学员列表
      * @param token
      * @param courseCode
-     * @param isEvaluated
-     * @param isSign
      * @param pageSize
      * @param planCode
      * @param timeStamp
      * @param type
      * @param handler
      */
-    public static void teacherEvaluateStudentList(String token, String courseCode, int isEvaluated, int isSign, int pageSize, String planCode, long timeStamp, int type, AsyncHttpResponseHandler
+    public static void teacherEvaluateStudentList(String token, String courseCode, int pageSize, String planCode, long timeStamp, int type, AsyncHttpResponseHandler
             handler) {
         if (null == token || null == courseCode || pageSize<=0||null==planCode||(type!=1&&type!=2&&type!=3)) {
             onError(handler);
@@ -284,7 +282,7 @@ public class OffLineApi extends DeliveryApi {
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherEvaluateStudentListData(courseCode, isEvaluated, isSign, pageSize, planCode, timeStamp, type));
+        params.put("data", new TeacherEvaluateStudentListData(courseCode, pageSize, planCode, timeStamp, type));
         postRequest(params, "course/teacher/student/list%s", handler);
     }
 
