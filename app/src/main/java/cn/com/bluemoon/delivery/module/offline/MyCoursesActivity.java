@@ -48,7 +48,7 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
             CurriculumsTable curriculumsTable = (CurriculumsTable) item;
             switch (type) {
                 case OfflineAdapter.TO_NEXT_DETAILS:
-                    toast("进入详情");
+                    TeacherDetailActivity.startAction(this,curriculumsTable.courseCode,curriculumsTable.planCode);
                     break;
                 case OfflineAdapter.TO_NEXT_EVALUATE:
                     toast("进入评价");

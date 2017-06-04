@@ -29,18 +29,21 @@
 
         <cn.com.bluemoon.delivery.ui.common.BmCellTextView
             android:id="@+id/ctxt_course_actual_class_time"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cell_text_txt_title="@string/offline_course_detail_actual_class_time" />
 
         <cn.com.bluemoon.delivery.ui.common.BmCellTextView
             android:id="@+id/ctxt_course_actual_finish_time"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cell_text_txt_title="@string/offline_course_detail_actual_finish_time" />
 
         <cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View
             android:id="@+id/far_sign_staff"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:field_arrow_title="@string/offline_course_detail_sign_staff" />

@@ -57,7 +57,7 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
 
         CurriculumsTable curriculumsTable= (CurriculumsTable) getItem(position);
 
-        itemView.setTxtCourseTitle(curriculumsTable.courseName).setTxtYtd(DateUtil.getTime(curriculumsTable.startTime)).setTxtTimeQuantum(DateUtil.getTimeToHours(curriculumsTable.startTime)+"-"+DateUtil.getTimeToHours(curriculumsTable.endTime));
+        itemView.setTxtCourseTitle(curriculumsTable.courseName).setTxtYtd(DateUtil.getTimes(curriculumsTable.startTime,curriculumsTable.endTime));
 
         itemView.setLlayoutParent(isNew,this,TO_NEXT_DETAILS,position);
 

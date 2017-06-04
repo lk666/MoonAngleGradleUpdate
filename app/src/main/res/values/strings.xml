@@ -1532,5 +1532,9 @@
     <string name="offline_total_courses">总课程数：</string>
     <string name="offline_total_duration">总时长：</string>
     <string name="offline_detail_check_teacher">认证讲师</string>
+    <string name="offline_course_teacher_state_no_start">未开始</string>
+    <string name="offline_course_teacher_state_ing">进行中</string>
+    <string name="offline_course_teacher_state_finish">已结束</string>
+    <string name="offline_course_teacher_state_close">已关闭</string>
 
 </resources>

@@ -1,23 +1,30 @@
 package cn.com.bluemoon.delivery.module.offline;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View;
 import cn.com.bluemoon.delivery.ui.common.BmCellParagraphView;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
+import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 
 /**
  * 教师 课程详情
  * Created by tangqiwei on 2017/6/4.
  */
 
-public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1View.FieldArrowListener {
+public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1View.FieldArrowListener, View.OnClickListener {
 
     @Bind(R.id.ctxt_course_name)
     BmCellTextView ctxtCourseName;
@@ -50,6 +57,22 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
     @Bind(R.id.ctxt_course_purpose)
     BmCellParagraphView ctxtCoursePurpose;
 
+    private String courseCode;
+    private String planCode;
+
+    public static void startAction(Context context, String courseCode, String planCode) {
+        Intent intent = new Intent(context, TeacherDetailActivity.class);
+        intent.putExtra("courseCode", courseCode);
+        intent.putExtra("planCode", planCode);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        courseCode = getIntent().getStringExtra("courseCode");
+        planCode = getIntent().getStringExtra("planCode");
+    }
+
     @Override
     protected String getTitleString() {
         return getString(R.string.offline_course_detail_title);
@@ -62,17 +85,96 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
 
     @Override
     public void initView() {
-
+        showWaitDialog();
+        farSignStaff.setOnClickListener(this);
     }
 
     @Override
     public void initData() {
+        OffLineApi.teacherCourseDetail(getToken(), courseCode, planCode, getNewHandler(0, ResultTeacherDetail.class));
+    }
 
+    /**
+     * 根据状态显示状态文本
+     *
+     * @param state
+     * @return
+     */
+    private String stateToString(String state) {
+        switch (state) {
+            case Constants.OFFLINE_STATUS_WAITING_CLASS:
+                return getString(R.string.offline_course_teacher_state_no_start);
+            case Constants.OFFLINE_STATUS_IN_CLASS:
+                return getString(R.string.offline_course_teacher_state_ing);
+            case Constants.OFFLINE_STATUS_END_CLASS:
+                return getString(R.string.offline_course_teacher_state_finish);
+            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
+                return getString(R.string.offline_course_teacher_state_close);
+            default:
+                return getString(R.string.offline_course_teacher_state_no_start);
+        }
+    }
+
+    /**
+     * 根据签到人话
+     *
+     * @param signNumber
+     * @param evaluateNumber
+     * @return
+     */
+    private String signAndEvaluateNumberToString(int signNumber, int evaluateNumber) {
+        signNumber = signNumber < 0 ? 0 : signNumber;
+        evaluateNumber = evaluateNumber < 0 ? 0 : evaluateNumber;
+        StringBuffer buffer = new StringBuffer();
+        if (signNumber >= 0) {
+            buffer.append("签到").append(signNumber).append("人");
+            if (evaluateNumber > 0) {
+                buffer.append("，已评价").append(evaluateNumber).append("人");
+            }
+        }
+        return buffer.toString();
+    }
+
+    public void initData(ResultTeacherDetail teacherDetail) {
+        ctxtCourseName.setContentText(teacherDetail.data.courseName);
+        ctxtCourseState.setContentText(stateToString(teacherDetail.data.status));
+        ctxtCourseTime.setContentText(DateUtil.getTimes(teacherDetail.data.startTime, teacherDetail.data.endTime));
+        if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
+            ctxtCourseActualClassTime.setVisibility(View.VISIBLE);
+            ctxtCourseActualClassTime.setContentText(DateUtil.getTimeToYMDHM(teacherDetail.data.realStartTime));
+        } else {
+            ctxtCourseActualClassTime.setVisibility(View.GONE);
+        }
+        if (teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_END_CLASS) || teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)) {
+            ctxtCourseActualFinishTime.setVisibility(View.VISIBLE);
+            ctxtCourseActualFinishTime.setContentText(DateUtil.getTimeToYMDHM(teacherDetail.data.realEndTime));
+        } else {
+            ctxtCourseActualFinishTime.setVisibility(View.GONE);
+        }
+        if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
+            farSignStaff.setVisibility(View.VISIBLE);
+            farSignStaff.setContent(signAndEvaluateNumberToString(teacherDetail.data.signNum,teacherDetail.data.evaluateNum));
+        }else{
+            farSignStaff.setVisibility(View.GONE);
+        }
+        ctxtCourseCode.setContentText(teacherDetail.data.courseCode);
+        ctxtCourseTheme.setContentText(teacherDetail.data.topic);
+        ctxtCourseNumberParticipants.setContentText(teacherDetail.data.enrollNum+"人");
+        ctxtContacts.setContentText(teacherDetail.data.contactsName);
+        txtPhone.setText(teacherDetail.data.contactsPhone);
+        ctxtCourseRoom.setContentText(teacherDetail.data.room);
+        ctxtCourseAddress.setContentText(teacherDetail.data.address);
+        ctxtCoursePurpose.setContentText(teacherDetail.data.purpose);
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
+        switch (requestCode) {
+            case 0:
+                ResultTeacherDetail teacherDetail = (ResultTeacherDetail) result;
+                initData(teacherDetail);
+                break;
+        }
     }
 
     @Override
@@ -82,6 +184,11 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
 
     @Override
     public void onClickRight() {
+
+    }
+
+    @Override
+    public void onClick(View v) {
 
     }
 }
