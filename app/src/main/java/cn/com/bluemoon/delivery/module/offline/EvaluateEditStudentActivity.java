@@ -90,7 +90,7 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         if(requestCode == 0){
-            detail = ((ResultEvaluateDetail)result).evaluateDetail;
+            detail = ((ResultEvaluateDetail)result).data;
             initData();
         }else if(requestCode == 1){
             toast(result.getResponseMsg());

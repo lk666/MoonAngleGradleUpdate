@@ -123,7 +123,9 @@ public class OfflineTrainingItemView extends FrameLayout {
         txtState.setEnabled(isRed);
         return this;
     }
-
+    public void setTxtStateIsShow(boolean isShow){
+        txtState.setVisibility(isShow?View.VISIBLE:View.GONE);
+    }
     /**
      * 设置年月日
      * @param ytd
