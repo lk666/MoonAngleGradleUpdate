@@ -13,6 +13,7 @@ import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View;
 import cn.com.bluemoon.delivery.ui.common.BmCellParagraphView;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
@@ -94,26 +95,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         OffLineApi.teacherCourseDetail(getToken(), courseCode, planCode, getNewHandler(0, ResultTeacherDetail.class));
     }
 
-    /**
-     * 根据状态显示状态文本
-     *
-     * @param state
-     * @return
-     */
-    private String stateToString(String state) {
-        switch (state) {
-            case Constants.OFFLINE_STATUS_WAITING_CLASS:
-                return getString(R.string.offline_course_teacher_state_no_start);
-            case Constants.OFFLINE_STATUS_IN_CLASS:
-                return getString(R.string.offline_course_teacher_state_ing);
-            case Constants.OFFLINE_STATUS_END_CLASS:
-                return getString(R.string.offline_course_teacher_state_finish);
-            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
-                return getString(R.string.offline_course_teacher_state_close);
-            default:
-                return getString(R.string.offline_course_teacher_state_no_start);
-        }
-    }
+
 
     /**
      * 根据签到人话
@@ -137,7 +119,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
 
     public void initData(ResultTeacherDetail teacherDetail) {
         ctxtCourseName.setContentText(teacherDetail.data.courseName);
-        ctxtCourseState.setContentText(stateToString(teacherDetail.data.status));
+        ctxtCourseState.setContentText(OfflineUtil.stateToString(teacherDetail.data.status));
         ctxtCourseTime.setContentText(DateUtil.getTimes(teacherDetail.data.startTime, teacherDetail.data.endTime));
         if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
             ctxtCourseActualClassTime.setVisibility(View.VISIBLE);

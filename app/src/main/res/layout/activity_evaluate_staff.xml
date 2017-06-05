@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:background="@color/page_bg_f2"
+    android:layout_height="match_parent">
+    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        android:id="@+id/ctxt_course_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_text_txt_title="@string/offline_course_detail_name" />
+
+    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        android:id="@+id/ctxt_course_state"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_text_txt_title="@string/offline_course_detail_state" />
+
+    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        android:id="@+id/ctxt_course_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_text_txt_title="@string/offline_course_detail_time" />
+
+    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        android:id="@+id/ctxt_sign_number"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_text_txt_title="@string/offline_signed_in_the_number_of" />
+
+    <cn.com.bluemoon.delivery.ui.common.BmSegmentView
+        android:id="@+id/segment_tab"
+        android:layout_marginTop="12dp"
+        android:layout_width="match_parent"
+        app:segmentview_textColorUnCheck="@color/text_black_light"
+        app:segmentview_textColorCheck="@color/text_blue_1fb8ff"
+        app:segmentview_colorBg="@color/white"
+        android:layout_height="wrap_content"/>
+
+    <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+        xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/ptrlv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@drawable/div_left_padding_16"
+        android:dividerHeight="0.5dp"
+        android:scrollbars="none"
+        ptr:ptrAnimationStyle="flip"
+        ptr:ptrHeaderSubTextColor="@color/text_black"
+        ptr:ptrHeaderTextColor="@color/text_black"
+        ptr:ptrMode="pullFromStart"/>
+</LinearLayout>

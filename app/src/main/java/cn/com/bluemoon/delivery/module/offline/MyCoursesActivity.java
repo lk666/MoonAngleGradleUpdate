@@ -6,6 +6,7 @@ import android.view.View;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherAndStudentList;
 import cn.com.bluemoon.delivery.module.offline.adapter.OfflineAdapter;
@@ -51,15 +52,30 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
                     TeacherDetailActivity.startAction(this,curriculumsTable.courseCode,curriculumsTable.planCode);
                     break;
                 case OfflineAdapter.TO_NEXT_EVALUATE:
-                    toast("进入评价");
+                    EvaluateStaffActivity.actionStart(this,curriculumsTable);
                     break;
                 case OfflineAdapter.REQUEST_START:
-                    toast("开始上课");
+                    showWaitDialog();
+                    OffLineApi.startCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(2, ResultBase.class));
                     break;
                 case OfflineAdapter.REQUEST_END:
-                    toast("结束上课");
+                    showWaitDialog();
+                    OffLineApi.endCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(3, ResultBase.class));
                     break;
             }
+        }
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        switch (requestCode) {
+            case 2:
+                requestListData(0);
+                break;
+            case 3:
+                requestListData(0);
+                break;
         }
     }
 }

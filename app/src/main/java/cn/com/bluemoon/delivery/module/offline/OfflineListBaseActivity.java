@@ -148,6 +148,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
             case 0:
+                hideWaitDialog();
                 ResultTeacherAndStudentList list = (ResultTeacherAndStudentList) result;
                 listviewOffline.onRefreshComplete();
                 adapter.setList(list.data.courses, stateTogPosition(status));
@@ -176,7 +177,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     }
 
     /**
-     * 点击切换
+     * 切换回调
      *
      * @param position
      */

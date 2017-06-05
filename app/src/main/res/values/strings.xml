@@ -1486,10 +1486,15 @@
     <string name="offline_type_lecturer">讲师：</string>
     <string name="offline_type_classroom">教室：</string>
     <string name="offline_type_address">地址：</string>
+    <string name="offline_type_grade">分数：</string>
+    <string name="offline_type_evaluate">评价：</string>
+    <string name="offline_click_evaluate">评价</string>
+    <string name="offline_click_compile_evaluate">编辑评价</string>
     <string name="offline_type_train_classroom">培训教室：</string>
     <string name="offline_type_train_address">培训地址：</string>
     <string name="offline_type_willnum">报名人数：</string>
     <string name="offline_type_signed_in_the_number_of">签到人数：</string>
+    <string name="offline_signed_in_the_number_of">签到人数</string>
     <string name="offline_btn_begin_training">开始上课</string>
     <string name="offline_btn_end_class">结束上课</string>
     <string name="offline_btn_evaluation_student">评价学员</string>
@@ -1539,6 +1544,8 @@
     <string name="offline_course_teacher_state_finish">已结束</string>
     <string name="offline_course_teacher_state_close">已关闭</string>
     <string name="btn_sign">签到</string>
+    <string name="offline_un_evaluate">未评价</string>
+    <string name="offline_yet_evaluate">已评价</string>
     <string name="offline_evaluate_teacher_score_hint">填写分数，满分是100分哦！</string>
     <string name="offline_evaluate_score">分数</string>
     <string name="offline_signed">已签到</string>
