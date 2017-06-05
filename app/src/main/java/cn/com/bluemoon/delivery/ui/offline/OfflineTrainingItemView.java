@@ -18,6 +18,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View;
+import cn.com.bluemoon.delivery.utils.DateUtil;
 
 /**
  * Created by tangqiwei on 2017/6/1.
@@ -145,10 +146,12 @@ public class OfflineTrainingItemView extends FrameLayout {
      * 签到时间
      * @param signInTime
      */
-    public OfflineTrainingItemView setTxtSignInTime(String signInTime,boolean isRed) {
-        llayoutSignInTime.setVisibility(TextUtils.isEmpty(signInTime)?View.GONE:View.VISIBLE);
-        txtSignInTime.setText(signInTime);
-        return setTxtState(TextUtils.isEmpty(signInTime)?"未签到":"已签到",isRed);
+    public OfflineTrainingItemView setTxtSignInTime(long signInTime,boolean isRed) {
+        llayoutSignInTime.setVisibility(signInTime<=0?View.GONE:View.VISIBLE);
+        if(signInTime>0){
+            txtSignInTime.setText(DateUtil.getTimeToYMDHM(signInTime));
+        }
+        return setTxtState(signInTime<=0?"未签到":"已签到",isRed);
     }
 
     /**

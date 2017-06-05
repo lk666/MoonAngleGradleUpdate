@@ -11,6 +11,7 @@ import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
@@ -25,7 +26,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
  * Created by tangqiwei on 2017/6/4.
  */
 
-public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1View.FieldArrowListener, View.OnClickListener {
+public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1View.FieldArrowListener{
 
     @Bind(R.id.ctxt_course_name)
     BmCellTextView ctxtCourseName;
@@ -61,6 +62,8 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
     private String courseCode;
     private String planCode;
 
+    private ResultTeacherDetail teacherDetail;
+
     public static void startAction(Context context, String courseCode, String planCode) {
         Intent intent = new Intent(context, TeacherDetailActivity.class);
         intent.putExtra("courseCode", courseCode);
@@ -87,7 +90,6 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
     @Override
     public void initView() {
         showWaitDialog();
-        farSignStaff.setOnClickListener(this);
     }
 
     @Override
@@ -117,7 +119,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         return buffer.toString();
     }
 
-    public void initData(ResultTeacherDetail teacherDetail) {
+    public void initNetWordData() {
         ctxtCourseName.setContentText(teacherDetail.data.courseName);
         ctxtCourseState.setContentText(OfflineUtil.stateToString(teacherDetail.data.status));
         ctxtCourseTime.setContentText(DateUtil.getTimes(teacherDetail.data.startTime, teacherDetail.data.endTime));
@@ -135,6 +137,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         }
         if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
             farSignStaff.setVisibility(View.VISIBLE);
+            farSignStaff.setListener(this);
             farSignStaff.setContent(signAndEvaluateNumberToString(teacherDetail.data.signNum,teacherDetail.data.evaluateNum));
         }else{
             farSignStaff.setVisibility(View.GONE);
@@ -153,15 +156,17 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
             case 0:
-                ResultTeacherDetail teacherDetail = (ResultTeacherDetail) result;
-                initData(teacherDetail);
+                teacherDetail = (ResultTeacherDetail) result;
+                initNetWordData();
                 break;
         }
     }
 
     @Override
     public void onClickLayout() {
-
+        ResultTeacherDetail.Data data=teacherDetail.data;
+        EvaluateStaffActivity.actionStart(this,new CurriculumsTable(data.address,data.courseCode,data.courseName,data.endTime,data.planCode,data.room,
+                data.startTime,data.status,data.teacherName,data.enrollNum,data.signNum));
     }
 
     @Override
@@ -169,8 +174,4 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
 
     }
 
-    @Override
-    public void onClick(View v) {
-
-    }
 }
