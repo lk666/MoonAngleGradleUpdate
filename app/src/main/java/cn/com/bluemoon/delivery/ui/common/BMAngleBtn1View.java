@@ -70,7 +70,7 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         LayoutInflater.from(getContext()).inflate(R.layout.layout_bm_angle_btn, this, true);
         btn = (Button) findViewById(R.id.btn_todo);
         btn.setClickable(false);
-        setOnTouchListener(this);
+        this.setOnTouchListener(this);
 
         //初始化默认值
         initColor();
@@ -236,7 +236,6 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         marginBottom = dip2px(10);
 
         translationZ = dip2px(3);
-
         translationZDown = dip2px(2);
 
         radius = dip2px(4);
@@ -311,28 +310,37 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     }
 
     //设置阴影的值
-    public void setZ(int z,int zDown){
-        translationZ = z;
-        translationZDown = zDown;
+    protected void setZ(int z, int zDown) {
+        translationZ = dip2px(z);
+        translationZDown = dip2px(zDown);
+        setElevation(translationZ);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTranslationZ(float translationZ) {
-        if (translationZ == -1 || !btn.isEnabled()) return;
-        btn.setTranslationZ(translationZ);
+        if (translationZ == -1) return;
+        if (!isEnabled() && btn.getTranslationZ() > 0) {
+            btn.setTranslationZ(0);
+        } else {
+            btn.setTranslationZ(translationZ);
+        }
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setElevation(float elevation) {
-        if (elevation == -1 || !btn.isEnabled()) return;
-        btn.setElevation(elevation);
+        if (elevation == -1) return;
+        if (!isEnabled() && btn.getElevation() > 0) {
+            btn.setElevation(0);
+        } else {
+            btn.setElevation(elevation);
+        }
     }
 
     @Override
     public void setEnabled(boolean enabled) {
-        if (btn.isEnabled() == enabled) return;
+        super.setEnabled(enabled);
         btn.setEnabled(enabled);
         if (!enabled) {
             setElevation(0);

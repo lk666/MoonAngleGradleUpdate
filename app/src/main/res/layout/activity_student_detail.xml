@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/page_bg_f2">
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="48dp">
+        android:layout_height="0dp"
+        android:layout_weight="1"
+    >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
             android:orientation="vertical">
             <cn.com.bluemoon.delivery.ui.common.BmCellTextView
                 android:id="@+id/view_name"
@@ -53,7 +54,6 @@
                     android:layout_marginLeft="12dp"
                     android:layout_marginTop="10dp"
                     android:text="@string/offline_evaluate_info"
-                    android:background="@color/page_bg_f2"
                     android:textColor="@color/text_grep"
                     android:textSize="12dp"/>
                 <cn.com.bluemoon.delivery.ui.common.BmRankStar2
@@ -76,10 +76,9 @@
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:layout_marginLeft="12dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/page_bg_f2"
+                android:paddingBottom="6dp"
+                android:paddingLeft="12dp"
+                android:paddingTop="10dp"
                 android:text="@string/offline_course_detail_info"
                 android:textColor="@color/text_grep"
                 android:textSize="12dp"/>
@@ -99,14 +98,14 @@
                 android:id="@+id/view_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:field_arrow_title="@string/offline_evaluate_teacher"
-                app:field_arrow_hint="请选择"
-                app:field_arrow_img_clickable="true"
                 app:field_arrow_img="@mipmap/ic_teacher"
+                app:field_arrow_img_clickable="true"
+                app:field_arrow_title="@string/offline_evaluate_teacher"
             />
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:background="@color/white">
 
                 <TextView
                     android:id="@+id/txt_phone"
@@ -125,8 +124,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_toLeftOf="@id/txt_phone"
-                    app:cell_text_txt_title="@string/offline_course_detail_contacts"
                     app:cell_text_paddingright="8dp"
+                    app:cell_text_txt_title="@string/offline_course_detail_contacts"
                 />
                 <View
                     android:layout_width="match_parent"
@@ -160,8 +159,7 @@
         android:id="@+id/btn_evaluate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:visibility="gone"
         app:btn_text="@string/offline_evaluate"/>
 
-</RelativeLayout>
+</LinearLayout>

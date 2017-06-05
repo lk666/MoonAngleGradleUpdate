@@ -66,7 +66,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new CancelData(courseCode, planCode, studentCode));
-        postRequest(params, "course/student/assign/cancel%s", handler);
+        postRequest(params, "course/student/sign/cancel%s", handler);
     }
 
     /**
@@ -77,7 +77,7 @@ public class OffLineApi extends DeliveryApi {
      * @param planCode
      * @param handler
      */
-    public static void assign(String token, String courseCode, String planCode,
+    public static void sign(String token, String courseCode, String planCode,
                               AsyncHttpResponseHandler handler) {
         if (null == token || null == courseCode || null == planCode) {
             onError(handler);
@@ -87,7 +87,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new AssignData(courseCode, planCode));
-        postRequest(params, "course/student/assign%s", handler);
+        postRequest(params, "course/student/sign%s", handler);
     }
 
     /**
@@ -128,7 +128,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new SignDetailData(roomCode));
-        postRequest(params, "student/assign/detail%s", handler);
+        postRequest(params, "course/student/sign/detail%s", handler);
     }
 
     /**

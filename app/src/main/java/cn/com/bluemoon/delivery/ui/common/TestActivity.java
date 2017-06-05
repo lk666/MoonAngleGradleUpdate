@@ -43,7 +43,7 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        btn2.setZ(WidgeUtil.dip2px(this,2),WidgeUtil.dip2px(this,1));
+        btn2.setZ(2, 1);
         List<RadioItem> list = new ArrayList<>();
         list.add(new RadioItem("0", "不可选", -1));
         list.add(new RadioItem("1", "未选择", 0));

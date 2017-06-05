@@ -76,7 +76,6 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
 
     @Override
     public void initData() {
-        detail = new ResultEvaluateDetail().evaluateDetail;
         if (detail != null) {
             viewName.setContentText(detail.courseName);
             viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
@@ -90,6 +89,13 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        if(requestCode == 0){
+            detail = ((ResultEvaluateDetail)result).evaluateDetail;
+            initData();
+        }else if(requestCode == 1){
+            toast(result.getResponseMsg());
+            finish();
+        }
 
     }
 
@@ -106,10 +112,8 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
     public void onClick() {
         showWaitDialog();
         OffLineApi.evaluate(getToken(), viewSuggest.getContent(), courseCode, viewStarContent
-                .getRating(), planCode, viewStarTeacher.getRating(), getNewHandler(0, ResultBase
+                .getRating(), planCode, viewStarTeacher.getRating(), getNewHandler(1, ResultBase
                 .class));
-        toast(viewStarContent.getRating() + "=" + viewStarTeacher.getRating() + "\n" +
-                viewSuggest.getContent());
     }
 
     @Override

@@ -44,7 +44,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
 
     @Override
     protected void requestListData(long time) {
-        OffLineApi.studentTrainlist(getToken(), time, getStatus(), getNewHandler(0,
+        OffLineApi.studentTrainlist(getToken(), time, getStatus(), getNewHandler(segmentTab.getCurrentPosition(),
                 ResultTeacherAndStudentList.class));
     }
 

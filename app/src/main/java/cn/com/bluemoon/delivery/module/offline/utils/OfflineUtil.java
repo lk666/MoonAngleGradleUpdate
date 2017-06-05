@@ -37,19 +37,8 @@ public class OfflineUtil {
 
     //获取课程状态对应的文本
     public static String getTextByStatus(String status, boolean isSign) {
-        String text = "";
-        if (Constants.OFFLINE_STATUS_WAITING_CLASS.equals(status)) {
-            text = AppContext.getInstance().getString(R.string
-                    .offline_course_teacher_state_no_start);
-        } else if (Constants.OFFLINE_STATUS_IN_CLASS.equals(status)) {
-            text = AppContext.getInstance().getString(R.string.offline_course_teacher_state_ing);
-        } else if (Constants.OFFLINE_STATUS_END_CLASS.equals(status)) {
-            text = AppContext.getInstance().getString(R.string.offline_course_teacher_state_finish);
-        } else if (Constants.OFFLINE_STATUS_CLOSE_CLASS.equals(status)) {
-            text = AppContext.getInstance().getString(R.string.offline_course_teacher_state_close);
-        }
-        return text + "-" + (isSign ? AppContext.getInstance().getString(R.string.offline_signed)
-                : AppContext.getInstance().getString(R.string
+        return stateToString(status) + "-" + (isSign ? AppContext.getInstance().getString(R
+                .string.offline_signed) : AppContext.getInstance().getString(R.string
                 .offline_unsign));
     }
 }
