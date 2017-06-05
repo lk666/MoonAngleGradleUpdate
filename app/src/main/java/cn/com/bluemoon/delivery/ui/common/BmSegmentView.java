@@ -191,6 +191,9 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
      * @param position
      */
     public void changeTab(int position){
+        if(textList==null||position>=textList.size()){
+            return;
+        }
         int CurPosition = (int) getTag();
         if(CurPosition!=position){
             setTag(position);

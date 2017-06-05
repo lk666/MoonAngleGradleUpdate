@@ -7,6 +7,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.List;
+
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignStaffList;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
@@ -32,6 +34,15 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
     public SignStaffAdapter(Context context, OnListItemClickListener listener,int type) {
         super(context, listener);
         this.type=type;
+    }
+
+    public void setList(List<ResultSignStaffList.Data.Students> list,int type) {
+        setList(list);
+        this.type=type;
+    }
+
+    public void addList(List<ResultSignStaffList.Data.Students> list) {
+        this.list.addAll(list);
     }
 
     @Override
