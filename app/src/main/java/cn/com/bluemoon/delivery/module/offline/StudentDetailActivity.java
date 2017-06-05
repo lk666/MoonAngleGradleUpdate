@@ -19,6 +19,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultStudentDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.TeacherInfoView;
 import cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View;
@@ -129,7 +130,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
         setStatus(detail.status, detail.signTime != 0, detail.evaluateDetail !=
                 null);
         viewName.setContentText(detail.courseName);
-        viewState.setContentText(getTextByStatus(detail.status, detail.signTime != 0));
+        viewState.setContentText(OfflineUtil.getTextByStatus(detail.status, detail.signTime != 0));
         viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
         viewCode.setContentText(detail.courseCode);
         viewTheme.setContentText(detail.topic);
@@ -167,22 +168,6 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
         }
     }
 
-    //获取课程状态对应的文本
-    public String getTextByStatus(String status, boolean isSign) {
-        String text = "";
-        if (Constants.OFFLINE_STATUS_WAITING_CLASS.equals(status)) {
-            text = getString(R.string.offline_course_teacher_state_no_start);
-        } else if (Constants.OFFLINE_STATUS_IN_CLASS.equals(status)) {
-            text = getString(R.string.offline_course_teacher_state_ing);
-        } else if (Constants.OFFLINE_STATUS_END_CLASS.equals(status)) {
-            text = getString(R.string.offline_course_teacher_state_finish);
-        } else if (Constants.OFFLINE_STATUS_CLOSE_CLASS.equals(status)) {
-            text = getString(R.string.offline_course_teacher_state_close);
-        }
-        return text + "-" + (isSign ? getString(R.string.offline_signed) : getString(R.string
-                .offline_unsign));
-    }
-
     //初始化讲师弹框
     private void initPopupWindow() {
         popupWindow = new PopupWindow(this);
@@ -217,7 +202,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
             case R.id.txt_phone:
                 break;
             case R.id.btn_evaluate:
-                EvaluateEditActivity.startAction(this, courseCode, planCode);
+                EvaluateEditStudentActivity.startAction(this, courseCode, planCode);
                 break;
         }
     }

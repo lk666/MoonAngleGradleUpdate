@@ -310,6 +310,12 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         btn.setLayoutParams(params);
     }
 
+    //设置阴影的值
+    public void setZ(int z,int zDown){
+        translationZ = z;
+        translationZDown = zDown;
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTranslationZ(float translationZ) {

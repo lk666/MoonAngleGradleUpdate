@@ -63,8 +63,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         if (v == btnSign) {
-//            PublicUtil.openScanView(this, null, null, 0);
-            EvaluateEditTeacherActivity.startAction(this,"","");
+            PublicUtil.openScanView(this, null, null, 0);
         }
     }
 
@@ -84,7 +83,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
                             curriculumsTable.planCode);
                     break;
                 case OfflineAdapter.TO_NEXT_EVALUATE:
-                    EvaluateEditActivity.startAction(this, curriculumsTable.courseCode,
+                    EvaluateEditStudentActivity.startAction(this, curriculumsTable.courseCode,
                             curriculumsTable.planCode);
                     break;
             }
