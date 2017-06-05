@@ -13,9 +13,9 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignStaffList;
 import cn.com.bluemoon.delivery.utils.DateUtil;
-import cn.com.bluemoon.lib.qrcode.R;
 
 public class ShowEvaluateDetailPopView {
 
