@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.offline.adapter.SignStaffAdapter;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
+import cn.com.bluemoon.delivery.ui.ShowEvaluateDetailPopView;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
 import cn.com.bluemoon.delivery.ui.common.BmSegmentView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -32,7 +33,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * Created by tangqiwei on 2017/6/4.
  */
 
-public class EvaluateStaffActivity extends BaseActivity implements OnListItemClickListener,BmSegmentView.CheckCallBack {
+public class EvaluateStaffActivity extends BaseActivity implements OnListItemClickListener,BmSegmentView.CheckCallBack,ShowEvaluateDetailPopView.DismissListener {
 
 
     private static final int HTTP_REQUEST_CODE_GET_MORE = 0x1000;
@@ -168,9 +169,24 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
         }
     }
 
+    private ShowEvaluateDetailPopView window;
     @Override
     public void onItemClick(Object item, View view, int position) {
-
+        if(view.getTag(R.id.tag_type)!=null&&view.getTag(R.id.tag_type) instanceof Integer&&item instanceof ResultSignStaffList.Data.Students){
+            int type= (int) view.getTag(R.id.tag_type);
+            ResultSignStaffList.Data.Students student= (ResultSignStaffList.Data.Students) item;
+            switch (type) {
+                case SignStaffAdapter.CLICK_EVALUATE:
+                    EvaluateEditTeacherActivity.startAction(this,curriculumsTable.courseCode,curriculumsTable.planCode);
+                break;
+                case SignStaffAdapter.CLICK_ITEM:
+                if (window==null) {
+                    window=new ShowEvaluateDetailPopView(this,this);
+                }
+                window.showEva(getWindow().getDecorView(), student);
+                break;
+            }
+        }
     }
 
     @Override
@@ -203,4 +219,8 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
         OffLineApi.teacherEvaluateStudentList(getToken(),curriculumsTable.courseCode,SIZE,curriculumsTable.planCode,time, currentPositionToType(position),getNewHandler(requestCode, ResultSignStaffList.class));
     }
 
+    @Override
+    public void cancelReceiveValue() {
+
+    }
 }
