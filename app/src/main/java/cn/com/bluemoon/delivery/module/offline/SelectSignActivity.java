@@ -21,7 +21,7 @@ import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
 import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
-public class SelectSignActivity extends BaseActivity {
+public class SelectSignActivity extends BaseActivity implements BMRadioListView.ClickListener{
 
     @Bind(R.id.view_radio)
     BMRadioListView viewRadio;
@@ -61,27 +61,19 @@ public class SelectSignActivity extends BaseActivity {
     public void initView() {
         showWaitDialog();
         OffLineApi.signDetail(getToken(), roomCode, getNewHandler(0, ResultSignDetail.class));
-        viewRadio.setListener(new BMRadioListView.ClickListener() {
-            @Override
-            public void onSelected(int position, String key) {
-                checkSignButton();
-            }
-        });
+        viewRadio.setListener(this);
     }
 
     @Override
     public void initData() {
-        // TODO: 2017/6/4 测试数据
-        ResultSignDetail detail = new ResultSignDetail();
-        data = detail.new SignDetailData();
-
+        if (data == null) return;
         layoutRoom.setContentText(data.room);
         layoutSignDate.setContentText(DateUtil.getTime(data.date));
         viewRadio.setData(getRadioList(data.courses));
     }
 
     private void checkSignButton() {
-        btnSign.setEnabled(viewRadio.getCurKey() != null);
+        btnSign.setEnabled(viewRadio.getValue() != null);
     }
 
     @Override
@@ -93,6 +85,8 @@ public class SelectSignActivity extends BaseActivity {
                 break;
             case 1:
                 toast(result.getResponseMsg());
+                setResult(RESULT_OK);
+                finish();
                 break;
         }
     }
@@ -115,15 +109,23 @@ public class SelectSignActivity extends BaseActivity {
                     .getTimeToHours(course.endTime) + "\n"
                     + getString(R.string.offline_sign_course, course.courseName) + "\n"
                     + getString(R.string.offline_sign_teacher, course.teacherName);
-            list.add(new RadioItem(course.courseCode, text, 0));
+            list.add(new RadioItem(course, text, 0));
         }
         return list;
     }
 
     @OnClick(R.id.btn_sign)
     public void onClick() {
-        String courseCode = viewRadio.getCurKey();
-        OffLineApi.assign(getToken(), courseCode, data.planCode, getNewHandler(1, ResultBase
-                .class));
+        if (viewRadio.getValue() instanceof ResultSignDetail.SignDetailData.Course) {
+            ResultSignDetail.SignDetailData.Course course = (ResultSignDetail.SignDetailData
+                    .Course) viewRadio.getValue();
+            OffLineApi.sign(getToken(), course.courseCode, course.planCode, getNewHandler(1,
+                    ResultBase.class));
+        }
+    }
+
+    @Override
+    public void onSelected(int position, Object value) {
+        checkSignButton();
     }
 }

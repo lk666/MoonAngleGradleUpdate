@@ -6,12 +6,12 @@ package cn.com.bluemoon.delivery.ui.common.entity;
 
 public class RadioItem {
 
-    public String key;
+    public Object value;
     public String text;
     public int type;
 
-    public RadioItem(String key,String text,int type){
-        this.key = key;
+    public RadioItem(Object value,String text,int type){
+        this.value = value;
         this.text = text;
         this.type = type;
     }

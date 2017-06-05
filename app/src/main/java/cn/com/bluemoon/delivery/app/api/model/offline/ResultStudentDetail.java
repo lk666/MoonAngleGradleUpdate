@@ -9,25 +9,25 @@ import cn.com.bluemoon.delivery.utils.Constants;
 
 public class ResultStudentDetail extends ResultBase {
 
-    public StudentDetail data = new StudentDetail();
+    public StudentDetail data;
 
     public class StudentDetail{
 
-        public String address = "地址";
-        public String avatar = "https://tmallapi.bluemoon.com.cn/angelUpload/images/app/201605/20160525/20160525115737454.jpg";
-        public String contactsName = "联系人名称";
-        public String contactsPhone = "13450103113";
-        public String courseCode = "课程编号";
-        public String courseName = "课程名称";
+        public String address;
+        public String avatar;
+        public String contactsName;
+        public String contactsPhone;
+        public String courseCode;
+        public String courseName;
         public long endTime;
-        public String planCode = "排课编号";
-        public String purpose = "培训目的";
-        public String room = "培训室";
-        public long signTime = System.currentTimeMillis();
+        public String planCode;
+        public String purpose;
+        public String room;
+        public long signTime;
         public long startTime;
-        public String status = Constants.OFFLINE_STATUS_WAITING_CLASS;
-        public String teacherName = "教师名称";
-        public String topic = "主题";
+        public String status;
+        public String teacherName;
+        public String topic;
         public EvaluateDetail evaluateDetail;
 
     }

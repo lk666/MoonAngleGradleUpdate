@@ -2,11 +2,9 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -21,7 +19,7 @@ import cn.com.bluemoon.delivery.ui.common.BmRankStar1;
 import cn.com.bluemoon.delivery.ui.common.interf.BMFieldListener;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
-public class EvaluateEditActivity extends BaseActivity implements BMFieldListener, BmRankStar1
+public class EvaluateEditStudentActivity extends BaseActivity implements BMFieldListener, BmRankStar1
         .RatingListener {
 
     @Bind(R.id.view_name)
@@ -44,7 +42,7 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
     private EvaluateDetail detail;
 
     public static void startAction(Context context, String courseCode, String planCode) {
-        Intent intent = new Intent(context, EvaluateEditActivity.class);
+        Intent intent = new Intent(context, EvaluateEditStudentActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
         context.startActivity(intent);
@@ -78,7 +76,6 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
 
     @Override
     public void initData() {
-        detail = new ResultEvaluateDetail().evaluateDetail;
         if (detail != null) {
             viewName.setContentText(detail.courseName);
             viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
@@ -92,6 +89,13 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        if(requestCode == 0){
+            detail = ((ResultEvaluateDetail)result).evaluateDetail;
+            initData();
+        }else if(requestCode == 1){
+            toast(result.getResponseMsg());
+            finish();
+        }
 
     }
 
@@ -108,10 +112,8 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
     public void onClick() {
         showWaitDialog();
         OffLineApi.evaluate(getToken(), viewSuggest.getContent(), courseCode, viewStarContent
-                .getRating(), planCode, viewStarTeacher.getRating(), getNewHandler(0, ResultBase
+                .getRating(), planCode, viewStarTeacher.getRating(), getNewHandler(1, ResultBase
                 .class));
-        toast(viewStarContent.getRating() + "=" + viewStarTeacher.getRating() + "\n" +
-                viewSuggest.getContent());
     }
 
     @Override

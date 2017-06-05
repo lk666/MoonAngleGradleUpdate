@@ -1,14 +1,17 @@
 package cn.com.bluemoon.delivery.ui.common;
 
+import android.os.Bundle;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.OnClick;
+import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
+import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
 
 public class TestActivity extends BaseActivity {
 
@@ -21,6 +24,12 @@ public class TestActivity extends BaseActivity {
     BMRadioItemView itemRadio;
     @Bind(R.id.list_radio)
     BMRadioListView listRadio;
+    @Bind(R.id.btn3)
+    BMAngleBtn3View btn3;
+    @Bind(R.id.btn1)
+    BMAngleBtn1View btn1;
+    @Bind(R.id.btn2)
+    BMAngleBtn1View btn2;
 
     @Override
     protected int getLayoutId() {
@@ -34,11 +43,12 @@ public class TestActivity extends BaseActivity {
 
     @Override
     public void initView() {
+        btn2.setZ(2, 1);
         List<RadioItem> list = new ArrayList<>();
-        list.add(new RadioItem("0","不可选",-1));
-        list.add(new RadioItem("1","未选择",0));
-        list.add(new RadioItem("2","未选择未选择未选择未选择未选择未选择未选择未选择未选择未选择未选",0));
-        list.add(new RadioItem("3","已选择",1));
+        list.add(new RadioItem("0", "不可选", -1));
+        list.add(new RadioItem("1", "未选择", 0));
+        list.add(new RadioItem("2", "未选择未选择未选择未选择未选择未选择未选择未选择未选择未选择未选", 0));
+        list.add(new RadioItem("3", "已选择", 1));
         listRadio.setData(list);
 
     }

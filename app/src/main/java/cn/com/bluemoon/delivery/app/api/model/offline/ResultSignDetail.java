@@ -12,31 +12,21 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 public class ResultSignDetail extends ResultBase {
 
-    public SignDetailData data = new SignDetailData();
+    public SignDetailData data;
 
     public class SignDetailData {
         public long date;
-        public String planCode = String.valueOf(new Random().nextLong());
-        public String room = "培训室名称";
-        public List<Course> courses = getCourseList();
+        public String room;
+        public List<Course> courses;
 
         public class Course {
-            public String courseCode = String.valueOf(new Random().nextLong());
-            public String courseName = "课程名称";
-            public String teacherName = "教师名称";
+            public String courseCode;
+            public String courseName;
+            public String planCode;
+            public String teacherName;
             public long startTime;
-            public long endTime = System.currentTimeMillis();
+            public long endTime;
 
         }
-
-        private List<Course> getCourseList(){
-            List<Course> list = new ArrayList<>();
-            list.add(new Course());
-            list.add(new Course());
-            list.add(new Course());
-            list.add(new Course());
-            return list;
-        }
-
     }
 }
