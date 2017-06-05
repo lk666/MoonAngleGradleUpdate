@@ -8,6 +8,7 @@ import android.os.Build;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -22,7 +23,7 @@ import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
  * 背景色，字体颜色，字体大小，高度必须在自定义属性中配置
  */
 
-public class BMAngleBtn1View extends FrameLayout {
+public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener {
 
     private Button btn;
 
@@ -47,6 +48,8 @@ public class BMAngleBtn1View extends FrameLayout {
 
     protected float translationZ = -1;
 
+    protected float translationZDown = -1;
+
     protected int height = -1;
 
     protected int type = -1;
@@ -67,6 +70,7 @@ public class BMAngleBtn1View extends FrameLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_bm_angle_btn, this, true);
         btn = (Button) findViewById(R.id.btn_todo);
         btn.setClickable(false);
+        setOnTouchListener(this);
 
         //初始化默认值
         initColor();
@@ -191,7 +195,7 @@ public class BMAngleBtn1View extends FrameLayout {
                     type = attribute.getInt(attr, -1);
                     break;
                 case R.styleable.BMAngleBtn1View_btn_enable:
-                    setEnabled(attribute.getBoolean(attr,false));
+                    setEnabled(attribute.getBoolean(attr, false));
                     break;
             }
         }
@@ -233,6 +237,8 @@ public class BMAngleBtn1View extends FrameLayout {
 
         translationZ = dip2px(3);
 
+        translationZDown = dip2px(2);
+
         radius = dip2px(4);
 
         height = dip2px(48);
@@ -248,7 +254,8 @@ public class BMAngleBtn1View extends FrameLayout {
         setBackground(colorNormal, colorPressed, colorDisable, radius);
         setMargins(marginLeft, marginTop, marginRight, marginBottom);
         setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-        setTranslationZ(translationZ);
+//        setTranslationZ(translationZ);
+        setElevation(translationZ);
     }
 
     protected int sp2px(int sp) {
@@ -306,12 +313,38 @@ public class BMAngleBtn1View extends FrameLayout {
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTranslationZ(float translationZ) {
-        if (translationZ == -1) return;
+        if (translationZ == -1 || !btn.isEnabled()) return;
         btn.setTranslationZ(translationZ);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public void setElevation(float elevation) {
+        if (elevation == -1 || !btn.isEnabled()) return;
+        btn.setElevation(elevation);
     }
 
     @Override
     public void setEnabled(boolean enabled) {
+        if (btn.isEnabled() == enabled) return;
         btn.setEnabled(enabled);
+        if (!enabled) {
+            setElevation(0);
+        } else {
+            setElevation(translationZ);
+        }
+    }
+
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        switch (event.getAction()) {
+            case MotionEvent.ACTION_DOWN:
+                setElevation(translationZDown);
+                break;
+            case MotionEvent.ACTION_UP:
+                setElevation(translationZ);
+                break;
+        }
+        return false;
     }
 }

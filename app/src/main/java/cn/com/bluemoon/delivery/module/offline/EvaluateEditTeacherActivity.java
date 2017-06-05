@@ -2,38 +2,38 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.text.InputType;
+import android.text.TextUtils;
 import android.view.View;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.EvaluateDetail;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultEvaluateDetail;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View;
 import cn.com.bluemoon.delivery.ui.common.BMFieldParagraphView;
+import cn.com.bluemoon.delivery.ui.common.BMFieldText1View;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
-import cn.com.bluemoon.delivery.ui.common.BmRankStar1;
 import cn.com.bluemoon.delivery.ui.common.interf.BMFieldListener;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
-public class EvaluateEditActivity extends BaseActivity implements BMFieldListener, BmRankStar1
-        .RatingListener {
+public class EvaluateEditTeacherActivity extends BaseActivity implements BMFieldListener {
 
+    @Bind(R.id.view_student)
+    BmCellTextView viewStudent;
     @Bind(R.id.view_name)
     BmCellTextView viewName;
     @Bind(R.id.view_time)
     BmCellTextView viewTime;
-    @Bind(R.id.view_teacher)
-    BmCellTextView viewTeacher;
-    @Bind(R.id.view_star_content)
-    BmRankStar1 viewStarContent;
-    @Bind(R.id.view_star_teacher)
-    BmRankStar1 viewStarTeacher;
+    @Bind(R.id.view_sign_time)
+    BmCellTextView viewSignTime;
+    @Bind(R.id.view_score)
+    BMFieldText1View viewScore;
     @Bind(R.id.view_suggest)
     BMFieldParagraphView viewSuggest;
     @Bind(R.id.btn_submit)
@@ -44,7 +44,7 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
     private EvaluateDetail detail;
 
     public static void startAction(Context context, String courseCode, String planCode) {
-        Intent intent = new Intent(context, EvaluateEditActivity.class);
+        Intent intent = new Intent(context, EvaluateEditTeacherActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
         context.startActivity(intent);
@@ -58,7 +58,7 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
 
     @Override
     protected int getLayoutId() {
-        return R.layout.activity_evaluate_edit;
+        return R.layout.activity_evaluate_edit_teacher;
     }
 
     @Override
@@ -68,23 +68,25 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
 
     @Override
     public void initView() {
+        viewScore.setInputType(InputType.TYPE_CLASS_NUMBER);
+        viewScore.setListener(this);
         viewSuggest.setListener(this);
-        viewStarContent.setListener(this);
-        viewStarTeacher.setListener(this);
         showWaitDialog();
-        OffLineApi.evaluateDetail(getToken(), courseCode, planCode, getNewHandler(0,
-                ResultEvaluateDetail.class));
+        OffLineApi.teacherGetEvaluateDetail(getToken(), courseCode, planCode, ClientStateManager
+                .getUserName(), getNewHandler(0, ResultEvaluateDetail.class));
     }
 
     @Override
     public void initData() {
         detail = new ResultEvaluateDetail().evaluateDetail;
         if (detail != null) {
+            viewStudent.setContentText(detail.studentName + " " + detail.studentCode);
             viewName.setContentText(detail.courseName);
             viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
-            viewTeacher.setContentText(detail.teacherName);
-            viewStarContent.setRating(detail.courseStar);
-            viewStarTeacher.setRating(detail.teacherStar);
+            viewSignTime.setContentText(DateUtil.getTimeToYMDHM(detail.signTime));
+            if (detail.score > 0) {
+                viewScore.setContent(String.valueOf(detail.score));
+            }
             viewSuggest.setContent(detail.comment);
         }
         checkBtn();
@@ -96,31 +98,36 @@ public class EvaluateEditActivity extends BaseActivity implements BMFieldListene
     }
 
     private void checkBtn() {
-        if (viewStarContent.getRating() > 0 && viewStarTeacher.getRating() > 0 && viewSuggest
-                .getContent().length() > 0) {
+        if (viewScore.getContent().length() > 0 && viewSuggest.getContent().length() > 0) {
             btnSubmit.setEnabled(true);
         } else {
             btnSubmit.setEnabled(false);
         }
     }
 
-    @OnClick(R.id.btn_submit)
-    public void onClick() {
-        showWaitDialog();
-        OffLineApi.evaluate(getToken(), viewSuggest.getContent(), courseCode, viewStarContent
-                .getRating(), planCode, viewStarTeacher.getRating(), getNewHandler(0, ResultBase
-                .class));
-        toast(viewStarContent.getRating() + "=" + viewStarTeacher.getRating() + "\n" +
-                viewSuggest.getContent());
+    private int getScore() {
+        if (viewScore.getContent().length() > 0) {
+            return Integer.valueOf(viewScore.getContent());
+        }
+        return 0;
     }
 
-    @Override
-    public void onRatingBarChange() {
-        checkBtn();
+    @OnClick(R.id.btn_submit)
+    public void onClick() {
+        if (viewScore.getContent().length() <= 0) return;
+        showWaitDialog();
+        OffLineApi.teacherEvaluate(getToken(), viewSuggest.getContent(), courseCode, planCode,
+                getScore(), detail.studentCode, detail.studentName, getNewHandler(0, ResultBase
+                        .class));
+        toast(getScore() + "\n" + viewSuggest.getContent());
     }
 
     @Override
     public void afterTextChanged(View view, String text) {
+        if(view==viewScore&&!TextUtils.isEmpty(text)&& Integer.parseInt(text)>100){
+            viewScore.setContent("100");
+            return;
+        }
         checkBtn();
     }
 }

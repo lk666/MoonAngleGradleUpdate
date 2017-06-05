@@ -15,5 +15,9 @@ public class EvaluateDetail {
     public String teacherName = "培训讲师";
     public long startTime;
     public long endTime = System.currentTimeMillis();
+    public int score;
+    public long signTime;
+    public String studentCode = "学员编号";
+    public String studentName = "学员名称";
 
 }

@@ -44,7 +44,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
 
     @Override
     protected void requestListData(long time) {
-        OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(0,
+        OffLineApi.studentTrainlist(getToken(), time, getStatus(), getNewHandler(0,
                 ResultTeacherAndStudentList.class));
     }
 
@@ -63,7 +63,8 @@ public class MyTrainActivity extends OfflineListBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         if (v == btnSign) {
-            PublicUtil.openScanView(this, null, null, 0);
+//            PublicUtil.openScanView(this, null, null, 0);
+            EvaluateEditTeacherActivity.startAction(this,"","");
         }
     }
 
