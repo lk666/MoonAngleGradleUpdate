@@ -15,6 +15,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.ui.common.interf.BMFieldListener;
 
 /**
  * Created by bm on 2017/5/25.
@@ -29,7 +30,7 @@ public class BMFieldParagraphView extends RelativeLayout {
 
     private int maxCount = 200;
 
-    private FieldListener listener;
+    private BMFieldListener listener;
 
     public BMFieldParagraphView(Context context) {
         super(context);
@@ -126,19 +127,19 @@ public class BMFieldParagraphView extends RelativeLayout {
         public void afterTextChanged(Editable s) {
             updateCountText();
             if(listener!=null){
-                listener.onChangeText(s.toString());
+                listener.afterTextChanged(BMFieldParagraphView.this,s.toString());
             }
         }
     };
 
-    public void setListener(FieldListener listener){
+    public void setListener(BMFieldListener listener){
         this.listener = listener;
     }
 
 
     //公共方法
 
-    //设置标题文字，默认“已经到底了”
+    //设置标题文字
     public void setTitle(CharSequence title) {
         txtTitle.setText(title);
     }
@@ -232,10 +233,6 @@ public class BMFieldParagraphView extends RelativeLayout {
     //获取编辑框内容
     public String getContent(){
         return etContent.getText().toString();
-    }
-
-    public interface FieldListener{
-        void onChangeText(String text);
     }
 
 }

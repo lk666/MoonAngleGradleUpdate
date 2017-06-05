@@ -4,16 +4,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white">
+    android:background="@color/page_bg_f2">
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="48dp"
-        >
+        android:layout_marginBottom="48dp">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@color/white"
             android:orientation="vertical">
             <cn.com.bluemoon.delivery.ui.common.BmCellTextView
                 android:id="@+id/view_name"
@@ -163,11 +163,5 @@
         android:layout_alignParentBottom="true"
         android:visibility="gone"
         app:btn_text="@string/offline_evaluate"/>
-
-<!--    <cn.com.bluemoon.delivery.ui.TeacherInfoView
-        android:id="@+id/view_info"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone"/>-->
 
 </RelativeLayout>

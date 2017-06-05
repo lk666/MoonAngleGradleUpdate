@@ -33,6 +33,7 @@ public class BMAngleBtn2View extends BMAngleBtn1View {
         marginBottom = dip2px(10);
 
         translationZ = dip2px(3);
+        translationZDown = dip2px(2);
 
         radius = dip2px(4);
 

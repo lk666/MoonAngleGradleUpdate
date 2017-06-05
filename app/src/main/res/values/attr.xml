@@ -127,6 +127,22 @@
         </attr>
     </declare-styleable>
 
+    <!--通用控件：横向输入框-->
+    <declare-styleable name="BMFieldText1View">
+        <attr name="field_text1_title" format="string|reference"/>
+        <attr name="field_text1_title_color" format="color"/>
+        <attr name="field_text1_title_size" format="dimension"/>
+        <attr name="field_text1_hint" format="string|reference"/>
+        <attr name="field_text1_hint_color" format="color"/>
+        <attr name="field_text1_content" format="string|reference"/>
+        <attr name="field_text1_content_color" format="color"/>
+        <attr name="field_text1_content_size" format="dimension"/>
+        <attr name="field_text1_line_color" format="color"/>
+        <attr name="field_text1_line_padding_left" format="dimension"/>
+        <attr name="field_text1_line_padding_right" format="dimension"/>
+        <attr name="field_text1_content_maxLength" format="integer"/>
+    </declare-styleable>
+
     <!--通用组件：单行选择-->
     <declare-styleable name="BMFieldArrow1View">
         <attr name="field_arrow_title" format="string|reference"/>
