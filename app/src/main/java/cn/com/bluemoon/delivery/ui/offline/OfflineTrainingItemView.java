@@ -231,7 +231,9 @@ public class OfflineTrainingItemView extends FrameLayout {
         return this;
     }
 
-
+    public void setBtnBtnIsShow(boolean isShow){
+        llayoutBtn.setVisibility(isShow?View.VISIBLE:View.GONE);
+    }
     public void setBtnBtn(OnClickListener clickListener,String textBtn,Integer typeTag,Integer positionTag) {
         if(clickListener!=null){
             llayoutBtn.setVisibility(View.VISIBLE);
@@ -243,17 +245,17 @@ public class OfflineTrainingItemView extends FrameLayout {
             llayoutBtn.setVisibility(View.GONE);
         }
     }
-
+    public void setTxtBtnIsShow(boolean isShow){
+        txtBtn.setVisibility(isShow?View.VISIBLE:View.GONE);
+    }
     public void setTxtBtn(OnClickListener clickListener,String textBtn,Integer typeTag,Integer positionTag) {
         if(clickListener!=null){
-            llayoutBtn.setVisibility(View.VISIBLE);
             txtBtn.setVisibility(View.VISIBLE);
             txtBtn.setOnClickListener(clickListener);
             txtBtn.setText(textBtn);
             txtBtn.setTag(R.id.tag_position,positionTag);
             txtBtn.setTag(R.id.tag_type,typeTag);
         }else{
-            llayoutBtn.setVisibility(View.GONE);
             txtBtn.setVisibility(View.GONE);
         }
     }

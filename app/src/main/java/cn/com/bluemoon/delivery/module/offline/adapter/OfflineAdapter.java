@@ -86,6 +86,7 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                 switch (positionMode) {
                     case LIST_NOSTART:
                         itemView.setBtnBtn(this,"开始上课",REQUEST_START,position);
+                        itemView.setTxtBtnIsShow(false);
                         break;
                     case LIST_ING:
                         itemView.setBtnBtn(this,"结束上课",REQUEST_END,position);
@@ -95,8 +96,9 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                         if(curriculumsTable.status.equals("endClass")){
                             itemView.setBtnBtn(this,"评价学员",TO_NEXT_EVALUATE,position);
                         }else{
-                            itemView.setBtnBtn(null,null,null,null);
+                            itemView.setBtnBtnIsShow(false);
                         }
+                        itemView.setTxtBtnIsShow(false);
                         itemView.setTxtState(getTeacherStateText(curriculumsTable.status),false);
                         break;
                 }

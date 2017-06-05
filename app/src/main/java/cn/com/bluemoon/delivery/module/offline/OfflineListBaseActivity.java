@@ -128,12 +128,12 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     }
 
 
-    private void requestData() {
+    protected void requestData() {
         requestData(0);
     }
 
     private void requestData(long time) {
-        requestListData(time);
+        requestListData(time,segmentTab.getCurrentPosition());
         OffLineApi.listNum(getToken(), getTeacherOrStudent(), getNewHandler(HTTP_REQUEST_CODE_GET_NUM, ResultListNum.class));
     }
 
@@ -141,7 +141,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
      * 请求列表数据
      * @param time
      */
-    protected abstract void requestListData(long time);
+    protected abstract void requestListData(long time,int requestCode);
 
     protected abstract String getTeacherOrStudent();
 

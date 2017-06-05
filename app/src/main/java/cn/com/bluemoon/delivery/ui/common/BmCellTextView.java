@@ -42,6 +42,8 @@ public class BmCellTextView extends FrameLayout {
     private int paddingLeft;
     private int paddingRight;
 
+    private boolean isShowLine=true;
+
 
     public BmCellTextView(Context context) {
         super(context);
@@ -111,6 +113,9 @@ public class BmCellTextView extends FrameLayout {
                     case R.styleable.BmCellTextView_cell_text_min_height:
                         minHeight= attribute.getDimensionPixelSize(attr,0);
                         break;
+                    case R.styleable.BmCellTextView_cell_text_line_isshow:
+                        isShowLine= attribute.getBoolean(attr,true);
+                        break;
                 }
             }
             attribute.recycle();
@@ -168,6 +173,7 @@ public class BmCellTextView extends FrameLayout {
         if(paddingRight>0){
             layouotParent.setPadding(layouotParent.getPaddingLeft(),layouotParent.getPaddingTop(),paddingRight,layouotParent.getPaddingBottom());
         }
+        lineView.setVisibility(isShowLine?View.VISIBLE:View.GONE);
     }
 
     public String getContentText() {
