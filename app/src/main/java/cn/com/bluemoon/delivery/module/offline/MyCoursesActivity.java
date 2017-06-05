@@ -19,6 +19,9 @@ import cn.com.bluemoon.delivery.utils.Constants;
 
 public class MyCoursesActivity extends OfflineListBaseActivity {
 
+    private static final int HTTP_REQUEST_CODE_START = 0x1001;
+    private static final int HTTP_REQUEST_CODE_END = 0x1002;
+
     public static void actionStart(Context context) {
         actionStart(context, Constants.OFFLINE_STATUS_WAITING_CLASS);
     }
@@ -29,7 +32,7 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
 
     @Override
     protected void requestListData(long time) {
-        OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(0, ResultTeacherAndStudentList.class));
+        OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(segmentTab.getCurrentPosition(), ResultTeacherAndStudentList.class));
     }
 
     @Override
@@ -56,11 +59,11 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
                     break;
                 case OfflineAdapter.REQUEST_START:
                     showWaitDialog();
-                    OffLineApi.startCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(2, ResultBase.class));
+                    OffLineApi.startCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(HTTP_REQUEST_CODE_START, ResultBase.class));
                     break;
                 case OfflineAdapter.REQUEST_END:
                     showWaitDialog();
-                    OffLineApi.endCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(3, ResultBase.class));
+                    OffLineApi.endCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(HTTP_REQUEST_CODE_END, ResultBase.class));
                     break;
             }
         }
@@ -70,10 +73,10 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
         switch (requestCode) {
-            case 2:
+            case HTTP_REQUEST_CODE_START:
                 requestListData(0);
                 break;
-            case 3:
+            case HTTP_REQUEST_CODE_END:
                 requestListData(0);
                 break;
         }

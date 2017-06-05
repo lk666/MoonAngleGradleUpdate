@@ -37,6 +37,8 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 public abstract class OfflineListBaseActivity extends BaseActivity implements OnListItemClickListener, BmSegmentView.CheckCallBack, View.OnClickListener, OnButtonClickListener {
 
+    private static final int HTTP_REQUEST_CODE_GET_NUM = 0x1000;
+
     @Bind(R.id.segment_tab)
     BmSegmentView segmentTab;
     @Bind(R.id.listview_offline)
@@ -132,7 +134,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
 
     private void requestData(long time) {
         requestListData(time);
-        OffLineApi.listNum(getToken(), getTeacherOrStudent(), getNewHandler(1, ResultListNum.class));
+        OffLineApi.listNum(getToken(), getTeacherOrStudent(), getNewHandler(HTTP_REQUEST_CODE_GET_NUM, ResultListNum.class));
     }
 
     /**
@@ -148,6 +150,11 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
             case 0:
+            case 1:
+            case 2:
+                if(requestCode!=segmentTab.getCurrentPosition()){
+                    return;
+                }
                 hideWaitDialog();
                 ResultTeacherAndStudentList list = (ResultTeacherAndStudentList) result;
                 listviewOffline.onRefreshComplete();
@@ -158,7 +165,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                             String.valueOf(new DecimalFormat("0.0").format(list.data.totalDuration/3600.0))+"小时");
                 }
                 break;
-            case 1:
+            case HTTP_REQUEST_CODE_GET_NUM:
                 ResultListNum listNum = (ResultListNum) result;
                 List<Integer> numList = new ArrayList<>();
                 if (getTeacherOrStudent().equals(OfflineAdapter.LIST_TEACHER)) {

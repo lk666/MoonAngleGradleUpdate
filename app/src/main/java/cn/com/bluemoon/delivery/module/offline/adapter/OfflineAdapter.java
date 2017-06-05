@@ -67,12 +67,12 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                     itemView.setBtnBtn(this,"我要评价",TO_NEXT_EVALUATE,position);
                 }
                 if(positionMode==LIST_END){
-                    itemView.setTxtSignInTime(DateUtil.getTimeToYMDHM(curriculumsTable.signTime),false);
+                    itemView.setTxtSignInTime(curriculumsTable.signTime,false);
                     if(curriculumsTable.signTime>0&&!curriculumsTable.status.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)){
                         itemView.setBtnBtn(this,"我要评价",TO_NEXT_EVALUATE,position);
                     }
                 }else {
-                    itemView.setTxtSignInTime(DateUtil.getTimeToYMDHM(curriculumsTable.signTime),true);
+                    itemView.setTxtSignInTime(curriculumsTable.signTime,true);
                 }
                 itemView.setTxtLecturerName(curriculumsTable.teacherName)
                         .setTxtClassroom(curriculumsTable.room)

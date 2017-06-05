@@ -125,8 +125,8 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
      */
     private List<String> getArrString(int unNumber, int unmber) {
         List<String> list = new ArrayList<>();
-        list.add(new StringBuffer().append(R.string.offline_un_evaluate).append("（").append(unNumber).append("）").toString());
-        list.add(new StringBuffer().append(R.string.offline_yet_evaluate).append("（").append(unmber).append("）").toString());
+        list.add(new StringBuffer().append(getString(R.string.offline_un_evaluate)).append("（").append(unNumber).append("）").toString());
+        list.add(new StringBuffer().append(getString(R.string.offline_yet_evaluate)).append("（").append(unmber).append("）").toString());
         return list;
     }
 
