@@ -172,17 +172,18 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
     private ShowEvaluateDetailPopView window;
     @Override
     public void onItemClick(Object item, View view, int position) {
-        if(view.getTag(R.id.tag_type)!=null&&view.getTag(R.id.tag_type) instanceof Integer){
+        if(view.getTag(R.id.tag_type)!=null&&view.getTag(R.id.tag_type) instanceof Integer&&item instanceof ResultSignStaffList.Data.Students){
             int type= (int) view.getTag(R.id.tag_type);
+            ResultSignStaffList.Data.Students student= (ResultSignStaffList.Data.Students) item;
             switch (type) {
                 case SignStaffAdapter.CLICK_EVALUATE:
-
+                    EvaluateEditTeacherActivity.startAction(this,curriculumsTable.courseCode,curriculumsTable.planCode);
                 break;
                 case SignStaffAdapter.CLICK_ITEM:
                 if (window==null) {
                     window=new ShowEvaluateDetailPopView(this,this);
                 }
-                window.showEva(getWindow().getDecorView(), (ResultSignStaffList.Data.Students) item);
+                window.showEva(getWindow().getDecorView(), student);
                 break;
             }
         }
