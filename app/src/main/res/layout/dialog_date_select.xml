@@ -50,16 +50,13 @@
         android:background="@color/white">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
             android:layout_centerHorizontal="true">
             <cn.com.bluemoon.delivery.ui.selectordialog.ExtraTextNumberWheelView
                 android:id="@+id/nwv_year"
-                android:layout_width="0dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:background="@color/white"
                 app:extra="年"
                 app:isLoop="false"
@@ -73,9 +70,9 @@
 
             <cn.com.bluemoon.delivery.ui.selectordialog.ExtraTextNumberWheelView
                 android:id="@+id/nwv_month"
-                android:layout_width="0dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
                 android:background="@color/white"
                 app:extra="月"
                 app:isLoop="true"
@@ -89,9 +86,9 @@
 
             <cn.com.bluemoon.delivery.ui.selectordialog.ExtraTextNumberWheelView
                 android:id="@+id/nwv_date"
-                android:layout_width="0dp"
+                android:layout_width="80dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_marginLeft="20dp"
                 android:background="@color/white"
                 app:extra="日"
                 app:isLoop="true"

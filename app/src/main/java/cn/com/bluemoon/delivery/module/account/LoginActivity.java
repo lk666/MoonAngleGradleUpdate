@@ -13,6 +13,7 @@ import org.kymjs.kjframe.utils.StringUtils;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -40,6 +41,8 @@ public class LoginActivity extends BaseActivity {
     Button btnLogin;
     private String view;
     private String url;
+    private static final String URL_APPLY =
+            "view/cooperation/#/index?_compaign=cooperationApply&_adTag=other";
 
     @Override
     protected int getLayoutId() {
@@ -123,7 +126,7 @@ public class LoginActivity extends BaseActivity {
         finish();
     }
 
-    @OnClick({R.id.btn_login, R.id.txt_forget_psw,R.id.txt_apply})
+    @OnClick({R.id.btn_login, R.id.txt_forget_psw, R.id.txt_apply})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
@@ -133,7 +136,8 @@ public class LoginActivity extends BaseActivity {
                 ResetPswActivity.actStart(this, getUserName());
                 break;
             case R.id.txt_apply:
-                X5WebViewActivity.startAction(this,"http://www.baidu.com",null,false,false);
+                X5WebViewActivity.startAction(this, String.format(BuildConfig.API_URL, URL_APPLY)
+                        , null, false, false);
                 break;
         }
     }
