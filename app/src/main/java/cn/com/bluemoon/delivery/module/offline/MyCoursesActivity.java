@@ -31,8 +31,8 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
     }
 
     @Override
-    protected void requestListData(long time) {
-        OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(segmentTab.getCurrentPosition(), ResultTeacherAndStudentList.class));
+    protected void requestListData(long time,int requestCode) {
+        OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(requestCode, ResultTeacherAndStudentList.class));
     }
 
     @Override
@@ -74,10 +74,10 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
         super.onSuccessResponse(requestCode, jsonString, result);
         switch (requestCode) {
             case HTTP_REQUEST_CODE_START:
-                requestListData(0);
+                requestData();
                 break;
             case HTTP_REQUEST_CODE_END:
-                requestListData(0);
+                requestData();
                 break;
         }
     }

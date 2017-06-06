@@ -8,5 +8,5 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 public class ResultEvaluateDetail extends ResultBase {
 
-    public EvaluateDetail evaluateDetail = new EvaluateDetail();
+    public EvaluateDetail data;
 }

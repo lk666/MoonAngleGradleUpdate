@@ -43,9 +43,9 @@ public class MyTrainActivity extends OfflineListBaseActivity {
     }
 
     @Override
-    protected void requestListData(long time) {
-        OffLineApi.studentTrainlist(getToken(), time, getStatus(), getNewHandler(segmentTab
-                .getCurrentPosition(),ResultTeacherAndStudentList.class));
+    protected void requestListData(long time,int requestCode) {
+        OffLineApi.studentTrainlist(getToken(), time, getStatus(), getNewHandler(requestCode,
+                ResultTeacherAndStudentList.class));
     }
 
     @Override
@@ -99,7 +99,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 0:
-                    requestListData(0);
+                    requestData();
                     break;
             }
         }

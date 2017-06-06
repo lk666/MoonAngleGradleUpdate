@@ -78,7 +78,6 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
 
     @Override
     public void initData() {
-        detail = new ResultEvaluateDetail().evaluateDetail;
         if (detail != null) {
             viewStudent.setContentText(detail.studentName + " " + detail.studentCode);
             viewName.setContentText(detail.courseName);
@@ -94,7 +93,16 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-
+        switch (requestCode) {
+            case 0:
+                ResultEvaluateDetail evaluateDetail= (ResultEvaluateDetail) result;
+                detail=evaluateDetail.data;
+                initData();
+                break;
+            case 1:
+                finish();
+                break;
+        }
     }
 
     private void checkBtn() {
@@ -117,9 +125,8 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
         if (viewScore.getContent().length() <= 0) return;
         showWaitDialog();
         OffLineApi.teacherEvaluate(getToken(), viewSuggest.getContent(), courseCode, planCode,
-                getScore(), detail.studentCode, detail.studentName, getNewHandler(0, ResultBase
+                getScore(), detail.studentCode, detail.studentName, getNewHandler(1, ResultBase
                         .class));
-        toast(getScore() + "\n" + viewSuggest.getContent());
     }
 
     @Override

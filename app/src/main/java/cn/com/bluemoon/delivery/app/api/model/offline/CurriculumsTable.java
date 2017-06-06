@@ -22,36 +22,36 @@ public class CurriculumsTable implements Serializable{
     public int enrollNum;//报名人数
     public int signNum;//签到人数
 
-    public CurriculumsTable(){
-
-    }
-    /**
-     * 教师详情转化成item
-     * @param address
-     * @param courseCode
-     * @param courseName
-     * @param endTime
-     * @param planCode
-     * @param room
-     * @param startTime
-     * @param status
-     * @param teacherName
-     * @param enrollNum
-     * @param signNum
-     */
-    public CurriculumsTable(String address,String courseCode,String courseName,long endTime,String planCode,String room,
-                            long startTime,String status,String teacherName,int enrollNum,int signNum){
-        this.address=address;
-        this.courseCode=courseCode;
-        this.courseName=courseName;
-        this.endTime=endTime;
-        this.planCode=planCode;
-        this.room=room;
-        this.signTime=signTime;
-        this.startTime=startTime;
-        this.status=status;
-        this.teacherName=teacherName;
-        this.enrollNum=enrollNum;
-        this.signNum=signNum;
-    }
+//    public CurriculumsTable(){
+//
+//    }
+//    /**
+//     * 教师详情转化成item
+//     * @param address
+//     * @param courseCode
+//     * @param courseName
+//     * @param endTime
+//     * @param planCode
+//     * @param room
+//     * @param startTime
+//     * @param status
+//     * @param teacherName
+//     * @param enrollNum
+//     * @param signNum
+//     */
+//    public CurriculumsTable(String address,String courseCode,String courseName,long endTime,String planCode,String room,
+//                            long startTime,String status,String teacherName,int enrollNum,int signNum){
+//        this.address=address;
+//        this.courseCode=courseCode;
+//        this.courseName=courseName;
+//        this.endTime=endTime;
+//        this.planCode=planCode;
+//        this.room=room;
+//        this.signTime=signTime;
+//        this.startTime=startTime;
+//        this.status=status;
+//        this.teacherName=teacherName;
+//        this.enrollNum=enrollNum;
+//        this.signNum=signNum;
+//    }
 }

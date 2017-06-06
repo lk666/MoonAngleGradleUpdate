@@ -14,7 +14,9 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewActivity;
 import cn.com.bluemoon.delivery.module.offline.adapter.SignStaffAdapter;
 import cn.com.bluemoon.delivery.ui.ShowEvaluateDetailPopView;
+import cn.com.bluemoon.delivery.ui.common.BMListPaginationView;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
+import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
 /**
  * 签到人员列表
@@ -23,16 +25,24 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 
 public class SignStaffListActivity extends BasePullToRefreshListViewActivity implements ShowEvaluateDetailPopView.DismissListener {
 
+    private final static int SIZE=10;
 
     private String courseCode;
     private String planCode;
     private long timeStamp;
+    private View footView;
 
     public static void actionStart(Context context,String courseCode,String planCode) {
         Intent intent=new Intent(context,SignStaffListActivity.class);
         intent.putExtra("courseCode",courseCode);
         intent.putExtra("planCode",planCode);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        courseCode=getIntent().getStringExtra("courseCode");
+        planCode=getIntent().getStringExtra("planCode");
     }
 
     @Override
@@ -46,16 +56,37 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
     }
 
     @Override
+    protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
+        super.initPullToRefreshListView(ptrlv);
+        footView=new BMListPaginationView(this);
+        ptrlv.getRefreshableView().addFooterView(footView);
+        footView.setVisibility(View.GONE);
+    }
+
+    @Override
     protected List getGetMoreList(ResultBase result) {
-        ResultSignStaffList signStaffList= (ResultSignStaffList) result;
-        timeStamp=signStaffList.data.lastTimeStamp;
-        return signStaffList.data.students;
+        return getGetData(result,false);
     }
 
     @Override
     protected List getGetDataList(ResultBase result) {
+        return getGetData(result,true);
+    }
+
+    private List getGetData(ResultBase result,boolean isRefresh){
         ResultSignStaffList signStaffList= (ResultSignStaffList) result;
         timeStamp=signStaffList.data.lastTimeStamp;
+        if(signStaffList.data.students.size()<SIZE){
+            ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+            if(signStaffList.data.students.size()==0&&isRefresh){
+                footView.setVisibility(View.GONE);
+            }else {
+                footView.setVisibility(View.VISIBLE);
+            }
+        }else{
+            ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+            footView.setVisibility(View.GONE);
+        }
         return signStaffList.data.students;
     }
 
@@ -66,12 +97,12 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-        OffLineApi.teacherEvaluateStudentList(getToken(),courseCode,10,planCode,0,1,getNewHandler(requestCode,ResultSignStaffList.class));
+        OffLineApi.teacherEvaluateStudentList(getToken(),courseCode,SIZE,planCode,0,1,getNewHandler(requestCode,ResultSignStaffList.class));
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        OffLineApi.teacherEvaluateStudentList(getToken(),courseCode,10,planCode,timeStamp,1,getNewHandler(requestCode,ResultSignStaffList.class));
+        OffLineApi.teacherEvaluateStudentList(getToken(),courseCode,SIZE,planCode,timeStamp,1,getNewHandler(requestCode,ResultSignStaffList.class));
     }
     private ShowEvaluateDetailPopView window;
     @Override

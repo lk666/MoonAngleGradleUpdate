@@ -66,10 +66,15 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                 if(positionMode==LIST_ING){
                     itemView.setBtnBtn(this,"我要评价",TO_NEXT_EVALUATE,position);
                 }
+                if(positionMode==LIST_NOSTART){
+                    itemView.setBtnBtnIsShow(false);
+                }
                 if(positionMode==LIST_END){
                     itemView.setTxtSignInTime(curriculumsTable.signTime,false);
                     if(curriculumsTable.signTime>0&&!curriculumsTable.status.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)){
                         itemView.setBtnBtn(this,"我要评价",TO_NEXT_EVALUATE,position);
+                    }else{
+                        itemView.setBtnBtnIsShow(false);
                     }
                 }else {
                     itemView.setTxtSignInTime(curriculumsTable.signTime,true);
@@ -86,17 +91,21 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                 switch (positionMode) {
                     case LIST_NOSTART:
                         itemView.setBtnBtn(this,"开始上课",REQUEST_START,position);
+                        itemView.setTxtBtnIsShow(false);
+                        itemView.setTxtStateIsShow(false);
                         break;
                     case LIST_ING:
                         itemView.setBtnBtn(this,"结束上课",REQUEST_END,position);
                         itemView.setTxtBtn(this,"评价学员",TO_NEXT_EVALUATE,position);
+                        itemView.setTxtStateIsShow(false);
                         break;
                     case LIST_END:
                         if(curriculumsTable.status.equals("endClass")){
                             itemView.setBtnBtn(this,"评价学员",TO_NEXT_EVALUATE,position);
                         }else{
-                            itemView.setBtnBtn(null,null,null,null);
+                            itemView.setBtnBtnIsShow(false);
                         }
+                        itemView.setTxtBtnIsShow(false);
                         itemView.setTxtState(getTeacherStateText(curriculumsTable.status),false);
                         break;
                 }

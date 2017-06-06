@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.offline.adapter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -13,6 +14,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignStaffList;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
 /**
@@ -26,6 +28,7 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
     public final static int CLICK_ITEM=1,CLICK_EVALUATE=2;
 
     private int type;
+    private String state;
 
     public SignStaffAdapter(Context context, OnListItemClickListener listener) {
         this(context,listener,TYPE_SIGN);
@@ -34,6 +37,12 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
     public SignStaffAdapter(Context context, OnListItemClickListener listener,int type) {
         super(context, listener);
         this.type=type;
+    }
+
+    public SignStaffAdapter(Context context, OnListItemClickListener listener,int type,String state) {
+        super(context, listener);
+        this.type=type;
+        this.state=state;
     }
 
     public void setList(List<ResultSignStaffList.Data.Students> list,int type) {
@@ -73,7 +82,7 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
             layoutDetail.setVisibility(View.GONE);
         }
 
-        if (type!=TYPE_SIGN) {
+        if (type!=TYPE_SIGN&&(TextUtils.isEmpty(state)||!state.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS))) {
             evaluateClickView.setVisibility(View.VISIBLE);
             switch (type) {
                 case TYPE_EVALUATE:
@@ -83,6 +92,8 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
                     evaluateClickView.setText(R.string.offline_click_evaluate);
                     break;
             }
+        }else{
+            evaluateClickView.setVisibility(View.GONE);
         }
 
         convertView.setTag(R.id.tag_type,CLICK_ITEM);

@@ -2,8 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:scrollbars="none"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:scrollbars="none">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -31,23 +31,23 @@
 
         <cn.com.bluemoon.delivery.ui.common.BmCellTextView
             android:id="@+id/ctxt_course_actual_class_time"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:cell_text_txt_title="@string/offline_course_detail_actual_class_time" />
 
         <cn.com.bluemoon.delivery.ui.common.BmCellTextView
             android:id="@+id/ctxt_course_actual_finish_time"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:cell_text_txt_title="@string/offline_course_detail_actual_finish_time" />
 
         <cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View
             android:id="@+id/far_sign_staff"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:visibility="gone"
             app:field_arrow_title="@string/offline_course_detail_sign_staff" />
 
         <TextView
@@ -79,18 +79,19 @@
             android:layout_height="wrap_content"
             app:cell_text_txt_title="@string/offline_course_detail_number_participants" />
 
-        <LinearLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:gravity="center_vertical"
             android:orientation="horizontal">
 
             <cn.com.bluemoon.delivery.ui.common.BmCellTextView
                 android:id="@+id/ctxt_contacts"
-                android:layout_width="0dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_toLeftOf="@+id/txt_phone"
                 android:layout_weight="1"
+                app:cell_text_line_isshow="false"
                 app:cell_text_paddingright="8dp"
                 app:cell_text_txt_title="@string/offline_course_detail_contacts" />
 
@@ -98,13 +99,19 @@
                 android:id="@+id/txt_phone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:layout_marginRight="12dp"
                 android:autoLink="all"
                 android:text="                                 "
                 android:textColor="@color/text_blue"
                 android:textColorLink="@color/text_blue"
                 android:textSize="@dimen/text_size_14" />
-        </LinearLayout>
+
+            <View
+                style="@style/line_solid_style"
+                android:layout_alignParentBottom="true" />
+        </RelativeLayout>
 
         <cn.com.bluemoon.delivery.ui.common.BmCellTextView
             android:id="@+id/ctxt_course_room"
@@ -123,7 +130,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            app:cell_paragraph_txt_title="@string/offline_course_detail_purpose"/>
+            app:cell_paragraph_txt_title="@string/offline_course_detail_purpose" />
     </LinearLayout>
 
 </ScrollView>
