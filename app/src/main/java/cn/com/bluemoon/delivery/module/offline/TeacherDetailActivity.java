@@ -164,9 +164,10 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
 
     @Override
     public void onClickLayout() {
-        ResultTeacherDetail.Data data=teacherDetail.data;
-        EvaluateStaffActivity.actionStart(this,new CurriculumsTable(data.address,data.courseCode,data.courseName,data.endTime,data.planCode,data.room,
-                data.startTime,data.status,data.teacherName,data.enrollNum,data.signNum));
+//        ResultTeacherDetail.Data data=teacherDetail.data;
+//        EvaluateStaffActivity.actionStart(this,new CurriculumsTable(data.address,data.courseCode,data.courseName,data.endTime,data.planCode,data.room,
+//                data.startTime,data.status,data.teacherName,data.enrollNum,data.signNum));
+        SignStaffListActivity.actionStart(this,teacherDetail.data.courseCode,teacherDetail.data.planCode);
     }
 
     @Override

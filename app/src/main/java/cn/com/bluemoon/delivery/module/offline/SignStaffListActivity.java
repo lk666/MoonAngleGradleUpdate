@@ -36,6 +36,12 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
     }
 
     @Override
+    protected void onBeforeSetContentLayout() {
+        courseCode=getIntent().getStringExtra("courseCode");
+        planCode=getIntent().getStringExtra("planCode");
+    }
+
+    @Override
     protected String getTitleString() {
         return getString(R.string.offline_course_detail_sign_staff);
     }
