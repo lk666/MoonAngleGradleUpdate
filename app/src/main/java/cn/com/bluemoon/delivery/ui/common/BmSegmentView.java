@@ -4,6 +4,7 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.GradientDrawable;
 import android.os.Build;
@@ -215,10 +216,12 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
             if (position == i) {
                 viewCollective.textView.setTextColor(textColorCheck);
                 viewCollective.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSizeCheck);
+                viewCollective.textView.setTypeface(Typeface.defaultFromStyle(Typeface.BOLD));
                 viewCollective.lineView.setVisibility(View.VISIBLE);
             } else {
                 viewCollective.textView.setTextColor(textColorUnCheck);
                 viewCollective.textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSizeUnCheck);
+                viewCollective.textView.setTypeface(Typeface.defaultFromStyle(Typeface.NORMAL));
                 viewCollective.lineView.setVisibility(View.INVISIBLE);
             }
         }

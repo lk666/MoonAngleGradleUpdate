@@ -106,13 +106,13 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
      * @param evaluateNumber
      * @return
      */
-    private String signAndEvaluateNumberToString(int signNumber, int evaluateNumber) {
+    private String signAndEvaluateNumberToString(int signNumber, int evaluateNumber,String state) {
         signNumber = signNumber < 0 ? 0 : signNumber;
         evaluateNumber = evaluateNumber < 0 ? 0 : evaluateNumber;
         StringBuffer buffer = new StringBuffer();
         if (signNumber >= 0) {
             buffer.append("签到").append(signNumber).append("人");
-            if (evaluateNumber > 0) {
+            if (state.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)) {
                 buffer.append("，已评价").append(evaluateNumber).append("人");
             }
         }
@@ -138,7 +138,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
             farSignStaff.setVisibility(View.VISIBLE);
             farSignStaff.setListener(this);
-            farSignStaff.setContent(signAndEvaluateNumberToString(teacherDetail.data.signNum,teacherDetail.data.evaluateNum));
+            farSignStaff.setContent(signAndEvaluateNumberToString(teacherDetail.data.signNum,teacherDetail.data.evaluateNum,teacherDetail.data.status));
         }else{
             farSignStaff.setVisibility(View.GONE);
         }
