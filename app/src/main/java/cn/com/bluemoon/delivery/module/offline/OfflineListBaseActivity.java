@@ -124,6 +124,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                 requestData();
             }
         });
+        showWaitDialog();
         requestData();
     }
 

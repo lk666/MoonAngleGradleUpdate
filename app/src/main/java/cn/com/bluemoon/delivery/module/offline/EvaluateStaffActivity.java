@@ -22,6 +22,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.offline.adapter.SignStaffAdapter;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.ui.ShowEvaluateDetailPopView;
+import cn.com.bluemoon.delivery.ui.common.BMListPaginationView;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
 import cn.com.bluemoon.delivery.ui.common.BmSegmentView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -93,6 +94,9 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
     @Override
     public void initView() {
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+        footView=new BMListPaginationView(this);
+        ptrlv.getRefreshableView().addFooterView(footView);
+        footView.setVisibility(View.GONE);
         ptrlv.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener2<ListView>() {
             @Override
             public void onPullDownToRefresh(PullToRefreshBase<ListView> refreshView) {
@@ -114,6 +118,7 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
         ctxtCourseState.setContentText(OfflineUtil.stateToString(curriculumsTable.status));
         ctxtCourseTime.setContentText(DateUtil.getTimes(curriculumsTable.startTime, curriculumsTable.endTime));
         ctxtSignNumber.setContentText(curriculumsTable.signNum + "人");
+        showWaitDialog();
         OffLineApi.taecherEvaluateNum(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(HTTP_REQUEST_CODE_GET_NUM, ResultEvaluateNum.class));
        }
 
@@ -130,6 +135,21 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
         return list;
     }
 
+    private View footView;
+    private void footViewIsShow(int size,boolean isRefresh){
+        if(size<SIZE){
+            ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
+            if(size==0&&isRefresh){
+                footView.setVisibility(View.GONE);
+            }else {
+                footView.setVisibility(View.VISIBLE);
+            }
+        }else{
+            ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
+            footView.setVisibility(View.GONE);
+        }
+    }
+
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
@@ -139,6 +159,8 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                 adapter.notifyDataSetChanged();
                 time=signStaffData.data.lastTimeStamp;
                 ptrlv.onRefreshComplete();
+                hideWaitDialog();
+                footViewIsShow(signStaffData.data.students.size(),true);
                 break;
             case HTTP_REQUEST_CODE_GET_MORE:
                 ResultSignStaffList signStaffMore= (ResultSignStaffList) result;
@@ -146,6 +168,8 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                 adapter.notifyDataSetChanged();
                 time=signStaffMore.data.lastTimeStamp;
                 ptrlv.onRefreshComplete();
+                hideWaitDialog();
+                footViewIsShow(signStaffMore.data.students.size(),false);
                 break;
             case HTTP_REQUEST_CODE_GET_NUM:
                 ResultEvaluateNum evaluateNum= (ResultEvaluateNum) result;
