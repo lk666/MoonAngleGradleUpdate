@@ -9,11 +9,13 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
+import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
+import cn.com.bluemoon.delivery.module.base.BaseScanActivity;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
-public class ScanSignActivity extends BaseScanCodeActivity {
+public class ScanSignActivity extends ScanActivity {
 
     public static void actStart(Activity context, int requestCode) {
         ViewUtil.showActivityForResult(context, ScanSignActivity.class, requestCode);
@@ -68,4 +70,5 @@ public class ScanSignActivity extends BaseScanCodeActivity {
             finish();
         }
     }
+
 }

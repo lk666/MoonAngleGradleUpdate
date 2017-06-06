@@ -29,7 +29,7 @@
     <string name="main_tab_no_data">此功能需要更新版本才能使用！</string>
 
     <string name="refreshing">努力加载中！</string>
-    <string name="scan_fail">扫描失败，请重新扫描</string>
+    <string name="scan_fail">无效二维码，请重新扫描</string>
 
     <!-- common -->
     <string name="week">星期</string>
