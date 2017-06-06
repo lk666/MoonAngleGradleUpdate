@@ -114,7 +114,7 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
     private void getInitData(AttributeSet attrs) {
         if (attrs != null) {
             TypedArray typeArray = getContext().obtainStyledAttributes(attrs, R.styleable.BmSegmentView);
-            height = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_height, dip2px(50));
+            height = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_height, dip2px(34));
             width = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_width, dip2px(120));
             colorBg = typeArray.getColor(R.styleable.BmSegmentView_segmentview_colorBg, Color.parseColor("#1fb8ff"));
             translationZ = typeArray.getDimensionPixelSize(R.styleable.BmSegmentView_segmentview_translationZ, dip2px(2));
