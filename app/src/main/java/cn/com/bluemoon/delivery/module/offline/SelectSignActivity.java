@@ -21,7 +21,7 @@ import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
 import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
-public class SelectSignActivity extends BaseActivity implements BMRadioListView.ClickListener{
+public class SelectSignActivity extends BaseActivity implements BMRadioListView.ClickListener {
 
     @Bind(R.id.view_radio)
     BMRadioListView viewRadio;
@@ -31,20 +31,23 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
     BmCellTextView layoutSignDate;
     @Bind(R.id.btn_sign)
     BMAngleBtn1View btnSign;
-    private String roomCode;
 
     private ResultSignDetail.SignDetailData data;
 
-    public static void actionStart(Activity context, String roomCode, int requestCode) {
+    public static void actionStart(Activity context, ResultSignDetail.SignDetailData data, int
+            requestCode) {
         Intent intent = new Intent(context, SelectSignActivity.class);
-        intent.putExtra("code", roomCode);
+        intent.putExtra("data", data);
         context.startActivityForResult(intent, requestCode);
     }
 
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
-        roomCode = getIntent().getStringExtra("code");
+        data = (ResultSignDetail.SignDetailData) getIntent().getSerializableExtra("data");
+        if (data == null) {
+            finish();
+        }
     }
 
     @Override
@@ -59,8 +62,6 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
 
     @Override
     public void initView() {
-        showWaitDialog();
-        OffLineApi.signDetail(getToken(), roomCode, getNewHandler(0, ResultSignDetail.class));
         viewRadio.setListener(this);
     }
 
@@ -78,24 +79,15 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        switch (requestCode) {
-            case 0:
-                data = ((ResultSignDetail) result).data;
-                initData();
-                break;
-            case 1:
-                toast(result.getResponseMsg());
-                setResult(RESULT_OK);
-                finish();
-                break;
-        }
+        toast(result.getResponseMsg());
+        setResult(RESULT_OK);
+        finish();
     }
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
-        if (requestCode == 1 && (43101 == result.getResponseCode() || 43102 == result
-                .getResponseCode() || 43103 == result.getResponseCode())) {
+        if (45101 == result.getResponseCode() || 45104 == result.getResponseCode()) {
             setResult(RESULT_OK);
             finish();
         }
@@ -119,7 +111,7 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
         if (viewRadio.getValue() instanceof ResultSignDetail.SignDetailData.Course) {
             ResultSignDetail.SignDetailData.Course course = (ResultSignDetail.SignDetailData
                     .Course) viewRadio.getValue();
-            OffLineApi.sign(getToken(), course.courseCode, course.planCode, getNewHandler(1,
+            OffLineApi.sign(getToken(), course.courseCode, course.planCode, getNewHandler(0,
                     ResultBase.class));
         }
     }

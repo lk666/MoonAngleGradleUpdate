@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.offline;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -14,12 +15,12 @@ public class ResultSignDetail extends ResultBase {
 
     public SignDetailData data;
 
-    public class SignDetailData {
+    public class SignDetailData implements Serializable{
         public long date;
         public String room;
         public List<Course> courses;
 
-        public class Course {
+        public class Course implements Serializable{
             public String courseCode;
             public String courseName;
             public String planCode;
