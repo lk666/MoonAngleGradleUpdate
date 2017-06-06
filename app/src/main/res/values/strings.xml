@@ -922,9 +922,7 @@
     <string name="load_more">向上滑加载更多</string>
     <string name="recent_update">最近更新</string>
     <string name="default_book_count">1</string>
-    <string name="forget_pwd">
-        <u>忘记密码？</u>
-    </string>
+    <string name="forget_pwd">忘记密码</string>
     <string name="reset">重置</string>
     <string name="reset_space">重 置</string>
     <string name="back">返回</string>
@@ -1550,5 +1548,6 @@
     <string name="offline_evaluate_score">分数</string>
     <string name="offline_signed">已签到</string>
     <string name="offline_unsign">未签到</string>
+    <string name="login_apply">申请合作伙伴</string>
 
 </resources>

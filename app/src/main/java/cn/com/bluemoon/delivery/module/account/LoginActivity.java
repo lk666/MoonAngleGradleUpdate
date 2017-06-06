@@ -19,6 +19,7 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.common.X5WebViewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -52,9 +53,9 @@ public class LoginActivity extends BaseActivity {
         MobclickAgent.onProfileSignIn(getUserName());
         toMainActivity();
         try {
-                Reminds.SynAlarm(this);
-        }catch (Exception ex){
-            LogUtils.e(getDefaultTag(),"Syn Alarms Error",ex);
+            Reminds.SynAlarm(this);
+        } catch (Exception ex) {
+            LogUtils.e(getDefaultTag(), "Syn Alarms Error", ex);
         }
     }
 
@@ -118,11 +119,11 @@ public class LoginActivity extends BaseActivity {
     }
 
     public void toMainActivity() {
-        MainActivity.actStart(this, view,url);
+        MainActivity.actStart(this, view, url);
         finish();
     }
 
-    @OnClick({R.id.btn_login, R.id.txt_forget_psw})
+    @OnClick({R.id.btn_login, R.id.txt_forget_psw,R.id.txt_apply})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
@@ -131,10 +132,14 @@ public class LoginActivity extends BaseActivity {
             case R.id.txt_forget_psw:
                 ResetPswActivity.actStart(this, getUserName());
                 break;
+            case R.id.txt_apply:
+                X5WebViewActivity.startAction(this,"http://www.baidu.com",null,false,false);
+                break;
         }
     }
 
     private int backCount = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -150,7 +155,7 @@ public class LoginActivity extends BaseActivity {
         return super.onKeyDown(keyCode, event);
     }
 
-    public static void actStart(Context context,String view,String url) {
+    public static void actStart(Context context, String view, String url) {
         Intent intent = new Intent(context, LoginActivity.class);
         intent.putExtra(Constants.PUSH_VIEW, view);
         intent.putExtra(Constants.PUSH_URL, url);
@@ -158,7 +163,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     public static void actStart(Context context) {
-        actStart(context, null,null);
+        actStart(context, null, null);
     }
 
 }
