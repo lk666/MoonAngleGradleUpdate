@@ -108,7 +108,7 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
 
     @Override
     public void initData() {
-        adapter=new SignStaffAdapter(this,this,currentPositionToType(defPosition));
+        adapter=new SignStaffAdapter(this,this,currentPositionToType(defPosition),curriculumsTable.status);
         ptrlv.setAdapter(adapter);
         ctxtCourseName.setContentText(curriculumsTable.courseName);
         ctxtCourseState.setContentText(OfflineUtil.stateToString(curriculumsTable.status));
