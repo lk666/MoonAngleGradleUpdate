@@ -38,7 +38,7 @@ public class ShowEvaluateDetailPopView {
     }
 
     public void showEva(View v, ResultSignStaffList.Data.Students student) {
-        if(student.score<=0){
+        if(student.score<0){
             return;
         }
         isCancel = true;

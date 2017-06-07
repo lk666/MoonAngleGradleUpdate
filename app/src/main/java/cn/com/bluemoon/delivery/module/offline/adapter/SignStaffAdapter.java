@@ -75,7 +75,7 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
         signTimeView.setText(DateUtil.getTimeToYMDHM(student.assignTime));
 
 
-        if(type==TYPE_UN_EVALUATE||(type==TYPE_SIGN&&student.score<=0&&TextUtils.isEmpty(student.comment))){
+        if(type==TYPE_UN_EVALUATE||(type==TYPE_SIGN&&student.score<0&&TextUtils.isEmpty(student.comment))){
             layoutDetail.setVisibility(View.GONE);
         }else {
             layoutDetail.setVisibility(View.VISIBLE);
