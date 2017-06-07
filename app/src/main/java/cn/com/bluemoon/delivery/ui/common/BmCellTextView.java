@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.ui.common;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -43,6 +44,9 @@ public class BmCellTextView extends FrameLayout {
     private int paddingRight;
 
     private boolean isShowLine=true;
+
+
+    private boolean contentIsBold=false;
 
 
     public BmCellTextView(Context context) {
@@ -116,6 +120,9 @@ public class BmCellTextView extends FrameLayout {
                     case R.styleable.BmCellTextView_cell_text_line_isshow:
                         isShowLine= attribute.getBoolean(attr,true);
                         break;
+                    case R.styleable.BmCellTextView_cell_text_content_isBold:
+                        contentIsBold= attribute.getBoolean(attr,false);
+                        break;
                 }
             }
             attribute.recycle();
@@ -146,6 +153,7 @@ public class BmCellTextView extends FrameLayout {
         if(contentColor>0){
             contentView.setTextColor(contentColor);
         }
+        contentView.setTypeface(Typeface.defaultFromStyle(contentIsBold?Typeface.BOLD:Typeface.NORMAL));
         if(lineBg>0){
             lineView.setBackgroundColor(lineBg);
         }

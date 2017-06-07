@@ -202,6 +202,7 @@
         <attr name="cell_text_line_isshow" format="boolean" />
         <attr name="cell_text_paddingleft" format="dimension" />
         <attr name="cell_text_paddingright" format="dimension" />
+        <attr name="cell_text_content_isBold" format="boolean" />
     </declare-styleable>
 
     <declare-styleable name="BmCellParagraphView">

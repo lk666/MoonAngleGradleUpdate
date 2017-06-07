@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -45,6 +47,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     PullToRefreshListView listviewOffline;
 
     private View headView;
+    private View dafHeadView;
     private TextView ytTime;
     private TextView totalCourses;
     private TextView totalDuration;
@@ -99,12 +102,16 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     @Override
     public void initView() {
         headView = LayoutInflater.from(this).inflate(R.layout.headview_offline_list, null);
+        dafHeadView=new View(this);
+        dafHeadView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.offline_listview_padding_top)));
+        dafHeadView.setBackgroundColor(getResources().getColor(R.color.page_bg_f2));
         ytTime = (TextView) headView.findViewById(R.id.txt_yt);
         totalCourses = (TextView) headView.findViewById(R.id.txt_total_courses);
         totalDuration = (TextView) headView.findViewById(R.id.txt_total_duration);
         timeSelector = (RelativeLayout) headView.findViewById(R.id.llayout_time_selector);
         timeSelector.setOnClickListener(this);
         headView.setVisibility(View.GONE);
+        listviewOffline.getRefreshableView().addHeaderView(dafHeadView);
     }
 
 
@@ -215,12 +222,14 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         if(isShow){
             if(headView.getVisibility()==View.GONE){
                 headView.setVisibility(View.VISIBLE);
+                listviewOffline.getRefreshableView().removeHeaderView(dafHeadView);
                 listviewOffline.getRefreshableView().addHeaderView(headView);
             }
         }else{
             if(headView.getVisibility()==View.VISIBLE){
                 headView.setVisibility(View.GONE);
                 listviewOffline.getRefreshableView().removeHeaderView(headView);
+                listviewOffline.getRefreshableView().addHeaderView(dafHeadView);
             }
         }
     }

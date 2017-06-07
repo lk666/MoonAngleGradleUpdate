@@ -84,8 +84,8 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                         .setTxtAddress(curriculumsTable.address);
                 break;
             case LIST_TEACHER:
-                itemView.setTxtWillnum(String.valueOf(curriculumsTable.enrollNum))
-                        .setTxtSignedInTheNumberOf(String.valueOf(curriculumsTable.signNum))
+                itemView.setTxtWillnum(String.valueOf(curriculumsTable.enrollNum)+"人")
+                        .setTxtSignedInTheNumberOf(String.valueOf(curriculumsTable.signNum)+"人")
                         .setTxtTrainClassroom(curriculumsTable.room)
                         .setTxtTrainAddress(curriculumsTable.address);
                 switch (positionMode) {
@@ -93,11 +93,15 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                         itemView.setBtnBtn(this,"开始上课",REQUEST_START,position);
                         itemView.setTxtBtnIsShow(false);
                         itemView.setTxtStateIsShow(false);
+                        itemView.setTxtWillnumIsShow(true);
+                        itemView.setTxtSignedInTheNumberOfIsShow(false);
                         break;
                     case LIST_ING:
                         itemView.setBtnBtn(this,"结束上课",REQUEST_END,position);
                         itemView.setTxtBtn(this,"评价学员",TO_NEXT_EVALUATE,position);
                         itemView.setTxtStateIsShow(false);
+                        itemView.setTxtWillnumIsShow(false);
+                        itemView.setTxtSignedInTheNumberOfIsShow(true);
                         break;
                     case LIST_END:
                         if(curriculumsTable.status.equals("endClass")){
@@ -106,6 +110,8 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                             itemView.setBtnBtnIsShow(false);
                         }
                         itemView.setTxtBtnIsShow(false);
+                        itemView.setTxtWillnumIsShow(false);
+                        itemView.setTxtSignedInTheNumberOfIsShow(true);
                         itemView.setTxtState(getTeacherStateText(curriculumsTable.status),false);
                         break;
                 }
