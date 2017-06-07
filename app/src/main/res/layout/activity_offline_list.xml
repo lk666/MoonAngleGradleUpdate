@@ -4,10 +4,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_bg_f2">
-    <cn.com.bluemoon.delivery.ui.common.BmSegmentView
-        android:id="@+id/segment_tab"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
     <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
         android:id="@+id/listview_offline"
         xmlns:ptr="http://schemas.android.com/apk/res-auto"
@@ -24,7 +20,10 @@
         ptr:ptrHeaderSubTextColor="@color/text_black"
         ptr:ptrHeaderTextColor="@color/text_black"
         ptr:ptrMode="both"/>
-
+    <cn.com.bluemoon.delivery.ui.common.BmSegmentView
+        android:id="@+id/segment_tab"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
     <cn.com.bluemoon.delivery.ui.common.FloatButton
         android:id="@+id/btn_sign"
         android:layout_width="60dp"
