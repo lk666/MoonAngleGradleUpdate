@@ -74,12 +74,13 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
         codeView.setText(student.studentCode);
         signTimeView.setText(DateUtil.getTimeToYMDHM(student.assignTime));
 
-        if(student.score>0){
+
+        if(type==TYPE_UN_EVALUATE||(type==TYPE_SIGN&&student.score<=0&&TextUtils.isEmpty(student.comment))){
+            layoutDetail.setVisibility(View.GONE);
+        }else {
             layoutDetail.setVisibility(View.VISIBLE);
             gradeView.setText(String.valueOf(student.score));
             evaluateView.setText(context.getString(R.string.offline_type_evaluate)+student.comment);
-        }else{
-            layoutDetail.setVisibility(View.GONE);
         }
 
         if (type!=TYPE_SIGN&&(TextUtils.isEmpty(state)||!state.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS))) {
