@@ -151,6 +151,17 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
     }
 
     @Override
+    public void onFinishResponse(int requestCode) {
+        switch (requestCode) {
+            case HTTP_REQUEST_CODE_GET_DATA:
+            case HTTP_REQUEST_CODE_GET_MORE:
+                hideWaitDialog();
+                ptrlv.onRefreshComplete();
+                break;
+        }
+    }
+
+    @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
             case HTTP_REQUEST_CODE_GET_DATA:
@@ -158,8 +169,6 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                 adapter.setList(signStaffData.data.students,currentPositionToType(segmentTab.getCurrentPosition()));
                 adapter.notifyDataSetChanged();
                 time=signStaffData.data.lastTimeStamp;
-                ptrlv.onRefreshComplete();
-                hideWaitDialog();
                 footViewIsShow(signStaffData.data.students.size(),true);
                 break;
             case HTTP_REQUEST_CODE_GET_MORE:
@@ -167,8 +176,6 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                 adapter.addList(signStaffMore.data.students);
                 adapter.notifyDataSetChanged();
                 time=signStaffMore.data.lastTimeStamp;
-                ptrlv.onRefreshComplete();
-                hideWaitDialog();
                 footViewIsShow(signStaffMore.data.students.size(),false);
                 break;
             case HTTP_REQUEST_CODE_GET_NUM:

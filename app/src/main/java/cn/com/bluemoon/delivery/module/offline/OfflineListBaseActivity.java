@@ -153,7 +153,17 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
 
     protected abstract String getTeacherOrStudent();
 
-
+    @Override
+    public void onFinishResponse(int requestCode) {
+        switch (requestCode) {
+            case 0:
+            case 1:
+            case 2:
+                hideWaitDialog();
+                listviewOffline.onRefreshComplete();
+                break;
+        }
+    }
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
@@ -163,9 +173,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                 if(requestCode!=segmentTab.getCurrentPosition()){
                     return;
                 }
-                hideWaitDialog();
                 ResultTeacherAndStudentList list = (ResultTeacherAndStudentList) result;
-                listviewOffline.onRefreshComplete();
                 adapter.setList(list.data.courses, stateTogPosition(status));
                 adapter.notifyDataSetChanged();
                 if(status.equals(Constants.OFFLINE_STATUS_END_CLASS)){
