@@ -71,20 +71,6 @@ public abstract class BaseScanCodeActivity extends BaseScanActivity {
         actStart(null, fragment, title, btnString, code, clazz, requestCode);
     }
 
-    /*必须重写*/
-
-    /**
-     * 返回结果事件重写
-     * 注：如果需要连续扫描：
-     * 处理完数据需要继续扫描时再调用resumeScan或startDelay方法调起扫描；
-     *
-     * @param str     返回的扫描内容
-     * @param type    二维码类型
-     * @param barcode 扫描区域的图像
-     */
-    @Override
-    protected abstract void onResult(String str, String type, Bitmap barcode);
-
     /*可重写*/
 
     /**

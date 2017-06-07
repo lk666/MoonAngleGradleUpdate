@@ -63,7 +63,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
     public void onClick(View v) {
         super.onClick(v);
         if (v == btnSign) {
-            PublicUtil.openScanView(this, null, null, 0);
+            ScanSignActivity.actStart(this, 0);
         }
     }
 
@@ -99,12 +99,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 0:
-                    if (data == null) return;
-                    String result = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    SelectSignActivity.actionStart(MyTrainActivity.this, result,1);
-                    break;
-                case 1:
-                    checkTab(1);
+                    requestData();
                     break;
             }
         }

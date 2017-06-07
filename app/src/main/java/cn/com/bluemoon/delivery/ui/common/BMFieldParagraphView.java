@@ -28,7 +28,7 @@ public class BMFieldParagraphView extends RelativeLayout {
     private EditText etContent;
     private View lineBottom;
 
-    private int maxCount = 200;
+    private int maxCount;
 
     private BMFieldListener listener;
 
@@ -50,7 +50,7 @@ public class BMFieldParagraphView extends RelativeLayout {
         etContent = (EditText) findViewById(R.id.et_content);
         lineBottom = findViewById(R.id.lin_bottom);
         etContent.addTextChangedListener(textWatcher);
-        updateCountText();
+        setMaxCount(200);
     }
 
     //初始化属性值

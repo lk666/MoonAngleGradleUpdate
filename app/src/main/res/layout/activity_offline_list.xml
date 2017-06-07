@@ -25,7 +25,7 @@
         ptr:ptrHeaderTextColor="@color/text_black"
         ptr:ptrMode="both"/>
 
-    <Button
+    <cn.com.bluemoon.delivery.ui.common.FloatButton
         android:id="@+id/btn_sign"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -33,14 +33,10 @@
         android:layout_alignParentRight="true"
         android:layout_marginBottom="12dp"
         android:layout_marginRight="8dp"
-        android:background="@drawable/btn_oval_red"
+        android:layout_marginTop="8dp"
+        android:layout_marginLeft="8dp"
         android:drawableTop="@mipmap/ic_sign"
-        android:gravity="center"
-        android:padding="8dp"
         android:text="@string/btn_sign"
-        android:textColor="@color/white"
-        android:textSize="12dp"
-        android:translationZ="3dp"
         android:visibility="gone"/>
 
 </RelativeLayout>

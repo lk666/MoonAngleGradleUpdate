@@ -41,4 +41,24 @@ public class OfflineUtil {
                 .string.offline_signed) : AppContext.getInstance().getString(R.string
                 .offline_unsign));
     }
+
+    //提取二维码的roomCode
+    public static String getUrlParamsByCode(String url) {
+        String code = null;
+        if (url != null) {
+            String arg = url.substring(url.indexOf("?") + 1, url.length());
+            String[] strs = arg.split("&");
+            for (int x = 0; x < strs.length; x++) {
+                if (strs[x].indexOf("=") > 0) {
+                    String key = strs[x].substring(0, strs[x].indexOf("="));
+                    String value = strs[x].substring(strs[x].indexOf("=") + 1);
+                    if ("roomCode".equals(key)) {
+                        code = value;
+                        break;
+                    }
+                }
+            }
+        }
+        return code;
+    }
 }

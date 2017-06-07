@@ -1,5 +1,8 @@
 package cn.com.bluemoon.delivery.ui.common.utils;
 
+import android.animation.Animator;
+import android.animation.ObjectAnimator;
+import android.animation.StateListAnimator;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.ColorStateList;
@@ -8,6 +11,7 @@ import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
+import android.view.View;
 
 /**
  * Created by bm on 2017/5/31.
@@ -158,5 +162,17 @@ public class WidgeUtil {
         disable.setCornerRadius(radius);
         disable.setColor(colorDisable);
         return createPressedListDrawable(normal,pressed,disable);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    public static StateListAnimator createStateListAnimator(View view, float z, float zDown){
+        StateListAnimator animator = new StateListAnimator();
+        ObjectAnimator normal = ObjectAnimator.ofFloat(view,"elevation",zDown,z);
+        ObjectAnimator pressed = ObjectAnimator.ofFloat(view,"elevation",z,zDown);
+        animator.addState(new int[]{-android.R.attr.state_pressed, android.R.attr
+                .state_enabled},normal);
+        animator.addState(new int[]{android.R.attr.state_pressed, android.R.attr
+                .state_enabled},pressed);
+        return animator;
     }
 }
