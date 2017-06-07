@@ -16,6 +16,7 @@ import android.widget.FrameLayout;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
+import cn.com.bluemoon.delivery.utils.LogUtils;
 
 /**
  * Created by bm on 2017/5/31.
@@ -257,11 +258,11 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         setElevation(translationZ);
     }
 
-    protected int sp2px(int sp) {
+    protected int sp2px(float sp) {
         return WidgeUtil.sp2px(getContext(), sp);
     }
 
-    protected int dip2px(int dp) {
+    protected int dip2px(float dp) {
         return WidgeUtil.dip2px(getContext(), dp);
     }
 
@@ -313,6 +314,7 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     protected void setZ(int z, int zDown) {
         translationZ = dip2px(z);
         translationZDown = dip2px(zDown);
+//        setTranslationZ(translationZ);
         setElevation(translationZ);
     }
 
@@ -325,6 +327,7 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         } else {
             btn.setTranslationZ(translationZ);
         }
+        LogUtils.d("translationZ:" + translationZ);
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -336,6 +339,19 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         } else {
             btn.setElevation(elevation);
         }
+        LogUtils.d("elevation:" + elevation);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public float getElevation() {
+        return btn.getElevation();
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    @Override
+    public float getTranslationZ() {
+        return btn.getTranslationZ();
     }
 
     @Override
@@ -343,8 +359,10 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         super.setEnabled(enabled);
         btn.setEnabled(enabled);
         if (!enabled) {
+//            setTranslationZ(0);
             setElevation(0);
         } else {
+//            setTranslationZ(translationZ);
             setElevation(translationZ);
         }
     }
@@ -353,9 +371,11 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
+//                setTranslationZ(translationZDown);
                 setElevation(translationZDown);
                 break;
             case MotionEvent.ACTION_UP:
+//                setTranslationZ(translationZ);
                 setElevation(translationZ);
                 break;
         }

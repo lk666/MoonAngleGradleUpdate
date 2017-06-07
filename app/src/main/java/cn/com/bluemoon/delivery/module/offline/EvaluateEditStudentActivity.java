@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.offline;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.view.View;
@@ -41,11 +42,11 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
 
     private EvaluateDetail detail;
 
-    public static void startAction(Context context, String courseCode, String planCode) {
+    public static void startAction(Activity context, String courseCode, String planCode, int requestCode) {
         Intent intent = new Intent(context, EvaluateEditStudentActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,requestCode);
     }
 
     @Override
@@ -94,6 +95,7 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
             initData();
         }else if(requestCode == 1){
             toast(result.getResponseMsg());
+            setResult(RESULT_OK);
             finish();
         }
 

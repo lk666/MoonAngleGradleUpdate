@@ -83,7 +83,7 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
             viewName.setContentText(detail.courseName);
             viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
             viewSignTime.setContentText(DateUtil.getTimeToYMDHM(detail.signTime));
-            if (detail.score > 0) {
+            if (detail.score >= 0) {
                 viewScore.setContent(String.valueOf(detail.score));
             }
             viewSuggest.setContent(detail.comment);
@@ -106,7 +106,7 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
     }
 
     private void checkBtn() {
-        if (viewScore.getContent().length() > 0 && viewSuggest.getContent().length() > 0) {
+        if (viewSuggest.getContent().length() > 0) {
             btnSubmit.setEnabled(true);
         } else {
             btnSubmit.setEnabled(false);
@@ -117,12 +117,11 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
         if (viewScore.getContent().length() > 0) {
             return Integer.valueOf(viewScore.getContent());
         }
-        return 0;
+        return -1;
     }
 
     @OnClick(R.id.btn_submit)
     public void onClick() {
-        if (viewScore.getContent().length() <= 0) return;
         showWaitDialog();
         OffLineApi.teacherEvaluate(getToken(), viewSuggest.getContent(), courseCode, planCode,
                 getScore(), detail.studentCode, detail.studentName, getNewHandler(1, ResultBase

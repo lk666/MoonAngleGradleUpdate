@@ -80,11 +80,11 @@ public class MyTrainActivity extends OfflineListBaseActivity {
             switch (type) {
                 case OfflineAdapter.TO_NEXT_DETAILS:
                     StudentDetailActivity.startAction(this, curriculumsTable.courseCode,
-                            curriculumsTable.planCode);
+                            curriculumsTable.planCode,0);
                     break;
                 case OfflineAdapter.TO_NEXT_EVALUATE:
                     EvaluateEditStudentActivity.startAction(this, curriculumsTable.courseCode,
-                            curriculumsTable.planCode);
+                            curriculumsTable.planCode,1);
                     break;
             }
         }
@@ -104,4 +104,5 @@ public class MyTrainActivity extends OfflineListBaseActivity {
             }
         }
     }
+
 }

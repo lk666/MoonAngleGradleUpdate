@@ -454,9 +454,9 @@ public class MainActivity extends SlidingActivity {
                     groupCount = userRightResult.getGroupCount();
 
                     // TODO: lk 2016/12/20
-                    if (!BuildConfig.RELEASE) {
-                        mockData();
-                    }
+//                    if (!BuildConfig.RELEASE) {
+//                        mockData();
+//                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -483,19 +483,19 @@ public class MainActivity extends SlidingActivity {
     };
 
     private void mockData() {
-        UserRight item1 = new UserRight();
-        item1.setMenuCode(MenuCode.offline_student.toString());
+        /*UserRight item1 = new UserRight();
+        item1.setMenuCode(MenuCode.offline_training_student.toString());
         item1.setMenuName(getString(R.string.offline_my_train));
         item1.setIconImg(listRight.get(0).getIconImg());
         item1.setGroupNum(1);
         listRight.add(item1);
 
         UserRight item2 = new UserRight();
-        item2.setMenuCode(MenuCode.offline_teacher.toString());
+        item2.setMenuCode(MenuCode.offline_training_teacher.toString());
         item2.setMenuName("我的授课");
         item2.setIconImg(listRight.get(0).getIconImg());
         item2.setGroupNum(1);
-        listRight.add(item2);
+        listRight.add(item2);*/
 
     }
 
@@ -830,11 +830,11 @@ public class MainActivity extends SlidingActivity {
                 EnterpriseWashTabActivity.actionStart(main);
             }
             //我的培训
-            else if (compare(MenuCode.offline_student, menuCode)) {
+            else if (compare(MenuCode.offline_training_student, menuCode)) {
                 MyTrainActivity.actionStart(main);
             }
             //我的授课
-            else if (compare(MenuCode.offline_teacher, menuCode)) {
+            else if (compare(MenuCode.offline_training_teacher, menuCode)) {
                 MyCoursesActivity.actionStart(main);
             }
             else if (compare(MenuCode.card_coupons_web, menuCode)) {

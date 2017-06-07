@@ -114,11 +114,17 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
         MobclickAgent.onPageEnd(getDefaultTag());
     }
 
-    private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
+    private AsyncHttpResponseHandler getHandler(final int requestcode, Class clazz,
                                                 final IHttpRespone iHttpRespone,
                                                 final boolean isShowDialog) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
                 HTTP.UTF_8, this, requestcode, clazz) {
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                onFinishResponse(getReqCode());
+            }
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
@@ -324,6 +330,10 @@ public abstract class BaseActivity extends Activity implements BaseMainInterface
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         PublicUtil.showToastServerBusy();
+    }
+
+    public void onFinishResponse(int requestCode){
+
     }
 
     /**

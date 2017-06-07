@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
-import android.widget.TextView;
 
 import com.umeng.analytics.MobclickAgent;
 
@@ -35,8 +34,8 @@ public class LoginActivity extends BaseActivity {
     ClearEditText etUserName;
     @Bind(R.id.et_user_psw)
     ClearEditText etUserPsw;
-    @Bind(R.id.txt_toast)
-    TextView txtToast;
+//    @Bind(R.id.txt_toast)
+//    TextView txtToast;
     @Bind(R.id.btn_login)
     Button btnLogin;
     private String view;
@@ -64,8 +63,10 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        txtToast.setText(result.getResponseMsg());
-        ViewUtil.showSubmitAmin(btnLogin, txtToast);
+//        txtToast.setText(result.getResponseMsg());
+//        ViewUtil.showSubmitAmin(btnLogin, txtToast);
+        super.onErrorResponse(requestCode,result);
+        ViewUtil.showBtnAmin(btnLogin);
     }
 
     @Override
@@ -114,8 +115,10 @@ public class LoginActivity extends BaseActivity {
 
     private void login(String name, String psw) {
         if (StringUtils.isEmpty(name) || StringUtils.isEmpty(psw)) {
-            txtToast.setText(R.string.login_not_empty);
-            ViewUtil.showSubmitAmin(btnLogin, txtToast);
+//            txtToast.setText(R.string.login_not_empty);
+//            ViewUtil.showSubmitAmin(btnLogin, txtToast);
+            toast(R.string.login_not_empty);
+            ViewUtil.showBtnAmin(btnLogin);
             return;
         }
         DeliveryApi.ssoLogin(name, psw, getNewHandler(0, ResultToken.class));

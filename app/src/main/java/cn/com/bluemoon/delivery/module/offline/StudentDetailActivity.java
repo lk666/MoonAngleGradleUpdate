@@ -1,8 +1,10 @@
 package cn.com.bluemoon.delivery.module.offline;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,11 +80,11 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     private String courseCode;
     private String planCode;
 
-    public static void startAction(Context context, String courseCode, String planCode) {
+    public static void startAction(Activity context, String courseCode, String planCode, int requestCode) {
         Intent intent = new Intent(context, StudentDetailActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
-        context.startActivity(intent);
+        context.startActivityForResult(intent,requestCode);
     }
 
     @Override
@@ -111,14 +113,13 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     @Override
     protected void onActionBarBtnRightClick() {
         showWaitDialog();
-        OffLineApi.cancel(getToken(), courseCode, planCode, ClientStateManager.getUserName(), getNewHandler(1, ResultBase.class));
+        OffLineApi.cancel(getToken(), courseCode, planCode, ClientStateManager.getUserName(),
+                getNewHandler(1, ResultBase.class));
     }
 
     @Override
     public void initView() {
-        showWaitDialog();
-        OffLineApi.courseDetail(getToken(), courseCode, planCode, getNewHandler(0,
-                ResultStudentDetail.class));
+        getData();
         viewTeacher.setListener(this);
         initPopupWindow();
     }
@@ -127,7 +128,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     public void initData() {
         if (detail == null) return;
         setStatus(detail.status, detail.signTime > 0, detail.evaluateDetail !=
-                null);
+                null && !TextUtils.isEmpty(detail.evaluateDetail.courseCode));
         viewName.setContentText(detail.courseName);
         viewState.setContentText(OfflineUtil.getTextByStatus(detail.status, detail.signTime > 0));
         viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
@@ -142,6 +143,12 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
         viewInfo.setData(detail.avatar, detail.teacherName);
     }
 
+    private void getData(){
+        showWaitDialog();
+        OffLineApi.courseDetail(getToken(), courseCode, planCode, getNewHandler(0,
+                ResultStudentDetail.class));
+    }
+
     //设置状态显示
     private void setStatus(String status, boolean isSign, boolean isEvaluate) {
         //已签到，未评价，未关闭：显示评价按钮
@@ -153,6 +160,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
             viewSignTime.setContentText(DateUtil.getTimeToYMDHM(detail.signTime));
             if (isEvaluate) {
                 ViewUtil.setViewVisibility(layoutEvaluate, View.VISIBLE);
+                ViewUtil.setViewVisibility(btnEvaluate, View.GONE);
                 viewContentStar.setRating(detail.evaluateDetail.courseStar);
                 viewTeacherStar.setRating(detail.evaluateDetail.teacherStar);
                 viewSuggest.setContentText(detail.evaluateDetail.comment);
@@ -191,6 +199,8 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
             initData();
         } else if (requestCode == 1) {
             toast(result.getResponseMsg());
+            setResult(RESULT_OK);
+            finish();
         }
 
     }
@@ -201,7 +211,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
             case R.id.txt_phone:
                 break;
             case R.id.btn_evaluate:
-                EvaluateEditStudentActivity.startAction(this, courseCode, planCode);
+                EvaluateEditStudentActivity.startAction(this, courseCode, planCode,0);
                 break;
         }
     }
@@ -214,5 +224,13 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     @Override
     public void onClickRight() {
         popupWindow.showAtLocation(viewTeacher, Gravity.NO_GRAVITY, 0, 0);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 0&&resultCode==RESULT_OK){
+            getData();
+        }
     }
 }

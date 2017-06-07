@@ -60,12 +60,15 @@
                     android:id="@+id/view_content_star"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    app:rank_star2_rating="0"
                     app:rank_star2_titleText="@string/offline_evaluate_teach_content"/>
                 <cn.com.bluemoon.delivery.ui.common.BmRankStar2
                     android:id="@+id/view_teacher_star"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:rank_star2_titleText="@string/offline_evaluate_teach"/>
+                    app:rank_star2_rating="0"
+                    app:rank_star2_titleText="@string/offline_evaluate_teach"
+                />
                 <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
                     android:id="@+id/view_suggest"
                     android:layout_width="match_parent"

@@ -112,8 +112,8 @@
     <string name="request_server_overtime">连接不上服务器，请检查网络再试</string>
 
     <!-- login -->
-    <string name="login_name">人员编号</string>
-    <string name="login_name_hint">请输入人员编号</string>
+    <string name="login_name">账号</string>
+    <string name="login_name_hint">请输入账号</string>
     <string name="login_name_empty">员工编号不能为空！</string>
     <string name="login_password">密码</string>
     <string name="login_password_hint">请输入密码</string>
@@ -1548,6 +1548,6 @@
     <string name="offline_evaluate_score">分数</string>
     <string name="offline_signed">已签到</string>
     <string name="offline_unsign">未签到</string>
-    <string name="login_apply">申请合作伙伴</string>
+    <string name="login_apply"><u>申请合作伙伴</u></string>
 
 </resources>

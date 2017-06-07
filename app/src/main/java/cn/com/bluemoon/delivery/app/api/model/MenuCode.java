@@ -35,8 +35,8 @@ public enum MenuCode {
     receive_appointment_manager,//预约收衣
     receive_enterprise_manager, //企业洗衣
 
-    offline_student,//我的培训
-    offline_teacher//我的授课
+    offline_training_student,//我的培训
+    offline_training_teacher//我的授课
 
 }
 
