@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.ui;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ public class ShowEvaluateDetailPopView {
     }
 
     public void showEva(View v, ResultSignStaffList.Data.Students student) {
-        if(student.score<0){
+        if(student.score<0&& TextUtils.isEmpty(student.comment)){
             return;
         }
         isCancel = true;

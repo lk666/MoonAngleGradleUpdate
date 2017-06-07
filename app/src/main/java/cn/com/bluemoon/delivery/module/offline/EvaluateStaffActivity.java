@@ -173,6 +173,7 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                 break;
             case HTTP_REQUEST_CODE_GET_NUM:
                 ResultEvaluateNum evaluateNum= (ResultEvaluateNum) result;
+                ctxtSignNumber.setContentText((evaluateNum.data.evaluatedNum+evaluateNum.data.unEvaluatedNum) + "人");
                 segmentTab.setTextList(getArrString(evaluateNum.data.unEvaluatedNum,evaluateNum.data.evaluatedNum));
                 segmentTab.setCheckCallBack(this);
                 requestData(defPosition);
@@ -204,6 +205,9 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                     EvaluateEditTeacherActivity.startAction(this,curriculumsTable.courseCode,curriculumsTable.planCode);
                 break;
                 case SignStaffAdapter.CLICK_ITEM:
+                    if(currentPositionToType(segmentTab.getCurrentPosition())==SignStaffAdapter.TYPE_UN_EVALUATE){
+                        return;
+                    }
                 if (window==null) {
                     window=new ShowEvaluateDetailPopView(this,this);
                 }
