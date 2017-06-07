@@ -84,8 +84,8 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                         .setTxtAddress(curriculumsTable.address);
                 break;
             case LIST_TEACHER:
-                itemView.setTxtWillnum(String.valueOf(curriculumsTable.enrollNum))
-                        .setTxtSignedInTheNumberOf(String.valueOf(curriculumsTable.signNum))
+                itemView.setTxtWillnum(String.valueOf(curriculumsTable.enrollNum)+"人")
+                        .setTxtSignedInTheNumberOf(String.valueOf(curriculumsTable.signNum)+"人")
                         .setTxtTrainClassroom(curriculumsTable.room)
                         .setTxtTrainAddress(curriculumsTable.address);
                 switch (positionMode) {

@@ -49,7 +49,7 @@ public class ShowEvaluateDetailPopView {
         if(signTimeView!=null)
         signTimeView.setText(DateUtil.getTimeToYMDHM(student.assignTime));
         if(gradeView!=null)
-            gradeView.setText(String.valueOf(student.score));
+            gradeView.setText(String.valueOf(student.score<0?context.getString(R.string.offline_not_yet_been_rated):student.score));
         if(evaluateView!=null)
             evaluateView.setText(context.getString(R.string.offline_type_evaluate)+student.comment);
         ll_popup.startAnimation(AnimationUtils.loadAnimation(context,

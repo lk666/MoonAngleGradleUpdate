@@ -79,7 +79,7 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
             layoutDetail.setVisibility(View.GONE);
         }else {
             layoutDetail.setVisibility(View.VISIBLE);
-            gradeView.setText(String.valueOf(student.score));
+            gradeView.setText(String.valueOf(student.score<0?context.getString(R.string.offline_not_yet_been_rated):student.score));
             evaluateView.setText(context.getString(R.string.offline_type_evaluate)+student.comment);
         }
 

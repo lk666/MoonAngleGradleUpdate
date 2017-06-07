@@ -1548,6 +1548,7 @@
     <string name="offline_evaluate_score">分数</string>
     <string name="offline_signed">已签到</string>
     <string name="offline_unsign">未签到</string>
+    <string name="offline_not_yet_been_rated">您还没有给该学员打分哦</string>
     <string name="login_apply">申请合作伙伴</string>
 
 </resources>
