@@ -175,7 +175,7 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                 ResultEvaluateNum evaluateNum= (ResultEvaluateNum) result;
                 segmentTab.setTextList(getArrString(evaluateNum.data.unEvaluatedNum,evaluateNum.data.evaluatedNum));
                 segmentTab.setCheckCallBack(this);
-                segmentTab.changeTab(defPosition);
+                requestData(defPosition);
                 break;
         }
     }
@@ -217,6 +217,7 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
     public void checkListener(int position) {
         adapter.setList(new ArrayList<ResultSignStaffList.Data.Students>(),currentPositionToType(position));
         adapter.notifyDataSetChanged();
+        footView.setVisibility(View.GONE);
         requestData(position);
     }
 

@@ -199,6 +199,14 @@ public class OfflineTrainingItemView extends FrameLayout {
         txtWillnum.setText(willnum);
         return this;
     }
+    /**
+     * 报名人数
+     * @param isShow
+     * @return
+     */
+    public void setTxtWillnumIsShow(boolean isShow) {
+        llayoutWillnum.setVisibility(isShow?View.VISIBLE:View.GONE);
+    }
 
     /**
      * 签到人数
@@ -209,6 +217,14 @@ public class OfflineTrainingItemView extends FrameLayout {
         llayoutSignedInTheNumberOf.setVisibility(TextUtils.isEmpty(signedInTheNumberOf)?View.GONE:View.VISIBLE);
         txtSignedInTheNumberOf.setText(signedInTheNumberOf);
         return this;
+    }
+    /**
+     * 签到人数
+     * @param isShow
+     * @return
+     */
+    public void setTxtSignedInTheNumberOfIsShow(boolean isShow) {
+        llayoutSignedInTheNumberOf.setVisibility(isShow?View.VISIBLE:View.GONE);
     }
 
     /**
