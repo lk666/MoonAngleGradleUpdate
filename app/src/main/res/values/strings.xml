@@ -1550,5 +1550,7 @@
     <string name="offline_unsign">未签到</string>
     <string name="offline_not_yet_been_rated">您还没有给该学员打分哦</string>
     <string name="login_apply"><u>申请合作伙伴</u></string>
+    <string name="offline_date_compare">所选月份不能大于当前月份</string>
+    <string name="offline_sign_enable">当前教室无可签到课程</string>
 
 </resources>

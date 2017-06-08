@@ -13,4 +13,9 @@ public interface OnButtonClickListener {
      * 点击取消按钮的回调
      */
      void onCancleButtonClick();
+
+    /**
+     * 选中时间大于最大时间时提示，null为不做判断
+     */
+    String getCompareTips();
 }

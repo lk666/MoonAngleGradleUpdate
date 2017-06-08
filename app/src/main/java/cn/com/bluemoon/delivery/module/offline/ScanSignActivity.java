@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.offline;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.module.base.BaseScanActivity;
 import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 public class ScanSignActivity extends ScanActivity {
@@ -36,12 +38,24 @@ public class ScanSignActivity extends ScanActivity {
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        if(result==null){
+        if (result == null) {
             startDelay();
             return;
         }
-        ResultSignDetail.SignDetailData data = ((ResultSignDetail)result).data;
-        SelectSignActivity.actionStart(ScanSignActivity.this,data,1);
+        ResultSignDetail.SignDetailData data = ((ResultSignDetail) result).data;
+        if (data.courses != null && !data.courses.isEmpty()) {
+            SelectSignActivity.actionStart(ScanSignActivity.this, data, 1);
+        } else {
+            DialogUtil.getMessageDialog(this, null, getString(R.string.offline_sign_enable),
+                    getString(R.string.btn_ok),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startDelay();
+                        }
+                    }).setCancelable(false).show();
+        }
+
     }
 
     @Override
@@ -65,7 +79,7 @@ public class ScanSignActivity extends ScanActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1&&resultCode==RESULT_OK){
+        if (requestCode == 1 && resultCode == RESULT_OK) {
             setResult(RESULT_OK);
             finish();
         }

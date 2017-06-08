@@ -112,6 +112,11 @@ public class SampleActivity extends Activity {
                         Toast.makeText(SampleActivity.this, "Date Cancle", Toast
                                 .LENGTH_SHORT).show();
                     }
+
+                    @Override
+                    public String getCompareTips() {
+                        return null;
+                    }
                 });
                 d.show();
                 break;
@@ -132,6 +137,11 @@ public class SampleActivity extends Activity {
                     public void onCancleButtonClick() {
                         Toast.makeText(SampleActivity.this, "Time Cancle", Toast
                                 .LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public String getCompareTips() {
+                        return null;
                     }
                 });
                 t.show();

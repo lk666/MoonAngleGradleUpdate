@@ -159,7 +159,7 @@ public class BMRadioItemView extends RelativeLayout {
     private void setDisable(boolean enable) {
         imgCheck.setEnabled(enable);
         txtContent.setEnabled(enable);
-        layoutMain.setEnabled(enable);
+//        layoutMain.setEnabled(enable);
     }
 
     //设置是否选择

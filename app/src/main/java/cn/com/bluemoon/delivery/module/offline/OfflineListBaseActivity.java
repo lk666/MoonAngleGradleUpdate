@@ -321,4 +321,9 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     public void onCancleButtonClick() {
 
     }
+
+    @Override
+    public String getCompareTips() {
+        return getString(R.string.offline_date_compare);
+    }
 }

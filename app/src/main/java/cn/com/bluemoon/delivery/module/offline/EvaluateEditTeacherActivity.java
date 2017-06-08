@@ -40,13 +40,18 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
     BMAngleBtn1View btnSubmit;
     private String courseCode;
     private String planCode;
+    private String studentCode;
+    private String studentName;
 
     private EvaluateDetail detail;
 
-    public static void startAction(Context context, String courseCode, String planCode) {
+    public static void startAction(Context context, String courseCode, String planCode, String
+            studentCode, String studentName) {
         Intent intent = new Intent(context, EvaluateEditTeacherActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
+        intent.putExtra("studentCode", studentCode);
+        intent.putExtra("studentName", studentName);
         context.startActivity(intent);
     }
 
@@ -54,6 +59,8 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
     protected void onBeforeSetContentLayout() {
         courseCode = getIntent().getStringExtra("courseCode");
         planCode = getIntent().getStringExtra("planCode");
+        studentCode = getIntent().getStringExtra("studentCode");
+        studentName = getIntent().getStringExtra("studentName");
     }
 
     @Override
@@ -72,14 +79,14 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
         viewScore.setListener(this);
         viewSuggest.setListener(this);
         showWaitDialog();
-        OffLineApi.teacherGetEvaluateDetail(getToken(), courseCode, planCode, ClientStateManager
-                .getUserName(), getNewHandler(0, ResultEvaluateDetail.class));
+        OffLineApi.teacherGetEvaluateDetail(getToken(), courseCode, planCode, studentCode,
+                getNewHandler(0, ResultEvaluateDetail.class));
     }
 
     @Override
     public void initData() {
         if (detail != null) {
-            viewStudent.setContentText(detail.studentName + " " + detail.studentCode);
+            viewStudent.setContentText(studentName + " " + studentCode);
             viewName.setContentText(detail.courseName);
             viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
             viewSignTime.setContentText(DateUtil.getTimeToYMDHM(detail.signTime));
@@ -95,8 +102,8 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
             case 0:
-                ResultEvaluateDetail evaluateDetail= (ResultEvaluateDetail) result;
-                detail=evaluateDetail.data;
+                ResultEvaluateDetail evaluateDetail = (ResultEvaluateDetail) result;
+                detail = evaluateDetail.data;
                 initData();
                 break;
             case 1:
@@ -124,13 +131,13 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
     public void onClick() {
         showWaitDialog();
         OffLineApi.teacherEvaluate(getToken(), viewSuggest.getContent(), courseCode, planCode,
-                getScore(), detail.studentCode, detail.studentName, getNewHandler(1, ResultBase
+                getScore(), studentCode, studentName, getNewHandler(1, ResultBase
                         .class));
     }
 
     @Override
     public void afterTextChanged(View view, String text) {
-        if(view==viewScore&&!TextUtils.isEmpty(text)&& Integer.parseInt(text)>100){
+        if (view == viewScore && !TextUtils.isEmpty(text) && Integer.parseInt(text) > 100) {
             viewScore.setContent("100");
             return;
         }

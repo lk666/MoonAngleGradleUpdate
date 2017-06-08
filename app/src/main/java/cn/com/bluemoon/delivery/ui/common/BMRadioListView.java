@@ -16,6 +16,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * Created by bm on 2017/5/26.
@@ -116,6 +117,12 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
     @Override
     public void onItemClick(Object item, View view, int position) {
         RadioItem radioItem = (RadioItem) item;
+        if(BMRadioItemView.TYPE_DISABLE == radioItem.type){
+            if(listener!=null){
+                listener.onClickDisable(position,radioItem.value);
+            }
+            return;
+        }
         if (radioItem.type != BMRadioItemView.TYPE_NORMAL) return;
         for (int i = 0; i < itemList.size(); i++) {
             if (itemList.get(i).type != -1) {
@@ -160,5 +167,7 @@ public class BMRadioListView extends FrameLayout implements OnListItemClickListe
 
     public interface ClickListener {
         void onSelected(int position, Object value);
+
+        void onClickDisable(int position,Object value);
     }
 }

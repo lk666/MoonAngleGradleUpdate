@@ -101,7 +101,7 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
                     .getTimeToHours(course.endTime) + "\n"
                     + getString(R.string.offline_sign_course, course.courseName) + "\n"
                     + getString(R.string.offline_sign_teacher, course.teacherName);
-            list.add(new RadioItem(course, text, 0));
+            list.add(new RadioItem(course, text, course.isSign==1?-1:0));
         }
         return list;
     }
@@ -119,5 +119,14 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
     @Override
     public void onSelected(int position, Object value) {
         checkSignButton();
+    }
+
+    @Override
+    public void onClickDisable(int position, Object value) {
+        if (value instanceof ResultSignDetail.SignDetailData.Course) {
+            ResultSignDetail.SignDetailData.Course obj = (ResultSignDetail.SignDetailData.Course)
+                    value;
+            toast(obj.message);
+        }
     }
 }

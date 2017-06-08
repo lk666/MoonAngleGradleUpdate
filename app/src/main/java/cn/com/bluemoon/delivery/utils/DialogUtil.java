@@ -4,8 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.text.TextUtils;
 import android.view.Gravity;
 
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.manager.CacheManager;
@@ -19,7 +21,8 @@ public class DialogUtil extends LibDialogUtil {
 
     public static QRCodeDialog showCodeDialog(Activity context, String title,
                                               String code, String str) {
-        return showCodeDialog(context, title, null, code, str, null, PublicUtil.getPhotoPath(), null);
+        return showCodeDialog(context, title, null, code, str, null, PublicUtil.getPhotoPath(),
+                null);
     }
 
     public static ImageDialog showPictureDialog(Activity context, String imgUrl) {
@@ -28,6 +31,96 @@ public class DialogUtil extends LibDialogUtil {
 
     public static ImageDialog showPictureDialog(Activity context, Bitmap bit) {
         return showPictureDialog(context, bit, null, PublicUtil.getPhotoPath(), null);
+    }
+
+    /**
+     * 获取一个dialog
+     */
+    public static CommonAlertDialog.Builder getSimpleDialog(Context context) {
+        return new CommonAlertDialog.Builder(context);
+    }
+
+    /**
+     * 获取一个dialog
+     *
+     * @param context
+     * @param title
+     * @param message
+     * @param okString
+     * @param cancelString
+     * @param onOkClickListener
+     * @param onCancelClickListener
+     * @return
+     */
+    public static CommonAlertDialog.Builder getCommonDialog(Context context,
+                                                            String title,
+                                                            String message,
+                                                            String okString,
+                                                            String cancelString,
+                                                            DialogInterface.OnClickListener
+                                                                    onOkClickListener,
+                                                            DialogInterface.OnClickListener
+                                                                    onCancelClickListener) {
+        CommonAlertDialog.Builder builder = new CommonAlertDialog.Builder(context);
+        if (!TextUtils.isEmpty(title)) {
+            builder.setTitle(title);
+        }
+        builder.setMessage(message);
+        builder.setPositiveButton(okString, onOkClickListener);
+        if (!TextUtils.isEmpty(cancelString)) {
+            builder.setNegativeButton(cancelString, onCancelClickListener);
+        }
+        return builder;
+    }
+
+    /**
+     * 获取一个dialog
+     *
+     * @param context
+     * @param title
+     * @param message
+     * @param okString
+     * @param onOkClickListener
+     * @return
+     */
+    public static CommonAlertDialog.Builder getMessageDialog(Context context,
+                                                             String title,
+                                                             String message,
+                                                             String okString,
+                                                             DialogInterface.OnClickListener
+                                                                     onOkClickListener) {
+        CommonAlertDialog.Builder builder = new CommonAlertDialog.Builder(context);
+        if (!TextUtils.isEmpty(title)) {
+            builder.setTitle(title);
+        }
+        builder.setMessage(message);
+        builder.setPositiveButton(okString, onOkClickListener);
+        return builder;
+    }
+
+    public static CommonAlertDialog.Builder getMsgDialog(Context context, String message) {
+        return getMessageDialog(context, null, message, AppContext.getInstance().getString(R
+                .string.btn_ok), null);
+    }
+
+    /**
+     * 获取默认取消按钮的对话框
+     *
+     * @param context
+     * @param title
+     * @param message
+     * @param okString
+     * @param onOkClickListener
+     * @return
+     */
+    public static CommonAlertDialog.Builder getCommonDialog(Context context,
+                                                            String title,
+                                                            String message,
+                                                            String okString,
+                                                            DialogInterface.OnClickListener
+                                                                    onOkClickListener) {
+        return getCommonDialog(context, title, message, context.getString(R.string
+                .btn_cancel_space), okString, null, onOkClickListener);
     }
 
     /**
@@ -100,7 +193,6 @@ public class DialogUtil extends LibDialogUtil {
         dialog.setNegativeButton(R.string.btn_cancel_space, null);
         return dialog;
     }
-
 
 
     /**

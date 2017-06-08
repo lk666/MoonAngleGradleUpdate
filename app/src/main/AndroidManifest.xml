@@ -845,12 +845,14 @@
         <activity
             android:name=".module.offline.EvaluateEditStudentActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme">
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".module.offline.EvaluateEditTeacherActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme">
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity
             android:name=".module.offline.SignStaffListActivity"

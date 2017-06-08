@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.ui.selectordialog;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.TextView;
@@ -12,6 +13,8 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * 日期控件
@@ -116,8 +119,13 @@ public class DateSelectDialog extends Dialog {
                 break;
             case R.id.btn_ok:
                 if (listener != null) {
-                    dismiss();
-                    listener.onOKButtonClick(curTime.getTimeInMillis());
+                    if (!TextUtils.isEmpty(listener.getCompareTips()) && curTime.getTimeInMillis
+                            () > endTime.getTimeInMillis()) {
+                        ViewUtil.toast(listener.getCompareTips());
+                    } else {
+                        dismiss();
+                        listener.onOKButtonClick(curTime.getTimeInMillis());
+                    }
                 }
                 break;
             case R.id.rl_main:
@@ -131,7 +139,7 @@ public class DateSelectDialog extends Dialog {
      */
     private void initSelectView() {
         // 年
-        int start = starTime.get(Calendar.YEAR);
+        final int start = starTime.get(Calendar.YEAR);
         nwvYear.initData(start, endTime.get(Calendar.YEAR), curTime.get(Calendar.YEAR) - start);
         nwvYear.setOnSelectListener(
                 new OnSelectChangedListener() {
@@ -155,6 +163,10 @@ public class DateSelectDialog extends Dialog {
                         if (curDayCount != dayCount) {
                             nwvDate.resetData(1, curDayCount, date - 1);
                         }
+//                        if (curTime.getTimeInMillis() > endTime.getTimeInMillis()) {
+//                        curTime.setTimeInMillis(endTime.getTimeInMillis());
+//                        initSelectView();
+//                    }
                     }
                 }
         );
@@ -183,6 +195,10 @@ public class DateSelectDialog extends Dialog {
                         if (curDayCount != dayCount) {
                             nwvDate.resetData(1, curDayCount, date - 1);
                         }
+//                        if (curTime.getTimeInMillis() > endTime.getTimeInMillis()) {
+//                            curTime.setTimeInMillis(endTime.getTimeInMillis());
+//                            initSelectView();
+//                        }
                     }
                 }
         );
