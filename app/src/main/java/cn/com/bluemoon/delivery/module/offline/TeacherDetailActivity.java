@@ -157,6 +157,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         switch (requestCode) {
             case 0:
                 teacherDetail = (ResultTeacherDetail) result;
+                if(teacherDetail.data!=null)
                 initNetWordData();
                 break;
         }

@@ -47,7 +47,7 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/txt_yt"
             android:layout_below="@+id/txt_yt"
-            android:layout_marginBottom="12dp"
+            android:paddingBottom="12dp"
             android:layout_marginRight="12dp"
             android:layout_marginTop="8dp"
             android:layout_toLeftOf="@+id/llayout_icon"
