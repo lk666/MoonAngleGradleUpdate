@@ -26,7 +26,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 
 public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener {
 
-    private ElevationButton btn;
+    private Button btn;
 
     protected int colorNormal = 0;
     protected int colorPressed = 0;
@@ -69,7 +69,7 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     private void init(AttributeSet attrs) {
         setClickable(true);
         LayoutInflater.from(getContext()).inflate(R.layout.layout_bm_angle_btn, this, true);
-        btn = (ElevationButton) findViewById(R.id.btn_todo);
+        btn = (Button) findViewById(R.id.btn_todo);
         btn.setClickable(false);
         this.setOnTouchListener(this);
 
@@ -321,10 +321,12 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     @Override
     public void setTranslationZ(float translationZ) {
         if (translationZ == -1) return;
-        if (!isEnabled() && btn.getTranslationZ() > 0) {
-            btn.setTranslationZ(0);
-        } else {
-            btn.setTranslationZ(translationZ);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (!isEnabled() && btn.getTranslationZ() > 0) {
+                btn.setTranslationZ(0);
+            } else {
+                btn.setTranslationZ(translationZ);
+            }
         }
         LogUtils.d("translationZ:" + translationZ);
     }
@@ -332,12 +334,30 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     @Override
     public void setElevation(float elevation) {
         if (elevation == -1) return;
-        if (!isEnabled() && btn.getElevation() > 0) {
-            btn.setElevation(0);
-        } else {
-            btn.setElevation(elevation);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (!isEnabled() && btn.getElevation() > 0) {
+                btn.setElevation(0);
+            } else {
+                btn.setElevation(elevation);
+            }
         }
         LogUtils.d("elevation:" + elevation);
+    }
+
+    @Override
+    public float getElevation() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return btn.getElevation();
+        }
+        return 0;
+    }
+
+    @Override
+    public float getTranslationZ() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            return btn.getTranslationZ();
+        }
+        return 0;
     }
 
     @Override

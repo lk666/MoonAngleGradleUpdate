@@ -8,6 +8,7 @@ import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -21,7 +22,7 @@ import cn.com.bluemoon.delivery.ui.common.interf.BMFieldListener;
  * Created by bm on 2017/5/25.
  */
 
-public class BMFieldParagraphView extends RelativeLayout {
+public class BMFieldParagraphView extends RelativeLayout implements View.OnTouchListener{
 
     private TextView txtTitle;
     private TextView txtCount;
@@ -50,6 +51,7 @@ public class BMFieldParagraphView extends RelativeLayout {
         etContent = (EditText) findViewById(R.id.et_content);
         lineBottom = findViewById(R.id.lin_bottom);
         etContent.addTextChangedListener(textWatcher);
+        etContent.setOnTouchListener(this);
         setMaxCount(200);
     }
 
@@ -235,4 +237,15 @@ public class BMFieldParagraphView extends RelativeLayout {
         return etContent.getText().toString();
     }
 
+    @Override
+    public boolean onTouch(View v, MotionEvent event) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
+            v.getParent().requestDisallowInterceptTouchEvent(true);
+        } else if (event.getAction() == MotionEvent.ACTION_UP) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        } else if (event.getAction() == MotionEvent.ACTION_CANCEL) {
+            v.getParent().requestDisallowInterceptTouchEvent(false);
+        }
+        return false;
+    }
 }

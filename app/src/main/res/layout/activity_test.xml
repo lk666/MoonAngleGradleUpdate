@@ -101,6 +101,15 @@
                 app:btn_text_size="17sp"
                 app:btn_type="blue"
             />
+
+            <cn.com.bluemoon.delivery.ui.common.FloatButton
+                android:layout_width="60dp"
+                android:layout_height="60dp"/>
+
+            <cn.com.bluemoon.delivery.ui.common.BMFieldText1View
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:field_text1_title="henhao"/>
         </LinearLayout>
 
     </ScrollView>
