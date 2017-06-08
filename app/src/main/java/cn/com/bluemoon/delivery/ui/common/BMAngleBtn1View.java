@@ -26,7 +26,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 
 public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener {
 
-    private Button btn;
+    private ElevationButton btn;
 
     protected int colorNormal = 0;
     protected int colorPressed = 0;
@@ -69,7 +69,7 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     private void init(AttributeSet attrs) {
         setClickable(true);
         LayoutInflater.from(getContext()).inflate(R.layout.layout_bm_angle_btn, this, true);
-        btn = (Button) findViewById(R.id.btn_todo);
+        btn = (ElevationButton) findViewById(R.id.btn_todo);
         btn.setClickable(false);
         this.setOnTouchListener(this);
 
@@ -318,7 +318,6 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         setElevation(translationZ);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setTranslationZ(float translationZ) {
         if (translationZ == -1) return;
@@ -330,7 +329,6 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         LogUtils.d("translationZ:" + translationZ);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void setElevation(float elevation) {
         if (elevation == -1) return;
@@ -340,18 +338,6 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
             btn.setElevation(elevation);
         }
         LogUtils.d("elevation:" + elevation);
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public float getElevation() {
-        return btn.getElevation();
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    @Override
-    public float getTranslationZ() {
-        return btn.getTranslationZ();
     }
 
     @Override

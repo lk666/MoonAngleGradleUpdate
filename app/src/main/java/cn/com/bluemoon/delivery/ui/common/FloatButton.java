@@ -14,7 +14,7 @@ import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
  * Created by bm on 2017/6/6.
  */
 
-public class FloatButton extends Button implements View.OnTouchListener {
+public class FloatButton extends ElevationButton implements View.OnTouchListener {
 
     private final static float z = 3.0f;
     private final static float zDown = 2.0f;
