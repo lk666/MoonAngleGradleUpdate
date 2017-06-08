@@ -35,7 +35,9 @@ public class FloatButton extends Button implements View.OnTouchListener {
         setGravity(Gravity.CENTER);
         setTextSize(12);
         setTextColor(0xffffffff);
-        setElevation(dip2px(z));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            setElevation(dip2px(z));
+        }
         setOnTouchListener(this);
     }
 
@@ -44,21 +46,17 @@ public class FloatButton extends Button implements View.OnTouchListener {
     }
 
     @Override
-    public void setElevation(float elevation) {
-        if (!isEnabled()) return;
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
-            super.setElevation(elevation);
-        }
-    }
-
-    @Override
     public boolean onTouch(View v, MotionEvent event) {
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN:
-                setElevation(WidgeUtil.dip2px(getContext(), zDown));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    setElevation(WidgeUtil.dip2px(getContext(), zDown));
+                }
                 break;
             case MotionEvent.ACTION_UP:
-                setElevation(WidgeUtil.dip2px(getContext(), z));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    setElevation(WidgeUtil.dip2px(getContext(), z));
+                }
                 break;
         }
         return false;

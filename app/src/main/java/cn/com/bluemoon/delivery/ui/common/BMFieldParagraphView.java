@@ -12,6 +12,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -22,7 +23,7 @@ import cn.com.bluemoon.delivery.ui.common.interf.BMFieldListener;
  * Created by bm on 2017/5/25.
  */
 
-public class BMFieldParagraphView extends RelativeLayout implements View.OnTouchListener{
+public class BMFieldParagraphView extends FrameLayout implements View.OnTouchListener{
 
     private TextView txtTitle;
     private TextView txtCount;

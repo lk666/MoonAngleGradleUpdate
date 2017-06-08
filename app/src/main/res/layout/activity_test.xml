@@ -104,7 +104,8 @@
 
             <cn.com.bluemoon.delivery.ui.common.FloatButton
                 android:layout_width="60dp"
-                android:layout_height="60dp"/>
+                android:layout_height="60dp"
+                android:text="按钮"/>
 
             <cn.com.bluemoon.delivery.ui.common.BMFieldText1View
                 android:layout_width="match_parent"

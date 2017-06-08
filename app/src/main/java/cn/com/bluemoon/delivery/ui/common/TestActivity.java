@@ -1,17 +1,15 @@
 package cn.com.bluemoon.delivery.ui.common;
 
-import android.os.Bundle;
+import android.view.WindowManager;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
-import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
 
 public class TestActivity extends BaseActivity {
 
@@ -30,6 +28,12 @@ public class TestActivity extends BaseActivity {
     BMAngleBtn1View btn1;
     @Bind(R.id.btn2)
     BMAngleBtn1View btn2;
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+    }
 
     @Override
     protected int getLayoutId() {
