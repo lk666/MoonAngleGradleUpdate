@@ -80,11 +80,12 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     private String courseCode;
     private String planCode;
 
-    public static void startAction(Activity context, String courseCode, String planCode, int requestCode) {
+    public static void startAction(Activity context, String courseCode, String planCode, int
+            requestCode) {
         Intent intent = new Intent(context, StudentDetailActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
-        context.startActivityForResult(intent,requestCode);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -127,8 +128,8 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     @Override
     public void initData() {
         if (detail == null) return;
-        setStatus(detail.status, detail.signTime > 0, detail.evaluateDetail !=
-                null && !TextUtils.isEmpty(detail.evaluateDetail.courseCode));
+        setStatus(detail.status, detail.signTime > 0, detail.isEvaluated == 1 && detail
+                .evaluateDetail != null);
         viewName.setContentText(detail.courseName);
         viewState.setContentText(OfflineUtil.getTextByStatus(detail.status, detail.signTime > 0));
         viewTime.setContentText(DateUtil.getTimes(detail.startTime, detail.endTime));
@@ -143,7 +144,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
         viewInfo.setData(detail.avatar, detail.teacherName);
     }
 
-    private void getData(){
+    private void getData() {
         showWaitDialog();
         OffLineApi.courseDetail(getToken(), courseCode, planCode, getNewHandler(0,
                 ResultStudentDetail.class));
@@ -211,7 +212,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
             case R.id.txt_phone:
                 break;
             case R.id.btn_evaluate:
-                EvaluateEditStudentActivity.startAction(this, courseCode, planCode,0);
+                EvaluateEditStudentActivity.startAction(this, courseCode, planCode, 0);
                 break;
         }
     }
@@ -229,7 +230,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 0&&resultCode==RESULT_OK){
+        if (requestCode == 0 && resultCode == RESULT_OK) {
             getData();
         }
     }

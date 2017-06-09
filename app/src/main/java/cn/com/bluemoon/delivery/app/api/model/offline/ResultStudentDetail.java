@@ -29,6 +29,7 @@ public class ResultStudentDetail extends ResultBase {
         public String teacherName;
         public String topic;
         public EvaluateDetail evaluateDetail;
+        public int isEvaluated;
 
     }
 
