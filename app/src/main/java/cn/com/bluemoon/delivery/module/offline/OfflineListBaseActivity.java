@@ -2,9 +2,11 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewStub;
 import android.widget.AbsListView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -31,6 +33,8 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 /**
  * 列表父类
@@ -46,7 +50,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     @Bind(R.id.listview_offline)
     PullToRefreshListView listviewOffline;
 
-    private View headView;
+    private View llayoutHeadview;
     private View dafHeadView;
     private TextView ytTime;
     private TextView totalCourses;
@@ -101,17 +105,18 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
 
     @Override
     public void initView() {
-        headView = LayoutInflater.from(this).inflate(R.layout.headview_offline_list, null);
         dafHeadView=new View(this);
         dafHeadView.setLayoutParams(new AbsListView.LayoutParams(AbsListView.LayoutParams.MATCH_PARENT, (int) getResources().getDimension(R.dimen.offline_listview_padding_top)));
         dafHeadView.setBackgroundColor(getResources().getColor(R.color.page_bg_f2));
-        ytTime = (TextView) headView.findViewById(R.id.txt_yt);
-        totalCourses = (TextView) headView.findViewById(R.id.txt_total_courses);
-        totalDuration = (TextView) headView.findViewById(R.id.txt_total_duration);
-        timeSelector = (RelativeLayout) headView.findViewById(R.id.llayout_time_selector);
+        ytTime = (TextView) findViewById(R.id.txt_yt);
+        totalCourses = (TextView) findViewById(R.id.txt_total_courses);
+        totalDuration = (TextView) findViewById(R.id.txt_total_duration);
+        timeSelector = (RelativeLayout) findViewById(R.id.llayout_time_selector);
+        llayoutHeadview=findViewById(R.id.llayout_headview);
         timeSelector.setOnClickListener(this);
-        headView.setVisibility(View.GONE);
+        llayoutHeadview.setVisibility(View.GONE);
         listviewOffline.getRefreshableView().addHeaderView(dafHeadView);
+        initEmptyMsg();
     }
 
 
@@ -174,6 +179,11 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                     return;
                 }
                 ResultTeacherAndStudentList list = (ResultTeacherAndStudentList) result;
+                if(list.data.courses==null||list.data.courses.isEmpty()){
+                    showEmptyView();
+                }else{
+                    LibViewUtil.setViewVisibility(emptyView, View.GONE);
+                }
                 adapter.setList(list.data.courses, stateTogPosition(status));
                 adapter.notifyDataSetChanged();
                 if(status.equals(Constants.OFFLINE_STATUS_END_CLASS)){
@@ -228,16 +238,12 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
      */
     private void setShowHeadView(boolean isShow){
         if(isShow){
-            if(headView.getVisibility()==View.GONE){
-                headView.setVisibility(View.VISIBLE);
-                listviewOffline.getRefreshableView().removeHeaderView(dafHeadView);
-                listviewOffline.getRefreshableView().addHeaderView(headView);
+            if(llayoutHeadview.getVisibility()==View.GONE){
+                llayoutHeadview.setVisibility(View.VISIBLE);
             }
         }else{
-            if(headView.getVisibility()==View.VISIBLE){
-                headView.setVisibility(View.GONE);
-                listviewOffline.getRefreshableView().removeHeaderView(headView);
-                listviewOffline.getRefreshableView().addHeaderView(dafHeadView);
+            if(llayoutHeadview.getVisibility()==View.VISIBLE){
+                llayoutHeadview.setVisibility(View.GONE);
             }
         }
     }
@@ -303,6 +309,69 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         }
     }
 
+    /**
+     * 空数据页面View
+     */
+    private View emptyView;
+    private String emptyMsg;
+    /**
+     * 显示空数据页
+     */
+    protected void showEmptyView() {
+        if (emptyView == null) {
+            int layoutId = R.layout.viewstub_wrapper;
+            final View viewStub = findViewById(R.id.viewstub_empty);
+            if (viewStub != null) {
+                final ViewStub stub = (ViewStub) viewStub;
+                stub.setLayoutResource(layoutId);
+                emptyView = stub.inflate();
+                initEmptyViewEvent(emptyView);
+            }
+        }
+
+        if (!TextUtils.isEmpty(emptyMsg)) {
+            ((CommonEmptyView) ((ViewGroup) emptyView).getChildAt(0)).setContentText(emptyMsg);
+        }
+
+        LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
+    }
+    /**
+     * 设置空数据页面
+     *
+     * @param emptyView
+     */
+    private void initEmptyViewEvent(View emptyView) {
+        CommonEmptyView empty = new CommonEmptyView(this);
+        empty.setEmptyListener(new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                requestData();
+            }
+        });
+        ((ViewGroup) emptyView).addView(empty);
+    }
+    /**
+     * 初始化空数据页文字
+     */
+    private void initEmptyMsg() {
+        setEmptyViewMsg(getEmptyMsg());
+    }
+    /**
+     * 设置空数据页显示信息
+     */
+    final protected void setEmptyViewMsg(String msg) {
+        emptyMsg = msg;
+
+        if (emptyView != null) {
+            ((CommonEmptyView) ((ViewGroup) emptyView).getChildAt(0)).setContentText(emptyMsg);
+        }
+    }
+    /**
+     * 获取空数据页文案
+     */
+    protected String getEmptyMsg(){
+        return getString(R.string.empty_hint3,getTitleString()==null?"":getTitleString());
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

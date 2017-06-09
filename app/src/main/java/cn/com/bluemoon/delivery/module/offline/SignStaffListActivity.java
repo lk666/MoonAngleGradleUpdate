@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 
 import java.util.List;
@@ -15,6 +16,7 @@ import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewActivity;
 import cn.com.bluemoon.delivery.module.offline.adapter.SignStaffAdapter;
 import cn.com.bluemoon.delivery.ui.ShowEvaluateDetailPopView;
 import cn.com.bluemoon.delivery.ui.common.BMListPaginationView;
+import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 
@@ -58,6 +60,8 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         super.initPullToRefreshListView(ptrlv);
+        ptrlv.getRefreshableView().setDivider(new ColorDrawable(getResources().getColor(R.color.line_soild_bg)));
+        ptrlv.getRefreshableView().setDividerHeight(WidgeUtil.dip2px(this,0.5f));
         footView=new BMListPaginationView(this);
         ptrlv.getRefreshableView().addFooterView(footView);
         footView.setVisibility(View.GONE);
