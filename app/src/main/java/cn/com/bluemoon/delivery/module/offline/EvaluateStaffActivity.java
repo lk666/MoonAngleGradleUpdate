@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ListView;
@@ -25,6 +26,7 @@ import cn.com.bluemoon.delivery.ui.ShowEvaluateDetailPopView;
 import cn.com.bluemoon.delivery.ui.common.BMListPaginationView;
 import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
 import cn.com.bluemoon.delivery.ui.common.BmSegmentView;
+import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
@@ -95,6 +97,8 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
 
     @Override
     public void initView() {
+        ptrlv.getRefreshableView().setDivider(new ColorDrawable(getResources().getColor(R.color.line_soild_bg)));
+        ptrlv.getRefreshableView().setDividerHeight(WidgeUtil.dip2px(this,0.5f));
         ptrlv.setMode(PullToRefreshBase.Mode.BOTH);
         footView = new BMListPaginationView(this);
         ptrlv.getRefreshableView().addFooterView(footView);
