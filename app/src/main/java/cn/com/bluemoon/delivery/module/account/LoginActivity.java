@@ -145,15 +145,15 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
-    private int backCount = 0;
+    private long firstTime = 0;
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            if (backCount == 0) {
-                backCount = 1;
-                toast(R.string.app_quit_txt);
+            if (System.currentTimeMillis() - firstTime > 2000) {
+                firstTime = System.currentTimeMillis();
+                ViewUtil.toast(R.string.app_quit_txt);
             } else {
                 finish();
             }
