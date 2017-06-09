@@ -391,7 +391,6 @@ public class MainActivity extends SlidingActivity {
         super.onResume();
         MobclickAgent.onResume(this);
         isDestory = false;
-        backCount = 0;
         if (listRight != null) {
             DeliveryApi.getModelNum(token, getAmountHandler);
         }
@@ -405,16 +404,18 @@ public class MainActivity extends SlidingActivity {
             progressDialog.dismiss();
     }
 
-    private int backCount = 0;
+    private long firstTime = 0;
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
         if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            if (backCount == 0) {
-                backCount = 1;
-                Toast.makeText(this, R.string.app_quit_txt, Toast.LENGTH_SHORT).show();
+            if (System.currentTimeMillis() - firstTime > 2000) {
+                firstTime = System.currentTimeMillis();
+                ViewUtil.toast(R.string.app_quit_txt);
             } else {
                 finish();
+
             }
             return true;
         }
@@ -836,8 +837,7 @@ public class MainActivity extends SlidingActivity {
             //我的授课
             else if (compare(MenuCode.offline_training_teacher, menuCode)) {
                 MyCoursesActivity.actionStart(main);
-            }
-            else if (compare(MenuCode.card_coupons_web, menuCode)) {
+            } else if (compare(MenuCode.card_coupons_web, menuCode)) {
                 PublicUtil.openWebView(main, userRight.getUrl()
                                 + (!userRight.getUrl().contains("?") ? "?" : "&")
                                 + "token=" + ClientStateManager.getLoginToken(),
