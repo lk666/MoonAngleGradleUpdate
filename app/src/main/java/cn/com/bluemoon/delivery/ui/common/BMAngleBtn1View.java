@@ -254,7 +254,6 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         setBackground(colorNormal, colorPressed, colorDisable, radius);
         setMargins(marginLeft, marginTop, marginRight, marginBottom);
         setPadding(paddingLeft, paddingTop, paddingRight, paddingBottom);
-//        setTranslationZ(translationZ);
         setElevation(translationZ);
     }
 
@@ -314,7 +313,6 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
     protected void setZ(int z, int zDown) {
         translationZ = dip2px(z);
         translationZDown = dip2px(zDown);
-//        setTranslationZ(translationZ);
         setElevation(translationZ);
     }
 
@@ -324,11 +322,10 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (!isEnabled() && btn.getTranslationZ() > 0) {
                 btn.setTranslationZ(0);
-            } else {
+            } else if (btn.getTranslationZ() != translationZ) {
                 btn.setTranslationZ(translationZ);
             }
         }
-        LogUtils.d("translationZ:" + translationZ);
     }
 
     @Override
@@ -337,11 +334,10 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (!isEnabled() && btn.getElevation() > 0) {
                 btn.setElevation(0);
-            } else {
+            } else if (btn.getElevation() != elevation) {
                 btn.setElevation(elevation);
             }
         }
-        LogUtils.d("elevation:" + elevation);
     }
 
     @Override
@@ -365,25 +361,35 @@ public class BMAngleBtn1View extends FrameLayout implements View.OnTouchListener
         super.setEnabled(enabled);
         btn.setEnabled(enabled);
         if (!enabled) {
-//            setTranslationZ(0);
             setElevation(0);
         } else {
-//            setTranslationZ(translationZ);
             setElevation(translationZ);
         }
     }
 
+//    float DownX = 0;
+//    float DownY = 0;
+
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-//                setTranslationZ(translationZDown);
-                setElevation(translationZDown);
-                break;
-            case MotionEvent.ACTION_UP:
-//                setTranslationZ(translationZ);
-                setElevation(translationZ);
-                break;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+//                    DownX = event.getX();
+//                    DownY = event.getY();
+                    setElevation(translationZDown);
+                    break;
+//                case MotionEvent.ACTION_MOVE:
+//                    float moveX = Math.abs(event.getX() - DownX);//X轴距离
+//                    float moveY = Math.abs(event.getY() - DownY);//y轴距离
+//                    if(moveX>30||moveY>30){
+//                        setElevation(translationZ);
+//                    }
+//                    break;
+                case MotionEvent.ACTION_UP:
+                    setElevation(translationZ);
+                    break;
+            }
         }
         return false;
     }

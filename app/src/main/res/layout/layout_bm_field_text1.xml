@@ -33,6 +33,7 @@
             android:textColorHint="#999999"
             android:textCursorDrawable="@null"
             android:textSize="14dp"
+            android:lines="1"
         />
 
     </LinearLayout>
