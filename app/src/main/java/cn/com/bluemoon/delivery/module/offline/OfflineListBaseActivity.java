@@ -133,15 +133,16 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         listviewOffline.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
             @Override
             public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                requestData();
+                requestData(false);
             }
         });
-        showWaitDialog();
-        requestData();
+        requestData(true);
     }
 
 
-    protected void requestData() {
+    protected void requestData(boolean isLoading) {
+        if(isLoading)
+            showWaitDialog();
         requestData(0);
     }
 
@@ -220,7 +221,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         adapter.setList(new ArrayList<CurriculumsTable>(), position);
         setShowHeadView(status.equals(Constants.OFFLINE_STATUS_END_CLASS));
         adapter.notifyDataSetChanged();
-        requestData();
+        requestData(true);
     }
 
     /**
@@ -345,7 +346,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         empty.setEmptyListener(new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
-                requestData();
+                requestData(true);
             }
         });
         ((ViewGroup) emptyView).addView(empty);
