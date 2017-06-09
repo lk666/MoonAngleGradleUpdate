@@ -170,6 +170,22 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                 break;
         }
     }
+
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        super.onFailureResponse(requestCode, t);
+        switch (requestCode) {
+            case 0:
+            case 1:
+            case 2:
+                if(requestCode!=segmentTab.getCurrentPosition()){
+                    return;
+                }
+                showEmptyView();
+                break;
+        }
+    }
+
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
