@@ -1,136 +1,142 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="none">
+    android:background="@color/page_bg_f2">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/page_bg_f2"
-        android:orientation="vertical">
+        android:scrollbars="none">
 
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_name"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_name" />
-
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_state"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_state" />
-
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_time" />
-
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_actual_class_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:cell_text_txt_title="@string/offline_course_detail_actual_class_time" />
-
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_actual_finish_time"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:cell_text_txt_title="@string/offline_course_detail_actual_finish_time" />
-
-        <cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View
-            android:id="@+id/far_sign_staff"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="gone"
-            app:field_arrow_title="@string/offline_course_detail_sign_staff" />
-
-        <TextView
-            android:id="@+id/txt_course_info"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:paddingBottom="4dp"
-            android:paddingLeft="12dp"
-            android:text="@string/offline_course_detail_info"
-            android:textColor="@color/text_grep"
-            android:textSize="@dimen/text_size_12" />
-
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_code"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_code" />
-
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_theme"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_theme" />
-
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_number_participants"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_number_participants" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
             <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-                android:id="@+id/ctxt_contacts"
+                android:id="@+id/ctxt_course_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@+id/txt_phone"
-                android:layout_weight="1"
-                app:cell_text_line_isshow="false"
-                app:cell_text_paddingright="8dp"
-                app:cell_text_txt_title="@string/offline_course_detail_contacts" />
+                app:cell_text_txt_title="@string/offline_course_detail_name" />
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_state"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_state" />
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_time" />
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_actual_class_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cell_text_txt_title="@string/offline_course_detail_actual_class_time" />
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_actual_finish_time"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:cell_text_txt_title="@string/offline_course_detail_actual_finish_time" />
+
+            <cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View
+                android:id="@+id/far_sign_staff"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                app:field_arrow_title="@string/offline_course_detail_sign_staff" />
 
             <TextView
-                android:id="@+id/txt_phone"
-                android:layout_width="wrap_content"
+                android:id="@+id/txt_course_info"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:layout_marginRight="12dp"
-                android:autoLink="all"
-                android:text="                                 "
-                android:textColor="@color/text_blue"
-                android:textColorLink="@color/text_blue"
-                android:textSize="@dimen/text_size_14" />
+                android:layout_marginTop="10dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="12dp"
+                android:text="@string/offline_course_detail_info"
+                android:textColor="@color/text_grep"
+                android:textSize="@dimen/text_size_12" />
 
-            <View
-                style="@style/line_solid_style"
-                android:layout_alignParentBottom="true" />
-        </RelativeLayout>
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_code"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_code" />
 
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_room"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_room" />
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_theme" />
 
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
-            android:id="@+id/ctxt_course_address"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/offline_course_detail_address" />
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_number_participants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_number_participants" />
 
-        <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
-            android:id="@+id/ctxt_course_purpose"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            app:cell_paragraph_txt_title="@string/offline_course_detail_purpose" />
-    </LinearLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="horizontal">
 
-</ScrollView>
+                <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                    android:id="@+id/ctxt_contacts"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_toLeftOf="@+id/txt_phone"
+                    android:layout_weight="1"
+                    app:cell_text_line_isshow="false"
+                    app:cell_text_paddingright="8dp"
+                    app:cell_text_txt_title="@string/offline_course_detail_contacts" />
+
+                <TextView
+                    android:id="@+id/txt_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="12dp"
+                    android:autoLink="all"
+                    android:text="                                 "
+                    android:textColor="@color/text_blue"
+                    android:textColorLink="@color/text_blue"
+                    android:textSize="@dimen/text_size_14" />
+
+                <View
+                    style="@style/line_solid_style"
+                    android:layout_alignParentBottom="true" />
+            </RelativeLayout>
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_room" />
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                android:id="@+id/ctxt_course_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_address" />
+
+            <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
+                android:id="@+id/ctxt_course_purpose"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                app:cell_paragraph_txt_title="@string/offline_course_detail_purpose" />
+        </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>
