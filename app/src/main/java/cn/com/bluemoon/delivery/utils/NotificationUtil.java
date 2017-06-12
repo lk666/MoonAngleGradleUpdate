@@ -6,6 +6,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
 import android.support.v4.app.NotificationCompat;
 
 import cn.com.bluemoon.delivery.R;
@@ -59,8 +60,10 @@ public class NotificationUtil {
         builder.setAutoCancel(true);
         //系统状态栏显示的小图标
         builder.setSmallIcon(R.mipmap.icon);
-        //下拉显示的大图标
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            //下拉显示的大图标
         builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.icon));
+        }
         //Intent intent = new Intent(this,MainActivity.class);
         //设置intent的extras为实时更新模式PendingIntent.FLAG_UPDATE_CURRENT（共四种模式）
         PendingIntent pIntent = PendingIntent.getActivity(context, 1, intent, PendingIntent
