@@ -139,6 +139,11 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         requestData(true);
     }
 
+    @Override
+    protected void onRestart() {
+        super.onRestart();
+        requestData(false);
+    }
 
     protected void requestData(boolean isLoading) {
         if(isLoading)
