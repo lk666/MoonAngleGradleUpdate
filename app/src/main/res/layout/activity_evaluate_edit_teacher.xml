@@ -58,6 +58,7 @@
             android:id="@+id/view_suggest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:field_content_maxLength="500"
             app:field_hint="@string/offline_teacher_evaluate_hint"
             app:field_title="@string/offline_evaluate_suggest"
         />

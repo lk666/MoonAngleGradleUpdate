@@ -1524,7 +1524,7 @@
     <string name="offline_evaluate_info">评价信息</string>
     <string name="offline_evaluate_teach_content">授课内容</string>
     <string name="offline_evaluate_teach">讲师</string>
-    <string name="offline_evaluate_suggest">意见及建议</string>
+    <string name="offline_evaluate_suggest">意见及建议（必填）</string>
     <string name="offline_evaluate_hint">课程满足你的期望么？说说他的优点和美中不足的地方吧</string>
     <string name="offline_teacher_evaluate_hint">写一下你对这位学员的评价吧！</string>
     <string name="offline_my_courses">我的授课</string>
