@@ -251,12 +251,18 @@ public class BmSegmentView extends HorizontalScrollView implements View.OnClickL
 
     private void addTabLayout() {
         int width = calculativeWidth(textList.size(), showMode);
+        parentGroup.removeAllViews();
+        viewCollectiveList.clear();
         for (int i = 0; i < textList.size(); i++) {
             parentGroup.addView(getTabLayout(width, i));
         }
         if (textList.size() > 0){
-            setTag(0);
-            checkUIChange(0);
+            if(getTag()!=null&&getTag() instanceof Integer){
+                checkUIChange((Integer) getTag());
+            }else{
+                setTag(0);
+                checkUIChange(0);
+            }
         }
     }
 

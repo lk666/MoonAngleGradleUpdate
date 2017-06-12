@@ -126,9 +126,7 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
         ctxtCourseTime.setContentText(DateUtil.getTimes(curriculumsTable.startTime,
                 curriculumsTable.endTime));
         ctxtSignNumber.setContentText(curriculumsTable.signNum + "人");
-        showWaitDialog();
-        OffLineApi.taecherEvaluateNum(getToken(), curriculumsTable.courseCode, curriculumsTable
-                .planCode, getNewHandler(HTTP_REQUEST_CODE_GET_NUM, ResultEvaluateNum.class));
+        requestNum();
     }
 
     /**
@@ -198,8 +196,15 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
                         .unEvaluatedNum) + "人");
                 segmentTab.setTextList(getArrString(evaluateNum.data.unEvaluatedNum, evaluateNum
                         .data.evaluatedNum));
+                segmentTab.setCheckCallBack(null);
+                if(defPosition>=0){
+                    segmentTab.changeTab(defPosition);
+                    defPosition=-1;
+                }else{
+                    segmentTab.changeTab(segmentTab.getCurrentPosition());
+                }
                 segmentTab.setCheckCallBack(this);
-                requestData(defPosition);
+                requestData(segmentTab.getCurrentPosition());
                 break;
         }
     }
@@ -228,7 +233,7 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
             ResultSignStaffList.Data.Students student = (ResultSignStaffList.Data.Students) item;
             switch (type) {
                 case SignStaffAdapter.CLICK_EVALUATE:
-                    EvaluateEditTeacherActivity.startAction(this, curriculumsTable.courseCode,
+                    EvaluateEditTeacherActivity.startAction(this, 0,curriculumsTable.courseCode,
                             curriculumsTable.planCode, student.studentCode, student.studentName);
                     break;
                 case SignStaffAdapter.CLICK_ITEM:
@@ -254,6 +259,14 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
         requestData(position);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            requestNum();
+        }
+    }
+
     /**
      * 刷新数据
      */
@@ -266,6 +279,15 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
      */
     private void requestMore(int position, long time) {
         requestList(position, time, HTTP_REQUEST_CODE_GET_MORE);
+    }
+
+    /**
+     * 请求数量
+     */
+    private void requestNum() {
+        showWaitDialog();
+        OffLineApi.taecherEvaluateNum(getToken(), curriculumsTable.courseCode, curriculumsTable
+                .planCode, getNewHandler(HTTP_REQUEST_CODE_GET_NUM, ResultEvaluateNum.class));
     }
 
     /**

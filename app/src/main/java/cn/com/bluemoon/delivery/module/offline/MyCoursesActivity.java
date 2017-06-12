@@ -74,10 +74,10 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
         super.onSuccessResponse(requestCode, jsonString, result);
         switch (requestCode) {
             case HTTP_REQUEST_CODE_START:
-                requestData();
+                requestData(false);
                 break;
             case HTTP_REQUEST_CODE_END:
-                requestData();
+                requestData(false);
                 break;
         }
     }

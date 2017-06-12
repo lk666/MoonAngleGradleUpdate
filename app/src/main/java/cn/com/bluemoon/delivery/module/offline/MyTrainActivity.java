@@ -99,7 +99,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         if (resultCode == RESULT_OK) {
             switch (requestCode) {
                 case 0:
-                    requestData();
+                    requestData(false);
                     break;
             }
         }
