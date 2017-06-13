@@ -12,7 +12,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
@@ -37,6 +36,7 @@ import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.SaveOrderEvent;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonSearchView;
@@ -198,7 +198,7 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
      * @param isExactQuery 是否是精确搜索
      */
     private void setSpan(TextView tv, String str, boolean isExactQuery) {
-        if (StringUtils.isNoneBlank(searchKey) && str.contains(searchKey)) {
+        if (!StringUtil.isEmpty(searchKey) && str.contains(searchKey)) {
             SpannableStringBuilder builder = new SpannableStringBuilder(str);
             ForegroundColorSpan redSpan = new ForegroundColorSpan(getResources().getColor(R.color.btn_red));
             if (isExactQuery) {
