@@ -165,7 +165,7 @@ public class OffLineApi extends DeliveryApi {
     public static void evaluate(String token, String comment, String courseCode, float courseStar,
                                 String planCode, float teacherStar, AsyncHttpResponseHandler
                                         handler) {
-        if (null == token || null == courseCode || null == planCode || null == comment) {
+        if (null == token || null == courseCode || null == planCode) {
             onError(handler);
             return;
         }

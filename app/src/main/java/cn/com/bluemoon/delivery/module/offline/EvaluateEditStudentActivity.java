@@ -102,8 +102,7 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
     }
 
     private void checkBtn() {
-        if (viewStarContent.getRating() > 0 && viewStarTeacher.getRating() > 0 && viewSuggest
-                .getContent().length() > 0) {
+        if (viewStarContent.getRating() > 0 && viewStarTeacher.getRating() > 0) {
             btnSubmit.setEnabled(true);
         } else {
             btnSubmit.setEnabled(false);
