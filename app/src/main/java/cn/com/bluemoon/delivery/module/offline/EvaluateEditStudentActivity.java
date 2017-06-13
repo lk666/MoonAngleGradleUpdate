@@ -20,7 +20,8 @@ import cn.com.bluemoon.delivery.ui.common.BmRankStar1;
 import cn.com.bluemoon.delivery.ui.common.interf.BMFieldListener;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
-public class EvaluateEditStudentActivity extends BaseActivity implements BMFieldListener, BmRankStar1
+public class EvaluateEditStudentActivity extends BaseActivity implements BMFieldListener,
+        BmRankStar1
         .RatingListener {
 
     @Bind(R.id.view_name)
@@ -42,11 +43,12 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
 
     private EvaluateDetail detail;
 
-    public static void startAction(Activity context, String courseCode, String planCode, int requestCode) {
+    public static void startAction(Activity context, String courseCode, String planCode, int
+            requestCode) {
         Intent intent = new Intent(context, EvaluateEditStudentActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
-        context.startActivityForResult(intent,requestCode);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -90,10 +92,10 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        if(requestCode == 0){
-            detail = ((ResultEvaluateDetail)result).data;
+        if (requestCode == 0) {
+            detail = ((ResultEvaluateDetail) result).data;
             initData();
-        }else if(requestCode == 1){
+        } else if (requestCode == 1) {
             toast(result.getResponseMsg());
             setResult(RESULT_OK);
             finish();
@@ -102,7 +104,7 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
     }
 
     private void checkBtn() {
-        if (viewStarContent.getRating() > 0 && viewStarTeacher.getRating() > 0) {
+        if (detail != null && viewStarContent.getRating() > 0 && viewStarTeacher.getRating() > 0) {
             btnSubmit.setEnabled(true);
         } else {
             btnSubmit.setEnabled(false);
