@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <cn.com.bluemoon.lib.view.ImageViewForClick
+        android:id="@+id/img_back"
+        android:layout_width="54dp"
+        android:layout_height="44dp"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_back"/>
+
+    <cn.com.bluemoon.lib.view.TextViewForClick
+        android:id="@+id/tv_back"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:text="@string/back"
+        android:textColor="@color/white"
+        android:textSize="@dimen/text_size_large_16"
+        android:visibility="gone"/>
+
+    <TextView
+        android:id="@+id/tv_tbb_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="60dp"
+        android:layout_marginRight="60dp"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="18sp"/>
+
+    <TextView
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="right"
+        android:gravity="center_vertical"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="@color/white_66"
+        android:textSize="@dimen/text_size_large_16"/>
+
+    <cn.com.bluemoon.lib.view.ImageViewForClick
+        android:id="@+id/img_right"
+        android:layout_width="54dp"
+        android:layout_height="44dp"
+        android:layout_gravity="right"
+        android:paddingBottom="5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:paddingTop="5dp"
+        android:scaleType="fitCenter"
+        android:src="@drawable/icon_back"/>
+
+</FrameLayout>

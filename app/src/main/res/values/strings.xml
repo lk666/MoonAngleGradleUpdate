@@ -1553,5 +1553,7 @@
     <string name="login_apply"><u>申请合作伙伴</u></string>
     <string name="offline_date_compare">所选月份不能大于当前月份</string>
     <string name="offline_sign_enable">当前教室无可签到课程</string>
+    <string name="no_more_data">没有更多内容了</string>
+    <string name="refresh_from_bottom_release_label">更多…</string>
 
 </resources>

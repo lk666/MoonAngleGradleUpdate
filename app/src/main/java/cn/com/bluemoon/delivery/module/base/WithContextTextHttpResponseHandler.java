@@ -4,6 +4,8 @@ import android.content.Context;
 
 import com.loopj.android.http.TextHttpResponseHandler;
 
+import java.util.UUID;
+
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**
@@ -15,6 +17,7 @@ public abstract class WithContextTextHttpResponseHandler<T extends ResultBase> e
     private Context context;
     private Class clazz;
     private int reqCode;
+    private String uuid;
 
     public WithContextTextHttpResponseHandler(String encoding, Context context, int requestcode,
                                               Class clazz) {
@@ -22,6 +25,7 @@ public abstract class WithContextTextHttpResponseHandler<T extends ResultBase> e
         this.context = context;
         this.clazz = clazz;
         this.reqCode = requestcode;
+        this.uuid = UUID.randomUUID().toString();
     }
 
     public Context getContext() {
@@ -34,5 +38,9 @@ public abstract class WithContextTextHttpResponseHandler<T extends ResultBase> e
 
     public int getReqCode() {
         return reqCode;
+    }
+
+    public String getUuid() {
+        return uuid;
     }
 }

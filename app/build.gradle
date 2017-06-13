@@ -1,9 +1,14 @@
 import java.text.SimpleDateFormat
+
 apply plugin: 'com.android.application'
-def gitNum =  'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
-def buildTime() {     def df = new SimpleDateFormat("yyyyMMdd'_'HH")
+def gitNum = 'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
+
+def buildTime() {
+    def df = new SimpleDateFormat("yyyyMMdd'_'HH")
     df.setTimeZone(TimeZone.getDefault())
-    return df.format(new Date()) }
+    return df.format(new Date())
+}
+
 android {
     compileSdkVersion 22
     buildToolsVersion '23.0.3'
@@ -31,7 +36,7 @@ android {
         versionName "4.7.0"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
-        buildConfigField("String","DES_KEY","\"19490101\"")
+        buildConfigField("String", "DES_KEY", "\"19490101\"")
 
         /*个推*/
         manifestPlaceholders = [
@@ -113,7 +118,7 @@ android {
         exclude 'META-INF/LGPL2.1'
     }
 
-    dexOptions{
+    dexOptions {
         incremental true
         javaMaxHeapSize "2048m"
         jumboMode true
@@ -140,12 +145,13 @@ dependencies {
     compile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
-   compile 'com.android.support:appcompat-v7:22.2.1'
+    compile 'com.android.support:appcompat-v7:22.2.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.4'
     compile 'com.getui:sdk:2.9.3.0'
     //compile project(':lib_umengshare')
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.bluemoon.umengshare:lib_umengshare:1.0.10'
+    compile 'com.bluemoon.liblog:lib_log:1.0.1'
 }
 
 

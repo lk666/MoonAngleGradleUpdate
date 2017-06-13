@@ -190,4 +190,8 @@ public class Constants {
     public final static String OFFLINE_STATUS_END_CLASS = "endClass";//结束上课
     public final static String OFFLINE_STATUS_CLOSE_CLASS = "closeClass";//关闭上课
 
+    public static final String TAG_HTTP_RESPONSE_SUCCESS = "TAG_HTTP_RESPONSE_SUCCESS";
+    public static final String TAG_HTTP_RESPONSE_NOT_SUCCESS = "TAG_HTTP_RESPONSE_NOT_SUCCESS";
+    public static final String TAG_HTTP_RESPONSE_EXCEPTION = "TAG_HTTP_RESPONSE_EXCEPTION";
+    public static final String TAG_HTTP_RESPONSE_FAILURE = "TAG_HTTP_RESPONSE_FAILURE";
 }

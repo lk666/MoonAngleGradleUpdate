@@ -67,4 +67,5 @@
 
     <!---->
     <dimen name="offline_listview_padding_top">12sp</dimen>
+    <dimen name="new_base_title">44dp</dimen>
 </resources>
