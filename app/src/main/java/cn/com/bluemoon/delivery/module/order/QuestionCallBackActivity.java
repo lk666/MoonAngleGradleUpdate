@@ -16,7 +16,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import org.apache.commons.lang3.StringUtils;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
@@ -26,16 +25,14 @@ import java.util.regex.Pattern;
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.Dict;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.ResultDict;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultFeedBackExpandInfo;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultFeedBackExpandInfo.ItemListBean;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.event.OrderChangeEvent;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.lib.qrcode.decoding.Intents;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibStringUtil;
 
 /**
@@ -78,7 +75,7 @@ public class QuestionCallBackActivity extends BaseActivity{
                 if (reasonList !=null && !reasonList.isEmpty()) {
                     List<String> paramDictId = new ArrayList<String>();
                     for (ItemListBean bean : reasonList) {
-                        if (bean.isSelected && "otherReason".equals(bean.getDictId()) && !StringUtils.isNoneBlank(otherReason)) {
+                        if (bean.isSelected && "otherReason".equals(bean.getDictId()) && StringUtil.isEmpty(otherReason)) {
                             toast(getString(R.string.input_other_reason));
                             return;
                         }
@@ -171,7 +168,7 @@ public class QuestionCallBackActivity extends BaseActivity{
                 }
             }, new InputFilter.LengthFilter(50)});
             final boolean isOther = "otherReason".equals(bean.getDictId());
-            if(isOther && bean.isSelected && StringUtils.isNoneBlank(otherReason)) {
+            if(isOther && bean.isSelected && !StringUtil.isEmpty(otherReason)) {
                 etReason.setText(otherReason);
                 etReason.setVisibility(View.VISIBLE);
             }
