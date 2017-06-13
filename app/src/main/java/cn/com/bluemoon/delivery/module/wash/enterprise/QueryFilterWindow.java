@@ -19,7 +19,6 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
@@ -34,13 +33,12 @@ import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseRecord;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseRecord.EnterpriseListBean;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseRecord.EnterpriseListBean.BranchListBean;
-import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 
 public class QueryFilterWindow extends PopupWindow {
@@ -243,7 +241,7 @@ public class QueryFilterWindow extends PopupWindow {
                     } else if (time > currentTime) {
                         timeStr = String.valueOf(currentTime);
                     }
-                    if (StringUtils.isNoneBlank(timeStr)) {
+                    if (!StringUtil.isEmpty(timeStr)) {
                         int year = Integer.valueOf(timeStr.substring(0, 4));
                         int mon = Integer.valueOf(timeStr.substring(4, 6));
                         int day = Integer.valueOf(timeStr.substring(6, 8));
@@ -347,7 +345,7 @@ public class QueryFilterWindow extends PopupWindow {
 
     private void showSelectView() {
 
-        if (!isClickCompany && !StringUtils.isNoneBlank(enterpriseCode)) {
+        if (!isClickCompany && StringUtil.isEmpty(enterpriseCode)) {
             Toast.makeText(mContext, R.string.input_company, Toast.LENGTH_SHORT).show();
             return;
         } else if (noData) {
