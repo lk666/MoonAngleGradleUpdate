@@ -1,14 +1,10 @@
 package cn.com.bluemoon.delivery.app.api;
 
-import android.content.Context;
-
-import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.AssignData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.CancelData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.CourseListData;
@@ -19,7 +15,6 @@ import cn.com.bluemoon.delivery.app.api.model.offline.request.StartOrEndCourseDa
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TaecherGetEvaluateDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateStudentListData;
-import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 
 /**
  * Created by bm on 2017/5/25.
@@ -27,26 +22,6 @@ import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 
 public class OffLineApi extends DeliveryApi {
 
-
-    /**
-     * 提交http请求
-     *
-     * @param params  参数列表
-     * @param subUrl  请求的url子部
-     * @param handler 回调
-     */
-    protected static void postRequest(Map<String, Object> params, String subUrl,
-                                      AsyncHttpResponseHandler handler) {
-        String jsonString = JSONObject.toJSONString(params);
-        String url = String.format(subUrl, ApiClientHelper.getParamUrl());
-
-        Context context = AppContext.getInstance();
-        if (handler instanceof WithContextTextHttpResponseHandler) {
-            context = ((WithContextTextHttpResponseHandler) handler).getContext();
-        }
-
-        ApiHttpClient.postOffline(context, url, jsonString, handler);
-    }
     /**
      * 1.1取消签到
      *
@@ -66,7 +41,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new CancelData(courseCode, planCode, studentCode));
-        postRequest(params, "course/student/sign/cancel%s", handler);
+        postRequest(params, "training-web/course/student/sign/cancel%s", handler);
     }
 
     /**
@@ -87,7 +62,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new AssignData(courseCode, planCode));
-        postRequest(params, "course/student/sign%s", handler);
+        postRequest(params, "training-web/course/student/sign%s", handler);
     }
 
     /**
@@ -108,7 +83,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new CourseListData(date, status));
-        postRequest(params, "course/student/list%s", handler);
+        postRequest(params, "training-web/course/student/list%s", handler);
     }
 
     /**
@@ -128,7 +103,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new SignDetailData(roomCode));
-        postRequest(params, "course/student/sign/detail%s", handler);
+        postRequest(params, "training-web/course/student/sign/detail%s", handler);
     }
 
     /**
@@ -148,7 +123,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new AssignData(courseCode, planCode));
-        postRequest(params, "course/student/detail%s", handler);
+        postRequest(params, "training-web/course/student/detail%s", handler);
     }
 
     /**
@@ -174,7 +149,7 @@ public class OffLineApi extends DeliveryApi {
         params.put(TOKEN, token);
         params.put("data", new EvaluateData(comment, courseCode, courseStar, planCode,
                 teacherStar));
-        postRequest(params, "course/student/evaluate%s", handler);
+        postRequest(params, "training-web/course/student/evaluate%s", handler);
     }
 
     /**
@@ -194,7 +169,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new AssignData(courseCode, planCode));
-        postRequest(params, "course/student/evaluate/detail%s", handler);
+        postRequest(params, "training-web/course/student/evaluate/detail%s", handler);
     }
 
 
@@ -216,7 +191,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new StartOrEndCourseData(courseCode, planCode));
-        postRequest(params, "course/teacher/start%s", handler);
+        postRequest(params, "training-web/course/teacher/start%s", handler);
     }
     /**
      * 2.2 教师结束上课
@@ -236,7 +211,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new StartOrEndCourseData(courseCode, planCode));
-        postRequest(params, "course/teacher/end%s", handler);
+        postRequest(params, "training-web/course/teacher/end%s", handler);
     }
 
     /**
@@ -260,7 +235,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new TeacherEvaluateData(comment,courseCode,planCode,score,studentCode,studentName));
-        postRequest(params, "course/teacher/evaluate%s", handler);
+        postRequest(params, "training-web/course/teacher/evaluate%s", handler);
     }
 
     /**
@@ -283,7 +258,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new TeacherEvaluateStudentListData(courseCode, pageSize, planCode, timeStamp, type));
-        postRequest(params, "course/teacher/student/list%s", handler);
+        postRequest(params, "training-web/course/teacher/student/list%s", handler);
     }
 
     /**
@@ -303,7 +278,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new StartOrEndCourseData(courseCode, planCode));
-        postRequest(params, "course/teacher/detail%s", handler);
+        postRequest(params, "training-web/course/teacher/detail%s", handler);
     }
 
     /**
@@ -323,7 +298,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new CourseListData(date, status));
-        postRequest(params, "course/teacher/list%s", handler);
+        postRequest(params, "training-web/course/teacher/list%s", handler);
     }
 
     /**
@@ -344,7 +319,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new TaecherGetEvaluateDetailData(courseCode,planCode,studentCode));
-        postRequest(params, "course/teacher/evaluate/detail%s", handler);
+        postRequest(params, "training-web/course/teacher/evaluate/detail%s", handler);
     }
     /**
      * 2.8 获取评价学员页面的评价数量
@@ -363,7 +338,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new StartOrEndCourseData(courseCode,planCode));
-        postRequest(params, "course/teacher/evaluate/num%s", handler);
+        postRequest(params, "training-web/course/teacher/evaluate/num%s", handler);
     }
     /**
      * 2.9 获取列表角标
@@ -379,6 +354,6 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new ListNumData(type));
-        postRequest(params, "common/list/num%s", handler);
+        postRequest(params, "training-web/common/list/num%s", handler);
     }
 }

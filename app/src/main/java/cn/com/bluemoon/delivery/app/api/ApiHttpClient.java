@@ -68,12 +68,6 @@ public class ApiHttpClient {
         return url;
     }
 
-    public static String getOfflineApiUrl(String partUrl) {
-        String url = String.format(BuildConfig.OFFLINE_URL, partUrl);
-        // LogUtils.d("BASE_CLIENT", "request:" + url);
-        return url;
-    }
-
     public static String getMockUrl(String partUrl) {
         return String.format(BuildConfig.MOCK_URL, partUrl);
     }
@@ -176,23 +170,6 @@ public class ApiHttpClient {
 
         log(new StringBuilder("POST ").append(partUrl).append("----->")
                 .append(jsonString).toString());
-    }
-
-    public static void postOffline(Context context, String partUrl, String jsonString,
-                                   AsyncHttpResponseHandler handler) {
-
-        ByteArrayEntity entity = null;
-        try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            LogUtils.d("post", new StringBuilder(getOfflineApiUrl(partUrl)).append("----->").append
-                    (jsonString).toString());
-        }
-        client.post(context, getOfflineApiUrl(partUrl), entity,
-                "application/json", handler);
-
-        LogUtils.d("post", new StringBuilder(getOfflineApiUrl(partUrl)).append("----->").append
-                (jsonString).toString());
     }
 
     public static void postMock(Context context, String partUrl, String jsonString, int requestCode,
