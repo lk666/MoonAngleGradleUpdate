@@ -36,10 +36,12 @@ import cn.com.bluemoon.delivery.module.account.ChangePswActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.account.SettingActivity;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.module.hr.personinfo.PersonInfoActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.liblog.NetLogUtils;
 
@@ -187,7 +189,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                                 System.currentTimeMillis(), responseString);
                         // 校验成功，跳到个人信息页
                         pwdDialog.dismiss();
-                        PublicUtil.showToast("校验成功，跳到个人信息页");
+                        PersonInfoActivity.actionStart(getActivity());
                     } else {
                         NetLogUtils.eNetResponse(Constants.TAG_HTTP_RESPONSE_NOT_SUCCESS,
                                 getUuid(), System
@@ -265,10 +267,23 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                                     HRApi.checkPassword(pwd, ClientStateManager.getLoginToken(),
                                             checkPwdHandler);
                                 }
+                                ViewUtil.hideKeyboard(etPsw);
                             }
                         })
-                .setPositiveButton(R.string.btn_cancel, null).create();
+                .setPositiveButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ViewUtil.hideKeyboard(etPsw);
+                        pwdDialog.dismiss();
+                    }
+                }).create();
         pwdDialog.show();
+        etPsw.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewUtil.showKeyboard(etPsw);
+            }
+        });
     }
 
     @Override

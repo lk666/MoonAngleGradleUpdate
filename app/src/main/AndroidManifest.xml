@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest package="cn.com.bluemoon.delivery"
-          xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="cn.com.bluemoon.delivery">
 
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -868,6 +868,12 @@
             android:name=".module.offline.ScanSignActivity"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
+        </activity>
+        <activity
+            android:name=".module.hr.personinfo.PersonInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
     </application>
 
