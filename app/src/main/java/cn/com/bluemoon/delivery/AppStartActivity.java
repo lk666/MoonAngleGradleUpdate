@@ -51,6 +51,7 @@ import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.liblog.NetLogUtils;
 
 public class AppStartActivity extends Activity {
 
@@ -95,6 +96,11 @@ public class AppStartActivity extends Activity {
 
     private void init() {
         FileUtil.init();
+
+        // Log
+        cn.com.bluemoon.liblog.LogUtils.init("MoonAngle", 5, !BuildConfig.RELEASE);
+        NetLogUtils.init(FileUtil.getPathTemp(), !BuildConfig.RELEASE);
+
         SchemeRegistry supportedSchemes = new SchemeRegistry();
         // Register the "http" and "https" protocol schemes, they are
         // required by the default operator to look up socket factories.

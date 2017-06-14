@@ -17,7 +17,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -71,7 +70,6 @@ import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.ui.CustomGridView;
-import cn.com.bluemoon.delivery.ui.common.TestActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.KJFUtil;
@@ -143,7 +141,7 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 PublicUtil.openScanView(main, null, null, 0);
-//                ViewUtil.showActivity(main,TestActivity.class);
+                //                ViewUtil.showActivity(main,TestActivity.class);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -455,9 +453,9 @@ public class MainActivity extends SlidingActivity {
                     groupCount = userRightResult.getGroupCount();
 
                     // TODO: lk 2016/12/20
-//                    if (!BuildConfig.RELEASE) {
-//                        mockData();
-//                    }
+                    //                    if (!BuildConfig.RELEASE) {
+                    //                        mockData();
+                    //                    }
                     setMenu();
                     DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
                             getAmountHandler);
@@ -692,6 +690,13 @@ public class MainActivity extends SlidingActivity {
         }
     };
 
+    public void showProgressDialog() {
+        if (progressDialog != null) progressDialog.show();
+    }
+
+    public void dismissProgressDialog() {
+        if (progressDialog != null) progressDialog.dismiss();
+    }
 
     class GridViewAdapter extends BaseAdapter {
 

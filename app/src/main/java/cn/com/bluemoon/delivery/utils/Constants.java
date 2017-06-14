@@ -194,4 +194,5 @@ public class Constants {
     public static final String TAG_HTTP_RESPONSE_NOT_SUCCESS = "TAG_HTTP_RESPONSE_NOT_SUCCESS";
     public static final String TAG_HTTP_RESPONSE_EXCEPTION = "TAG_HTTP_RESPONSE_EXCEPTION";
     public static final String TAG_HTTP_RESPONSE_FAILURE = "TAG_HTTP_RESPONSE_FAILURE";
+    public static final String TAG_HTTP_REQUEST = "TAG_HTTP_REQUEST";
 }

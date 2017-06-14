@@ -9,33 +9,39 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.client.params.ClientPNames;
 import org.apache.http.entity.ByteArrayEntity;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
+import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
+import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.lib.utils.LibFileUtil;
+import cn.com.bluemoon.liblog.NetLogUtils;
 
 public class ApiHttpClient {
 
-//	public static String BuildConfig.HOST;
-//	public static String BuildConfig.API_URL;
-//	public static String BuildConfig.MOCK_URL = "http://tmallapi.bluemoon.com
-// .cn:9002/mockjsdata/4/%s";
-//	public static String BuildConfig.ADDRESS_URL="http://mallapi.bluemoon.com.cn/%s";
-//	public static String BuildConfig.PUNCH_DETAILDS_DOMAIN;
-//
-//	static {
-//		if (BuildConfig.RELEASE) {
-//			BuildConfig.HOST = "angel.bluemoon.com.cn";
-//			BuildConfig.API_URL = "http://angel.bluemoon.com.cn/%s";
-//			BuildConfig.PUNCH_DETAILDS_DOMAIN = "http://mallapi.bluemoon.com.cn/%s";
-//		} else {
-//			BuildConfig.HOST = "angelapi.bluemoon.com.cn"; // angelapi.bluemoon.com.cn
-//			BuildConfig.API_URL = "http://angelapi.bluemoon.com.cn:8882/%s"; // 172.16.49.23
-//			BuildConfig.PUNCH_DETAILDS_DOMAIN = "http://tmallapi.bluemoon.com.cn/%s";
-//		}
-//	}
+    //	public static String BuildConfig.HOST;
+    //	public static String BuildConfig.API_URL;
+    //	public static String BuildConfig.MOCK_URL = "http://tmallapi.bluemoon.com
+    // .cn:9002/mockjsdata/4/%s";
+    //	public static String BuildConfig.ADDRESS_URL="http://mallapi.bluemoon.com.cn/%s";
+    //	public static String BuildConfig.PUNCH_DETAILDS_DOMAIN;
+    //
+    //	static {
+    //		if (BuildConfig.RELEASE) {
+    //			BuildConfig.HOST = "angel.bluemoon.com.cn";
+    //			BuildConfig.API_URL = "http://angel.bluemoon.com.cn/%s";
+    //			BuildConfig.PUNCH_DETAILDS_DOMAIN = "http://mallapi.bluemoon.com.cn/%s";
+    //		} else {
+    //			BuildConfig.HOST = "angelapi.bluemoon.com.cn"; // angelapi.bluemoon.com.cn
+    //			BuildConfig.API_URL = "http://angelapi.bluemoon.com.cn:8882/%s"; // 172.16.49.23
+    //			BuildConfig.PUNCH_DETAILDS_DOMAIN = "http://tmallapi.bluemoon.com.cn/%s";
+    //		}
+    //	}
 
     public static AsyncHttpClient client;
 
@@ -305,6 +311,89 @@ public class ApiHttpClient {
             appCookie = appContext.getProperty("cookie");
         }
         return appCookie;
+    }
+
+    ///////////////////// 适配new base的post方法 //////////////////////////
+
+    public static void postVideoFile(String name, Context context, String partUrl, File picFile,
+                                     String token,
+                                     File videoFile, WithContextTextHttpResponseHandler handler) {
+        try {
+            BASE64Encoder encoder = new BASE64Encoder();
+            String fileData = encoder.encode(LibFileUtil.getBytes(picFile));
+            RequestParams params = new RequestParams();
+            params.put("fileData", fileData);
+            params.put("fileName", picFile.getName());
+            params.put("token", token);
+            params.put("videoFile", videoFile, "application/octet-stream");
+
+            client.post(context, getAbsoluteApiUrl(partUrl), params,
+                    handler);
+
+            String paramString = "{fileData:\"" + picFile.getAbsolutePath() + "\", "
+                    + "fileName:\"" + picFile.getName() + "\", "
+                    + "token:\"" + token + "\", "
+                    + "videoFile:\"" + videoFile.getAbsolutePath() + "\"}";
+            NetLogUtils.dNetRequest(Constants.TAG_HTTP_REQUEST, handler.getUuid(),
+                    partUrl, name, paramString);
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            cn.com.bluemoon.liblog.LogUtils.e(Constants.TAG_HTTP_REQUEST,
+                    new StringBuilder("ApiHttpClient.postVideoFile Error：UUID=")
+                            .append(handler.getUuid()).append("----->").append(ex.getMessage())
+                            .toString());
+        }
+    }
+
+    /**
+     * post数据，debug时可将日志写入临时文件，在再次启动时会被清除
+     *
+     * @param name 接口名称，可为空
+     */
+    public static void post(String name, Context context, String partUrl, String jsonString,
+                            WithContextTextHttpResponseHandler handler) {
+
+        ByteArrayEntity entity = null;
+        try {
+            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            cn.com.bluemoon.liblog.LogUtils.e(Constants.TAG_HTTP_REQUEST,
+                    new StringBuilder("ApiHttpClient.post Error：").append(e.getMessage())
+                            .append("\n").append("UUID=")
+                            .append(handler.getUuid()).append(", ").append(partUrl).append("----->")
+                            .append(jsonString).toString());
+        }
+        client.post(context, getAbsoluteApiUrl(partUrl), entity,
+                "application/json", handler);
+
+        NetLogUtils.dNetRequest(Constants.TAG_HTTP_REQUEST, handler.getUuid(),
+                partUrl, name, jsonString);
+    }
+
+    /**
+     * mock数据，debug时可将日志写入临时文件，在再次启动时会被清除
+     *
+     * @param name 接口名称，可为空
+     */
+    public static void postMock(String name, Context context, String partUrl, String jsonString,
+                                WithContextTextHttpResponseHandler handler) {
+        ByteArrayEntity entity = null;
+        try {
+            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+            cn.com.bluemoon.liblog.LogUtils.e(Constants.TAG_HTTP_REQUEST,
+                    new StringBuilder("ApiHttpClient.postMock Error：").append(e.getMessage())
+                            .append("\n").append("UUID=")
+                            .append(handler.getUuid()).append(", ").append(partUrl).append("----->")
+                            .append(jsonString).toString());
+        }
+        client.post(context, getMockUrl(partUrl), entity,
+                "application/json", handler);
+
+        NetLogUtils.dNetRequest(Constants.TAG_HTTP_REQUEST, handler.getUuid(),
+                partUrl, name, jsonString);
     }
 }
   

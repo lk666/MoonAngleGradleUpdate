@@ -18,7 +18,7 @@
 
     <color name="slide_menu">#104f73</color><!-- 侧滑背景 -->
     <color name="slide_menu2">#0d4362</color><!-- 侧滑背景 -->
-    <color name="slide_menu_text_color">#7ea1b4</color><!-- 侧滑文字 -->
+    <color name="slide_menu_text_color">#7f9cac</color><!-- 侧滑文字 -->
 
     <color name="blue_deep">#1ca6e5</color><!--渐变深蓝色-->
     <color name="blue_top_back">#82d6fc</color>
@@ -96,4 +96,7 @@
 
     <color name="photopicker_background">#181819</color>
     <color name="white_f9">#f9f9f9</color>
+
+    <color name="blue_0a3e5c">#0a3e5c</color>
+
 </resources>

@@ -35,7 +35,7 @@ public class ChangePswActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.user_changepwd);
+        return getString(R.string.user_change_pwd);
     }
 
     @Override
