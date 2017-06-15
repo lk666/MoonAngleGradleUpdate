@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+        android:id="@+id/txt_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_text_txt_title="住址区域"/>
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+        android:id="@+id/txt_detail_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_text_txt_title="详细地址"/>
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+        android:id="@+id/txt_cart_address"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:cell_text_txt_title="上次候车点"/>
+
+</LinearLayout>

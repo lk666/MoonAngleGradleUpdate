@@ -1562,4 +1562,8 @@
     <string name="title_tips">提示</string>
     <string name="hint_input_login_psw">请输入登录密码</string>
     <string name="err_login_psw_empty">密码不能为空</string>
+    <string name="current_address_title">现住址</string>
+    <string name="family_address_title">家乡住址</string>
+    <string name="family_info_title">家庭情况</string>
+    <string name="not_input">未填写</string>
 </resources>

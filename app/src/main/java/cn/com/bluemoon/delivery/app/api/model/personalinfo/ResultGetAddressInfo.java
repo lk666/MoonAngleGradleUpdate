@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.app.api.model.personalinfo;
 
+import android.text.TextUtils;
+
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**
@@ -30,5 +32,20 @@ public class ResultGetAddressInfo extends ResultBase{
         public String countyName;
         public String provinceCode;
         public String provinceName;
+
+        @Override
+        public String toString() {
+            StringBuffer sb = new StringBuffer();
+            if (!TextUtils.isEmpty(provinceName)) {
+                sb.append(provinceName);
+            }
+            if (!TextUtils.isEmpty(cityName)) {
+                sb.append(cityName);
+            }
+            if (!TextUtils.isEmpty(countyName)) {
+                sb.append(countyName);
+            }
+            return sb.toString();
+        }
     }
 }
