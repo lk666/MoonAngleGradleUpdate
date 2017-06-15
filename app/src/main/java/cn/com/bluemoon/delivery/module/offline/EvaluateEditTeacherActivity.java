@@ -46,14 +46,15 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
 
     private EvaluateDetail detail;
 
-    public static void startAction(Activity context,int requestCode, String courseCode, String planCode, String
+    public static void startAction(Activity context, int requestCode, String courseCode, String
+            planCode, String
             studentCode, String studentName) {
         Intent intent = new Intent(context, EvaluateEditTeacherActivity.class);
         intent.putExtra("courseCode", courseCode);
         intent.putExtra("planCode", planCode);
         intent.putExtra("studentCode", studentCode);
         intent.putExtra("studentName", studentName);
-        context.startActivityForResult(intent,requestCode);
+        context.startActivityForResult(intent, requestCode);
     }
 
     @Override
@@ -115,7 +116,7 @@ public class EvaluateEditTeacherActivity extends BaseActivity implements BMField
     }
 
     private void checkBtn() {
-        if (viewSuggest.getContent().length() > 0) {
+        if (detail != null && viewSuggest.getContent().length() > 0) {
             btnSubmit.setEnabled(true);
         } else {
             btnSubmit.setEnabled(false);

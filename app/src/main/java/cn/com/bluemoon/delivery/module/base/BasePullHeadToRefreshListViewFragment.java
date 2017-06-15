@@ -7,6 +7,7 @@ import android.widget.AbsListView;
  * 基于PullToRefreshListView的基础刷新Fragment，自动显示空数据页面和网络错误页面，头可滚动
  * Created by lk on 2016/7/26.
  */
+@Deprecated
 public abstract class BasePullHeadToRefreshListViewFragment extends
         BasePullToRefreshListViewFragment {
 

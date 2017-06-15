@@ -148,11 +148,11 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     protected void requestData(boolean isLoading) {
         if(isLoading)
             showWaitDialog();
-        requestData(0);
+        requestData();
     }
 
-    private void requestData(long time) {
-        requestListData(time,segmentTab.getCurrentPosition());
+    private void requestData() {
+        requestListData(segmentTab.getCurrentPosition()==OfflineAdapter.LIST_END?curSelectorDate:0,segmentTab.getCurrentPosition());
         OffLineApi.listNum(getToken(), getTeacherOrStudent(), getNewHandler(HTTP_REQUEST_CODE_GET_NUM, ResultListNum.class));
     }
 
@@ -209,8 +209,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                 adapter.setList(list.data.courses, stateTogPosition(status));
                 adapter.notifyDataSetChanged();
                 if(status.equals(Constants.OFFLINE_STATUS_END_CLASS)){
-                    changeHeadViewState(list.data.totalCourseNum+"节",
-                            String.valueOf(new DecimalFormat("0.0").format(list.data.totalDuration/3600.0))+"小时");
+                    changeToal(list.data.totalCourseNum,list.data.totalDuration);
                 }
                 break;
             case HTTP_REQUEST_CODE_GET_NUM:
@@ -242,6 +241,10 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         adapter.setList(new ArrayList<CurriculumsTable>(), position);
         setShowHeadView(status.equals(Constants.OFFLINE_STATUS_END_CLASS));
         adapter.notifyDataSetChanged();
+        if(position==OfflineAdapter.LIST_END){
+            changeCurSelectorDate(System.currentTimeMillis());
+            changeToal(0,0);
+        }
         requestData(true);
     }
 
@@ -286,6 +289,13 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     private void changeCurSelectorDate(long curSelectorDate) {
         this.curSelectorDate = curSelectorDate;
         ytTime.setText(DateUtil.getTimeToYM(curSelectorDate));
+    }
+    /**
+     * 改变总节数和总时长显示
+     * */
+    private void changeToal(int totalCourseNum,long totalDuration) {
+        changeHeadViewState(totalCourseNum+"节",
+                String.valueOf(new DecimalFormat("0.0").format(totalDuration/3600.0))+"小时");
     }
 
 
@@ -405,7 +415,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     @Override
     public void onOKButtonClick(long timeStamp) {
         changeCurSelectorDate(timeStamp);
-        requestData(timeStamp);
+        requestData(true);
     }
 
     @Override

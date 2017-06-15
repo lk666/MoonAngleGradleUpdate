@@ -159,7 +159,8 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
                 ViewUtil.setViewVisibility(btnEvaluate, View.GONE);
                 viewContentStar.setRating(detail.evaluateDetail.courseStar);
                 viewTeacherStar.setRating(detail.evaluateDetail.teacherStar);
-                viewSuggest.setContentText(detail.evaluateDetail.comment);
+                viewSuggest.setContentText(TextUtils.isEmpty(detail.evaluateDetail.comment) ?
+                        getString(R.string.none) : detail.evaluateDetail.comment);
             } else {
                 if (!Constants.OFFLINE_STATUS_CLOSE_CLASS.equals(status)) {
                     ViewUtil.setViewVisibility(btnEvaluate, View.VISIBLE);
@@ -226,7 +227,9 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == RESULT_OK) {
-            getData();
+//            getData();
+            setResult(RESULT_OK);
+            finish();
         }
     }
 }

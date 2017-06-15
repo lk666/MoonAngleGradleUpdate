@@ -12,6 +12,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
  * 基于PullToRefreshListView的基础刷新fragment，自动显示空数据页面和网络错误页面
  * Created by lk on 2016/7/26.
  */
+@Deprecated
 public abstract class BasePullToRefreshListViewFragment<ADAPTER extends BaseListAdapter, ITEM
         extends Object> extends BasePullToRefreshFragment implements OnListItemClickListener {
     /**

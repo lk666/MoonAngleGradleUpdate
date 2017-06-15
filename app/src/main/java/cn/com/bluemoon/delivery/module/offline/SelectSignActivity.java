@@ -84,15 +84,6 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
         finish();
     }
 
-    @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        if (45101 == result.getResponseCode() || 45104 == result.getResponseCode()) {
-            setResult(RESULT_OK);
-            finish();
-        }
-    }
-
     //数据转化
     private List<RadioItem> getRadioList(List<ResultSignDetail.SignDetailData.Course> courses) {
         List<RadioItem> list = new ArrayList<>();
