@@ -38,11 +38,11 @@
         layout="@layout/headview_offline_list"
         />
 
-    <cn.com.bluemoon.delivery.ui.common.BmSegmentView
+    <cn.com.bluemoon.lib_widget.module.form.BmSegmentView
         android:id="@+id/segment_tab"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <cn.com.bluemoon.delivery.ui.common.FloatButton
+    <cn.com.bluemoon.lib_widget.module.form.FloatButton
         android:id="@+id/btn_sign"
         android:layout_width="60dp"
         android:layout_height="60dp"

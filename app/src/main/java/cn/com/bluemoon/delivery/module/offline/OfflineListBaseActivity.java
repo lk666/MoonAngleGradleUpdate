@@ -26,7 +26,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherAndStudentLis
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.offline.adapter.OfflineAdapter;
-import cn.com.bluemoon.delivery.ui.common.BmSegmentView;
+import cn.com.bluemoon.lib_widget.module.form.BmSegmentView;
 import cn.com.bluemoon.delivery.ui.selectordialog.DateSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.OnButtonClickListener;
 import cn.com.bluemoon.delivery.utils.Constants;

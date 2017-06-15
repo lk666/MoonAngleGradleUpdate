@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="cn.com.bluemoon.delivery">
+<manifest package="cn.com.bluemoon.delivery"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -45,8 +46,9 @@
 
     <application
         android:name=".AppContext"
-        android:allowBackup="true"
+        android:allowBackup="false"
         android:icon="@mipmap/icon"
+        tools:replace="android:allowBackup"
         android:label="@string/app_name">
         <activity
             android:name=".AppStartActivity"

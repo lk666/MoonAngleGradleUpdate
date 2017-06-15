@@ -15,9 +15,9 @@ import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
-import cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View;
-import cn.com.bluemoon.delivery.ui.common.BmCellParagraphView;
-import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
+import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
+import cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView;
+import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 

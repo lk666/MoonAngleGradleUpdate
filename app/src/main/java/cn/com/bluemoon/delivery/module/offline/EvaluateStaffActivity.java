@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -23,14 +22,13 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.offline.adapter.SignStaffAdapter;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.ui.ShowEvaluateDetailPopView;
-import cn.com.bluemoon.delivery.ui.common.BMListPaginationView;
-import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
-import cn.com.bluemoon.delivery.ui.common.BmSegmentView;
-import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib_widget.module.form.BMListPaginationView;
+import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
+import cn.com.bluemoon.lib_widget.module.form.BmSegmentView;
+import cn.com.bluemoon.lib_widget.utils.WidgeUtil;
 
 /**
  * Created by tangqiwei on 2017/6/4.

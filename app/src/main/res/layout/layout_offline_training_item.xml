@@ -206,7 +206,7 @@
             android:gravity="center_horizontal"
             android:orientation="vertical">
 
-            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View
+            <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View
                 android:id="@+id/btn_btn"
                 app:btn_marginBottom="4dp"
                 app:btn_marginTop="4dp"

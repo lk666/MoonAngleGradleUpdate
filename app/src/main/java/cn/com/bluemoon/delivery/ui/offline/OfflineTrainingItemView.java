@@ -17,7 +17,7 @@ import android.widget.TextView;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
 /**

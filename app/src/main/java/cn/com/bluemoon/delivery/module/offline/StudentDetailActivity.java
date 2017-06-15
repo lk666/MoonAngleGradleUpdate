@@ -1,10 +1,7 @@
 package cn.com.bluemoon.delivery.module.offline;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,26 +10,24 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultStudentDetail;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.TeacherInfoView;
-import cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View;
-import cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View;
-import cn.com.bluemoon.delivery.ui.common.BmCellParagraphView;
-import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
-import cn.com.bluemoon.delivery.ui.common.BmRankStar2;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
+import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
+import cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView;
+import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
+import cn.com.bluemoon.lib_widget.module.form.BmRankStar2;
 
 public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1View
         .FieldArrowListener {

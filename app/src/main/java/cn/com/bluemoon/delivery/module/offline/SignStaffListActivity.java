@@ -15,10 +15,10 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewActivity;
 import cn.com.bluemoon.delivery.module.offline.adapter.SignStaffAdapter;
 import cn.com.bluemoon.delivery.ui.ShowEvaluateDetailPopView;
-import cn.com.bluemoon.delivery.ui.common.BMListPaginationView;
-import cn.com.bluemoon.delivery.ui.common.utils.WidgeUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib_widget.module.form.BMListPaginationView;
+import cn.com.bluemoon.lib_widget.utils.WidgeUtil;
 
 /**
  * 签到人员列表
