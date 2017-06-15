@@ -13,11 +13,11 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.EvaluateDetail;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultEvaluateDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View;
-import cn.com.bluemoon.delivery.ui.common.BMFieldParagraphView;
-import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
-import cn.com.bluemoon.delivery.ui.common.BmRankStar1;
-import cn.com.bluemoon.delivery.ui.common.interf.BMFieldListener;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
+import cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView;
+import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
+import cn.com.bluemoon.lib_widget.module.form.BmRankStar1;
+import cn.com.bluemoon.lib_widget.module.form.interf.BMFieldListener;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
 public class EvaluateEditStudentActivity extends BaseActivity implements BMFieldListener, BmRankStar1

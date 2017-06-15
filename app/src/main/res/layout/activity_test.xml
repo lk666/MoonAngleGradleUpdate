@@ -18,7 +18,7 @@
             android:orientation="vertical"
             android:paddingBottom="50dp">
 
-            <cn.com.bluemoon.delivery.ui.common.BMListPaginationView
+            <cn.com.bluemoon.lib_widget.module.form.BMListPaginationView
                 android:id="@+id/view_bottom"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -28,7 +28,7 @@
                 app:pag_text_color="#999999"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.BMFieldParagraphView
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
                 android:id="@+id/view_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -39,7 +39,7 @@
                 app:field_title="这里是标题"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.BMRadioItemView
+            <cn.com.bluemoon.lib_widget.module.form.BMRadioItemView
                 android:id="@+id/item_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -57,41 +57,40 @@
                 app:radio_item_text_size="14sp"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.BMRadioListView
+            <cn.com.bluemoon.lib_widget.module.form.BMRadioListView
                 android:id="@+id/list_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:radio_list_item_layout="@layout/item_bm_radio_item_view"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View
+            <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View
                 android:id="@+id/btn3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:btn_text="@string/offline_sign_up"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View
+            <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View
                 android:id="@+id/btn1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:btn_text="@string/offline_sign_up"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View
+            <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View
                 android:id="@+id/btn2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:btn_text="@string/offline_sign_up"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View
+            <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:btn_text="@string/offline_sign_up"
                 app:btn_type="red"
             />
-            <cn.com.bluemoon.delivery.ui.common.BMAngleBtn2View
+            <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:btn_color_disable="#ff0000ff"
@@ -102,12 +101,12 @@
                 app:btn_type="blue"
             />
 
-            <cn.com.bluemoon.delivery.ui.common.FloatButton
+            <cn.com.bluemoon.lib_widget.module.form.FloatButton
                 android:layout_width="60dp"
                 android:layout_height="60dp"
                 android:text="按钮"/>
 
-            <cn.com.bluemoon.delivery.ui.common.BMFieldText1View
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:field_text1_title="henhao"/>

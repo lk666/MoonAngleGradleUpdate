@@ -13,26 +13,26 @@
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:orientation="vertical">
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
             android:id="@+id/view_student"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cell_text_txt_title="@string/offline_evaluate_student"
         />
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
             android:id="@+id/view_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cell_text_txt_title="@string/offline_course_detail_name"
         />
 
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
             android:id="@+id/view_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:cell_text_txt_title="@string/offline_evaluate_time"
         />
-        <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
             android:id="@+id/view_sign_time"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -48,13 +48,13 @@
             android:text="@string/offline_evaluate_content"
             android:textColor="@color/text_grep"
             android:textSize="@dimen/text_size_12"/>
-        <cn.com.bluemoon.delivery.ui.common.BMFieldText1View
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
             android:id="@+id/view_score"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:field_text1_hint="@string/offline_evaluate_teacher_score_hint"
             app:field_text1_title="@string/offline_evaluate_score"/>
-        <cn.com.bluemoon.delivery.ui.common.BMFieldParagraphView
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
             android:id="@+id/view_suggest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -63,7 +63,7 @@
             app:field_title="@string/offline_evaluate_suggest"
         />
 
-        <cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View
+        <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View
             android:id="@+id/btn_submit"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

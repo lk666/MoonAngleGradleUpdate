@@ -5,13 +5,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="#fff"
     android:orientation="vertical">
-<cn.com.bluemoon.delivery.ui.common.BmRankStar1
+<cn.com.bluemoon.lib_widget.module.form.BmRankStar1
     android:layout_width="match_parent"
     android:id="@+id/bmrankstar1_view"
     app:rank_star1_titleText="测试标题"
     android:layout_height="wrap_content"/>
 
-    <cn.com.bluemoon.delivery.ui.common.BmRankStar2
+    <cn.com.bluemoon.lib_widget.module.form.BmRankStar2
         android:layout_width="match_parent"
         android:id="@+id/bmrankstar2_view"
         app:rank_star2_titleText="测试标题"
@@ -20,7 +20,7 @@
         android:id="@+id/offlineTrainingItemView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
         app:cell_text_txt_content="哈哈"
         app:cell_text_txt_title="标题"
         app:cell_text_line_paddingright="10dp"
@@ -28,7 +28,7 @@
         app:cell_text_paddingright="50dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
-    <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
+    <cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </LinearLayout>

@@ -16,25 +16,25 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_name"
             />
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_state"
             />
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_time"
             />
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_sign_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -56,20 +56,20 @@
                     android:text="@string/offline_evaluate_info"
                     android:textColor="@color/text_grep"
                     android:textSize="12dp"/>
-                <cn.com.bluemoon.delivery.ui.common.BmRankStar2
+                <cn.com.bluemoon.lib_widget.module.form.BmRankStar2
                     android:id="@+id/view_content_star"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:rank_star2_rating="0"
                     app:rank_star2_titleText="@string/offline_evaluate_teach_content"/>
-                <cn.com.bluemoon.delivery.ui.common.BmRankStar2
+                <cn.com.bluemoon.lib_widget.module.form.BmRankStar2
                     android:id="@+id/view_teacher_star"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:rank_star2_rating="0"
                     app:rank_star2_titleText="@string/offline_evaluate_teach"
                 />
-                <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
+                <cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView
                     android:id="@+id/view_suggest"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -85,19 +85,19 @@
                 android:text="@string/offline_course_detail_info"
                 android:textColor="@color/text_grep"
                 android:textSize="12dp"/>
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_code"
             />
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_theme"
             />
-            <cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
                 android:id="@+id/view_teacher"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -122,7 +122,7 @@
                     android:textColorLink="@color/text_blue"
                     android:textSize="@dimen/text_size_14"/>
 
-                <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                     android:id="@+id/view_contacts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -136,19 +136,19 @@
                     android:layout_alignParentBottom="true"
                     android:background="@color/line_soild_bg"/>
             </RelativeLayout>
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_room"
             />
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/view_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_address"
             />
-            <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView
                 android:id="@+id/view_purpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -158,7 +158,7 @@
 
     </ScrollView>
 
-    <cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View
+    <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View
         android:id="@+id/btn_evaluate"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

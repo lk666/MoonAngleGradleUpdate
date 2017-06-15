@@ -18,12 +18,12 @@
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:orientation="vertical">
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/layout_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_room"/>
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/layout_sign_date"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -37,7 +37,7 @@
                 android:text="@string/offline_select_sign_course"
                 android:textColor="@color/text_grep"
                 android:textSize="12dp"/>
-            <cn.com.bluemoon.delivery.ui.common.BMRadioListView
+            <cn.com.bluemoon.lib_widget.module.form.BMRadioListView
                 android:id="@+id/view_radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
         </LinearLayout>
     </ScrollView>
 
-    <cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View
+    <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View
         android:id="@+id/btn_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

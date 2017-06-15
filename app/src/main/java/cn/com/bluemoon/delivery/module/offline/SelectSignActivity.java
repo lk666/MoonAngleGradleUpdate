@@ -14,11 +14,11 @@ import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.delivery.ui.common.BMAngleBtn1View;
-import cn.com.bluemoon.delivery.ui.common.BMAngleBtn3View;
-import cn.com.bluemoon.delivery.ui.common.BMRadioListView;
-import cn.com.bluemoon.delivery.ui.common.BmCellTextView;
-import cn.com.bluemoon.delivery.ui.common.entity.RadioItem;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
+import cn.com.bluemoon.lib_widget.module.form.BMRadioListView;
+import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
+import cn.com.bluemoon.lib_widget.module.form.entity.RadioItem;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 
 public class SelectSignActivity extends BaseActivity implements BMRadioListView.ClickListener {

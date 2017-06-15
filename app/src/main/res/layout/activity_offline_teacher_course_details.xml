@@ -15,39 +15,39 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_name" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_state" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_time" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_actual_class_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:cell_text_txt_title="@string/offline_course_detail_actual_class_time" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_actual_finish_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
                 app:cell_text_txt_title="@string/offline_course_detail_actual_finish_time" />
 
-            <cn.com.bluemoon.delivery.ui.common.BMFieldArrow1View
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
                 android:id="@+id/far_sign_staff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -65,19 +65,19 @@
                 android:textColor="@color/text_grep"
                 android:textSize="@dimen/text_size_12" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_code" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_theme" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_number_participants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -89,7 +89,7 @@
                 android:background="@color/white"
                 android:orientation="horizontal">
 
-                <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+                <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                     android:id="@+id/ctxt_contacts"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -117,19 +117,19 @@
                     android:layout_alignParentBottom="true" />
             </RelativeLayout>
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_room"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_room" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/offline_course_detail_address" />
 
-            <cn.com.bluemoon.delivery.ui.common.BmCellParagraphView
+            <cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView
                 android:id="@+id/ctxt_course_purpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

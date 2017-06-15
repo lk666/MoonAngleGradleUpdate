@@ -5,31 +5,31 @@
     android:layout_width="match_parent"
     android:background="@color/page_bg_f2"
     android:layout_height="match_parent">
-    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
         android:id="@+id/ctxt_course_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cell_text_txt_title="@string/offline_course_detail_name" />
 
-    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
         android:id="@+id/ctxt_course_state"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cell_text_txt_title="@string/offline_course_detail_state" />
 
-    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
         android:id="@+id/ctxt_course_time"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cell_text_txt_title="@string/offline_course_detail_time" />
 
-    <cn.com.bluemoon.delivery.ui.common.BmCellTextView
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
         android:id="@+id/ctxt_sign_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cell_text_txt_title="@string/offline_signed_in_the_number_of" />
 
-    <cn.com.bluemoon.delivery.ui.common.BmSegmentView
+    <cn.com.bluemoon.lib_widget.module.form.BmSegmentView
         android:id="@+id/segment_tab"
         android:layout_marginTop="12dp"
         android:layout_width="match_parent"
