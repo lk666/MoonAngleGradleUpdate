@@ -1,8 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/page_bg_f2"
-              android:orientation="vertical">
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:scrollbars="none">
 
-</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cell_text_txt_title="@string/txt_employee_info"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bfav_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_title="@string/txt_phone"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bfav_base_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:field_arrow_title="@string/txt_base_info"
+            app:field_arrow_title_color="@color/text_black"
+            app:field_arrow_title_size="@dimen/text_size_14"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bfav_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_title="@string/create_collect_order_customer_phone"
+            app:field_arrow_title_color="@color/text_black"
+            app:field_arrow_title_size="@dimen/text_size_14"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bfav_tx_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_title="@string/txt_tx_address"
+            app:field_arrow_title_color="@color/text_black"
+            app:field_arrow_title_size="@dimen/text_size_14"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bfav_hk_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_title="@string/txt_hk_address"
+            app:field_arrow_title_color="@color/text_black"
+            app:field_arrow_title_size="@dimen/text_size_14"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bfav_family"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_title="@string/txt_family"
+            app:field_arrow_title_color="@color/text_black"
+            app:field_arrow_title_size="@dimen/text_size_14"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bfav_favorite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_title="@string/txt_favorite"
+            app:field_arrow_title_color="@color/text_black"
+            app:field_arrow_title_size="@dimen/text_size_14"/>
+    </LinearLayout>
+</ScrollView>

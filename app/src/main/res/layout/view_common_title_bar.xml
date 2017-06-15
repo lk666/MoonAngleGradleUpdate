@@ -2,5 +2,4 @@
 <cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:background="@color/title_background"
     android:layout_height="wrap_content"/>

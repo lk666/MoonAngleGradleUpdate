@@ -42,6 +42,24 @@ public class HRApi extends BaseApi {
     }
 
     /**
+     * 获取个人基本信息
+     *
+     * @param token token身份检验码 String
+     */
+    public static void getBaseInfo(String token, WithContextTextHttpResponseHandler handler) {
+        if (null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param) + ":" + (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        postRequest(params, "bmhr-control/personInfo/getBaseInfo%s", handler);
+    }
+
+
+    /**
      * 获取住址信息
      *
      * @param type 请求地址类型 String

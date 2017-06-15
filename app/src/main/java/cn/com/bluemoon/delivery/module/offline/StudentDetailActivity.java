@@ -228,7 +228,7 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 0 && resultCode == RESULT_OK) {
-//            getData();
+            //            getData();
             setResult(RESULT_OK);
             finish();
         }
