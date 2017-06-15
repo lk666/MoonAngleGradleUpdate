@@ -31,13 +31,15 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
 
     private String courseCode;
     private String planCode;
+    private String status;
     private long timeStamp;
     private View footView;
 
-    public static void actionStart(Context context,String courseCode,String planCode) {
+    public static void actionStart(Context context,String courseCode,String planCode,String status) {
         Intent intent=new Intent(context,SignStaffListActivity.class);
         intent.putExtra("courseCode",courseCode);
         intent.putExtra("planCode",planCode);
+        intent.putExtra("status",status);
         context.startActivity(intent);
     }
 
@@ -45,6 +47,7 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
     protected void onBeforeSetContentLayout() {
         courseCode=getIntent().getStringExtra("courseCode");
         planCode=getIntent().getStringExtra("planCode");
+        status=getIntent().getStringExtra("status");
     }
 
     @Override
@@ -54,7 +57,7 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
 
     @Override
     protected BaseListAdapter getNewAdapter() {
-        return new SignStaffAdapter(this,this);
+        return new SignStaffAdapter(this,this,SignStaffAdapter.TYPE_SIGN,status);
     }
 
     @Override
@@ -111,10 +114,16 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
     private ShowEvaluateDetailPopView window;
     @Override
     public void onItemClick(Object item, View view, int position) {
-        if (window==null) {
-            window=new ShowEvaluateDetailPopView(this,this);
+        if (view.getTag(R.id.tag_type) != null && view.getTag(R.id.tag_type) instanceof Integer
+                && item instanceof ResultSignStaffList.Data.Students) {
+            int type = (int) view.getTag(R.id.tag_type);
+            if(type==SignStaffAdapter.CLICK_ITEM){
+                if (window==null) {
+                    window=new ShowEvaluateDetailPopView(this,this);
+                }
+                window.showEva(getWindow().getDecorView(), (ResultSignStaffList.Data.Students) item);
+            }
         }
-        window.showEva(getWindow().getDecorView(), (ResultSignStaffList.Data.Students) item);
     }
 
     @Override

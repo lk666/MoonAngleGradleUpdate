@@ -59,24 +59,6 @@ public class ScanSignActivity extends ScanActivity {
     }
 
     @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        startDelay();
-    }
-
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
-        startDelay();
-    }
-
-    @Override
-    public void onSuccessException(int requestCode, Throwable t) {
-        super.onSuccessException(requestCode, t);
-        startDelay();
-    }
-
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK) {

@@ -25,19 +25,16 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.Students>{
 
     public final static int TYPE_SIGN=1,TYPE_EVALUATE=2,TYPE_UN_EVALUATE=3;
-    public final static int CLICK_ITEM=1,CLICK_EVALUATE=2;
+    public final static int CLICK_ITEM=1,CLICK_EVALUATE=2,NO_CLICK=3;
 
     private int type;
+
+    public void setState(String state) {
+        this.state = state;
+    }
+
     private String state;
 
-    public SignStaffAdapter(Context context, OnListItemClickListener listener) {
-        this(context,listener,TYPE_SIGN);
-    }
-
-    public SignStaffAdapter(Context context, OnListItemClickListener listener,int type) {
-        super(context, listener);
-        this.type=type;
-    }
 
     public SignStaffAdapter(Context context, OnListItemClickListener listener,int type,String state) {
         super(context, listener);
@@ -75,16 +72,19 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
         signTimeView.setText(DateUtil.getTimeToYMDHM(student.assignTime));
 
 
-        if(type==TYPE_UN_EVALUATE||(type==TYPE_SIGN&&student.score<0&&TextUtils.isEmpty(student.comment))){
+        if(type==TYPE_SIGN&&(TextUtils.isEmpty(state)||!state.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS))||TextUtils.isEmpty(student.comment)){
             layoutDetail.setVisibility(View.GONE);
+            convertView.setTag(R.id.tag_type,NO_CLICK);
         }else {
             layoutDetail.setVisibility(View.VISIBLE);
             gradeView.setText(String.valueOf(student.score<0?context.getString(R.string.offline_not_yet_been_rated):student.score));
             evaluateView.setText(context.getString(R.string.offline_type_evaluate)+student.comment);
+            convertView.setTag(R.id.tag_type,CLICK_ITEM);
         }
 
         if (type!=TYPE_SIGN&&(TextUtils.isEmpty(state)||!state.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS))) {
             evaluateClickView.setVisibility(View.VISIBLE);
+            evaluateClickView.setTag(R.id.tag_type,CLICK_EVALUATE);
             switch (type) {
                 case TYPE_EVALUATE:
                     evaluateClickView.setText(R.string.offline_click_compile_evaluate);
@@ -95,10 +95,9 @@ public class SignStaffAdapter extends BaseListAdapter<ResultSignStaffList.Data.S
             }
         }else{
             evaluateClickView.setVisibility(View.GONE);
+            evaluateClickView.setTag(R.id.tag_type,NO_CLICK);
         }
 
-        convertView.setTag(R.id.tag_type,CLICK_ITEM);
-        evaluateClickView.setTag(R.id.tag_type,CLICK_EVALUATE);
         setClickEvent(isNew,position,convertView,evaluateClickView);
     }
 }
