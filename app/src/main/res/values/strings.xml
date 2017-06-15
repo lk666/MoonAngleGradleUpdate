@@ -1558,8 +1558,20 @@
     <string name="no_more_data">没有更多内容了</string>
     <string name="refresh_from_bottom_release_label">更多…</string>
 
+    <!--个人信息-->
     <string name="user_info">个人信息</string>
     <string name="title_tips">提示</string>
     <string name="hint_input_login_psw">请输入登录密码</string>
     <string name="err_login_psw_empty">密码不能为空</string>
+
+    <string name="txt_phone">手机号</string>
+    <string name="txt_base_info">基本信息</string>
+    <string name="txt_hk_address">家乡地址</string>
+    <string name="txt_tx_address">现住地址</string>
+    <string name="txt_family">家庭情况</string>
+    <string name="txt_favorite">爱好特长</string>
+
+
+
+
 </resources>

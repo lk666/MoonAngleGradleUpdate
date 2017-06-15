@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest package="cn.com.bluemoon.delivery"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="cn.com.bluemoon.delivery">
 
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -48,8 +48,8 @@
         android:name=".AppContext"
         android:allowBackup="false"
         android:icon="@mipmap/icon"
-        tools:replace="android:allowBackup"
-        android:label="@string/app_name">
+        android:label="@string/app_name"
+        tools:replace="android:allowBackup">
         <activity
             android:name=".AppStartActivity"
             android:label="@string/app_name"
@@ -874,7 +874,7 @@
         <activity
             android:name=".module.hr.personinfo.PersonInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
+            android:theme="@android:style/Theme.NoTitleBar"
             android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
     </application>
