@@ -56,6 +56,7 @@ public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
     @Override
     protected void initContentView(View mainView) {
         bfavContact.setListener(this);
+        bfavBaseInfo.setListener(this);
     }
 
     @Override
@@ -92,6 +93,10 @@ public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
             // 联系人
             case R.id.bfav_contact:
                 pushFragment(ContactFragment.newInstance());
+                break;
+            // 基本信息
+            case R.id.bfav_base_info:
+                pushFragment(BasicInfoFragment.newInstance());
                 break;
         }
     }

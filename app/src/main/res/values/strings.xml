@@ -1588,5 +1588,17 @@
     <string name="err_empty_contact_phone">紧急联系人一手机号不能为空</string>
     <string name="txt_save_success">保存成功</string>
 
+    <string name="txt_inDate">入职时间</string>
+    <string name="txt_educationHighest">学历</string>
+    <string name="txt_gradSchool">学校</string>
+    <string name="txt_major">专业</string>
+    <string name="txt_blood">血型</string>
+    <string name="txt_marriage">婚姻状况</string>
+    <string name="txt_idcard">身份证号</string>
+    <string name="txt_bankNo">银行卡号</string>
+    <string name="txt_emailComp">公司邮箱</string>
+    <string name="txt_hkAddress">户口地址</string>
+    <string name="txt_txAddress">通讯地址</string>
+    <string name="txt_base_info_info">说明：\n如信息变更，请及时反馈对应人事伙伴提报共享中心人员修改。</string>
 
 </resources>
