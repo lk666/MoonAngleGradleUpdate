@@ -69,6 +69,7 @@
             android:id="@+id/bfav_favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             app:field_arrow_title="@string/txt_favorite"
             app:field_arrow_title_color="@color/text_black"
             app:field_arrow_title_size="@dimen/text_size_14"/>

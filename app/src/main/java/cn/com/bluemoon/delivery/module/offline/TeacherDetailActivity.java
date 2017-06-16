@@ -164,12 +164,12 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
     }
 
     @Override
-    public void onClickLayout() {
+    public void onClickLayout(View v) {
         SignStaffListActivity.actionStart(this,teacherDetail.data.courseCode,teacherDetail.data.planCode,teacherDetail.data.status);
     }
 
     @Override
-    public void onClickRight() {
+    public void onClickRight(View v) {
 
     }
 

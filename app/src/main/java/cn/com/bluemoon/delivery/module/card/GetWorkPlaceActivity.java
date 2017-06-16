@@ -37,6 +37,7 @@ import cn.com.bluemoon.lib.view.CommonSearchView;
 public class GetWorkPlaceActivity extends BaseActivity implements OnListItemClickListener {
 
 
+    public static final String EXTRA_WORK_PLACE = "EXTRA_WORK_PLACE";
     @Bind(R.id.search_view)
     CommonSearchView searchView;
     @Bind(R.id.listView_history)
@@ -219,6 +220,7 @@ public class GetWorkPlaceActivity extends BaseActivity implements OnListItemClic
     private void returnOK(Workplace workplace) {
         Intent intent = new Intent();
         intent.putExtra("code", workplace.getWorkplaceCode());
+        intent.putExtra(EXTRA_WORK_PLACE, workplace);
         setResult(RESULT_OK, intent);
         finish();
     }

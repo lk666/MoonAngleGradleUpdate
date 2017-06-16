@@ -215,12 +215,12 @@ public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1
     }
 
     @Override
-    public void onClickLayout() {
+    public void onClickLayout(View v) {
 
     }
 
     @Override
-    public void onClickRight() {
+    public void onClickRight(View v) {
         popupWindow.showAtLocation(viewTeacher, Gravity.NO_GRAVITY, 0, 0);
     }
 

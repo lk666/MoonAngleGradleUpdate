@@ -62,11 +62,11 @@ public class HRApi extends BaseApi {
     /**
      * 获取住址信息
      *
-     * @param type 请求地址类型 String
+     * @param type  请求地址类型 String
      * @param token token身份检验码 String
      */
     public static void getAddressInfo(String type, String token,
-                                     WithContextTextHttpResponseHandler handler) {
+                                      WithContextTextHttpResponseHandler handler) {
         if (TextUtils.isEmpty(token) || TextUtils.isEmpty(type)) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
                     (byte[]) null,
@@ -78,7 +78,8 @@ public class HRApi extends BaseApi {
         Map<String, Object> params = new HashMap<>();
         params.put("type", type);
         params.put(TOKEN, token);
-        postRequest("Get Address Info", params, "bmhr-control/personInfo/getAddressInfo%s", handler);
+        postRequest("Get Address Info", params, "bmhr-control/personInfo/getAddressInfo%s",
+                handler);
     }
 
 
@@ -88,7 +89,7 @@ public class HRApi extends BaseApi {
      * @param token token身份检验码 String
      */
     public static void getInterest(String token,
-                                      WithContextTextHttpResponseHandler handler) {
+                                   WithContextTextHttpResponseHandler handler) {
         if (TextUtils.isEmpty(token)) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
                     (byte[]) null,
@@ -106,7 +107,7 @@ public class HRApi extends BaseApi {
      * 编辑兴趣爱好和特长
      *
      * @param token token身份检验码 String
-     * @param bean 技术爱好/特长 ResultGetInterstInfo
+     * @param bean  技术爱好/特长 ResultGetInterstInfo
      */
     public static void saveInterest(ResultGetInterstInfo bean, String token,
                                     WithContextTextHttpResponseHandler handler) {
@@ -133,7 +134,7 @@ public class HRApi extends BaseApi {
      * @param token token身份检验码 String
      */
     public static void getFamilyInfo(String token,
-                                      WithContextTextHttpResponseHandler handler) {
+                                     WithContextTextHttpResponseHandler handler) {
         if (TextUtils.isEmpty(token)) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
                     (byte[]) null,
@@ -146,13 +147,14 @@ public class HRApi extends BaseApi {
         params.put(TOKEN, token);
         postRequest("Get family info", params, "bmhr-control/personInfo/getFamilyInfo%s", handler);
     }
+
     /**
      * 新增/编辑家庭成员
      *
-     * @param bean 家庭信息 FamilyListBean
+     * @param bean  家庭信息 FamilyListBean
      * @param token 身份检验码 String 必填
      */
-    public static void saveOrUpdateFamily(FamilyListBean bean ,String token,
+    public static void saveOrUpdateFamily(FamilyListBean bean, String token,
                                           WithContextTextHttpResponseHandler handler) {
         if (TextUtils.isEmpty(token)
                 || TextUtils.isEmpty(bean.gender) || TextUtils.isEmpty(bean.name)
@@ -178,6 +180,72 @@ public class HRApi extends BaseApi {
         params.put("relationship", bean.relationship);
         params.put("surname", bean.surname);
         params.put("workPlace", bean.workPlace);
-        postRequest("Save or update family", params, "bmhr-control/personInfo/saveOrUpdateFamily%s", handler);
+        postRequest("Save or update family", params,
+                "bmhr-control/personInfo/saveOrUpdateFamily%s", handler);
+    }
+
+    /**
+     * 获取联系方式信息
+     *
+     * @param token token身份检验码 String
+     */
+    public static void getContactInfo(String token, WithContextTextHttpResponseHandler handler) {
+        if (TextUtils.isEmpty(token)) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param) + ":" + (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        postRequest(params, "bmhr-control/personInfo/getContactInfo%s", handler);
+    }
+
+    /**
+     * 保存联系方式信息
+     *
+     * @param contactMobile    紧急联系人手机号 String
+     * @param contactMobile2   紧急联系人手机号2 String
+     * @param contactName      紧急联系人姓名 String
+     * @param contactName2     紧急联系人姓名2 String
+     * @param contactRelation  紧急联系人关系 String
+     * @param contactRelation2 紧急联系人关系2 String
+     * @param emailPers        个人邮箱 String
+     * @param officePhone      办公分机号 String
+     * @param officePlace      办公点 String
+     * @param officeSeat       办公座位号 String
+     * @param token            token身份检验码 String
+     * @param weichat          微信号 String
+     */
+    public static void saveContact(String contactMobile, String contactMobile2, String
+            contactName, String contactName2, String contactRelation, String contactRelation2,
+                                   String emailPers, String officePhone, String officePlace,
+                                   String officeSeat, String token, String weichat,
+                                   WithContextTextHttpResponseHandler handler) {
+        if (TextUtils.isEmpty(token) || TextUtils.isEmpty(contactMobile)
+                || TextUtils.isEmpty(contactName) || TextUtils.isEmpty(contactRelation)) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null,
+                    new Exception(AppContext.getInstance().getString(R.string.error_local_param)
+                            + ":" + (null == contactMobile ? " null=contactMobile" : "") +
+                            (null == contactName ? " null=contactName" : "") +
+                            (null == contactRelation ? " null=contactRelation" : "") +
+                            (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("contactMobile", contactMobile);
+        params.put("contactMobile2", contactMobile2);
+        params.put("contactName", contactName);
+        params.put("contactName2", contactName2);
+        params.put("contactRelation", contactRelation);
+        params.put("contactRelation2", contactRelation2);
+        params.put("emailPers", emailPers);
+        params.put("officePhone", officePhone);
+        params.put("officePlace", officePlace);
+        params.put("officeSeat", officeSeat);
+        params.put(TOKEN, token);
+        params.put("weichat", weichat);
+        postRequest(params, "bmhr-control/personInfo/saveContact%s", handler);
     }
 }

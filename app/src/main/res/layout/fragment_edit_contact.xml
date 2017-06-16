@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/txt_self_contact"
+            android:textColor="@color/text_grep"
+            android:textSize="@dimen/text_size_12"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_weichat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_weichat"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_emailPers"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_emailPers"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/bctv_officePlace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_hint="@string/please_select_txt"
+            app:field_arrow_title="@string/txt_officePlace"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_officePhone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_officePhone"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_officeSeat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_officeSeat"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/txt_relation"
+            android:textColor="@color/text_grep"
+            android:textSize="@dimen/text_size_12"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_contactName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_contactName_edit"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_contactRelation"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_content_maxLength="10"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_contactRelation"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_contactMobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_phone"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_contactName2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_contactName2_edit"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_contactRelation2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_content_maxLength="10"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_contactRelation"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_contactMobile2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_phone"/>
+
+    </LinearLayout>
+</ScrollView>

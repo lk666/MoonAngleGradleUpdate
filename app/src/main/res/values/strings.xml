@@ -1571,7 +1571,22 @@
     <string name="txt_family">家庭情况</string>
     <string name="txt_favorite">爱好特长</string>
 
-
+    <string name="txt_self_contact">本人联系方式</string>
+    <string name="txt_weichat">微信号</string>
+    <string name="txt_emailPers">个人邮箱</string>
+    <string name="txt_officePlace">办公点</string>
+    <string name="txt_officePhone">办公分机号</string>
+    <string name="txt_officeSeat">办公座位号</string>
+    <string name="txt_relation">紧急联系人</string>
+    <string name="txt_contactName">姓名(联系人一)</string>
+    <string name="txt_contactName_edit">联系人一(必填)</string>
+    <string name="txt_contactRelation">关系</string>
+    <string name="txt_contactName2">姓名(联系人二)</string>
+    <string name="txt_contactName2_edit">联系人二(选填)</string>
+    <string name="err_empty_contact_name">紧急联系人一姓名不能为空</string>
+    <string name="err_empty_contact_relation">紧急联系人一关系不能为空</string>
+    <string name="err_empty_contact_phone">紧急联系人一手机号不能为空</string>
+    <string name="txt_save_success">保存成功</string>
 
 
 </resources>
