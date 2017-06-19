@@ -55,7 +55,7 @@ public class HRApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        postRequest(params, "bmhr-control/personInfo/getBaseInfo%s", handler);
+        postRequest(" 获取个人基本信息", params, "bmhr-control/personInfo/getBaseInfo%s", handler);
     }
 
 
@@ -198,7 +198,7 @@ public class HRApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        postRequest(params, "bmhr-control/personInfo/getContactInfo%s", handler);
+        postRequest("获取联系方式信息", params, "bmhr-control/personInfo/getContactInfo%s", handler);
     }
 
     /**
@@ -246,6 +246,52 @@ public class HRApi extends BaseApi {
         params.put("officeSeat", officeSeat);
         params.put(TOKEN, token);
         params.put("weichat", weichat);
-        postRequest(params, "bmhr-control/personInfo/saveContact%s", handler);
+        postRequest("保存联系方式信息", params, "bmhr-control/personInfo/saveContact%s", handler);
     }
+
+    /**
+     * 获取验证码
+     *
+     * @param mobile 手机号码 String
+     * @param token  token身份检验码 String
+     */
+    public static void getVerifyCode(String mobile, String token,
+                                     WithContextTextHttpResponseHandler handler) {
+        if (null == mobile || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param) + ":" + (null == mobile ? " null=mobile" : "") +
+                            (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("mobile", mobile);
+        params.put(TOKEN, token);
+        postRequest("获取验证码", params, "bmhr-control/personInfo/getVerifyCode%s", handler);
+    }
+
+    /**
+     * 保存手机号码
+     *
+     * @param mobile   手机号码 String
+     * @param token    token身份检验码 String
+     * @param valiCode 验证码 String
+     */
+    public static void saveMobile(String mobile, String token, String valiCode,
+                                  WithContextTextHttpResponseHandler handler) {
+        if (null == mobile || null == token || null == valiCode) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param) + ":" + (null == mobile ? " null=mobile" : "") +
+                            (null == token ? " null=token" : "") + (null == valiCode ? " " +
+                            "null=valiCode" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("mobile", mobile);
+        params.put(TOKEN, token);
+        params.put("valiCode", valiCode);
+        postRequest("保存手机号码", params, "bmhr-control/personInfo/saveMobile%s", handler);
+    }
+
 }

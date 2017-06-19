@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/bctv_phone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_phone"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldBtn1View
+            android:id="@+id/bfbv_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_btn1_btn_txt="@string/login_get_code"
+            app:field_btn1_btn_txt_color="@color/text_blue_1fb8ff"
+            app:field_btn1_hint="@string/people_flow_input"
+            app:field_btn1_title="@string/txt_verify_code"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View
+            android:id="@+id/btn_submit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:btn_text="@string/btn_save_with_space"
+            />
+    </LinearLayout>
+</ScrollView>

@@ -1601,4 +1601,8 @@
     <string name="txt_txAddress">通讯地址</string>
     <string name="txt_base_info_info">说明：\n如信息变更，请及时反馈对应人事伙伴提报共享中心人员修改。</string>
 
+    <string name="txt_modify_phone">修改手机号</string>
+    <string name="txt_verify_code">验证码</string>
+    <string name="err_phone_same">手机号未更改</string>
+    <string name="get_code_again">重新获取(%d)</string>
 </resources>

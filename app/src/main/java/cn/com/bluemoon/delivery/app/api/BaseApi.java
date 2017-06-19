@@ -22,19 +22,6 @@ class BaseApi {
     /**
      * 提交http请求
      *
-     * @param params  参数列表
-     * @param subUrl  请求的url子部
-     * @param handler 回调
-     */
-    @Deprecated
-    static void postRequest(Map<String, Object> params, String subUrl,
-                            WithContextTextHttpResponseHandler handler) {
-        postRequest(null, params, subUrl, handler);
-    }
-
-    /**
-     * 提交http请求
-     *
      * @param name    请求的名称，可空
      * @param params  参数列表
      * @param subUrl  请求的url子部
