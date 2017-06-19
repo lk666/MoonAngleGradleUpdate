@@ -9,16 +9,16 @@
         android:id="@+id/txt_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cell_text_txt_title="住址区域"/>
+        app:cell_text_txt_title="@string/family_address"/>
     <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
         android:id="@+id/txt_detail_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cell_text_txt_title="详细地址"/>
+        app:cell_text_txt_title="@string/family_detail_address"/>
     <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
         android:id="@+id/txt_cart_address"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cell_text_txt_title="上次候车点"/>
+        app:cell_text_txt_title="@string/cart_wait_address"/>
 
 </LinearLayout>

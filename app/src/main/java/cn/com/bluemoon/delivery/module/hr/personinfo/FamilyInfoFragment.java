@@ -21,10 +21,12 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 /**
  * 家庭情况
- * Created by lk on 2017/6/14.
+ * Created by ljl on 2017/6/14.
  */
 
 public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements OnListItemClickListener {
@@ -45,6 +47,20 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
     }
 
     @Override
+    protected void initTitleBarView(View title) {
+        super.initTitleBarView(title);
+        CommonActionBar actionBar = (CommonActionBar) title;
+        actionBar.getTvRightView().setText(R.string.add_collect_wash);
+        actionBar.getTvRightView().setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    protected void onActionBarBtnRightClick() {
+        super.onActionBarBtnRightClick();
+        pushFragment(AddFamilyInfoFragment.newInstance(AddFamilyInfoFragment.ADD_TYPE));
+    }
+
+    @Override
     protected int getContentLayoutId() {
         return R.layout.fragment_family_info;
     }
@@ -53,7 +69,7 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         ResultGetFamilyInfo r = (ResultGetFamilyInfo) result;
         List<FamilyListBean> list = r.familyList;
-        if (list != null && list.size() > 0) {
+        if (list != null) {
             FamilyAdapter adapter = new FamilyAdapter(getActivity(), this);
             adapter.setList(list);
             lvFamily.setAdapter(adapter);
@@ -62,12 +78,18 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
 
     @Override
     protected void initData() {
+        showWaitDialog();
         HRApi.getFamilyInfo(getToken(), getNewHandler(1, ResultGetFamilyInfo.class));
     }
 
     @Override
     protected void initContentView(View mainView) {
-
+        PublicUtil.setEmptyView(lvFamily, null, new CommonEmptyView.EmptyListener() {
+            @Override
+            public void onRefresh() {
+                initData();
+            }
+        });
     }
 
     @Override

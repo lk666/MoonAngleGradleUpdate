@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2"
+    android:orientation="vertical">
+
+    <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        android:id="@+id/layout_relationship"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:field_arrow_hint="请选择"
+        app:field_arrow_title="关系(必填)" />
+
+    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+        android:id="@+id/layout_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:field_text1_hint="请输入"
+        app:field_text1_title="姓(必填)" />
+
+    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+        android:id="@+id/layout_sub_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:field_text1_hint="请输入"
+        app:field_text1_title="名(必填)" />
+    <cn.com.bluemoon.delivery.ui.form.BMRadioView
+        android:id="@+id/item_radio"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:radio_title="性别(必填)"/>
+
+
+    <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        android:id="@+id/layout_birthday"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:field_arrow_hint="请选择"
+        app:field_arrow_title="出生日期" />
+
+    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+        android:id="@+id/layout_workplace"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:field_text1_hint="请输入"
+        app:field_text1_title="工作单位" />
+
+    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+        android:id="@+id/layout_position"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        app:field_text1_hint="请输入"
+        app:field_text1_title="职位" />
+
+</LinearLayout>

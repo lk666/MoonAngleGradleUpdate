@@ -95,4 +95,27 @@
         <attr name="is_draw_border" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="BMSelectorView">
+        <attr name="selector_title" format="string|reference" />
+        <attr name="selector_title_color" format="color" />
+        <attr name="selector_title_size" format="dimension" />
+        <attr name="selector_line_color" format="color" />
+        <attr name="selector_line_size" format="dimension" />
+        <attr name="selector_line_padding_left" format="dimension" />
+        <attr name="selector_line_padding_right" format="dimension" />
+        <attr name="selector_title_visible" format="enum">
+            <enum name="gone" value="0x00000008" />
+            <enum name="visible" value="0x00000000" />
+        </attr>
+        <attr name="selector_line_visible" format="enum">
+            <enum name="gone" value="0x00000008" />
+            <enum name="visible" value="0x00000000" />
+        </attr>
+        <attr name="selector_mode" format="enum">
+            <enum name="single" value="0" />
+            <enum name="multiple" value="1" />
+        </attr>
+        <attr name="selector_item_layout" format="reference" />
+    </declare-styleable>
+
 </resources>

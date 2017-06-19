@@ -18,7 +18,7 @@ public class PersonInfoActivity extends BaseFragmentActivity {
 
     @Override
     protected Fragment getMainFragment() {
-        return FamilyInfoFragment.newInstance();
+        return AddFamilyInfoFragment.newInstance(AddFamilyInfoFragment.ADD_TYPE);
     }
 
     public static void actionStart(Context context) {

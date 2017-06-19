@@ -30,6 +30,8 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
     @Bind(R.id.txt_cart_address)
     BmCellTextView txtCartAddress;
     private String type;
+    private final String LIVE_TYPE = "live";
+    private final String HOME_TYPE = "home";
 
     public static Fragment newInstance(String type) {
         AddressInfoFragment fragment = new AddressInfoFragment();
@@ -43,7 +45,7 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
     @Override
     protected String getTitleString() {
         type = getArguments().getString("type");
-        if ("live".equals(type)) {
+        if (LIVE_TYPE.equals(type)) {
             return getString(R.string.current_address_title);
         }
         return getString(R.string.family_address_title);
@@ -59,7 +61,7 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
         ResultGetAddressInfo r = (ResultGetAddressInfo)result;
         txtDetailAddress.setContentText(r.addressInfo.address);
         txtAddress.setContentText(r.addressInfo.toString());
-        if ("live".equals(type)) {
+        if (LIVE_TYPE.equals(type)) {
             if (TextUtils.isEmpty(r.addressInfo.carWait)) {
                 txtCartAddress.setContentText(getString(R.string.not_input));
             } else {
