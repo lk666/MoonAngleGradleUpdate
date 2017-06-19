@@ -290,9 +290,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
     public void onClick(View v) {
         String token = ClientStateManager.getLoginToken(mContext);
         switch (v.getId()) {
-            // 个人信息
+            // todo 个人信息
             case R.id.btn_user_info:
-                gotoUserInfo();
+                PersonInfoActivity.actionStart(getActivity());
+//                gotoUserInfo();
                 break;
             case R.id.btn_change_pwd:
                 Intent intent = new Intent(mContext, ChangePswActivity.class);

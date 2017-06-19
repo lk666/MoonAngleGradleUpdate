@@ -27,8 +27,7 @@ public abstract class BaseNetFragment extends BaseActionFragment implements IHtt
     }
 
     private void cancelRequest() {
-        // TODO: lk 2017/4/17 此处会取消所有同activity的请求
-        ApiHttpClient.cancelAll(getActivity());
+        ApiHttpClient.cancelAll(getContext());
     }
 
     //////////////// 工具方法 ////////////////
@@ -53,7 +52,7 @@ public abstract class BaseNetFragment extends BaseActionFragment implements IHtt
                                                           final IHttpResponse iHttpResponse,
                                                           final boolean isShowDialog) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
-                HTTP.UTF_8, getActivity(), requestCode, clazz) {
+                HTTP.UTF_8, getContext(), requestCode, clazz) {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {

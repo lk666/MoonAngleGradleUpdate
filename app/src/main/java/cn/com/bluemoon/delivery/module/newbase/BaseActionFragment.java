@@ -87,8 +87,6 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
         MobclickAgent.onPageStart(getDefaultTag());
     }
 
-    private static final int PERMISSION_REQUEST_CODE_INIT = 0x77777;
-
     @Override
     public void onPause() {
         super.onPause();

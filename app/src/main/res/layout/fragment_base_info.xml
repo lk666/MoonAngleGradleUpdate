@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/page_bg_f2"
+            android:scrollbars="none">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_inDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cell_text_txt_title="@string/txt_inDate"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_educationHighest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_educationHighest"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_gradSchool"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_gradSchool"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_major"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_major"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_blood"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_blood"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_marriage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_marriage"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_idcard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_idcard"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_bankNo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_bankNo"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_emailComp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_emailComp"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_hkAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_hkAddress"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_txAddress"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_txAddress"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="12dp"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:text="@string/txt_base_info_info"
+            android:textColor="@color/btn_red"
+            android:textSize="@dimen/text_size_12"/>
+    </LinearLayout>
+</ScrollView>

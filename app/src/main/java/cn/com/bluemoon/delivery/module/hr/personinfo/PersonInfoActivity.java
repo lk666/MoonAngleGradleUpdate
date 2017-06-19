@@ -10,7 +10,7 @@ import cn.com.bluemoon.delivery.app.api.model.card.AddressInfo;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragmentActivity;
 
 /**
- * 专享洗衣卡详情
+ * 个人信息，fragment层次：<br/>
  */
 public class PersonInfoActivity extends BaseFragmentActivity {
 
