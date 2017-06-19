@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.hr.personinfo;
 
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 
 import butterknife.Bind;
@@ -85,15 +86,19 @@ public class BasicInfoFragment extends BaseFragment<CommonActionBar> {
         if (baseInfo.inDate > 0) {
             bctvInDate.setContentText(DateUtil.getTime(baseInfo.inDate));
         }
-        bctvEducationHighest.setContentText(baseInfo.educationHighest);
-        bctvGradSchool.setContentText(baseInfo.educationHighest);
-        bctvMajor.setContentText(baseInfo.major);
-        bctvBlood.setContentText(baseInfo.blood);
-        bctvMarriage.setContentText(baseInfo.marriage);
-        bctvIdcard.setContentText(baseInfo.idcard);
-        bctvBankNo.setContentText(baseInfo.bankNo);
-        bctvEmailComp.setContentText(baseInfo.emailComp);
-        bctvHkAddress.setContentText(baseInfo.hkAddress);
-        bctvTxAddress.setContentText(baseInfo.txAddress);
+        bctvEducationHighest.setContentText(getText(baseInfo.educationHighest));
+        bctvGradSchool.setContentText(getText(baseInfo.educationHighest));
+        bctvMajor.setContentText(getText(baseInfo.major));
+        bctvBlood.setContentText(getText(baseInfo.blood));
+        bctvMarriage.setContentText(getText(baseInfo.marriage));
+        bctvIdcard.setContentText(getText(baseInfo.idcard));
+        bctvBankNo.setContentText(getText(baseInfo.bankNo));
+        bctvEmailComp.setContentText(getText(baseInfo.emailComp));
+        bctvHkAddress.setContentText(getText(baseInfo.hkAddress));
+        bctvTxAddress.setContentText(getText(baseInfo.txAddress));
+    }
+
+    private String getText(String str) {
+        return TextUtils.isEmpty(str) ? getString(R.string.txt_empty_string) : str;
     }
 }

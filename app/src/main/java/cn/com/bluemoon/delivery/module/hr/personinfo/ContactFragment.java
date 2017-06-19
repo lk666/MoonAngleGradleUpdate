@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.hr.personinfo;
 
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 
 import butterknife.Bind;
@@ -104,16 +105,20 @@ public class ContactFragment extends BaseFragment<CommonActionBar> {
             return;
         }
         this.contactInfo = contactInfo;
-        bctvWeichat.setContentText(contactInfo.weichat);
-        bctvEmailPers.setContentText(contactInfo.emailPers);
-        bctvOfficePlace.setContentText(contactInfo.officePlace);
-        bctvOfficePhone.setContentText(contactInfo.officePhone);
-        bctvOfficeSeat.setContentText(contactInfo.officeSeat);
-        bctvContactName.setContentText(contactInfo.contactName);
-        bctvContactRelation.setContentText(contactInfo.contactRelation);
-        bctvContactMobile.setContentText(contactInfo.contactMobile);
-        bctvContactName2.setContentText(contactInfo.contactName2);
-        bctvContactRelation2.setContentText(contactInfo.contactRelation2);
-        bctvContactMobile2.setContentText(contactInfo.contactMobile2);
+        bctvWeichat.setContentText(getText(contactInfo.weichat));
+        bctvEmailPers.setContentText(getText(contactInfo.emailPers));
+        bctvOfficePlace.setContentText(getText(contactInfo.officePlace));
+        bctvOfficePhone.setContentText(getText(contactInfo.officePhone));
+        bctvOfficeSeat.setContentText(getText(contactInfo.officeSeat));
+        bctvContactName.setContentText(getText(contactInfo.contactName));
+        bctvContactRelation.setContentText(getText(contactInfo.contactRelation));
+        bctvContactMobile.setContentText(getText(contactInfo.contactMobile));
+        bctvContactName2.setContentText(getText(contactInfo.contactName2));
+        bctvContactRelation2.setContentText(getText(contactInfo.contactRelation2));
+        bctvContactMobile2.setContentText(getText(contactInfo.contactMobile2));
+    }
+
+    private String getText(String str) {
+        return TextUtils.isEmpty(str) ? getString(R.string.txt_empty_string) : str;
     }
 }

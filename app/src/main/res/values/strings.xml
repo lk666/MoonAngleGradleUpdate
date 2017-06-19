@@ -1605,4 +1605,5 @@
     <string name="txt_verify_code">验证码</string>
     <string name="err_phone_same">手机号未更改</string>
     <string name="get_code_again">重新获取(%d)</string>
+    <string name="txt_empty_string">未填写</string>
 </resources>
