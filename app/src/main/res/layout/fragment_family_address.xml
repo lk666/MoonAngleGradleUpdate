@@ -1,24 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/page_bg_f2"
     android:orientation="vertical">
-    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
-        android:id="@+id/txt_address"
+    <LinearLayout
+        android:id="@+id/layout_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cell_text_txt_title="@string/family_address"/>
-    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
-        android:id="@+id/txt_detail_address"
+        android:orientation="vertical">
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/txt_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/family_address" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/txt_detail_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/family_detail_address" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/txt_cart_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/cart_wait_address" />
+    </LinearLayout>
+    <!-- ==========edit============-->
+    <LinearLayout
+        android:id="@+id/layout_edit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cell_text_txt_title="@string/family_detail_address"/>
-    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
-        android:id="@+id/txt_cart_address"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:cell_text_txt_title="@string/cart_wait_address"/>
+        android:visibility="gone"
+        android:orientation="vertical">
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/field_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_arrow_title="@string/family_address"
+            app:field_text1_hint="请选择" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/field_detail_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="请填写"
+            app:field_text1_title="@string/family_detail_address" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/field_cart_address"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_text1_hint="请填写"
+            app:field_text1_title="@string/cart_wait_address" />
+    </LinearLayout>
+
 
 </LinearLayout>

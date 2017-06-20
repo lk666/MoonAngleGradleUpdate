@@ -58,6 +58,10 @@ public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
         bfavContact.setListener(this);
         bfavBaseInfo.setListener(this);
         bfavPhone.setListener(this);
+        bfavTxAddress.setListener(this);
+        bfavHkAddress.setListener(this);
+        bfavFamily.setListener(this);
+        bfavFavorite.setListener(this);
     }
 
     @Override
@@ -102,6 +106,21 @@ public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
             // 修改手机号
             case R.id.bfav_phone:
                 pushFragment(ModifyPhoneFragment.newInstance(bfavPhone.getContent()));
+                break;
+            // 现在地址
+            case R.id.bfav_tx_address:
+                pushFragment(AddressInfoFragment.newInstance(AddressInfoFragment.LIVE_TYPE));
+                break;
+            // 家乡地址
+            case R.id.bfav_hk_address:
+                pushFragment(AddressInfoFragment.newInstance(AddressInfoFragment.HOME_TYPE));
+                break;
+            // 家庭情况
+            case R.id.bfav_family:
+                pushFragment(FamilyInfoFragment.newInstance());
+                break;
+            // 爱好特长
+            case R.id.bfav_favorite:
                 break;
         }
     }
