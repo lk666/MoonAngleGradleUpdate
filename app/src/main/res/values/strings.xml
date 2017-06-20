@@ -1563,6 +1563,12 @@
     <string name="title_tips">提示</string>
     <string name="hint_input_login_psw">请输入登录密码</string>
     <string name="err_login_psw_empty">密码不能为空</string>
+    <string name="current_address_title">现住址</string>
+    <string name="family_address_title">家乡住址</string>
+    <string name="family_info_title">家庭情况</string>
+    <string name="add_family_info_title">新增家庭情况</string>
+    <string name="modify_family_info_title">编辑家庭情况</string>
+    <string name="not_input">未填写</string>
 
     <string name="txt_phone">手机号</string>
     <string name="txt_base_info">基本信息</string>
@@ -1570,6 +1576,9 @@
     <string name="txt_tx_address">现住地址</string>
     <string name="txt_family">家庭情况</string>
     <string name="txt_favorite">爱好特长</string>
+    <string name="family_address">住址区域</string>
+    <string name="family_detail_address">详细地址</string>
+    <string name="cart_wait_address">上次候车点</string>
 
     <string name="txt_self_contact">本人联系方式</string>
     <string name="txt_weichat">微信号</string>

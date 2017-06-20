@@ -9,6 +9,8 @@ import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo;
+import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo.AddressInfoBean;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetFamilyInfo.FamilyListBean;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetInterstInfo;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
@@ -173,7 +175,9 @@ public class HRApi extends BaseApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("birthday", bean.birthday);
-        params.put("familyId", Integer.valueOf(bean.familyId));
+        if (!TextUtils.isEmpty(bean.familyId)) {
+            params.put("familyId", Integer.valueOf(bean.familyId));
+        }
         params.put("gender", bean.gender);
         params.put("menberPosition", bean.menberPosition);
         params.put("name", bean.name);
@@ -292,6 +296,33 @@ public class HRApi extends BaseApi {
         params.put(TOKEN, token);
         params.put("valiCode", valiCode);
         postRequest("保存手机号码", params, "bmhr-control/personInfo/saveMobile%s", handler);
+    }
+
+    /**
+     * 保存住址信息
+     *
+     */
+    public static void saveAddress(AddressInfoBean bean, String address,String waitCart, String type, String token,
+                                   WithContextTextHttpResponseHandler handler) {
+        if (null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param) + ":"  +
+                            (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("provinceName", bean.provinceName);
+        params.put("provinceName", bean.provinceName);
+        params.put("cityName", bean.cityName);
+        params.put("cityCode", bean.cityCode);
+        params.put("countyCode", bean.countyCode);
+        params.put("countyName", bean.countyName);
+        params.put("address", address);
+        params.put(TOKEN, token);
+        params.put("waitCart", waitCart);
+        params.put("type", type);
+        postRequest("保存住址信息", params, "bmhr-control/personInfo/saveAddress%s", handler);
     }
 
 }

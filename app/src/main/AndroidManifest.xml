@@ -814,12 +814,6 @@
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="stateAlwaysHidden"/>
         <activity
-            android:name=".ui.common.TestActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity
             android:name=".module.offline.SelectSignActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
