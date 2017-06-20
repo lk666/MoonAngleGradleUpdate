@@ -24,7 +24,7 @@
             android:layout_height="wrap_content"
             app:field_arrow_title="@string/txt_phone"/>
 
-        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        <cn.com.bluemoon.lib_widget.module.form.BMCellArrowView
             android:id="@+id/bfav_base_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -33,7 +33,7 @@
             app:field_arrow_title_color="@color/text_black"
             app:field_arrow_title_size="@dimen/text_size_14"/>
 
-        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        <cn.com.bluemoon.lib_widget.module.form.BMCellArrowView
             android:id="@+id/bfav_contact"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,7 +41,7 @@
             app:field_arrow_title_color="@color/text_black"
             app:field_arrow_title_size="@dimen/text_size_14"/>
 
-        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        <cn.com.bluemoon.lib_widget.module.form.BMCellArrowView
             android:id="@+id/bfav_tx_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -49,7 +49,7 @@
             app:field_arrow_title_color="@color/text_black"
             app:field_arrow_title_size="@dimen/text_size_14"/>
 
-        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        <cn.com.bluemoon.lib_widget.module.form.BMCellArrowView
             android:id="@+id/bfav_hk_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -57,7 +57,7 @@
             app:field_arrow_title_color="@color/text_black"
             app:field_arrow_title_size="@dimen/text_size_14"/>
 
-        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        <cn.com.bluemoon.lib_widget.module.form.BMCellArrowView
             android:id="@+id/bfav_family"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -65,7 +65,7 @@
             app:field_arrow_title_color="@color/text_black"
             app:field_arrow_title_size="@dimen/text_size_14"/>
 
-        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+        <cn.com.bluemoon.lib_widget.module.form.BMCellArrowView
             android:id="@+id/bfav_favorite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
