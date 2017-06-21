@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.personalinfo;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -13,7 +14,7 @@ public class ResultGetFamilyInfo extends ResultBase{
 
     public List<FamilyListBean> familyList;
 
-    public static class FamilyListBean {
+    public static class FamilyListBean implements Serializable {
         /**
          * birthday 生日 long
          * empId 员工Id int

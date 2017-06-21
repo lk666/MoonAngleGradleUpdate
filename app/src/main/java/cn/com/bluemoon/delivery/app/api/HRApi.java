@@ -184,7 +184,7 @@ public class HRApi extends BaseApi {
      * @param bean  家庭信息 FamilyListBean
      * @param token 身份检验码 String 必填
      */
-    public static void saveOrUpdateFamily(FamilyListBean bean, String token,
+    public static void saveOrUpdateFamily(boolean hasBirthday, FamilyListBean bean, String token,
                                           WithContextTextHttpResponseHandler handler) {
         if (TextUtils.isEmpty(token)
                 || TextUtils.isEmpty(bean.gender) || TextUtils.isEmpty(bean.name)
@@ -202,7 +202,9 @@ public class HRApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("birthday", bean.birthday);
+        if (hasBirthday) {
+            params.put("birthday", bean.birthday);
+        }
         if (!TextUtils.isEmpty(bean.familyId)) {
             params.put("familyId", Integer.valueOf(bean.familyId));
         }

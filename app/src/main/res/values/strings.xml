@@ -1627,4 +1627,17 @@
     <string name="please_input_all_info">请完善填写信息</string>
     <string name="please_select">请选择</string>
     <string name="please_input">请填写</string>
+    <string name="txt_gender">性别：%s</string>
+    <string name="txt_birthday">出生日期：%s</string>
+    <string name="txt_work_place">工作单位：%s</string>
+    <string name="txt_menber_position">职位：%s</string>
+    <string name="txt_relationship">关系(必填)</string>
+    <string name="txt_name_input">姓(必填)</string>
+    <string name="txt_sub_name_input">名(必填)</string>
+    <string name="txt_gender_input">性别(必填)</string>
+    <string name="txt_birthday_input">出生日期</string>
+    <string name="txt_work_place_input">工作单位</string>
+    <string name="txt_menber_position_input">职位</string>
+    <string name="gender_male">男</string>
+    <string name="gender_female">女</string>
 </resources>

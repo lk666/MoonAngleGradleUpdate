@@ -40,7 +40,6 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
         return fragment;
     }
 
-
     @Override
     protected String getTitleString() {
         return getString(R.string.family_info_title);
@@ -94,7 +93,7 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-
+        pushFragment(AddFamilyInfoFragment.newInstance(AddFamilyInfoFragment.MODIFY_TYPE, (FamilyListBean) item));
     }
 
     class FamilyAdapter extends BaseListAdapter<FamilyListBean> {
@@ -110,26 +109,33 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            TextView txtName  = getViewById(R.id.txt_name);
-            TextView txtEdit  = getViewById(R.id.txt_edit);
-            TextView txtGender  = getViewById(R.id.txt_gender);
-            TextView txtBirthday  = getViewById(R.id.txt_birthday);
-            TextView txtCompany  = getViewById(R.id.txt_company);
-            TextView txtWorkPlace  = getViewById(R.id.txt_work_place);
+            TextView txtName = getViewById(R.id.txt_name);
+            TextView txtEdit = getViewById(R.id.txt_edit);
+            TextView txtGender = getViewById(R.id.txt_gender);
+            TextView txtBirthday = getViewById(R.id.txt_birthday);
+            TextView txtCompany = getViewById(R.id.txt_company);
+            TextView txtWorkPlace = getViewById(R.id.txt_work_place);
             setClickEvent(isNew, position, txtEdit);
             FamilyListBean bean = list.get(position);
-            txtName.setText(bean.relationship+"-"+bean.fullName);
-            txtGender.setText("性别："+bean.gender);
-            txtBirthday.setText("出生日期："+ DateUtil.getTime(bean.birthday, "yyyy-MM-dd"));
+            txtName.setText(bean.relationship + "-" + bean.name + bean.surname);
+            txtGender.setText(getString(R.string.txt_gender,  bean.gender));
+            //9999年份代表字段为空
+            if (!"9999".equals(DateUtil.getTime(bean.birthday, "yyyy"))) {
+                txtBirthday.setVisibility(View.VISIBLE);
+                txtBirthday.setText(getString(R.string.txt_birthday, DateUtil.getTime(bean.birthday, "yyyy-MM-dd")));
+            } else {
+                txtBirthday.setVisibility(View.GONE);
+            }
+
             if (TextUtils.isEmpty(bean.workPlace)) {
                 txtWorkPlace.setVisibility(View.GONE);
             } else {
-                txtWorkPlace.setText("工作单位："+bean.workPlace);
+                txtWorkPlace.setText(getString(R.string.txt_work_place, bean.workPlace));
             }
             if (TextUtils.isEmpty(bean.menberPosition)) {
                 txtCompany.setVisibility(View.GONE);
             } else {
-                txtCompany.setText("职位："+bean.menberPosition);
+                txtCompany.setText(getString(R.string.txt_menber_position, bean.menberPosition));
             }
         }
     }

@@ -76,7 +76,7 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
         TextView txtRight = getTitleBar().getTvRightView();
         if (isEdit) {
             changeInfoView(txtRight);
-        } else {
+        } else if (addressInfo != null){
             changeSaveView(txtRight);
         }
 

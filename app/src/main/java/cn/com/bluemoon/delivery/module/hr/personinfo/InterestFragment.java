@@ -86,7 +86,7 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
             bean.performExperience = fieldInterestDetail.getContent();
             bean.specialty = specialty;
             HRApi.saveInterest(bean, getToken(), getNewHandler(REQUEST_SAVE_INTEREST, ResultBase.class));
-        } else {
+        } else if (interstInfo != null) {
             specialty = interstInfo.specialty;
             layoutInfo.setVisibility(View.GONE);
             layoutEdit.setVisibility(View.VISIBLE);
