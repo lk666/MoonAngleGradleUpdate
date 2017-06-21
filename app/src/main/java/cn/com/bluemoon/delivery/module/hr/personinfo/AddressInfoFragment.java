@@ -3,23 +3,23 @@ package cn.com.bluemoon.delivery.module.hr.personinfo;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alipay.tscenter.biz.rpc.vkeydfp.result.BaseResult;
-
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo;
+import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo.AddressInfoBean;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog;
+import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog.IAddressSelectDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
+import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View.FieldArrowListener;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
@@ -28,7 +28,7 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
  * Created by lk on 2017/6/14.
  */
 
-public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
+public class AddressInfoFragment extends BaseFragment<CommonActionBar> implements FieldArrowListener, IAddressSelectDialog {
     @Bind(R.id.txt_address)
     BmCellTextView txtAddress;
     @Bind(R.id.txt_detail_address)
@@ -72,7 +72,14 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
         TextView txtRight = getTitleBar().getTvRightView();
         if (isEdit) {
             showWaitDialog();
-            HRApi.saveAddress(null, null, fieldCartAddress.getContent(), type, getToken(), getNewHandler(2, BaseResult.class));
+            AddressInfoBean bean = new AddressInfoBean();
+            bean.provinceCode = provinceId;
+            bean.provinceName = provinceName;
+            bean.cityCode = cityId;
+            bean.cityName = cityName;
+            bean.countyCode = countyId;
+            bean.countyName = countyName;
+            HRApi.saveAddress(bean, fieldDetailAddress.getContent(), fieldCartAddress.getContent(), type, getToken(), getNewHandler(2, ResultBase.class));
         } else {
             layoutInfo.setVisibility(View.GONE);
             layoutEdit.setVisibility(View.VISIBLE);
@@ -94,11 +101,11 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
                     fieldCartAddress.setContent("");
                 }
             } else {
-                txtCartAddress.setVisibility(View.GONE);
+                fieldCartAddress.setVisibility(View.GONE);
             }
-
+            isEdit = true;
         }
-        isEdit = !isEdit;
+
     }
 
 
@@ -120,6 +127,12 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         if (requestCode == 1) {
             r = (ResultGetAddressInfo) result;
+            provinceId = r.addressInfo.provinceCode;
+            cityId = r.addressInfo.cityCode;
+            countyId = r.addressInfo.countyCode;
+            provinceName = r.addressInfo.provinceName;
+            cityName = r.addressInfo.cityName;
+            countyName = r.addressInfo.countyName;
             String nullStr = getString(R.string.not_input);
             String address = r.addressInfo.address;
             txtDetailAddress.setContentText(TextUtils.isEmpty(address) ? nullStr : address);
@@ -139,6 +152,7 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
             txtRight.setText(R.string.team_group_detail_edit);
             layoutEdit.setVisibility(View.GONE);
             layoutInfo.setVisibility(View.VISIBLE);
+            isEdit = false;
             initData();
         }
 
@@ -151,7 +165,44 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> {
 
     @Override
     protected void initContentView(View mainView) {
+        fieldAddress.setListener(this);
+    }
+
+    private String provinceId, cityId, countyId;
+    private String provinceName, cityName, countyName;
+    @Override
+    public void onClickLayout(View view) {
+        AddressSelectDialog dialog = AddressSelectDialog.newInstance(provinceId, cityId, countyId);
+        dialog.setListener(this);
+        dialog.show(getFragmentManager(), "");
+    }
+
+    @Override
+    public void onClickRight(View view) {
 
     }
 
+    @Override
+    public void onSelect(Area province, Area city, Area country) {
+        StringBuffer strBuf = new StringBuffer();
+        if(province != null) {
+            provinceId = province.getDcode();
+            provinceName = province.getDname();
+            strBuf.append(provinceName + " ");
+        }
+        if (city != null) {
+            cityId = city.getDcode();
+            cityName = city.getDname();
+            strBuf.append(cityName + " ");
+        }
+        if (country != null) {
+            countyId = country.getDcode();
+            countyName = country.getDname();
+            strBuf.append(countyName);
+        } else {
+            countyId = null;
+            countyName = null;
+        }
+        fieldAddress.setContent(strBuf.toString());
+    }
 }

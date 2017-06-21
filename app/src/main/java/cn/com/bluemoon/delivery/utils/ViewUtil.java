@@ -4,12 +4,14 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
@@ -114,7 +116,17 @@ public class ViewUtil extends LibViewUtil {
     public static void showActivityForResult(Activity aty, Class<?> cls, int requestCode) {
         Intent intent = new Intent();
         intent.setClass(aty, cls);
-        aty.startActivityForResult(intent,requestCode);
+        aty.startActivityForResult(intent, requestCode);
     }
+
+    public static void showErrorMsg(ResultBase resultBase) {
+        String msg = Constants.ERROR_MAP.get(resultBase.getResponseCode());
+        if (TextUtils.isEmpty(msg)) {
+            ViewUtil.toast(resultBase.getResponseMsg());
+        } else {
+            ViewUtil.toast(msg);
+        }
+    }
+
 
 }

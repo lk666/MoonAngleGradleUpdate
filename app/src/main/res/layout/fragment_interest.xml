@@ -2,10 +2,103 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@color/page_bg_f2"
     android:orientation="vertical">
-    <cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView
+    <LinearLayout
+        android:id="@+id/layout_info"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView
+            android:id="@+id/txt_interest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:cell_paragraph_txt_title="@string/title_interest"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="12dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textSize="11sp"
+                android:text="@string/title_interest2"
+                android:textColor="@color/text_black_light"/>
+            <TextView
+                android:id="@+id/txt_specialty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="8dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textSize="14sp"
+                android:textColor="@color/text_black"/>
+            <TextView
+                android:id="@+id/txt_perform_experience"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="4dp"
+                android:paddingBottom="4dp"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"
+                android:textSize="14sp"
+                android:textColor="@color/text_black"/>
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="8dp"
+                android:background="@color/line_soild_bg"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_edit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:orientation="vertical">
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
+            android:id="@+id/field_interest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:field_title="@string/title_interest"
+            app:field_content_maxLength="225"
+            app:field_hint="@string/interest_hint"/>
+        <cn.com.bluemoon.lib_widget.module.form.BMSelectorView
+            android:id="@+id/field_interest2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:selector_title="@string/title_interest2"
+            android:layout_marginTop="10dp"
+            app:selector_title_size="11sp"
+            app:selector_mode="multiple"
+            app:selector_title_visible="visible"
+            />
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/field_other"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/title_other_interest"/>
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
+            android:id="@+id/field_interest_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_title="@string/txt_perform_experience"
+            app:field_content_maxLength="225"
+            app:field_hint="@string/txt_perform_experience_hint"/>
+    </LinearLayout>
+
 
 </LinearLayout>

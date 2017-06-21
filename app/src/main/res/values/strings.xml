@@ -1615,4 +1615,13 @@
     <string name="err_phone_same">手机号未更改</string>
     <string name="get_code_again">重新获取(%d)</string>
     <string name="txt_empty_string">未填写</string>
+    <string name="txt_interest">爱好特长</string>
+    <string name="other_insterest">其他</string>
+    <string name="punctuation_1">、</string>
+    <string name="title_interest">技术爱好/特长</string>
+    <string name="title_interest2">业余爱好/特长</string>
+    <string name="interest_hint">例如：Flash、Egret、视频剪辑等</string>
+    <string name="title_other_interest">其他爱好/特长</string>
+    <string name="txt_perform_experience">表演经验</string>
+    <string name="txt_perform_experience_hint">如有表演经验，请举例说明</string>
 </resources>
