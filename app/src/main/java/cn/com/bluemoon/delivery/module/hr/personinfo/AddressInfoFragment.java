@@ -18,6 +18,7 @@ import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog;
 import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog.IAddressSelectDialog;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View.FieldArrowListener;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
@@ -49,7 +50,10 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
     public final static String LIVE_TYPE = "live";
     public final static String HOME_TYPE = "home";
     private boolean isEdit;
-    private ResultGetAddressInfo r;
+    private AddressInfoBean addressInfo;
+    private final int REQUEST_GET_INFO = 1;
+    private final int REQUEST_SAVE_INFO = 2;
+
 
     public static Fragment newInstance(String type) {
         AddressInfoFragment fragment = new AddressInfoFragment();
@@ -71,43 +75,12 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
     protected void onActionBarBtnRightClick() {
         TextView txtRight = getTitleBar().getTvRightView();
         if (isEdit) {
-            showWaitDialog();
-            AddressInfoBean bean = new AddressInfoBean();
-            bean.provinceCode = provinceId;
-            bean.provinceName = provinceName;
-            bean.cityCode = cityId;
-            bean.cityName = cityName;
-            bean.countyCode = countyId;
-            bean.countyName = countyName;
-            HRApi.saveAddress(bean, fieldDetailAddress.getContent(), fieldCartAddress.getContent(), type, getToken(), getNewHandler(2, ResultBase.class));
+            changeInfoView(txtRight);
         } else {
-            layoutInfo.setVisibility(View.GONE);
-            layoutEdit.setVisibility(View.VISIBLE);
-            txtRight.setText(R.string.btn_save);
-            if (!TextUtils.isEmpty(r.addressInfo.address)) {
-                fieldAddress.setContent(r.addressInfo.toString());
-            } else {
-                fieldAddress.setContent("");
-            }
-            if (!TextUtils.isEmpty(r.addressInfo.address)) {
-                fieldDetailAddress.setContent(r.addressInfo.address);
-            } else {
-                fieldDetailAddress.setContent("");
-            }
-            if (LIVE_TYPE.equals(type)) {
-                if (!TextUtils.isEmpty(r.addressInfo.carWait)) {
-                    fieldCartAddress.setContent(r.addressInfo.carWait);
-                } else {
-                    fieldCartAddress.setContent("");
-                }
-            } else {
-                fieldCartAddress.setVisibility(View.GONE);
-            }
-            isEdit = true;
+            changeSaveView(txtRight);
         }
 
     }
-
 
     @Override
     protected String getTitleString() {
@@ -123,31 +96,86 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
         return R.layout.fragment_family_address;
     }
 
+    /**
+     * 调用保存成功后切换到查看界面
+     **/
+    private void changeInfoView(TextView txtRight) {
+        ViewUtil.hideKeyboard(txtRight);
+        if (TextUtils.isEmpty(provinceName) || TextUtils.isEmpty(fieldDetailAddress.getContent())) {
+            toast(R.string.please_input_all_info);
+            return;
+        }
+        if (LIVE_TYPE.equals(type) && TextUtils.isEmpty(fieldCartAddress.getContent())) {
+            toast(R.string.please_input_all_info);
+            return;
+        }
+        showWaitDialog();
+        AddressInfoBean bean = new AddressInfoBean();
+        bean.provinceCode = provinceId;
+        bean.provinceName = provinceName;
+        bean.cityCode = cityId;
+        bean.cityName = cityName;
+        bean.countyCode = countyId;
+        bean.countyName = countyName;
+        HRApi.saveAddress(bean, fieldDetailAddress.getContent(), fieldCartAddress.getContent(),
+                type, getToken(), getNewHandler(REQUEST_SAVE_INFO, ResultBase.class));
+    }
+
+    /**
+     * 切换保存的界面
+     **/
+    private void changeSaveView(TextView txtRight) {
+        layoutInfo.setVisibility(View.GONE);
+        layoutEdit.setVisibility(View.VISIBLE);
+        txtRight.setText(R.string.btn_save);
+        if (!TextUtils.isEmpty(addressInfo.address)) {
+            fieldAddress.setContent(addressInfo.toString());
+        } else {
+            fieldAddress.setContent("");
+        }
+        if (!TextUtils.isEmpty(addressInfo.address)) {
+            fieldDetailAddress.setContent(addressInfo.address);
+        } else {
+            fieldDetailAddress.setContent("");
+        }
+        if (LIVE_TYPE.equals(type)) {
+            if (!TextUtils.isEmpty(addressInfo.carWait)) {
+                fieldCartAddress.setContent(addressInfo.carWait);
+            } else {
+                fieldCartAddress.setContent("");
+            }
+        } else {
+            fieldCartAddress.setVisibility(View.GONE);
+        }
+        isEdit = true;
+    }
+
+
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
-        if (requestCode == 1) {
-            r = (ResultGetAddressInfo) result;
-            provinceId = r.addressInfo.provinceCode;
-            cityId = r.addressInfo.cityCode;
-            countyId = r.addressInfo.countyCode;
-            provinceName = r.addressInfo.provinceName;
-            cityName = r.addressInfo.cityName;
-            countyName = r.addressInfo.countyName;
+        if (requestCode == REQUEST_GET_INFO) {
+            addressInfo = ((ResultGetAddressInfo) result).addressInfo;
+            provinceId = addressInfo.provinceCode;
+            cityId = addressInfo.cityCode;
+            countyId = addressInfo.countyCode;
+            provinceName = addressInfo.provinceName;
+            cityName = addressInfo.cityName;
+            countyName = addressInfo.countyName;
             String nullStr = getString(R.string.not_input);
-            String address = r.addressInfo.address;
+            String address = addressInfo.address;
             txtDetailAddress.setContentText(TextUtils.isEmpty(address) ? nullStr : address);
-            String detailAddress = r.addressInfo.toString();
+            String detailAddress = addressInfo.toString();
             txtAddress.setContentText(TextUtils.isEmpty(detailAddress) ? nullStr : detailAddress);
             if (LIVE_TYPE.equals(type)) {
-                if (TextUtils.isEmpty(r.addressInfo.carWait)) {
+                if (TextUtils.isEmpty(addressInfo.carWait)) {
                     txtCartAddress.setContentText(nullStr);
                 } else {
-                    txtCartAddress.setContentText(r.addressInfo.carWait);
+                    txtCartAddress.setContentText(addressInfo.carWait);
                 }
             } else {
                 txtCartAddress.setVisibility(View.GONE);
             }
-        } else if (requestCode == 2) {
+        } else if (requestCode == REQUEST_SAVE_INFO) {
             TextView txtRight = getTitleBar().getTvRightView();
             txtRight.setText(R.string.team_group_detail_edit);
             layoutEdit.setVisibility(View.GONE);
@@ -160,7 +188,7 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     protected void initData() {
-        HRApi.getAddressInfo(type, getToken(), getNewHandler(1, ResultGetAddressInfo.class));
+        HRApi.getAddressInfo(type, getToken(), getNewHandler(REQUEST_GET_INFO, ResultGetAddressInfo.class));
     }
 
     @Override
@@ -170,6 +198,7 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
 
     private String provinceId, cityId, countyId;
     private String provinceName, cityName, countyName;
+
     @Override
     public void onClickLayout(View view) {
         AddressSelectDialog dialog = AddressSelectDialog.newInstance(provinceId, cityId, countyId);
@@ -185,7 +214,7 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
     @Override
     public void onSelect(Area province, Area city, Area country) {
         StringBuffer strBuf = new StringBuffer();
-        if(province != null) {
+        if (province != null) {
             provinceId = province.getDcode();
             provinceName = province.getDname();
             strBuf.append(provinceName + " ");
