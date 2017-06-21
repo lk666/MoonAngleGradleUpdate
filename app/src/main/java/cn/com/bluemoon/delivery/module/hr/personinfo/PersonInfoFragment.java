@@ -10,6 +10,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultUser;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
+import cn.com.bluemoon.lib_widget.module.form.BMCellArrowView;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
@@ -26,17 +27,17 @@ public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
     @Bind(R.id.bfav_phone)
     BMFieldArrow1View bfavPhone;
     @Bind(R.id.bfav_base_info)
-    BMFieldArrow1View bfavBaseInfo;
+    BMCellArrowView bfavBaseInfo;
     @Bind(R.id.bfav_contact)
-    BMFieldArrow1View bfavContact;
+    BMCellArrowView bfavContact;
     @Bind(R.id.bfav_tx_address)
-    BMFieldArrow1View bfavTxAddress;
+    BMCellArrowView bfavTxAddress;
     @Bind(R.id.bfav_hk_address)
-    BMFieldArrow1View bfavHkAddress;
+    BMCellArrowView bfavHkAddress;
     @Bind(R.id.bfav_family)
-    BMFieldArrow1View bfavFamily;
+    BMCellArrowView bfavFamily;
     @Bind(R.id.bfav_favorite)
-    BMFieldArrow1View bfavFavorite;
+    BMCellArrowView bfavFavorite;
 
     public static Fragment newInstance() {
         PersonInfoFragment fragment = new PersonInfoFragment();

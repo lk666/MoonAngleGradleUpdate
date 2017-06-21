@@ -12,6 +12,7 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,6 +56,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
     private TextView txtUserid;
     private TextView txtUsername;
     private TextView txtPhone;
+    private Button btnUserInfo;
     public static User user;
     private MainActivity mContext;
 
@@ -71,13 +73,15 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         txtUserid = (TextView) view.findViewById(R.id.txt_userid);
         txtUsername = (TextView) view.findViewById(R.id.txt_username);
         txtPhone = (TextView) view.findViewById(R.id.txt_phone);
+        btnUserInfo = (Button) view.findViewById(R.id.btn_user_info);
+        btnUserInfo.setVisibility(View.GONE);
         LinearLayout layoutExit = (LinearLayout) view.findViewById(R.id.layout_exit);
         LinearLayout layoutSetting = (LinearLayout) view.findViewById(R.id.layout_setting);
         LinearLayout layoutEmpty = (LinearLayout) view.findViewById(R.id.layout_empty);
 
         layoutEmpty.setOnClickListener(this);
         view.findViewById(R.id.btn_change_pwd).setOnClickListener(this);
-        view.findViewById(R.id.btn_user_info).setOnClickListener(this);
+        btnUserInfo.setOnClickListener(this);
         layoutExit.setOnClickListener(this);
         layoutSetting.setOnClickListener(this);
         imgQcode.setOnClickListener(this);
@@ -90,12 +94,23 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         return view;
     }
 
+    private void setBtnUserInfo() {
+        if (user == null) {
+            return;
+        }
+
+        if (user.getEmpType().equals("emp")) {
+            btnUserInfo.setVisibility(View.VISIBLE);
+        }
+    }
+
     public void setUserInfo() {
         txtUserid.setText(ClientStateManager.getUserName());
         if (user != null) {
             txtUserid.setText(user.getAccount());
             txtUsername.setText(user.getRealName());
             txtPhone.setText(user.getMobileNo());
+            setBtnUserInfo();
         } else {
             String token = ClientStateManager.getLoginToken(mContext);
             if (!StringUtil.isEmpty(token)) {
@@ -126,6 +141,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                         txtUserid.setText(user.getAccount());
                         txtUsername.setText(user.getRealName());
                         txtPhone.setText(user.getMobileNo());
+                        setBtnUserInfo();
                     }
                 } else {
                     PublicUtil.showErrorMsg(mContext, userResult);
@@ -293,7 +309,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
             // todo 个人信息
             case R.id.btn_user_info:
                 PersonInfoActivity.actionStart(getActivity());
-//                gotoUserInfo();
+                //                gotoUserInfo();
                 break;
             case R.id.btn_change_pwd:
                 Intent intent = new Intent(mContext, ChangePswActivity.class);
