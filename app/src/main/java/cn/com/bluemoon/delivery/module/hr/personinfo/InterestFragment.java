@@ -96,11 +96,26 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
         }
     }
 
-    /**初始化编辑界面**/
+    /**
+     * 初始化编辑界面
+     **/
     private void initEditView() {
         fieldInterest.setContent(interstInfo.interest);
         fieldInterestDetail.setContent(interstInfo.performExperience);
         if (list.size() > 0) {
+            if (!TextUtils.isEmpty(interstInfo.specialty)) {
+                String[] specialtys = interstInfo.specialty.split(getString(R.string.punctuation_1));
+                for (RadioItem item : list) {
+                    for (String s : specialtys) {
+                        if (s.equals(item.text)) {
+                            item.type = BMRadioItemView.TYPE_SELECT;
+                            break;
+                        } else {
+                            item.type = BMRadioItemView.TYPE_NORMAL;
+                        }
+                    }
+                }
+            }
             if (!TextUtils.isEmpty(interstInfo.otherHobby)) {
                 list.get(list.size() - 1).type = BMRadioItemView.TYPE_SELECT;
                 fieldOther.setVisibility(View.VISIBLE);
@@ -109,16 +124,6 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
                 list.get(list.size() - 1).type = BMRadioItemView.TYPE_NORMAL;
                 list.get(list.size() - 1).type = BMRadioItemView.TYPE_NORMAL;
                 fieldOther.setVisibility(View.GONE);
-            }
-            if (!TextUtils.isEmpty(interstInfo.specialty)) {
-                String[] specialtys = interstInfo.specialty.split(getString(R.string.punctuation_1));
-                for (String s : specialtys) {
-                    for (RadioItem item :list) {
-                        if (s.equals(item.text)) {
-                            item.type = BMRadioItemView.TYPE_SELECT;
-                        }
-                    }
-                }
             }
         }
         fieldInterest2.setData(list);
@@ -151,7 +156,10 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
 
 
     }
-    /**初始化爱好的业务字典**/
+
+    /**
+     * 初始化爱好的业务字典
+     **/
     private void setSeletorData(ResultDict result) {
         ResultDict resultDict = result;
         List<Dict> dicts = resultDict.getItemList();
@@ -169,7 +177,9 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
         }
     }
 
-    /**初始化数据跟界面**/
+    /**
+     * 初始化数据跟界面
+     **/
     private void setInitDataView(ResultGetInterstInfo result) {
         interstInfo = result;
         String interest = interstInfo.interest;
