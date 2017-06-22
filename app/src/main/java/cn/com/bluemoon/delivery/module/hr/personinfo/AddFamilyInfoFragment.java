@@ -23,12 +23,14 @@ import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.Dict;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultDict;
+import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetFamilyInfo;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetFamilyInfo.FamilyListBean;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View.FieldArrowListener;
@@ -64,6 +66,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
     public final static String ADD_TYPE = "add";
     List<String> relationshipList;
     private String gender;
+    private FamilyListBean bean;
 
     public static Fragment newInstance(String type) {
         AddFamilyInfoFragment fragment = new AddFamilyInfoFragment();
@@ -73,11 +76,21 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         return fragment;
     }
 
+    public static Fragment newInstance(String type, FamilyListBean bean) {
+        AddFamilyInfoFragment fragment = new AddFamilyInfoFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString("type", type);
+        bundle.putSerializable("bean", bean);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
 
     @Override
     protected String getTitleString() {
         type = getArguments().getString("type");
         if (MODIFY_TYPE.equals(type)) {
+            bean = (FamilyListBean)getArguments().getSerializable("bean");
             return getString(R.string.modify_family_info_title);
         }
         return getString(R.string.add_family_info_title);
@@ -93,11 +106,12 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
 
     @Override
     protected void onActionBarBtnRightClick() {
+        ViewUtil.hideKeyboard(getTitleBar());
         if (TextUtils.isEmpty(layoutRelationship.getContent())
                 || TextUtils.isEmpty(layoutName.getContent())
                 || TextUtils.isEmpty(layoutSubName.getContent())
                 || TextUtils.isEmpty(gender)) {
-            toast("请完善填写资料");
+            toast(R.string.please_input_all_info);
             return;
         }
         showWaitDialog();
@@ -106,9 +120,11 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         bean.surname = layoutSubName.getContent();
         bean.relationship = layoutRelationship.getContent();
         bean.gender = gender;
+        boolean hasInputBirthday = false;
         if (!TextUtils.isEmpty(layoutBirthday.getContent())) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
             try {
+                hasInputBirthday = true;
                 Date date = sdf.parse(layoutBirthday.getContent());
                 bean.birthday = date.getTime();
             } catch (ParseException e) {
@@ -117,7 +133,10 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         }
         bean.workPlace = layoutWorkplace.getContent();
         bean.menberPosition = layoutPosition.getContent();
-        HRApi.saveOrUpdateFamily(bean, getToken(), getNewHandler(2, ResultBase.class));
+        if (this.bean != null) {
+            bean.familyId = this.bean.familyId;
+        }
+        HRApi.saveOrUpdateFamily(hasInputBirthday, bean, getToken(), getNewHandler(2, ResultBase.class));
     }
 
     @Override
@@ -137,6 +156,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
             }
         } else if (requestCode == 2) {
             toast(result.getResponseMsg());
+            back();
         }
     }
 
@@ -155,9 +175,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
                 } else {
                     showDatePickerDialog();
                 }
-
             }
-
             @Override
             public void onClickRight(View view) {
 
@@ -165,9 +183,29 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         };
         layoutRelationship.setListener(listener);
         layoutBirthday.setListener(listener);
+        //如果是编辑界面，就显示数据
+        if (bean != null) {
+            gender = bean.gender;
+            layoutRelationship.setContent(bean.relationship);
+            layoutName.setContent(bean.name);
+            layoutSubName.setContent(bean.surname);
+            //9999年份代表字段为空
+            if (!"9999".equals(DateUtil.getTime(bean.birthday, "yyyy"))) {
+                layoutBirthday.setContent(DateUtil.getTime(bean.birthday, "yyyy-MM-dd"));
+            }
+            if (!TextUtils.isEmpty(bean.workPlace)) {
+                layoutWorkplace.setContent(bean.workPlace);
+            }
+            if (!TextUtils.isEmpty(bean.menberPosition)) {
+                layoutPosition.setContent(bean.menberPosition);
+            }
+        }
+
         List<RadioItem> list = new ArrayList<>();
-        list.add(new RadioItem(null, "男", BMRadioItemView.TYPE_NORMAL));
-        list.add(new RadioItem(null, "女", BMRadioItemView.TYPE_NORMAL));
+        String maleStr = getString(R.string.gender_male);
+        list.add(new RadioItem(null, maleStr, maleStr.equals(gender) ? BMRadioItemView.TYPE_SELECT : BMRadioItemView.TYPE_NORMAL));
+        String femaleStr = getString(R.string.gender_female);
+        list.add(new RadioItem(null, femaleStr, femaleStr.equals(gender) ? BMRadioItemView.TYPE_SELECT : BMRadioItemView.TYPE_NORMAL));
         itemRadio.setListener(new BMRadioView.ClickListener() {
             @Override
             public void onSelected(int position, Object value) {
@@ -228,7 +266,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         if (!TextUtils.isEmpty(birthday)) {
             String[] value = birthday.split("-");
             mIYear = Integer.valueOf(value[0]);
-            mIMon = Integer.valueOf(value[1]);
+            mIMon = Integer.valueOf(value[1]) - 1;
             mIDay = Integer.valueOf(value[2]);
         } else {
             Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
@@ -268,7 +306,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
             });
             datePicker.show();
         } else if (!datePicker.isShowing()) {
-            datePicker.updateDate(mIYear, TextUtils.isEmpty(birthday) ? mIMon : mIMon - 1, mIDay);
+            datePicker.updateDate(mIYear, mIMon, mIDay);
             datePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
             datePicker.show();
         }

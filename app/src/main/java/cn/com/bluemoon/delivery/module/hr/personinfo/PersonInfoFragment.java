@@ -122,6 +122,7 @@ public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
                 break;
             // 爱好特长
             case R.id.bfav_favorite:
+                pushFragment(InterestFragment.newInstance());
                 break;
         }
     }

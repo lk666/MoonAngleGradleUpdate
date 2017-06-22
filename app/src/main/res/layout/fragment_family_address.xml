@@ -42,20 +42,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:field_arrow_title="@string/family_address"
-            app:field_text1_hint="请选择" />
+            app:field_text1_hint="@string/please_select" />
 
         <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
             android:id="@+id/field_detail_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:field_text1_hint="请填写"
+            app:field_text1_hint="@string/please_input"
             app:field_text1_title="@string/family_detail_address" />
 
         <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
             android:id="@+id/field_cart_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:field_text1_hint="请填写"
+            app:field_text1_hint="@string/please_input"
             app:field_text1_title="@string/cart_wait_address" />
     </LinearLayout>
 

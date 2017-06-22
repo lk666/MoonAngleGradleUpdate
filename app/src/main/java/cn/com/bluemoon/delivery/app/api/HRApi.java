@@ -2,12 +2,15 @@ package cn.com.bluemoon.delivery.app.api;
 
 import android.text.TextUtils;
 
+import com.alibaba.fastjson.JSONObject;
+
 import org.apache.http.Header;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo.AddressInfoBean;
@@ -20,6 +23,31 @@ import cn.com.bluemoon.delivery.utils.Constants;
  * HR项目API
  */
 public class HRApi extends BaseApi {
+
+    /***********************
+     * 2.0行政区域相关
+     ********************************/
+
+	/* 2.0.1 级联查询全国行政区域 */
+    /* 返回： ResultArea */
+    public static void getRegionSelect(String pid, String type,
+                                       WithContextTextHttpResponseHandler handler) {
+
+        Map<String, String> params = new HashMap<>();
+        String jsonString = "{}";
+        if (!(pid == null && type == null)) {
+            params.put("pid", pid);
+            params.put("type", type);
+            jsonString = JSONObject.toJSONString(params);
+        }
+
+        String url = String.format(
+                "bmhr-control/personInfo/getRegionSelectSAP%s",
+                ApiClientHelper.getParamUrl());
+
+        ApiHttpClient.postDirect(AppContext.getInstance(), String.format(BuildConfig
+                .API_URL, url), jsonString, handler);
+    }
 
     /**
      * 校验密码
@@ -156,7 +184,7 @@ public class HRApi extends BaseApi {
      * @param bean  家庭信息 FamilyListBean
      * @param token 身份检验码 String 必填
      */
-    public static void saveOrUpdateFamily(FamilyListBean bean, String token,
+    public static void saveOrUpdateFamily(boolean hasBirthday, FamilyListBean bean, String token,
                                           WithContextTextHttpResponseHandler handler) {
         if (TextUtils.isEmpty(token)
                 || TextUtils.isEmpty(bean.gender) || TextUtils.isEmpty(bean.name)
@@ -174,7 +202,9 @@ public class HRApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("birthday", bean.birthday);
+        if (hasBirthday) {
+            params.put("birthday", bean.birthday);
+        }
         if (!TextUtils.isEmpty(bean.familyId)) {
             params.put("familyId", Integer.valueOf(bean.familyId));
         }
@@ -302,7 +332,7 @@ public class HRApi extends BaseApi {
      * 保存住址信息
      *
      */
-    public static void saveAddress(AddressInfoBean bean, String address,String waitCart, String type, String token,
+    public static void saveAddress(AddressInfoBean bean, String address, String waitCart, String type, String token,
                                    WithContextTextHttpResponseHandler handler) {
         if (null == token) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
@@ -313,14 +343,14 @@ public class HRApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put("provinceName", bean.provinceName);
-        params.put("provinceName", bean.provinceName);
+        params.put("provinceCode", bean.provinceCode);
         params.put("cityName", bean.cityName);
         params.put("cityCode", bean.cityCode);
         params.put("countyCode", bean.countyCode);
         params.put("countyName", bean.countyName);
         params.put("address", address);
         params.put(TOKEN, token);
-        params.put("waitCart", waitCart);
+        params.put("carWait", waitCart);
         params.put("type", type);
         postRequest("保存住址信息", params, "bmhr-control/personInfo/saveAddress%s", handler);
     }

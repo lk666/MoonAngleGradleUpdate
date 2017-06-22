@@ -3,7 +3,9 @@ package cn.com.bluemoon.delivery.app.api.model.address;
 import java.io.Serializable;
 import java.util.List;
 
-public class Area implements Serializable {
+import cn.com.bluemoon.lib_widget.module.jdaddressselectdialog.IItem;
+
+public class Area implements Serializable, IItem {
 
     // TODO: lk 2016/6/29 最好服务器返回 ChildType，BTW，itemList无用（没返回）
     public String getChildType() {
@@ -130,6 +132,11 @@ public class Area implements Serializable {
     @Deprecated
     public void setItemList(List<Area> itemList) {
         this.itemList = itemList;
+    }
+
+    @Override
+    public String getDisplayName() {
+        return dname;
     }
 }
   
