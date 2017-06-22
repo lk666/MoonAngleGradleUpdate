@@ -266,7 +266,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         if (!TextUtils.isEmpty(birthday)) {
             String[] value = birthday.split("-");
             mIYear = Integer.valueOf(value[0]);
-            mIMon = Integer.valueOf(value[1]);
+            mIMon = Integer.valueOf(value[1]) - 1;
             mIDay = Integer.valueOf(value[2]);
         } else {
             Calendar dateAndTime = Calendar.getInstance(Locale.CHINA);
@@ -306,7 +306,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
             });
             datePicker.show();
         } else if (!datePicker.isShowing()) {
-            datePicker.updateDate(mIYear, TextUtils.isEmpty(birthday) ? mIMon : mIMon - 1, mIDay);
+            datePicker.updateDate(mIYear, mIMon, mIDay);
             datePicker.getDatePicker().setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
             datePicker.show();
         }
