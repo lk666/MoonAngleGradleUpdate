@@ -72,7 +72,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             app:field_title="@string/title_interest"
-            app:field_content_maxLength="225"
+            app:field_content_maxLength="40"
             app:field_hint="@string/interest_hint"/>
         <cn.com.bluemoon.lib_widget.module.form.BMSelectorView
             android:id="@+id/field_interest2"
@@ -89,6 +89,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="gone"
+            app:field_text1_content_maxLength="40"
             app:field_text1_hint="@string/please_input_txt"
             app:field_text1_title="@string/title_other_interest"/>
         <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
@@ -96,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:field_title="@string/txt_perform_experience"
-            app:field_content_maxLength="225"
+            app:field_content_maxLength="40"
             app:field_hint="@string/txt_perform_experience_hint"/>
     </LinearLayout>
 

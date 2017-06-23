@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        app:field_text1_content_maxLength="20"
         app:field_text1_hint="@string/please_input_txt"
         app:field_text1_title="@string/txt_name_input" />
 
@@ -27,6 +28,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
+        app:field_text1_content_maxLength="20"
         app:field_text1_hint="@string/please_input_txt"
         app:field_text1_title="@string/txt_sub_name_input" />
     <cn.com.bluemoon.lib_widget.module.form.BMRadioView
