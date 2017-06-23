@@ -205,7 +205,7 @@ public abstract class BaseAbstractFragment extends Fragment {
     /**
      * 后退
      */
-    final protected void back() {
+    protected void back() {
         aty.handleBack();
     }
 

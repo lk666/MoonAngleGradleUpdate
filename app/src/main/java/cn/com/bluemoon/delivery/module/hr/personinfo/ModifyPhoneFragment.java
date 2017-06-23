@@ -5,6 +5,7 @@ import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -15,6 +16,7 @@ import cn.com.bluemoon.delivery.app.api.model.hr.personinfo.ResultGetVerifyCode;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldBtn1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
@@ -30,7 +32,7 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
     private static final String EXTRA_PHONE = "EXTRA_PHONE";
     private static final int REQUEST_CODE_GET_VERIFY_CODE = 0x777;
     @Bind(R.id.bctv_phone)
-    BMFieldText1View bctvPhone;
+    ModifyPhoneEditText bctvPhone;
     @Bind(R.id.bfbv_verify)
     BMFieldBtn1View bfbvVerify;
     @Bind(R.id.btn_submit)
@@ -53,6 +55,12 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
     }
 
     @Override
+    protected void back() {
+        LibViewUtil.hideKeyboard( bctvPhone);
+        super.back();
+    }
+
+    @Override
     protected String getTitleString() {
         return getString(R.string.txt_modify_phone);
     }
@@ -64,7 +72,9 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     protected void initContentView(View mainView) {
+        bctvPhone.setHint(phone);
         bfbvVerify.setListener(this);
+        bctvPhone.showIM();
     }
 
     @Override
@@ -119,9 +129,9 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
     public void onViewClicked() {
         // 点击保存
         if (!StringUtil.isPhone(bctvPhone.getContent())) {
-            toast(R.string.error_message_input_phone);
+            toast(R.string.err_input_phone);
         } else if (bctvPhone.getContent().equals(phone)) {
-            toast(getString(R.string.err_phone_same));
+            toast(getString(R.string.err_input_phone));
         } else if (TextUtils.isEmpty(bfbvVerify.getContent())) {
             toast(getString(R.string.err_verify_empty));
         } else {

@@ -1641,4 +1641,5 @@
     <string name="txt_menber_position_input">职位</string>
     <string name="gender_male">男</string>
     <string name="gender_female">女</string>
+    <string name="err_input_phone">手机号不正确，无法保存</string>
 </resources>
