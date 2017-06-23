@@ -32,11 +32,59 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
         }
     }
 
+    ///////////// 数据保存
+
+    // Icepick.restoreInstanceState(this, savedInstanceState);
+    private Bundle savedState;
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        // Icepick.restoreInstanceState(this, savedInstanceState);
+        // onViewCreated后调用，主要用于数据恢复，在
+        // 1、跳转到其他页面，再回来时；
+        // 2、新建初始化
+        // 会调用
+        if (!restoreStateFromArguments()) {
+            initData();
+        }
     }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // 按home键会调用，可能在此保存数据
+        saveStateToArguments();
+    }
+
+    @Override
+    public void onDestroyView() {
+        ButterKnife.unbind(this);
+        super.onDestroyView();
+        // 跳转到其他页面会调用，可能在此保存数据
+        saveStateToArguments();
+    }
+
+    private void saveStateToArguments() {
+        if (getView() != null) {
+            savedState = saveState();
+        }
+    }
+
+    private boolean restoreStateFromArguments() {
+        if (savedState != null) {
+            restoreState();
+            return true;
+        }
+        return false;
+    }
+
+    private void restoreState() {
+        if (savedState != null) {
+            onRestoreState(savedState);
+        }
+    }
+
+    ////////////////////////
 
     @Override
     final protected int getLayoutId() {
@@ -78,7 +126,6 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
         ButterKnife.bind(this, view);
         initTitleBarView(titleBar);
         initContentView(mainView);
-        initData();
     }
 
     @Override
@@ -91,12 +138,6 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(getDefaultTag());
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        ButterKnife.unbind(this);
     }
 
     @Override
@@ -116,6 +157,25 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
     //////////////// 可选重写 ////////////////
 
     /**
+     * 返回要保存的
+     */
+    protected Bundle saveState() {
+        // For Example
+        // Bundle state = new Bundle();
+        //state.putString("text", tv1.getText().toString());
+        //        return state;
+        return null;
+    }
+
+    /**
+     * 数据恢复
+     */
+    protected void onRestoreState(Bundle savedInstanceState) {
+        // For Example
+        //tv1.setText(savedState.getString("text"));
+    }
+
+    /**
      * 获取标题栏layoutId，不使用标题时，返回0
      */
     protected int getTitleLayoutId() {
@@ -124,8 +184,7 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
 
     /**
      * 初始化标题栏
-     * 初始化控件属性，不应在此设置控件数据
-     * view状态恢复建议在此处执行
+     * 初始化控件属性，不在此设置控件数据
      */
     protected void initTitleBarView(View titleBar) {
     }
@@ -164,8 +223,8 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
     ///////////// 必须重写 ////////////////
 
     /**
-     * 设置初始数据，并发起初始网络请求。
-     * 实例状态恢复建议在此处执行
+     * 设置初始数据，并发起初始网络请求
+     * 只有在第一次创建，或者没有重写onSaveState和onRestoreState时起效
      */
     protected abstract void initData();
 
@@ -176,8 +235,7 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
 
     /**
      * 初始化实际内容layoutId（不含标题）
-     * 初始化控件属性，不应在此设置控件数据
-     * view状态恢复建议在此处执行
+     * 初始化控件属性，不在此设置控件数据
      */
     protected abstract void initContentView(View mainView);
 }

@@ -22,8 +22,8 @@ public abstract class BaseNetFragment extends BaseActionFragment implements IHtt
 
     @Override
     public void onDestroy() {
-        super.onDestroy();
         cancelRequest();
+        super.onDestroy();
     }
 
     private void cancelRequest() {

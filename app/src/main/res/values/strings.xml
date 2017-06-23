@@ -1612,9 +1612,10 @@
 
     <string name="txt_modify_phone">修改手机号</string>
     <string name="txt_verify_code">验证码</string>
-    <string name="err_phone_same">手机号未更改</string>
+    <string name="err_phone_same">请输入新的手机号</string>
     <string name="get_code_again">重新获取(%d)</string>
     <string name="txt_empty_string">未填写</string>
+    <string name="err_verify_empty">请输入验证码</string>
     <string name="txt_interest">爱好特长</string>
     <string name="other_insterest">其他</string>
     <string name="punctuation_1">、</string>

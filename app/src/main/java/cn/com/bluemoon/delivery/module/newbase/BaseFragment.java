@@ -12,6 +12,7 @@ import cn.com.bluemoon.delivery.module.newbase.view.IActionBarListener;
 /**
  * fragment继承层次：4（0顶层）
  * 普通实现类，使用最基本的titleBar，可以此为蓝本使用不同的titleBar
+ * 必须设置argument
  */
 public abstract class BaseFragment<TITLE_BAR extends BaseTitleBar> extends BaseNetFragment {
     private TITLE_BAR titleBar;

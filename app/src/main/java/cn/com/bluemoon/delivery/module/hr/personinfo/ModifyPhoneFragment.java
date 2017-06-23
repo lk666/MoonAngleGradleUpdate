@@ -123,7 +123,7 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
         } else if (bctvPhone.getContent().equals(phone)) {
             toast(getString(R.string.err_phone_same));
         } else if (TextUtils.isEmpty(bfbvVerify.getContent())) {
-            toast(getString(R.string.login_right_code_hint));
+            toast(getString(R.string.err_verify_empty));
         } else {
             showWaitDialog(false);
             HRApi.saveMobile(bctvPhone.getContent(), getToken(), bfbvVerify.getContent(),
@@ -167,7 +167,9 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
     }
 
     public void getValidCode() {
-        if (!StringUtil.isPhone(bctvPhone.getContent())) {
+        if (TextUtils.isEmpty(bctvPhone.getContent())) {
+            toast(getString(R.string.err_phone_same));
+        } else if (!StringUtil.isPhone(bctvPhone.getContent())) {
             toast(R.string.error_message_input_phone);
         } else if (bctvPhone.getContent().equals(phone)) {
             toast(getString(R.string.err_phone_same));
