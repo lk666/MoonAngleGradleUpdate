@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.hr.personinfo;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog.OnDateSetListener;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -23,14 +24,14 @@ import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.Dict;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultDict;
-import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetFamilyInfo;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetFamilyInfo.FamilyListBean;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.selectordialog.ShadowSingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.SingleOptionSelectDialog;
-import cn.com.bluemoon.delivery.ui.selectordialog.TextSingleOptionSelectDialog;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonDatePickerDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View.FieldArrowListener;
@@ -90,7 +91,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
     protected String getTitleString() {
         type = getArguments().getString("type");
         if (MODIFY_TYPE.equals(type)) {
-            bean = (FamilyListBean)getArguments().getSerializable("bean");
+            bean = (FamilyListBean) getArguments().getSerializable("bean");
             return getString(R.string.modify_family_info_title);
         }
         return getString(R.string.add_family_info_title);
@@ -107,6 +108,17 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
     @Override
     protected void onActionBarBtnRightClick() {
         ViewUtil.hideKeyboard(getTitleBar());
+        new CommonAlertDialog.Builder(getActivity()).setMessage(R.string.save_info_tips)
+                .setPositiveButton(R.string.btn_cancel_space, null)
+                .setNegativeButton(R.string.btn_ok_space, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        saveFamliyInfo();
+                    }
+                }).show();
+    }
+
+    private void saveFamliyInfo() {
         if (TextUtils.isEmpty(layoutRelationship.getContent())
                 || TextUtils.isEmpty(layoutName.getContent())
                 || TextUtils.isEmpty(layoutSubName.getContent())
@@ -176,6 +188,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
                     showDatePickerDialog();
                 }
             }
+
             @Override
             public void onClickRight(View view) {
 
@@ -216,7 +229,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
     }
 
 
-    private TextSingleOptionSelectDialog dialog;
+    private ShadowSingleOptionSelectDialog dialog;
 
     private void showSelectView() {
         if (relationshipList.isEmpty()) {
@@ -224,7 +237,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         }
         int index = relationshipList.size() > 2 ? 1 : 0;
         if (dialog == null) {
-            dialog = new TextSingleOptionSelectDialog(getActivity(), "",
+            dialog = new ShadowSingleOptionSelectDialog(getActivity(), "",
                     relationshipList, index, new SingleOptionSelectDialog.OnButtonClickListener() {
                 @Override
                 public void onOKButtonClick(int index, String text) {

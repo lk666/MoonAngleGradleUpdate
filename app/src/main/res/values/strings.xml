@@ -1624,7 +1624,8 @@
     <string name="title_other_interest">其他爱好/特长</string>
     <string name="txt_perform_experience">表演经验</string>
     <string name="txt_perform_experience_hint">如有表演经验，请举例说明</string>
-    <string name="please_input_all_info">请完善填写信息</string>
+    <string name="please_input_all_info">请完善所有必填项</string>
+    <string name="save_info_tips">是否保存以上信息？</string>
     <string name="please_select">请选择</string>
     <string name="please_input">请填写</string>
     <string name="txt_gender">性别：%s</string>

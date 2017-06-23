@@ -83,7 +83,7 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
 
     @Override
     protected void initContentView(View mainView) {
-        PublicUtil.setEmptyView(lvFamily, null, new CommonEmptyView.EmptyListener() {
+        PublicUtil.setEmptyView(lvFamily, "", new CommonEmptyView.EmptyListener() {
             @Override
             public void onRefresh() {
                 initData();

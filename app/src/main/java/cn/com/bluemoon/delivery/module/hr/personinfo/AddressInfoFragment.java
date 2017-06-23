@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.hr.personinfo;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -19,6 +20,7 @@ import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog;
 import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog.IAddressSelectDialog;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View.FieldArrowListener;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
@@ -73,9 +75,18 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     protected void onActionBarBtnRightClick() {
-        TextView txtRight = getTitleBar().getTvRightView();
+        final TextView txtRight = getTitleBar().getTvRightView();
         if (isEdit) {
-            changeInfoView(txtRight);
+            ViewUtil.hideKeyboard(txtRight);
+            new CommonAlertDialog.Builder(getActivity()).setMessage(R.string.save_info_tips)
+                    .setPositiveButton(R.string.btn_cancel_space, null)
+                    .setNegativeButton(R.string.btn_ok_space, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            changeInfoView(txtRight);
+                        }
+                    }).show();
+
         } else if (addressInfo != null){
             changeSaveView(txtRight);
         }
@@ -100,7 +111,6 @@ public class AddressInfoFragment extends BaseFragment<CommonActionBar> implement
      * 调用保存成功后切换到查看界面
      **/
     private void changeInfoView(TextView txtRight) {
-        ViewUtil.hideKeyboard(txtRight);
         if (TextUtils.isEmpty(provinceName) || TextUtils.isEmpty(fieldDetailAddress.getContent())) {
             toast(R.string.please_input_all_info);
             return;

@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.hr.personinfo;
 
+import android.content.DialogInterface;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
@@ -20,6 +21,7 @@ import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetInterstInfo;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
 import cn.com.bluemoon.lib_widget.module.form.BMRadioItemView;
@@ -79,13 +81,20 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
         TextView txtRight = getTitleBar().getTvRightView();
         if (isEdit) {
             ViewUtil.hideKeyboard(txtRight);
-            showWaitDialog();
-            ResultGetInterstInfo bean = new ResultGetInterstInfo();
-            bean.interest = fieldInterest.getContent();
-            bean.otherHobby = fieldOther.getContent();
-            bean.performExperience = fieldInterestDetail.getContent();
-            bean.specialty = specialty;
-            HRApi.saveInterest(bean, getToken(), getNewHandler(REQUEST_SAVE_INTEREST, ResultBase.class));
+            new CommonAlertDialog.Builder(getActivity()).setMessage(R.string.save_info_tips)
+                    .setPositiveButton(R.string.btn_cancel_space, null)
+                    .setNegativeButton(R.string.btn_ok_space, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            showWaitDialog();
+                            ResultGetInterstInfo bean = new ResultGetInterstInfo();
+                            bean.interest = fieldInterest.getContent();
+                            bean.otherHobby = fieldOther.getContent();
+                            bean.performExperience = fieldInterestDetail.getContent();
+                            bean.specialty = specialty;
+                            HRApi.saveInterest(bean, getToken(), getNewHandler(REQUEST_SAVE_INTEREST, ResultBase.class));
+                        }
+                    }).show();
         } else if (interstInfo != null) {
             specialty = interstInfo.specialty;
             layoutInfo.setVisibility(View.GONE);
@@ -103,9 +112,10 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
         fieldInterest.setContent(interstInfo.interest);
         fieldInterestDetail.setContent(interstInfo.performExperience);
         if (list.size() > 0) {
-            if (!TextUtils.isEmpty(interstInfo.specialty)) {
-                String[] specialtys = interstInfo.specialty.split(getString(R.string.punctuation_1));
-                for (RadioItem item : list) {
+            //舞蹈、唱歌等是否选择了
+            for (RadioItem item : list) {
+                if (!TextUtils.isEmpty(interstInfo.specialty)) {
+                    String[] specialtys = interstInfo.specialty.split(getString(R.string.punctuation_1));
                     for (String s : specialtys) {
                         if (s.equals(item.text)) {
                             item.type = BMRadioItemView.TYPE_SELECT;
@@ -114,14 +124,16 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
                             item.type = BMRadioItemView.TYPE_NORMAL;
                         }
                     }
+                } else {
+                    item.type = BMRadioItemView.TYPE_NORMAL;
                 }
             }
+            //其他是否选择了
             if (!TextUtils.isEmpty(interstInfo.otherHobby)) {
                 list.get(list.size() - 1).type = BMRadioItemView.TYPE_SELECT;
                 fieldOther.setVisibility(View.VISIBLE);
                 fieldOther.setContent(interstInfo.otherHobby);
             } else {
-                list.get(list.size() - 1).type = BMRadioItemView.TYPE_NORMAL;
                 list.get(list.size() - 1).type = BMRadioItemView.TYPE_NORMAL;
                 fieldOther.setVisibility(View.GONE);
             }
@@ -230,6 +242,7 @@ public class InterestFragment extends BaseFragment<CommonActionBar> implements C
     @Override
     public void onSelected(List<RadioItem> list) {
         int size = list.size();
+        specialty = "";
         if (size > 0) {
             RadioItem item = list.get(list.size() - 1);
             if (!(item.value instanceof Dict)) {

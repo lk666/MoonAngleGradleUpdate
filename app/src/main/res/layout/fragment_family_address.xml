@@ -49,12 +49,14 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:field_text1_hint="@string/please_input"
+            app:field_text1_content_maxLength="40"
             app:field_text1_title="@string/family_detail_address" />
 
         <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
             android:id="@+id/field_cart_address"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            app:field_text1_content_maxLength="30"
             app:field_text1_hint="@string/please_input"
             app:field_text1_title="@string/cart_wait_address" />
     </LinearLayout>
