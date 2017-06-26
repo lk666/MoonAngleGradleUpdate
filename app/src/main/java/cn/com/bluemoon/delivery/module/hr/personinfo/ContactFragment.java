@@ -11,6 +11,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.hr.personinfo.ResultGetContactInfo;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 /**
@@ -74,7 +75,7 @@ public class ContactFragment extends BaseFragment<CommonActionBar> {
 
     @Override
     protected void initContentView(View mainView) {
-
+        LibViewUtil.hideKeyboard(bctvWeichat);
     }
 
     @Override
