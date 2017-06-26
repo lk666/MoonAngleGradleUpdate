@@ -5,7 +5,6 @@ import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
-import android.view.ViewGroup;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -19,7 +18,6 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldBtn1View;
-import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
 
 /**
  * 修改手机号
@@ -56,7 +54,7 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     protected void back() {
-        LibViewUtil.hideKeyboard( bctvPhone);
+        LibViewUtil.hideKeyboard(bctvPhone);
         super.back();
     }
 
@@ -148,6 +146,10 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
         @Override
         public void onFinish() {
+            if (bfbvVerify == null) {
+                this.cancel();
+                return;
+            }
             bfbvVerify.setBtnTxt(getString(R.string.login_check_again));
             bfbvVerify.setBtnColor(getResources().getColor(R.color.text_blue_1fb8ff));
             bfbvVerify.setRightClickable(true);
@@ -155,6 +157,10 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
         @Override
         public void onTick(long millisUntilFinished) {
+            if (bfbvVerify == null) {
+                this.cancel();
+                return;
+            }
             bfbvVerify.setBtnTxt(String.format(getString(R.string.get_code_again),
                     millisUntilFinished / 1000));
         }
@@ -192,9 +198,9 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     public void onDestroy() {
+        super.onDestroy();
         if (time != null) {
             time.cancel();
         }
-        super.onDestroy();
     }
 }
