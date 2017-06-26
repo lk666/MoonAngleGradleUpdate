@@ -87,7 +87,7 @@ public class BasicInfoFragment extends BaseFragment<CommonActionBar> {
             bctvInDate.setContentText(DateUtil.getTime(baseInfo.inDate));
         }
         bctvEducationHighest.setContentText(getText(baseInfo.educationHighest));
-        bctvGradSchool.setContentText(getText(baseInfo.educationHighest));
+        bctvGradSchool.setContentText(getText(baseInfo.gradSchool));
         bctvMajor.setContentText(getText(baseInfo.major));
         bctvBlood.setContentText(getText(baseInfo.blood));
         bctvMarriage.setContentText(getText(baseInfo.marriage));
