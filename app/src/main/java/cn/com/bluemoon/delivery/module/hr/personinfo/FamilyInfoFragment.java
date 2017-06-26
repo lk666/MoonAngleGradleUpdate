@@ -117,7 +117,7 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
             TextView txtWorkPlace = getViewById(R.id.txt_work_place);
             setClickEvent(isNew, position, txtEdit);
             FamilyListBean bean = list.get(position);
-            txtName.setText(bean.relationship + "-" + bean.name + bean.surname);
+            txtName.setText(bean.relationship + "-" + bean.surname + bean.name);
             txtGender.setText(getString(R.string.txt_gender,  bean.gender));
             //9999年份代表字段为空
             if (!"9999".equals(DateUtil.getTime(bean.birthday, "yyyy"))) {

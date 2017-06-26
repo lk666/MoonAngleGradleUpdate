@@ -15,7 +15,7 @@
         app:field_arrow_title="@string/txt_relationship" />
 
     <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
-        android:id="@+id/layout_name"
+        android:id="@+id/layout_sur_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
@@ -24,7 +24,7 @@
         app:field_text1_title="@string/txt_name_input" />
 
     <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
-        android:id="@+id/layout_sub_name"
+        android:id="@+id/layout_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"

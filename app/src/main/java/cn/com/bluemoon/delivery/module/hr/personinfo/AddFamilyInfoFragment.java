@@ -56,8 +56,8 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
     BMFieldArrow1View layoutBirthday;
     @Bind(R.id.layout_name)
     BMFieldText1View layoutName;
-    @Bind(R.id.layout_sub_name)
-    BMFieldText1View layoutSubName;
+    @Bind(R.id.layout_sur_name)
+    BMFieldText1View layoutSurName;
     @Bind(R.id.layout_workplace)
     BMFieldText1View layoutWorkplace;
     @Bind(R.id.layout_position)
@@ -121,7 +121,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
     private void saveFamliyInfo() {
         if (TextUtils.isEmpty(layoutRelationship.getContent())
                 || TextUtils.isEmpty(layoutName.getContent())
-                || TextUtils.isEmpty(layoutSubName.getContent())
+                || TextUtils.isEmpty(layoutSurName.getContent())
                 || TextUtils.isEmpty(gender)) {
             toast(R.string.please_input_all_info);
             return;
@@ -129,7 +129,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         showWaitDialog();
         FamilyListBean bean = new FamilyListBean();
         bean.name = layoutName.getContent();
-        bean.surname = layoutSubName.getContent();
+        bean.surname = layoutSurName.getContent();
         bean.relationship = layoutRelationship.getContent();
         bean.gender = gender;
         boolean hasInputBirthday = false;
@@ -201,7 +201,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
             gender = bean.gender;
             layoutRelationship.setContent(bean.relationship);
             layoutName.setContent(bean.name);
-            layoutSubName.setContent(bean.surname);
+            layoutSurName.setContent(bean.surname);
             //9999年份代表字段为空
             if (!"9999".equals(DateUtil.getTime(bean.birthday, "yyyy"))) {
                 layoutBirthday.setContent(DateUtil.getTime(bean.birthday, "yyyy-MM-dd"));

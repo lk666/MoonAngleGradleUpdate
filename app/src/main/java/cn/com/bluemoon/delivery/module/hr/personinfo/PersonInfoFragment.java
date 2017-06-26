@@ -10,6 +10,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultUser;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib_widget.module.form.BMCellArrowView;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
@@ -63,6 +64,12 @@ public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
         bfavHkAddress.setListener(this);
         bfavFamily.setListener(this);
         bfavFavorite.setListener(this);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        ViewUtil.hideKeyboard(getView());
     }
 
     @Override
