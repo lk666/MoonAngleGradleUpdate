@@ -97,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:field_title="@string/txt_perform_experience"
-            app:field_content_maxLength="40"
+            app:field_content_maxLength="255"
             app:field_hint="@string/txt_perform_experience_hint"/>
     </LinearLayout>
 
