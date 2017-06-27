@@ -49,6 +49,12 @@
             app:cell_text_txt_title="@string/txt_marriage"/>
 
         <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/bctv_idcard_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/txt_idcard_tyoe"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
             android:id="@+id/bctv_idcard"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

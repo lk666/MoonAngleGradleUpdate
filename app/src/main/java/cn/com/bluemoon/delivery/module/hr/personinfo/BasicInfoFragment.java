@@ -42,6 +42,8 @@ public class BasicInfoFragment extends BaseFragment<CommonActionBar> {
     BmCellTextView bctvHkAddress;
     @Bind(R.id.bctv_txAddress)
     BmCellTextView bctvTxAddress;
+    @Bind(R.id.bctv_idcard_type)
+    BmCellTextView bctvIdcardType;
 
     public static Fragment newInstance() {
         BasicInfoFragment fragment = new BasicInfoFragment();
@@ -96,6 +98,7 @@ public class BasicInfoFragment extends BaseFragment<CommonActionBar> {
         bctvEmailComp.setContentText(getText(baseInfo.emailComp));
         bctvHkAddress.setContentText(getText(baseInfo.hkAddress));
         bctvTxAddress.setContentText(getText(baseInfo.txAddress));
+        bctvIdcardType.setContentText(getText(baseInfo.accountsType));
     }
 
     private String getText(String str) {

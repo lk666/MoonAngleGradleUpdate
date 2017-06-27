@@ -1603,6 +1603,7 @@
     <string name="txt_major">专业</string>
     <string name="txt_blood">血型</string>
     <string name="txt_marriage">婚姻状况</string>
+    <string name="txt_idcard_tyoe">户口性质</string>
     <string name="txt_idcard">身份证号</string>
     <string name="txt_bankNo">银行卡号</string>
     <string name="txt_emailComp">公司邮箱</string>
