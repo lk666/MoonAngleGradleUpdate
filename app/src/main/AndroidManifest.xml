@@ -868,8 +868,8 @@
         <activity
             android:name=".module.hr.personinfo.PersonInfoActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="adjustResize">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:windowSoftInputMode="adjustPan">
         </activity>
     </application>
 
