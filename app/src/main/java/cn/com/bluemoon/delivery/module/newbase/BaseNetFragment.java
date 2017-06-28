@@ -27,7 +27,8 @@ public abstract class BaseNetFragment extends BaseActionFragment implements IHtt
     }
 
     private void cancelRequest() {
-        ApiHttpClient.cancelAll(getContext());
+        //TODO 会影响其他fragment请求
+        //ApiHttpClient.cancelAll(getContext());
     }
 
     //////////////// 工具方法 ////////////////
