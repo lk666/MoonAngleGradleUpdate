@@ -59,6 +59,7 @@ public class CreateClothesInfoActivity extends BaseActivity implements
     private static final int REQUEST_CODE_UPLOAD_IMG = 0x555;
     private static final int REQUEST_CODE_VALIDATE_CLOTHES_CODE = 0x444;
     private static final int REQUEST_CODE_DELETE_PIC = 0x333;
+    private static final String EXTRA_EXIST_CLOTHES_CODE = "EXTRA_EXIST_CLOTHES_CODE";
     @Bind(R.id.ll_type)
     LinearLayout llType;
     @Bind(R.id.ll_clothes_name)
@@ -111,9 +112,22 @@ public class CreateClothesInfoActivity extends BaseActivity implements
      */
     private int delImgPos;
 
-    public static void actionStart(Activity context, int requestCode) {
+    private ArrayList<String> existClothesCode;
+
+    public static void actionStart(Activity context, int requestCode,
+                                   ArrayList<String> existClothesCode) {
         Intent intent = new Intent(context, CreateClothesInfoActivity.class);
+        intent.putStringArrayListExtra(EXTRA_EXIST_CLOTHES_CODE, existClothesCode);
         context.startActivityForResult(intent, requestCode);
+    }
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        existClothesCode = getIntent().getStringArrayListExtra(EXTRA_EXIST_CLOTHES_CODE);
+        if (existClothesCode == null) {
+            existClothesCode = new ArrayList<>();
+        }
     }
 
     @Override
@@ -223,7 +237,7 @@ public class CreateClothesInfoActivity extends BaseActivity implements
                 break;
             // 验证衣物编码
             case REQUEST_CODE_VALIDATE_CLOTHES_CODE:
-                tvNumber.setText(scaneCode);
+                tvNumber.setText(scanCode);
                 break;
             // 删除照片
             case REQUEST_CODE_DELETE_PIC:
@@ -433,7 +447,7 @@ public class CreateClothesInfoActivity extends BaseActivity implements
                 // 扫码返回
                 if (resultCode == Activity.RESULT_OK) {
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    handleScaneCodeBack(resultStr);
+                    handleScanCodeBack(resultStr);
                 }
                 //   跳转到手动输入
                 else if (resultCode == Constants.RESULT_SCAN) {
@@ -448,7 +462,7 @@ public class CreateClothesInfoActivity extends BaseActivity implements
                 if (resultCode == Activity.RESULT_OK) {
                     String resultStr = data.getStringExtra(ManualInputCodeActivity
                             .RESULT_EXTRA_CODE);
-                    handleScaneCodeBack(resultStr);
+                    handleScanCodeBack(resultStr);
                 }
                 //  跳转到扫码输入
                 else if (resultCode == ManualInputCodeActivity.RESULT_CODE_SCANE_CODE) {
@@ -485,15 +499,20 @@ public class CreateClothesInfoActivity extends BaseActivity implements
     /**
      * 扫描到/输入的数字码
      */
-    private String scaneCode;
+    private String scanCode;
 
     /**
      * 新增模式下处理扫码、手动输入数字码返回
      */
-    private void handleScaneCodeBack(String code) {
-        scaneCode = code;
+    private void handleScanCodeBack(String code) {
+        if (existClothesCode.contains(code)) {
+            toast(getString(R.string.err_exist_clothes_code, code));
+            return;
+        }
+
+        scanCode = code;
         showWaitDialog();
-        DeliveryApi.validateClothesCode(scaneCode, getToken(),
+        DeliveryApi.validateClothesCode(scanCode, getToken(),
                 getNewHandler(REQUEST_CODE_VALIDATE_CLOTHES_CODE, ResultBase.class));
     }
 

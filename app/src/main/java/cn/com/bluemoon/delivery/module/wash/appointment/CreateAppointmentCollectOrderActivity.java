@@ -219,7 +219,7 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                 new DateTimePickDialogUtil.OnDetailClickLister() {
                     @Override
                     public void btnClickLister(long time, String datetime) {
-                        timeSelect(time,datetime,true);
+                        timeSelect(time, datetime, true);
                     }
                 });
         dateTimePicKDialog.dateTimePicKDialog();
@@ -300,13 +300,25 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
                 break;
             // 添加衣物
             case R.id.btn_add:
-                CreateClothesInfoActivity.actionStart(this, REQUEST_CODE_ADD_CLOTHES_INFO);
+                CreateClothesInfoActivity.actionStart(this, REQUEST_CODE_ADD_CLOTHES_INFO,
+                        getExistClothesCode());
                 break;
             // 预约时间选择
             case R.id.tv_appoint_back_time:
                 selectAppointBackTime();
                 break;
         }
+    }
+
+    /**
+     * 获取已存在的衣物编号
+     */
+    private ArrayList<String> getExistClothesCode() {
+        ArrayList<String> l = new ArrayList<>();
+        for (UploadAppointClothesInfo ci : clothesInfo) {
+            l.add(ci.getClothesCode());
+        }
+        return l;
     }
 
     /**
@@ -332,10 +344,11 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
             } else {
                 // 预约时间更改
                 String currentTime = String.valueOf(System.currentTimeMillis());
-                String millis = currentTime.substring(currentTime.length() -3,currentTime.length());
+                String millis = currentTime.substring(currentTime.length() - 3, currentTime
+                        .length());
                 appointBackTime = Long.valueOf(time + millis);
                 tvAppointBackTime.setText(DateUtil.getTime(appointBackTime,
-                            "yyyy-MM-dd " + "HH:mm"));
+                        "yyyy-MM-dd " + "HH:mm"));
                 return;
             }
         }
@@ -534,6 +547,6 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
     public void onItemClick(Object item, View view, int position) {
         // 点击衣物信息，修改衣物
         ModifyClothesInfoActivity.actionStart(this, (UploadAppointClothesInfo) item,
-                REQUEST_CODE_MODIFY_CLOTHES_INFO);
+                getExistClothesCode(), REQUEST_CODE_MODIFY_CLOTHES_INFO);
     }
 }
