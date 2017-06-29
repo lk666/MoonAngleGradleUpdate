@@ -1,68 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/page_bg_f2"
-    android:orientation="vertical">
+    android:scrollbars="none">
 
-    <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
-        android:id="@+id/layout_relationship"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:field_arrow_hint="@string/please_select"
-        app:field_arrow_title="@string/txt_relationship" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
-        android:id="@+id/layout_sur_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:field_text1_content_maxLength="20"
-        app:field_text1_hint="@string/please_input_txt"
-        app:field_text1_title="@string/txt_name_input" />
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/layout_relationship"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:field_arrow_hint="@string/please_select"
+            app:field_arrow_title="@string/txt_relationship" />
 
-    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
-        android:id="@+id/layout_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:field_text1_content_maxLength="20"
-        app:field_text1_hint="@string/please_input_txt"
-        app:field_text1_title="@string/txt_sub_name_input" />
-    <cn.com.bluemoon.lib_widget.module.form.BMRadioView
-        android:id="@+id/item_radio"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:radio_title="@string/txt_gender_input"/>
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/layout_sur_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:field_text1_content_maxLength="20"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_name_input" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/layout_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:field_text1_content_maxLength="20"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_sub_name_input" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BMRadioView
+            android:id="@+id/item_radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:radio_title="@string/txt_gender_input" />
 
 
-    <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
-        android:id="@+id/layout_birthday"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:field_arrow_hint="@string/please_select"
-        app:field_arrow_title="@string/txt_birthday_input" />
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+            android:id="@+id/layout_birthday"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:field_arrow_hint="@string/please_select"
+            app:field_arrow_title="@string/txt_birthday_input" />
 
-    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
-        android:id="@+id/layout_workplace"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:field_text1_hint="@string/please_input_txt"
-        app:field_text1_content_maxLength="40"
-        app:field_text1_title="@string/txt_work_place_input" />
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/layout_workplace"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:field_text1_content_maxLength="40"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_work_place_input" />
 
-    <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
-        android:id="@+id/layout_position"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/white"
-        app:field_text1_hint="@string/please_input_txt"
-        app:field_text1_title="@string/txt_menber_position_input"
-        app:field_text1_content_maxLength="20"/>
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+            android:id="@+id/layout_position"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            app:field_text1_content_maxLength="20"
+            app:field_text1_hint="@string/please_input_txt"
+            app:field_text1_title="@string/txt_menber_position_input" />
 
-</LinearLayout>
+    </LinearLayout>
+</ScrollView>
+

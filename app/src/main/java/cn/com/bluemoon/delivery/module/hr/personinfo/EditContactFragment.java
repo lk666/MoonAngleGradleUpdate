@@ -76,12 +76,6 @@ public class EditContactFragment extends BaseFragment<CommonActionBar> implement
     }
 
     @Override
-    protected void back() {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
-        super.back();
-    }
-
-    @Override
     protected void initTitleBarView(View title) {
         super.initTitleBarView(title);
 
@@ -125,7 +119,6 @@ public class EditContactFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     protected void initContentView(View mainView) {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         bctvOfficePlace.setListener(this);
     }
 
