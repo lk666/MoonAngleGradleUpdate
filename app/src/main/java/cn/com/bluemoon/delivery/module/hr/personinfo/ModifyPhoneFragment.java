@@ -55,7 +55,6 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     protected void back() {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         LibViewUtil.hideKeyboard(bctvPhone);
         super.back();
     }
@@ -72,7 +71,6 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
     @Override
     protected void initContentView(View mainView) {
-        setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         bctvPhone.setHint(phone);
         bfbvVerify.setListener(this);
         bctvPhone.showIM();
