@@ -137,11 +137,13 @@ public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements
             if (TextUtils.isEmpty(bean.workPlace)) {
                 txtWorkPlace.setVisibility(View.GONE);
             } else {
+                txtWorkPlace.setVisibility(View.VISIBLE);
                 txtWorkPlace.setText(getString(R.string.txt_work_place, bean.workPlace));
             }
             if (TextUtils.isEmpty(bean.menberPosition)) {
                 txtCompany.setVisibility(View.GONE);
             } else {
+                txtCompany.setVisibility(View.VISIBLE);
                 txtCompany.setText(getString(R.string.txt_menber_position, bean.menberPosition));
             }
         }
