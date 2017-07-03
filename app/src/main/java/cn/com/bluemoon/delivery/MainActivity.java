@@ -53,6 +53,7 @@ import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.module.offline.MyCoursesActivity;
 import cn.com.bluemoon.delivery.module.offline.MyTrainActivity;
+import cn.com.bluemoon.delivery.module.offline.RealRecordActivity;
 import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
@@ -141,7 +142,6 @@ public class MainActivity extends SlidingActivity {
             @Override
             public void onClick(View v) {
                 PublicUtil.openScanView(main, null, null, 0);
-                //                ViewUtil.showActivity(main,TestActivity.class);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);

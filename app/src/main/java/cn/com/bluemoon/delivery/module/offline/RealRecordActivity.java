@@ -1,0 +1,137 @@
+package cn.com.bluemoon.delivery.module.offline;
+
+import android.content.Context;
+import android.content.Intent;
+import android.text.TextUtils;
+import android.view.View;
+import android.widget.TextView;
+
+import butterknife.Bind;
+import butterknife.OnClick;
+import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.OffLineApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.offline.ResultRecord;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.RecordData;
+import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.delivery.ui.selectordialog.OnButtonClickListener;
+import cn.com.bluemoon.delivery.ui.selectordialog.TimeSelectDialog;
+import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
+import cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView;
+import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
+
+public class RealRecordActivity extends BaseActivity {
+
+    @Bind(R.id.view_name)
+    BmCellTextView viewName;
+    @Bind(R.id.view_date)
+    BmCellTextView viewDate;
+    @Bind(R.id.time_start)
+    TextView timeStart;
+    @Bind(R.id.time_end)
+    TextView timeEnd;
+    @Bind(R.id.view_comment)
+    BMFieldParagraphView viewComment;
+    private String courseCode;
+    private String planCode;
+    private RecordData data;
+
+    public static void actionStart(Context context, String courseCode, String planCode) {
+        Intent intent = new Intent(context, RealRecordActivity.class);
+        intent.putExtra("courseCode", courseCode);
+        intent.putExtra("planCode", planCode);
+        context.startActivity(intent);
+    }
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        courseCode = getIntent().getStringExtra("courseCode");
+        planCode = getIntent().getStringExtra("planCode");
+    }
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_real_record;
+    }
+
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.offline_record_title);
+    }
+
+    @Override
+    public void initView() {
+
+    }
+
+    @Override
+    public void initData() {
+        showWaitDialog();
+        OffLineApi.recordDetail(getToken(), courseCode, planCode, getNewHandler(0, ResultRecord
+                .class));
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        if (requestCode == 0) {
+            data = ((ResultRecord) result).data;
+            viewName.setContentText(data.courseName);
+            viewDate.setContentText(DateUtil.getTime(data.date));
+            timeStart.setText(DateUtil.getTimeToHours(data.realStartTime));
+            timeEnd.setText(DateUtil.getTimeToHours(data.realEndTime));
+            viewComment.setContent(data.comment);
+        } else if (requestCode == 1) {
+            toast(result.getResponseMsg());
+            setResult(RESULT_OK);
+            finish();
+        }
+    }
+
+    @OnClick({R.id.time_start, R.id.time_end, R.id.btn_submit})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.time_start:
+                showTimeDialog(data.realStartTime,true);
+                break;
+            case R.id.time_end:
+                showTimeDialog(data.realEndTime,false);
+                break;
+            case R.id.btn_submit:
+                submitData();
+                break;
+        }
+    }
+
+    private void submitData() {
+        if (data != null) {
+            data.comment = viewComment.getContent();
+            showWaitDialog();
+            OffLineApi.record(getToken(), data, getNewHandler(1, ResultBase.class));
+        }
+    }
+
+    private void showTimeDialog(final long time, final boolean isStart) {
+        new TimeSelectDialog(this, "", time, new OnButtonClickListener() {
+            @Override
+            public void onOKButtonClick(long timeStamp) {
+                if (isStart) {
+                    timeStart.setText(DateUtil.getTimeToHours(timeStamp));
+                } else {
+                    timeEnd.setText(DateUtil.getTimeToHours(timeStamp));
+                }
+            }
+
+            @Override
+            public void onCancleButtonClick() {
+
+            }
+
+            @Override
+            public String getCompareTips() {
+                return null;
+            }
+        }).show();
+    }
+}

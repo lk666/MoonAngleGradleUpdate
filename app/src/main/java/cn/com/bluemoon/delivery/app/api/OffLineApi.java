@@ -10,6 +10,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.request.CancelData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.CourseListData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.EvaluateData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.ListNumData;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.RecordData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.SignDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.StartOrEndCourseData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TaecherGetEvaluateDetailData;
@@ -355,5 +356,40 @@ public class OffLineApi extends DeliveryApi {
         params.put(TOKEN, token);
         params.put("data", new ListNumData(type));
         postRequest(params, "training-web/common/list/num%s", handler);
+    }
+
+    /**
+     * 2.10 获取实际录入信息
+     *
+     * @param token
+     * @param courseCode
+     * @param planCode
+     * @param handler
+     */
+    public static void recordDetail(String token, String courseCode, String planCode,
+                                    AsyncHttpResponseHandler
+                                            handler) {
+        if (null == token || null == courseCode || null == planCode) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", new AssignData(courseCode, planCode));
+        postRequest(params, "training-web/course/teacher/record/detail%s", handler);
+    }
+
+    /**
+     * 2.11 实际录入时间
+     */
+    public static void record(String token, RecordData data, AsyncHttpResponseHandler handler) {
+        if (null == token || null == data) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", data);
+        postRequest(params, "training-web/course/teacher/record%s", handler);
     }
 }
