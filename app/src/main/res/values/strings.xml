@@ -1651,4 +1651,5 @@
     <string name="text_mark">备注</string>
     <string name="offline_write_comment">填写补充说明</string>
     <string name="offline_record_title">实际时间录入</string>
+    <string name="offline_record_real_time">实际上课时间(必填)</string>
 </resources>

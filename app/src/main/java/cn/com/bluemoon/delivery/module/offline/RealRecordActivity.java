@@ -93,10 +93,10 @@ public class RealRecordActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.time_start:
-                showTimeDialog(data.realStartTime,true);
+                showTimeDialog(true);
                 break;
             case R.id.time_end:
-                showTimeDialog(data.realEndTime,false);
+                showTimeDialog(false);
                 break;
             case R.id.btn_submit:
                 submitData();
@@ -112,13 +112,17 @@ public class RealRecordActivity extends BaseActivity {
         }
     }
 
-    private void showTimeDialog(final long time, final boolean isStart) {
+    private void showTimeDialog(final boolean isStart) {
+        if (data == null) return;
+        long time = isStart ? data.realStartTime : data.realEndTime;
         new TimeSelectDialog(this, "", time, new OnButtonClickListener() {
             @Override
             public void onOKButtonClick(long timeStamp) {
                 if (isStart) {
+                    data.realStartTime = timeStamp;
                     timeStart.setText(DateUtil.getTimeToHours(timeStamp));
                 } else {
+                    data.realEndTime = timeStamp;
                     timeEnd.setText(DateUtil.getTimeToHours(timeStamp));
                 }
             }
