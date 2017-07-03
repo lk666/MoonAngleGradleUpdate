@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.offline;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewStub;
@@ -61,25 +60,24 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
 
     private OfflineAdapter adapter;
 
-    private String status;//默认到哪个页签
+    private int defPosition;//默认到哪个页签
 
     private long curSelectorDate;//记录当前选择的时间
 
-    public static void actionStart(Context context, String status,Class cls) {
+    public static void actionStart(Context context, int defPosition,Class cls) {
         Intent intent = new Intent(context, cls);
-        intent.putExtra("status", status);
+        intent.putExtra("defPosition", defPosition);
         context.startActivity(intent);
     }
 
-    public String getStatus() {
-        return status;
+    public int getDefPosition() {
+        return defPosition;
     }
 
     private List<String> getTextList() {
         List<String> titleList = new ArrayList<>();
         if(getTeacherOrStudent().equals(OfflineAdapter.LIST_TEACHER)){
-            titleList.add(getString(R.string.offline_waiting_courses));
-            titleList.add(getString(R.string.offline_courses_ing));
+            titleList.add(getString(R.string.offline_my_courses));
             titleList.add(getString(R.string.offline_courses_record));
         }else if(getTeacherOrStudent().equals(OfflineAdapter.LIST_STUDENTS)){
             titleList.add(getString(R.string.offline_waiting_to_teach));
@@ -95,7 +93,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
 
     @Override
     protected void onBeforeSetContentLayout() {
-        status = getIntent().getStringExtra("status");
+        defPosition = getIntent().getIntExtra("defPosition",0);
     }
 
     @Override
@@ -122,12 +120,12 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
 
     @Override
     public void initData() {
-        adapter = new OfflineAdapter(this, this, getTeacherOrStudent(),stateTogPosition(status));
+        adapter = new OfflineAdapter(this, this, getTeacherOrStudent(),defPosition);
         segmentTab.setTextList(getTextList());
-        segmentTab.checkUIChange(stateTogPosition(status));
+        segmentTab.checkUIChange(defPosition);
         segmentTab.setCheckCallBack(this);
         changeCurSelectorDate(System.currentTimeMillis());
-        setShowHeadView(status.equals(Constants.OFFLINE_STATUS_END_CLASS));
+        setShowHeadView(defPosition==getTextList().size()-1);
         listviewOffline.setAdapter(adapter);
         listviewOffline.setMode(PullToRefreshBase.Mode.PULL_DOWN_TO_REFRESH);
         listviewOffline.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
@@ -152,7 +150,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
     }
 
     private void requestData() {
-        requestListData(segmentTab.getCurrentPosition()==OfflineAdapter.LIST_END?curSelectorDate:0,segmentTab.getCurrentPosition());
+        requestListData(getCheckPosition()==getTextList().size()-1?curSelectorDate:0,getCheckPosition());
         OffLineApi.listNum(getToken(), getTeacherOrStudent(), getNewHandler(HTTP_REQUEST_CODE_GET_NUM, ResultListNum.class));
     }
 
@@ -183,7 +181,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
             case 0:
             case 1:
             case 2:
-                if(requestCode!=segmentTab.getCurrentPosition()){
+                if(requestCode!=getCheckPosition()){
                     return;
                 }
                 showEmptyView();
@@ -197,7 +195,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
             case 0:
             case 1:
             case 2:
-                if(requestCode!=segmentTab.getCurrentPosition()){
+                if(requestCode!=getCheckPosition()){
                     return;
                 }
                 ResultTeacherAndStudentList list = (ResultTeacherAndStudentList) result;
@@ -206,9 +204,9 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                 }else{
                     LibViewUtil.setViewVisibility(emptyView, View.GONE);
                 }
-                adapter.setList(list.data.courses, stateTogPosition(status));
+                adapter.setList(list.data.courses, getCheckPosition());
                 adapter.notifyDataSetChanged();
-                if(status.equals(Constants.OFFLINE_STATUS_END_CLASS)){
+                if(isShowHead()){
                     changeToal(list.data.totalCourseNum,list.data.totalDuration);
                 }
                 break;
@@ -221,9 +219,8 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                     numList.add(listNum.data.teacher.endClassNum);
 
                 } else if (getTeacherOrStudent().equals(OfflineAdapter.LIST_STUDENTS)) {
-                    numList.add(listNum.data.student.waitingClassNum);
                     numList.add(listNum.data.student.inClassNum);
-                    numList.add(listNum.data.student.endClassNum);
+                    numList.add(listNum.data.student.closeClassNum);
                 }
                 segmentTab.setNumberList(numList);
                 break;
@@ -237,15 +234,28 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
      */
     @Override
     public void checkListener(int position) {
-        status = positionTogState(position);
         adapter.setList(new ArrayList<CurriculumsTable>(), position);
-        setShowHeadView(status.equals(Constants.OFFLINE_STATUS_END_CLASS));
+        setShowHeadView(isShowHead());
         adapter.notifyDataSetChanged();
-        if(position==OfflineAdapter.LIST_END){
+        if(position==getTextList().size()-1){
             changeCurSelectorDate(System.currentTimeMillis());
             changeToal(0,0);
         }
         requestData(true);
+    }
+
+    /**
+     * 是否在最后一列，要显示头部
+     * @return
+     */
+    protected abstract boolean isShowHead();
+
+    /**
+     * 获取当前所在页签
+     * @return
+     */
+    protected int getCheckPosition(){
+        return segmentTab.getCurrentPosition();
     }
 
     /**
@@ -278,7 +288,7 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
      * 网络请求改变headview数据
      */
     private void changeHeadViewState(String courses, String duration) {
-        if (status.equals(Constants.OFFLINE_STATUS_END_CLASS)) {
+        if (isShowHead()) {
             totalCourses.setText(courses);
             totalDuration.setText(duration);
         }
@@ -298,33 +308,11 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                 String.valueOf(new DecimalFormat("0.0").format(totalDuration/3600.0))+"小时");
     }
 
+    protected abstract int stateTogPosition(String status);
 
-    private int stateTogPosition(String status) {
-        switch (status) {
-            case Constants.OFFLINE_STATUS_WAITING_CLASS:
-                return OfflineAdapter.LIST_NOSTART;
-            case Constants.OFFLINE_STATUS_IN_CLASS:
-                return OfflineAdapter.LIST_ING;
-            case Constants.OFFLINE_STATUS_END_CLASS:
-            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
-                return OfflineAdapter.LIST_END;
-            default:
-                return 0;
-        }
-    }
 
-    private String positionTogState(int position) {
-        switch (position) {
-            case OfflineAdapter.LIST_NOSTART:
-                return Constants.OFFLINE_STATUS_WAITING_CLASS;
-            case OfflineAdapter.LIST_ING:
-                return Constants.OFFLINE_STATUS_IN_CLASS;
-            case OfflineAdapter.LIST_END:
-                return Constants.OFFLINE_STATUS_END_CLASS;
-            default:
-                return Constants.OFFLINE_STATUS_WAITING_CLASS;
-        }
-    }
+    protected abstract String positionTogState(int position);
+
 
     @Override
     public void onClick(View v) {

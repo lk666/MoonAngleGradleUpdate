@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 
 import cn.com.bluemoon.delivery.R;
@@ -23,16 +22,17 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
     private static final int HTTP_REQUEST_CODE_END = 0x1002;
 
     public static void actionStart(Context context) {
-        actionStart(context, Constants.OFFLINE_STATUS_WAITING_CLASS);
+        actionStart(context, 0);
     }
 
-    public static void actionStart(Context context, String status) {
-        actionStart(context, status, MyCoursesActivity.class);
+    public static void actionStart(Context context, int defPosition) {
+        actionStart(context, defPosition, MyCoursesActivity.class);
     }
 
     @Override
     protected void requestListData(long time,int requestCode) {
-        OffLineApi.teacherCourseList(getToken(), time, getStatus(), getNewHandler(requestCode, ResultTeacherAndStudentList.class));
+        OffLineApi.teacherCourseList(getToken(), time, positionTogState(getDefPosition())
+                , getNewHandler(requestCode, ResultTeacherAndStudentList.class));
     }
 
     @Override
@@ -57,13 +57,8 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
                 case OfflineAdapter.TO_NEXT_EVALUATE:
                     EvaluateStaffActivity.actionStart(this,curriculumsTable);
                     break;
-                case OfflineAdapter.REQUEST_START:
-                    showWaitDialog();
-                    OffLineApi.startCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(HTTP_REQUEST_CODE_START, ResultBase.class));
-                    break;
-                case OfflineAdapter.REQUEST_END:
-                    showWaitDialog();
-                    OffLineApi.endCourse(getToken(),curriculumsTable.courseCode,curriculumsTable.planCode,getNewHandler(HTTP_REQUEST_CODE_END, ResultBase.class));
+                case OfflineAdapter.TO_REALITY:
+                    RealRecordActivity.actionStart(this,curriculumsTable.courseCode,curriculumsTable.planCode);
                     break;
             }
         }
@@ -79,6 +74,35 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
             case HTTP_REQUEST_CODE_END:
                 requestData(false);
                 break;
+        }
+    }
+
+    @Override
+    protected boolean isShowHead() {
+        return getCheckPosition()==1;
+    }
+
+    @Override
+    protected int stateTogPosition(String status) {
+        switch (status) {
+            case Constants.OFFLINE_STATUS_IN_CLASS:
+                return 0;
+            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
+                return 1;
+            default:
+                return 0;
+        }
+    }
+
+    @Override
+    protected String positionTogState(int position) {
+        switch (position) {
+            case 0:
+                return Constants.OFFLINE_STATUS_IN_CLASS;
+            case 1:
+                return Constants.OFFLINE_STATUS_CLOSE_CLASS;
+            default:
+                return Constants.OFFLINE_STATUS_WAITING_CLASS;
         }
     }
 }

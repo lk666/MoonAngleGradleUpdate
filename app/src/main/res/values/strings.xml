@@ -1490,8 +1490,9 @@
     <string name="offline_click_compile_evaluate">编辑评价</string>
     <string name="offline_type_train_classroom">培训教室：</string>
     <string name="offline_type_train_address">培训地址：</string>
-    <string name="offline_type_willnum">报名人数：</string>
-    <string name="offline_type_signed_in_the_number_of">签到人数：</string>
+    <string name="offline_type_willnum">报名：</string>
+    <string name="offline_type_signed_in_the_number_of">签到：</string>
+    <string name="offline_type_evaluate_the_number_of">评价：</string>
     <string name="offline_signed_in_the_number_of">签到人数</string>
     <string name="offline_btn_begin_training">开始上课</string>
     <string name="offline_btn_end_class">结束上课</string>

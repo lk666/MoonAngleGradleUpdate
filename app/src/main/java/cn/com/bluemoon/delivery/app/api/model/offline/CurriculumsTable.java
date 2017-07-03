@@ -21,6 +21,7 @@ public class CurriculumsTable implements Serializable{
 
     public int enrollNum;//报名人数
     public int signNum;//签到人数
+    public int evaluatedNum;//评价人数
 
 //    public CurriculumsTable(){
 //

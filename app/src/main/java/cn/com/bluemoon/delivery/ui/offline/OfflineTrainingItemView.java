@@ -58,14 +58,10 @@ public class OfflineTrainingItemView extends FrameLayout {
     TextView txtSignedInTheNumberOf;
     @Bind(R.id.llayout_signed_in_the_number_of)
     LinearLayout llayoutSignedInTheNumberOf;
-    @Bind(R.id.txt_train_classroom)
-    TextView txtTrainClassroom;
-    @Bind(R.id.llayout_train_classroom)
-    LinearLayout llayoutTrainClassroom;
-    @Bind(R.id.txt_train_address)
-    TextView txtTrainAddress;
-    @Bind(R.id.llayout_train_address)
-    LinearLayout llayoutTrainAddress;
+    @Bind(R.id.txt_evaluate_the_number_of)
+    TextView txtEvaluateTheNumberOf;
+    @Bind(R.id.llayout_evaluate_the_number_of)
+    LinearLayout llayoutEvaluateTheNumberOf;
     @Bind(R.id.btn_btn)
     BMAngleBtn2View btnBtn;
     @Bind(R.id.txt_btn)
@@ -226,27 +222,23 @@ public class OfflineTrainingItemView extends FrameLayout {
     public void setTxtSignedInTheNumberOfIsShow(boolean isShow) {
         llayoutSignedInTheNumberOf.setVisibility(isShow?View.VISIBLE:View.GONE);
     }
-
     /**
-     * 培训教室
-     * @param trainClassroom
+     * 评价人数
+     * @param evaluateTheNumberOf
      * @return
      */
-    public OfflineTrainingItemView setTxtTrainClassroom(String trainClassroom) {
-        llayoutTrainClassroom.setVisibility(TextUtils.isEmpty(trainClassroom)?View.GONE:View.VISIBLE);
-        txtTrainClassroom.setText(trainClassroom);
+    public OfflineTrainingItemView setTxtEvaluateTheNumberOf(String evaluateTheNumberOf) {
+        llayoutEvaluateTheNumberOf.setVisibility(TextUtils.isEmpty(evaluateTheNumberOf)?View.GONE:View.VISIBLE);
+        txtEvaluateTheNumberOf.setText(evaluateTheNumberOf);
         return this;
     }
-
     /**
-     * 培训地址
-     * @param trainAddress
+     * 评价人数
+     * @param isShow
      * @return
      */
-    public OfflineTrainingItemView setTxtTrainAddress(String trainAddress) {
-        llayoutTrainAddress.setVisibility(TextUtils.isEmpty(trainAddress)?View.GONE:View.VISIBLE);
-        txtTrainAddress.setText(trainAddress);
-        return this;
+    public void setTxtEvaluateTheNumberOfIsShow(boolean isShow) {
+        llayoutEvaluateTheNumberOf.setVisibility(isShow?View.VISIBLE:View.GONE);
     }
 
     public void setBtnBtnIsShow(boolean isShow){
