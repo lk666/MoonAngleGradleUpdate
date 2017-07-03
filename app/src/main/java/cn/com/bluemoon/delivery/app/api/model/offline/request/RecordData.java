@@ -13,12 +13,4 @@ public class RecordData {
     public long realEndTime;
     public long realStartTime;
 
-    public RecordData(String courseCode, String planCode, long realStartTime, long realEndTime,
-                      String comment) {
-        this.courseCode = courseCode;
-        this.planCode = planCode;
-        this.realEndTime = realEndTime;
-        this.realStartTime = realStartTime;
-        this.comment = comment;
-    }
 }

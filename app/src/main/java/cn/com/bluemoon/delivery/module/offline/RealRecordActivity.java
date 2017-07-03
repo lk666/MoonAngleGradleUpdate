@@ -104,14 +104,24 @@ public class RealRecordActivity extends BaseActivity {
         }
     }
 
+    /**
+     * 提交时间
+     */
     private void submitData() {
-        if (data != null) {
-            data.comment = viewComment.getContent();
-            showWaitDialog();
-            OffLineApi.record(getToken(), data, getNewHandler(1, ResultBase.class));
+        if (data == null) return;
+        if (data.realStartTime > data.realEndTime) {
+            toast(getString(R.string.offline_record_time_compare));
+            return;
         }
+        data.comment = viewComment.getContent();
+        showWaitDialog();
+        OffLineApi.record(getToken(), data, getNewHandler(1, ResultBase.class));
     }
 
+    /**
+     * 展示时间对话框
+     * @param isStart
+     */
     private void showTimeDialog(final boolean isStart) {
         if (data == null) return;
         long time = isStart ? data.realStartTime : data.realEndTime;
