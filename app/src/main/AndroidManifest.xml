@@ -871,6 +871,12 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:windowSoftInputMode="adjustResize">
         </activity>
+        <activity
+            android:name=".module.offline.RealRecordActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan">
+        </activity>
     </application>
 
 </manifest>
