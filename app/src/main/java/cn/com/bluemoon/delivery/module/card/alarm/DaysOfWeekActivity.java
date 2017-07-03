@@ -6,7 +6,7 @@ import android.content.Intent;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.CheckBox;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -28,15 +28,13 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 /**
  * Created by allenli on 2016/9/18.
  */
-public class DaysOfWeekActivity extends BaseActivity implements  OnListItemClickListener{
+public class DaysOfWeekActivity extends BaseActivity implements OnListItemClickListener {
 
     @Bind(R.id.list_day_of_week)
     ListView listDays;
 
-    DaysOfWeek oldDays;
-
     DaysOfWeek newDays;
-     boolean isInit;
+    boolean isInit;
     String[] weekdays = new DateFormatSymbols().getWeekdays();
 
     String[] values = new String[]{
@@ -49,6 +47,7 @@ public class DaysOfWeekActivity extends BaseActivity implements  OnListItemClick
             weekdays[Calendar.SUNDAY],
     };
 
+    private DaysAdapter daysAdapter;
 
     @Override
     protected int getLayoutId() {
@@ -58,8 +57,7 @@ public class DaysOfWeekActivity extends BaseActivity implements  OnListItemClick
 
     @Override
     public void onBeforeSetContentLayout() {
-        oldDays = new DaysOfWeek(getIntent().getIntExtra("days", 0));
-        newDays = new DaysOfWeek(0);
+        newDays = new DaysOfWeek(getIntent().getIntExtra("days", 0));
     }
 
 
@@ -71,7 +69,7 @@ public class DaysOfWeekActivity extends BaseActivity implements  OnListItemClick
     @Override
     public void initData() {
         isInit = true;
-        DaysAdapter daysAdapter = new DaysAdapter(this, this);
+        daysAdapter = new DaysAdapter(this, this);
         //国际化
         if (getResources().getConfiguration().locale.getCountry().equals("CN")) {
             daysAdapter.setList(Arrays.asList(values));
@@ -96,14 +94,8 @@ public class DaysOfWeekActivity extends BaseActivity implements  OnListItemClick
 
     @Override
     public void onItemClick(Object item, View view, int position) {
-         CheckBox cbDay =  (CheckBox)view.findViewById(R.id.ck_day);
-        if(cbDay.isChecked()){
-            cbDay.setChecked(false);
-            newDays.set(position,false);
-        }else{
-            cbDay.setChecked(true);
-            newDays.set(position,true);
-        }
+        newDays.set(position, !newDays.isSet(position));
+        daysAdapter.notifyDataSetChanged();
     }
 
 
@@ -123,20 +115,20 @@ public class DaysOfWeekActivity extends BaseActivity implements  OnListItemClick
         }
 
         @Override
-        protected void setView(final int position, View convertView, ViewGroup parent, boolean isNew) {
+        protected void setView(final int position, View convertView, ViewGroup parent, boolean
+                isNew) {
             final String day = (String) getItem
                     (position);
             if (StringUtil.isEmptyString(day)) {
                 return;
             }
-            RelativeLayout layoutDay = ViewHolder.get(convertView,R.id.layout_day);
+            RelativeLayout layoutDay = ViewHolder.get(convertView, R.id.layout_day);
             TextView txtDay = ViewHolder.get(convertView, R.id.txt_day);
-            CheckBox ckDay = ViewHolder.get(convertView, R.id.ck_day);
+            ImageView ckDay = ViewHolder.get(convertView, R.id.ck_day);
             txtDay.setText(day);
-            boolean isCheck = oldDays.getBooleanArray()[position];
-            ckDay.setChecked(isCheck);
-            newDays.set(position, isCheck);
-            setClickEvent(isNew,position,layoutDay);
+            boolean isCheck = newDays.getBooleanArray()[position];
+            ckDay.setVisibility(isCheck ? View.VISIBLE : View.GONE);
+            setClickEvent(isNew, position, layoutDay);
 
         }
     }

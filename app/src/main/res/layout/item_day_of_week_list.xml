@@ -20,13 +20,12 @@
             />
 
 
-        <CheckBox
+        <ImageView
             android:id="@+id/ck_day"
             android:layout_alignParentRight="true"
-            android:clickable="false"
             android:layout_width="20dp"
             android:layout_height="20dp"
-            android:button="@drawable/checkbox_day_selector"/>
+            android:src="@mipmap/icon_check"/>
 
     </RelativeLayout>
 
