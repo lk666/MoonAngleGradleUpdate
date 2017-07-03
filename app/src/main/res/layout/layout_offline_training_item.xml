@@ -105,6 +105,45 @@
             </LinearLayout>
 
             <LinearLayout
+                android:id="@+id/llayout_willnum"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_willnum" />
+
+                <TextView
+                    android:id="@+id/txt_willnum"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_signed_in_the_number_of"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_signed_in_the_number_of" />
+
+                <TextView
+                    android:id="@+id/txt_signed_in_the_number_of"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/llayout_evaluate_the_number_of"
+                style="@style/offline_item_layout_style">
+
+                <TextView
+                    style="@style/offline_iten_txt_type_style"
+                    android:text="@string/offline_type_evaluate_the_number_of" />
+
+                <TextView
+                    android:id="@+id/txt_evaluate_the_number_of"
+                    style="@style/offline_iten_txt_content_style" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/llayout_lecturer_name"
                 style="@style/offline_item_layout_style">
 
@@ -143,57 +182,8 @@
                     style="@style/offline_iten_txt_content_style" />
             </LinearLayout>
 
-            <LinearLayout
-                android:id="@+id/llayout_willnum"
-                style="@style/offline_item_layout_style">
 
-                <TextView
-                    style="@style/offline_iten_txt_type_style"
-                    android:text="@string/offline_type_willnum" />
 
-                <TextView
-                    android:id="@+id/txt_willnum"
-                    style="@style/offline_iten_txt_content_style" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llayout_signed_in_the_number_of"
-                style="@style/offline_item_layout_style">
-
-                <TextView
-                    style="@style/offline_iten_txt_type_style"
-                    android:text="@string/offline_type_signed_in_the_number_of" />
-
-                <TextView
-                    android:id="@+id/txt_signed_in_the_number_of"
-                    style="@style/offline_iten_txt_content_style" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llayout_train_classroom"
-                style="@style/offline_item_layout_style">
-
-                <TextView
-                    style="@style/offline_iten_txt_type_style"
-                    android:text="@string/offline_type_train_classroom" />
-
-                <TextView
-                    android:id="@+id/txt_train_classroom"
-                    style="@style/offline_iten_txt_content_style" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/llayout_train_address"
-                style="@style/offline_item_layout_style">
-
-                <TextView
-                    style="@style/offline_iten_txt_type_style"
-                    android:text="@string/offline_type_train_address" />
-
-                <TextView
-                    android:id="@+id/txt_train_address"
-                    style="@style/offline_iten_txt_content_style" />
-            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout

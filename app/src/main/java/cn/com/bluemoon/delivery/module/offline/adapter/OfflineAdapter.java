@@ -24,8 +24,7 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
     /**
      * 点击事件的类型
      */
-    public final static int TO_NEXT_DETAILS = 0, TO_NEXT_EVALUATE = 1, REQUEST_START = 2,
-            REQUEST_END = 3;
+    public final static int TO_NEXT_DETAILS = 0, TO_NEXT_EVALUATE = 1, TO_REALITY = 2;
     /**
      * 学生的列表还是教师的列表
      */
@@ -91,33 +90,24 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
             case LIST_TEACHER:
                 itemView.setTxtWillnum(String.valueOf(curriculumsTable.enrollNum) + "人")
                         .setTxtSignedInTheNumberOf(String.valueOf(curriculumsTable.signNum) + "人")
-                        .setTxtTrainClassroom(curriculumsTable.room)
-                        .setTxtTrainAddress(curriculumsTable.address);
+                        .setTxtClassroom(curriculumsTable.room)
+                        .setTxtAddress(curriculumsTable.address);
+                if (curriculumsTable.status.equals(Constants.OFFLINE_STATUS_IN_CLASS) || curriculumsTable.status.equals(Constants.OFFLINE_STATUS_END_CLASS)) {
+                    itemView.setBtnBtn(this, "录入培训实际", TO_REALITY, position);
+                    itemView.setTxtBtn(this, "评价学员", TO_NEXT_EVALUATE, position);
+                }
                 switch (positionMode) {
                     case LIST_NOSTART:
-                        itemView.setBtnBtn(this, "开始上课", REQUEST_START, position);
-                        itemView.setTxtBtnIsShow(false);
-                        itemView.setTxtStateIsShow(false);
-                        itemView.setTxtWillnumIsShow(true);
-                        itemView.setTxtSignedInTheNumberOfIsShow(false);
+
+                        itemView.setTxtState(getTeacherStateText(curriculumsTable.status), true);
+                        itemView.setTxtLecturerName(curriculumsTable.teacherName);
+
                         break;
                     case LIST_ING:
-                        itemView.setBtnBtn(this, "结束上课", REQUEST_END, position);
-                        itemView.setTxtBtn(this, "评价学员", TO_NEXT_EVALUATE, position);
-                        itemView.setTxtStateIsShow(false);
-                        itemView.setTxtWillnumIsShow(false);
-                        itemView.setTxtSignedInTheNumberOfIsShow(true);
-                        break;
-                    case LIST_END:
-                        if (curriculumsTable.status.equals("endClass")) {
-                            itemView.setBtnBtn(this, "评价学员", TO_NEXT_EVALUATE, position);
-                        } else {
-                            itemView.setBtnBtnIsShow(false);
-                        }
-                        itemView.setTxtBtnIsShow(false);
-                        itemView.setTxtWillnumIsShow(false);
-                        itemView.setTxtSignedInTheNumberOfIsShow(true);
+
                         itemView.setTxtState(getTeacherStateText(curriculumsTable.status), false);
+                        itemView.setTxtEvaluateTheNumberOf(String.valueOf(curriculumsTable.evaluatedNum) + "人");
+
                         break;
                 }
                 break;
@@ -137,15 +127,22 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
     }
 
     protected String getTeacherStateText(String state) {
-        if (roleMode == LIST_TEACHER && positionMode == LIST_END) {
-            if (state.equals("endClass")) {
-                return "已结束";
-            } else if (state.equals("closeClass")) {
-                return "已关闭";
+        if (roleMode == LIST_TEACHER) {
+            switch (state) {
+                case Constants.OFFLINE_STATUS_WAITING_CLASS:
+                    return "未开始";
+                case Constants.OFFLINE_STATUS_IN_CLASS:
+                    return "进行中";
+                case Constants.OFFLINE_STATUS_END_CLASS:
+                    return "已结束";
+                case Constants.OFFLINE_STATUS_CLOSE_CLASS:
+                    return "已关闭";
+
             }
         }
         return "";
     }
+
 
     @Override
     protected int getLayoutId() {

@@ -16,8 +16,9 @@ public class ResultListNum extends ResultBase {
 
         public static class StudentAndTeacher{
             public int  endClassNum;//	已完成数量	number
-            public int  inClassNum;//	待评价数量	number
+            public int  inClassNum;//	待评价数量/我的授课数量	number
             public int  waitingClassNum;//	待上课数量	number
+            public int  closeClassNum;//	授课记录数量	number
         }
 
     }

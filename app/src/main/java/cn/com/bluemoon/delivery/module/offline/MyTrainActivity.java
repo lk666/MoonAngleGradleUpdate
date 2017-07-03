@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 
@@ -11,9 +10,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherAndStudentList;
 import cn.com.bluemoon.delivery.module.offline.adapter.OfflineAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
-import cn.com.bluemoon.lib.utils.LibConstants;
 
 /**
  * 我的培训列表
@@ -29,22 +26,23 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         super.initView();
         btnSign = (Button) findViewById(R.id.btn_sign);
         btnSign.setOnClickListener(this);
-        if (Constants.OFFLINE_STATUS_WAITING_CLASS.equals(getStatus())) {
+        if (getCheckPosition()==1) {
             ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
         }
     }
 
     public static void actionStart(Context context) {
-        actionStart(context, Constants.OFFLINE_STATUS_WAITING_CLASS);
+        actionStart(context, 0);
     }
 
-    public static void actionStart(Context context, String status) {
-        actionStart(context, status, MyTrainActivity.class);
+    public static void actionStart(Context context, int defPosition) {
+        actionStart(context, defPosition, MyTrainActivity.class);
     }
 
     @Override
     protected void requestListData(long time,int requestCode) {
-        OffLineApi.studentTrainlist(getToken(), time, getStatus(), getNewHandler(requestCode,
+        OffLineApi.studentTrainlist(getToken(), time, positionTogState(getDefPosition())
+                , getNewHandler(requestCode,
                 ResultTeacherAndStudentList.class));
     }
 
@@ -57,6 +55,11 @@ public class MyTrainActivity extends OfflineListBaseActivity {
     public void checkListener(int position) {
         super.checkListener(position);
         ViewUtil.setViewVisibility(btnSign, position == 0 ? View.VISIBLE : View.GONE);
+    }
+
+    @Override
+    protected boolean isShowHead() {
+        return getCheckPosition()==2;
     }
 
     @Override
@@ -89,7 +92,31 @@ public class MyTrainActivity extends OfflineListBaseActivity {
             }
         }
     }
-
+    protected int stateTogPosition(String status) {
+        switch (status) {
+            case Constants.OFFLINE_STATUS_WAITING_CLASS:
+                return 0;
+            case Constants.OFFLINE_STATUS_IN_CLASS:
+                return 1;
+            case Constants.OFFLINE_STATUS_END_CLASS:
+            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
+                return 2;
+            default:
+                return 0;
+        }
+    }
+    protected String positionTogState(int position) {
+        switch (position) {
+            case 0:
+                return Constants.OFFLINE_STATUS_WAITING_CLASS;
+            case 1:
+                return Constants.OFFLINE_STATUS_IN_CLASS;
+            case 2:
+                return Constants.OFFLINE_STATUS_END_CLASS;
+            default:
+                return Constants.OFFLINE_STATUS_WAITING_CLASS;
+        }
+    }
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
