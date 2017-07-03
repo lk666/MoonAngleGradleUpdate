@@ -26,7 +26,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         super.initView();
         btnSign = (Button) findViewById(R.id.btn_sign);
         btnSign.setOnClickListener(this);
-        if (getCheckPosition()==1) {
+        if (getCheckPosition()==0) {
             ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
         }
     }

@@ -95,18 +95,22 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                 if (curriculumsTable.status.equals(Constants.OFFLINE_STATUS_IN_CLASS) || curriculumsTable.status.equals(Constants.OFFLINE_STATUS_END_CLASS)) {
                     itemView.setBtnBtn(this, "录入培训实际", TO_REALITY, position);
                     itemView.setTxtBtn(this, "评价学员", TO_NEXT_EVALUATE, position);
+                }else{
+                    itemView.setBtnBtnIsShow(false);
+                    itemView.setTxtBtnIsShow(false);
                 }
                 switch (positionMode) {
                     case LIST_NOSTART:
 
                         itemView.setTxtState(getTeacherStateText(curriculumsTable.status), true);
                         itemView.setTxtLecturerName(curriculumsTable.teacherName);
-
+                        itemView.setTxtEvaluateTheNumberOfIsShow(false);
                         break;
                     case LIST_ING:
 
                         itemView.setTxtState(getTeacherStateText(curriculumsTable.status), false);
                         itemView.setTxtEvaluateTheNumberOf(String.valueOf(curriculumsTable.evaluatedNum) + "人");
+                        itemView.setTxtLecturerName("");
 
                         break;
                 }

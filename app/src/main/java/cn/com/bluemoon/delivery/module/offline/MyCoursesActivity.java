@@ -58,7 +58,7 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
                     EvaluateStaffActivity.actionStart(this,curriculumsTable);
                     break;
                 case OfflineAdapter.TO_REALITY:
-
+                    RealRecordActivity.actionStart(this,curriculumsTable.courseCode,curriculumsTable.planCode);
                     break;
             }
         }
