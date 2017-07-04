@@ -125,13 +125,13 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         ctxtCourseTime.setContentText(DateUtil.getTimes(teacherDetail.data.startTime, teacherDetail.data.endTime));
         if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
             ctxtCourseActualClassTime.setVisibility(View.VISIBLE);
-            ctxtCourseActualClassTime.setContentText(DateUtil.getTimeToYMDHM(teacherDetail.data.realStartTime));
+            ctxtCourseActualClassTime.setContentText(teacherDetail.data.realStartTime==0?"无":DateUtil.getTimeToYMDHM(teacherDetail.data.realStartTime));
         } else {
             ctxtCourseActualClassTime.setVisibility(View.GONE);
         }
         if (teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_END_CLASS) || teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)) {
             ctxtCourseActualFinishTime.setVisibility(View.VISIBLE);
-            ctxtCourseActualFinishTime.setContentText(DateUtil.getTimeToYMDHM(teacherDetail.data.realEndTime));
+            ctxtCourseActualFinishTime.setContentText(teacherDetail.data.realEndTime==0?"无":DateUtil.getTimeToYMDHM(teacherDetail.data.realEndTime));
         } else {
             ctxtCourseActualFinishTime.setVisibility(View.GONE);
         }
