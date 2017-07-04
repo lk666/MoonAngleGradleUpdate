@@ -41,7 +41,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
 
     @Override
     protected void requestListData(long time,int requestCode) {
-        OffLineApi.studentTrainlist(getToken(), time, positionTogState(getDefPosition())
+        OffLineApi.studentTrainlist(getToken(), time, positionTogState(getCheckPosition())
                 , getNewHandler(requestCode,
                 ResultTeacherAndStudentList.class));
     }
@@ -90,19 +90,6 @@ public class MyTrainActivity extends OfflineListBaseActivity {
                             curriculumsTable.planCode,1);
                     break;
             }
-        }
-    }
-    protected int stateTogPosition(String status) {
-        switch (status) {
-            case Constants.OFFLINE_STATUS_WAITING_CLASS:
-                return 0;
-            case Constants.OFFLINE_STATUS_IN_CLASS:
-                return 1;
-            case Constants.OFFLINE_STATUS_END_CLASS:
-            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
-                return 2;
-            default:
-                return 0;
         }
     }
     protected String positionTogState(int position) {

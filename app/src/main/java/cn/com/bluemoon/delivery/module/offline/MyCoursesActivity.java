@@ -31,7 +31,7 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
 
     @Override
     protected void requestListData(long time,int requestCode) {
-        OffLineApi.teacherCourseList(getToken(), time, positionTogState(getDefPosition())
+        OffLineApi.teacherCourseList(getToken(), time, positionTogState(getCheckPosition())
                 , getNewHandler(requestCode, ResultTeacherAndStudentList.class));
     }
 
@@ -82,17 +82,6 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
         return getCheckPosition()==1;
     }
 
-    @Override
-    protected int stateTogPosition(String status) {
-        switch (status) {
-            case Constants.OFFLINE_STATUS_IN_CLASS:
-                return 0;
-            case Constants.OFFLINE_STATUS_CLOSE_CLASS:
-                return 1;
-            default:
-                return 0;
-        }
-    }
 
     @Override
     protected String positionTogState(int position) {
@@ -102,7 +91,7 @@ public class MyCoursesActivity extends OfflineListBaseActivity {
             case 1:
                 return Constants.OFFLINE_STATUS_CLOSE_CLASS;
             default:
-                return Constants.OFFLINE_STATUS_WAITING_CLASS;
+                return Constants.OFFLINE_STATUS_IN_CLASS;
         }
     }
 }

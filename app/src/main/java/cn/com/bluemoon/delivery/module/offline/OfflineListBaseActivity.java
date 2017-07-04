@@ -70,10 +70,6 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         context.startActivity(intent);
     }
 
-    public int getDefPosition() {
-        return defPosition;
-    }
-
     private List<String> getTextList() {
         List<String> titleList = new ArrayList<>();
         if(getTeacherOrStudent().equals(OfflineAdapter.LIST_TEACHER)){
@@ -214,13 +210,12 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
                 ResultListNum listNum = (ResultListNum) result;
                 List<Integer> numList = new ArrayList<>();
                 if (getTeacherOrStudent().equals(OfflineAdapter.LIST_TEACHER)) {
-                    numList.add(listNum.data.teacher.waitingClassNum);
                     numList.add(listNum.data.teacher.inClassNum);
-                    numList.add(listNum.data.teacher.endClassNum);
-
+                    numList.add(listNum.data.teacher.closeClassNum);
                 } else if (getTeacherOrStudent().equals(OfflineAdapter.LIST_STUDENTS)) {
+                    numList.add(listNum.data.student.waitingClassNum);
                     numList.add(listNum.data.student.inClassNum);
-                    numList.add(listNum.data.student.closeClassNum);
+                    numList.add(listNum.data.student.endClassNum);
                 }
                 segmentTab.setNumberList(numList);
                 break;
@@ -307,9 +302,6 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
         changeHeadViewState(totalCourseNum+"节",
                 String.valueOf(new DecimalFormat("0.0").format(totalDuration/3600.0))+"小时");
     }
-
-    protected abstract int stateTogPosition(String status);
-
 
     protected abstract String positionTogState(int position);
 
