@@ -95,7 +95,6 @@ public class MainActivity extends SlidingActivity {
     private String TAG = "MainActivity";
     private AlwaysMarqueeTextView txtTips;
     private MainActivity main;
-    private ActivityManager manager;
     private String token;
     private boolean isDestory;
     private CommonProgressDialog progressDialog;
@@ -120,8 +119,7 @@ public class MainActivity extends SlidingActivity {
             return;
         }
 
-        manager = ActivityManager.getInstance();
-        manager.pushOneActivity(main);
+        ActivityManager.getInstance().pushOneActivity(main);
         progressDialog = new CommonProgressDialog(main);
         progressDialog.setCancelable(false);
 
@@ -413,7 +411,7 @@ public class MainActivity extends SlidingActivity {
                 ViewUtil.toast(R.string.app_quit_txt);
             } else {
                 finish();
-
+                ActivityManager.getInstance().finishAllActivity();
             }
             return true;
         }

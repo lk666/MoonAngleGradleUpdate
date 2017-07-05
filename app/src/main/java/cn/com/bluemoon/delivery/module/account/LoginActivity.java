@@ -26,6 +26,7 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.ClearEditText;
 
 public class LoginActivity extends BaseActivity {
@@ -156,6 +157,7 @@ public class LoginActivity extends BaseActivity {
                 ViewUtil.toast(R.string.app_quit_txt);
             } else {
                 finish();
+                ActivityManager.getInstance().finishAllActivity();
             }
             return true;
         }
