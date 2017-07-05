@@ -69,7 +69,7 @@
         android:id="@+id/view_comment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:field_content_maxLength="500"
+        app:field_content_maxLength="300"
         app:field_hint="@string/offline_write_comment"
         app:field_title="@string/text_mark"/>
 
