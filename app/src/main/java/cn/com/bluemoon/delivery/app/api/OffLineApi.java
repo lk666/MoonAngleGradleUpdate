@@ -14,6 +14,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.request.RecordData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.SignDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.StartOrEndCourseData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TaecherGetEvaluateDetailData;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateStudentListData;
 
@@ -278,7 +279,7 @@ public class OffLineApi extends DeliveryApi {
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new StartOrEndCourseData(courseCode, planCode));
+        params.put("data", new TeacherDetailData(courseCode, planCode,true));
         postRequest(params, "training-web/course/teacher/detail%s", handler);
     }
 
@@ -299,7 +300,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new CourseListData(date, status));
-        postRequest(params, "training-web/course/teacher/list%s", handler);
+        postRequest(params, "training-web/course/teacher/V1.1/list%s", handler);
     }
 
     /**
@@ -355,7 +356,7 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new ListNumData(type));
-        postRequest(params, "training-web/common/list/num%s", handler);
+        postRequest(params, "training-web/common/V1.1/list/num%s", handler);
     }
 
     /**
