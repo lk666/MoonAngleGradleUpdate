@@ -842,13 +842,13 @@
             android:name=".module.offline.EvaluateEditStudentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name=".module.offline.EvaluateEditTeacherActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
         </activity>
         <activity
             android:name=".module.offline.SignStaffListActivity"
@@ -875,7 +875,7 @@
             android:name=".module.offline.RealRecordActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustResize">
         </activity>
     </application>
 
