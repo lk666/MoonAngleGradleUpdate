@@ -63,8 +63,8 @@ public class SignStaffListActivity extends BasePullToRefreshListViewActivity imp
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         super.initPullToRefreshListView(ptrlv);
-        ptrlv.getRefreshableView().setDivider(new ColorDrawable(getResources().getColor(R.color.line_soild_bg)));
-        ptrlv.getRefreshableView().setDividerHeight(WidgeUtil.dip2px(this,0.5f));
+//        ptrlv.getRefreshableView().setDivider(new ColorDrawable(getResources().getColor(R.color.line_soild_bg)));
+        ptrlv.getRefreshableView().setDividerHeight(0);
         footView=new BMListPaginationView(this);
         ptrlv.getRefreshableView().addFooterView(footView);
         footView.setVisibility(View.GONE);
