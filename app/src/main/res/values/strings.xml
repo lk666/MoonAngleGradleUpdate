@@ -1371,6 +1371,17 @@
     <string name="format_month_day">MM月dd日</string>
     <string name="transaction_code_is_null">无</string>
 
+    <!--换衣管理优化-->
+    <string name="returnning_fasttips_title">快速查询</string>
+    <string name="returnning_manual_queries">手动查询</string>
+    <string name="returnning_queries_result">查询结果</string>
+    <string name="returnning_queries">查 询</string>
+    <string name="returnning_scan_code_queries">扫码查询</string>
+    <string name="returnning_fasttips_name_edt_hint">请输入收货人姓名查询</string>
+    <string name="returnning_fasttips_phone_edt_hint">请输入收货人手机号查询</string>
+    <string name="returnning_queries_result_null_data_hint1">未在您的待签收订单中找到，</string>
+    <string name="returnning_queries_result_null_data_hint2">请重新查询</string>
+
     <!--派单重构-->
     <string name="order_cancle_reason_title">取消接单原因</string>
     <string name="order_cancle_reason_list">距离远,接错单,没有货,没时间配送,消费者电话不通/错误,消费者申请退款</string>
