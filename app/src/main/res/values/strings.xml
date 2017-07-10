@@ -1377,7 +1377,9 @@
     <string name="returning_queries_result_title">查询结果</string>
     <string name="returning_queries">查 询</string>
     <string name="returning_scan_code_queries">扫码查询</string>
+    <string name="returning_fasttips_name_txt_title">收货人姓名</string>
     <string name="returning_fasttips_name_edt_hint">请输入收货人姓名查询</string>
+    <string name="returning_fasttips_phone_txt_title">收货人手机</string>
     <string name="returning_fasttips_phone_edt_hint">请输入收货人手机号查询</string>
     <string name="returning_queries_result_null_data_hint1">未在您的待签收订单中找到，</string>
     <string name="returning_queries_result_null_data_hint2">请重新查询</string>

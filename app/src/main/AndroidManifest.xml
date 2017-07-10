@@ -437,6 +437,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
+            android:name=".module.wash.returning.manager.FasttipsScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
             android:name=".module.wash.returning.manager.LogisticsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
