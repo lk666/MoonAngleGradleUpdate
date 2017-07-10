@@ -441,6 +441,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
+            android:name=".module.wash.returning.manager.ManualQueriesActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
             android:name=".module.wash.returning.manager.LogisticsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>

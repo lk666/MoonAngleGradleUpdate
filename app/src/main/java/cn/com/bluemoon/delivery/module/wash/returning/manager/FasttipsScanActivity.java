@@ -36,7 +36,7 @@ public class FasttipsScanActivity extends BaseScanCodeActivity {
 
     @Override
     protected void onBtnClick(View view) {
-
+        ManualQueriesActivity.actStart(this);
     }
 
     @Override
