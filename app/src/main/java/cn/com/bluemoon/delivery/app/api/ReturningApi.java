@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.app.api;
 
+import android.text.TextUtils;
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.ArrayList;
@@ -315,6 +317,23 @@ public class ReturningApi extends DeliveryApi {
     public static void queryBackOrderList(String backOrderType, long pageFlag, long signEndTime,
                                           long signStartTime, String token,
                                           AsyncHttpResponseHandler handler) {
+        queryBackOrderList(backOrderType,pageFlag,signEndTime,signStartTime,null,null,null,token,handler);
+    }
+    /**
+     * 9.4还衣管理-获取还衣列表 优化重载
+     *
+     * @param backOrderType 还衣列表类型 String
+     * @param pageFlag      分页时间戳(分页标志) int
+     * @param signEndTime   签收结束时间 int
+     * @param signStartTime 签收开始时间 int
+     * @param backOrderCode  还衣编码	string
+     * @param customerName   收货人姓名	string
+     * @param customerPhone  收货人电话	string
+     * @param token         登录凭证(必填) String
+     */
+    public static void queryBackOrderList(String backOrderType, long pageFlag, long signEndTime,
+                                          long signStartTime, String backOrderCode,String customerName,String customerPhone,String token,
+                                          AsyncHttpResponseHandler handler) {
         if (null == backOrderType || null == token) {
             return;
         }
@@ -324,6 +343,12 @@ public class ReturningApi extends DeliveryApi {
         params.put("signEndTime", signEndTime);
         params.put("signStartTime", signStartTime);
         params.put("token", token);
+        if(!TextUtils.isEmpty(backOrderCode))
+            params.put("backOrderCode", backOrderCode);
+        if(!TextUtils.isEmpty(customerName))
+            params.put("customerName", customerName);
+        if(!TextUtils.isEmpty(customerPhone))
+            params.put("customerPhone", customerPhone);
         postRequest(params,
                 "washingService-controller/wash/backOrderManage/queryBackOrderList%s", handler);
     }

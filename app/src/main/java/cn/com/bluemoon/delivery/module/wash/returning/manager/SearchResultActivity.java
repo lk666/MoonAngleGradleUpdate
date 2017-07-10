@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 
@@ -18,6 +20,15 @@ public class SearchResultActivity extends BaseFragmentActivity {
 
     public static final String LIST_DATA = "list";
     private ArrayList<ResultBackOrder.BackOrderListBean> backOrderList;
+
+    public static void actStart(Activity activity,ArrayList<ResultBackOrder.BackOrderListBean> backOrderList){
+        Intent intent=new Intent(activity,SearchResultActivity.class);
+        Bundle bundle=new Bundle();
+        bundle.putSerializable(LIST_DATA,backOrderList);
+        intent.putExtras(bundle);
+        activity.startActivityForResult(intent,0);
+    }
+
 
     @Override
     protected void onBeforeSetContentLayout(Bundle savedInstanceState) {

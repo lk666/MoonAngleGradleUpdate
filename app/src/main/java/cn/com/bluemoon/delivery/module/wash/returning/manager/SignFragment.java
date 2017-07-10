@@ -82,7 +82,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
             rightImg.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    FasttipsScanActivity.actStart(SignFragment.this,getString(R.string.returning_fasttips_title),getString(R.string.returning_manual_queries),null,0);
                 }
             });
         }
