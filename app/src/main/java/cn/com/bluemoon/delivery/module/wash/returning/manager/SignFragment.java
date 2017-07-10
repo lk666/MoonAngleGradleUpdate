@@ -10,12 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +29,7 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultBackOrder;
+import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -39,6 +42,13 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
  */
 public class SignFragment extends BasePullToRefreshListViewFragment {
 
+    public static final String MODE_TAB = "tab", MODE_SEARCH = "search";
+    public static final String MODE_DATA = "mode";
+    public static final String LIST_DATA = "list";
+    private String mode;
+    private ArrayList<ResultBackOrder.BackOrderListBean> backOrderList;
+
+
     private long pageFlag = 0;
     private final String TYPE = "BACK_ORDER_WAIT_SIGN";
     private String fileName;
@@ -48,10 +58,55 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
     private String uploadFileName;
 
     @Override
-    protected String getTitleString() {
-        return getString(R.string.manger_tab_3);
+    protected void onBeforeCreateView() {
+        mode = getArguments().getString(MODE_DATA, MODE_TAB);
+        if (isModeEqualsSearch()) {
+            backOrderList = (ArrayList<ResultBackOrder.BackOrderListBean>) getArguments().getSerializable(LIST_DATA);
+        }
     }
 
+    @Override
+    protected String getTitleString() {
+        if (isModeEqualsSearch())
+            return getString(R.string.returning_fasttips_title);
+        else
+            return getString(R.string.manger_tab_3);
+    }
+
+    @Override
+    protected void setActionBar(CommonActionBar titleBar) {
+        if(!isModeEqualsSearch()){
+            ImageView rightImg = titleBar.getImgRightView();
+            rightImg.setImageResource(R.mipmap.returning_search_icon);
+            rightImg.setVisibility(View.VISIBLE);
+            rightImg.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });
+        }
+    }
+
+    @Override
+    public void initData() {
+        if(isModeEqualsSearch()){
+            if(backOrderList!=null){
+                getAdapter().setList(backOrderList);
+                getAdapter().notifyDataSetChanged();
+            }
+        }else{
+            super.initData();
+        }
+    }
+
+    /**
+     * 判断是否查询结果
+     * @return
+     */
+    private boolean isModeEqualsSearch(){
+        return mode.equals(MODE_SEARCH);
+    }
 
     @Override
     protected BaseListAdapter getNewAdapter() {
@@ -74,7 +129,11 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.BOTH;
+        if(isModeEqualsSearch()){
+            return PullToRefreshBase.Mode.DISABLED;
+        }else{
+            return PullToRefreshBase.Mode.BOTH;
+        }
     }
 
     @Override
@@ -106,7 +165,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == 2) {
             deleteSignImage();
-            ResultUploadExceptionImage r = (ResultUploadExceptionImage)result;
+            ResultUploadExceptionImage r = (ResultUploadExceptionImage) result;
             ReturningApi.backOrderSign(backOrderCode, isSingeName, uploadFileName, r.getImgPath(), getToken(), getNewHandler(3, ResultBase.class));
         } else if (requestCode == 3) {
             hideWaitDialog();
@@ -177,7 +236,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                             break;
                         case R.id.btn_action:
                             final View view = LayoutInflater.from(getActivity()).inflate(R.layout.dialog_clothes_sign, null);
-                            TextView txtSign = (TextView)view.findViewById(R.id.txt_sign);
+                            TextView txtSign = (TextView) view.findViewById(R.id.txt_sign);
                             txtSign.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
@@ -210,7 +269,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                                             }
 
                                         }
-                            }).setDismissable(false).setPositiveButton(R.string.cancel_with_space, new DialogInterface.OnClickListener() {
+                                    }).setDismissable(false).setPositiveButton(R.string.cancel_with_space, new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     deleteSignImage();
@@ -251,7 +310,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
         if (requestCode == 1 && data != null) {
             fileName = data.getStringExtra("fileName");
         } else if (requestCode == 2 && resultCode == 1) {
-            ResultBackOrder.BackOrderListBean bean = (ResultBackOrder.BackOrderListBean)getList().get(index);
+            ResultBackOrder.BackOrderListBean bean = (ResultBackOrder.BackOrderListBean) getList().get(index);
             if (!bean.isIsRefuse()) {
                 bean.setIsRefuse(true);
                 getAdapter().notifyDataSetChanged();
