@@ -1383,6 +1383,7 @@
     <string name="returning_fasttips_phone_edt_hint">请输入收货人手机号查询</string>
     <string name="returning_queries_result_null_data_hint1">未在您的待签收订单中找到，</string>
     <string name="returning_queries_result_null_data_hint2">请重新查询</string>
+    <string name="returning_queries_input_hint">请输入查询条件</string>
 
     <!--派单重构-->
     <string name="order_cancle_reason_title">取消接单原因</string>

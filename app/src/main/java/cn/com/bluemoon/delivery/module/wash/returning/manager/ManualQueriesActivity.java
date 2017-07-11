@@ -58,18 +58,18 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
     public void initView() {
         btnQueries.setOnClickListener(this);
         llayoutScanCodeQuery.setOnClickListener(this);
-        etName.setListener(new BMEditTextListener() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                btnStateChange();
-            }
-        });
-        etPhone.setListener(new BMEditTextListener() {
-            @Override
-            public void afterTextChanged(Editable s) {
-                btnStateChange();
-            }
-        });
+//        etName.setListener(new BMEditTextListener() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                btnStateChange();
+//            }
+//        });
+//        etPhone.setListener(new BMEditTextListener() {
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                btnStateChange();
+//            }
+//        });
     }
 
     private void btnStateChange(){
@@ -101,6 +101,10 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.btn_queries:
+                if(etName.getText().toString().isEmpty()&&etPhone.getText().toString().isEmpty()){
+                    toast(R.string.returning_queries_input_hint);
+                    return;
+                }
                 showWaitDialog();
                 ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, null,etName.getText().toString(),etPhone.getText().toString(),getToken(), getNewHandler(0, ResultBackOrder.class));
                 break;
