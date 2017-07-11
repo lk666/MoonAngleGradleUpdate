@@ -73,7 +73,7 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
     }
 
     private void btnStateChange(){
-        if(etName.getText().toString().isEmpty()||etPhone.getText().toString().isEmpty()){
+        if(etName.getText().toString().isEmpty()&&etPhone.getText().toString().isEmpty()){
             btnQueries.setEnabled(false);
         }else{
             btnQueries.setEnabled(true);
