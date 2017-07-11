@@ -238,7 +238,7 @@
     </style>
 
     <!-- app base theme -->
-    <style name="App.Base.Theme" parent="android:Theme.Holo">
+    <style name="App.Base.Theme" parent="android:Theme.Holo.Light">
         <item name="android:actionBarSize">50dip</item>
     </style>
 
