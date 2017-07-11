@@ -4,10 +4,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.View;
 
 import java.util.ArrayList;
 
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultBackOrder;
@@ -32,8 +34,12 @@ public class FasttipsScanActivity extends BaseScanCodeActivity {
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
+        if(TextUtils.isEmpty(str)){
+            toast(R.string.returning_qr_code_errror_hint);
+            return;
+        }
         showWaitDialog();
-        ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, type,null,null,getToken(), getNewHandler(0, ResultBackOrder.class));
+        ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, str,null,null,getToken(), getNewHandler(0, ResultBackOrder.class));
     }
 
     @Override
