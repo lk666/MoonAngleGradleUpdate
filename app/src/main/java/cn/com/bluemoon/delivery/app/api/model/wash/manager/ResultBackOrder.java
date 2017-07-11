@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.wash.manager;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -29,7 +30,8 @@ public class ResultBackOrder extends ResultBase{
         this.backOrderList = backOrderList;
     }
 
-    public static class BackOrderListBean {
+    public static class BackOrderListBean implements Serializable{
+
         private String backOrderCode;
         private String address;
         private String city;

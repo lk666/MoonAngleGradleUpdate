@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -35,6 +36,7 @@ import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
@@ -68,7 +70,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
     @Override
     protected String getTitleString() {
         if (isModeEqualsSearch())
-            return getString(R.string.returning_fasttips_title);
+            return getString(R.string.returning_queries_result_title);
         else
             return getString(R.string.manger_tab_3);
     }
@@ -94,6 +96,7 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
             if(backOrderList!=null){
                 getAdapter().setList(backOrderList);
                 getAdapter().notifyDataSetChanged();
+                ptrlv.setVisibility(View.VISIBLE);
             }
         }else{
             super.initData();
@@ -169,13 +172,19 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
             ReturningApi.backOrderSign(backOrderCode, isSingeName, uploadFileName, r.getImgPath(), getToken(), getNewHandler(3, ResultBase.class));
         } else if (requestCode == 3) {
             hideWaitDialog();
-            getList().remove(index);
-            getAdapter().notifyDataSetChanged();
-            toast(result.getResponseMsg());
-            setAmount();
-            if (getList().isEmpty()) {
-                initData();
+            if(isModeEqualsSearch()){
+                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().finish();
+            }else{
+                getList().remove(index);
+                getAdapter().notifyDataSetChanged();
+                toast(result.getResponseMsg());
+                setAmount();
+                if (getList().isEmpty()) {
+                    initData();
+                }
             }
+
         }
     }
 

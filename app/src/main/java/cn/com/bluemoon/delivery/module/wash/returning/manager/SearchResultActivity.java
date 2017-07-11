@@ -43,6 +43,7 @@ public class SearchResultActivity extends BaseFragmentActivity {
         }else{
             fragment=new SignFragment();
             Bundle bundle=new Bundle();
+            bundle.putString(SignFragment.MODE_DATA,SignFragment.MODE_SEARCH);
             bundle.putSerializable(LIST_DATA,backOrderList);
             fragment.setArguments(bundle);
         }

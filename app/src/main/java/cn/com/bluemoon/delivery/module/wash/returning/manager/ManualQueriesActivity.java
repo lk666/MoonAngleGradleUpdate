@@ -41,7 +41,12 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
 
     public static void actStart(Activity activity) {
         Intent intent = new Intent(activity, ManualQueriesActivity.class);
-        activity.startActivityForResult(intent, 0);
+        activity.startActivityForResult(intent, 1);
+    }
+
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.returning_fasttips_title);
     }
 
     @Override
@@ -81,6 +86,7 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        hideWaitDialog();
         if(requestCode==0){
             ResultBackOrder resultBackOrder= (ResultBackOrder) result;
             SearchResultActivity.actStart(this, (ArrayList<ResultBackOrder.BackOrderListBean>) resultBackOrder.getBackOrderList());
@@ -95,8 +101,18 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
                 finish();
                 break;
             case R.id.btn_queries:
+                showWaitDialog();
                 ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, null,etName.getText().toString(),etPhone.getText().toString(),getToken(), getNewHandler(0, ResultBackOrder.class));
                 break;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==0&&resultCode==RESULT_OK){
+            setResult(RESULT_OK);
+            finish();
         }
     }
 }

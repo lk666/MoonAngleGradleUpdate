@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.wash.returning.manager;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.view.View;
@@ -31,6 +32,7 @@ public class FasttipsScanActivity extends BaseScanCodeActivity {
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
+        showWaitDialog();
         ReturningApi.queryBackOrderList(TYPE, 0, 0, 0, type,null,null,getToken(), getNewHandler(0, ResultBackOrder.class));
     }
 
@@ -42,9 +44,18 @@ public class FasttipsScanActivity extends BaseScanCodeActivity {
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
+        hideWaitDialog();
         if(requestCode==0){
             ResultBackOrder resultBackOrder= (ResultBackOrder) result;
             SearchResultActivity.actStart(this, (ArrayList<ResultBackOrder.BackOrderListBean>) resultBackOrder.getBackOrderList());
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==1&&resultCode==RESULT_OK){
+            finish();
         }
     }
 }

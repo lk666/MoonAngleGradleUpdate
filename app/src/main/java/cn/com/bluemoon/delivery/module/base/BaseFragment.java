@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.module.newbase.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -48,7 +50,9 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      */
     public static final String EXTRA_BUNDLE_DATA = "EXTRA_BUNDLE_DATA";
 
-    private BaseTabActivity aty;
+    private BaseTabActivity baseTabActivity;
+    private BaseFragmentActivity fragmentActivity;
+    private FragmentActivity act;
     private View mainView;
 
     @Override
@@ -63,7 +67,14 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        aty = (BaseTabActivity) getActivity();
+        if(getActivity() instanceof BaseTabActivity){
+            baseTabActivity = (BaseTabActivity) getActivity();
+            act=getActivity();
+        }
+        if(getActivity() instanceof BaseFragmentActivity){
+            fragmentActivity = (BaseFragmentActivity) getActivity();
+            act=getActivity();
+        }
         onBeforeCreateView();
         initCustomActionBar();
 
@@ -83,7 +94,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
 
     private void initCustomActionBar() {
         if (!TextUtils.isEmpty(getTitleString())) {
-            CommonActionBar titleBar = new CommonActionBar(aty.getActionBar(),
+            CommonActionBar titleBar = new CommonActionBar(act.getActionBar(),
                     new IActionBarListener() {
 
                         @Override
@@ -133,7 +144,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     @Override
     public void onDestroy() {
         super.onDestroy();
-        ApiHttpClient.cancelAll(aty);
+        ApiHttpClient.cancelAll(act);
         if (isUseEventBus()) {
             EventBus.getDefault().unregister(this);
         }
@@ -228,7 +239,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      * 获取Activity
      */
     final protected BaseTabActivity getBaseTabActivity() {
-        return aty;
+        return baseTabActivity;
     }
 
 
@@ -259,34 +270,44 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
 
     @Override
     final public void hideWaitDialog() {
-        aty.hideWaitDialog();
+        if(baseTabActivity!=null){
+             baseTabActivity.hideWaitDialog();
+        }else if(fragmentActivity!=null){
+            fragmentActivity.hideWaitDialog();
+        }
     }
 
     @Override
     final public ProgressDialog showWaitDialog() {
-        return aty.showWaitDialog();
+        if(baseTabActivity!=null){
+            return baseTabActivity.showWaitDialog();
+        }else if(fragmentActivity!=null){
+            fragmentActivity.showWaitDialog();
+        }
+        return null;
     }
 
     @Override
     final public ProgressDialog showWaitDialog(int resId, int viewId) {
-        return aty.showWaitDialog(resId, viewId);
+        return baseTabActivity.showWaitDialog(resId, viewId);
     }
 
     @Override
     final public ProgressDialog showWaitDialog(String text, int viewId) {
-        return aty.showWaitDialog(text, viewId);
+        return baseTabActivity.showWaitDialog(text, viewId);
     }
 
     final protected ProgressDialog showWaitDialog(String message, int viewId, boolean
             isCancelable) {
-        return aty.showWaitDialog(message, viewId, isCancelable);
+        return baseTabActivity.showWaitDialog(message, viewId, isCancelable);
     }
 
     /**
      * 获取角标数量并设置
      */
     final protected void setAmount(){
-        aty.getAmount();
+        if(baseTabActivity!=null)
+        baseTabActivity.getAmount();
     }
 
     /**
@@ -294,7 +315,8 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      * BaseTabActivity重写getAmountList()
      */
     final protected void setAmount2(){
-        aty.getAmountList();
+        if(baseTabActivity!=null)
+        baseTabActivity.getAmountList();
     }
 
     ///////////// 可选重写 ////////////////
@@ -318,8 +340,8 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      * 左键点击事件，一般不需重写
      */
     protected void onActionBarBtnLeftClick() {
-        aty.setResult(Activity.RESULT_CANCELED);
-        aty.finish();
+        act.setResult(Activity.RESULT_CANCELED);
+        act.finish();
     }
 
     /**
@@ -339,7 +361,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      */
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        PublicUtil.showErrorMsg(aty, result);
+        PublicUtil.showErrorMsg(act, result);
     }
 
     /**
