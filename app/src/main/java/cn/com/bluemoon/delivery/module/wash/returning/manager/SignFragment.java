@@ -331,6 +331,11 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
                 bean.setIsRefuse(true);
                 getAdapter().notifyDataSetChanged();
             }
+        }else if(requestCode==0&&resultCode==Activity.RESULT_OK){
+            if(!isModeEqualsSearch()){
+                setAmount();
+                initData();
+            }
         }
     }
 }

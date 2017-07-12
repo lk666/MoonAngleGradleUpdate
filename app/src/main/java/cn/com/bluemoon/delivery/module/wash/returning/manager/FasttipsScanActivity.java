@@ -61,6 +61,7 @@ public class FasttipsScanActivity extends BaseScanCodeActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode==1&&resultCode==RESULT_OK){
+            setResult(RESULT_OK);
             finish();
         }
     }
