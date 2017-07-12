@@ -96,13 +96,13 @@ public class EditContactFragment extends BaseFragment<CommonActionBar> implement
             toast(getString(R.string.err_empty_contact_phone));
         } else {
             showWaitDialog();
-            HRApi.saveContact(bctvContactMobile.getContent(),
-                    bctvContactMobile2.getContent(),
+            HRApi.saveContact(bctvContactMobile.getContent().trim(),
+                    bctvContactMobile2.getContent().trim(),
                     bctvContactName.getContent(),
                     bctvContactName2.getContent(),
                     bctvContactRelation.getContent(),
                     bctvContactRelation2.getContent(),
-                    bctvEmailPers.getContent(),
+                    bctvEmailPers.getContent().trim(),
                     bctvOfficePhone.getContent(),
                     bctvOfficePlace.getContent(),
                     bctvOfficeSeat.getContent(),
@@ -147,13 +147,13 @@ public class EditContactFragment extends BaseFragment<CommonActionBar> implement
             // 编辑联系方式
             case REQUEST_CODE_SAVE_CONTACT:
 
-                initContactInfo.contactMobile = bctvContactMobile.getContent();
-                initContactInfo.contactMobile2 = bctvContactMobile2.getContent();
+                initContactInfo.contactMobile = bctvContactMobile.getContent().trim();
+                initContactInfo.contactMobile2 = bctvContactMobile2.getContent().trim();
                 initContactInfo.contactName = bctvContactName.getContent();
                 initContactInfo.contactName2 = bctvContactName2.getContent();
                 initContactInfo.contactRelation = bctvContactRelation.getContent();
                 initContactInfo.contactRelation2 = bctvContactRelation2.getContent();
-                initContactInfo.emailPers = bctvEmailPers.getContent();
+                initContactInfo.emailPers = bctvEmailPers.getContent().trim();
                 initContactInfo.officePhone = bctvOfficePhone.getContent();
                 initContactInfo.officePlace = bctvOfficePlace.getContent();
                 initContactInfo.officeSeat = bctvOfficeSeat.getContent();
