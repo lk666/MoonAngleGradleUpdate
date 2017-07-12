@@ -18,6 +18,8 @@ import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultBackOrder;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
+import cn.com.bluemoon.lib.view.CommonClearEditText;
+import cn.com.bluemoon.lib.view.CommonEditText;
 import cn.com.bluemoon.lib_widget.module.form.BMEditText;
 import cn.com.bluemoon.lib_widget.module.form.interf.BMEditTextListener;
 
@@ -31,9 +33,9 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
     private final String TYPE = "BACK_ORDER_WAIT_SIGN";
 
     @Bind(R.id.et_name)
-    BMEditText etName;
+    CommonClearEditText etName;
     @Bind(R.id.et_phone)
-    BMEditText etPhone;
+    CommonClearEditText etPhone;
     @Bind(R.id.llayout_scan_code_query)
     LinearLayout llayoutScanCodeQuery;
     @Bind(R.id.btn_queries)
@@ -58,6 +60,8 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
     public void initView() {
         btnQueries.setOnClickListener(this);
         llayoutScanCodeQuery.setOnClickListener(this);
+        etName.setLimitMode(CommonEditText.MODE_EMOJI);
+        etPhone.setLimitMode(CommonEditText.MODE_EMOJI);
 //        etName.setListener(new BMEditTextListener() {
 //            @Override
 //            public void afterTextChanged(Editable s) {

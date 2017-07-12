@@ -19,7 +19,7 @@
             android:textColor="@color/white"
             android:textSize="15sp" />
 
-        <cn.com.bluemoon.lib_widget.module.form.BMEditText
+        <cn.com.bluemoon.lib.view.CommonClearEditText
             android:id="@+id/et_name"
             android:layout_width="match_parent"
             android:layout_height="40dp"
@@ -29,6 +29,7 @@
             android:hint="@string/returning_fasttips_name_edt_hint"
             android:inputType="text"
             android:paddingLeft="12dp"
+            android:paddingRight="12dp"
             android:textColor="@color/text_black"
             android:textColorHint="@color/text_grep"
             android:textSize="15sp" />
@@ -41,15 +42,16 @@
             android:textColor="@color/white"
             android:textSize="15sp" />
 
-        <cn.com.bluemoon.lib_widget.module.form.BMEditText
+        <cn.com.bluemoon.lib.view.CommonClearEditText
             android:id="@+id/et_phone"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:layout_marginTop="10dp"
+            android:paddingRight="12dp"
             android:background="@color/white"
             android:gravity="center_vertical"
             android:hint="@string/returning_fasttips_phone_edt_hint"
-            android:inputType="phone"
+            android:inputType="number"
             android:paddingLeft="12dp"
             android:textColor="@color/text_black"
             android:textColorHint="@color/text_grep"
