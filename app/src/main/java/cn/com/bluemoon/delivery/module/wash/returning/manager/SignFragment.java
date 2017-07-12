@@ -319,8 +319,15 @@ public class SignFragment extends BasePullToRefreshListViewFragment {
         if (requestCode == 1 && data != null) {
             fileName = data.getStringExtra("fileName");
         } else if (requestCode == 2 && resultCode == 1) {
-            ResultBackOrder.BackOrderListBean bean = (ResultBackOrder.BackOrderListBean) getList().get(index);
-            if (!bean.isIsRefuse()) {
+            ResultBackOrder.BackOrderListBean bean=null;
+            if(isModeEqualsSearch()){
+                if(backOrderList!=null&&backOrderList.size()>index){
+                    bean= backOrderList.get(index);
+                }
+            }else{
+                bean = (ResultBackOrder.BackOrderListBean) getList().get(index);
+            }
+            if (bean!=null&&!bean.isIsRefuse()) {
                 bean.setIsRefuse(true);
                 getAdapter().notifyDataSetChanged();
             }
