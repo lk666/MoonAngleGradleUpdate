@@ -242,6 +242,10 @@
         <item name="android:actionBarSize">50dip</item>
     </style>
 
+    <style name="App.Base.TabTheme" parent="android:Theme.Holo">
+        <item name="android:actionBarSize">50dip</item>
+    </style>
+
     <style name="PhotoPickerTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
