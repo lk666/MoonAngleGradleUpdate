@@ -139,7 +139,7 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-                PublicUtil.openScanView(main, null, null, 0);
+                PublicUtil.openXScanView(main, null, null, 0);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
@@ -620,73 +620,6 @@ public class MainActivity extends SlidingActivity {
         super.onDestroy();
         isDestory = true;
     }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
-            return;
-        }
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case 0:
-                    if (data == null) return;
-                    if (progressDialog != null) progressDialog.show();
-                    String result = data.getStringExtra(LibConstants.SCAN_RESULT);
-                    DeliveryApi.scanService(result, ClientStateManager.getLoginToken(),
-                            scanServiceHandler);
-                    break;
-            }
-        }
-    }
-
-    AsyncHttpResponseHandler scanServiceHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            if (progressDialog != null) progressDialog.dismiss();
-            LogUtils.d(TAG, "scanService result = " + responseString);
-            try {
-                ResultScanService result = JSON.parseObject(responseString, ResultScanService
-                        .class);
-                if (null != result && result.getResponseCode() == Constants
-                        .RESPONSE_RESULT_SUCCESS) {
-                    if (ResultScanService.TYPE_HTTP.equals(result.getType())) {
-                        ResultScanService.Http http = JSON.parseObject(result.getResult(),
-                                ResultScanService.Http.class);
-                        String url = http.getUrl();
-                        String token = ClientStateManager.getLoginToken();
-                        if (!TextUtils.isEmpty(url)) {
-                            if (!TextUtils.isEmpty(token)) {
-                                if (url.contains("?")) {
-                                    url = url + "&token=" + token;
-                                } else {
-                                    url = url + "?token=" + token;
-                                }
-                            }
-
-                            PublicUtil.openWebView(main, url, null, false, false);
-                        }
-                    } else if (ResultScanService.TYPE_TEXT.equals(result.getType())) {
-                        ResultScanService.Text text = JSON.parseObject(result.getResult(),
-                                ResultScanService.Text.class);
-                        PublicUtil.showToast(text.getText());
-                    }
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                e.printStackTrace();
-            }
-        }
-
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null) progressDialog.dismiss();
-        }
-    };
 
     public void showProgressDialog() {
         if (progressDialog != null) progressDialog.show();
