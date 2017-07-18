@@ -1517,6 +1517,7 @@
     <string name="offline_sign_date">签到日期</string>
     <string name="offline_course_detail_title">课程详情</string>
     <string name="offline_evaluate">我要评价</string>
+    <string name="offline_student_info">学员信息</string>
     <string name="offline_student_evaluate">学员评价</string>
     <string name="offline_course_detail_name">课程名称</string>
     <string name="offline_course_detail_state">课程状态</string>
@@ -1560,6 +1561,7 @@
     <string name="offline_course_teacher_state_finish">已结束</string>
     <string name="offline_course_teacher_state_close">已关闭</string>
     <string name="btn_sign">签到</string>
+    <string name="btn_sign_blank">签 到</string>
     <string name="offline_un_evaluate">未评价</string>
     <string name="offline_yet_evaluate">已评价</string>
     <string name="offline_evaluate_teacher_score_hint">填写分数，满分是100分哦！</string>

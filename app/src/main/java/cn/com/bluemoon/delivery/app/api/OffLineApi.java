@@ -417,14 +417,14 @@ public class OffLineApi extends DeliveryApi {
     /**
      * 2.13 教师扫码课程详情
      */
-    public static void teacherScanCourse(String token, String planCode,String courseCode,String userCode, AsyncHttpResponseHandler handler) {
-        if (null == token || TextUtils.isEmpty(planCode)|| TextUtils.isEmpty(courseCode)|| TextUtils.isEmpty(userCode)) {
+    public static void teacherScanCourse(String token, String planCode,String courseCode,String userMark,String userType, AsyncHttpResponseHandler handler) {
+        if (null == token || TextUtils.isEmpty(planCode)|| TextUtils.isEmpty(courseCode)|| TextUtils.isEmpty(userMark)|| TextUtils.isEmpty(userType)) {
             onError(handler);
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherScanCourseData(planCode,courseCode,userCode));
+        params.put("data", new TeacherScanCourseData(planCode,courseCode,userMark,userType));
         postRequest(params, "training-web/course/teacher/scan%s", handler);
     }
 

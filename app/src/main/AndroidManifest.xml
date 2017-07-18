@@ -851,6 +851,11 @@
             android:theme="@style/App.Base.TabTheme">
         </activity>
         <activity
+            android:name=".module.offline.CourseSignActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.TabTheme">
+        </activity>
+        <activity
             android:name=".module.offline.EvaluateEditStudentActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
