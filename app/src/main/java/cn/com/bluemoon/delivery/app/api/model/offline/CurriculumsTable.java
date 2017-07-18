@@ -11,6 +11,7 @@ public class CurriculumsTable implements Serializable{
     public String address;//地址
     public String courseCode;//课程编号
     public String courseName;//课程名称
+    public String courseQrCodeMark;//课程二维码标示
     public long endTime;//结束时间
     public String planCode;//排课编号
     public String room;//培训室名称

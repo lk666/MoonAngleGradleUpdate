@@ -1,8 +1,11 @@
 package cn.com.bluemoon.delivery.app.api;
 
+import android.text.TextUtils;
+
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.app.api.model.offline.request.AssignData;
@@ -17,6 +20,9 @@ import cn.com.bluemoon.delivery.app.api.model.offline.request.TaecherGetEvaluate
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherEvaluateStudentListData;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherScanCourseData;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherScanPlanData;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.TeacherSignData;
 
 /**
  * Created by bm on 2017/5/25.
@@ -392,5 +398,47 @@ public class OffLineApi extends DeliveryApi {
         params.put(TOKEN, token);
         params.put("data", data);
         postRequest(params, "training-web/course/teacher/record%s", handler);
+    }
+
+    /**
+     * 2.12 教师扫码排课信息
+     */
+    public static void teacherScanPlan(String token, String planCode,String userMark,String userType, AsyncHttpResponseHandler handler) {
+        if (null == token || TextUtils.isEmpty(planCode)|| TextUtils.isEmpty(userMark)|| TextUtils.isEmpty(userType)) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", new TeacherScanPlanData(planCode,userMark,userType));
+        postRequest(params, "training-web/plan/teacher/scan%s", handler);
+    }
+
+    /**
+     * 2.13 教师扫码课程详情
+     */
+    public static void teacherScanCourse(String token, String planCode,String courseCode,String userCode, AsyncHttpResponseHandler handler) {
+        if (null == token || TextUtils.isEmpty(planCode)|| TextUtils.isEmpty(courseCode)|| TextUtils.isEmpty(userCode)) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", new TeacherScanCourseData(planCode,courseCode,userCode));
+        postRequest(params, "training-web/course/teacher/scan%s", handler);
+    }
+
+    /**
+     * 2.14 教师签到（扫学员二维码签到）
+     */
+    public static void teacherSign(String token, String planCode, List<String> courseCodes, String userMark, String userType, AsyncHttpResponseHandler handler) {
+        if (null == token || null == courseCodes||courseCodes.size()==0|| TextUtils.isEmpty(userMark)|| TextUtils.isEmpty(userType)) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", new TeacherSignData(planCode,courseCodes,userMark,userType));
+        postRequest(params, "training-web/course/teacher/sign%s", handler);
     }
 }
