@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.offline;
 import android.content.Context;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -88,6 +89,10 @@ public class MyTrainActivity extends OfflineListBaseActivity {
                 case OfflineAdapter.TO_NEXT_EVALUATE:
                     EvaluateEditStudentActivity.startAction(this, curriculumsTable.courseCode,
                             curriculumsTable.planCode,1);
+                    break;
+                case OfflineAdapter.TO_QCODE:
+                    // TODO: 2017/7/18 点击弹出二维码
+                    toast("点击弹出二维码");
                     break;
             }
         }

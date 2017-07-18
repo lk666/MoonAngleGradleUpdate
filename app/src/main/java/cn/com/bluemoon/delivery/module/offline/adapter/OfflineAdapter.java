@@ -24,7 +24,7 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
     /**
      * 点击事件的类型
      */
-    public final static int TO_NEXT_DETAILS = 0, TO_NEXT_EVALUATE = 1, TO_REALITY = 2;
+    public final static int TO_NEXT_DETAILS = 0, TO_NEXT_EVALUATE = 1, TO_REALITY = 2,TO_QCODE = 3;
     /**
      * 学生的列表还是教师的列表
      */
@@ -71,6 +71,9 @@ public class OfflineAdapter extends BaseListAdapter<CurriculumsTable> {
                 }
                 if (positionMode == LIST_NOSTART) {
                     itemView.setBtnBtnIsShow(false);
+                    itemView.setQcodeVisible(this,TO_QCODE,position);
+                }else{
+                    itemView.setQcodeGone();
                 }
                 if (positionMode == LIST_END) {
                     itemView.setTxtSignInTime(curriculumsTable.signTime, false);
