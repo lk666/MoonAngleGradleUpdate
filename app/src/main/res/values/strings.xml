@@ -1493,6 +1493,7 @@
     <string name="offline_my_train">我的培训</string>
     <string name="offline_sign_course">课程：%s</string>
     <string name="offline_sign_teacher">讲师：%s</string>
+    <string name="offline_sign_status">状态：%s</string>
     <string name="offline_select_sign_course">选择签到课程</string>
 
     <string name="offline_type_sign_in">签到：</string>

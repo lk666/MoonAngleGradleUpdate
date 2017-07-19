@@ -54,6 +54,12 @@ public class ResultTeacherScanPlan extends ResultBase {
             public String status;
 //            teacherName	教师名称	string
             public String teacherName;
+//            isDisable	是否禁用（1已禁用，0未禁用）
+            public int isDisable;
+//            message	禁用原因(只能当iisDisable=1才会显示)
+            public String message;
+
+
         }
     }
 }

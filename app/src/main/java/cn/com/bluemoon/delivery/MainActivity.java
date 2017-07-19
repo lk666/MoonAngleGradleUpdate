@@ -140,8 +140,7 @@ public class MainActivity extends SlidingActivity {
 
             @Override
             public void onClick(View v) {
-//                PublicUtil.openXScanView(main, null, null, 0);
-                ViewUtil.showActivity(main, TeacherScanPlanActivity.class);
+                PublicUtil.openXScanView(main, null, null, 0);
             }
         });
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);

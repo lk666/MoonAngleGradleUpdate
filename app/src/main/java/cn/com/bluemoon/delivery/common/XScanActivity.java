@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.common;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -12,6 +13,8 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultScanService;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
+import cn.com.bluemoon.delivery.module.offline.CourseSignActivity;
+import cn.com.bluemoon.delivery.module.offline.TeacherScanPlanActivity;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
 /**
@@ -77,20 +80,26 @@ public class XScanActivity extends ScanActivity {
 
                 PublicUtil.openWebView(this, url, null, false, false);
             }
+            finish();
         } else if (ResultScanService.TYPE_TEXT.equals(result.getType())) {
             ResultScanService.Text text = JSON.parseObject(result.getResult(),
                     ResultScanService.Text.class);
             toast(text.getText());
+            finish();
         } else if (ResultScanService.TYPE_INTERNAL.equals(result.getType())) {
             ResultScanService.Internal internal = JSON.parseObject(result.getResult(),
                     ResultScanService.Internal.class);
             if ("COURSE".equals(internal.target)) {
-                // TODO: 2017/7/19 调转课程页面
+                //跳转课程页面
+                CourseSignActivity.actStart(this, internal.data.courseCode, internal.data
+                        .planCode, internal.data.userMark, internal.data.userType, 0);
             } else if ("PLAN".equals(internal.target)) {
-                // TODO: 2017/7/19 调转排课页面
+                //跳转排课页面
+                TeacherScanPlanActivity.actStart(this, internal.data.planCode, internal.data
+                        .userMark, internal.data.userType, 1);
             }
         }
 
-        finish();
     }
+
 }

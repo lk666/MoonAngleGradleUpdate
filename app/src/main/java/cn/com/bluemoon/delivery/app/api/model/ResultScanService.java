@@ -62,10 +62,10 @@ public class ResultScanService extends ResultBase {
      */
     public static class Internal {
         public String target;
-        public Offline data;
+        public Data data;
     }
 
-    public static class Offline {
+    public static class Data {
 
         public String planCode;
 
