@@ -58,6 +58,11 @@ public class CourseSignActivity extends BaseActivity implements View.OnClickList
     }
 
     @Override
+    protected String getTitleString() {
+        return getString(R.string.offline_sign);
+    }
+
+    @Override
     protected void onBeforeSetContentLayout() {
         Intent intent=getIntent();
         courseCode=intent.getStringExtra("courseCode");

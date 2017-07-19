@@ -853,7 +853,7 @@
         <activity
             android:name=".module.offline.CourseSignActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.TabTheme">
+            android:theme="@style/App.Base.Theme">
         </activity>
         <activity
             android:name=".module.offline.EvaluateEditStudentActivity"
