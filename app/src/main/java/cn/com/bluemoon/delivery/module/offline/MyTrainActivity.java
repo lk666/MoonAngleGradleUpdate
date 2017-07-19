@@ -1,8 +1,11 @@
 package cn.com.bluemoon.delivery.module.offline;
 
 import android.content.Context;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.PopupWindow;
 import android.widget.Toast;
 
 import cn.com.bluemoon.delivery.R;
@@ -10,6 +13,8 @@ import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherAndStudentList;
 import cn.com.bluemoon.delivery.module.offline.adapter.OfflineAdapter;
+import cn.com.bluemoon.delivery.ui.CourseQcodeView;
+import cn.com.bluemoon.delivery.ui.TeacherInfoView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
@@ -22,6 +27,9 @@ public class MyTrainActivity extends OfflineListBaseActivity {
 
     private Button btnSign;
 
+    private PopupWindow popupWindow;
+    private CourseQcodeView viewInfo;
+
     @Override
     public void initView() {
         super.initView();
@@ -30,6 +38,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         if (getCheckPosition()==0) {
             ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
         }
+        initPopupWindow();
     }
 
     public static void actionStart(Context context) {
@@ -57,7 +66,21 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         super.checkListener(position);
         ViewUtil.setViewVisibility(btnSign, position == 0 ? View.VISIBLE : View.GONE);
     }
-
+    //初始化讲师弹框
+    private void initPopupWindow() {
+        popupWindow = new PopupWindow(this);
+        viewInfo = new CourseQcodeView(this);
+        popupWindow.setWidth(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setHeight(ViewGroup.LayoutParams.MATCH_PARENT);
+        popupWindow.setBackgroundDrawable(null);
+        popupWindow.setContentView(viewInfo);
+        viewInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                popupWindow.dismiss();
+            }
+        });
+    }
     @Override
     protected boolean isShowHead() {
         return getCheckPosition()==2;
@@ -92,7 +115,9 @@ public class MyTrainActivity extends OfflineListBaseActivity {
                     break;
                 case OfflineAdapter.TO_QCODE:
                     // TODO: 2017/7/18 点击弹出二维码
-                    toast("点击弹出二维码");
+//                    toast("点击弹出二维码");
+                    viewInfo.setData(curriculumsTable.courseQrCodeMark,curriculumsTable.courseName,curriculumsTable.startTime,curriculumsTable.endTime);
+                    popupWindow.showAtLocation(btnSign, Gravity.NO_GRAVITY, 0, 0);
                     break;
             }
         }

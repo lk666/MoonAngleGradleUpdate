@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -85,6 +88,9 @@ public class CourseSignActivity extends BaseActivity implements View.OnClickList
                 ResultTeacherScanCourse teacherScanCourse= (ResultTeacherScanCourse) result;
                 intNetWordData(teacherScanCourse.data);
             }
+        }else if(requestCode==1){
+            setResult(RESULT_OK);
+            finish();
         }
     }
 
@@ -113,7 +119,9 @@ public class CourseSignActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.angle_btn3_sign:
-                // TODO: 2017/7/18 添加签到按钮点击事件
+                List<String> list=new ArrayList<>();
+                list.add(courseCode);
+                OffLineApi.teacherSign(getToken(),planCode,list,userMark,userType,getNewHandler(1,ResultBase.class));
                 break;
         }
     }
