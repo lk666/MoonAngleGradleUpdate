@@ -7,6 +7,7 @@ public class ResultScanService extends ResultBase {
 
     public static final String TYPE_HTTP = "HTTP";
     public static final String TYPE_TEXT = "TEXT";
+    public static final String TYPE_INTERNAL = "INTERNAL";
     /**
      * 接口返回json
      */
@@ -54,5 +55,24 @@ public class ResultScanService extends ResultBase {
         public void setText(String text) {
             this.text = text;
         }
+    }
+
+    /**
+     * 线下培训内部跳转
+     */
+    public static class Internal {
+        public String target;
+        public Offline data;
+    }
+
+    public static class Offline {
+
+        public String planCode;
+
+        public String courseCode;
+
+        public String userMark;
+
+        public String userType;
     }
 }

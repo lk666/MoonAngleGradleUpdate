@@ -894,6 +894,11 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar">
         </activity>
+        <activity
+            android:name=".module.offline.TeacherScanPlanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
     </application>
 
 </manifest>

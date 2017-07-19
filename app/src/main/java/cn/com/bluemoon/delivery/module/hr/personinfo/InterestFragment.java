@@ -22,13 +22,13 @@ import cn.com.bluemoon.delivery.module.newbase.BaseFragment;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib_widget.module.choice.BMRadioItemView;
+import cn.com.bluemoon.lib_widget.module.choice.entity.RadioItem;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
-import cn.com.bluemoon.lib_widget.module.form.BMRadioItemView;
 import cn.com.bluemoon.lib_widget.module.form.BMSelectorView;
 import cn.com.bluemoon.lib_widget.module.form.BMSelectorView.ClickListener;
 import cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView;
-import cn.com.bluemoon.lib_widget.module.form.entity.RadioItem;
 
 /**
  * 爱好特长

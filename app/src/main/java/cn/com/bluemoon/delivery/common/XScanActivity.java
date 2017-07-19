@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
 
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -18,8 +19,9 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
  */
 public class XScanActivity extends ScanActivity {
 
-    public static void actStart(Activity context, Fragment fragment, String title, int requestCode){
-        actStart(context,fragment,XScanActivity.class,title,requestCode);
+    public static void actStart(Activity context, Fragment fragment, String title, int
+            requestCode) {
+        actStart(context, fragment, XScanActivity.class, title, requestCode);
     }
 
     @Override
@@ -32,7 +34,7 @@ public class XScanActivity extends ScanActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         switch (requestCode) {
             case 0:
-                setData((ResultScanService)result);
+                setData((ResultScanService) result);
                 break;
         }
     }
@@ -79,6 +81,14 @@ public class XScanActivity extends ScanActivity {
             ResultScanService.Text text = JSON.parseObject(result.getResult(),
                     ResultScanService.Text.class);
             toast(text.getText());
+        } else if (ResultScanService.TYPE_INTERNAL.equals(result.getType())) {
+            ResultScanService.Internal internal = JSON.parseObject(result.getResult(),
+                    ResultScanService.Internal.class);
+            if ("COURSE".equals(internal.target)) {
+                // TODO: 2017/7/19 调转课程页面
+            } else if ("PLAN".equals(internal.target)) {
+                // TODO: 2017/7/19 调转排课页面
+            }
         }
 
         finish();
