@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_text_student_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/offline_student_info" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_text_course__name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/offline_course_detail_name" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_text_record_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/offline_record_date" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_text_evaluate_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/offline_evaluate_time" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_text_course_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/offline_course_detail_room" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_text_course_state"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/offline_course_detail_state" />
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_text_sign_time"
+            android:layout_width="match_parent"
+            android:visibility="gone"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/offline_course_detail_sign_time" />
+    </LinearLayout>
+
+    <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View
+        android:id="@+id/angle_btn3_sign"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        app:btn_text="@string/btn_sign_blank" />
+</RelativeLayout>

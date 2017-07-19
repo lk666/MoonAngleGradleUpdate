@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -70,6 +71,10 @@ public class OfflineTrainingItemView extends FrameLayout {
     LinearLayout llayoutBtn;
     @Bind(R.id.llayout_parent)
     LinearLayout llayoutParent;
+    @Bind(R.id.img_qcode)
+    ImageView imgQcode;
+    @Bind(R.id.offline_qcode_click)
+    View offlineQcodeClick;
 
     public OfflineTrainingItemView(Context context) {
         super(context);
@@ -96,6 +101,25 @@ public class OfflineTrainingItemView extends FrameLayout {
         LayoutInflater.from(getContext()).inflate(R.layout.layout_offline_training_item, this, true);
         ButterKnife.bind(this);
         setBackgroundColor(Color.parseColor("#F2F2F2"));
+    }
+
+    public void setQcodeGone(){
+        setQcode(null,false,null,null);
+    }
+    public void setQcodeVisible(OnClickListener listener,Integer typeTag,Integer positionTag){
+        setQcode(listener,true,typeTag,positionTag);
+    }
+    public void setQcode(OnClickListener listener,boolean isShowQcode,Integer typeTag,Integer positionTag){
+        if(listener==null||!isShowQcode){
+            imgQcode.setVisibility(View.GONE);
+            offlineQcodeClick.setVisibility(View.GONE);
+        }else{
+            imgQcode.setVisibility(View.VISIBLE);
+            offlineQcodeClick.setVisibility(View.VISIBLE);
+            offlineQcodeClick.setOnClickListener(listener);
+            offlineQcodeClick.setTag(R.id.tag_position,positionTag);
+            offlineQcodeClick.setTag(R.id.tag_type,typeTag);
+        }
     }
 
     /**
