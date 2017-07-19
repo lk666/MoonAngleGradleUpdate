@@ -42,7 +42,7 @@ public class CourseQcodeView extends FrameLayout{
 
     public void setData(String qCodeMark, String name, long startTime,long endTime) {
         imgQcode.setImageBitmap(null);
-        imgQcode.setImageBitmap(BarcodeUtil.creatBarcode(qCodeMark));
+        imgQcode.setImageBitmap(BarcodeUtil.createQRCode(qCodeMark));
         txtCourseName.setText(name);
         txtTime.setText(new StringBuffer().append(DateUtil.getTimeToYMDHM(startTime)).append("-").append(DateUtil.getTimeToHours(endTime)).toString());
     }
