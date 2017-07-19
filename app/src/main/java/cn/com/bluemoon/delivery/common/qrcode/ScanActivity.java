@@ -23,10 +23,6 @@ public class ScanActivity extends BaseScanActivity {
         actStart(context,fragment,ScanActivity.class,title,requestCode);
     }
 
-    public static void actStart(Activity context,String title,int requestCode){
-        actStart(context,null,title,requestCode);
-    }
-
     @Override
     protected int getLayoutId() {
         return R.layout.activity_scan;

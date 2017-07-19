@@ -1493,6 +1493,7 @@
     <string name="offline_my_train">我的培训</string>
     <string name="offline_sign_course">课程：%s</string>
     <string name="offline_sign_teacher">讲师：%s</string>
+    <string name="offline_sign_status">状态：%s</string>
     <string name="offline_select_sign_course">选择签到课程</string>
 
     <string name="offline_type_sign_in">签到：</string>
@@ -1672,4 +1673,5 @@
     <string name="offline_record_title">实际时间录入</string>
     <string name="offline_record_real_time">实际上课时间(必填)</string>
     <string name="offline_record_time_compare">请重新录入实际培训时间！</string>
+    <string name="offline_sign">签到课程</string>
 </resources>

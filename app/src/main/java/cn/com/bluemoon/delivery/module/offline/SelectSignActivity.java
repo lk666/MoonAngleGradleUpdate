@@ -1,8 +1,8 @@
 package cn.com.bluemoon.delivery.module.offline;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
+import android.view.View;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +14,14 @@ import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
-import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
-import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
-import cn.com.bluemoon.lib_widget.module.form.BMRadioListView;
-import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
-import cn.com.bluemoon.lib_widget.module.form.entity.RadioItem;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.lib_widget.module.choice.BMRadioListView;
+import cn.com.bluemoon.lib_widget.module.choice.entity.RadioItem;
+import cn.com.bluemoon.lib_widget.module.choice.interf.CheckListener;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
+import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
-public class SelectSignActivity extends BaseActivity implements BMRadioListView.ClickListener {
+public class SelectSignActivity extends BaseActivity implements CheckListener {
 
     @Bind(R.id.view_radio)
     BMRadioListView viewRadio;
@@ -74,7 +74,7 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
     }
 
     private void checkSignButton() {
-        btnSign.setEnabled(viewRadio.getValue() != null);
+        btnSign.setEnabled(!viewRadio.getValues().isEmpty());
     }
 
     @Override
@@ -99,24 +99,27 @@ public class SelectSignActivity extends BaseActivity implements BMRadioListView.
 
     @OnClick(R.id.btn_sign)
     public void onClick() {
-        if (viewRadio.getValue() instanceof ResultSignDetail.SignDetailData.Course) {
-            ResultSignDetail.SignDetailData.Course course = (ResultSignDetail.SignDetailData
-                    .Course) viewRadio.getValue();
+        if (!viewRadio.getValues().isEmpty()) {
+            ResultSignDetail.SignDetailData.Course course = data.courses.get(viewRadio.getValues().get(0));
             OffLineApi.sign(getToken(), course.courseCode, course.planCode, getNewHandler(0,
                     ResultBase.class));
         }
     }
 
     @Override
-    public void onSelected(int position, Object value) {
+    public void onSelected(View view, int position) {
         checkSignButton();
     }
 
     @Override
-    public void onClickDisable(int position, Object value) {
-        if (value instanceof ResultSignDetail.SignDetailData.Course) {
-            ResultSignDetail.SignDetailData.Course obj = (ResultSignDetail.SignDetailData.Course)
-                    value;
+    public void onCancel(View view, int position) {
+
+    }
+
+    @Override
+    public void onClickDisable(View view, int position) {
+        if (!viewRadio.getValues().isEmpty()) {
+            ResultSignDetail.SignDetailData.Course obj = data.courses.get(viewRadio.getValues().get(0));
             toast(obj.message);
         }
     }

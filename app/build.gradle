@@ -32,8 +32,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 37
-        versionName "4.8.1"
+        versionCode 38
+        versionName "4.8.2"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
         buildConfigField("String", "DES_KEY", "\"19490101\"")
@@ -151,7 +151,7 @@ dependencies {
     compile 'com.umeng.analytics:analytics:latest.integration'
     compile 'com.bluemoon.umengshare:lib_umengshare:1.0.10'
     compile 'com.bluemoon.liblog:lib_log:1.0.1'
-    compile 'com.bluemoon.widget:lib_widget:1.0.20'
+    compile 'com.bluemoon.widget:lib_widget:1.0.29'
 }
 
 

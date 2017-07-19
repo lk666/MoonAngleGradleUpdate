@@ -127,7 +127,7 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
                 if (iHttpRespone == null) {
                     return;
                 }
-                LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
+                LogUtils.d("mainHandler requestCode:" + getReqCode() + " -->" +
                         " " + "result = " + responseString);
                 if (isShowDialog) {
                     hideWaitDialog();

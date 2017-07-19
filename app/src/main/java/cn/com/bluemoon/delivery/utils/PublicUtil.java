@@ -48,6 +48,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.common.DownWebViewActivity;
+import cn.com.bluemoon.delivery.common.XScanActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanCodeActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanInputActivity;
@@ -167,6 +168,13 @@ public class PublicUtil extends LibPublicUtil {
      */
     public static void openNewScanView(Fragment fragment, String title, String btnString, String code, int requestCode) {
         ScanCodeActivity.actStart(fragment, title, btnString, code, requestCode);
+    }
+
+    /**
+     * 打开主菜单统一扫描界面
+     */
+    public static void openXScanView(Activity aty, Fragment fragment, String title, int requestCode) {
+        XScanActivity.actStart(aty, fragment, title, requestCode);
     }
 
     public static String genApiSign(String[] params) {
