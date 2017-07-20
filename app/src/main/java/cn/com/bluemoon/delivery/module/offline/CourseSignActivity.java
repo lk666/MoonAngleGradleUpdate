@@ -83,17 +83,20 @@ public class CourseSignActivity extends BaseActivity implements View.OnClickList
 
     @Override
     public void initData() {
+        showWaitDialog();
         OffLineApi.teacherScanCourse(getToken(),planCode,courseCode,userMark,userType,getNewHandler(0, ResultTeacherScanCourse.class));
     }
 
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        hideWaitDialog();
         if(requestCode==0){
             if(result instanceof ResultTeacherScanCourse){
                 ResultTeacherScanCourse teacherScanCourse= (ResultTeacherScanCourse) result;
                 intNetWordData(teacherScanCourse.data);
             }
         }else if(requestCode==1){
+            toast(result.getResponseMsg());
             setResult(RESULT_OK);
             finish();
         }
@@ -124,6 +127,7 @@ public class CourseSignActivity extends BaseActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.angle_btn3_sign:
+                showWaitDialog();
                 List<String> list=new ArrayList<>();
                 list.add(courseCode);
                 OffLineApi.teacherSign(getToken(),planCode,list,userMark,userType,getNewHandler(1,ResultBase.class));
