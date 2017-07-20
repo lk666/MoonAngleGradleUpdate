@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherScanPlan;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib_widget.module.choice.BMCheckList2View;
 import cn.com.bluemoon.lib_widget.module.choice.BMRadioItemView;
@@ -44,6 +46,10 @@ public class TeacherScanPlanActivity extends BaseActivity implements CheckListen
     BMCheckList2View listCheck;
     @Bind(R.id.activity_teacher_scan_plan)
     RelativeLayout activityTeacherScanPlan;
+    @Bind(R.id.view_empty)
+    TextView viewEmpty;
+    @Bind(R.id.view_title)
+    TextView viewTitle;
 
     private String planCode;
     private String userMark;
@@ -79,6 +85,8 @@ public class TeacherScanPlanActivity extends BaseActivity implements CheckListen
 
     @Override
     public void initView() {
+        //默认初始状态，全选不可点击
+        viewAll.refresh(BMRadioItemView.TYPE_DISABLE);
         listCheck.setListener(this);
     }
 
@@ -99,20 +107,39 @@ public class TeacherScanPlanActivity extends BaseActivity implements CheckListen
         }
     }
 
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        if (requestCode == 1 && result.getResponseCode() == 44104) {
+            DialogUtil.getMsgDialog(this, result.getResponseMsg(), getString(R.string.btn_good))
+                    .show();
+            OffLineApi.teacherScanPlan(getToken(), planCode, userMark, userType, getNewHandler(0,
+                    ResultTeacherScanPlan.class));
+        } else {
+            super.onErrorResponse(requestCode, result);
+        }
+
+    }
+
     /**
      * 设置界面显示数据
      */
     private void setData(ResultTeacherScanPlan.Data data) {
         listCourses = data.courses;
-        if (!data.isTeacher) {
-            listCheck.setCheckDisable(true);
-            ViewUtil.setViewVisibility(layoutBottom, View.GONE);
-        }
         viewInfo.setContentText(data.userInfo.userName + " " + data.userInfo.userMark);
         viewCode.setContentText(data.planInfo.planCode);
         viewTheme.setContentText(data.planInfo.topic);
 
-        listCheck.setData(getListData(listCourses,data.isTeacher));
+        if (data.isTeacher) {
+            listCheck.setCheckDisable(false);
+            ViewUtil.setViewVisibility(layoutBottom, View.VISIBLE);
+        }
+        //单列表数据大于0时才显示列表
+        if (listCourses.size() > 0) {
+            ViewUtil.setViewVisibility(viewEmpty, View.GONE);
+            ViewUtil.setViewVisibility(viewTitle, View.VISIBLE);
+            ViewUtil.setViewVisibility(listCheck, View.VISIBLE);
+            listCheck.setData(getListData(listCourses, data.isTeacher));
+        }
     }
 
     /**
@@ -143,13 +170,10 @@ public class TeacherScanPlanActivity extends BaseActivity implements CheckListen
         switch (view.getId()) {
             case R.id.view_all:
                 if (viewAll.getType() == BMRadioItemView.TYPE_NORMAL) {
-                    viewAll.setType(BMRadioItemView.TYPE_SELECT);
                     listCheck.selectAll();
                 } else if (viewAll.getType() == BMRadioItemView.TYPE_SELECT) {
-                    viewAll.setType(BMRadioItemView.TYPE_NORMAL);
                     listCheck.clearAll();
                 }
-                checkBtn();
                 break;
             case R.id.btn_sign:
                 List<String> list = new ArrayList<>();
@@ -160,50 +184,36 @@ public class TeacherScanPlanActivity extends BaseActivity implements CheckListen
                 }
                 showWaitDialog();
                 OffLineApi.teacherSign(getToken(), planCode, list, userMark, userType,
-                        getNewHandler(1,
-                                ResultBase.class));
+                        getNewHandler(1, ResultBase.class));
                 break;
         }
     }
 
-    /**
-     * 检测是否全选
-     */
-    private void checkAll() {
-        if (listCheck.isSelectAll()) {
-            viewAll.seleced();
-        } else {
-            viewAll.cancel();
-        }
+    @Override
+    public void onSelected(View view, int position) {
     }
 
-    /**
-     * 检测签到按钮
-     */
-    private void checkBtn(){
-        if (listCheck.getValues().size() > 0) {
+    @Override
+    public void onCancel(View view, int position) {
+    }
+
+    @Override
+    public void onClickDisable(View view, int position) {
+        toast(listCourses.get(position).message);
+    }
+
+    @Override
+    public void onRefresh(View view, int btnAllType, int selectedNum, int normalNum, int
+            disableNum) {
+        //更新全选按钮状态
+        viewAll.refresh(btnAllType);
+        //更新签到按钮状态
+        if (selectedNum > 0) {
             if (!btnSign.isEnabled()) {
                 btnSign.setEnabled(true);
             }
         } else if (btnSign.isEnabled()) {
             btnSign.setEnabled(false);
         }
-    }
-
-    @Override
-    public void onSelected(View view, int position) {
-        checkAll();
-        checkBtn();
-    }
-
-    @Override
-    public void onCancel(View view, int position) {
-        checkAll();
-        checkBtn();
-    }
-
-    @Override
-    public void onClickDisable(View view, int position) {
-        toast(listCourses.get(position).message);
     }
 }

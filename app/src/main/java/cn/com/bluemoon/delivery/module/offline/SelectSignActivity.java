@@ -73,10 +73,6 @@ public class SelectSignActivity extends BaseActivity implements CheckListener {
         viewRadio.setData(getRadioList(data.courses));
     }
 
-    private void checkSignButton() {
-        btnSign.setEnabled(!viewRadio.getValues().isEmpty());
-    }
-
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         toast(result.getResponseMsg());
@@ -108,7 +104,6 @@ public class SelectSignActivity extends BaseActivity implements CheckListener {
 
     @Override
     public void onSelected(View view, int position) {
-        checkSignButton();
     }
 
     @Override
@@ -121,6 +116,19 @@ public class SelectSignActivity extends BaseActivity implements CheckListener {
         if (!viewRadio.getValues().isEmpty()) {
             ResultSignDetail.SignDetailData.Course obj = data.courses.get(viewRadio.getValues().get(0));
             toast(obj.message);
+        }
+    }
+
+    @Override
+    public void onRefresh(View view, int btnAllType, int selectedNum, int normalNum, int
+            disableNum) {
+        //更新签到按钮状态
+        if (selectedNum > 0) {
+            if (!btnSign.isEnabled()) {
+                btnSign.setEnabled(true);
+            }
+        } else if (btnSign.isEnabled()) {
+            btnSign.setEnabled(false);
         }
     }
 }

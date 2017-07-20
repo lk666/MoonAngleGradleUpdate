@@ -98,9 +98,12 @@ public class DialogUtil extends LibDialogUtil {
         return builder;
     }
 
+    public static CommonAlertDialog.Builder getMsgDialog(Context context, String message,String btnString) {
+        return getMessageDialog(context, null, message, btnString, null);
+    }
+
     public static CommonAlertDialog.Builder getMsgDialog(Context context, String message) {
-        return getMessageDialog(context, null, message, AppContext.getInstance().getString(R
-                .string.btn_ok), null);
+        return getMsgDialog(context,message,AppContext.getInstance().getString(R.string.btn_ok));
     }
 
     /**

@@ -1674,4 +1674,7 @@
     <string name="offline_record_real_time">实际上课时间(必填)</string>
     <string name="offline_record_time_compare">请重新录入实际培训时间！</string>
     <string name="offline_sign">签到课程</string>
+    <string name="btn_good">好的</string>
+    <string name="offline_plan_code">排课编码</string>
+    <string name="offline_no_course_info">暂无课程信息</string>
 </resources>
