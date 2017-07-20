@@ -15,7 +15,9 @@ import cn.com.bluemoon.delivery.app.api.model.ResultScanService;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.module.offline.CourseSignActivity;
 import cn.com.bluemoon.delivery.module.offline.TeacherScanPlanActivity;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * 主菜单统一扫码界面，统一处理
@@ -40,24 +42,6 @@ public class XScanActivity extends ScanActivity {
                 setData((ResultScanService) result);
                 break;
         }
-    }
-
-    @Override
-    public void onFailureResponse(int requestCode, Throwable t) {
-        super.onFailureResponse(requestCode, t);
-        finish();
-    }
-
-    @Override
-    public void onSuccessException(int requestCode, Throwable t) {
-        super.onSuccessException(requestCode, t);
-        finish();
-    }
-
-    @Override
-    public void onErrorResponse(int requestCode, ResultBase result) {
-        super.onErrorResponse(requestCode, result);
-        finish();
     }
 
     /**
