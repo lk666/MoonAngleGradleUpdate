@@ -137,7 +137,8 @@ public class PublicUtil extends LibPublicUtil {
     /**
      * 洗衣服务扫描界面
      */
-    public static void openClothScan(Activity aty, String title, String btnString, int requestCode) {
+    public static void openClothScan(Activity aty, String title, String btnString, int
+            requestCode) {
         openClothScan(aty, null, title, btnString, requestCode);
     }
 
@@ -152,28 +153,32 @@ public class PublicUtil extends LibPublicUtil {
     /**
      * 打开默认的扫描界面
      */
-    public static void openScanView(Activity aty, Fragment fragment, String title, int requestCode) {
+    public static void openScanView(Activity aty, Fragment fragment, String title, int
+            requestCode) {
         ScanActivity.actStart(aty, fragment, title, requestCode);
     }
 
     /**
      * 最新的统一扫描界面
      */
-    public static void openNewScanView(Activity aty, String title, String btnString, String code, int requestCode) {
+    public static void openNewScanView(Activity aty, String title, String btnString, String code,
+                                       int requestCode) {
         ScanCodeActivity.actStart(aty, title, btnString, code, requestCode);
     }
 
     /**
      * 最新的统一扫描界面
      */
-    public static void openNewScanView(Fragment fragment, String title, String btnString, String code, int requestCode) {
+    public static void openNewScanView(Fragment fragment, String title, String btnString, String
+            code, int requestCode) {
         ScanCodeActivity.actStart(fragment, title, btnString, code, requestCode);
     }
 
     /**
      * 打开主菜单统一扫描界面
      */
-    public static void openXScanView(Activity aty, Fragment fragment, String title, int requestCode) {
+    public static void openXScanView(Activity aty, Fragment fragment, String title, int
+            requestCode) {
         XScanActivity.actStart(aty, fragment, title, requestCode);
     }
 
@@ -270,7 +275,8 @@ public class PublicUtil extends LibPublicUtil {
      * @param aty
      * @param phoneNo
      */
-    public static void showCallPhoneDialog(final Activity aty, String title, View view, String msg, final String phoneNo) {
+    public static void showCallPhoneDialog(final Activity aty, String title, View view, String
+            msg, final String phoneNo) {
         CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(aty);
         if (!StringUtils.isEmpty(title)) dialog.setTitle(title);
         if (view != null) {
@@ -305,7 +311,8 @@ public class PublicUtil extends LibPublicUtil {
      * @param aty
      * @param phoneNo
      */
-    public static void showCallPhoneDialog2(final Activity aty, String title, View view, String msg, final String phoneNo) {
+    public static void showCallPhoneDialog2(final Activity aty, String title, View view, String
+            msg, final String phoneNo) {
         CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(aty);
         if (!StringUtils.isEmpty(title)) dialog.setTitle(title);
         if (view != null) {
@@ -397,7 +404,8 @@ public class PublicUtil extends LibPublicUtil {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                aty.startActivity(new Intent("android.settings.LOCATION_SOURCE_SETTINGS"));
+                                aty.startActivity(new Intent("android.settings" +
+                                        ".LOCATION_SOURCE_SETTINGS"));
                             }
                         })
                 .setPositiveButton(R.string.btn_later, null)
@@ -434,14 +442,15 @@ public class PublicUtil extends LibPublicUtil {
         return JsConnectManager.jsConnect(JsConnectManager.URL_ANGEL, view, url, callBack);
     }
 
-    public static boolean jsConnect(com.tencent.smtt.sdk.WebView view, String url, cn.com.bluemoon.delivery.utils.tencentX5.JsConnectCallBack callBack) {
+    public static boolean jsConnect(com.tencent.smtt.sdk.WebView view, String url, cn.com
+            .bluemoon.delivery.utils.tencentX5.JsConnectCallBack callBack) {
         return cn.com.bluemoon.delivery.utils.tencentX5.JsConnectManager.jsConnect(
                 JsConnectManager.URL_ANGEL, view, url, callBack);
     }
 
     public static void openWebView(Context context, String url, String title, boolean isActionBar,
                                    boolean isBackByJs) {
-        DownWebViewActivity.startAction(context,url,title,isActionBar,isBackByJs);
+        DownWebViewActivity.startAction(context, url, title, isActionBar, isBackByJs);
     }
 
     public static void openWebView(Context context, String url, String title, boolean isBackByJs) {
@@ -473,7 +482,8 @@ public class PublicUtil extends LibPublicUtil {
      * @param listener
      * @return
      */
-    public static CommonEmptyView getEmptyView(String content, CommonEmptyView.EmptyListener listener) {
+    public static CommonEmptyView getEmptyView(String content, CommonEmptyView.EmptyListener
+            listener) {
         CommonEmptyView emptyView = new CommonEmptyView(AppContext.getInstance());
         if (content != null) {
             emptyView.setContentText(content);
@@ -506,7 +516,8 @@ public class PublicUtil extends LibPublicUtil {
      * @param listener
      * @return
      */
-    public static CommonEmptyView setEmptyView(View listview, String content, CommonEmptyView.EmptyListener listener) {
+    public static CommonEmptyView setEmptyView(View listview, String content, CommonEmptyView
+            .EmptyListener listener) {
         if (content != null) {
             content = AppContext.getInstance().getString(R.string.empty_hint3, content);
         }
@@ -523,7 +534,8 @@ public class PublicUtil extends LibPublicUtil {
      * @param listener
      * @return
      */
-    public static CommonEmptyView setEmptyView(View listview, int ResId, CommonEmptyView.EmptyListener listener) {
+    public static CommonEmptyView setEmptyView(View listview, int ResId, CommonEmptyView
+            .EmptyListener listener) {
         String content = AppContext.getInstance().getString(ResId);
         return setEmptyView(listview, content, listener);
     }
@@ -629,12 +641,11 @@ public class PublicUtil extends LibPublicUtil {
     }
 
 
-
-
-
-    public static void share(final Activity activity, final String topic, final String content, final String picUrl, final String url) {
-        String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") + ClientStateManager.getUserName();
-        shareHelper(activity,topic,content,picUrl, shareUrl);
+    public static void share(final Activity activity, final String topic, final String content,
+                             final String picUrl, final String url) {
+        String shareUrl = (url.indexOf('?') > 0 ? url + "&account=" : url + "?account=") +
+                ClientStateManager.getUserName();
+        shareHelper(activity, topic, content, picUrl, shareUrl);
         /*LogUtils.d("share long url = " + shareUrl);
         //获取分享短链接
         AsyncHttpResponseHandler handler = new TextHttpResponseHandler(HTTP.UTF_8) {
@@ -648,7 +659,8 @@ public class PublicUtil extends LibPublicUtil {
                         if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                             if (StringUtils.isNoneBlank(resultBase.getUrlShort())) {
                                 LogUtils.d("share short url = " + resultBase.getUrlShort());
-                                shareHelper(activity,topic,content,picUrl, resultBase.getUrlShort());
+                                shareHelper(activity,topic,content,picUrl, resultBase.getUrlShort
+                                ());
                             } else {
                                 LogUtils.e("get short url is null " + resultBase.getUrlShort());
                             }
@@ -668,7 +680,8 @@ public class PublicUtil extends LibPublicUtil {
                 PublicUtil.showToastServerBusy();
             }
         };
-        String requestUrl = String.format(BuildConfig.SHARE_TO_SHORT, "moonMall-proxy-web/util/genUrlToShort");
+        String requestUrl = String.format(BuildConfig.SHARE_TO_SHORT,
+        "moonMall-proxy-web/util/genUrlToShort");
         Map<String, String> params = new HashMap<>();
         params.put("urlLong", shareUrl);
         String jsonString = JSONObject.toJSONString(params);
@@ -678,46 +691,56 @@ public class PublicUtil extends LibPublicUtil {
         } catch (UnsupportedEncodingException e) {
             //e.printStackTrace();
         }
-        ApiHttpClient.getHttpClient().post(activity, requestUrl, entity, "application/json", handler);*/
+        ApiHttpClient.getHttpClient().post(activity, requestUrl, entity, "application/json",
+        handler);*/
     }
 
-    private static void shareHelper(final Activity activity,final String topic, final String content, final String picUrl, final String shareUrl) {
+    private static void shareHelper(final Activity activity, final String topic, final String
+            content, final String picUrl, final String shareUrl) {
         String contentTemp;
-        if(StringUtils.isEmpty(content)){
-            contentTemp =topic;
-        }else{
-            contentTemp=content;
+        if (StringUtils.isEmpty(content)) {
+            contentTemp = topic;
+        } else {
+            contentTemp = content;
         }
         contentTemp = StringUtil.getStringByLengh(contentTemp, 17);
-        ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic, contentTemp), new ShareCallBack() {
+        ShareHelper.share(activity, new ShareModel(activity, picUrl, shareUrl, topic,
+                contentTemp), new ShareCallBack() {
             @Override
-            public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
-
-            }
-            @Override
-            public void shareSuccess(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
-                DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic, platformString, new TextHttpResponseHandler(HTTP.UTF_8) {
-                    @Override
-                    public void onSuccess(int statusCode, Header[] headers,
-                                          String responseString) {
-                        LogUtils.d("plat", responseString);
-                    }
-
-                    @Override
-                    public void onFailure(int statusCode, Header[] headers,
-                                          String responseString, Throwable throwable) {
-                        LogUtils.d("plat", "onFailure");
-                    }
-                });
-
-            }
-            @Override
-            public void shareCancel(SHARE_MEDIA platform, String platformString, ShareModel shareModel) {
+            public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel
+                    shareModel) {
 
             }
 
             @Override
-            public void shareError(SHARE_MEDIA platform, String platformString, ShareModel shareModel, String errorMsg) {
+            public void shareSuccess(SHARE_MEDIA platform, String platformString, ShareModel
+                    shareModel) {
+                DeliveryApi.saveShareInfo(ClientStateManager.getLoginToken(), topic,
+                        platformString, new TextHttpResponseHandler(HTTP.UTF_8) {
+                            @Override
+                            public void onSuccess(int statusCode, Header[] headers,
+                                                  String responseString) {
+                                LogUtils.d("plat", responseString);
+                            }
+
+                            @Override
+                            public void onFailure(int statusCode, Header[] headers,
+                                                  String responseString, Throwable throwable) {
+                                LogUtils.d("plat", "onFailure");
+                            }
+                        });
+
+            }
+
+            @Override
+            public void shareCancel(SHARE_MEDIA platform, String platformString, ShareModel
+                    shareModel) {
+
+            }
+
+            @Override
+            public void shareError(SHARE_MEDIA platform, String platformString, ShareModel
+                    shareModel, String errorMsg) {
 
             }
         });

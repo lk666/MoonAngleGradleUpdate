@@ -104,7 +104,7 @@ public class TeacherScanPlanActivity extends BaseActivity implements CheckListen
      */
     private void setData(ResultTeacherScanPlan.Data data) {
         listCourses = data.courses;
-        if (data.isTeacher) {
+        if (!data.isTeacher) {
             listCheck.setCheckDisable(true);
             ViewUtil.setViewVisibility(layoutBottom, View.GONE);
         }
