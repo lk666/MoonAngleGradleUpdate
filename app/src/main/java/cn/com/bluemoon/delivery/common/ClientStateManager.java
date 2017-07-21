@@ -216,17 +216,17 @@ public class ClientStateManager {
         }
     }
 
-    public static String getLatitude(Context ctx) {
+    public static String getLatitude() {
 
         SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(ctx);
+                .getDefaultSharedPreferences(AppContext.getInstance());
         return pref.getString(LATITUDE, "999");
     }
 
-    public static boolean setLatitude(Context ctx, String latitude) {
+    public static boolean setLatitude(String latitude) {
         try {
             SharedPreferences pref = PreferenceManager
-                    .getDefaultSharedPreferences(ctx);
+                    .getDefaultSharedPreferences(AppContext.getInstance());
             pref.edit().putString(LATITUDE, latitude).commit();
         } catch (Exception e) {
             return false;
@@ -234,17 +234,17 @@ public class ClientStateManager {
         return true;
     }
 
-    public static String getLongitude(Context ctx) {
+    public static String getLongitude() {
 
         SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(ctx);
+                .getDefaultSharedPreferences(AppContext.getInstance());
         return pref.getString(LONGITUDE, "999");
     }
 
-    public static boolean setLongitude(Context ctx, String longitude) {
+    public static boolean setLongitude(String longitude) {
         try {
             SharedPreferences pref = PreferenceManager
-                    .getDefaultSharedPreferences(ctx);
+                    .getDefaultSharedPreferences(AppContext.getInstance());
             pref.edit().putString(LONGITUDE, longitude).commit();
         } catch (Exception e) {
             return false;
@@ -252,17 +252,17 @@ public class ClientStateManager {
         return true;
     }
 
-    public static String getAltitude(Context ctx) {
+    public static String getAltitude() {
 
         SharedPreferences pref = PreferenceManager
-                .getDefaultSharedPreferences(ctx);
+                .getDefaultSharedPreferences(AppContext.getInstance());
         return pref.getString(ALTITUDE, "0");
     }
 
-    public static boolean setAltitude(Context ctx, String altitude) {
+    public static boolean setAltitude(String altitude) {
         try {
             SharedPreferences pref = PreferenceManager
-                    .getDefaultSharedPreferences(ctx);
+                    .getDefaultSharedPreferences(AppContext.getInstance());
             pref.edit().putString(ALTITUDE, altitude).commit();
         } catch (Exception e) {
             return false;

@@ -59,6 +59,7 @@ import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.module.wash.appointment.AppointmentTabActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.EnterpriseWashTabActivity;
@@ -177,6 +178,9 @@ public class MainActivity extends SlidingActivity {
         DeliveryApi.getNewMessage(token, newMessageHandler);
 
         jump(getIntent());
+
+        //数据埋点
+        TrackManager.checkData();
 
     }
 

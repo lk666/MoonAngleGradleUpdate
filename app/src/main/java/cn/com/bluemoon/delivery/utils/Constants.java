@@ -195,4 +195,9 @@ public class Constants {
     public static final String TAG_HTTP_RESPONSE_EXCEPTION = "TAG_HTTP_RESPONSE_EXCEPTION";
     public static final String TAG_HTTP_RESPONSE_FAILURE = "TAG_HTTP_RESPONSE_FAILURE";
     public static final String TAG_HTTP_REQUEST = "TAG_HTTP_REQUEST";
+
+    //埋点返回码
+    public static final String RESPONSE_RESULT_SUCCESS_TRACK = "100";
+    public static final String RESPONSE_RESULT_TOO_LONG_TRACK = "101";
+    public static final String RESPONSE_RESULT_ERROR_TRACK = "102";
 }
