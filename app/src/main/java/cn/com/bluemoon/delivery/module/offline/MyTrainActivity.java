@@ -35,7 +35,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         super.initView();
         btnSign = (Button) findViewById(R.id.btn_sign);
         btnSign.setOnClickListener(this);
-        if (getCheckPosition()==0) {
+        if (getCheckPosition() == 0) {
             ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
         }
         initPopupWindow();
@@ -50,10 +50,10 @@ public class MyTrainActivity extends OfflineListBaseActivity {
     }
 
     @Override
-    protected void requestListData(long time,int requestCode) {
+    protected void requestListData(long time, int requestCode) {
         OffLineApi.studentTrainlist(getToken(), time, positionTogState(getCheckPosition())
                 , getNewHandler(requestCode,
-                ResultTeacherAndStudentList.class));
+                        ResultTeacherAndStudentList.class));
     }
 
     @Override
@@ -66,6 +66,7 @@ public class MyTrainActivity extends OfflineListBaseActivity {
         super.checkListener(position);
         ViewUtil.setViewVisibility(btnSign, position == 0 ? View.VISIBLE : View.GONE);
     }
+
     //初始化讲师弹框
     private void initPopupWindow() {
         popupWindow = new PopupWindow(this);
@@ -80,10 +81,18 @@ public class MyTrainActivity extends OfflineListBaseActivity {
                 popupWindow.dismiss();
             }
         });
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                if (getCheckPosition() == 0)
+                    requestData(true);
+            }
+        });
     }
+
     @Override
     protected boolean isShowHead() {
-        return getCheckPosition()==2;
+        return getCheckPosition() == 2;
     }
 
     @Override
@@ -102,26 +111,27 @@ public class MyTrainActivity extends OfflineListBaseActivity {
     @Override
     public void onItemClick(Object item, View view, int position) {
         if (item instanceof CurriculumsTable && view.getTag(R.id.tag_type) != null) {
-            int type = (int) view.getTag(R.id.tag_type);
+            final int type = (int) view.getTag(R.id.tag_type);
             CurriculumsTable curriculumsTable = (CurriculumsTable) item;
             switch (type) {
                 case OfflineAdapter.TO_NEXT_DETAILS:
                     StudentDetailActivity.startAction(this, curriculumsTable.courseCode,
-                            curriculumsTable.planCode,0);
+                            curriculumsTable.planCode, 0);
                     break;
                 case OfflineAdapter.TO_NEXT_EVALUATE:
                     EvaluateEditStudentActivity.startAction(this, curriculumsTable.courseCode,
-                            curriculumsTable.planCode,1);
+                            curriculumsTable.planCode, 1);
                     break;
                 case OfflineAdapter.TO_QCODE:
                     // TODO: 2017/7/18 点击弹出二维码
 //                    toast("点击弹出二维码");
-                    viewInfo.setData(curriculumsTable.courseQrCodeMark,curriculumsTable.courseName,curriculumsTable.startTime,curriculumsTable.endTime);
+                    viewInfo.setData(curriculumsTable.courseQrCodeMark, curriculumsTable.courseName, curriculumsTable.startTime, curriculumsTable.endTime);
                     popupWindow.showAtLocation(btnSign, Gravity.NO_GRAVITY, 0, 0);
                     break;
             }
         }
     }
+
     protected String positionTogState(int position) {
         switch (position) {
             case 0:
