@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.db.entity;
 
 /**
+ * 平台分享数据埋点的参数类
  * Created by bm on 2017/5/9.
  */
 

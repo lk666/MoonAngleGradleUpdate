@@ -24,6 +24,7 @@ public class ReqBodyDaoManager {
     private final static String TAG = "GreenDao";
     private static final String TRACK_APP_ID = "APP_ANGEL";
     private static final String EVENT_TYPE = "btn";
+    //状态标识，已上传时间为值，值为0表示还没有上传
     private static final long STATUS_NEW = 0;
 
 

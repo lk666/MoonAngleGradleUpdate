@@ -4,6 +4,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.db.manager.GreenDaoUtil;
 
 /**
+ * 埋点参数的基类
  * Created by bm on 2017/5/9.
  */
 
