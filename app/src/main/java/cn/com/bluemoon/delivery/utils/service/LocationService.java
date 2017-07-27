@@ -45,9 +45,9 @@ public class LocationService {
                 }
 
             }
-            ClientStateManager.setLatitude(mContext, String.valueOf(latitude));
-            ClientStateManager.setLongitude(mContext, String.valueOf(longitude));
-            ClientStateManager.setAltitude(mContext, String.valueOf(altitude));
+            ClientStateManager.setLatitude(String.valueOf(latitude));
+            ClientStateManager.setLongitude(String.valueOf(longitude));
+            ClientStateManager.setAltitude(String.valueOf(altitude));
             LogUtils.d("test", "Every 5 minutes, location succefully!");
 
         }

@@ -1,18 +1,31 @@
 package cn.com.bluemoon.delivery;
 
+import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.os.Bundle;
 import android.view.WindowManager;
 
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.PersistentCookieStore;
 import com.tencent.smtt.sdk.QbSdk;
 import com.tencent.smtt.sdk.TbsListener;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
+import org.apache.http.conn.scheme.PlainSocketFactory;
+import org.apache.http.conn.scheme.Scheme;
+import org.apache.http.conn.scheme.SchemeRegistry;
+
 import java.util.Properties;
 import java.util.UUID;
 
+import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
+import cn.com.bluemoon.delivery.app.api.EasySSLSocketFactory;
 import cn.com.bluemoon.delivery.common.AppConfig;
+import cn.com.bluemoon.delivery.db.manager.DBHelper;
+import cn.com.bluemoon.delivery.module.track.TrackManager;
+import cn.com.bluemoon.delivery.module.track.api.TrackHttpClient;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 
@@ -22,19 +35,16 @@ public class AppContext extends BaseApplication {
 
     private static AppContext instance;
 
+    /**
+     * 当前Acitity个数
+     */
+    private int activityCount = 0;
+
     @Override
     public void onCreate() {
         super.onCreate();
         instance = this;
         init();
-        initLogin();
-      //
-
-        PlatformConfig.setWeixin("wx3b6e66b753fd84c2", "DSF23FewrwerE2342378934ds4879877");
-        PlatformConfig.setSinaWeibo("4090679472", "e8d1ffe1012a89cb7e34a353d3693990","");
-        PlatformConfig.setQQZone("1104979860", "Qkg4yWZ5Gr07K0K5");
-        UMShareAPI.get(this);
-        initX5Environment();
     }
 
     private void initX5Environment() {
@@ -78,12 +88,34 @@ public class AppContext extends BaseApplication {
         return instance;
     }
 
-    private void initLogin() {
-
-    }
 
     private void init() {
 
+        //初始化数据库
+        DBHelper.getInstance();
+        initTrackHttp();
+        //监听Activity的进程
+        registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
+
+        PlatformConfig.setWeixin("wx3b6e66b753fd84c2", "DSF23FewrwerE2342378934ds4879877");
+        PlatformConfig.setSinaWeibo("4090679472", "e8d1ffe1012a89cb7e34a353d3693990","");
+        PlatformConfig.setQQZone("1104979860", "Qkg4yWZ5Gr07K0K5");
+        UMShareAPI.get(this);
+        initX5Environment();
+    }
+
+    private void initTrackHttp(){
+        // asyHttp
+        SchemeRegistry supportedSchemesTrack = new SchemeRegistry();
+        supportedSchemesTrack.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        supportedSchemesTrack.register(new Scheme("https", new EasySSLSocketFactory(), 443));
+        AsyncHttpClient clientTrack = new AsyncHttpClient(supportedSchemesTrack);
+        PersistentCookieStore myCookieStoreTrack = new PersistentCookieStore(this);
+        clientTrack.setCookieStore(myCookieStoreTrack);
+        clientTrack.setConnectTimeout(20000);
+        clientTrack.setResponseTimeout(20000);
+        TrackHttpClient.setHttpClient(clientTrack);
+        TrackHttpClient.setCookie(ApiHttpClient.getCookie(this));
     }
 
     public boolean containsProperty(String key) {
@@ -143,5 +175,56 @@ public class AppContext extends BaseApplication {
         return ((WindowManager) getSystemService(WINDOW_SERVICE))
                 .getDefaultDisplay().getHeight();
     }
+
+    ActivityLifecycleCallbacks activityLifecycleCallbacks = new ActivityLifecycleCallbacks() {
+        @Override
+        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+
+        }
+
+        @Override
+        public void onActivityStarted(Activity activity) {
+            /*if (activityCount == 0) {
+                //app回到前台
+                LogUtils.d("=====>onActivityStarted==>"+activity.getLocalClassName());
+            }*/
+            activityCount++;
+
+        }
+
+        @Override
+        public void onActivityResumed(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityPaused(Activity activity) {
+
+        }
+
+        @Override
+        public void onActivityStopped(Activity activity) {
+            activityCount--;
+            if (activityCount == 0) {
+                //app退出前台
+//				LogUtils.d("=====>onActivityStopped==>" + activity.getLocalClassName());
+//                保存待上传埋点数据
+                TrackManager.uploadNewTracks();
+            }
+        }
+
+        @Override
+        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+
+        }
+
+        @Override
+        public void onActivityDestroyed(Activity activity) {
+            /*if (activityCount == 0) {
+                //app退出
+                LogUtils.d("=====>onActivityDestroyed==>"+activity.getLocalClassName());
+            }*/
+        }
+    };
 }
   

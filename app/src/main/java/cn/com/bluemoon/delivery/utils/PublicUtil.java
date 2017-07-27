@@ -55,6 +55,7 @@ import cn.com.bluemoon.delivery.common.qrcode.ScanInputActivity;
 import cn.com.bluemoon.delivery.module.account.LoginActivity;
 import cn.com.bluemoon.delivery.module.card.CardTabActivity;
 import cn.com.bluemoon.delivery.module.order.ScanWithInputActivity;
+import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothScanCodeActivity;
 import cn.com.bluemoon.lib.badger.BadgeUtil;
 import cn.com.bluemoon.lib.callback.JsConnectCallBack;
@@ -709,7 +710,8 @@ public class PublicUtil extends LibPublicUtil {
             @Override
             public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel
                     shareModel) {
-
+                //数据埋点
+                TrackManager.addBody(shareModel.getuMTargetUrl(),platformString);
             }
 
             @Override
