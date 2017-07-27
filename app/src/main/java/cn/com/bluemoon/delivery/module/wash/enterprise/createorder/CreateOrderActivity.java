@@ -114,7 +114,7 @@ public class CreateOrderActivity extends BaseActivity {
     @Override
     protected void onActionBarBtnRightClick() {
         if (check()) {
-            showWaitDialog();
+            showWaitDialog(false);
             RequestEnterpriseOrderInfo sendInfo = new RequestEnterpriseOrderInfo(branchCode,
                     etCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
                     etEmployeeExtension.getText().toString(), etBackup.getText().toString());
@@ -326,7 +326,7 @@ public class CreateOrderActivity extends BaseActivity {
             // 添加衣物
             case R.id.btn_send:
                 if (check()) {
-                    showWaitDialog();
+                    showWaitDialog(false);
                     RequestEnterpriseOrderInfo sendInfo = new RequestEnterpriseOrderInfo(branchCode,
                             etCollectBrcode.getText().toString(), info.employeeInfo.employeeCode,
                             etEmployeeExtension.getText().toString(), etBackup.getText().toString
