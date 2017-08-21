@@ -904,6 +904,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
         </activity>
+        <activity
+            android:name=".module.notice.NoticeShowActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
     </application>
 
 </manifest>

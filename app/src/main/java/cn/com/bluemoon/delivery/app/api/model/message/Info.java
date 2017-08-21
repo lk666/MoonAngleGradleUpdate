@@ -8,14 +8,6 @@ public class Info {
     private String infoTitle;
     private long releaseTime;
 
- /*   public boolean isRead() {
-        return isRead;
-    }
-
-    public void setRead(boolean read) {
-        isRead = read;
-    }*/
-
     public long getReleaseTime() {
         return releaseTime;
     }
@@ -41,5 +33,6 @@ public class Info {
     }
 
     public boolean isRead;
+    public boolean mustRead;
 
 }

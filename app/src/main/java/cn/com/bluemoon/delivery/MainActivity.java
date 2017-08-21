@@ -14,8 +14,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -36,10 +36,11 @@ import cn.com.bluemoon.delivery.app.api.model.MenuBean;
 import cn.com.bluemoon.delivery.app.api.model.MenuCode;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
-import cn.com.bluemoon.delivery.app.api.model.ResultScanService;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
+import cn.com.bluemoon.delivery.app.api.model.message.Info;
+import cn.com.bluemoon.delivery.app.api.model.message.ResultInfos;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -50,11 +51,10 @@ import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
 import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
+import cn.com.bluemoon.delivery.module.notice.NoticeShowActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.module.offline.MyCoursesActivity;
 import cn.com.bluemoon.delivery.module.offline.MyTrainActivity;
-import cn.com.bluemoon.delivery.module.offline.RealRecordActivity;
-import cn.com.bluemoon.delivery.module.offline.TeacherScanPlanActivity;
 import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
@@ -85,15 +85,15 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
-import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.RedpointTextView;
 
-public class MainActivity extends SlidingActivity {
+public class MainActivity extends SlidingActivity implements View.OnClickListener {
 
+    public static final int REQUEST_CODE_READ = 0x222;
     private String TAG = "MainActivity";
     private AlwaysMarqueeTextView txtTips;
     private MainActivity main;
@@ -109,12 +109,20 @@ public class MainActivity extends SlidingActivity {
     private GridViewAdapter gridViewAdapter;
     private CommonEmptyView emptyView;
 
+    private ImageView imgPerson;
+    private ImageView imgScan;
+    private View viewTop;
+
+    //是否以重试了一遍
+    private boolean isAgain;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         main = this;
         initMenu();
+
         token = ClientStateManager.getLoginToken(main);
         if (StringUtils.isEmpty(token)) {
             PublicUtil.showMessageTokenExpire(main);
@@ -125,33 +133,13 @@ public class MainActivity extends SlidingActivity {
         progressDialog = new CommonProgressDialog(main);
         progressDialog.setCancelable(false);
 
-        ImageView imgPerson = (ImageView) findViewById(R.id.img_person);
-        ImageView imgScan = (ImageView) findViewById(R.id.img_scan);
-        imgPerson.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                mMenu.showMenu(!mMenu.isMenuShowing());
-                if (MenuFragment.user == null && mMenuFragment != null) {
-                    mMenuFragment.setUserInfo();
-                }
-            }
-        });
-        imgScan.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                PublicUtil.openXScanView(main, null, null, 0);
-            }
-        });
+        viewTop = findViewById(R.id.view_top);
+        imgPerson = (ImageView) findViewById(R.id.img_person);
+        imgPerson.setOnClickListener(this);
+        imgScan = (ImageView) findViewById(R.id.img_scan);
+        imgScan.setOnClickListener(this);
         txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
-        txtTips.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent it = new Intent(main, MessageListActivity.class);
-                startActivity(it);
-            }
-        });
+        txtTips.setOnClickListener(this);
         scrollViewMain = (PullToRefreshListView) findViewById(R.id.scrollView_main);
         scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
         emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_menu_title),
@@ -176,12 +164,28 @@ public class MainActivity extends SlidingActivity {
         if (progressDialog != null) progressDialog.show();
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
+        getNoticeData();
 
         jump(getIntent());
 
         //数据埋点
         TrackManager.checkData();
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        if (v == imgPerson) {
+            mMenu.showMenu(!mMenu.isMenuShowing());
+            if (MenuFragment.user == null && mMenuFragment != null) {
+                mMenuFragment.setUserInfo();
+            }
+        } else if (v == imgScan) {
+            PublicUtil.openXScanView(main, null, null, 0);
+        } else if (v == txtTips) {
+            Intent it = new Intent(main, MessageListActivity.class);
+            startActivity(it);
+        }
     }
 
     public void openQcode() {
@@ -223,9 +227,11 @@ public class MainActivity extends SlidingActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             //获取状态栏高度
             int statusbarHeight = getStatusBarHeight();
-            LinearLayout top_head = (LinearLayout) this.findViewById(R.id.top_head);
+            RelativeLayout top_head = (RelativeLayout) this.findViewById(R.id.top_head);
             top_head.setPadding(0, statusbarHeight, 0, 0);
         }
+        //通知消息检测回来直接，默认设置为不可滑动
+        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 
     }
 
@@ -445,7 +451,7 @@ public class MainActivity extends SlidingActivity {
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
             LogUtils.d(TAG, "getAppRights result = " + responseString);
-            if (progressDialog != null) progressDialog.dismiss();
+//            if (progressDialog != null) progressDialog.dismiss();
             scrollViewMain.onRefreshComplete();
 
             try {
@@ -479,7 +485,7 @@ public class MainActivity extends SlidingActivity {
             LogUtils.e(TAG, throwable.getMessage());
             scrollViewMain.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
-            if (progressDialog != null) progressDialog.dismiss();
+//            if (progressDialog != null) progressDialog.dismiss();
             LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
@@ -606,11 +612,92 @@ public class MainActivity extends SlidingActivity {
         public void onFailure(int statusCode, Header[] headers,
                               String responseString, Throwable throwable) {
             LogUtils.e(TAG, throwable.getMessage());
-            if (progressDialog != null)
-                progressDialog.dismiss();
             //  PublicUtil.showToastServerOvertime();
         }
     };
+
+    //************** 处理消息  start***********************/
+
+    /**
+     * 获取必要未读消息列表
+     */
+    private void getNoticeData() {
+        if (progressDialog != null) {
+            progressDialog.show();
+        }
+        DeliveryApi.getMustReadInfoList(token, noticeHandler);
+    }
+
+//    /**
+//     * 重试获取必要未读消息列表
+//     */
+//    private void getNoticeDataAgain() {
+//        if (isAgain) {
+//            ViewUtil.setViewVisibility(viewTop, View.GONE);
+//        } else {
+//            getNoticeData();
+//            isAgain = true;
+//        }
+//    }
+
+    /**
+     * 获取必要未读消息列表
+     */
+    private void openNotice(List<Info> list) {
+        if (list == null || list.isEmpty()) {
+            ViewUtil.setViewVisibility(viewTop, View.GONE);
+        } else {
+            ArrayList<String> unReadList = new ArrayList<>();
+            for (Info info : list) {
+                unReadList.add(info.getInfoId());
+            }
+            NoticeShowActivity.startAction(main, unReadList, REQUEST_CODE_READ);
+        }
+    }
+
+    /**
+     * 获取通知列表
+     */
+    AsyncHttpResponseHandler noticeHandler = new TextHttpResponseHandler(
+            HTTP.UTF_8) {
+
+        @Override
+        public void onFinish() {
+            super.onFinish();
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers,
+                              String responseString) {
+            LogUtils.d(TAG, "messageHandler result = " + responseString);
+            try {
+                ResultInfos resultInfos = JSON.parseObject(responseString,
+                        ResultInfos.class);
+                if (resultInfos.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    openNotice(resultInfos.getInfoList());
+                } else {
+                    PublicUtil.showErrorMsg(main, resultInfos);
+//                    getNoticeDataAgain();
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG, e.getMessage());
+                PublicUtil.showToastServerBusy();
+//                getNoticeDataAgain();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers,
+                              String responseString, Throwable throwable) {
+            LogUtils.e(TAG, throwable.getMessage());
+            PublicUtil.showToastServerOvertime();
+//            getNoticeDataAgain();
+        }
+    };
+
+    //************** 处理消息  end***********************/
 
 
     @Override
@@ -903,5 +990,12 @@ public class MainActivity extends SlidingActivity {
         return intent;
     }
 
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_READ && resultCode == RESULT_OK) {
+            //重新检测是否还有必要未读消息
+            getNoticeData();
+        }
+    }
 }

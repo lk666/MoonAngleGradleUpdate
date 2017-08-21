@@ -1620,6 +1620,21 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /*2.11.3.1必读通知列表（新增）*/
+	/*返回：ResultInfos*/
+    public static void getMustReadInfoList(String token,
+                                          AsyncHttpResponseHandler handler) {
+        if (null == token) {
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/message/getMustReadInfoList%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
     /*2.11.4通知详情*/
 	/*返回：ResultInfoDetail*/
     public static void getInfoDetail(String token, String infoId, AsyncHttpResponseHandler
@@ -1635,6 +1650,40 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
+
+    /*2.11.4.1通知详情不包含已读操作(新增)*/
+	/*返回：ResultInfoDetail*/
+    public static void getInformation(String token, String infoId, AsyncHttpResponseHandler
+            handler) {
+        if (null == token || StringUtil.isEmpty(infoId)) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("infoId", infoId);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/message/getInformation%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*2.11.4.2标记已读操作(新增)*/
+	/*返回：ResultInfoDetail*/
+    public static void readInfo(String token, String infoId, AsyncHttpResponseHandler
+            handler) {
+        if (null == token || StringUtil.isEmpty(infoId)) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("infoId", infoId);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/message/readInfo%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
 
     /*2.11.5知识库菜单列表*/
 	/*返回：ResultKnowledges*/

@@ -45,7 +45,7 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 /**
  * 通知列表
  */
-public class NoticeListActivity extends Activity{
+public class NoticeListActivity extends Activity {
     private String TAG = "NoticeListActivity";
     private NoticeListActivity main;
     private CommonProgressDialog progressDialog;
@@ -92,7 +92,8 @@ public class NoticeListActivity extends Activity{
         if (progressDialog != null) {
             progressDialog.show();
         }
-        DeliveryApi.getInformationList(token, AppContext.PAGE_SIZE,(null==notice?0:notice.getTimestamp()),noticeHandler);
+        DeliveryApi.getInformationList(token, AppContext.PAGE_SIZE, (null == notice ? 0 : notice
+                .getTimestamp()), noticeHandler);
     }
 
     private void initCustomActionBar() {
@@ -166,13 +167,13 @@ public class NoticeListActivity extends Activity{
     };
 
 
-    private void setData(ResultInfos resultInfos){
-        if(notice==null){
+    private void setData(ResultInfos resultInfos) {
+        if (notice == null) {
             notice = resultInfos;
             adapter = new NoiticeAdapter(main);
             adapter.setList(notice.getInfoList());
             listView.setAdapter(adapter);
-        }else{
+        } else {
             notice.getInfoList().addAll(resultInfos.getInfoList());
             notice.setTimestamp(resultInfos.getTimestamp());
             adapter.notifyDataSetChanged();
@@ -191,13 +192,6 @@ public class NoticeListActivity extends Activity{
         super.onPause();
         MobclickAgent.onPageEnd(TAG);
     }
-
-    @Override
-    protected void onDestroy() {
-        // TODO Auto-generated method stub
-        super.onDestroy();
-    }
-
 
     @SuppressLint("InflateParams")
     class NoiticeAdapter extends BaseAdapter {
@@ -249,16 +243,18 @@ public class NoticeListActivity extends Activity{
             convertView = inflate.inflate(R.layout.activity_notice_item, null);
 
             ImageView txtReadSign = (ImageView) convertView.findViewById(R.id.iv_read_sign);
-            TextView txtNoticeContent = (TextView) convertView.findViewById(R.id.txt_notice_content);
+            TextView txtNoticeContent = (TextView) convertView.findViewById(R.id
+                    .txt_notice_content);
             TextView txtNoticeDate = (TextView) convertView.findViewById(R.id.txt_notice_date);
 
-            if(lists.get(position).isRead){
+            if (lists.get(position).isRead) {
                 txtReadSign.setVisibility(View.GONE);
-            }else{
+            } else {
                 txtReadSign.setVisibility(View.VISIBLE);
             }
             txtNoticeContent.setText(lists.get(position).getInfoTitle());
-            txtNoticeDate.setText(DateUtil.getTime(lists.get(position).getReleaseTime(), "yyyy-MM-dd HH:mm"));
+            txtNoticeDate.setText(DateUtil.getTime(lists.get(position).getReleaseTime(),
+                    "yyyy-MM-dd HH:mm"));
 
             int index = position % 2;
             if (index == 1) {
@@ -270,11 +266,9 @@ public class NoticeListActivity extends Activity{
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, NoticeDetailActivity.class);
-                    intent.putExtra("id",lists.get(position).getInfoId());
-                    intent.putExtra("type",Constants.TYPE_NOTICE);
+                    NoticeDetailActivity.startAction((Activity) context, lists.get(position)
+                            .getInfoId(),Constants.TYPE_NOTICE, 0);
                     lists.get(position).isRead = true;
-                    context.startActivity(intent);
                     adapter.notifyDataSetChanged();
                 }
             });
