@@ -812,7 +812,7 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
                 startActivity(intent);
             } else if (compare(MenuCode.my_inform, menuCode)) {
                 intent = new Intent(main, NoticeListActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE_READ);
             } else if (compare(MenuCode.knowledge_base, menuCode)) {
                 intent = new Intent(main, PaperListActivity.class);
                 startActivity(intent);
@@ -993,7 +993,7 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_READ && resultCode == RESULT_OK) {
+        if (requestCode == REQUEST_CODE_READ) {
             //重新检测是否还有必要未读消息
             getNoticeData();
         }
