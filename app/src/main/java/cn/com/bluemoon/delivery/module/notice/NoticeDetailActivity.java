@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.webkit.WebChromeClient;
@@ -109,6 +110,7 @@ public class NoticeDetailActivity extends BaseActivity {
                 view.loadUrl(url);
                 return true;
             }
+
         });
     }
 
@@ -189,6 +191,29 @@ public class NoticeDetailActivity extends BaseActivity {
                 isCollect = !isCollect;
                 setActionBarRightView(isCollect);
                 break;
+        }
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            back();
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
+
+    @Override
+    protected void onActionBarBtnLeftClick() {
+        back();
+    }
+
+    private void back(){
+        if(wvNotice.canGoBack()){
+            wvNotice.goBack();
+        }else{
+            this.setResult(Activity.RESULT_CANCELED);
+            finish();
         }
     }
 

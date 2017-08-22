@@ -101,6 +101,15 @@ public class NoticeShowActivity extends BaseActivity {
                 view.loadUrl(url);
                 return true;
             }
+
+            @Override
+            public void onPageFinished(WebView view, String url) {
+                super.onPageFinished(view, url);
+                if(isClear){
+                    view.clearHistory();
+                    isClear = false;
+                }
+            }
         });
     }
 
@@ -115,12 +124,14 @@ public class NoticeShowActivity extends BaseActivity {
         DeliveryApi.getInformation(getToken(), ids.get(0), getNewHandler(0, ResultInfoDetail.class));
     }
 
+    private boolean isClear;
     private void setData(String str) {
+        //每次更换通知时，清除上一个通知的webview缓存
+        isClear = true;
         wvNotice.loadData(str, "text/html;charset=UTF-8", null);
     }
 
     private void backSuccess() {
-        setResult(RESULT_OK);
         finish();
     }
 
@@ -182,8 +193,12 @@ public class NoticeShowActivity extends BaseActivity {
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if (keyCode == KeyEvent.KEYCODE_BACK) {
             //  2017/8/21 屏蔽掉返回键
+            if(wvNotice.canGoBack()){
+                wvNotice.goBack();
+            }
             return true;
         }
         return super.onKeyDown(keyCode, event);
     }
+
 }
