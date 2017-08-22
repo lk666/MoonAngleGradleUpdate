@@ -990,12 +990,12 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         return intent;
     }
 
-    @Override
+    /*@Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == REQUEST_CODE_READ) {
             //重新检测是否还有必要未读消息
             getNoticeData();
         }
-    }
+    }*/
 }
