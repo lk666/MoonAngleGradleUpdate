@@ -518,6 +518,7 @@
     <string name="tab_bottom_punch_card_text">打卡</string>
     <string name="tab_bottom_punch_record_text">打卡记录</string>
     <string name="tab_bottom_punch_alarm_setting">提醒设置</string>
+    <string name="tab_title_punch_alarm_new">新增提醒</string>
     <string name="tab_title_punch_alarm_modify">编辑提醒</string>
     <string name="puncard_info">打卡信息</string>
     <string name="card_get_location_tips">打开“定位服务”来允许“月亮天使”确定您的位置。</string>

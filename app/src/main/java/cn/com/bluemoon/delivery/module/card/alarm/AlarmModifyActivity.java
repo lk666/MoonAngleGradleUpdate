@@ -75,7 +75,9 @@ public class AlarmModifyActivity extends BaseActivity {
     @Override
     protected void setActionBar(CommonActionBar actionBar) {
         super.setActionBar(actionBar);
-
+        if (remind.getRemindId() == -1) {
+            return;
+        }
         Drawable drawableFillter = getResources().getDrawable(R.mipmap.btn_title_recycle);
 
         drawableFillter.setBounds(0, 0, drawableFillter.getMinimumWidth(), drawableFillter
@@ -298,6 +300,9 @@ public class AlarmModifyActivity extends BaseActivity {
 
     @Override
     protected String getTitleString() {
+        if (remind.getRemindId() == -1) {
+            return getString(R.string.tab_title_punch_alarm_new);
+        }
         return getString(R.string.tab_title_punch_alarm_modify);
     }
 

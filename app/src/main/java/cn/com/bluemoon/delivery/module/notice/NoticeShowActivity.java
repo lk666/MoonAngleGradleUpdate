@@ -112,7 +112,7 @@ public class NoticeShowActivity extends BaseActivity {
         }
         isRead = false;
         showWaitDialog();
-        DeliveryApi.getInfoDetail(getToken(), ids.get(0), getNewHandler(0, ResultInfoDetail.class));
+        DeliveryApi.getInformation(getToken(), ids.get(0), getNewHandler(0, ResultInfoDetail.class));
     }
 
     private void setData(String str) {
