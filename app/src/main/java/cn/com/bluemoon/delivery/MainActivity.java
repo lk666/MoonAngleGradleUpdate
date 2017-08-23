@@ -644,9 +644,7 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
      * 获取必要未读消息列表
      */
     private void openNotice(List<Info> list) {
-        if (list == null || list.isEmpty()) {
-            ViewUtil.setViewVisibility(viewTop, View.GONE);
-        } else {
+        if (list != null && !list.isEmpty()) {
             ArrayList<String> unReadList = new ArrayList<>();
             for (Info info : list) {
                 unReadList.add(info.getInfoId());
@@ -664,6 +662,7 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         @Override
         public void onFinish() {
             super.onFinish();
+            ViewUtil.setViewVisibility(viewTop, View.GONE);
             if (progressDialog != null)
                 progressDialog.dismiss();
         }
