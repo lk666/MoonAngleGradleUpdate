@@ -111,7 +111,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
 
     private ImageView imgPerson;
     private ImageView imgScan;
-    private View viewTop;
 
     //是否以重试了一遍
     private boolean isAgain;
@@ -133,7 +132,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         progressDialog = new CommonProgressDialog(main);
         progressDialog.setCancelable(false);
 
-        viewTop = findViewById(R.id.view_top);
         imgPerson = (ImageView) findViewById(R.id.img_person);
         imgPerson.setOnClickListener(this);
         imgScan = (ImageView) findViewById(R.id.img_scan);
@@ -146,7 +144,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
                 new CommonEmptyView.EmptyListener() {
                     @Override
                     public void onRefresh() {
-                        if (progressDialog != null) progressDialog.show();
                         DeliveryApi.getAppRights(token, appRightsHandler);
                         DeliveryApi.getNewMessage(token, newMessageHandler);
                     }
@@ -160,8 +157,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
             }
         });
 
-
-        if (progressDialog != null) progressDialog.show();
         DeliveryApi.getAppRights(token, appRightsHandler);
         DeliveryApi.getNewMessage(token, newMessageHandler);
         getNoticeData();
@@ -230,8 +225,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
             RelativeLayout top_head = (RelativeLayout) this.findViewById(R.id.top_head);
             top_head.setPadding(0, statusbarHeight, 0, 0);
         }
-        //通知消息检测回来直接，默认设置为不可滑动
-        mMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_NONE);
 
     }
 
@@ -364,7 +357,7 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         if (PublicUtil.isTipsByDay(main)) {
             showLocationSettingDialog();
         } else {
-            if (progressDialog != null) progressDialog.show();
+            showProgressDialog();
             DeliveryApi.isPunchCard(ClientStateManager.getLoginToken(main), isPunchCardHandler);
         }
     }
@@ -385,7 +378,7 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        if (progressDialog != null) progressDialog.show();
+                        showProgressDialog();
                         DeliveryApi.isPunchCard(ClientStateManager.getLoginToken(main),
                                 isPunchCardHandler);
                     }
@@ -407,8 +400,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
     protected void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
-        if (progressDialog != null)
-            progressDialog.dismiss();
     }
 
     private long firstTime = 0;
@@ -451,7 +442,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         public void onSuccess(int statusCode, Header[] headers,
                               String responseString) {
             LogUtils.d(TAG, "getAppRights result = " + responseString);
-//            if (progressDialog != null) progressDialog.dismiss();
             scrollViewMain.onRefreshComplete();
 
             try {
@@ -485,7 +475,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
             LogUtils.e(TAG, throwable.getMessage());
             scrollViewMain.onRefreshComplete();
             PublicUtil.showToastServerOvertime();
-//            if (progressDialog != null) progressDialog.dismiss();
             LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
         }
     };
@@ -510,11 +499,16 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
     AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
         @Override
+        public void onFinish() {
+            super.onFinish();
+            if (isDestory) return;
+            dismissProgressDialog();
+        }
+
+        @Override
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             LogUtils.d(TAG, "isPunchCardHandler result = " + responseString);
             if (isDestory) return;
-            if (progressDialog != null)
-                progressDialog.dismiss();
             try {
                 ResultIsPunchCard isPunchCardResult = JSON.parseObject(responseString,
                         ResultIsPunchCard.class);
@@ -535,8 +529,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
                               Throwable throwable) {
             LogUtils.e(TAG, throwable.getMessage());
             if (isDestory) return;
-            if (progressDialog != null)
-                progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
         }
     };
@@ -547,8 +539,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         public void onSuccess(int statusCode, Header[] headers, String responseString) {
             LogUtils.d(TAG, "moonAngelQrCodeService result = " + responseString);
             if (isDestory) return;
-            if (progressDialog != null)
-                progressDialog.dismiss();
             try {
                 ResultAngelQr angelQrResult = JSON.parseObject(responseString, ResultAngelQr.class);
                 if (angelQrResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
@@ -574,8 +564,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
                               Throwable throwable) {
             LogUtils.e(TAG, throwable.getMessage());
             if (isDestory) return;
-            if (progressDialog != null)
-                progressDialog.dismiss();
             PublicUtil.showToastServerOvertime();
         }
     };
@@ -622,9 +610,7 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
      * 获取必要未读消息列表
      */
     private void getNoticeData() {
-        if (progressDialog != null) {
-            progressDialog.show();
-        }
+        showProgressDialog();
         DeliveryApi.getMustReadInfoList(token, noticeHandler);
     }
 
@@ -662,9 +648,8 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         @Override
         public void onFinish() {
             super.onFinish();
-            ViewUtil.setViewVisibility(viewTop, View.GONE);
-            if (progressDialog != null)
-                progressDialog.dismiss();
+            if(isDestory) return;
+            dismissProgressDialog();
         }
 
         @Override
@@ -697,14 +682,6 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
     };
 
     //************** 处理消息  end***********************/
-
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        isDestory = true;
-        //        ClientStateManager.setMenuOrder(main,listRight);
-    }
 
     @Override
     protected void onDestroy() {

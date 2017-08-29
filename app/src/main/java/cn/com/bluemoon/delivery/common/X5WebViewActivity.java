@@ -73,6 +73,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
     private ValueCallback<Uri[]> mFilePathCallback;
     private TakePhotoPopView takePhotoPop;
     private WebChromeClient chromeClient=null;
+    private String backFunName;
 
     public static void startAction(Context context, String url, String title, boolean isActionBar,
                                    boolean isBackByJs) {
@@ -417,11 +418,19 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         public void logout(WebView view) {
             PublicUtil.showMessageTokenExpire(aty);
         }
+
+        @Override
+        public void setBack(WebView view, String backFunName, String callback) {
+            super.setBack(view, backFunName, callback);
+            if(!TextUtils.isEmpty(backFunName)){
+                isBackByJs = true;
+                X5WebViewActivity.this.backFunName = backFunName;
+            }
+        }
     };
 
     private void initLocation() {
         LocationClientOption mOption = new LocationClientOption();
-        mOption = new LocationClientOption();
         mOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mOption.setCoorType("bd09ll");
         mOption.setOpenGps(true);
@@ -530,7 +539,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
             if (isBackByJs && viewNotify.getVisibility() == View.VISIBLE) {
                 finish();
             } else if (isBackByJs) {
-                JsConnectManager.keyBack(moonWebView);
+                JsConnectManager.loadJavascript(moonWebView,backFunName);
             } else if (moonWebView.canGoBack()) {
                 moonWebView.goBack();
                 popTitle();
@@ -613,7 +622,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
             if (isBackFinish || (isBackByJs && viewNotify.getVisibility() == View.VISIBLE)) {
                 finish();
             } else if (isBackByJs) {
-                JsConnectManager.keyBack(moonWebView);
+                JsConnectManager.loadJavascript(moonWebView,backFunName);
             } else if (moonWebView.canGoBack()) {
                 moonWebView.goBack();
                 popTitle();
