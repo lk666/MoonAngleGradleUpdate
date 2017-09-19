@@ -8,6 +8,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.newbase.view.BaseTitleBar;
 import cn.com.bluemoon.delivery.module.newbase.view.CommonActionBar;
 import cn.com.bluemoon.delivery.module.newbase.view.IActionBarListener;
+import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 /**
  * fragment继承层次：4（0顶层）
@@ -66,6 +67,14 @@ public abstract class BaseFragment<TITLE_BAR extends BaseTitleBar> extends BaseN
         }
 
         // 其他初始化操作可以 @Override  initTitleBarView方法并在super.initTitleBarView(title);之后进行
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(mainView != null) {
+            LibViewUtil.hideKeyboard(mainView);//默认关闭软件盘
+        }
     }
 
     /**

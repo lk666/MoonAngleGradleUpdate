@@ -26,8 +26,10 @@ import cn.com.bluemoon.delivery.common.AppConfig;
 import cn.com.bluemoon.delivery.db.manager.DBHelper;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.module.track.api.TrackHttpClient;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.liblog.NetLogUtils;
 
 public class AppContext extends BaseApplication {
 
@@ -102,6 +104,25 @@ public class AppContext extends BaseApplication {
         PlatformConfig.setQQZone("1104979860", "Qkg4yWZ5Gr07K0K5");
         UMShareAPI.get(this);
         initX5Environment();
+
+        FileUtil.init();
+
+        // Log
+        cn.com.bluemoon.liblog.LogUtils.init("MoonAngle", 5, !BuildConfig.RELEASE);
+        NetLogUtils.init(FileUtil.getPathTemp(), !BuildConfig.RELEASE);
+
+        SchemeRegistry supportedSchemes = new SchemeRegistry();
+        // Register the "http" and "https" protocol schemes, they are
+        // required by the default operator to look up socket factories.
+        supportedSchemes.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
+        supportedSchemes.register(new Scheme("https", new EasySSLSocketFactory(), 443));
+        AsyncHttpClient client = new AsyncHttpClient(supportedSchemes);
+        PersistentCookieStore myCookieStore = new PersistentCookieStore(AppContext.getInstance());
+        client.setCookieStore(myCookieStore);
+        client.setConnectTimeout(20000);
+        client.setResponseTimeout(20000);
+        ApiHttpClient.setHttpClient(client);
+        ApiHttpClient.setCookie(ApiHttpClient.getCookie(AppContext.getInstance()));
     }
 
     private void initTrackHttp(){

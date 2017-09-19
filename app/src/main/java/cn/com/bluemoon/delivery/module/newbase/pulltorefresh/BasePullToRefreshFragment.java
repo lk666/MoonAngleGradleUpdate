@@ -39,10 +39,10 @@ public abstract class BasePullToRefreshFragment<TITLE_BAR extends BaseTitleBar> 
     /**
      * 空数据页面View
      */
-    private View emptyView;
+    protected View emptyView;
 
-    private static final int HTTP_REQUEST_CODE_GET_MORE = 0x1000;
-    private static final int HTTP_REQUEST_CODE_GET_DATA = 0x1001;
+    protected static final int HTTP_REQUEST_CODE_GET_MORE = 0x1000;
+    protected static final int HTTP_REQUEST_CODE_GET_DATA = 0x1001;
 
     /**
      * 刷新view
@@ -75,7 +75,6 @@ public abstract class BasePullToRefreshFragment<TITLE_BAR extends BaseTitleBar> 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable
             Bundle savedInstanceState) {
         View v = super.onCreateView(inflater, container, savedInstanceState);
-        initHeadView();
         return v;
     }
 
@@ -108,6 +107,7 @@ public abstract class BasePullToRefreshFragment<TITLE_BAR extends BaseTitleBar> 
             initPtr(ptr);
         }
 
+        initHeadView();
         // 头部
         if (head != null) {
             initHeadViewEvent(head);
@@ -187,6 +187,15 @@ public abstract class BasePullToRefreshFragment<TITLE_BAR extends BaseTitleBar> 
             }
         });
         ((ViewGroup) emptyView).addView(empty);
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+
+        errorView = null;
+        emptyView = null;
+        emptyMsg = null;
     }
 
     ///////////// 必须重写 ////////////////

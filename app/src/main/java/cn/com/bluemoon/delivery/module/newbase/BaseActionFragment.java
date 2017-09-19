@@ -56,14 +56,6 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
         saveStateToArguments();
     }
 
-    @Override
-    public void onDestroyView() {
-        ButterKnife.unbind(this);
-        super.onDestroyView();
-        // 跳转到其他页面会调用，可能在此保存数据
-        saveStateToArguments();
-    }
-
     private void saveStateToArguments() {
         if (getView() != null) {
             savedState = saveState();
@@ -129,12 +121,6 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
     }
 
     @Override
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(getDefaultTag());
-    }
-
-    @Override
     public void onPause() {
         super.onPause();
         MobclickAgent.onPageEnd(getDefaultTag());
@@ -151,6 +137,44 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
         super.onDestroy();
         if (isUseEventBus()) {
             EventBus.getDefault().unregister(this);
+        }
+    }
+
+    // TODO: lk 2017/7/20 临时解决方案，根本解决需要将数据与界面分离
+    private boolean isDestroyView = false;
+    private boolean isWaittingGetData = false;
+
+    @Override
+    public void onDestroyView() {
+        ButterKnife.unbind(this);
+        super.onDestroyView();
+        // 跳转到其他页面会调用，可能在此保存数据
+        saveStateToArguments();
+        isDestroyView = true;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(getDefaultTag());
+        isDestroyView = false;
+
+        if (isWaittingGetData) {
+            isWaittingGetData = false;
+            initData();
+        }
+    }
+
+    /**
+     * 获取界面数据（刷新界面），主要针对异步刷新
+     */
+    final protected void refreshData() {
+        if (!isDestroyView) {
+            // 有界面时直接刷新
+            initData();
+        } else {
+            // 无界面时延后刷新，只针对后台刷新
+            isWaittingGetData = true;
         }
     }
 
@@ -184,7 +208,8 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
 
     /**
      * 初始化标题栏
-     * 初始化控件属性，不在此设置控件数据
+     * 初始化控件属性，不应在此设置控件数据
+     * view状态恢复建议在此处执行
      */
     protected void initTitleBarView(View titleBar) {
     }

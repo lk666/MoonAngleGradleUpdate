@@ -65,7 +65,7 @@ public class AppStartActivity extends Activity {
     public LocationService locationService = null;
 
     public static void actStart(Context context, String view, String url) {
-        Intent intent = new Intent(context, LoginActivity.class);
+        Intent intent = new Intent(context, AppStartActivity.class);
         intent.putExtra(Constants.PUSH_VIEW, view);
         if (Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url)) {
             intent.putExtra(Constants.PUSH_URL, url);
@@ -95,25 +95,6 @@ public class AppStartActivity extends Activity {
     }
 
     private void init() {
-        FileUtil.init();
-
-        // Log
-        cn.com.bluemoon.liblog.LogUtils.init("MoonAngle", 5, !BuildConfig.RELEASE);
-        NetLogUtils.init(FileUtil.getPathTemp(), !BuildConfig.RELEASE);
-
-        SchemeRegistry supportedSchemes = new SchemeRegistry();
-        // Register the "http" and "https" protocol schemes, they are
-        // required by the default operator to look up socket factories.
-        supportedSchemes.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-        supportedSchemes.register(new Scheme("https", new EasySSLSocketFactory(), 443));
-        AsyncHttpClient client = new AsyncHttpClient(supportedSchemes);
-        PersistentCookieStore myCookieStore = new PersistentCookieStore(AppContext.getInstance());
-        client.setCookieStore(myCookieStore);
-        client.setConnectTimeout(20000);
-        client.setResponseTimeout(20000);
-        ApiHttpClient.setHttpClient(client);
-        ApiHttpClient.setCookie(ApiHttpClient.getCookie(AppContext.getInstance()));
-
         ImageLoaderUtil.init(AppContext.getInstance(), FileUtil.getPathCache(), !BuildConfig.RELEASE);
 
         //获取推送内容

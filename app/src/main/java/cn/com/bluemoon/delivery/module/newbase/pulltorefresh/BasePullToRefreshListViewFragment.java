@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.newbase.pulltorefresh;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -76,16 +77,21 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends
     }
 
     @Override
-    final protected void initPtr(PullToRefreshBase ptr) {
-        ptrlv = (PullToRefreshListView) ptr;
-        ptrlv.getLoadingLayoutProxy(false, true).setReleaseLabel(
-                getString(R.string.refresh_from_bottom_release_label));
-        initPullToRefreshListView(ptrlv);
+    public void initData() {
         adapter = getNewAdapter();
         list = new ArrayList<>();
         adapter.setList(list);
         ptrlv.setAdapter(adapter);
 
+        super.initData();
+    }
+
+    @Override
+    final protected void initPtr(PullToRefreshBase ptr) {
+        ptrlv = (PullToRefreshListView) ptr;
+        ptrlv.getLoadingLayoutProxy(false, true).setReleaseLabel(getString(R.string
+                .refresh_from_bottom_release_label));
+        initPullToRefreshListView(ptrlv);
         flNoMore = getNoMoreView();
         if (flNoMore != null) {
             AbsListView.LayoutParams layoutParams = new AbsListView.LayoutParams(AbsListView
@@ -154,7 +160,11 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends
             canGetMore = false;
             showEmptyView();
         } else {
-            canGetMore = true;
+            if (modeCanPullUp) {
+                canGetMore = true;
+            } else {
+                canGetMore = false;
+            }
             setGetDataList(dataList);
             showRefreshView();
         }
@@ -253,7 +263,63 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends
         return adapter;
     }
 
+    protected final static String KEY_RESTORE = "KEY_RESTORE";
+
+    @Override
+    final protected Bundle saveState() {
+        Bundle save = getSaveState();
+        if (save != null) {
+            if (emptyView != null && emptyView.getVisibility() == View.VISIBLE) {
+                save.putInt(KEY_RESTORE, 1);
+            } else if (errorView != null && errorView.getVisibility() == View.VISIBLE) {
+                save.putInt(KEY_RESTORE, 2);
+            } else {
+                save.putInt(KEY_RESTORE, 0);
+            }
+        }
+        return save;
+    }
+
     ///////////// 可选重写 ////////////////
+
+    /**
+     * 数据空白时是否显示头部，某些情况有冲突，参见{@link #showEmptyView()}
+     */
+    @Override
+    protected boolean isShowHeaderEmpty() {
+        return false;
+    }
+
+    /**
+     * 数据错误时是否显示头部，某些情况有冲突，参见{@link #showNetErrorView()}
+     */
+    @Override
+    protected boolean isShowHeaderError() {
+        return false;
+    }
+
+    /**
+     * 数据恢复，已默认恢复
+     */
+    @Override
+    protected void onRestoreState(Bundle savedInstanceState) {
+        super.onRestoreState(savedInstanceState);
+        if (savedInstanceState != null) {
+            int state = savedInstanceState.getInt(KEY_RESTORE, -1);
+            switch (state) {
+                case 0:
+                    ptrlv.setAdapter(adapter);
+                    showRefreshView();
+                    break;
+                case 1:
+                    showEmptyView();
+                    break;
+                default:
+                    showNetErrorView();
+                    break;
+            }
+        }
+    }
 
     /**
      * 是否在没有更多数据时显示底部没有更多数据view
@@ -288,6 +354,12 @@ public abstract class BasePullToRefreshListViewFragment<ADAPTER extends
     }
 
     ///////////// 必须重写 ////////////////
+
+    /**
+     * 获取除列表数据之外的缓存数据，如不需缓存数据，则直接返回null。
+     * 如只需缓存列表数据，返回new Bundle
+     */
+    protected abstract Bundle getSaveState();
 
     /**
      * 产生adapter

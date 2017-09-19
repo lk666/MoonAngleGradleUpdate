@@ -17,6 +17,7 @@ android {
             storeFile file('./BlueMoon.keystore')
             storePassword "bluemoon"
             keyAlias "bluemoon"
+
             keyPassword "!12345678"
         }
         //debug签名是友盟分享要求添加的
