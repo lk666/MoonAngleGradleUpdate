@@ -102,7 +102,7 @@ public class RecordCardFragment extends BasePullToRefreshListViewFragment {
     }
 
     private void setTxtCount(int count){
-        txtCount.setText(getString(R.string.card_record_count, count));
+        txtCount.setText(getString(R.string.card_record_count, "" + count));
     }
 
     private long getMonth() {

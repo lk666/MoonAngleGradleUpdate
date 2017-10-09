@@ -41,7 +41,6 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
  * 基础Fragment，必须属于{@link BaseTabActivity}
  * Created by lk on 2016/7/29.
  */
-@Deprecated
 public abstract class BaseFragment extends Fragment implements BaseMainInterface, BaseViewInterface,
         IHttpRespone {
 

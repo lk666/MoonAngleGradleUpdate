@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -39,6 +38,7 @@ import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.ui.FragmentTabHost;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -50,7 +50,6 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
  * 基础FragmentActivity，用于各fragment集合的界面
  * Created by lk on 2016/6/3.
  */
-@Deprecated
 public abstract class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
         BaseMainInterface, IHttpRespone {
     @Bind(android.R.id.tabhost)

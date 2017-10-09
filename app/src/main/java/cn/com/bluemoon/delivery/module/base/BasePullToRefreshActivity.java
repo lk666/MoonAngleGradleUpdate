@@ -17,7 +17,6 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
  * 基础下拉刷新上拉加载Activity，layout最好只包含一个不滚动的头部、一个PullToRefresh控件和一个空白页、一个错误页
  * Created by lk on 2016/7/26.
  */
-@Deprecated
 public abstract class BasePullToRefreshActivity extends BaseActivity {
     /**
      * 头，开始不显示，
