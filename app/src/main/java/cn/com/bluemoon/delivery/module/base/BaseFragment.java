@@ -162,12 +162,12 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, String responseString) {
-                if (iHttpRespone == null) {
+                hideWaitDialog();
+                if (iHttpRespone == null || isDetached()) {
                     return;
                 }
                 LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
                         " " + "result = " + responseString);
-                hideWaitDialog();
                 try {
                     Object resultObj;
                     resultObj = JSON.parseObject(responseString, getClazz());
@@ -196,10 +196,10 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
 
                 LogUtils.i("================"+throwable.getMessage()+responseString);
 
-                if (iHttpRespone == null) {
+                hideWaitDialog();
+                if (iHttpRespone == null || isDetached()) {
                     return;
                 }
-                hideWaitDialog();
                 iHttpRespone.onFailureResponse(getReqCode(), throwable);
             }
         };
