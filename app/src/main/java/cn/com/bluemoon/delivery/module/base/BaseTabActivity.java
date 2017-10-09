@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -45,6 +44,7 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
+import cn.com.bluemoon.lib.view.BmFragmentTabHost;
 
 /**
  * 基础FragmentActivity，用于各fragment集合的界面
@@ -53,7 +53,7 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 public abstract class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
         BaseMainInterface, IHttpRespone {
     @Bind(android.R.id.tabhost)
-    protected FragmentTabHost tabhost;
+    protected BmFragmentTabHost tabhost;
     private static final int REQUESTCODE_MODE = 10;
 
     private ProgressDialog waitDialog;

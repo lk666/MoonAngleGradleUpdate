@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.wash.collect;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,9 +10,10 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.module.oldbase.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.withorder.WithOrderManageFragment;
 import cn.com.bluemoon.delivery.module.wash.collect.withoutorder.WithoutOrderManageFragment;
-import cn.com.bluemoon.delivery.module.oldbase.BaseFragmentActivity;
+import cn.com.bluemoon.lib.view.BmFragmentTabHost;
 
 // TODO: lk 2016/6/16 可干掉与当前activity重复layout的资源文件 
 
@@ -55,7 +55,7 @@ public class ClothingTabActivity extends BaseFragmentActivity {
                     R.string.tab_bottom_with_order_collect_record, WITHOUT_ORDER_COLLECT_MANAGE);
         }
 
-        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        BmFragmentTabHost mTabHost = (BmFragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
 

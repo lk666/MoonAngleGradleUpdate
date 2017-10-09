@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery.module.team;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,12 +14,13 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.TeamTabState;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
+import cn.com.bluemoon.lib.view.BmFragmentTabHost;
 
 public class MyTeamActivity extends FragmentActivity implements BackHandledInterface {
 
     private String TAG = "MyTeamActivity";
     private LayoutInflater layoutInflater;
-    private FragmentTabHost mTabHost;
+    private BmFragmentTabHost mTabHost;
     public static String roleCode;
     private BackHandledFragment mBackHandedFragment;
 
@@ -32,7 +32,7 @@ public class MyTeamActivity extends FragmentActivity implements BackHandledInter
 
         ActivityManager.getInstance().pushOneActivity(this);
         layoutInflater = LayoutInflater.from(this);
-        mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        mTabHost = (BmFragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
         final TeamTabState[] states = TeamTabState.values();

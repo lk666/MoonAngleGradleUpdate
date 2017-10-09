@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.coupons;
 
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentTabHost;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -15,6 +14,7 @@ import com.umeng.analytics.MobclickAgent;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.entity.CouponsTabState;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
+import cn.com.bluemoon.lib.view.BmFragmentTabHost;
 
 public class CouponsTabActivity extends FragmentActivity {
     private String TAG = "CouponsTabActivity";
@@ -28,7 +28,7 @@ public class CouponsTabActivity extends FragmentActivity {
 
         ActivityManager.getInstance().pushOneActivity(this);
         layoutInflater = LayoutInflater.from(this);
-        FragmentTabHost mTabHost = (FragmentTabHost) findViewById(android.R.id.tabhost);
+        BmFragmentTabHost mTabHost = (BmFragmentTabHost) findViewById(android.R.id.tabhost);
         mTabHost.setup(this, getSupportFragmentManager(), R.id.realtabcontent);
         mTabHost.getTabWidget().setDividerDrawable(null);
         final CouponsTabState[] states = CouponsTabState.values();
