@@ -81,11 +81,10 @@ public class ResetPswActivity extends BaseActivity {
 
     @Override
     public void initView() {
-        edUserid.setMaxLength(9);
         edPhone.setMaxLength(11);
         if (!TextUtils.isEmpty(userid)) {
             edUserid.setText(userid);
-            edUserid.setSelection(userid.length());
+            edUserid.setSelection(edUserid.length());
         }
     }
 
@@ -176,7 +175,8 @@ public class ResetPswActivity extends BaseActivity {
         @Override
         public void onTick(long millisUntilFinished) {
             btnCode.setClickable(false);
-            btnCode.setText(String.format(getString(R.string.login_get_code_again), millisUntilFinished / 1000));
+            btnCode.setText(String.format(getString(R.string.login_get_code_again),
+                    "" + millisUntilFinished / 1000));
         }
     }
 
