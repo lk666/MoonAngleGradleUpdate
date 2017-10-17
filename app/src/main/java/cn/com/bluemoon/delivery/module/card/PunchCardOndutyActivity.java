@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +30,6 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.utils.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,20 +37,22 @@ import java.util.List;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.address.Area;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCard;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchCardType;
 import cn.com.bluemoon.delivery.app.api.model.card.PunchParam;
+import cn.com.bluemoon.delivery.app.api.model.card.RegionInfo;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultAddressInfo;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultCheckScanCode;
+import cn.com.bluemoon.delivery.app.api.model.card.ResultGPSRegion;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultGetWorkTask;
 import cn.com.bluemoon.delivery.app.api.model.card.WorkPlaceType;
 import cn.com.bluemoon.delivery.app.api.model.card.WorkTask;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.common.SelectAddressActivity;
-import cn.com.bluemoon.delivery.entity.SubRegion;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.ui.TabSelector;
+import cn.com.bluemoon.delivery.ui.dialog.AddressSelectPopWindow;
 import cn.com.bluemoon.delivery.utils.AccelerateInterpolator;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -62,7 +64,8 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
-public class PunchCardOndutyActivity extends Activity {
+public class PunchCardOndutyActivity extends Activity implements AddressSelectPopWindow
+        .IAddressSelectDialog {
 
     private String TAG = "PunchCardOndutyActivity";
     private TabSelector layoutTab;
@@ -86,9 +89,14 @@ public class PunchCardOndutyActivity extends Activity {
     private PunchCard punchCardOther;
     private PunchCardType punchCardType;
     private PunchCardOndutyActivity main;
+    private LinearLayout mainView;
     private LinearLayout layoutAddress;
     public LocationClient mLocationClient = null;
+    private RegionInfo regionInfo;
+    //是否正在定位
     private boolean isInit = true;
+    //是否已经获取到定位的省市区,即是否可以选择地址（用于无编码打卡）
+    private boolean isCanSelect;
     ObjectAnimator anim;
     public BDLocationListener myListener = new BDLocationListener() {
 
@@ -108,12 +116,16 @@ public class PunchCardOndutyActivity extends Activity {
                     txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
                     if (progressDialog != null)
                         progressDialog.dismiss();
+                    isCanSelect = true;
                 } else {
                     PunchParam param = new PunchParam();
                     param.setLatitude(location.getLatitude());
                     param.setLongitude(location.getLongitude());
                     param.setToken(ClientStateManager.getLoginToken());
+                    // 获取定位地址
                     DeliveryApi.getGpsAddress(param, gpsHandler);
+                    //  2017/10/17 获取无编码打卡的省市区
+                    DeliveryApi.getGPSRegion(param, gpsRegionHandler);
                 }
 
             } else {
@@ -137,12 +149,13 @@ public class PunchCardOndutyActivity extends Activity {
                 }
 //            punchCard.setAltitude(location.getAltitude());
 
-                if (StringUtils.isEmpty(ClientStateManager.getLoginToken(main))
-                        || punchCard == null || StringUtils.isEmpty(workTask)) {
+                if (TextUtils.isEmpty(ClientStateManager.getLoginToken(main))
+                        || TextUtils.isEmpty(workTask)) {
                     btnPunchCard.setClickable(true);
                     return;
                 }
-                DeliveryApi.addPunchCardIn(ClientStateManager.getLoginToken(), punchCard, workTask, confirmAttendanceHandler);
+                DeliveryApi.addPunchCardIn(ClientStateManager.getLoginToken(), punchCard,
+                        workTask, confirmAttendanceHandler);
             }
             isInit = false;
         }
@@ -153,6 +166,7 @@ public class PunchCardOndutyActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_punch_card_input_onduty);
         main = this;
+        mainView = (LinearLayout) findViewById(R.id.layout_main);
         initCustomActionBar();
         layoutTab = (TabSelector) findViewById(R.id.layout_tab);
         btnPunchCard = (Button) findViewById(R.id.btn_punch_card);
@@ -161,7 +175,7 @@ public class PunchCardOndutyActivity extends Activity {
         progressDialog.setCancelable(false);
         if (getIntent() != null) {
             workplaceCodeStr = getIntent().getStringExtra("code");
-            if (!StringUtils.isEmpty(workplaceCodeStr)) {
+            if (!TextUtils.isEmpty(workplaceCodeStr)) {
                 punchCardType = PunchCardType.scan;
             }
         }
@@ -214,7 +228,7 @@ public class PunchCardOndutyActivity extends Activity {
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                if (StringUtils.isEmpty(charSequence.toString())) {
+                if (TextUtils.isEmpty(charSequence.toString())) {
                     etAddressOther.setHint(getString(R.string.card_input_address_hint));
                 } else {
                     etAddressOther.setHint("");
@@ -232,7 +246,7 @@ public class PunchCardOndutyActivity extends Activity {
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (isInit) {
+            if (isInit || !isCanSelect) {
                 PublicUtil.showToast(getString(R.string.get_on_location));
                 return;
             }
@@ -249,10 +263,20 @@ public class PunchCardOndutyActivity extends Activity {
                 intent.putExtra("code", txtAddressCode.getText().toString());
                 startActivityForResult(intent, 1);
             } else if (v == layoutChooseAddressOther) {
-                Intent intent = new Intent(main, SelectAddressActivity.class);
-                startActivityForResult(intent, 2);
+                String pId = "", cId = "", coId = "";
+                if (regionInfo != null) {
+                    pId = regionInfo.provinceCode;
+                    cId = regionInfo.cityCode;
+                    coId = regionInfo.countyCode;
+                }
+                AddressSelectPopWindow window = AddressSelectPopWindow.newInstance(main, pId
+                        , cId, coId);
+                window.setListener(main);
+                window.show(mainView);
+
             } else if (v == layoutAddress) {
                 isInit = true;
+                isCanSelect = false;
                 txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
                 layoutAddress.setClickable(false);
                 startPropertyAnim(imgAddressRefresh);
@@ -292,14 +316,16 @@ public class PunchCardOndutyActivity extends Activity {
         txtCharge = (TextView) viewCode.findViewById(R.id.txt_charge);
         txtCardAddress = (TextView) viewCode.findViewById(R.id.txt_card_address);
         tagListViewCode = (TagListView) viewCode.findViewById(R.id.tag_listview_card_code);
-        layoutChooseAddressCode = (LinearLayout) viewCode.findViewById(R.id.layout_choose_address_code);
+        layoutChooseAddressCode = (LinearLayout) viewCode.findViewById(R.id
+                .layout_choose_address_code);
         layoutChooseAddressCode.setOnClickListener(onClickListener);
 
         //viewOther
         txtRegionOther = (TextView) viewOther.findViewById(R.id.txt_region_other);
         etAddressOther = (TextView) viewOther.findViewById(R.id.et_address_other);
         tagListViewOther = (TagListView) viewOther.findViewById(R.id.tag_listview_card_other);
-        layoutChooseAddressOther = (LinearLayout) viewOther.findViewById(R.id.layout_choose_address_other);
+        layoutChooseAddressOther = (LinearLayout) viewOther.findViewById(R.id
+                .layout_choose_address_other);
         layoutChooseAddressOther.setOnClickListener(onClickListener);
         if (PunchCardType.scan == punchCardType) {
             layoutTab.setVisibility(View.GONE);
@@ -333,14 +359,15 @@ public class PunchCardOndutyActivity extends Activity {
     }
 
     private void setDataByCode(String code) {
-        if (StringUtils.isEmpty(code)) {
+        if (TextUtils.isEmpty(code)) {
             return;
         } else {
             workplaceCodeStr = code;
             if (progressDialog != null) {
                 progressDialog.show();
             }
-            DeliveryApi.checkScanCodeCard(ClientStateManager.getLoginToken(main), workplaceCodeStr, checkScanCodeHandler);
+            DeliveryApi.checkScanCodeCard(ClientStateManager.getLoginToken(main),
+                    workplaceCodeStr, checkScanCodeHandler);
         }
     }
 
@@ -354,9 +381,10 @@ public class PunchCardOndutyActivity extends Activity {
                 return true;
             }
         } else if (currentItem == 1) {
-            if (punchCardOther == null || StringUtils.isEmpty(txtRegionOther.getText().toString().trim())) {
+            if (punchCardOther == null || TextUtils.isEmpty(txtRegionOther.getText().toString()
+                    .trim())) {
                 PublicUtil.showToast(R.string.card_workplace_cannot_empty);
-            } else if (StringUtils.isEmpty(etAddressOther.getText().toString().trim())) {
+            } else if (TextUtils.isEmpty(etAddressOther.getText().toString().trim())) {
                 PublicUtil.showToast(R.string.card_address_cannot_empty);
             } else if (tagListViewOther.getTagsChecked().size() <= 0) {
                 PublicUtil.showToast(R.string.card_worktask_cannot_empty);
@@ -402,29 +430,6 @@ public class PunchCardOndutyActivity extends Activity {
                     if (data == null) return;
                     setDataByCode(data.getStringExtra("code"));
                     break;
-                case 2:
-                    if (data == null) return;
-                    List<SubRegion> subRegionList = (List<SubRegion>) data.getSerializableExtra("subRegionList");
-                    if (subRegionList == null) return;
-                    if (punchCardOther == null) {
-                        punchCardOther = new PunchCard();
-                    }
-                    for (int i = 0; i < subRegionList.size(); i++) {
-                        switch (i) {
-                            case 0:
-                                punchCardOther.setProvinceName(subRegionList.get(0).getDname());
-                                break;
-                            case 1:
-                                punchCardOther.setCityName(subRegionList.get(1).getDname());
-                                break;
-                            case 2:
-                                punchCardOther.setCountyName(subRegionList.get(2).getDname());
-                                break;
-                        }
-                    }
-                    txtRegionOther.setText(CardUtils.getWorkPlaceAddress(punchCardOther));
-//                    refreshBtn();
-                    break;
             }
         }
     }
@@ -452,22 +457,28 @@ public class PunchCardOndutyActivity extends Activity {
             if (progressDialog != null)
                 progressDialog.dismiss();
             try {
-                ResultCheckScanCode checkScanCodeResult = JSON.parseObject(responseString, ResultCheckScanCode.class);
+                ResultCheckScanCode checkScanCodeResult = JSON.parseObject(responseString,
+                        ResultCheckScanCode.class);
                 if (checkScanCodeResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     if (punchCardCode == null) {
                         punchCardCode = new PunchCard();
                     }
-                    punchCardCode.setAttendanceCode(checkScanCodeResult.getPunchCard().getAttendanceCode());
+                    punchCardCode.setAttendanceCode(checkScanCodeResult.getPunchCard()
+                            .getAttendanceCode());
                     txtAddressCode.setText(checkScanCodeResult.getPunchCard().getAttendanceCode());
-                    txtCharge.setText(CardUtils.getChargeNoCode(checkScanCodeResult.getPunchCard()));
-                    txtCardAddress.setText(CardUtils.getAddress(checkScanCodeResult.getPunchCard()));
+                    txtCharge.setText(CardUtils.getChargeNoCode(checkScanCodeResult.getPunchCard
+                            ()));
+                    txtCardAddress.setText(CardUtils.getAddress(checkScanCodeResult.getPunchCard
+                            ()));
                     setTags(tagListViewCode, checkScanCodeResult.getWorkTaskList());
                 } else {
                     if (PunchCardType.scan == punchCardType) {
-                        if (Constants.RESPONSE_RESULT_TOKEN_EXPIRED == checkScanCodeResult.getResponseCode()) {
+                        if (Constants.RESPONSE_RESULT_TOKEN_EXPIRED == checkScanCodeResult
+                                .getResponseCode()) {
                             PublicUtil.showMessageTokenExpire(main);
                         } else {
-                            showErrorCodeDialog(checkScanCodeResult.getResponseMsg(), Activity.RESULT_CANCELED);
+                            showErrorCodeDialog(checkScanCodeResult.getResponseMsg(), Activity
+                                    .RESULT_CANCELED);
                         }
                     } else {
                         PublicUtil.showErrorMsg(main, checkScanCodeResult);
@@ -497,7 +508,8 @@ public class PunchCardOndutyActivity extends Activity {
 //            if(progressDialog != null)
 //                progressDialog.dismiss();
             try {
-                ResultGetWorkTask getWorkTaskResult = JSON.parseObject(responseString, ResultGetWorkTask.class);
+                ResultGetWorkTask getWorkTaskResult = JSON.parseObject(responseString,
+                        ResultGetWorkTask.class);
                 if (getWorkTaskResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     setTags(tagListViewOther, getWorkTaskResult.getWorkTaskList());
                 } else {
@@ -519,7 +531,9 @@ public class PunchCardOndutyActivity extends Activity {
         }
     };
 
-
+    /**
+     * 根据定位获取定位地址
+     */
     AsyncHttpResponseHandler gpsHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
 
         @Override
@@ -528,7 +542,8 @@ public class PunchCardOndutyActivity extends Activity {
             if (progressDialog != null)
                 progressDialog.dismiss();
             try {
-                ResultAddressInfo baseResult = JSON.parseObject(responseString, ResultAddressInfo.class);
+                ResultAddressInfo baseResult = JSON.parseObject(responseString, ResultAddressInfo
+                        .class);
                 if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     txtCurrentAddress.setText(baseResult.getAddressInfo().getFormattedAddress());
                 } else {
@@ -538,7 +553,7 @@ public class PunchCardOndutyActivity extends Activity {
                 LogUtils.e(TAG, e.getMessage());
                 PublicUtil.showToastServerBusy();
                 txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
-            }finally {
+            } finally {
                 stopPropertyAnim();
                 layoutAddress.setClickable(true);
             }
@@ -556,6 +571,62 @@ public class PunchCardOndutyActivity extends Activity {
             layoutAddress.setClickable(true);
         }
     };
+
+    /**
+     * 根据定位获取行政区域
+     */
+    AsyncHttpResponseHandler gpsRegionHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
+
+        @Override
+        public void onFinish() {
+            super.onFinish();
+            isCanSelect = true;
+            if (progressDialog != null)
+                progressDialog.dismiss();
+        }
+
+        @Override
+        public void onSuccess(int statusCode, Header[] headers, String responseString) {
+            LogUtils.d(TAG, "gpsHandler result = " + responseString);
+
+            try {
+                ResultGPSRegion baseResult = JSON.parseObject(responseString, ResultGPSRegion
+                        .class);
+                if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                    regionInfo = baseResult.regionInfo;
+                    refreshRegion();
+                } else {
+                    PublicUtil.showErrorMsg(main, baseResult);
+                }
+            } catch (Exception e) {
+                LogUtils.e(TAG, e.getMessage());
+                PublicUtil.showToastServerBusy();
+            }
+        }
+
+        @Override
+        public void onFailure(int statusCode, Header[] headers, String responseString,
+                              Throwable throwable) {
+            LogUtils.e(TAG, throwable.getMessage());
+            PublicUtil.showToastServerOvertime();
+        }
+    };
+
+    /**
+     * 更新无编码打卡地址信息
+     */
+    private void refreshRegion() {
+        if (regionInfo == null) {
+            return;
+        }
+        if (punchCardOther == null) {
+            punchCardOther = new PunchCard();
+        }
+        punchCardOther.setProvinceName(regionInfo.provinceName);
+        punchCardOther.setCityName(regionInfo.cityName);
+        punchCardOther.setCountyName(regionInfo.countyName);
+        txtRegionOther.setText(CardUtils.getWorkPlaceAddress(punchCardOther));
+    }
 
 
     // 动画实际执行
@@ -576,7 +647,7 @@ public class PunchCardOndutyActivity extends Activity {
 
     // 动画实际执行
     private void stopPropertyAnim() {
-        if(null!=anim && anim.isStarted()) {
+        if (null != anim && anim.isStarted()) {
             // 正式开始启动执行动画
             anim.cancel();
         }
@@ -629,6 +700,25 @@ public class PunchCardOndutyActivity extends Activity {
         MobclickAgent.onPageEnd(TAG);
     }
 
+    @Override
+    public void onSelect(Area provinceArea, Area cityArea, Area countryArea) {
+        regionInfo = new RegionInfo();
+        // 选择地区结束，返回的结果
+        if (provinceArea != null) {
+            regionInfo.provinceCode = provinceArea.getDcode();
+            regionInfo.provinceName = provinceArea.getDname();
+            if (cityArea != null) {
+                regionInfo.cityCode = cityArea.getDcode();
+                regionInfo.cityName = cityArea.getDname();
+                if (countryArea != null) {
+                    regionInfo.countyCode = countryArea.getDcode();
+                    regionInfo.countyName = countryArea.getDname();
+                }
+            }
+        }
+        refreshRegion();
+    }
+
     public class CardOnPageChangeListener implements ViewPager.OnPageChangeListener {
 
         public void onPageScrollStateChanged(int arg0) {
@@ -655,7 +745,8 @@ public class PunchCardOndutyActivity extends Activity {
                 //layoutTab.barChange(1);
                 if (tagListViewOther.getTags() == null || tagListViewOther.getTags().size() <= 0) {
 //                    if (progressDialog != null) progressDialog.show();
-                    DeliveryApi.getWorkTask(ClientStateManager.getLoginToken(main), WorkPlaceType.other.toString(), getWorkTaskHandler);
+                    DeliveryApi.getWorkTask(ClientStateManager.getLoginToken(main), WorkPlaceType
+                            .other.toString(), getWorkTaskHandler);
                 }
             }
 

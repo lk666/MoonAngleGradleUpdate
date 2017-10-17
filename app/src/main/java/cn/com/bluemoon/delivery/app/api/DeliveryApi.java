@@ -2822,7 +2822,6 @@ public class DeliveryApi {
 
     /**
      * 获取经纬度地址
-     * @param PunchParam 打卡信息
      */
     public static void getGpsAddress(PunchParam card, AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<>();
@@ -2831,6 +2830,18 @@ public class DeliveryApi {
         params.put("altitude",  card.getAltitude());
         params.put(TOKEN, card.getToken());
         postRequest(params, "bluemoon-control/attendance/getGpsAddress%s", handler);
+    }
+
+    /**
+     * 获取经纬度地址和省市区
+     */
+    public static void getGPSRegion(PunchParam card, AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        params.put("longitude",card.getLongitude());
+        params.put("latitude",   card.getLatitude());
+        params.put("altitude",  card.getAltitude());
+        params.put(TOKEN, card.getToken());
+        postRequest(params, "bluemoon-control/attendance/getGPSRegion%s", handler);
     }
 
     /**
