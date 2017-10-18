@@ -534,6 +534,7 @@
     <string name="card_worktask_cannot_empty">工作任务还没有选择呢！</string>
     <string name="card_workplace_cannot_empty">您还没有选择地点哦！</string>
     <string name="card_address_cannot_empty">您还没有填写详细地址哦！</string>
+    <string name="card_region_right">请选择完整的省市区地址</string>
     <string name="card_input_address_hint">请输入详细地址</string>
     <string name="card_input_code_hint">请输入编码或名称</string>
     <string name="card_no_workplace">请输入编码并选择地点</string>

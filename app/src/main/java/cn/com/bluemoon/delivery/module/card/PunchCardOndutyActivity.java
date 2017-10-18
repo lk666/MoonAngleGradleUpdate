@@ -57,7 +57,6 @@ import cn.com.bluemoon.delivery.utils.AccelerateInterpolator;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.tagview.Tag;
 import cn.com.bluemoon.lib.tagview.TagListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
@@ -246,7 +245,7 @@ public class PunchCardOndutyActivity extends Activity implements AddressSelectPo
     View.OnClickListener onClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (isInit || !isCanSelect) {
+            if (isInit) {
                 PublicUtil.showToast(getString(R.string.get_on_location));
                 return;
             }
@@ -263,6 +262,10 @@ public class PunchCardOndutyActivity extends Activity implements AddressSelectPo
                 intent.putExtra("code", txtAddressCode.getText().toString());
                 startActivityForResult(intent, 1);
             } else if (v == layoutChooseAddressOther) {
+                if (!isCanSelect) {
+                    PublicUtil.showToast(getString(R.string.get_on_location));
+                    return;
+                }
                 String pId = "", cId = "", coId = "";
                 if (regionInfo != null) {
                     pId = regionInfo.provinceCode;
@@ -276,7 +279,7 @@ public class PunchCardOndutyActivity extends Activity implements AddressSelectPo
 
             } else if (v == layoutAddress) {
                 isInit = true;
-                isCanSelect = false;
+//                isCanSelect = false;
                 txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
                 layoutAddress.setClickable(false);
                 startPropertyAnim(imgAddressRefresh);
@@ -359,9 +362,7 @@ public class PunchCardOndutyActivity extends Activity implements AddressSelectPo
     }
 
     private void setDataByCode(String code) {
-        if (TextUtils.isEmpty(code)) {
-            return;
-        } else {
+        if (!TextUtils.isEmpty(code)) {
             workplaceCodeStr = code;
             if (progressDialog != null) {
                 progressDialog.show();
@@ -373,7 +374,7 @@ public class PunchCardOndutyActivity extends Activity implements AddressSelectPo
 
     private boolean checkSumbit() {
         if (currentItem == 0) {
-            if (punchCardCode == null || StringUtil.isEmpty(punchCardCode.getAttendanceCode())) {
+            if (punchCardCode == null || TextUtils.isEmpty(punchCardCode.getAttendanceCode())) {
                 PublicUtil.showToast(R.string.card_workplace_cannot_empty);
             } else if (tagListViewCode.getTagsChecked().size() <= 0) {
                 PublicUtil.showToast(R.string.card_worktask_cannot_empty);
@@ -384,7 +385,11 @@ public class PunchCardOndutyActivity extends Activity implements AddressSelectPo
             if (punchCardOther == null || TextUtils.isEmpty(txtRegionOther.getText().toString()
                     .trim())) {
                 PublicUtil.showToast(R.string.card_workplace_cannot_empty);
-            } else if (TextUtils.isEmpty(etAddressOther.getText().toString().trim())) {
+            } else if (TextUtils.isEmpty(punchCardOther.getProvinceName()) || TextUtils.isEmpty
+                    (punchCardOther.getCityName()) || TextUtils.isEmpty(punchCardOther
+                            .getCountyName())){
+                PublicUtil.showToast(R.string.card_region_right);
+            }else if (TextUtils.isEmpty(etAddressOther.getText().toString().trim())) {
                 PublicUtil.showToast(R.string.card_address_cannot_empty);
             } else if (tagListViewOther.getTagsChecked().size() <= 0) {
                 PublicUtil.showToast(R.string.card_worktask_cannot_empty);
