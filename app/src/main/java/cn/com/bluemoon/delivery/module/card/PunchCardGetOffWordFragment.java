@@ -90,6 +90,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
     private List<Tag> mTags;
     private boolean control;
     private boolean isInit;
+    private boolean isPunchCard;
     ObjectAnimator anim;
     public BDLocationListener myListener = new BDLocationListener() {
 
@@ -99,6 +100,10 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
             LogUtils.d("location.getLongitude= " + location.getLongitude());
             LogUtils.d("location.getAltitude= " + location.getAltitude());
             mLocationClient.stop();
+
+            LogUtils.d("aaaa isInit===============>" + isInit);
+            LogUtils.d("aaaa isPunchCard===============>" + isPunchCard);
+
             if (isInit) {
                 //获取首页地址信息
                 if (location.getLocType() == BDLocation.TypeOffLineLocation) {
@@ -115,8 +120,8 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
                     param.setToken(ClientStateManager.getLoginToken());
                     DeliveryApi.getGpsAddress(param, gpsHandler);
                 }
-
-            } else {
+                isInit = false;
+            } else if(isPunchCard) {
                 if (location.getLocType() == BDLocation.TypeOffLineLocation) {
                     punchCard.setLatitude(Constants.UNKNOW_LATITUDE);
                     punchCard.setLongitude(Constants.UNKNOW_LONGITUDE);
@@ -128,9 +133,10 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
                 //punchCard.setAltitude(location.getAltitude());
                 progressDialog.show();
                 DeliveryApi.addPunchCardOut(ClientStateManager.getLoginToken(),
-                        punchCard, CardUtils.getWorkTaskString(tagListView.getTagsChecked()), confirmAttendanceHandler);
+                        punchCard, CardUtils.getWorkTaskString(tagListView.getTagsChecked()),
+                        confirmAttendanceHandler);
+                isPunchCard = false;
             }
-            isInit = false;
         }
     };
 
@@ -138,8 +144,6 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         super.onAttach(activity);
         this.mContext = (CardTabActivity) activity;
     }
-
-    ;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -186,13 +190,16 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mLocationClient.setLocOption(option);
         isInit = true;
+        isPunchCard = false;
         txtCurrentAddress.setText(getString(R.string.work_address_fail_txt));
         mLocationClient.start();
         startPropertyAnim(imgAddressRefresh);
         layoutAddress.setClickable(false);
         progressDialog = new CommonProgressDialog(mContext);
+        progressDialog.setCancelable(false);
         progressDialog.show();
-        DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
+        DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()),
+                getPunchCardHandler);
         return v;
     }
 
@@ -214,7 +221,8 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
             if (progressDialog != null)
                 progressDialog.dismiss();
             try {
-                ResultAddressInfo baseResult = JSON.parseObject(responseString, ResultAddressInfo.class);
+                ResultAddressInfo baseResult = JSON.parseObject(responseString, ResultAddressInfo
+                        .class);
                 if (baseResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     txtCurrentAddress.setText(baseResult.getAddressInfo().getFormattedAddress());
                 } else {
@@ -253,7 +261,7 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
 
         // 动画的持续时间，执行多久？
         anim.setDuration(1500);
-        anim.setRepeatMode(Animation.RESTART);
+        anim.setRepeatMode(ObjectAnimator.RESTART);
         anim.setRepeatCount(Animation.INFINITE);
         anim.setInterpolator(new AccelerateInterpolator());
         // 正式开始启动执行动画
@@ -306,15 +314,19 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
             LogUtils.d("test", "getPunchCardHandler result = " + responseString);
             progressDialog.dismiss();
             try {
-                ResultShowPunchCardDetail result = JSON.parseObject(responseString, ResultShowPunchCardDetail.class);
-                if (null != result && result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                ResultShowPunchCardDetail result = JSON.parseObject(responseString,
+                        ResultShowPunchCardDetail.class);
+                if (null != result && result.getResponseCode() == Constants
+                        .RESPONSE_RESULT_SUCCESS) {
                     //PublicUtil.showToast(result.getResponseMsg());
                     punchCard = result.getPunchCard();
                     if (!(tagListView.getTags() != null && tagListView.getTags().size() > 0)) {
                         setTags(result.getWorkTaskList());
                     }
-                    txtStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(), "yyyy-MM-dd HH:mm"));
-                    txtAddressStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(), "yyyy-MM-dd HH:mm"));
+                    txtStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(), "yyyy-MM-dd" +
+                            " HH:mm"));
+                    txtAddressStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(),
+                            "yyyy-MM-dd HH:mm"));
                     txtAddressStart.setText(punchCard.getPunchInGpsAddress());
                     txtNameAndMobile.setText(CardUtils.getCharge(punchCard));
                     txtAddress.setText(CardUtils.getAddress(punchCard));
@@ -340,7 +352,8 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
                         txtImgContent.setText(getString(R.string.upload_image));
                     }
 
-                    //DeliveryApi.getPunchCardById(ClientStateManager.getLoginToken(getActivity()), Long.valueOf(punchCard.getPunchCardId()), getPunchCardByIdHandler);
+                    //DeliveryApi.getPunchCardById(ClientStateManager.getLoginToken(getActivity()
+                    // ), Long.valueOf(punchCard.getPunchCardId()), getPunchCardByIdHandler);
                 } else {
                     progressDialog.dismiss();
                     PublicUtil.showToast(result.getResponseMsg());
@@ -401,7 +414,8 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         control = false;
         if (resultCode == 1) {
-            DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()), getPunchCardHandler);
+            DeliveryApi.getPunchCard(ClientStateManager.getLoginToken(getActivity()),
+                    getPunchCardHandler);
         }
     }
 
@@ -469,9 +483,15 @@ public class PunchCardGetOffWordFragment extends Fragment implements OnClickList
                         control = false;
                         PublicUtil.showToast(getString(R.string.log_not_input));
                     } else {
-                        new CommonAlertDialog.Builder(mContext).setMessage(getString(R.string.sure_get_off_work)).setNegativeButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        new CommonAlertDialog.Builder(mContext).setMessage(getString(R.string
+                                .sure_get_off_work)).setNegativeButton(R.string.yes, new
+                                DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
+                                isPunchCard = true;
+                                if(mLocationClient.isStarted()){
+                                    mLocationClient.stop();
+                                }
                                 progressDialog.show();
                                 mLocationClient.start();
                             }
