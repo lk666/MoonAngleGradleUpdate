@@ -25,6 +25,7 @@ public class JsConnectManager {
     private static final String KEY_CONTENT = "content";
     private static final String KEY_PIC = "picUrl";
     private static final String KEY_BACKFUNNAME = "backFunName";
+    private static final String KEY_IDENTIFYSIDE = "identifySide";//身份证正反面标识
 
     private static final String VALUE_WEBVIEW = "webview";
     private static final String VALUE_SCAN = "scan";
@@ -38,6 +39,10 @@ public class JsConnectManager {
     private static final String VALUE_LOGOUT = "logout";
     private static final String VALUE_SHARE = "share";
     private static final String VALUE_SETBACK = "setBack";
+    //身份证识别
+    private static final String VALUE_IDCARDIDENTIFY = "IDCardIdentify";
+    //银行卡识别
+    private static final String VALUE_BANKCARDIDENTIFY = "bankCardIdentify";
 
     public static HashMap<String, String> getBMJSParams(String url) {
         String arg = url.substring(url.indexOf("?") + 1, url.length());
@@ -86,57 +91,41 @@ public class JsConnectManager {
             callBack) {
 //		Log.d("jsConnect", url);
         if (url.startsWith(start)) {
+            if (callBack == null)
+                return true;
             Map<String, String> map = getBMJSParams(url);
-            if (VALUE_WEBVIEW.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.webView(view, map.get(KEY_URL), map.get(KEY_TITLE), map.get
-							(KEY_CALLBACK));
-                }
-            } else if (VALUE_SCAN.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.scan(view, map.get(KEY_TITLE), map.get(KEY_CALLBACK));
-                }
-            } else if (VALUE_CLOSEWEBVIEW.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.closeWebView(view, map.get(KEY_CALLBACK));
-                }
-            } else if (VALUE_SETTITLE.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.setTitle(view, map.get(KEY_TITLE));
-                }
-            } else if (VALUE_SHOWCUSTOMERSERVICE.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.showCustomerService();
-                }
-            } else if (VALUE_SETAPPINFO.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.cleanCache(view, map.get(KEY_VERSION));
-                    loadJavascript(view, map.get(KEY_CALLBACK), callBack.getAppInfo());
-                }
-            } else if (VALUE_GET_LOCATION.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.getLoaction(view, map.get(KEY_CALLBACK));
-                }
-            } else if (VALUE_GET_CACHE.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    loadJavascript(view, map.get(KEY_CALLBACK), callBack.getCacheSize(view));
-                }
-            } else if (VALUE_CLEAN_CACHE.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.cleanCache(view);
-                }
-            } else if (VALUE_LOGOUT.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.logout(view);
-                }
-            } else if (VALUE_SHARE.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.share(view, map.get(KEY_TOPIC), map.get(KEY_CONTENT), map.get(KEY_PIC), map.get(KEY_URL));
-                }
-            } else if (VALUE_SETBACK.equals(map.get(KEY_METHOD))) {
-                if (callBack != null) {
-                    callBack.setBack(view, map.get(KEY_BACKFUNNAME), map.get(KEY_CALLBACK));
-                }
+            String method = map.get(KEY_METHOD);
+            String callBackName = map.get(KEY_CALLBACK);
+            if (VALUE_WEBVIEW.equals(method)) {
+                callBack.webView(view, map.get(KEY_URL), map.get(KEY_TITLE), map.get(KEY_CALLBACK));
+            } else if (VALUE_SCAN.equals(method)) {
+                callBack.scan(view, map.get(KEY_TITLE), callBackName);
+            } else if (VALUE_CLOSEWEBVIEW.equals(method)) {
+                callBack.closeWebView(view, callBackName);
+            } else if (VALUE_SETTITLE.equals(method)) {
+                callBack.setTitle(view, map.get(KEY_TITLE));
+            } else if (VALUE_SHOWCUSTOMERSERVICE.equals(method)) {
+                callBack.showCustomerService();
+            } else if (VALUE_SETAPPINFO.equals(method)) {
+                callBack.cleanCache(view, map.get(KEY_VERSION));
+                loadJavascript(view, callBackName, callBack.getAppInfo());
+            } else if (VALUE_GET_LOCATION.equals(method)) {
+                callBack.getLoaction(view, callBackName);
+            } else if (VALUE_GET_CACHE.equals(method)) {
+                loadJavascript(view, callBackName, callBack.getCacheSize(view));
+            } else if (VALUE_CLEAN_CACHE.equals(method)) {
+                callBack.cleanCache(view);
+            } else if (VALUE_LOGOUT.equals(method)) {
+                callBack.logout(view);
+            } else if (VALUE_SHARE.equals(method)) {
+                callBack.share(view, map.get(KEY_TOPIC), map.get(KEY_CONTENT), map.get(KEY_PIC),
+                        map.get(KEY_URL));
+            } else if (VALUE_SETBACK.equals(method)) {
+                callBack.setBack(view, map.get(KEY_BACKFUNNAME), callBackName);
+            } else if (VALUE_IDCARDIDENTIFY.equals(method)) {
+                callBack.scanIDCardIdentify(view, map.get(KEY_IDENTIFYSIDE), callBackName);
+            } else if (VALUE_BANKCARDIDENTIFY.equals(method)) {
+                callBack.scanBankCardIdentify(view, callBackName);
             }
             return true;
         }

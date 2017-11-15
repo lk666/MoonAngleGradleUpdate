@@ -668,6 +668,17 @@
             android:name="UMENG_CHANNEL"
             android:value="bluemoon"/>
 
+        <!--银行卡 身份证ocr-->
+        <meta-data
+            android:name="OCR_APP_KEY"
+            android:value="10105847" />
+        <meta-data
+            android:name="OCR_SECRET_ID"
+            android:value="AKID059qcOIwDTiw9XeRtLoGiAb1jVfq8BKN" />
+        <meta-data
+            android:name="OCR_SECRET_KEY"
+            android:value="4xgDZllZBezA8uUwCF9sQmyymOo23sUv" />
+
         <activity
             android:name=".ui.selectordialog.SampleActivity"
             android:screenOrientation="portrait"

@@ -35,7 +35,13 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import cn.com.bluemoon.cardocr.lib.CaptureActivity;
+import cn.com.bluemoon.cardocr.lib.bean.BankInfo;
+import cn.com.bluemoon.cardocr.lib.bean.IdCardInfo;
+import cn.com.bluemoon.cardocr.lib.common.CardType;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.scan.ResultBankInfo;
+import cn.com.bluemoon.delivery.app.api.model.scan.ResultIDCard;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -67,12 +73,14 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
     private boolean isBackFinish;
     private Map<String, String> map;
     private String locationCallbackName;
+    private String idCardCallbackName;
+    private String bankCardCallbackName;
     public LocationClient mLocationClient = null;
     private boolean isFiveAbove = false;
     private ValueCallback<Uri> mUploadMessage;
     private ValueCallback<Uri[]> mFilePathCallback;
     private TakePhotoPopView takePhotoPop;
-    private WebChromeClient chromeClient=null;
+    private WebChromeClient chromeClient = null;
     private String backFunName;
 
     public static void startAction(Context context, String url, String title, boolean isActionBar,
@@ -174,10 +182,9 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
 
                 moonWebView.getX5WebViewExtension().invokeMiscMethod("setVideoParams", data);
             }
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
         }
-
 
 
         moonWebView.setWebViewClient(new WebViewClient() {
@@ -262,12 +269,12 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
 //
 //            Bundle data = new Bundle();
 //
-//            data.putBoolean("standardFullScreen", false);// true表示标准全屏，会调起onShowCustomView()，false表示X5全屏；不设置默认false，
+//            data.putBoolean("standardFullScreen", false);// true表示标准全屏，会调起onShowCustomView()
+// ，false表示X5全屏；不设置默认false，
 //
 //            data.putBoolean("supportLiteWnd", true);// false：关闭小窗；true：开启小窗；不设置默认true，
 //
 //            data.putInt("DefaultVideoScreen", 2);// 1：以页面内开始播放，2：以全屏开始播放；不设置默认：1
-
 
 
 //        }
@@ -301,43 +308,43 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
 
 
         // android 5.0
-    public boolean onShowFileChooser(
-            WebView webView, ValueCallback<Uri[]> filePathCallback,
-            WebChromeClient.FileChooserParams fileChooserParams) {
-        isFiveAbove = true;
-        if (mFilePathCallback != null) {
-            mFilePathCallback.onReceiveValue(null);
+        public boolean onShowFileChooser(
+                WebView webView, ValueCallback<Uri[]> filePathCallback,
+                FileChooserParams fileChooserParams) {
+            isFiveAbove = true;
+            if (mFilePathCallback != null) {
+                mFilePathCallback.onReceiveValue(null);
+            }
+            mFilePathCallback = filePathCallback;
+            takePhotoPop.getPic(moonWebView);
+            return true;
         }
-        mFilePathCallback = filePathCallback;
-        takePhotoPop.getPic(moonWebView);
-        return true;
-    }
 
-    //The undocumented magic method override
-    //Eclipse will swear at you if you try to put @Override here
-    // For Android 3.0+
-    public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-        isFiveAbove = false;
-        mUploadMessage = uploadMsg;
-        takePhotoPop.getPic(moonWebView);
+        //The undocumented magic method override
+        //Eclipse will swear at you if you try to put @Override here
+        // For Android 3.0+
+        public void openFileChooser(ValueCallback<Uri> uploadMsg) {
+            isFiveAbove = false;
+            mUploadMessage = uploadMsg;
+            takePhotoPop.getPic(moonWebView);
 
-    }
+        }
 
-    // For Android 3.0+
-    public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
-        isFiveAbove = false;
-        mUploadMessage = uploadMsg;
-        takePhotoPop.getPic(moonWebView);
-    }
+        // For Android 3.0+
+        public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
+            isFiveAbove = false;
+            mUploadMessage = uploadMsg;
+            takePhotoPop.getPic(moonWebView);
+        }
 
-    //For Android 4.1
-    public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
-            capture) {
-        isFiveAbove = false;
-        mUploadMessage = uploadMsg;
-        takePhotoPop.getPic(moonWebView);
+        //For Android 4.1
+        public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
+                capture) {
+            isFiveAbove = false;
+            mUploadMessage = uploadMsg;
+            takePhotoPop.getPic(moonWebView);
+        }
     }
-}
 
 
     private void load(String url) {
@@ -348,7 +355,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         if (viewNotify.getVisibility() == View.VISIBLE) {
             viewNotify.setVisibility(View.GONE);
         }
-       moonWebView.loadUrl(url);
+        moonWebView.loadUrl(url);
 
     }
 
@@ -422,11 +429,35 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
         @Override
         public void setBack(WebView view, String backFunName, String callback) {
             super.setBack(view, backFunName, callback);
-            if(!TextUtils.isEmpty(backFunName)){
+            if (!TextUtils.isEmpty(backFunName)) {
                 isBackByJs = true;
                 X5WebViewActivity.this.backFunName = backFunName;
             }
         }
+
+
+        @Override
+        public void scanIDCardIdentify(WebView view, String identifySide, String callback) {
+            super.scanIDCardIdentify(view, identifySide, callback);
+            idCardCallbackName = callback;
+            if ("1".equals(identifySide)) {
+                CaptureActivity.startAction(X5WebViewActivity.this,
+                        CardType.TYPE_ID_CARD_BACK, Constants.RESULT_ID_CARD_BACK);
+            } else {
+                CaptureActivity.startAction(X5WebViewActivity.this,
+                        CardType.TYPE_ID_CARD_FRONT, Constants.RESULT_ID_CARD_FRONT);
+            }
+
+        }
+
+        @Override
+        public void scanBankCardIdentify(WebView view, String callback) {
+            super.scanBankCardIdentify(view, callback);
+            bankCardCallbackName = callback;
+            CaptureActivity.startAction(X5WebViewActivity.this, CardType.TYPE_BANK, Constants
+                    .RESULT_BANK_CARD);
+        }
+
     };
 
     private void initLocation() {
@@ -539,7 +570,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
             if (isBackByJs && viewNotify.getVisibility() == View.VISIBLE) {
                 finish();
             } else if (isBackByJs) {
-                JsConnectManager.loadJavascript(moonWebView,backFunName);
+                JsConnectManager.loadJavascript(moonWebView, backFunName);
             } else if (moonWebView.canGoBack()) {
                 moonWebView.goBack();
                 popTitle();
@@ -590,6 +621,27 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
                     Uri uri2 = takePhotoPop.getTakeImageUri();
                     setReceiveValue(uri2);
                     break;
+                case Constants.RESULT_ID_CARD_FRONT:
+                    //处理身份证识别界面返回正面
+                    IdCardInfo idCardInfoFront = (IdCardInfo) data.getSerializableExtra
+                            (CaptureActivity.BUNDLE_DATA);
+                    JsConnectManager.loadJavascript(moonWebView, idCardCallbackName, JSONObject
+                            .toJSONString(new ResultIDCard(idCardInfoFront, true)));
+                    break;
+                case Constants.RESULT_ID_CARD_BACK:
+                    //处理身份证识别界面返回反面
+                    IdCardInfo idCardInfo = (IdCardInfo) data.getSerializableExtra
+                            (CaptureActivity.BUNDLE_DATA);
+                    JsConnectManager.loadJavascript(moonWebView, idCardCallbackName, JSONObject
+                            .toJSONString(new ResultIDCard(idCardInfo, true)));
+                    break;
+                case Constants.RESULT_BANK_CARD:
+                    //处理银行卡返回结果
+                    BankInfo bankInfo = (BankInfo) data.getSerializableExtra(CaptureActivity
+                            .BUNDLE_DATA);
+                    JsConnectManager.loadJavascript(moonWebView, bankCardCallbackName, JSONObject
+                            .toJSONString(new ResultBankInfo(bankInfo)));
+                    break;
             }
         }
     }
@@ -622,7 +674,7 @@ public class X5WebViewActivity extends Activity implements View.OnClickListener 
             if (isBackFinish || (isBackByJs && viewNotify.getVisibility() == View.VISIBLE)) {
                 finish();
             } else if (isBackByJs) {
-                JsConnectManager.loadJavascript(moonWebView,backFunName);
+                JsConnectManager.loadJavascript(moonWebView, backFunName);
             } else if (moonWebView.canGoBack()) {
                 moonWebView.goBack();
                 popTitle();

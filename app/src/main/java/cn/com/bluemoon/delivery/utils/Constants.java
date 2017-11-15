@@ -87,6 +87,11 @@ public class Constants {
     public static final int TAKE_PIC_RESULT = 0x01;
     public static final int CHOSE_PIC_RESULT = 0x02;
 
+
+    public static final int RESULT_ID_CARD_FRONT = 0x11;
+    public static final int RESULT_ID_CARD_BACK = 0x12;
+    public static final int RESULT_BANK_CARD = 0x13;
+
     /************
      * account
      *******************/

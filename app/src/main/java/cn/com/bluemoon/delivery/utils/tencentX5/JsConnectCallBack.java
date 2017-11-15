@@ -44,4 +44,22 @@ public abstract class JsConnectCallBack {
 
     public void setBack(WebView view, String backFunName, String callback) {
     }
+
+    /**
+     * 接口描述 调起身份证识别
+     *
+     * @param callback 桥回调方法名
+     */
+    public void scanIDCardIdentify(WebView view, String identifySide, String callback){
+
+    }
+
+    /**
+     * 接口描述 调起银行卡识别
+     *
+     * @param callback 桥回调方法名
+     */
+    public void scanBankCardIdentify(WebView view, String callback){
+        
+    }
 }
