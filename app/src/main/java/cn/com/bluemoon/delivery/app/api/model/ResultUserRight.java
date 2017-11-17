@@ -1,27 +1,17 @@
-package cn.com.bluemoon.delivery.app.api.model;  
+package cn.com.bluemoon.delivery.app.api.model;
 
 import java.util.List;
 
 public class ResultUserRight extends ResultBase {
 
-	private List<UserRight> rightsList;
+    //主菜单列表
+    public List<UserRight> rightsList;
 
-	private int groupCount;
+    //最大组数
+    public int groupCount;
 
-	public int getGroupCount() {
-		return groupCount;
-	}
+    //快捷菜单列表
+    public List<UserRight> quickList;
 
-	public void setGroupCount(int groupCount) {
-		this.groupCount = groupCount;
-	}
-
-	public List<UserRight> getRightsList() {
-		return rightsList;
-	}
-
-	public void setRightsList(List<UserRight> rightsList) {
-		this.rightsList = rightsList;
-	}
 }
   

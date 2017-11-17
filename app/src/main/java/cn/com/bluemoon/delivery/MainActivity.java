@@ -1,40 +1,33 @@
 package cn.com.bluemoon.delivery;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
-
-import org.apache.http.Header;
-import org.apache.http.protocol.HTTP;
-import org.kymjs.kjframe.KJBitmap;
-import org.kymjs.kjframe.utils.StringUtils;
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.scwang.smartrefresh.header.MaterialHeader;
+import com.scwang.smartrefresh.header.WaveSwipeHeader;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.OnClick;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.model.MenuBean;
-import cn.com.bluemoon.delivery.app.api.model.MenuCode;
-import cn.com.bluemoon.delivery.app.api.model.ModelNum;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
@@ -43,166 +36,113 @@ import cn.com.bluemoon.delivery.app.api.model.message.Info;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultInfos;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.module.coupons.CouponsTabActivity;
-import cn.com.bluemoon.delivery.module.evidencecash.EvidenceCashActivity;
-import cn.com.bluemoon.delivery.module.extract.ExtractTabActivity;
-import cn.com.bluemoon.delivery.module.inventory.InventoryTabActivity;
-import cn.com.bluemoon.delivery.module.jobrecord.PromoteActivity;
+import cn.com.bluemoon.delivery.common.menu.MenuAdapter;
+import cn.com.bluemoon.delivery.common.menu.MenuManager;
+import cn.com.bluemoon.delivery.common.menu.MenuSection;
+import cn.com.bluemoon.delivery.module.base.BaseSlidingActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
-import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeShowActivity;
-import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
-import cn.com.bluemoon.delivery.module.offline.MyCoursesActivity;
-import cn.com.bluemoon.delivery.module.offline.MyTrainActivity;
-import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
-import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
-import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
-import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
-import cn.com.bluemoon.delivery.module.wash.appointment.AppointmentTabActivity;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
-import cn.com.bluemoon.delivery.module.wash.enterprise.EnterpriseWashTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.closebox.CloseBoxTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.clothescheck.ClothesCheckTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.driver.DriverTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressCloseBoxTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
-import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
-import cn.com.bluemoon.delivery.ui.CustomGridView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
-import cn.com.bluemoon.delivery.utils.KJFUtil;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
-import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
-import cn.com.bluemoon.lib.slidingmenu.app.SlidingActivity;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
-import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.CommonEmptyView;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
-import cn.com.bluemoon.lib.view.RedpointTextView;
 
-public class MainActivity extends SlidingActivity implements View.OnClickListener {
+public class MainActivity extends BaseSlidingActivity implements View.OnClickListener,
+        BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener {
 
-    public static final int REQUEST_CODE_READ = 0x222;
-    private String TAG = "MainActivity";
-    private AlwaysMarqueeTextView txtTips;
-    private MainActivity main;
-    private String token;
-    private boolean isDestory;
-    private CommonProgressDialog progressDialog;
-    private List<UserRight> listRight;
-    private int groupCount = 0;
+
+    @Bind(R.id.img_person)
+    ImageView imgPerson;
+    @Bind(R.id.img_scan)
+    ImageView imgScan;
+    @Bind(R.id.txt_edit)
+    TextView txtEdit;
+    @Bind(R.id.txt_finish)
+    TextView txtFinish;
+    @Bind(R.id.img_arrow)
+    ImageView imgArrow;
+    @Bind(R.id.txt_tips)
+    AlwaysMarqueeTextView txtTips;
+    @Bind(R.id.top_head)
+    LinearLayout topHead;
+    @Bind(R.id.recycler_view)
+    RecyclerView recyclerView;
+    @Bind(R.id.layout_refresh)
+    SmartRefreshLayout layoutRefresh;
+    @Bind(R.id.layout_title)
+    FrameLayout layoutTitle;
+    @Bind(R.id.refresh_head)
+    MaterialHeader refreshHead;
     private SlidingMenu mMenu;
     private MenuFragment mMenuFragment;
+    private ResultUserRight resultUserRight;
+    private MenuAdapter menuAdapter;
+    private boolean isEdit;
 
-    private PullToRefreshListView scrollViewMain;
-    private GridViewAdapter gridViewAdapter;
-    private CommonEmptyView emptyView;
+    public static void actStart(Context context, String view, String url) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        intent.putExtra(Constants.PUSH_URL, url);
+        context.startActivity(intent);
+    }
 
-    private ImageView imgPerson;
-    private ImageView imgScan;
+    public static void actStart(Context context) {
+        actStart(context, null, null);
+    }
 
-    //是否以重试了一遍
-    private boolean isAgain;
+    public static Intent getStartIntent(Context context, String view, String url) {
+        Intent intent = new Intent(context, MainActivity.class);
+        intent.putExtra(Constants.PUSH_VIEW, view);
+        intent.putExtra(Constants.PUSH_URL, url);
+        return intent;
+    }
 
     @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        main = this;
+    protected int getLayoutId() {
+        return R.layout.activity_main;
+    }
+
+    @Override
+    public void initView() {
+        //初始化侧滑栏
         initMenu();
+        //兼容沉浸式
+        ViewUtil.initTop(this, topHead, false);
 
-        token = ClientStateManager.getLoginToken(main);
-        if (StringUtils.isEmpty(token)) {
-            PublicUtil.showMessageTokenExpire(main);
-            return;
-        }
-
-        ActivityManager.getInstance().pushOneActivity(main);
-        progressDialog = new CommonProgressDialog(main);
-        progressDialog.setCancelable(false);
-
-        imgPerson = (ImageView) findViewById(R.id.img_person);
-        imgPerson.setOnClickListener(this);
-        imgScan = (ImageView) findViewById(R.id.img_scan);
-        imgScan.setOnClickListener(this);
-        txtTips = (AlwaysMarqueeTextView) findViewById(R.id.txt_tips);
-        txtTips.setOnClickListener(this);
-        scrollViewMain = (PullToRefreshListView) findViewById(R.id.scrollView_main);
-        scrollViewMain.getLoadingLayoutProxy().setRefreshingLabel(getString(R.string.refreshing));
-        emptyView = PublicUtil.setEmptyView(scrollViewMain, getString(R.string.main_menu_title),
-                new CommonEmptyView.EmptyListener() {
-                    @Override
-                    public void onRefresh() {
-                        DeliveryApi.getAppRights(token, appRightsHandler);
-                        DeliveryApi.getNewMessage(token, newMessageHandler);
-                    }
-                });
-        scrollViewMain.setOnRefreshListener(new PullToRefreshBase.OnRefreshListener<ListView>() {
+        //初始化下拉控件
+        layoutRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
-            public void onRefresh(PullToRefreshBase<ListView> refreshView) {
-                txtTips.setVisibility(View.GONE);
-                DeliveryApi.getAppRights(token, appRightsHandler);
-                DeliveryApi.getNewMessage(token, newMessageHandler);
+            public void onRefresh(RefreshLayout refreshlayout) {
+                getRightData();
             }
         });
+        refreshHead.setPrimaryColors(0xff1fb8ff,0xffffffff);
 
-        DeliveryApi.getAppRights(token, appRightsHandler);
-        DeliveryApi.getNewMessage(token, newMessageHandler);
-        getNoticeData();
+        //初始化RecyclerView
+        recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        menuAdapter = new MenuAdapter();
+        menuAdapter.bindToRecyclerView(recyclerView);
+        menuAdapter.setOnItemClickListener(this);
+        menuAdapter.setOnItemChildClickListener(this);
 
-        jump(getIntent());
+        //刷新转圈颜色变化
+        refreshHead.setColorSchemeColors(0xff1fb8ff,0xffff6c47);
 
-        //数据埋点
-        TrackManager.checkData();
+//        layoutRefresh.autoRefresh();
 
     }
 
-    @Override
-    public void onClick(View v) {
-        if (v == imgPerson) {
-            mMenu.showMenu(!mMenu.isMenuShowing());
-            if (MenuFragment.user == null && mMenuFragment != null) {
-                mMenuFragment.setUserInfo();
-            }
-        } else if (v == imgScan) {
-            PublicUtil.openXScanView(main, null, null, 0);
-        } else if (v == txtTips) {
-            Intent it = new Intent(main, MessageListActivity.class);
-            startActivity(it);
-        }
-    }
-
-    public void openQcode() {
-        mMenu.toggle();
-        DeliveryApi.moonAngelQrCodeService(token, angelCodeHandler);
-    }
-
-    public void CloseMenu() {
-        mMenu.toggle();
-    }
-
+    /**
+     * 初始化侧滑栏
+     */
     private void initMenu() {
-
-        //        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-        //            Window window = this.getWindow();
-        //            WindowManager.LayoutParams layoutParams = window.getAttributes();
-        //            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
-        //            window.setAttributes(layoutParams);
-        //        }
-
         mMenuFragment = new MenuFragment();
-
         setBehindContentView(R.layout.main_left_layout);// 设置左菜单
         getFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment)
                 .commit();
@@ -219,123 +159,171 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
         mMenu.setBehindWidth(dm.widthPixels * 3 / 5);
         // 设置渐入渐出效果的值
         mMenu.setFadeDegree(0.35f);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            //获取状态栏高度
-            int statusbarHeight = getStatusBarHeight();
-            RelativeLayout top_head = (RelativeLayout) this.findViewById(R.id.top_head);
-            top_head.setPadding(0, statusbarHeight, 0, 0);
-        }
-
     }
 
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
+    @Override
+    public void initData() {
+        if (TextUtils.isEmpty(getToken())) {
+            PublicUtil.showMessageTokenExpire(this);
+            return;
         }
-        return result;
+        //请求菜单数据和消息数据
+        getRightData();
+        //请求必读消息数据
+        getNoticeData();
+        //处理推送消息数据
+        jump(getIntent());
+        //数据埋点
+        TrackManager.checkData();
     }
 
-    AsyncHttpResponseHandler getAmountHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d("getOrderCount", "getOrderCountHandler result = " + responseString);
-            try {
-                ResultModelNum result = JSON.parseObject(responseString, ResultModelNum.class);
-                if (null != result && result.getResponseCode() == Constants
-                        .RESPONSE_RESULT_SUCCESS) {
-                    if (result.getModelBeans().size() >= 0) {
-                        setAmount(result.getModelBeans());
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            /*if (listRight!=null) {
-                setMenu();
-            }*/
-        }
-    };
-
-
-    private void setAmount(List<ModelNum> modelNums) {
-
-        if (modelNums != null && listRight != null) {
-            int sum = 0;
-            for (UserRight right : listRight) {
-                boolean isExit = false;
-                for (ModelNum num : modelNums) {
-                    if (right.getMenuCode().equals(num.getMenuId())) {
-                        right.setAmount(num.getNum());
-                        sum += num.getNum();
-                        isExit = true;
-                        break;
-                    }
-                }
-                if (!isExit) {
-                    right.setAmount(0);
-                }
-            }
-            setMenu();
-            PublicUtil.setMainAmount(main, sum);
+    @Override
+    public void onResume() {
+        super.onResume();
+        //请求角标数据
+        if (resultUserRight != null) {
+            getNumData();
         }
     }
 
-    private void setMenu() {
-        List<MenuBean> list = new ArrayList<>();
-        if (listRight != null) {
-            // TODO: lk 2016/6/12 可先用hashmap分组，再补全空白，可减少for层级
-            for (int i = 0; i < groupCount; i++) {
-                List<UserRight> item = new ArrayList<>();
-                for (UserRight right : listRight) {
-                    if ((i + 1) == right.getGroupNum()) {
-                        item.add(right);
-                    }
-                }
-                if (item.size() > 0) {
-                    int divNum = 0;
-                    if (item.size() % 4 != 0) {
-                        divNum = 4 - item.size() % 4;
-                    }
-                    if (divNum > 0) {
-                        for (int j = 0; j < divNum; j++) {
-                            UserRight userRight = new UserRight();
-                            userRight.setMenuCode(MenuCode.empty.toString());
-                            userRight.setMenuName("");
-                            userRight.setIconImg("");
-                            userRight.setIconResId(0);
-                            userRight.setUrl("");
-                            userRight.setMenuId("");
-                            item.add(userRight);
-                        }
-                    }
-                    MenuBean bean = new MenuBean();
-                    bean.setGroup(i + 1);
-                    bean.setItem(item);
-                    list.add(bean);
-                }
-            }
-        }
-
-        if (gridViewAdapter == null) {
-            gridViewAdapter = new GridViewAdapter(main, list);
-            scrollViewMain.setAdapter(gridViewAdapter);
-        } else {
-            gridViewAdapter.setList(list);
-            gridViewAdapter.notifyDataSetChanged();
-        }
-
-
+    /**
+     * 请求菜单数据和消息数据
+     */
+    private void getRightData() {
+        DeliveryApi.getAppRights(getToken(), getNewHandler(1, ResultUserRight.class));
+        getMessageData();
     }
 
+    /**
+     * 请求消息数据
+     */
+    private void getMessageData() {
+        DeliveryApi.getNewMessage(getToken(), getNewHandler(2, ResultNewInfo.class));
+    }
+
+    /**
+     * 请求角标数量
+     */
+    private void getNumData() {
+        DeliveryApi.getModelNum(getToken(), getNewHandler(3, ResultModelNum.class));
+    }
+
+    /**
+     * 判断是否打卡
+     */
+    public void requestPunchCard() {
+        showWaitDialog(false);
+        DeliveryApi.isPunchCard(getToken(), getNewHandler(4, ResultIsPunchCard.class));
+    }
+
+    /**
+     * 获取必要未读消息列表
+     */
+    private void getNoticeData() {
+        showWaitDialog(false);
+        DeliveryApi.getMustReadInfoList(getToken(), getNewHandler(5, ResultInfos.class));
+    }
+
+    @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        switch (requestCode) {
+            case 0:
+                ResultAngelQr angelQrResult = (ResultAngelQr) result;
+                if (TextUtils.isEmpty(angelQrResult.getQrcode())) {
+                    PublicUtil.showToastErrorData(this);
+                } else {
+                    String title = getString(R.string.main_tab_qrcode);
+                    String str = StringUtil.getStringParamsByFormat("\n",
+                            angelQrResult.getOrgName(), angelQrResult.getInventoryName());
+                    DialogUtil.showCodeDialog(this, title, angelQrResult.getQrcode(), str);
+                }
+                break;
+            case 1:
+                resultUserRight = (ResultUserRight) result;
+                menuAdapter.replaceData(MenuManager.getInstance().getMenuList(resultUserRight));
+                getNumData();
+                break;
+            case 2:
+                ResultNewInfo resultInfo = (ResultNewInfo) result;
+                if (!TextUtils.isEmpty(resultInfo.getMsgContent())) {
+                    txtTips.setVisibility(View.VISIBLE);
+                    txtTips.setText(resultInfo.getMsgContent());
+                } else {
+                    txtTips.setVisibility(View.GONE);
+                }
+                break;
+            case 3:
+                MenuManager.getInstance().setAmount(this, menuAdapter, ((ResultModelNum) result)
+                        .getModelBeans());
+                break;
+            case 4:
+                PublicUtil.showPunchCardView(this, ((ResultIsPunchCard) result).isPunchCard);
+                break;
+            case 5:
+                List<Info> list = ((ResultInfos) result).getInfoList();
+                if (list != null && !list.isEmpty()) {
+                    ArrayList<String> unReadList = new ArrayList<>();
+                    for (Info info : list) {
+                        unReadList.add(info.getInfoId());
+                    }
+                    NoticeShowActivity.startAction(this, unReadList);
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onFinishResponse(int requestCode) {
+        super.onFinishResponse(requestCode);
+        layoutRefresh.finishRefresh();
+    }
+
+    @OnClick({R.id.img_person, R.id.img_scan, R.id.txt_tips, R.id.txt_edit,R.id.txt_finish})
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.img_person:
+                mMenu.showMenu(!mMenu.isMenuShowing());
+                if (MenuFragment.user == null && mMenuFragment != null) {
+                    mMenuFragment.setUserInfo();
+                }
+                break;
+            case R.id.img_scan:
+                PublicUtil.openXScanView(this, null, null, 0);
+                break;
+            case R.id.txt_tips:
+                ViewUtil.showActivity(this, MessageListActivity.class);
+                break;
+            case R.id.txt_edit:
+                isEdit = !isEdit;
+                setEdit(isEdit);
+                break;
+            case R.id.txt_finish:
+                setEdit(false);
+                break;
+        }
+    }
+
+    private void setEdit(boolean isEdit){
+        this.isEdit = isEdit;
+        txtEdit.setSelected(isEdit);
+        txtEdit.setText(isEdit ? "取消" : "编辑");
+        menuAdapter.setEdit(isEdit);
+        ViewUtil.setViewVisibility(txtFinish,isEdit?View.VISIBLE:View.GONE);
+        ViewUtil.setViewVisibility(imgArrow,isEdit?View.GONE:View.VISIBLE);
+        ViewUtil.setViewVisibility(layoutTitle,isEdit?View.GONE:View.VISIBLE);
+    }
+
+    /**
+     * 点击二维码
+     */
+    public void openQrCode() {
+        toggle();
+        DeliveryApi.moonAngelQrCodeService(getToken(), getNewHandler(0, ResultAngelQr.class));
+    }
+
+    /**
+     * 推送跳转
+     */
     private void jump(Intent intent) {
         String view = PublicUtil.getPushView(intent);
         String url = PublicUtil.getPushUrl(intent);
@@ -343,63 +331,27 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
                 || (Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url))) {
             UserRight userRight = new UserRight();
             userRight.setMenuCode(view);
-            userRight.setMenuName("");
-            userRight.setIconImg("");
-            userRight.setIconResId(0);
-            userRight.setMenuId("");
             userRight.setUrl(url);
-            clickGridView(userRight);
-        }
-    }
-
-
-    private void gotoPunchCard() {
-        if (PublicUtil.isTipsByDay(main)) {
-            showLocationSettingDialog();
-        } else {
-            showProgressDialog();
-            DeliveryApi.isPunchCard(ClientStateManager.getLoginToken(main), isPunchCardHandler);
-        }
-    }
-
-    private void showLocationSettingDialog() {
-        new CommonAlertDialog.Builder(main)
-                .setMessage(R.string.card_get_location_tips)
-                .setNegativeButton(R.string.btn_setting,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                startActivity(new Intent("android.settings" +
-                                        ".LOCATION_SOURCE_SETTINGS"));
-                            }
-                        })
-                .setPositiveButton(R.string.btn_later, new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        showProgressDialog();
-                        DeliveryApi.isPunchCard(ClientStateManager.getLoginToken(main),
-                                isPunchCardHandler);
-                    }
-                })
-                .show();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);
-        isDestory = false;
-        if (listRight != null) {
-            DeliveryApi.getModelNum(token, getAmountHandler);
+            userRight.setMenuName("");
+            MenuManager.getInstance().onClickMenu(this, userRight);
         }
     }
 
     @Override
-    protected void onPause() {
-        super.onPause();
-        MobclickAgent.onPause(this);
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        MenuSection item = menuAdapter.getData().get(position);
+        if (!item.isHeader && !isEdit) {
+            MenuManager.getInstance().onClickMenu(this, item.t);
+        }
+    }
+
+    @Override
+    public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+        MenuSection item = menuAdapter.getData().get(position);
+        if (!item.isHeader && isEdit) {
+            toast(item.t.getMenuName());
+            view.setEnabled(false);
+        }
     }
 
     private long firstTime = 0;
@@ -423,555 +375,10 @@ public class MainActivity extends SlidingActivity implements View.OnClickListene
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        isDestory = false;
-        if (listRight != null) listRight.clear();
-        token = ClientStateManager.getLoginToken(main);
-        if (StringUtils.isEmpty(token)) {
-            PublicUtil.showMessageTokenExpire(main);
-            return;
+        if (resultUserRight != null) {
+            resultUserRight = null;
         }
-        DeliveryApi.getAppRights(token, appRightsHandler);
-        DeliveryApi.getNewMessage(token, newMessageHandler);
-        jump(intent);
-
+        initData();
     }
 
-    AsyncHttpResponseHandler appRightsHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "getAppRights result = " + responseString);
-            scrollViewMain.onRefreshComplete();
-
-            try {
-                ResultUserRight userRightResult = JSON.parseObject(responseString,
-                        ResultUserRight.class);
-                if (userRightResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    listRight = userRightResult.getRightsList();
-                    groupCount = userRightResult.getGroupCount();
-
-                    // TODO: lk 2016/12/20
-                    //                    if (!BuildConfig.RELEASE) {
-                    //                        mockData();
-                    //                    }
-                    setMenu();
-                    DeliveryApi.getModelNum(ClientStateManager.getLoginToken(main),
-                            getAmountHandler);
-                } else {
-                    PublicUtil.showErrorMsg(main, userRightResult);
-                    LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-                LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            scrollViewMain.onRefreshComplete();
-            PublicUtil.showToastServerOvertime();
-            LibViewUtil.setViewVisibility(emptyView, View.VISIBLE);
-        }
-    };
-
-    private void mockData() {
-        /*UserRight item1 = new UserRight();
-        item1.setMenuCode(MenuCode.offline_training_student.toString());
-        item1.setMenuName(getString(R.string.offline_my_train));
-        item1.setIconImg(listRight.get(0).getIconImg());
-        item1.setGroupNum(1);
-        listRight.add(item1);
-
-        UserRight item2 = new UserRight();
-        item2.setMenuCode(MenuCode.offline_training_teacher.toString());
-        item2.setMenuName("我的授课");
-        item2.setIconImg(listRight.get(0).getIconImg());
-        item2.setGroupNum(1);
-        listRight.add(item2);*/
-
-    }
-
-    AsyncHttpResponseHandler isPunchCardHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onFinish() {
-            super.onFinish();
-            if (isDestory) return;
-            dismissProgressDialog();
-        }
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(TAG, "isPunchCardHandler result = " + responseString);
-            if (isDestory) return;
-            try {
-                ResultIsPunchCard isPunchCardResult = JSON.parseObject(responseString,
-                        ResultIsPunchCard.class);
-                if (isPunchCardResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    PublicUtil.showPunchCardView(main, isPunchCardResult.isPunchCard);
-                    //                    PublicUtil.showPunchCardView(main,false);
-                } else {
-                    PublicUtil.showErrorMsg(main, isPunchCardResult);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (isDestory) return;
-            PublicUtil.showToastServerOvertime();
-        }
-    };
-
-    AsyncHttpResponseHandler angelCodeHandler = new TextHttpResponseHandler(HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers, String responseString) {
-            LogUtils.d(TAG, "moonAngelQrCodeService result = " + responseString);
-            if (isDestory) return;
-            try {
-                ResultAngelQr angelQrResult = JSON.parseObject(responseString, ResultAngelQr.class);
-                if (angelQrResult.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    if (StringUtils.isEmpty(angelQrResult.getQrcode())) {
-                        PublicUtil.showToastErrorData(main);
-                    } else {
-                        String title = getString(R.string.main_tab_qrcode);
-                        String str = StringUtil.getStringParamsByFormat("\n",
-                                angelQrResult.getOrgName(), angelQrResult.getInventoryName());
-                        DialogUtil.showCodeDialog(main, title, angelQrResult.getQrcode(), str);
-                    }
-                } else {
-                    PublicUtil.showErrorMsg(main, angelQrResult);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers, String responseString,
-                              Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            if (isDestory) return;
-            PublicUtil.showToastServerOvertime();
-        }
-    };
-
-
-    AsyncHttpResponseHandler newMessageHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "newMessageHandler result = " + responseString);
-            try {
-                ResultNewInfo resultInfos = JSON.parseObject(responseString,
-                        ResultNewInfo.class);
-                if (resultInfos.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    if (!TextUtils.isEmpty(resultInfos.getMsgContent())) {
-                        txtTips.setVisibility(View.VISIBLE);
-                        txtTips.setText(resultInfos.getMsgContent());
-                    } else {
-                        txtTips.setVisibility(View.GONE);
-                    }
-
-                } else {
-                    PublicUtil.showErrorMsg(main, resultInfos);
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            //  PublicUtil.showToastServerOvertime();
-        }
-    };
-
-    //************** 处理消息  start***********************/
-
-    /**
-     * 获取必要未读消息列表
-     */
-    private void getNoticeData() {
-        showProgressDialog();
-        DeliveryApi.getMustReadInfoList(token, noticeHandler);
-    }
-
-//    /**
-//     * 重试获取必要未读消息列表
-//     */
-//    private void getNoticeDataAgain() {
-//        if (isAgain) {
-//            ViewUtil.setViewVisibility(viewTop, View.GONE);
-//        } else {
-//            getNoticeData();
-//            isAgain = true;
-//        }
-//    }
-
-    /**
-     * 获取必要未读消息列表
-     */
-    private void openNotice(List<Info> list) {
-        if (list != null && !list.isEmpty()) {
-            ArrayList<String> unReadList = new ArrayList<>();
-            for (Info info : list) {
-                unReadList.add(info.getInfoId());
-            }
-            NoticeShowActivity.startAction(main, unReadList, REQUEST_CODE_READ);
-        }
-    }
-
-    /**
-     * 获取通知列表
-     */
-    AsyncHttpResponseHandler noticeHandler = new TextHttpResponseHandler(
-            HTTP.UTF_8) {
-
-        @Override
-        public void onFinish() {
-            super.onFinish();
-            if(isDestory) return;
-            dismissProgressDialog();
-        }
-
-        @Override
-        public void onSuccess(int statusCode, Header[] headers,
-                              String responseString) {
-            LogUtils.d(TAG, "messageHandler result = " + responseString);
-            try {
-                ResultInfos resultInfos = JSON.parseObject(responseString,
-                        ResultInfos.class);
-                if (resultInfos.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
-                    openNotice(resultInfos.getInfoList());
-                } else {
-                    PublicUtil.showErrorMsg(main, resultInfos);
-//                    getNoticeDataAgain();
-                }
-            } catch (Exception e) {
-                LogUtils.e(TAG, e.getMessage());
-                PublicUtil.showToastServerBusy();
-//                getNoticeDataAgain();
-            }
-        }
-
-        @Override
-        public void onFailure(int statusCode, Header[] headers,
-                              String responseString, Throwable throwable) {
-            LogUtils.e(TAG, throwable.getMessage());
-            PublicUtil.showToastServerOvertime();
-//            getNoticeDataAgain();
-        }
-    };
-
-    //************** 处理消息  end***********************/
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        isDestory = true;
-    }
-
-    public void showProgressDialog() {
-        if (progressDialog != null) progressDialog.show();
-    }
-
-    public void dismissProgressDialog() {
-        if (progressDialog != null) progressDialog.dismiss();
-    }
-
-    class GridViewAdapter extends BaseAdapter {
-
-        private Context context;
-        private List<MenuBean> list;
-
-        public GridViewAdapter(Context context, List<MenuBean> list) {
-            this.context = context;
-            this.list = list;
-        }
-
-        public void setList(List<MenuBean> list) {
-            this.list = list;
-        }
-
-        @Override
-        public int getCount() {
-            return list.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return position;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            HolderView holderView = null;
-            if (convertView == null) {
-                holderView = new HolderView();
-                convertView = LayoutInflater.from(context).inflate(
-                        R.layout.main_gridview, null);
-                holderView.gridView = (CustomGridView) convertView.findViewById(R.id.gridview_main);
-                convertView.setTag(holderView);
-            } else {
-                holderView = (HolderView) convertView.getTag();
-            }
-
-            UserRightAdapter userRightAdapter = new UserRightAdapter(main, list.get(position)
-                    .getItem());
-            holderView.gridView.setAdapter(userRightAdapter);
-            holderView.gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                    clickGridView(list.get(position).getItem().get(i));
-                }
-            });
-            return convertView;
-        }
-
-        class HolderView {
-            CustomGridView gridView;
-        }
-    }
-
-    private void clickGridView(UserRight userRight) {
-
-        if (PublicUtil.isFastDoubleClick(1000)) {
-            return;
-        }
-        String menuCode = userRight.getMenuCode();
-        LogUtils.d("view:" + menuCode);
-        try {
-            Intent intent;
-            if (compare(MenuCode.dispatch, menuCode)) {
-                OrdersTabActivity.actionStart(main);
-            } else if (compare(MenuCode.site_sign, menuCode)) {
-                ExtractTabActivity.actionStart(main);
-            } else if (compare(MenuCode.check_in, menuCode)) {
-                intent = new Intent(main, TicketChooseActivity.class);
-                startActivity(intent);
-            } else if (compare(MenuCode.mall_erp_delivery, menuCode)) {
-                InventoryTabActivity.actionStart(main, InventoryTabActivity.DELIVERY_MANAGEMENT);
-            } else if (compare(MenuCode.mall_erp_receipt, menuCode)) {
-                InventoryTabActivity.actionStart(main, InventoryTabActivity.RECEIVE_MANAGEMENT);
-            } else if (compare(MenuCode.mall_erp_stock, menuCode)) {
-                StorageTabActivity.actionStart(main);
-            } else if (compare(MenuCode.punch_card, menuCode)) {
-                gotoPunchCard();
-            } else if (compare(MenuCode.card_coupons, menuCode)) {
-                intent = new Intent(main, CouponsTabActivity.class);
-                startActivity(intent);
-            } else if (compare(MenuCode.my_news, menuCode)) {
-                intent = new Intent(main, MessageListActivity.class);
-                startActivity(intent);
-            } else if (compare(MenuCode.my_inform, menuCode)) {
-                intent = new Intent(main, NoticeListActivity.class);
-                startActivityForResult(intent,REQUEST_CODE_READ);
-            } else if (compare(MenuCode.knowledge_base, menuCode)) {
-                intent = new Intent(main, PaperListActivity.class);
-                startActivity(intent);
-            } else if (compare(MenuCode.customer_service, menuCode)) {
-                DialogUtil.showServiceDialog(main);
-            } else if (compare(MenuCode.receive_clothes_manager, menuCode)) {
-                ClothingTabActivity.actionStart(main, ClothingTabActivity
-                        .WITH_ORDER_COLLECT_MANAGE);
-            } else if (compare(MenuCode.activity_collect_clothes, menuCode)) {
-                ClothingTabActivity.actionStart(main, ClothingTabActivity
-                        .WITHOUT_ORDER_COLLECT_MANAGE);
-            } else if (compare(MenuCode.promote_file, menuCode)) {
-                intent = new Intent(main, PromoteActivity.class);
-                startActivity(intent);
-            } else if (compare(MenuCode.my_team, menuCode)) {
-                intent = new Intent(main, MyTeamActivity.class);
-                startActivity(intent);
-            } else if (compare(MenuCode.wash_cabinet_manager, menuCode)) {
-                CupboardScanActivity.actStart(main);
-            } else if (compare(MenuCode.wash_transport, menuCode)) {
-                DriverTabActivity.actionStart(main);
-            } else if (compare(MenuCode.wash_express_close_box, menuCode)) {
-                ExpressCloseBoxTabActivity.actionStart(this);
-            } else if (compare(MenuCode.wash_back_order_manager, menuCode)) {
-                ReturnManagerTabActivity.actionStart(this);
-            } else if (compare(MenuCode.wash_transport_sign, menuCode)) {
-                TransportReceiveTabActivity.actionStart(this);
-            } else if (compare(MenuCode.wash_carriage_close_box, menuCode)) {
-                CloseBoxTabActivity.actionStart(main);
-            } else if (compare(MenuCode.wash_back_order_package, menuCode)) {
-                PackTabActivity.actionStart(main);
-            } else if (compare(MenuCode.wash_clothes_check, menuCode)) {
-                ClothesCheckTabActivity.actionStart(main);
-            } else if (compare(MenuCode.my_deposit, menuCode)) {
-                intent = new Intent(main, EvidenceCashActivity.class);
-                startActivity(intent);
-            }
-            //预约收衣
-            else if (compare(MenuCode.receive_appointment_manager, menuCode)) {
-                AppointmentTabActivity.actionStart(main);
-            }
-            //企业洗衣
-            else if (compare(MenuCode.receive_enterprise_manager, menuCode)) {
-                EnterpriseWashTabActivity.actionStart(main);
-            }
-            //我的培训
-            else if (compare(MenuCode.offline_training_student, menuCode)) {
-                MyTrainActivity.actionStart(main);
-            }
-            //我的授课
-            else if (compare(MenuCode.offline_training_teacher, menuCode)) {
-                MyCoursesActivity.actionStart(main);
-            } else if (compare(MenuCode.card_coupons_web, menuCode)) {
-                PublicUtil.openWebView(main, userRight.getUrl()
-                                + (!userRight.getUrl().contains("?") ? "?" : "&")
-                                + "token=" + ClientStateManager.getLoginToken(),
-                        userRight.getMenuName(), false, true);
-            } else if (!StringUtils.isEmpty(userRight.getUrl())) {
-                String url = userRight.getUrl()
-                        + (!userRight.getUrl().contains("?") ? "?" : "&")
-                        + "token=" + ClientStateManager.getLoginToken();
-                PublicUtil.openWebView(main, url, userRight.getMenuName(), false);
-                LogUtils.d("openUrl:" + url);
-
-            } else if (compare(MenuCode.empty, menuCode)) {
-                //click empty
-            } else {
-                PublicUtil.showToast(getString(R.string.main_tab_no_data));
-            }
-        } catch (Exception ex) {
-            PublicUtil.showToast(main, ex.getMessage());
-        }
-    }
-
-    private boolean compare(MenuCode enumCode, String menuCode) {
-        return enumCode.toString().equals(menuCode);
-    }
-
-
-    class UserRightAdapter extends BaseAdapter {
-
-        private Context context;
-        private List<UserRight> listUserRight;
-        private KJBitmap kjb;
-
-        public UserRightAdapter(Context context, List<UserRight> listUserRight) {
-            this.context = context;
-            this.listUserRight = listUserRight;
-        }
-
-        @Override
-        public int getCount() {
-            return listUserRight.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return 0;
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
-
-            HolderView holderView;
-            if (convertView == null) {
-                holderView = new HolderView();
-                convertView = LayoutInflater.from(context).inflate(
-                        R.layout.main_gridview_item, null);
-                holderView.imgItem = (ImageView) convertView.findViewById(R.id.img_menu_item);
-                holderView.txtItem = (TextView) convertView.findViewById(R.id.txt_menu_item);
-                holderView.countTextView = (RedpointTextView) convertView.findViewById(R.id
-                        .txt_dispatch_count);
-                convertView.setTag(holderView);
-            } else {
-                holderView = (HolderView) convertView.getTag();
-            }
-
-            if (!MenuCode.empty.toString().equals(listUserRight.get(position).getMenuCode())) {
-                if (listUserRight.get(position).getAmount() <= 0) {
-                    holderView.countTextView.setText(String.valueOf(listUserRight.get(position)
-                            .getAmount()));
-                    holderView.countTextView.setVisibility(View.GONE);
-                } else if (listUserRight.get(position).getAmount() < 100) {
-                    holderView.countTextView.setText(String.valueOf(listUserRight.get(position)
-                            .getAmount()));
-                    holderView.countTextView.setVisibility(View.VISIBLE);
-                } else {
-                    holderView.countTextView.setText(getText(R.string.more_amount));
-                    holderView.countTextView.setVisibility(View.VISIBLE);
-                }
-
-                if (!StringUtils.isEmpty(listUserRight.get(position).getIconImg())) {
-                    KJFUtil.getUtil().getKJB().display(holderView.imgItem, listUserRight.get
-                            (position).getIconImg());
-                }
-
-                holderView.txtItem.setText(listUserRight.get(position).getMenuName());
-            } else {
-                convertView.setBackgroundColor(getResources().getColor(R.color.white));
-                holderView.txtItem.setVisibility(View.GONE);
-                holderView.imgItem.setVisibility(View.GONE);
-                holderView.countTextView.setVisibility(View.GONE);
-            }
-
-            return convertView;
-        }
-
-        class HolderView {
-            ImageView imgItem;
-            TextView txtItem;
-            RedpointTextView countTextView;
-        }
-    }
-
-    public static void actStart(Context context, String view, String url) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.PUSH_VIEW, view);
-        intent.putExtra(Constants.PUSH_URL, url);
-        context.startActivity(intent);
-    }
-
-    public static void actStart(Context context) {
-        actStart(context, null, null);
-    }
-
-    public static Intent getStartIntent(Context context, String view, String url) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(Constants.PUSH_VIEW, view);
-        intent.putExtra(Constants.PUSH_URL, url);
-        return intent;
-    }
-
-    /*@Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE_READ) {
-            //重新检测是否还有必要未读消息
-            getNoticeData();
-        }
-    }*/
 }

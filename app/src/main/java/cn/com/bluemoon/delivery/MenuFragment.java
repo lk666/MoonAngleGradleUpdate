@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -48,6 +47,7 @@ import cn.com.bluemoon.liblog.NetLogUtils;
 
 
 /**
+ * 侧滑栏
  * Created by liangjiangli on 2016/5/5.
  */
 public class MenuFragment extends Fragment implements View.OnClickListener {
@@ -85,11 +85,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
         layoutExit.setOnClickListener(this);
         layoutSetting.setOnClickListener(this);
         imgQcode.setOnClickListener(this);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            int statusbarHeight = getStatusBarHeight();
-            LinearLayout top_head = (LinearLayout) view.findViewById(R.id.main_left_fragment);
-            top_head.setPadding(0, statusbarHeight, 0, 0);
-        }
+
+        LinearLayout topHead = (LinearLayout) view.findViewById(R.id.main_left_fragment);
+        ViewUtil.setTopHead(topHead,false);
+
         setUserInfo();
         return view;
     }
@@ -223,7 +222,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                         System.currentTimeMillis(), responseString, e);
                 PublicUtil.showToastServerBusy();
             }
-            mContext.dismissProgressDialog();
+            mContext.hideWaitDialog();
         }
 
         @Override
@@ -232,24 +231,15 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
             NetLogUtils.eNetResponse(Constants.TAG_HTTP_RESPONSE_FAILURE, getUuid(), System
                     .currentTimeMillis(), responseString, throwable);
             PublicUtil.showToastServerOvertime();
-            mContext.dismissProgressDialog();
+            mContext.hideWaitDialog();
         }
     };
-
-    public int getStatusBarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            result = getResources().getDimensionPixelSize(resourceId);
-        }
-        return result;
-    }
 
     private void close() {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                mContext.CloseMenu();
+                mContext.toggle();
             }
         }, 500);
     }
@@ -278,7 +268,7 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                                     Toast.makeText(getActivity(), R.string.err_login_psw_empty,
                                             Toast.LENGTH_SHORT).show();
                                 } else {
-                                    mContext.showProgressDialog();
+                                    mContext.showWaitDialog();
                                     // 验证密码
                                     HRApi.checkPassword(pwd, ClientStateManager.getLoginToken(),
                                             checkPwdHandler);
@@ -330,10 +320,10 @@ public class MenuFragment extends Fragment implements View.OnClickListener {
                 close();
                 break;
             case R.id.img_qcode:
-                mContext.openQcode();
+                mContext.openQrCode();
                 break;
             case R.id.layout_empty:
-                mContext.CloseMenu();
+                mContext.toggle();
                 break;
 
         }

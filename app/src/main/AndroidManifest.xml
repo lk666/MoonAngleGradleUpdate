@@ -64,7 +64,7 @@
             android:name=".MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:theme="@style/Anim_style2"/>
+            android:theme="@style/MainStyle"/>
         <activity
             android:name=".module.account.LoginActivity"
             android:launchMode="singleTask"

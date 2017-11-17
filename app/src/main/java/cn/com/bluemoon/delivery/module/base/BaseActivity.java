@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.base;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,7 +39,7 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
  * 基础Activity，实现了一些公共方法
  * Created by lk on 2016/6/14.
  */
-public abstract class BaseActivity extends Activity implements BaseMainInterface, BaseViewInterface,
+public abstract class BaseActivity extends FragmentActivity implements BaseMainInterface, BaseViewInterface,
         IHttpRespone {
 
     private ProgressDialog waitDialog;

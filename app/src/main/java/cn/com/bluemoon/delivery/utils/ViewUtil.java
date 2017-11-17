@@ -4,9 +4,12 @@ import android.animation.ObjectAnimator;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 
 import cn.com.bluemoon.delivery.AppContext;
@@ -125,6 +128,72 @@ public class ViewUtil extends LibViewUtil {
             ViewUtil.toast(resultBase.getResponseMsg());
         } else {
             ViewUtil.toast(msg);
+        }
+    }
+
+    /**
+     * 获得状态栏的高度?
+     *
+     * @param context
+     * @return
+     */
+    public static int getStatusHeight(Context context) {
+
+        int statusHeight = -1;
+        try {
+            Class<?> clazz = Class.forName("com.android.internal.R$dimen");
+            Object object = clazz.newInstance();
+            int height = Integer.parseInt(clazz.getField("status_bar_height").get(object)
+                    .toString());
+            statusHeight = context.getResources().getDimensionPixelSize(height);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return statusHeight;
+    }
+
+    public static void initTop(Activity aty) {
+        initTop(aty,null,false);
+    }
+
+    /**
+     * 设置沉浸式
+     *
+     * @param aty
+     * @param topHead
+     * @param isFixHeight tophead是否固定高度（重要）
+     */
+    public static void initTop(Activity aty, View topHead, boolean isFixHeight) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            Window window = aty.getWindow();
+            WindowManager.LayoutParams layoutParams = window.getAttributes();
+            layoutParams.flags |= WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+            window.setAttributes(layoutParams);
+            setTopHead(topHead, isFixHeight);
+        }
+    }
+
+    /**
+     * 留出状态栏高度
+     *
+     * @param topHead
+     * @param isFixHeight tophead是否固定高度（重要）
+     */
+    public static void setTopHead(View topHead, boolean isFixHeight) {
+        if (topHead != null && Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            int statusBarHeight = 0;
+            int resourceId = topHead.getContext().getResources().getIdentifier("status_bar_height" +
+                    "", "dimen", "android");
+            if (resourceId > 0) {
+                statusBarHeight = topHead.getContext().getResources().getDimensionPixelSize
+                        (resourceId);
+            }
+            if (isFixHeight) {
+                ViewGroup.LayoutParams lp = topHead.getLayoutParams();
+                lp.height = lp.height + statusBarHeight;
+                topHead.setLayoutParams(lp);
+            }
+            topHead.setPadding(0, statusBarHeight, 0, 0);
         }
     }
 

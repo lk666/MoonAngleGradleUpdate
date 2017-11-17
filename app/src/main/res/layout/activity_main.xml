@@ -1,93 +1,131 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/top_head"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/title_background"
-                android:fitsSystemWindows="true"
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
 >
 
     <LinearLayout
+        android:id="@+id/top_head"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/page_bg_ed"
+        android:background="@color/white"
         android:orientation="vertical">
 
-        <RelativeLayout
+        <FrameLayout
+            android:id="@+id/layout_title"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:background="@color/title_background">
+            android:layout_height="50dp">
 
-            <cn.com.bluemoon.lib.view.ImageViewForClick
+            <ImageView
                 android:id="@+id/img_person"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentLeft="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/user_top_nav"/>
+                android:src="@mipmap/user_blue"/>
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_centerInParent="true"
-                android:gravity="center_vertical"
+                android:layout_gravity="center"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/icon_main_title"/>
+                android:src="@mipmap/logo_blue"/>
 
-            <cn.com.bluemoon.lib.view.ImageViewForClick
+            <ImageView
                 android:id="@+id/img_scan"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_centerVertical="true"
-                android:gravity="center_vertical"
+                android:layout_gravity="right"
                 android:padding="10dp"
                 android:scaleType="fitCenter"
-                android:src="@mipmap/scan_top_nav"/>
-        </RelativeLayout>
+                android:src="@mipmap/scan_blue"/>
+        </FrameLayout>
 
         <cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView
             android:id="@+id/txt_tips"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:background="#fffffe"
+            android:layout_height="40dp"
             android:drawableLeft="@mipmap/notice"
-            android:drawablePadding="5dp"
-            android:drawableRight="@mipmap/arrow_top"
+            android:drawablePadding="12dp"
             android:ellipsize="marquee"
             android:focusable="true"
             android:focusableInTouchMode="true"
             android:gravity="center_vertical"
             android:marqueeRepeatLimit="marquee_forever"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
+            android:paddingLeft="20dp"
+            android:paddingRight="20dp"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:textColor="@color/text_black_light"
-            android:textSize="@dimen/text_size_12"
+            android:textColor="@color/text_black"
+            android:textSize="@dimen/text_size_14"
             android:visibility="gone"/>
 
-        <View style="@style/line_solid_style"/>
-
-        <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
-            android:id="@+id/scrollView_main"
-            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+        <com.scwang.smartrefresh.layout.SmartRefreshLayout
+            android:id="@+id/layout_refresh"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:divider="@null"
-            android:fadingEdge="none"
-            android:scrollbars="none"
-            ptr:ptrDrawable="@drawable/progressbar_bar_loading"
-            ptr:ptrHeaderBackground="@color/page_bg_f2"
-            ptr:ptrHeaderSubTextColor="@color/text_black"
-            ptr:ptrHeaderTextColor="@color/text_black"
-            ptr:ptrMode="pullFromStart"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="#f8f8f8"
+            app:srlDisableContentWhenRefresh="true"
+            app:srlEnableLoadmore="false">
 
-        />
+            <com.scwang.smartrefresh.header.MaterialHeader
+                android:id="@+id/refresh_head"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"/>
+
+        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+        <View style="@style/line_solid_deep_style"/>
+
+        <FrameLayout
+            android:id="@+id/layout_quick"
+            android:layout_width="match_parent"
+            android:layout_height="60dp">
+
+            <TextView
+                android:id="@+id/txt_edit"
+                android:layout_width="48dp"
+                android:layout_height="28dp"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="12dp"
+                android:background="@drawable/border_blue_shape"
+                android:gravity="center"
+                android:text="编辑"
+                android:textColor="@color/text_color_edit"
+                android:textSize="@dimen/text_size_14"/>
+
+            <ImageView
+                android:id="@+id/img_arrow"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_margin="12dp"
+                android:src="@mipmap/arrow_down"/>
+
+            <TextView
+                android:id="@+id/txt_finish"
+                android:layout_width="48dp"
+                android:layout_height="28dp"
+                android:layout_gravity="right|center_vertical"
+                android:layout_marginRight="12dp"
+                android:background="@drawable/border_blue_shape"
+                android:gravity="center"
+                android:text="完成"
+                android:textColor="@color/text_blue_1eb8ff"
+                android:textSize="@dimen/text_size_14"
+                android:visibility="gone"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 

@@ -36,10 +36,10 @@ public class NoticeShowActivity extends BaseActivity {
 
     private boolean isRead;
 
-    public static void startAction(Activity context, ArrayList<String> ids, int requestCode) {
+    public static void startAction(Activity context, ArrayList<String> ids) {
         Intent intent = new Intent(context, NoticeShowActivity.class);
         intent.putStringArrayListExtra("ids", ids);
-        context.startActivityForResult(intent, requestCode);
+        context.startActivity(intent);
     }
 
     @Override
