@@ -270,7 +270,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     @Override
     final public void hideWaitDialog() {
         if(baseTabActivity!=null){
-             baseTabActivity.hideWaitDialog();
+            baseTabActivity.hideWaitDialog();
         }else if(fragmentActivity!=null){
             fragmentActivity.hideWaitDialog();
         }
@@ -296,6 +296,11 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
         return baseTabActivity.showWaitDialog(text, viewId);
     }
 
+    @Override
+    final public ProgressDialog showWaitDialog(boolean isCancelable) {
+        return showWaitDialog(getString(R.string.data_loading), R.layout.dialog_progress, isCancelable);
+    }
+
     final protected ProgressDialog showWaitDialog(String message, int viewId, boolean
             isCancelable) {
         return baseTabActivity.showWaitDialog(message, viewId, isCancelable);
@@ -306,7 +311,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      */
     final protected void setAmount(){
         if(baseTabActivity!=null)
-        baseTabActivity.getAmount();
+            baseTabActivity.getAmount();
     }
 
     /**
@@ -315,7 +320,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
      */
     final protected void setAmount2(){
         if(baseTabActivity!=null)
-        baseTabActivity.getAmountList();
+            baseTabActivity.getAmountList();
     }
 
     ///////////// 可选重写 ////////////////

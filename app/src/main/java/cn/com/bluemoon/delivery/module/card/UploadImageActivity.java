@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.card;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -24,6 +25,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
 import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.bitmap.BitmapCallBack;
 
@@ -37,6 +39,7 @@ import cn.com.bluemoon.delivery.app.api.model.punchcard.ImageBean;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultImage;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.event.PunchCardEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
@@ -66,6 +69,11 @@ public class UploadImageActivity extends Activity{
     private boolean deleteControl;
     private KJBitmap kjBitmap = new KJBitmap();
 
+    public static void startAct(Context mContext) {
+        Intent intent = new Intent(mContext, UploadImageActivity.class);
+        mContext.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -77,7 +85,6 @@ public class UploadImageActivity extends Activity{
         progressDialog.setCancelable(false);
         setContentView(R.layout.activiy_punchcard_upload_img);
         gridView = (GridView) findViewById(R.id.gridview_img);
-        boolean hasImage = getIntent().getBooleanExtra("hasImage", true);
         DeliveryApi.getImgList(ClientStateManager.getLoginToken(mContext), getImgListHandler);
 
         Button btnOk = (Button) findViewById(R.id.btn_ok);
@@ -105,7 +112,7 @@ public class UploadImageActivity extends Activity{
                         } else {
                             uploadControl = false;
                             if (isDeleteImg) {
-                                setResult(1);
+                                EventBus.getDefault().post(new PunchCardEvent()); //刷新打卡信息
                             }
                             finish();
                         }
@@ -171,7 +178,7 @@ public class UploadImageActivity extends Activity{
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog,int which) {
-                                setResult(1);
+                                EventBus.getDefault().post(new PunchCardEvent()); //刷新打卡信息
                                 finish();
                             }
                         }).show();
@@ -260,7 +267,7 @@ public class UploadImageActivity extends Activity{
                             progressDialog.dismiss();
                         }
                         PublicUtil.showToast(result.getResponseMsg());
-                        setResult(1);
+                        EventBus.getDefault().post(new PunchCardEvent()); //刷新打卡信息
                         finish();
                     }
                 }else{

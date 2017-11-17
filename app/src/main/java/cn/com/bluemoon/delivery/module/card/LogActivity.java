@@ -1,7 +1,9 @@
 package cn.com.bluemoon.delivery.module.card;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,6 +19,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -24,6 +27,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultDiaryContent;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.event.PunchCardEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -42,6 +46,12 @@ public class LogActivity extends Activity {
     private CommonProgressDialog progressDialog;
     private LogActivity mContext;
     private String logTxt;
+
+    public static void startAct(Context mContext, boolean hasWorkDiary) {
+        Intent intent = new Intent(mContext, LogActivity.class);
+        intent.putExtra("hasWorkDiary", hasWorkDiary);
+        mContext.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,7 +97,7 @@ public class LogActivity extends Activity {
                                 ResultBase result = JSON.parseObject(s, ResultBase.class);
                                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                                     PublicUtil.showToast(result.getResponseMsg());
-                                    setResult(1);
+                                    EventBus.getDefault().post(new PunchCardEvent()); //刷新打卡信息
                                     finish();
                                 } else {
                                     PublicUtil.showErrorMsg(mContext, result);
