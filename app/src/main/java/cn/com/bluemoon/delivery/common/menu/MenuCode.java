@@ -1,11 +1,10 @@
-package cn.com.bluemoon.delivery.app.api.model;
+package cn.com.bluemoon.delivery.common.menu;
 
 public enum MenuCode {
 
 	my_qrcode,
     url,
 	jobAsignManager,
-    empty,
     dispatch,//订单派送
     site_sign,//现场签收
     check_in,//门票

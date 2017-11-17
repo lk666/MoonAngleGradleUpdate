@@ -118,20 +118,6 @@ public class NoticeListActivity extends Activity {
     }
 
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO Auto-generated method stub
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == Activity.RESULT_CANCELED)
-            return;
-        if (resultCode == Activity.RESULT_OK) {
-            switch (requestCode) {
-
-            }
-        }
-    }
-
-
     AsyncHttpResponseHandler noticeHandler = new TextHttpResponseHandler(
             HTTP.UTF_8) {
 
