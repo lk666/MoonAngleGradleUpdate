@@ -10,6 +10,8 @@ public interface DialogControl {
 
     ProgressDialog showWaitDialog();
 
+    ProgressDialog showWaitDialog(boolean isCancelable);
+
     ProgressDialog showWaitDialog(int resId, int viewId);
 
     ProgressDialog showWaitDialog(String text, int viewId);

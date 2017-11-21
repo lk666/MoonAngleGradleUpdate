@@ -35,6 +35,9 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.view.MonthDatePickerDialog;
 
+/**
+ * 打卡记录
+ */
 public class RecordCardFragment extends BasePullToRefreshListViewFragment {
 
     private TextView txtTime;

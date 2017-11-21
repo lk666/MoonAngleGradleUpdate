@@ -46,6 +46,9 @@ import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
+/**
+ * 打卡主页（扫码打卡，手动打卡，今日休息）
+ */
 public class PunchCardFragment extends Fragment implements OnClickListener {
     private String TAG = "PunchCardFragment";
     private CardTabActivity mContext;

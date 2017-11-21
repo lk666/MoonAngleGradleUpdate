@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ObjectAnimator;
 import android.animation.PropertyValuesHolder;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -52,6 +53,12 @@ public class GetWorkPlaceActivity extends BaseActivity implements OnListItemClic
     private List<Workplace> items;
     private List<Workplace> listHistory;
     private final static int HISTORY_SIZE = 5;
+
+    public static void startAct(Activity context, String code, int requestCode) {
+        Intent intent = new Intent(context, GetWorkPlaceActivity.class);
+        intent.putExtra("code", code);
+        context.startActivityForResult(intent, requestCode);
+    }
 
     @Override
     protected int getLayoutId() {

@@ -28,6 +28,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +43,7 @@ import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultGetProduct;
 import cn.com.bluemoon.delivery.app.api.model.punchcard.ResultGetWorkDiaryList;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
+import cn.com.bluemoon.delivery.module.event.PunchCardEvent;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -52,6 +54,7 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 /**
+ * 日报
  * Created by liangjiangli on 2016/3/30.
  */
 public class WorkDiaryActivity extends Activity {
@@ -68,6 +71,11 @@ public class WorkDiaryActivity extends Activity {
     private int breedNum;
     private int count;
 
+    public static void startAct(Context mContext) {
+        Intent intent = new Intent(mContext, WorkDiaryActivity.class);
+        mContext.startActivity(intent);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // TODO Auto-generated method stub
@@ -76,7 +84,6 @@ public class WorkDiaryActivity extends Activity {
         mContext = this;
         progressDialog = new CommonProgressDialog(mContext);
         setContentView(R.layout.activiy_work_diary);
-        boolean hasWrokDaily = getIntent().getBooleanExtra("hasWrokDaily", true);
         txtTotalBreedNum = (TextView) findViewById(R.id.txt_total_breed_num);
         txtTotalNum = (TextView) findViewById(R.id.txt_total_num);
         txtTotalBreedNum.setText(String.format(getString(R.string.total_breed_num), 0));
@@ -179,7 +186,7 @@ public class WorkDiaryActivity extends Activity {
                 ResultBase result = JSON.parseObject(s, ResultBase.class);
                 if (result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
                     PublicUtil.showToast(result.getResponseMsg());
-                    setResult(1);
+                    EventBus.getDefault().post(new PunchCardEvent()); //刷新打卡信息
                     finish();
                 } else {
                     PublicUtil.showErrorMsg(mContext, result);

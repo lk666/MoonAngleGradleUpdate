@@ -351,6 +351,7 @@
 
     <string name="dialog_confirm">确定</string>
     <string name="dialog_cancel">取消</string>
+    <string name="dialog_continue">继续</string>
     <string name="confirm_with_space">确&#160;定</string>
     <string name="cancel_with_space">取&#160;消</string>
     <string name="detail_order_deliver">待发货详情</string>
@@ -570,6 +571,8 @@
     <string name="input_today_sales">请填写今天的销售情况</string>
     <string name="work_log_show">工作日志查看</string>
     <string name="sure_get_off_work">是否现在结束打卡？</string>
+    <string name="sure_get_off_work2">未获取到GPS定位信息\n继续结束打卡吗？</string>
+    <string name="sure_punch_card">未获取到GPS定位信息\n继续打卡吗？</string>
     <string name="upload_image_txt">照片</string>
     <string name="upload_image">上传照片</string>
     <string name="please_select_image">请选择照片</string>

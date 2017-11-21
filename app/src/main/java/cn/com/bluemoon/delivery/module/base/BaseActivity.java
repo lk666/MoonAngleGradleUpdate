@@ -251,7 +251,8 @@ public abstract class BaseActivity extends FragmentActivity implements BaseMainI
         return showWaitDialog(true);
     }
 
-    final protected ProgressDialog showWaitDialog(boolean isCancelable) {
+    @Override
+    final public ProgressDialog showWaitDialog(boolean isCancelable) {
         return showWaitDialog(R.string.data_loading, R.layout.dialog_progress, isCancelable);
     }
 
