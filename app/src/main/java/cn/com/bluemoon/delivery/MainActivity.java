@@ -189,6 +189,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         quickAdapter.setEmptyView(R.layout.layout_empty_edit);
 
         layoutEditTitle.setOnTouchListener(this);
+        txtEditHint.setOnTouchListener(this);
     }
 
     /**
@@ -414,6 +415,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void setEdit(boolean isEdit) {
         this.isEdit = isEdit;
         layoutRefresh.setEnableRefresh(!isEdit);
+        editAdapter.isUseEmpty(!isEdit);
         txtEdit.setSelected(isEdit);
         txtEdit.setText(isEdit ? R.string.btn_cancel : R.string.btn_edit);
         menuAdapter.setEdit(isEdit);
@@ -467,6 +469,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (isEdit) return;
+        if(PublicUtil.isFastDoubleClick()) return;
         if (adapter instanceof MenuAdapter) {
             MenuSection item = menuAdapter.getData().get(position);
             if (!item.isHeader) {
@@ -481,6 +484,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (!isEdit) return;
+        if(PublicUtil.isFastDoubleClick()) return;
         if (adapter instanceof MenuAdapter) {
             MenuSection item = menuAdapter.getData().get(position);
             if (!item.isHeader) {
