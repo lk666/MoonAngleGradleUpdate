@@ -148,7 +148,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             }
         });
         //刷新转圈颜色变化
-        refreshHead.setColorSchemeColors(0xff1fb8ff, 0xffff6c47);
+        refreshHead.setColorSchemeColors(0xff1fb8ff, 0xffff6c47, 0xff87D657, 0xffE59062);
         //初始化主菜单
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         menuAdapter = new MenuAdapter();
@@ -300,9 +300,19 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             case 1:
                 //获取主菜单和快捷菜单
                 resultUserRight = (ResultUserRight) result;
+                if(resultUserRight.rightsList==null){
+                    resultUserRight.rightsList = new ArrayList<>();
+                }
+                if(resultUserRight.quickList==null){
+                    resultUserRight.quickList = new ArrayList<>();
+                }
                 ViewUtil.setViewVisibility(layoutBottom, View.VISIBLE);
-                ViewUtil.setViewVisibility(resultUserRight.quickList.size() > 0 ? layoutEdit :
-                        layoutQuick, View.VISIBLE);
+                //首次显示处理，单编辑菜单和快捷菜单都没有显示时（即第一次加载），根据快捷菜单的个数显示不同界面
+                if (layoutEdit.getVisibility() == View.GONE && layoutQuick.getVisibility() ==
+                        View.GONE) {
+                    ViewUtil.setViewVisibility(resultUserRight.quickList.size() > 0 ? layoutEdit :
+                            layoutQuick, View.VISIBLE);
+                }
                 //设置主菜单数据
                 menuAdapter.replaceData(MenuManager.getInstance().getMenuList(resultUserRight));
                 //设置简洁图标快捷菜单
