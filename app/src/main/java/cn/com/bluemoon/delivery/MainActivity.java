@@ -61,7 +61,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class MainActivity extends BaseSlidingActivity implements View.OnClickListener,
         BaseQuickAdapter.OnItemClickListener, BaseQuickAdapter.OnItemChildClickListener,
-        OnItemDragListener,View.OnTouchListener {
+        OnItemDragListener, View.OnTouchListener {
 
 
     @Bind(R.id.img_edit_arrow)
@@ -140,7 +140,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         initMenu();
         //兼容沉浸式
         ViewUtil.initTop(this, topHead, false);
-
         //初始化下拉控件
         layoutRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -150,7 +149,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         });
         //刷新转圈颜色变化
         refreshHead.setColorSchemeColors(0xff1fb8ff, 0xffff6c47);
-
         //初始化主菜单
         recyclerView.setLayoutManager(new GridLayoutManager(this, 2));
         menuAdapter = new MenuAdapter();
@@ -162,12 +160,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         menuAdapter.setEmptyView(emptyView);
         menuAdapter.replaceData(new ArrayList<MenuSection>());
         menuAdapter.openLoadAnimation();
-
         //初始化编辑菜单的背景
         recyclerBg.setLayoutManager(new GridLayoutManager(this, 4));
         MenuBgAdapter bgAdapter = new MenuBgAdapter(MenuManager.getBgList());
         bgAdapter.bindToRecyclerView(recyclerBg);
-
         //初始化编辑菜单
         recyclerEdit.setLayoutManager(new GridLayoutManager(this, 4));
         editAdapter = new MenuEditAdapter();
@@ -180,14 +176,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         itemTouchHelper.attachToRecyclerView(recyclerEdit);
         editAdapter.setOnItemDragListener(this);
         editAdapter.setEmptyView(R.layout.layout_empty_edit);
-
         //初始化快捷菜单,横向排列
         recyclerQuick.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager
                 .HORIZONTAL, false));
         quickAdapter = new MenuQuickAdapter();
         quickAdapter.bindToRecyclerView(recyclerQuick);
         quickAdapter.setEmptyView(R.layout.layout_empty_edit);
-
+        //编辑菜单下滑关闭设置
         layoutEditTitle.setOnTouchListener(this);
         txtEditHint.setOnTouchListener(this);
     }
@@ -221,7 +216,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             PublicUtil.showMessageTokenExpire(this);
             return;
         }
-
         //请求菜单数据和消息数据
         getRightData();
         //请求必读消息数据
@@ -230,7 +224,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         MenuManager.getInstance().jump(this, getIntent());
         //数据埋点
         TrackManager.checkData();
-
     }
 
     @Override
@@ -307,9 +300,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             case 1:
                 //获取主菜单和快捷菜单
                 resultUserRight = (ResultUserRight) result;
-                if (layoutBottom.getVisibility() == View.GONE) {
-                    ViewUtil.setViewVisibility(layoutBottom, View.VISIBLE);
-                }
+                ViewUtil.setViewVisibility(layoutBottom, View.VISIBLE);
+                ViewUtil.setViewVisibility(resultUserRight.quickList.size() > 0 ? layoutEdit :
+                        layoutQuick, View.VISIBLE);
                 //设置主菜单数据
                 menuAdapter.replaceData(MenuManager.getInstance().getMenuList(resultUserRight));
                 //设置简洁图标快捷菜单
@@ -364,11 +357,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onFinishResponse(int requestCode) {
         super.onFinishResponse(requestCode);
-        layoutRefresh.finishRefresh();
+        if (requestCode == 1) {
+            layoutRefresh.finishRefresh();
+        }
     }
 
     @OnClick({R.id.img_person, R.id.img_scan, R.id.txt_tips, R.id.txt_edit, R.id.txt_finish, R.id
-            .txt_edit_hint, R.id.show_view,R.id.layout_edit_title})
+            .txt_edit_hint, R.id.show_view, R.id.layout_edit_title})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_person:
@@ -451,7 +446,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     /**
      * 收下编辑菜单
      */
-    private void hideEditMenu(){
+    private void hideEditMenu() {
         if (!isEdit) {
             ViewUtil.setViewVisibility(layoutEdit, View.GONE);
             ViewUtil.setViewVisibility(layoutQuick, View.VISIBLE);
@@ -469,7 +464,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
         if (isEdit) return;
-        if(PublicUtil.isFastDoubleClick()) return;
+        if (PublicUtil.isFastDoubleClick()) return;
         if (adapter instanceof MenuAdapter) {
             MenuSection item = menuAdapter.getData().get(position);
             if (!item.isHeader) {
@@ -484,7 +479,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     @Override
     public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
         if (!isEdit) return;
-        if(PublicUtil.isFastDoubleClick()) return;
+        if (PublicUtil.isFastDoubleClick()) return;
         if (adapter instanceof MenuAdapter) {
             MenuSection item = menuAdapter.getData().get(position);
             if (!item.isHeader) {
@@ -555,16 +550,16 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if(isEdit) return false;
+        if (isEdit) return false;
         //继承了Activity的onTouchEvent方法，直接监听点击事件
-        if(event.getAction() == MotionEvent.ACTION_DOWN) {
+        if (event.getAction() == MotionEvent.ACTION_DOWN) {
             //当手指按下的时候
             y1 = event.getY();
         }
-        if(event.getAction() == MotionEvent.ACTION_UP) {
+        if (event.getAction() == MotionEvent.ACTION_UP) {
             //当手指离开的时候
             y2 = event.getY();
-            if(y2 - y1 > 50) {
+            if (y2 - y1 > 50) {
                 hideEditMenu();
             }
         }

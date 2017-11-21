@@ -1,9 +1,11 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.content.Context;
+import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Build;
 import android.support.v4.graphics.drawable.DrawableCompat;
 import android.view.View;
 import android.widget.ImageView;
@@ -105,11 +107,34 @@ public class ImageLoaderUtil {
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
-        int size = WidgeUtil.dip2px(imageView.getContext(),30);
-        Bitmap bitmap = mImageLoader.loadImageSync(requestUrl, new ImageSize(size,size),options);
-        Drawable drawable = DrawableCompat.wrap(new BitmapDrawable(bitmap));
-        DrawableCompat.setTint(drawable,color);
-        imageView.setImageDrawable(drawable);
+        //版本兼容处理
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP){
+            imageView.setImageTintList(ColorStateList.valueOf(color));
+            mImageLoader.displayImage(requestUrl,imageView);
+        }else{
+            mImageLoader.loadImage(requestUrl,  options, new ImageLoadingListener() {
+
+
+                @Override
+                public void onLoadingStarted(String s, View view) {
+                }
+
+                @Override
+                public void onLoadingFailed(String s, View view, FailReason failReason) {
+                }
+
+                @Override
+                public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                    Drawable drawable = DrawableCompat.wrap(new BitmapDrawable(bitmap));
+                    DrawableCompat.setTint(drawable, color);
+                    ((ImageView)view).setImageDrawable(drawable);
+                }
+
+                @Override
+                public void onLoadingCancelled(String s, View view) {
+                }
+            });
+        }
     }
 
     /**

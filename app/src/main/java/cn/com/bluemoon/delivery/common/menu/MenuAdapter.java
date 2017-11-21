@@ -39,7 +39,6 @@ public class MenuAdapter extends BaseSectionQuickAdapter<MenuSection, BaseViewHo
         helper.setText(R.id.txt_head, item.header);
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void convert(BaseViewHolder helper, MenuSection item) {
 
