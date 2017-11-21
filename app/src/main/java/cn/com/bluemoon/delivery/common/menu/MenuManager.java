@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.common.menu;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.TextUtils;
@@ -8,6 +9,7 @@ import android.util.SparseArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
@@ -39,11 +41,13 @@ import cn.com.bluemoon.delivery.module.wash.returning.expressclosebox.ExpressClo
 import cn.com.bluemoon.delivery.module.wash.returning.manager.ReturnManagerTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.pack.PackTabActivity;
 import cn.com.bluemoon.delivery.module.wash.returning.transportreceive.TransportReceiveTabActivity;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib_widget.utils.WidgeUtil;
 
 /**
  * 菜单管理类
@@ -125,13 +129,13 @@ public class MenuManager {
                 ClothesCheckTabActivity.actionStart(main);
             } else if (compare(MenuCode.my_deposit, menuCode)) {
                 ViewUtil.showActivity(main, EvidenceCashActivity.class);
-            }else if (compare(MenuCode.receive_appointment_manager, menuCode)) {
+            } else if (compare(MenuCode.receive_appointment_manager, menuCode)) {
                 AppointmentTabActivity.actionStart(main);
-            }else if (compare(MenuCode.receive_enterprise_manager, menuCode)) {
+            } else if (compare(MenuCode.receive_enterprise_manager, menuCode)) {
                 EnterpriseWashTabActivity.actionStart(main);
-            }else if (compare(MenuCode.offline_training_student, menuCode)) {
+            } else if (compare(MenuCode.offline_training_student, menuCode)) {
                 MyTrainActivity.actionStart(main);
-            }else if (compare(MenuCode.offline_training_teacher, menuCode)) {
+            } else if (compare(MenuCode.offline_training_teacher, menuCode)) {
                 MyCoursesActivity.actionStart(main);
             }
 
@@ -139,7 +143,7 @@ public class MenuManager {
 
             //下面是网页跳转
             else if (!TextUtils.isEmpty(userRight.getUrl())) {
-                String url = userRight.getUrl()+ (!userRight.getUrl().contains("?") ? "?" : "&")
+                String url = userRight.getUrl() + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
                 PublicUtil.openWebView(main, url, userRight.getMenuName(), false);
             } else {
@@ -183,12 +187,20 @@ public class MenuManager {
         }
     }
 
+    public static List<String> getBgList(){
+        List<String> list = new ArrayList<>();
+        for (int i=0;i<8;i++){
+            list.add("1");
+        }
+        return list;
+    }
+
     /**
      * 组装分组数据
      */
     public List<MenuSection> getMenuList(ResultUserRight resultUserRight) {
         List<MenuSection> list = new ArrayList<>();
-        if (resultUserRight.rightsList != null) {
+        if (resultUserRight.rightsList != null && resultUserRight.rightsList.size() > 0) {
             // 用SparseArray分组，可减少for层级
             SparseArray<List<MenuSection>> menuMap = new SparseArray<>();
             for (int i = 1; i <= resultUserRight.groupCount; i++) {
@@ -198,6 +210,16 @@ public class MenuManager {
                 List<MenuSection> value = menuMap.get(right.getGroupNum());
                 if (value != null) {
                     value.add(new MenuSection(right));
+                }
+
+                //根据快捷方式的排序，替换快捷方式的索引，方便下面处理数据，同一份item
+                for (int i = 0; i < resultUserRight.quickList.size(); i++) {
+                    String menuCode = resultUserRight.quickList.get(i).getMenuCode();
+                    if (right.getMenuCode().equals(menuCode)) {
+                        right.isQuick = true;
+                        resultUserRight.quickList.set(i, right);
+                        break;
+                    }
                 }
             }
             for (int i = 1; i <= resultUserRight.groupCount; i++) {
@@ -211,32 +233,101 @@ public class MenuManager {
         return list;
     }
 
+    /**
+     * 刷新所有勾选数据
+     */
+    public void refreshAllSelect(ResultUserRight resultUserRight) {
+        if (resultUserRight == null) return;
+        for (UserRight right : resultUserRight.rightsList) {
+            boolean isQuick = false;
+            for (UserRight right1 : resultUserRight.quickList) {
+                if (right.getMenuCode().equals(right1.getMenuCode())) {
+                    isQuick = true;
+                    break;
+                }
+            }
+            right.isQuick = isQuick;
+        }
+    }
+
 
     /**
      * 设置角标数据
      */
-    public void setAmount(MainActivity aty, MenuAdapter adapter, List<ModelNum> modelNum) {
-        if (modelNum != null) {
+    public void setAmount(Context context, MenuAdapter menuAdapter, MenuEditAdapter editAdapter,
+                          ResultUserRight
+                                  resultUserRight, List<ModelNum> modelNum) {
+        if (resultUserRight != null && modelNum != null) {
             int sum = 0;
-            for (MenuSection right : adapter.getData()) {
-                if (right.isHeader) continue;
+            //设置菜单角标
+            for (UserRight right : resultUserRight.rightsList) {
                 boolean isExit = false;
                 for (ModelNum num : modelNum) {
-                    if (right.t.getMenuCode().equals(num.getMenuId())) {
-                        right.t.setAmount(num.getNum());
+                    if (right.getMenuCode().equals(num.getMenuId())) {
+                        right.setAmount(num.getNum());
                         sum += num.getNum();
                         isExit = true;
                         break;
                     }
                 }
                 if (!isExit) {
-                    right.t.setAmount(0);
+                    right.setAmount(0);
                 }
             }
             //更新数据
-            adapter.notifyDataSetChanged();
+            menuAdapter.notifyDataSetChanged();
+            //两个列表数据是同一个
+            editAdapter.notifyDataSetChanged();
             //更新桌面角标
-            PublicUtil.setMainAmount(aty, sum);
+            PublicUtil.setMainAmount(context, sum);
+        }
+    }
+
+
+    /**
+     * 提取快捷菜单提交
+     */
+    public List<String> getEditMenuList(List<UserRight> list) {
+        List<String> menuList = new ArrayList<>();
+        for (UserRight right : list) {
+            menuList.add(right.getMenuCode());
+        }
+        return menuList;
+    }
+
+    private int count;
+
+    /**
+     * 计算快捷图标显示个数
+     */
+    public List<UserRight> getIconList(Context context, List<UserRight> list) {
+        List<UserRight> icons = new ArrayList<>();
+        if (count <= 0) {
+            count = (AppContext.getInstance().getDisplayWidth() - WidgeUtil.dip2px(context, 46)) /
+                    WidgeUtil.dip2px(context, 50);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (i >= count) {
+                break;
+            }
+            icons.add(list.get(i));
+        }
+        return icons;
+    }
+
+    /**
+     * 推送跳转
+     */
+    public void jump(MainActivity aty, Intent intent) {
+        String view = PublicUtil.getPushView(intent);
+        String url = PublicUtil.getPushUrl(intent);
+        if ((!TextUtils.isEmpty(view) && !Constants.PUSH_H5.equals(view))
+                || (Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url))) {
+            UserRight userRight = new UserRight();
+            userRight.setMenuCode(view);
+            userRight.setUrl(url);
+            userRight.setMenuName("");
+            onClickMenu(aty, userRight);
         }
     }
 

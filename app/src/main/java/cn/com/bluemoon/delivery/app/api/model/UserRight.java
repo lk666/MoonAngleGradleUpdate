@@ -22,6 +22,7 @@ public class UserRight {
     private String menuName;
     private String url;
     private int amount;
+    public boolean isQuick;
 
     public int getAmount() {
         return amount;

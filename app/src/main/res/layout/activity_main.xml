@@ -1,132 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
+    android:id="@+id/top_head"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
->
+    android:background="@color/white"
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/top_head"
+    <FrameLayout
+        android:id="@+id/layout_title"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical">
+        android:layout_height="50dp">
 
-        <FrameLayout
-            android:id="@+id/layout_title"
+        <ImageView
+            android:id="@+id/img_person"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/user_blue"/>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/logo_blue"/>
+
+        <ImageView
+            android:id="@+id/img_scan"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:padding="10dp"
+            android:scaleType="fitCenter"
+            android:src="@mipmap/scan_blue"/>
+    </FrameLayout>
+
+    <cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView
+        android:id="@+id/txt_tips"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:drawableLeft="@mipmap/notice"
+        android:drawablePadding="12dp"
+        android:ellipsize="marquee"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        android:gravity="center_vertical"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:textColor="@color/text_black"
+        android:textSize="@dimen/text_size_14"
+        android:visibility="gone"/>
+
+    <com.scwang.smartrefresh.layout.SmartRefreshLayout
+        android:id="@+id/layout_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:background="#f8f8f8"
+        android:clipToPadding="false"
+        android:paddingBottom="-10dp"
+        app:srlDisableContentWhenRefresh="true"
+        app:srlEnableLoadmore="false">
+
+        <com.scwang.smartrefresh.header.MaterialHeader
+            android:id="@+id/refresh_head"
             android:layout_width="match_parent"
-            android:layout_height="50dp">
+            android:layout_height="wrap_content"/>
 
-            <ImageView
-                android:id="@+id/img_person"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/user_blue"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="center"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/logo_blue"/>
-
-            <ImageView
-                android:id="@+id/img_scan"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_gravity="right"
-                android:padding="10dp"
-                android:scaleType="fitCenter"
-                android:src="@mipmap/scan_blue"/>
-        </FrameLayout>
-
-        <cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView
-            android:id="@+id/txt_tips"
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:drawableLeft="@mipmap/notice"
-            android:drawablePadding="12dp"
-            android:ellipsize="marquee"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
-            android:gravity="center_vertical"
-            android:marqueeRepeatLimit="marquee_forever"
-            android:paddingLeft="20dp"
-            android:paddingRight="20dp"
-            android:scrollHorizontally="true"
-            android:singleLine="true"
-            android:textColor="@color/text_black"
-            android:textSize="@dimen/text_size_14"
-            android:visibility="gone"/>
+            android:layout_height="match_parent"
+            android:background="@color/white"/>
 
-        <com.scwang.smartrefresh.layout.SmartRefreshLayout
-            android:id="@+id/layout_refresh"
+    </com.scwang.smartrefresh.layout.SmartRefreshLayout>
+
+    <FrameLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="-10dp"
+        android:visibility="gone">
+
+        <cn.com.bluemoon.delivery.ui.ShadowLineView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:background="#f8f8f8"
-            app:srlDisableContentWhenRefresh="true"
-            app:srlEnableLoadmore="false">
-
-            <com.scwang.smartrefresh.header.MaterialHeader
-                android:id="@+id/refresh_head"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"/>
-
-        </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-        <View style="@style/line_solid_deep_style"/>
+            android:layout_height="15dp"/>
 
         <FrameLayout
             android:id="@+id/layout_quick"
             android:layout_width="match_parent"
-            android:layout_height="60dp">
+            android:layout_height="60dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center_vertical|bottom"
+            android:orientation="horizontal"
+            android:visibility="gone">
 
-            <TextView
-                android:id="@+id/txt_edit"
-                android:layout_width="48dp"
-                android:layout_height="28dp"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="12dp"
-                android:background="@drawable/border_blue_shape"
-                android:gravity="center"
-                android:text="编辑"
-                android:textColor="@color/text_color_edit"
-                android:textSize="@dimen/text_size_14"/>
-
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_quick"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="6dp"
+                android:layout_marginRight="48dp"/>
             <ImageView
                 android:id="@+id/img_arrow"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
                 android:layout_gravity="right|center_vertical"
-                android:layout_margin="12dp"
-                android:src="@mipmap/arrow_down"/>
-
-            <TextView
-                android:id="@+id/txt_finish"
-                android:layout_width="48dp"
-                android:layout_height="28dp"
-                android:layout_gravity="right|center_vertical"
+                android:layout_marginLeft="2dp"
                 android:layout_marginRight="12dp"
-                android:background="@drawable/border_blue_shape"
-                android:gravity="center"
-                android:text="完成"
-                android:textColor="@color/text_blue_1eb8ff"
-                android:textSize="@dimen/text_size_14"
-                android:visibility="gone"/>
+                android:rotation="180"
+                android:src="@mipmap/arrow_down"/>
+            <View
+                android:id="@+id/show_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
 
         </FrameLayout>
+        <FrameLayout
+            android:id="@+id/layout_edit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp">
 
-    </LinearLayout>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_bg"
+                android:layout_width="match_parent"
+                android:layout_height="172dp"
+                android:layout_marginTop="44dp"
+                android:visibility="gone"/>
 
-</RelativeLayout>
+            <FrameLayout
+                android:id="@+id/layout_edit_title"
+                android:layout_width="match_parent"
+                android:layout_height="44dp">
+
+                <cn.com.bluemoon.lib_widget.module.other.TextViewForClick
+                    android:id="@+id/txt_edit"
+                    android:layout_width="48dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="12dp"
+                    android:background="@drawable/border_blue_shape"
+                    android:gravity="center"
+                    android:text="@string/btn_edit"
+                    android:textColor="@color/text_color_edit"
+                    android:textSize="@dimen/text_size_14"/>
+
+                <ImageView
+                    android:id="@+id/img_edit_arrow"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_margin="12dp"
+                    android:clickable="false"
+                    android:src="@mipmap/arrow_down"/>
+
+                <TextView
+                    android:id="@+id/txt_edit_hint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right|center_vertical"
+                    android:paddingRight="40dp"
+                    android:text="@string/txt_quick"
+                    android:textColor="@color/text_black"
+                    android:textSize="@dimen/text_size_12"/>
+
+                <cn.com.bluemoon.lib_widget.module.other.TextViewForClick
+                    android:id="@+id/txt_finish"
+                    android:layout_width="48dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="right|center_vertical"
+                    android:layout_marginRight="12dp"
+                    android:background="@drawable/border_blue_shape"
+                    android:gravity="center"
+                    android:text="@string/btn_finish"
+                    android:textColor="@color/text_blue_1eb8ff"
+                    android:textSize="@dimen/text_size_14"
+                    android:visibility="gone"/>
+            </FrameLayout>
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_edit"
+                android:layout_width="match_parent"
+                android:layout_height="172dp"
+                android:layout_marginTop="44dp"/>
+
+        </FrameLayout>
+    </FrameLayout>
+
+</LinearLayout>

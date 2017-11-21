@@ -47,11 +47,11 @@ public class DeliveryApi {
 
     protected static final String TOKEN = "token";
 
-    protected static void onError(AsyncHttpResponseHandler handler){
-        if(handler!=null)
-        handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
-                null, new Exception(AppContext.getInstance().getString(R.string
-                        .error_local_param)));
+    protected static void onError(AsyncHttpResponseHandler handler) {
+        if (handler != null)
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param)));
     }
 
     /**
@@ -229,6 +229,23 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/user/getAppRights%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /* v4.9.0增加自定义菜单列表 */
+    public static void addUserDefinedMenus(String token, List<String> menuList,
+                                           AsyncHttpResponseHandler handler) {
+
+        if (null == token || menuList == null) {
+            return;
+        }
+
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("menuList", menuList);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("bluemoon-control/user/addUserDefinedMenus%s",
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
@@ -1315,7 +1332,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.15 展示工作任务 */
-	/* 返回： ResultGetWorkTask */
+    /* 返回： ResultGetWorkTask */
     public static void getWorkTask(String token, String workTaskType, AsyncHttpResponseHandler
             handler) {
 
@@ -1332,7 +1349,7 @@ public class DeliveryApi {
     }
 
     /* 2.9.6 保存更新工作日志 */
-	/* 返回： ResultBase */
+    /* 返回： ResultBase */
     public static void confirmWorkDiary(String token, String diaryContent,
                                         AsyncHttpResponseHandler handler) {
 
@@ -1623,7 +1640,7 @@ public class DeliveryApi {
     /*2.11.3.1必读通知列表（新增）*/
 	/*返回：ResultInfos*/
     public static void getMustReadInfoList(String token,
-                                          AsyncHttpResponseHandler handler) {
+                                           AsyncHttpResponseHandler handler) {
         if (null == token) {
             return;
         }
@@ -1682,7 +1699,6 @@ public class DeliveryApi {
                 ApiClientHelper.getParamUrl());
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
-
 
 
     /*2.11.5知识库菜单列表*/
@@ -2819,15 +2835,14 @@ public class DeliveryApi {
     }
 
 
-
     /**
      * 获取经纬度地址
      */
     public static void getGpsAddress(PunchParam card, AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<>();
-        params.put("longitude",card.getLongitude());
-        params.put("latitude",   card.getLatitude());
-        params.put("altitude",  card.getAltitude());
+        params.put("longitude", card.getLongitude());
+        params.put("latitude", card.getLatitude());
+        params.put("altitude", card.getAltitude());
         params.put(TOKEN, card.getToken());
         postRequest(params, "bluemoon-control/attendance/getGpsAddress%s", handler);
     }
@@ -2837,9 +2852,9 @@ public class DeliveryApi {
      */
     public static void getGPSRegion(PunchParam card, AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<>();
-        params.put("longitude",card.getLongitude());
-        params.put("latitude",   card.getLatitude());
-        params.put("altitude",  card.getAltitude());
+        params.put("longitude", card.getLongitude());
+        params.put("latitude", card.getLatitude());
+        params.put("altitude", card.getAltitude());
         params.put(TOKEN, card.getToken());
         postRequest(params, "bluemoon-control/attendance/getGPSRegion%s", handler);
     }
@@ -2855,6 +2870,7 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         postRequest(params, "bluemoon-control/sinceAuthPickUp/getAuthStoreByUserCode%s", handler);
     }
+
     /**
      * 查询当所有仓库
      */
@@ -2866,15 +2882,16 @@ public class DeliveryApi {
         params.put(TOKEN, token);
         postRequest(params, "bluemoon-control/sinceAuthPickUp/getAllStoresByUserCode%s", handler);
     }
+
     /**
      * 保存派单反馈信息
      */
-    public static void saveFeedBackQuestionInfo(String token, String orderId,String orderSource,
-                                                List<String> questionKeys,String questionValue,
+    public static void saveFeedBackQuestionInfo(String token, String orderId, String orderSource,
+                                                List<String> questionKeys, String questionValue,
                                                 AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<>();
         if (null == token || isEmpty(orderSource)
-                || isEmpty(orderId)|| questionKeys.size() == 0) {
+                || isEmpty(orderId) || questionKeys.size() == 0) {
             return;
         }
         params.put(TOKEN, token);
@@ -2889,10 +2906,10 @@ public class DeliveryApi {
      * 获取派单反馈信息选项列表信息
      */
     public static void getFeedBackExpandInfo(String token, String orderId,
-                                                String orderSource, String type,
-                                                AsyncHttpResponseHandler handler) {
+                                             String orderSource, String type,
+                                             AsyncHttpResponseHandler handler) {
         Map<String, Object> params = new HashMap<>();
-        if (null == token || isEmpty(orderSource)|| isEmpty(type)) {
+        if (null == token || isEmpty(orderSource) || isEmpty(type)) {
             return;
         }
         params.put(TOKEN, token);

@@ -2,6 +2,10 @@ package cn.com.bluemoon.delivery.utils;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.v4.graphics.drawable.DrawableCompat;
+import android.view.View;
 import android.widget.ImageView;
 
 import com.nostra13.universalimageloader.cache.disc.impl.LimitedAgeDiskCache;
@@ -9,7 +13,10 @@ import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.nostra13.universalimageloader.utils.L;
 
 import java.io.File;
@@ -17,6 +24,7 @@ import java.io.File;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.lib.utils.threadhelper.ThreadPool;
+import cn.com.bluemoon.lib_widget.utils.WidgeUtil;
 
 /**
  * DIsplay image in imageView async.
@@ -80,6 +88,28 @@ public class ImageLoaderUtil {
      */
     public static void displayImageMipmap(int imageId, ImageView imageView) {
         ImageLoader.getInstance().displayImage("drawable://" + imageId, imageView);
+    }
+
+    /**
+     * 设置可变色颜色图片
+     */
+    public static void displayImageWithColor(String requestUrl,ImageView imageView,final int color) {
+        if (mImageLoader == null) {
+            mImageLoader = ImageLoader.getInstance();
+        }
+
+        DisplayImageOptions options = new DisplayImageOptions.Builder()
+                .cacheOnDisk(true)
+                .cacheInMemory(true)
+                .imageScaleType(ImageScaleType.EXACTLY)
+                .bitmapConfig(Bitmap.Config.RGB_565)
+                .build();
+
+        int size = WidgeUtil.dip2px(imageView.getContext(),30);
+        Bitmap bitmap = mImageLoader.loadImageSync(requestUrl, new ImageSize(size,size),options);
+        Drawable drawable = DrawableCompat.wrap(new BitmapDrawable(bitmap));
+        DrawableCompat.setTint(drawable,color);
+        imageView.setImageDrawable(drawable);
     }
 
     /**
