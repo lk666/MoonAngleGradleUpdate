@@ -187,9 +187,9 @@ public class MenuManager {
         }
     }
 
-    public static List<String> getBgList(){
+    public static List<String> getBgList() {
         List<String> list = new ArrayList<>();
-        for (int i=0;i<8;i++){
+        for (int i = 0; i < 8; i++) {
             list.add("1");
         }
         return list;
@@ -283,6 +283,20 @@ public class MenuManager {
         }
     }
 
+    /**
+     * 检测快捷菜单是否重新编辑
+     */
+    public boolean checkEditMenuChange(List<UserRight> oldList, List<UserRight> newList) {
+        if (oldList.size() != newList.size()) {
+            return true;
+        }
+        for (int i = 0; i < oldList.size(); i++) {
+            if (!oldList.get(i).getMenuCode().equals(newList.get(i).getMenuCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     /**
      * 提取快捷菜单提交

@@ -190,7 +190,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void initMenu() {
         mMenuFragment = new MenuFragment();
         setBehindContentView(R.layout.main_left_layout);// 设置左菜单
-        getSupportFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment)
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_left_fragment,
+                mMenuFragment)
                 .commit();
         mMenu = getSlidingMenu();
         mMenu.setMode(SlidingMenu.LEFT);
@@ -389,7 +390,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 isEdit = !isEdit;
                 setEdit(isEdit);
                 //点击取消
-                if (!isEdit) {
+                if (!isEdit && checkChange()) {
                     resetEditMenu();
                     //如果用户取消，则恢复原来的勾选状态
                     MenuManager.getInstance().refreshAllSelect(resultUserRight);
@@ -397,7 +398,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 break;
             case R.id.txt_finish:
                 //点击完成
-                saveEditMenu();
+                if (checkChange()) {
+                    //如果改变，则上传最新菜单
+                    saveEditMenu();
+                } else {
+                    //恢复为不可编辑状态
+                    setEdit(false);
+                }
                 break;
             case R.id.show_view:
                 showEditMenu();
@@ -453,6 +460,14 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void setQuickMenu() {
         quickAdapter.replaceData(MenuManager.getInstance().getIconList(this, resultUserRight
                 .quickList));
+    }
+
+    /**
+     * 检测快捷菜单是否编辑过
+     */
+    private boolean checkChange() {
+        return MenuManager.getInstance().checkEditMenuChange(resultUserRight.quickList,
+                editAdapter.getData());
     }
 
     /**
