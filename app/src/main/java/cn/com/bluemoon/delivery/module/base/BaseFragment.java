@@ -51,6 +51,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
 
     private BaseTabActivity baseTabActivity;
     private BaseFragmentActivity fragmentActivity;
+    private BaseActivity baseActivity;
     private FragmentActivity act;
     private View mainView;
 
@@ -66,14 +67,15 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        if(getActivity() instanceof BaseTabActivity){
-            baseTabActivity = (BaseTabActivity) getActivity();
-            act=getActivity();
+        act = getActivity();
+        if(act instanceof BaseTabActivity){
+            baseTabActivity = (BaseTabActivity) act;
+        } else if(act instanceof BaseFragmentActivity){
+            fragmentActivity = (BaseFragmentActivity) act;
+        } else if (act instanceof BaseActivity) {
+            baseActivity = (BaseActivity)act;
         }
-        if(getActivity() instanceof BaseFragmentActivity){
-            fragmentActivity = (BaseFragmentActivity) getActivity();
-            act=getActivity();
-        }
+
         onBeforeCreateView();
         initCustomActionBar();
 
@@ -273,6 +275,8 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
             baseTabActivity.hideWaitDialog();
         }else if(fragmentActivity!=null){
             fragmentActivity.hideWaitDialog();
+        } else if (baseActivity != null) {
+            baseActivity.hideWaitDialog();
         }
     }
 
@@ -282,6 +286,8 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
             return baseTabActivity.showWaitDialog();
         }else if(fragmentActivity!=null){
             fragmentActivity.showWaitDialog();
+        } else if (baseActivity != null) {
+            baseActivity.showWaitDialog();
         }
         return null;
     }

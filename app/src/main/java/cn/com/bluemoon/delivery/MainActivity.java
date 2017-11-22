@@ -190,7 +190,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void initMenu() {
         mMenuFragment = new MenuFragment();
         setBehindContentView(R.layout.main_left_layout);// 设置左菜单
-        getFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment)
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment)
                 .commit();
         mMenu = getSlidingMenu();
         mMenu.setMode(SlidingMenu.LEFT);
