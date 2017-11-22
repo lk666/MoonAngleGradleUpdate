@@ -83,6 +83,7 @@
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
     <FrameLayout
+
         android:id="@+id/layout_bottom"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -106,9 +107,8 @@
                 android:id="@+id/recycler_quick"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="48dp"/>
-            <ImageView
+                android:layout_margin="2dp"/>
+            <!--<ImageView
                 android:id="@+id/img_arrow"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
@@ -116,7 +116,7 @@
                 android:layout_marginLeft="2dp"
                 android:layout_marginRight="12dp"
                 android:rotation="180"
-                android:src="@mipmap/arrow_down"/>
+                android:src="@mipmap/arrow_down"/>-->
             <View
                 android:id="@+id/show_view"
                 android:layout_width="match_parent"

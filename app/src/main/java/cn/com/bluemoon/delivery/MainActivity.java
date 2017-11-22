@@ -66,10 +66,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Bind(R.id.img_edit_arrow)
     ImageView imgEditArrow;
-    @Bind(R.id.img_person)
-    ImageView imgPerson;
-    @Bind(R.id.img_scan)
-    ImageView imgScan;
     @Bind(R.id.layout_title)
     FrameLayout layoutTitle;
     @Bind(R.id.txt_tips)
@@ -185,6 +181,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         //编辑菜单下滑关闭设置
         layoutEditTitle.setOnTouchListener(this);
         txtEditHint.setOnTouchListener(this);
+        recyclerEdit.setOnTouchListener(this);
     }
 
     /**
@@ -300,10 +297,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             case 1:
                 //获取主菜单和快捷菜单
                 resultUserRight = (ResultUserRight) result;
-                if(resultUserRight.rightsList==null){
+                if (resultUserRight.rightsList == null) {
                     resultUserRight.rightsList = new ArrayList<>();
                 }
-                if(resultUserRight.quickList==null){
+                if (resultUserRight.quickList == null) {
                     resultUserRight.quickList = new ArrayList<>();
                 }
                 ViewUtil.setViewVisibility(layoutBottom, View.VISIBLE);
@@ -325,12 +322,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             case 2:
                 //获取最新消息
                 ResultNewInfo resultInfo = (ResultNewInfo) result;
-                if (!TextUtils.isEmpty(resultInfo.getMsgContent())) {
-                    txtTips.setVisibility(View.VISIBLE);
-                    txtTips.setText(resultInfo.getMsgContent());
-                } else {
+                if (TextUtils.isEmpty(resultInfo.getMsgContent()) || isEdit) {
                     txtTips.setVisibility(View.GONE);
+                } else {
+                    txtTips.setVisibility(View.VISIBLE);
                 }
+                txtTips.setText(resultInfo.getMsgContent());
                 break;
             case 3:
                 //设置角标数量
@@ -403,8 +400,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 saveEditMenu();
                 break;
             case R.id.show_view:
-                ViewUtil.setViewVisibility(layoutEdit, View.VISIBLE);
-                ViewUtil.setViewVisibility(layoutQuick, View.GONE);
+                showEditMenu();
                 break;
             case R.id.txt_edit_hint:
                 hideEditMenu();
@@ -430,6 +426,12 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         ViewUtil.setViewVisibility(layoutTitle, isEdit ? View.GONE : View.VISIBLE);
         ViewUtil.setViewVisibility(txtEditHint, isEdit ? View.GONE : View.VISIBLE);
         ViewUtil.setViewVisibility(recyclerBg, isEdit ? View.VISIBLE : View.GONE);
+        //最新消息的显示
+        if (isEdit || txtTips.getText().toString().length() == 0) {
+            ViewUtil.setViewVisibility(txtTips, View.GONE);
+        } else {
+            ViewUtil.setViewVisibility(txtTips, View.VISIBLE);
+        }
         // 开启拖拽
         if (isEdit) {
             editAdapter.enableDragItem(itemTouchHelper);
@@ -451,6 +453,16 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void setQuickMenu() {
         quickAdapter.replaceData(MenuManager.getInstance().getIconList(this, resultUserRight
                 .quickList));
+    }
+
+    /**
+     * 展开编辑菜单
+     */
+    private void showEditMenu() {
+        if (!isEdit) {
+            ViewUtil.setViewVisibility(layoutEdit, View.VISIBLE);
+            ViewUtil.setViewVisibility(layoutQuick, View.GONE);
+        }
     }
 
     /**
@@ -569,7 +581,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (event.getAction() == MotionEvent.ACTION_UP) {
             //当手指离开的时候
             y2 = event.getY();
-            if (y2 - y1 > 50) {
+            if (y2 - y1 > 88) {
                 hideEditMenu();
             }
         }

@@ -303,7 +303,7 @@ public class MenuManager {
     public List<UserRight> getIconList(Context context, List<UserRight> list) {
         List<UserRight> icons = new ArrayList<>();
         if (count <= 0) {
-            count = (AppContext.getInstance().getDisplayWidth() - WidgeUtil.dip2px(context, 46)) /
+            count = (AppContext.getInstance().getDisplayWidth() - WidgeUtil.dip2px(context, 4)) /
                     WidgeUtil.dip2px(context, 50);
         }
         for (int i = 0; i < list.size(); i++) {

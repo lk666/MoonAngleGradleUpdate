@@ -95,7 +95,7 @@ public class ImageLoaderUtil {
     /**
      * 设置可变色颜色图片
      */
-    public static void displayImageWithColor(String requestUrl,ImageView imageView,final int color) {
+    public static void displayImageWithColor(String requestUrl, final ImageView imageView, final int color) {
         if (mImageLoader == null) {
             mImageLoader = ImageLoader.getInstance();
         }
@@ -127,7 +127,7 @@ public class ImageLoaderUtil {
                 public void onLoadingComplete(String s, View view, Bitmap bitmap) {
                     Drawable drawable = DrawableCompat.wrap(new BitmapDrawable(bitmap));
                     DrawableCompat.setTint(drawable, color);
-                    ((ImageView)view).setImageDrawable(drawable);
+                    imageView.setImageDrawable(drawable);
                 }
 
                 @Override
