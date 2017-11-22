@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.header.MaterialHeader;
-import com.scwang.smartrefresh.header.WaveSwipeHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
@@ -144,7 +143,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     private void initMenu() {
         mMenuFragment = new MenuFragment();
         setBehindContentView(R.layout.main_left_layout);// 设置左菜单
-        getFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment)
+        getSupportFragmentManager().beginTransaction().replace(R.id.main_left_fragment, mMenuFragment)
                 .commit();
         mMenu = getSlidingMenu();
         mMenu.setMode(SlidingMenu.LEFT);
