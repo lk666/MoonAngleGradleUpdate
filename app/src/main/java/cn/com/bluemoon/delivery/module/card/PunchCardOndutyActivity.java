@@ -330,8 +330,12 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
             regionInfo = baseResult.regionInfo;
             refreshRegion();
         } else if (requestCode == REQUEST_GET_GPS_ADDRESS) {
-            ResultAddressInfo ResultAddressInfo = (ResultAddressInfo) result;
-            txtCurrentAddress.setText(ResultAddressInfo.getAddressInfo().getFormattedAddress());
+            ResultAddressInfo resultAddressInfo = (ResultAddressInfo) result;
+            String address = resultAddressInfo.getAddressInfo().getFormattedAddress();
+            if (TextUtils.isEmpty(address)) {
+                address = getString(R.string.address_fail_txt);
+            }
+            txtCurrentAddress.setText(address);
             CardUtils.stopPropertyAnim(anim);
             layoutAddress.setClickable(true);
         } else if (requestCode == REQUEST_GET_WORK_TASK) {
