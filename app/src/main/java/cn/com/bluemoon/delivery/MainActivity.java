@@ -53,6 +53,7 @@ import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.StatusBarUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
@@ -135,7 +136,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         //初始化侧滑栏
         initMenu();
         //兼容沉浸式
-        ViewUtil.initTop(this, topHead, false);
+//        ViewUtil.initTop(this, topHead, false);
+        StatusBarUtil.immersive(this, 0xff000000, 0.2f);
+        StatusBarUtil.setPaddingSmart(this, topHead);
         //初始化下拉控件
         layoutRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
