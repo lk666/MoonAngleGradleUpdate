@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.card;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
@@ -312,7 +313,11 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                 break;
             case REQUEST_GET_GPS_ADDRESS:
                 ResultAddressInfo resultAddressInfo = (ResultAddressInfo) resultBase;
-                txtCurrentAddress.setText(resultAddressInfo.getAddressInfo().getFormattedAddress());
+                String address = resultAddressInfo.getAddressInfo().getFormattedAddress();
+                if (TextUtils.isEmpty(address)) {
+                    address = getString(R.string.address_fail_txt);
+                }
+                txtCurrentAddress.setText(address);
                 CardUtils.stopPropertyAnim(anim);
                 layoutAddress.setClickable(true);
                 break;
@@ -326,7 +331,11 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                         " HH:mm"));
                 txtAddressStartTime.setText(DateUtil.getTime(punchCard.getPunchInTime(),
                         "yyyy-MM-dd HH:mm"));
-                txtAddressStart.setText(punchCard.getPunchInGpsAddress());
+                address = punchCard.getPunchInGpsAddress();
+                if (TextUtils.isEmpty(address)) {
+                    address = getString(R.string.address_no_gps_txt);
+                }
+                txtAddressStart.setText(address);
                 txtNameAndMobile.setText(CardUtils.getCharge(punchCard));
                 txtAddress.setText(CardUtils.getAddress(punchCard));
                 if (punchCard.getHasWorkDiary()) {
