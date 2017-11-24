@@ -11,6 +11,7 @@ import android.util.DisplayMetrics;
 import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -53,6 +54,7 @@ import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.SoftHideKeyBoardUtil;
 import cn.com.bluemoon.delivery.utils.StatusBarUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -136,9 +138,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         //初始化侧滑栏
         initMenu();
         //兼容沉浸式
-//        ViewUtil.initTop(this, topHead, false);
-        StatusBarUtil.immersive(this, 0xff000000, 0.2f);
-        StatusBarUtil.setPaddingSmart(this, topHead);
+        ViewUtil.initTop(this, topHead, false);
+//        StatusBarUtil.immersive(this, 0xff000000, 0.2f);
+//        StatusBarUtil.setPaddingSmart(this, topHead);
+////        SoftHideKeyBoardUtil.assistActivity(this);
         //初始化下拉控件
         layoutRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -599,7 +602,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (event.getAction() == MotionEvent.ACTION_UP) {
             //当手指离开的时候
             y2 = event.getY();
-            if (y2 - y1 > 88) {
+            if (y2 - y1 > 60) {
                 hideEditMenu();
             }
         }

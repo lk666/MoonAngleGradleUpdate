@@ -25,7 +25,6 @@ import cn.com.bluemoon.delivery.app.api.EasySSLSocketFactory;
 import cn.com.bluemoon.delivery.common.AppConfig;
 import cn.com.bluemoon.delivery.db.manager.DBHelper;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
-import cn.com.bluemoon.delivery.module.track.api.TrackHttpClient;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -95,7 +94,6 @@ public class AppContext extends BaseApplication {
 
         //初始化数据库
         DBHelper.getInstance();
-        initTrackHttp();
         //监听Activity的进程
         registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
 
@@ -123,20 +121,6 @@ public class AppContext extends BaseApplication {
         client.setResponseTimeout(20000);
         ApiHttpClient.setHttpClient(client);
         ApiHttpClient.setCookie(ApiHttpClient.getCookie(AppContext.getInstance()));
-    }
-
-    private void initTrackHttp(){
-        // asyHttp
-        SchemeRegistry supportedSchemesTrack = new SchemeRegistry();
-        supportedSchemesTrack.register(new Scheme("http", PlainSocketFactory.getSocketFactory(), 80));
-        supportedSchemesTrack.register(new Scheme("https", new EasySSLSocketFactory(), 443));
-        AsyncHttpClient clientTrack = new AsyncHttpClient(supportedSchemesTrack);
-        PersistentCookieStore myCookieStoreTrack = new PersistentCookieStore(this);
-        clientTrack.setCookieStore(myCookieStoreTrack);
-        clientTrack.setConnectTimeout(20000);
-        clientTrack.setResponseTimeout(20000);
-        TrackHttpClient.setHttpClient(clientTrack);
-        TrackHttpClient.setCookie(ApiHttpClient.getCookie(this));
     }
 
     public boolean containsProperty(String key) {

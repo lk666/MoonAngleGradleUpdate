@@ -35,7 +35,7 @@ class BaseApi {
 
             Context context = handler.getContext();
             //            ApiHttpClient.postMock(name, context, url, jsonString, handler);
-            ApiHttpClient.post(name, context, url, jsonString, handler);
+            ApiHttpClient.postNewBase(name, context, url, jsonString, handler);
         } catch (Exception ex) {
             ViewUtil.longToast("系统配置发生变化，请重新启动应用。");
         }

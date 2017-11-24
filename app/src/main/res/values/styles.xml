@@ -298,7 +298,6 @@
 
     <style name="Anim_style2" parent="android:Theme.NoTitleBar">
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
-
     </style>
 
     <style name="MainStyle" parent="android:Theme.Light.NoTitleBar">

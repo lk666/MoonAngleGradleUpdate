@@ -89,6 +89,12 @@ public class AppStartActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //处理点击home键会重新启动问题
+        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+            finish();
+            return;
+        }
+
         main = this;
         setContentView(R.layout.activity_start);
         init();

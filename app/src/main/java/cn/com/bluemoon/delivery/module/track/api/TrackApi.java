@@ -12,7 +12,9 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.db.entity.ReqBody;
 import cn.com.bluemoon.delivery.utils.Constants;
 
@@ -48,6 +50,6 @@ public class TrackApi {
         params.put("reqKey", "");
         String jsonString = JSONObject.toJSONString(params);
         Context context = AppContext.getInstance();
-        TrackHttpClient.postTrack("postTrack",context, jsonString, handler);
+        ApiHttpClient.postTrack(context,"",jsonString,handler);
     }
 }
