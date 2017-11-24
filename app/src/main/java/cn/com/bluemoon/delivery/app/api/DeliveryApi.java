@@ -1085,12 +1085,10 @@ public class DeliveryApi {
             jsonString = JSONObject.toJSONString(params);
         }
 
-        String url = String.format(
-                "moonRegion/region/getRegionSelect.action%s",
+        String url = String.format("moonRegion/region/getRegionSelect.action%s",
                 ApiClientHelper.getParamUrl());
 
-        ApiHttpClient.postDirect(AppContext.getInstance(), String.format(BuildConfig
-                .ADDRESS_URL, url), jsonString, handler);
+        ApiHttpClient.postDirect(AppContext.getInstance(), url, jsonString, handler);
 
     }
 

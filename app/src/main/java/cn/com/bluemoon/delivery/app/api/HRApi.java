@@ -41,12 +41,10 @@ public class HRApi extends BaseApi {
             jsonString = JSONObject.toJSONString(params);
         }
 
-        String url = String.format(
-                "bmhr-control/personInfo/getRegionSelectSAP%s",
+        String url = String.format("bmhr-control/personInfo/getRegionSelectSAP%s",
                 ApiClientHelper.getParamUrl());
 
-        ApiHttpClient.postDirect(AppContext.getInstance(), String.format(BuildConfig
-                .API_URL, url), jsonString, handler);
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
     /**

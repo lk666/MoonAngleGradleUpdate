@@ -56,7 +56,7 @@ class BaseApi {
             String url = String.format(subUrl, ApiClientHelper.getParamUrl());
 
             Context context = handler.getContext();
-            ApiHttpClient.postMock(name, context, url, jsonString, handler);
+            ApiHttpClient.postNewMock(name, context, url, jsonString, handler);
         } catch (Exception ex) {
             ViewUtil.longToast("系统配置发生变化，请重新启动应用。");
         }

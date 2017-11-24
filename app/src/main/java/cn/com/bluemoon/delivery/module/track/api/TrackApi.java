@@ -50,6 +50,6 @@ public class TrackApi {
         params.put("reqKey", "");
         String jsonString = JSONObject.toJSONString(params);
         Context context = AppContext.getInstance();
-        ApiHttpClient.postTrack(context,"",jsonString,handler);
+        ApiHttpClient.postTrack(context,jsonString,handler);
     }
 }

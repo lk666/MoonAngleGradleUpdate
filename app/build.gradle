@@ -59,11 +59,10 @@ android {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/84/%s\""
-            buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
+            buildConfigField "String", "ADDRESS_HOST", "\"mallapi.bluemoon.com.cn\""
             buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn/%s\""
-            buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "SHARE_TO_SHORT", "\"http://192.168.236.3:8085/%s\""
             buildConfigField "String", "TRACK_HOST", "\"testbmtracking.bluemoon.com.cn\""
@@ -84,11 +83,10 @@ android {
         release {
             buildConfigField("boolean", "RELEASE", "true")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/84/%s\""
-            buildConfigField "String", "MOCK_URL_SZ", "\"http://192.168.237.2/%s\""
+            buildConfigField "String", "ADDRESS_HOST", "\"mallapi.bluemoon.com.cn\""
             buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"https://angel.bluemoon.com.cn/%s\""
-            buildConfigField "String", "API_URL_SZ", "\"https://tm.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "SHARE_TO_SHORT", "\"http://192.168.236.3:8085/%s\""
             buildConfigField "String", "TRACK_HOST", "\"bmtracking.bluemoon.com.cn\""

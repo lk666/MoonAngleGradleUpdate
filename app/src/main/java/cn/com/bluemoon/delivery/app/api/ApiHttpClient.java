@@ -38,11 +38,35 @@ public class ApiHttpClient {
         client.cancelRequests(context, true);
     }
 
+    /**
+     * 设置host，并返回域名地址
+     */
     public static String getAbsoluteApiUrl(String partUrl) {
+        client.addHeader("Host", BuildConfig.HOST);
         return String.format(BuildConfig.API_URL, partUrl);
     }
 
+    /**
+     * 获取地址选择域名地址
+     */
+    public static String getAddressApiUrl(String partUrl) {
+        client.addHeader("Host", BuildConfig.ADDRESS_HOST);
+        return String.format(BuildConfig.ADDRESS_URL, partUrl);
+    }
+
+    /**
+     * 获取埋点域名地址
+     */
+    public static String getTrackApiUrl() {
+        client.addHeader("Host", BuildConfig.TRACK_HOST);
+        return BuildConfig.API_TRACK_URL;
+    }
+
+    /**
+     * 获取模拟数据域名地址
+     */
     public static String getMockUrl(String partUrl) {
+        client.addHeader("Host", BuildConfig.HOST);
         return String.format(BuildConfig.MOCK_URL, partUrl);
     }
 
@@ -50,53 +74,40 @@ public class ApiHttpClient {
         LogUtils.d("BaseApi", log);
     }
 
-    public static void post(Context context, String partUrl, String jsonString,
-                            AsyncHttpResponseHandler handler) {
-
-        ByteArrayEntity entity = null;
+    public static ByteArrayEntity getEntity(String jsonString) {
         try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+            return new ByteArrayEntity(jsonString.getBytes("UTF-8"));
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        client.addHeader("Host", BuildConfig.HOST);
-        client.post(context, getAbsoluteApiUrl(partUrl), entity,
-                "application/json", handler);
+        return null;
+    }
 
+    public static void post(Context context, String partUrl, String jsonString,
+                            AsyncHttpResponseHandler handler) {
+        client.post(context, getAbsoluteApiUrl(partUrl), getEntity(jsonString),
+                "application/json", handler);
         log(new StringBuilder("POST ").append(partUrl).append("----->")
                 .append(jsonString).toString());
     }
 
     /**
-     * post数据，debug时可将日志写入临时文件，在再次启动时会被清除
+     * 模拟数据post请求
      */
-    public static void postTrack(Context context, String partUrl, String jsonString,
+    public static void postTrack(Context context, String jsonString,
                                  WithStatusTextHttpResponseHandler handler) {
-
-        ByteArrayEntity entity = null;
-        try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        client.addHeader("Host", BuildConfig.TRACK_HOST);
-        client.post(context, BuildConfig.API_TRACK_URL, entity, "application/json", handler);
-
-        log(new StringBuilder("POST ").append(partUrl).append("----->")
+        client.post(context, getTrackApiUrl(), getEntity(jsonString), "application/json", handler);
+        log(new StringBuilder("POST ").append("").append("----->")
                 .append(jsonString).toString());
     }
 
+    /**
+     * 地址数据post请求
+     */
     public static void postDirect(Context context, String partUrl,
                                   String jsonString, AsyncHttpResponseHandler handler) {
-
-        ByteArrayEntity entity = null;
-        try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        client.post(context, partUrl, entity, "application/json", handler);
-
+        client.post(context, getAddressApiUrl(partUrl), getEntity(jsonString),
+                "application/json", handler);
         log(new StringBuilder("POST ").append(partUrl).append("----->")
                 .append(jsonString).toString());
     }
@@ -107,34 +118,17 @@ public class ApiHttpClient {
      * @param name 接口名称，可为空
      */
     public static void postNewBase(String name, Context context, String partUrl, String jsonString,
-                            WithContextTextHttpResponseHandler handler) {
-
-        ByteArrayEntity entity = null;
-        try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        client.addHeader("Host", BuildConfig.HOST);
-        client.post(context, getAbsoluteApiUrl(partUrl), entity,
+                                   WithContextTextHttpResponseHandler handler) {
+        client.post(context, getAbsoluteApiUrl(partUrl), getEntity(jsonString),
                 "application/json", handler);
-
         NetLogUtils.dNetRequest(Constants.TAG_HTTP_REQUEST, handler.getUuid(),
                 partUrl, name, jsonString);
     }
 
     public static void postMock(Context context, String partUrl, String jsonString,
                                 AsyncHttpResponseHandler handler) {
-
-        ByteArrayEntity entity = null;
-        try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        client.addHeader("Host", BuildConfig.HOST);
-        client.post(context, getMockUrl(partUrl), entity,"application/json", handler);
-
+        client.post(context, getMockUrl(partUrl), getEntity(jsonString), "application/json",
+                handler);
         log(new StringBuilder("POST ").append(partUrl).append("----->")
                 .append(jsonString).toString());
     }
@@ -144,17 +138,10 @@ public class ApiHttpClient {
      *
      * @param name 接口名称，可为空
      */
-    public static void postMock(String name, Context context, String partUrl, String jsonString,
+    public static void postNewMock(String name, Context context, String partUrl, String jsonString,
                                 WithContextTextHttpResponseHandler handler) {
-        ByteArrayEntity entity = null;
-        try {
-            entity = new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        client.addHeader("Host", BuildConfig.HOST);
-        client.post(context, getMockUrl(partUrl), entity, "application/json", handler);
-
+        client.post(context, getMockUrl(partUrl), getEntity(jsonString), "application/json",
+                handler);
         NetLogUtils.dNetRequest(Constants.TAG_HTTP_REQUEST, handler.getUuid(),
                 partUrl, name, jsonString);
     }
@@ -162,7 +149,7 @@ public class ApiHttpClient {
     public static void setHttpClient(AsyncHttpClient c) {
         client = c;
         client.addHeader("Accept-Language", Locale.getDefault().toString());
-        client.addHeader("Host", BuildConfig.HOST);
+        client.addHeader("Host", BuildConfig.HOST);//默认host
         client.addHeader("Connection", "Keep-Alive");
 
         client.getHttpClient().getParams()
