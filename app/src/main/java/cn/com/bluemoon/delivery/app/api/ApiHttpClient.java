@@ -30,14 +30,6 @@ public class ApiHttpClient {
     public ApiHttpClient() {
     }
 
-    public static AsyncHttpClient getHttpClient() {
-        return client;
-    }
-
-    public static void cancelAll(Context context) {
-        client.cancelRequests(context, true);
-    }
-
     /**
      * 设置host，并返回域名地址
      */
@@ -68,19 +60,6 @@ public class ApiHttpClient {
     public static String getMockUrl(String partUrl) {
         client.addHeader("Host", BuildConfig.HOST);
         return String.format(BuildConfig.MOCK_URL, partUrl);
-    }
-
-    public static void log(String log) {
-        LogUtils.d("BaseApi", log);
-    }
-
-    public static ByteArrayEntity getEntity(String jsonString) {
-        try {
-            return new ByteArrayEntity(jsonString.getBytes("UTF-8"));
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
-        return null;
     }
 
     public static void post(Context context, String partUrl, String jsonString,
@@ -177,6 +156,27 @@ public class ApiHttpClient {
             appCookie = appContext.getProperty("cookie");
         }
         return appCookie;
+    }
+
+    public static void log(String log) {
+        LogUtils.d("BaseApi", log);
+    }
+
+    public static AsyncHttpClient getHttpClient() {
+        return client;
+    }
+
+    public static void cancelAll(Context context) {
+        client.cancelRequests(context, true);
+    }
+
+    public static ByteArrayEntity getEntity(String jsonString) {
+        try {
+            return new ByteArrayEntity(jsonString.getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
 }

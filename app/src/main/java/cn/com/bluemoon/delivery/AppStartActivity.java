@@ -101,7 +101,6 @@ public class AppStartActivity extends Activity {
     }
 
     private void init() {
-        ImageLoaderUtil.init(AppContext.getInstance(), FileUtil.getPathCache(), !BuildConfig.RELEASE);
 
         //获取推送内容
         view = PublicUtil.getPushView(getIntent());

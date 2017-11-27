@@ -28,6 +28,7 @@ import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.liblog.NetLogUtils;
 
 public class AppContext extends BaseApplication {
@@ -92,6 +93,8 @@ public class AppContext extends BaseApplication {
 
     private void init() {
 
+        FileUtil.init();
+
         //初始化数据库
         DBHelper.getInstance();
         //监听Activity的进程
@@ -103,7 +106,7 @@ public class AppContext extends BaseApplication {
         UMShareAPI.get(this);
         initX5Environment();
 
-        FileUtil.init();
+        ImageLoaderUtil.init(AppContext.getInstance(), FileUtil.getPathCache(), !BuildConfig.RELEASE);
 
         // Log
         cn.com.bluemoon.liblog.LogUtils.init("MoonAngle", 5, !BuildConfig.RELEASE);
