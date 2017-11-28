@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.common.menu;
 
 public enum MenuCode {
 
+    empty,
 	my_qrcode,
     url,
 	jobAsignManager,

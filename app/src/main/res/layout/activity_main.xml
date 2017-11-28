@@ -1,71 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
-    android:id="@+id/top_head"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="#ededed"
     android:orientation="vertical">
 
     <FrameLayout
         android:id="@+id/layout_title"
         android:layout_width="match_parent"
-        android:layout_height="50dp">
+        android:layout_height="wrap_content"
+        android:background="@color/title_background">
 
         <ImageView
             android:id="@+id/img_person"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:padding="10dp"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/user_blue"/>
+            android:src="@mipmap/user_top_nav"/>
 
         <ImageView
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_height="50dp"
             android:layout_gravity="center"
             android:padding="10dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/logo_blue"/>
+            android:src="@mipmap/icon_main_title"/>
 
-        <ImageView
+        <cn.com.bluemoon.lib_widget.module.other.ImageViewForClick
             android:id="@+id/img_scan"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_width="45dp"
+            android:layout_height="50dp"
             android:layout_gravity="right"
-            android:padding="10dp"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
             android:scaleType="fitCenter"
-            android:src="@mipmap/scan_blue"/>
+            android:src="@mipmap/scan_top_nav"/>
     </FrameLayout>
 
     <cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView
         android:id="@+id/txt_tips"
         android:layout_width="match_parent"
-        android:layout_height="40dp"
+        android:layout_height="30dp"
+        android:background="#fffffe"
         android:drawableLeft="@mipmap/notice"
-        android:drawablePadding="12dp"
+        android:drawablePadding="5dp"
+        android:drawableRight="@mipmap/arrow_top"
         android:ellipsize="marquee"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:gravity="center_vertical"
         android:marqueeRepeatLimit="marquee_forever"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:textColor="@color/text_black"
-        android:textSize="@dimen/text_size_14"
+        android:textColor="@color/text_black_light"
+        android:textSize="@dimen/text_size_12"
         android:visibility="gone"/>
+
+    <View style="@style/line_solid_style"/>
 
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:background="#f8f8f8"
-        android:clipToPadding="false"
-        android:paddingBottom="-10dp"
+        android:layout_height="match_parent"
+        android:background="#ededed"
         app:srlDisableContentWhenRefresh="true"
         app:srlEnableLoadmore="false">
 
@@ -78,124 +81,8 @@
             android:id="@+id/recycler_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/white"/>
+            android:background="@color/line_e5"/>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
-
-    <FrameLayout
-
-        android:id="@+id/layout_bottom"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="-10dp"
-        android:visibility="gone">
-
-        <cn.com.bluemoon.delivery.ui.ShadowLineView
-            android:layout_width="match_parent"
-            android:layout_height="15dp"/>
-
-        <FrameLayout
-            android:id="@+id/layout_quick"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_marginTop="10dp"
-            android:gravity="center_vertical|bottom"
-            android:orientation="horizontal"
-            android:visibility="gone">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_quick"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_margin="2dp"/>
-            <!--<ImageView
-                android:id="@+id/img_arrow"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="right|center_vertical"
-                android:layout_marginLeft="2dp"
-                android:layout_marginRight="12dp"
-                android:rotation="180"
-                android:src="@mipmap/arrow_down"/>-->
-            <View
-                android:id="@+id/show_view"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"/>
-
-        </FrameLayout>
-        <FrameLayout
-            android:id="@+id/layout_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:visibility="gone">
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_bg"
-                android:layout_width="match_parent"
-                android:layout_height="172dp"
-                android:layout_marginTop="44dp"
-                android:visibility="gone"/>
-
-            <FrameLayout
-                android:id="@+id/layout_edit_title"
-                android:layout_width="match_parent"
-                android:layout_height="44dp">
-
-                <cn.com.bluemoon.lib_widget.module.other.TextViewForClick
-                    android:id="@+id/txt_edit"
-                    android:layout_width="48dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="12dp"
-                    android:background="@drawable/border_blue_shape"
-                    android:gravity="center"
-                    android:text="@string/btn_edit"
-                    android:textColor="@color/text_color_edit"
-                    android:textSize="@dimen/text_size_14"/>
-
-                <ImageView
-                    android:id="@+id/img_edit_arrow"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_margin="12dp"
-                    android:clickable="false"
-                    android:src="@mipmap/arrow_down"/>
-
-                <TextView
-                    android:id="@+id/txt_edit_hint"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_gravity="right|center_vertical"
-                    android:paddingRight="40dp"
-                    android:paddingLeft="10dp"
-                    android:gravity="center_vertical"
-                    android:text="@string/txt_quick"
-                    android:textColor="@color/text_black"
-                    android:textSize="@dimen/text_size_12"/>
-
-                <cn.com.bluemoon.lib_widget.module.other.TextViewForClick
-                    android:id="@+id/txt_finish"
-                    android:layout_width="48dp"
-                    android:layout_height="28dp"
-                    android:layout_gravity="right|center_vertical"
-                    android:layout_marginRight="12dp"
-                    android:background="@drawable/border_blue_shape"
-                    android:gravity="center"
-                    android:text="@string/btn_finish"
-                    android:textColor="@color/text_blue_1eb8ff"
-                    android:textSize="@dimen/text_size_14"
-                    android:visibility="gone"/>
-            </FrameLayout>
-
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/recycler_edit"
-                android:layout_width="match_parent"
-                android:layout_height="172dp"
-                android:layout_marginTop="44dp"/>
-
-        </FrameLayout>
-    </FrameLayout>
 
 </LinearLayout>

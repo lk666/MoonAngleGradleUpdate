@@ -1,3 +1,4 @@
+/*
 package cn.com.bluemoon.delivery.common.menu;
 
 import android.content.Context;
@@ -49,26 +50,30 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.utils.WidgeUtil;
 
+*/
 /**
  * 菜单管理类
  * Created by bm on 2017/11/16.
- */
-
-public class MenuManager {
-
-    private static MenuManager instance;
+ *//*
 
 
-    public static MenuManager getInstance() {
+public class CopyMenuManager {
+
+    private static CopyMenuManager instance;
+
+
+    public static CopyMenuManager getInstance() {
         if (instance == null) {
-            instance = new MenuManager();
+            instance = new CopyMenuManager();
         }
         return instance;
     }
 
-    /**
+    */
+/**
      * 点击菜单处理方法
-     */
+     *//*
+
     public void onClickMenu(MainActivity main, UserRight userRight) {
 
         if (PublicUtil.isFastDoubleClick(1000)) {
@@ -158,9 +163,11 @@ public class MenuManager {
         return enumCode.toString().equals(menuCode);
     }
 
-    /**
+    */
+/**
      * 点击打卡菜单处理
-     */
+     *//*
+
     private void gotoPunchCard(final MainActivity aty) {
         if (PublicUtil.isTipsByDay(aty)) {
             new CommonAlertDialog.Builder(aty)
@@ -187,9 +194,19 @@ public class MenuManager {
         }
     }
 
-    /**
+    public static List<String> getBgList() {
+        List<String> list = new ArrayList<>();
+        for (int i = 0; i < 8; i++) {
+            list.add("1");
+        }
+        return list;
+    }
+
+    */
+/**
      * 组装分组数据
-     */
+     *//*
+
     public List<MenuSection> getMenuList(ResultUserRight resultUserRight) {
         List<MenuSection> list = new ArrayList<>();
         if (resultUserRight.rightsList != null && resultUserRight.rightsList.size() > 0) {
@@ -203,18 +220,19 @@ public class MenuManager {
                 if (value != null) {
                     value.add(new MenuSection(right));
                 }
+
+                //根据快捷方式的排序，替换快捷方式的索引，方便下面处理数据，同一份item
+                for (int i = 0; i < resultUserRight.quickList.size(); i++) {
+                    String menuCode = resultUserRight.quickList.get(i).getMenuCode();
+                    if (right.getMenuCode().equals(menuCode)) {
+                        right.isQuick = true;
+                        resultUserRight.quickList.set(i, right);
+                        break;
+                    }
+                }
             }
             for (int i = 1; i <= resultUserRight.groupCount; i++) {
                 List<MenuSection> item = menuMap.get(i);
-
-                //补充空白
-                int index = item.size() % 4;
-                for (int j = 0; j < index; j++) {
-                    UserRight right = new UserRight();
-                    right.setMenuCode(MenuCode.empty.toString());
-                    item.add(new MenuSection(right));
-                }
-
                 if (item.size() > 0) {
                     list.add(new MenuSection(true, item.get(0).t.getGroupName()));
                     list.addAll(item);
@@ -224,11 +242,33 @@ public class MenuManager {
         return list;
     }
 
-    /**
+    */
+/**
+     * 刷新所有勾选数据
+     *//*
+
+    public void refreshAllSelect(ResultUserRight resultUserRight) {
+        if (resultUserRight == null) return;
+        for (UserRight right : resultUserRight.rightsList) {
+            boolean isQuick = false;
+            for (UserRight right1 : resultUserRight.quickList) {
+                if (right.getMenuCode().equals(right1.getMenuCode())) {
+                    isQuick = true;
+                    break;
+                }
+            }
+            right.isQuick = isQuick;
+        }
+    }
+
+    */
+/**
      * 设置角标数据
-     */
-    public void setAmount(Context context, MenuAdapter menuAdapter, ResultUserRight
-            resultUserRight, List<ModelNum> modelNum) {
+     *//*
+
+    public void setAmount(Context context, MenuAdapter menuAdapter, MenuEditAdapter editAdapter,
+                          ResultUserRight
+                                  resultUserRight, List<ModelNum> modelNum) {
         if (resultUserRight != null && modelNum != null) {
             int sum = 0;
             //设置菜单角标
@@ -248,15 +288,70 @@ public class MenuManager {
             }
             //更新数据
             menuAdapter.notifyDataSetChanged();
+            //两个列表数据是同一个
+            editAdapter.notifyDataSetChanged();
             //更新桌面角标
             PublicUtil.setMainAmount(context, sum);
         }
     }
 
+    */
+/**
+     * 检测快捷菜单是否重新编辑
+     *//*
 
-    /**
+    public boolean checkEditMenuChange(List<UserRight> oldList, List<UserRight> newList) {
+        if (oldList.size() != newList.size()) {
+            return true;
+        }
+        for (int i = 0; i < oldList.size(); i++) {
+            if (!oldList.get(i).getMenuCode().equals(newList.get(i).getMenuCode())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    */
+/**
+     * 提取快捷菜单提交
+     *//*
+
+    public List<String> getEditMenuList(List<UserRight> list) {
+        List<String> menuList = new ArrayList<>();
+        for (UserRight right : list) {
+            menuList.add(right.getMenuCode());
+        }
+        return menuList;
+    }
+
+    private int count;
+
+    */
+/**
+     * 计算快捷图标显示个数
+     *//*
+
+    public List<UserRight> getIconList(Context context, List<UserRight> list) {
+        List<UserRight> icons = new ArrayList<>();
+        if (count <= 0) {
+            count = (AppContext.getInstance().getDisplayWidth() - WidgeUtil.dip2px(context, 4)) /
+                    WidgeUtil.dip2px(context, 50);
+        }
+        for (int i = 0; i < list.size(); i++) {
+            if (i >= count) {
+                break;
+            }
+            icons.add(list.get(i));
+        }
+        return icons;
+    }
+
+    */
+/**
      * 推送跳转
-     */
+     *//*
+
     public void jump(MainActivity aty, Intent intent) {
         String view = PublicUtil.getPushView(intent);
         String url = PublicUtil.getPushUrl(intent);
@@ -271,3 +366,4 @@ public class MenuManager {
     }
 
 }
+*/
