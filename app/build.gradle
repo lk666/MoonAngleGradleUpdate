@@ -59,8 +59,6 @@ android {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/84/%s\""
-            buildConfigField "String", "ADDRESS_HOST", "\"mallapi.bluemoon.com.cn\""
-            buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
@@ -83,8 +81,6 @@ android {
         release {
             buildConfigField("boolean", "RELEASE", "true")
             buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/84/%s\""
-            buildConfigField "String", "ADDRESS_HOST", "\"mallapi.bluemoon.com.cn\""
-            buildConfigField "String", "ADDRESS_URL", "\"https://mallapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "HOST", "\"angel.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"https://angel.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://mallapi.bluemoon.com.cn/%s\""

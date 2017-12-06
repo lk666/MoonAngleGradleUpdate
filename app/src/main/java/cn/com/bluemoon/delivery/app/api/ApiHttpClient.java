@@ -39,14 +39,6 @@ public class ApiHttpClient {
     }
 
     /**
-     * 获取地址选择域名地址
-     */
-    public static String getAddressApiUrl(String partUrl) {
-        client.addHeader("Host", BuildConfig.ADDRESS_HOST);
-        return String.format(BuildConfig.ADDRESS_URL, partUrl);
-    }
-
-    /**
      * 获取埋点域名地址
      */
     public static String getTrackApiUrl() {
@@ -77,17 +69,6 @@ public class ApiHttpClient {
                                  WithStatusTextHttpResponseHandler handler) {
         client.post(context, getTrackApiUrl(), getEntity(jsonString), "application/json", handler);
         log(new StringBuilder("POST ").append("").append("----->")
-                .append(jsonString).toString());
-    }
-
-    /**
-     * 地址数据post请求
-     */
-    public static void postDirect(Context context, String partUrl,
-                                  String jsonString, AsyncHttpResponseHandler handler) {
-        client.post(context, getAddressApiUrl(partUrl), getEntity(jsonString),
-                "application/json", handler);
-        log(new StringBuilder("POST ").append(partUrl).append("----->")
                 .append(jsonString).toString());
     }
 

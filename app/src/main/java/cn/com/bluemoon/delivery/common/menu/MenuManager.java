@@ -208,7 +208,7 @@ public class MenuManager {
                 List<MenuSection> item = menuMap.get(i);
 
                 //补充空白
-                int index = item.size() % 4;
+                int index = (4 - item.size() % 4) % 4;
                 for (int j = 0; j < index; j++) {
                     UserRight right = new UserRight();
                     right.setMenuCode(MenuCode.empty.toString());
