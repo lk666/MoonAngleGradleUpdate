@@ -1,392 +1,356 @@
 package cn.com.bluemoon.delivery.common;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
-import android.os.Build;
-import android.os.Bundle;
 import android.text.TextUtils;
-import android.view.KeyEvent;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.webkit.DownloadListener;
-import android.webkit.ValueCallback;
-import android.webkit.WebChromeClient;
-import android.webkit.WebSettings;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.baidu.location.BDLocation;
 import com.baidu.location.BDLocationListener;
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;
+import com.tencent.smtt.sdk.WebView;
 import com.umeng.analytics.MobclickAgent;
-import com.umeng.socialize.UMShareAPI;
 
-import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
+import org.apache.http.protocol.HTTP;
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
+import bluemoon.com.lib_x5.base.BaseX5WebViewActivity;
+import bluemoon.com.lib_x5.bean.LocationParam;
+import bluemoon.com.lib_x5.bean.TitleStyle;
+import bluemoon.com.lib_x5.utils.JsBridgeUtil;
+import bluemoon.com.lib_x5.utils.ToastUtil;
+import cn.com.bluemoon.cardocr.lib.CaptureActivity;
+import cn.com.bluemoon.cardocr.lib.bean.BankInfo;
+import cn.com.bluemoon.cardocr.lib.bean.IdCardInfo;
+import cn.com.bluemoon.cardocr.lib.common.CardType;
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
+import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.scan.ResultBankInfo;
+import cn.com.bluemoon.delivery.app.api.model.scan.ResultIDCard;
+import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
+import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
+import cn.com.bluemoon.delivery.module.event.ScanEvent;
+import cn.com.bluemoon.delivery.module.event.ScanResultEvent;
+import cn.com.bluemoon.delivery.module.speech.VoiceActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.lib.callback.JsConnectCallBack;
-import cn.com.bluemoon.lib.utils.JsConnectManager;
-import cn.com.bluemoon.lib.utils.LibCacheUtil;
-import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.utils.LibFileUtil;
-import cn.com.bluemoon.lib.utils.LibViewUtil;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
-import cn.com.bluemoon.lib.view.TakePhotoPopView;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
+import cn.com.bluemoon.lib_iflytek.SpeakManager;
 
-public class WebViewActivity extends Activity implements OnClickListener {
-    private String TAG = "WebViewActivity";
-    private WebViewActivity aty;
-    private WebView moonWebView;
-    private CommonProgressDialog progressDialog;
-    private String url;
-    private String title;
-    private Button btnRefresh;
-    private View viewNowify;
-    private String scanCallbackName;
-    private TextView txtTitle;
-    private ImageView imgBack;
-    private ProgressBar pro;
-    private boolean isActionBar;
-    private boolean isBackByJs;
-    private boolean isBackFinish;
-    private Map<String, String> map;
-    private String locationCallbackName;
+public class WebViewActivity extends BaseX5WebViewActivity implements IHttpResponse {
+
     public LocationClient mLocationClient = null;
-    private boolean isFiveAbove = false;
-    private ValueCallback<Uri> mUploadMessage;
-    private ValueCallback<Uri[]> mFilePathCallback;
-    private TakePhotoPopView takePhotoPop;
-
-
-    public static void startAction(Context context, String url, String title, boolean isActionBar,
-                                   boolean isBackByJs) {
-        Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("url", url);
-        intent.putExtra("title", title);
-        intent.putExtra("actionbar", isActionBar);
-        intent.putExtra("back", isBackByJs);
-        context.startActivity(intent);
-    }
-
 
     /**
-     * TODO
+     * 网页界面启动方法
      *
-     * @see Activity#onCreate(Bundle)
+     * @param context    调用的类
+     * @param url        网页地址
+     * @param title      网页标题 title为null时标题隐藏
+     * @param isBackByJs 是否把回退按钮交给web端
+     * @param style      标题栏的样式
      */
-    @SuppressLint("SetJavaScriptEnabled")
+    public static void startAction(Context context, String url, String title, boolean isBackByJs,
+                                   TitleStyle style) {
+        startAction(context, url, title, isBackByJs, style, WebViewActivity.class);
+    }
+
+    /**
+     * APP项目来源，在JsBridgeUtil中有定义
+     */
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public String getSource() {
+        return JsBridgeUtil.SOURCE_ANGEL;
+    }
 
-        // TODO Auto-generated method stub
-        super.onCreate(savedInstanceState);
-        if (getIntent() != null) {
-            url = getIntent().getStringExtra("url");
-            title = getIntent().getStringExtra("title");
-            isActionBar = getIntent().getBooleanExtra("actionbar", false);
-            isBackByJs = getIntent().getBooleanExtra("back", false);
-            isBackFinish = getIntent().getBooleanExtra("isBackFinish", false);
+    /**
+     * 设备项目唯一标识，用于网络请求公参
+     */
+    @Override
+    public String getAppId() {
+        return AppContext.getInstance().getAppId();
+    }
+
+    /**
+     * 项目token
+     */
+    @Override
+    public String getToken() {
+        return ClientStateManager.getLoginToken();
+    }
+
+    /**
+     * 推送设备id
+     */
+    @Override
+    public String getClientId() {
+        return ClientStateManager.getClientId();
+    }
+
+    /**
+     * 获取下载文件夹的路径
+     */
+    @Override
+    public String getDownPath() {
+        return FileUtil.getPathDown();
+    }
+
+    /**
+     * 新建网页界面
+     * @param url        网页链接
+     * @param title      网页标题
+     * @param isBackByJs 是否把返回键交给web端
+     * @param titleStyle title类型
+     */
+    @Override
+    public void newWebView(String url, String title, boolean isBackByJs, TitleStyle titleStyle) {
+        WebViewActivity.startAction(aty, url, title, isBackByJs, titleStyle);
+    }
+
+    /**
+     * 打开扫描界面操作
+     * @param requestCode 请求用到的requestCode（必须用这个）
+     */
+    @Override
+    public void openScanView(String title, boolean isContinue, boolean isScanner, int requestCode) {
+        PublicUtil.openScanView(aty, title, isContinue, requestCode);
+    }
+
+    /**
+     * 打开最新的选择图片的界面，至尊有集成（目前只处理单选，与openPhotoView2方法只能实现一种）
+     */
+    @Override
+    public void openPhotoView(int requestCode) {
+        PhotoPickerActivity.actStart(this, requestCode);
+    }
+
+    /**
+     * 界面处理最新选择图片的返回图片路径(目前只处理单选)
+     */
+    @Override
+    public Uri getResultImagePath(int requestCode, Intent data) {
+        if (data != null) {
+            List<String> list = data.getStringArrayListExtra(PhotoPickerActivity.EXTRA_RESULT);
+            if (list != null && list.size() > 0) {
+                return Uri.fromFile(new File(list.get(0)));
+            }
         }
-        setContentView(R.layout.activity_webview);
-        aty = this;
-        progressDialog = new CommonProgressDialog(this);
-        pro = (ProgressBar) findViewById(R.id.pro_web);
-        RelativeLayout layout_title = (RelativeLayout) findViewById(R.id.layout_title);
-        txtTitle = (TextView) findViewById(R.id.txt_title);
-        imgBack = (ImageView) findViewById(R.id.img_back);
-        moonWebView = (WebView) findViewById(R.id.common_webview);
-        btnRefresh = (Button) findViewById(R.id.btn_empty_order);
-        viewNowify = findViewById(R.id.layout_no_wifi);
-        map = new HashMap<>();
-        if (title != null) {
-            pushTitle(url, title);
-        }
-        if (isActionBar) {
-            LibViewUtil.setViewVisibility(layout_title, View.VISIBLE);
-        }
-        imgBack.setOnClickListener(this);
-        takePhotoPop = new TakePhotoPopView(this,
-                Constants.TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT, new TakePhotoPopView
-                .DismissListener() {
-            @Override
-            public void cancelReceiveValue() {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    if (mFilePathCallback != null) {
-                        mFilePathCallback.onReceiveValue(null);
-                        mFilePathCallback = null;
-                    }
-                } else {
-                    if (mUploadMessage != null) {
-                        mUploadMessage.onReceiveValue(null);
-                        mUploadMessage = null;
-                    }
-                }
-            }
-        });
 
-        WebSettings webSetting = moonWebView.getSettings();
-        webSetting.setJavaScriptEnabled(true);//设置可执行js脚本
-        webSetting.setUseWideViewPort(true);//设置网页适应手机屏幕
-        webSetting.setLoadWithOverviewMode(true);
-        webSetting.setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        webSetting.setDisplayZoomControls(false);//隐藏缩放按钮
-        webSetting.setAllowFileAccess(true); // 允许访问文件
-        webSetting.setDomStorageEnabled(true);
-        webSetting.setDatabaseEnabled(true);
-        webSetting.setCacheMode(WebSettings.LOAD_DEFAULT);
-        moonWebView.setWebChromeClient(new WebChromeClient() {
+        return null;
+    }
 
-            @Override
-            public void onReceivedTitle(WebView view, String title) {
-                // TODO Auto-generated method stub
-                super.onReceivedTitle(view, title);
-                pushTitle(view.getOriginalUrl(), title);
-
-            }
-
-            @Override
-            public void onProgressChanged(WebView view, int newProgress) {
-                super.onProgressChanged(view, newProgress);
-//				LogUtils.d(TAG,"result ="+newProgress);
-                if (isActionBar) {
-                    if (newProgress < 100) {
-                        if (pro.getVisibility() == View.GONE)
-                            pro.setVisibility(View.VISIBLE);
-                        pro.setProgress(newProgress);
-                    } else {
-                        if (pro.getVisibility() == View.VISIBLE)
-                            pro.setVisibility(View.GONE);
-                    }
-                }
-            }
-
-            // android 5.0
-            public boolean onShowFileChooser(
-                    WebView webView, ValueCallback<Uri[]> filePathCallback,
-                    FileChooserParams fileChooserParams) {
-                isFiveAbove = true;
-                if (mFilePathCallback != null) {
-                    mFilePathCallback.onReceiveValue(null);
-                }
-                mFilePathCallback = filePathCallback;
-                takePhotoPop.getPic(moonWebView);
-                return true;
-            }
-
-            //The undocumented magic method override
-            //Eclipse will swear at you if you try to put @Override here
-            // For Android 3.0+
-            public void openFileChooser(ValueCallback<Uri> uploadMsg) {
-                isFiveAbove = false;
-                mUploadMessage = uploadMsg;
-                takePhotoPop.getPic(moonWebView);
-
-            }
-
-            // For Android 3.0+
-            public void openFileChooser(ValueCallback uploadMsg, String acceptType) {
-                isFiveAbove = false;
-                mUploadMessage = uploadMsg;
-                takePhotoPop.getPic(moonWebView);
-            }
-
-            //For Android 4.1
-            public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String
-					capture) {
-                isFiveAbove = false;
-                mUploadMessage = uploadMsg;
-                takePhotoPop.getPic(moonWebView);
-            }
-        });
-        moonWebView.setWebViewClient(new WebViewClient() {
-            @Override
-            public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                //call phone
-                if (url.startsWith(WebView.SCHEME_TEL)) {
-                    try {
-                        Intent intent = new Intent(Intent.ACTION_VIEW);
-                        intent.setData(Uri.parse(url));
-                        startActivity(intent);
-                    } catch (android.content.ActivityNotFoundException e) {
-                        LogUtils.e("call phone error");
-                    } finally {
-                        return true;
-                    }
-                }
-                return PublicUtil.jsConnect(view, url, callBack);
-            }
-
-            /**
-             * TODO
-             * @see WebViewClient#onPageStarted(WebView, String, Bitmap)
-             */
-            @Override
-            public void onPageStarted(WebView view, String url, Bitmap favicon) {
-
-                // TODO Auto-generated method stub
-                super.onPageStarted(view, url, favicon);
-                if (!isActionBar) {
-                    if (null == progressDialog) {
-                        progressDialog = new CommonProgressDialog(WebViewActivity.this);
-                    }
-                    progressDialog.show();
-                }
-            }
-
-            /**
-             * TODO
-             * @see WebViewClient#onPageFinished(WebView, String)
-             */
-            @Override
-            public void onPageFinished(WebView view, String url) {
-
-                // TODO Auto-generated method stub
-                super.onPageFinished(view, url);
-                if (!isActionBar) {
-                    if (null != progressDialog) {
-                        progressDialog.dismiss();
-                    }
-                }
-            }
-
-            @Override
-            public void onReceivedError(WebView view, int errorCode,
-                                        String description, String failingUrl) {
-                // TODO Auto-generated method stub
-                super.onReceivedError(view, errorCode, description, failingUrl);
-                viewNowify.setVisibility(View.VISIBLE);
-            }
-
-        });
-
-        moonWebView.setDownloadListener(new DownloadListener() {
-            @Override
-            public void onDownloadStart(String url, String userAgent, String contentDisposition,
-                                        String mimetype, long contentLength) {
-
-                LogUtils.d("url:" + url + "\nuserAgent:" + userAgent + "\ncontentDisposition:" +
-                        contentDisposition + "\nmimetype:" + mimetype + "\ncontentLength:" +
-                        contentLength);
-
-                downClick(url, mimetype);
-
-            }
-        });
-
-        initView();
-
-        load(url);
+    /**
+     * 打开旧版的选择图片的界面，OA上集成
+     */
+    @Override
+    public void openPhotoView2(int chooseRequestCode, int takeRequestCode) {
 
     }
 
-    private void load(String url) {
-        if (!PublicUtil.hasIntenet(this)) {
-            viewNowify.setVisibility(View.VISIBLE);
-            return;
-        }
-        if (viewNowify.getVisibility() == View.VISIBLE) {
-            viewNowify.setVisibility(View.GONE);
-        }
-        moonWebView.loadUrl(url);
+    /**
+     * 处理旧版选择图片的选择图片Uri
+     */
+    @Override
+    public Uri getChooseImagePath(int requestCode, Intent data) {
+        return null;
     }
 
-    private void pushTitle(String url, String title) {
-        if (isActionBar && txtTitle != null) {
-            map.put(url, title);
-            txtTitle.setText(title);
-        }
+    /**
+     * 处理旧版选择图片的拍照的图片Uri
+     */
+    @Override
+    public Uri getTakeImagePath(int requestCode, Intent data) {
+        return null;
     }
 
-    private void popTitle() {
-        if (isActionBar && txtTitle != null) {
-            txtTitle.setText(map.get(moonWebView.getOriginalUrl()));
-        }
+    /**
+     * 处理分享操作（需将结果用Js方法通过callbackName方法名回调，参数为BaseParam）
+     */
+    @Override
+    public void share(String topic, String content, String picUrl, String url, String
+            callbackName) {
+        PublicUtil.share(aty, topic, content, picUrl, url);
     }
 
-    JsConnectCallBack callBack = new JsConnectCallBack() {
-        @Override
-        public void webView(WebView view, String url, String title, String callbackName) {
-            PublicUtil.openWebView(aty, url, title);
-        }
+    /**
+     * 设置标题栏样式（参照TitleStyle的参数）
+     */
+    @Override
+    public TitleStyle getTitleStyle() {
+        return new TitleStyle(getResources().getColor(R.color.title_background), getResources()
+                .getColor(R.color.title_background), 0, 0);
+    }
 
-        @Override
-        public void scan(WebView view, String title, String callbackName) {
-            PublicUtil.openScanView(aty, null, title, Constants.REQUEST_SCAN);
-            scanCallbackName = callbackName;
-        }
+    /**
+     * 处理退出登录操作
+     */
+    @Override
+    public void logout(WebView view, String callbackName) {
+        PublicUtil.showMessageTokenExpire(aty);
+    }
 
-        @Override
-        public void closeWebView(WebView view, String callbackName) {
-            aty.finish();
-        }
+    /**
+     * 网页登录返回的token
+     */
+    @Override
+    public void setToken(WebView view, String token, String callbackName) {
 
-        @Override
-        public String getAppInfo() {
-            return PublicUtil.getAppInfo();
-        }
+    }
 
-        @Override
-        public String getCacheSize(WebView view) {
-            return LibCacheUtil.getWebViewCacheSize(aty);
-        }
+    /**
+     * 扫描验证反馈接口
+     */
+    @Override
+    public void scanFeedback(WebView view, boolean isSuccess, boolean isClose, String callback) {
+        EventBus.getDefault().post(new ScanResultEvent(isSuccess, isClose));
+    }
 
-        @Override
-        public void share(WebView view, String topic, String content, String picUrl, String url) {
-            PublicUtil.share(aty, topic, content, picUrl, url);
-        }
+    /**
+     * 语音播报接口
+     */
+    @Override
+    public void voiceReminder(WebView view, String content, String callback) {
+        SpeakManager.getInstance().startSpeaking(this,content);
+    }
 
-        @Override
-        public void cleanCache(WebView view) {
-            LibCacheUtil.cleanWebViewCache(aty);
-        }
+    @Override
+    public void toast(String content, String milliSec, String callback) {
+        ToastUtil.toast(this, content);
+    }
 
-        @Override
-        public void getLoaction(WebView view, String callbackName) {
-            locationCallbackName = callbackName;
-            if (mLocationClient != null && mLocationClient.isStarted()) {
-                mLocationClient.stop();
-            }
-            mLocationClient = new LocationClient(aty);
-            mLocationClient.registerLocationListener(myListener);
-            initLocation();
-            mLocationClient.start();
-        }
+    /**
+     * 开始采集轨迹
+     *
+     * @param entityId 设备名（唯一标识）
+     */
+    @Override
+    public void startLBSTrack(String entityId, String callback) {
+    }
 
-        @Override
-        public void logout(WebView view) {
-            PublicUtil.showMessageTokenExpire(aty);
-        }
-    };
+    /**
+     * 结束采集轨迹
+     *
+     * @param entityId 设备名（唯一标识）
+     */
+    @Override
+    public void closeLBSTrack(String entityId, String callback) {
+    }
 
-    private void initLocation() {
+    @Override
+    public void sfaPersonal(String callback) {
+
+    }
+
+    @Override
+    public void sfaScan(String callback) {
+
+    }
+
+    @Override
+    public void onDownStart(long downloadId, String url, String path) {
+        super.onDownStart(downloadId, url, path);
+        ToastUtil.toast(this, getString(R.string.down_start));
+    }
+
+    @Override
+    public void onDownFinish(long downloadId, String url, boolean isSuccess) {
+        super.onDownFinish(downloadId, url, isSuccess);
+        ToastUtil.toast(this, getString(isSuccess ? R.string.down_success : R.string.down_fail));
+    }
+
+    @Override
+    public void intention(WebView view, String code, String columnCode, String pageCode, String
+            callback) {
+        //线上管院模板跳转
+    }
+
+    @Override
+    public void mapNavigation(WebView view, float gpsLongitude, float gpsLatitude, String
+            placeName, String address, String callback) {
+        // 地图导航
+    }
+
+    @Override
+    public void onLoadUrl(String url) {
+        //打开网页的监听
+    }
+
+    /**
+     * 处理定位操作
+     */
+    @Override
+    public void getLocation() {
+        startLocation();
+    }
+
+    @Override
+    public void openSpeech(int requestCode) {
+        VoiceActivity.actStart(this, requestCode);
+    }
+
+    @Override
+    public void openIDCard(boolean isFront, int requestCode) {
+        //调起身份证识别界面，isFront是否是正反面
+        CaptureActivity.startAction(this, isFront ? CardType.TYPE_ID_CARD_FRONT : CardType
+                .TYPE_ID_CARD_BACK, requestCode);
+    }
+
+    @Override
+    protected String getIDCardResult(Intent data, boolean isFront) {
+        //处理身份证识别界面返回
+        IdCardInfo idCardInfo = (IdCardInfo) data.getSerializableExtra(CaptureActivity.BUNDLE_DATA);
+        return JSONObject.toJSONString(new ResultIDCard(idCardInfo, isFront));
+    }
+
+    @Override
+    public void openBankCard(int requestCode) {
+        //调起银行卡识别界面
+        CaptureActivity.startAction(this, CardType.TYPE_BANK, requestCode);
+    }
+
+    @Override
+    protected String getBankCardResult(Intent data) {
+        //处理银行卡返回结果
+        BankInfo bankInfo = (BankInfo) data.getSerializableExtra(CaptureActivity.BUNDLE_DATA);
+        return JSONObject.toJSONString(new ResultBankInfo(bankInfo));
+    }
+
+
+    //初始化定位
+    private void startLocation() {
+        if (mLocationClient != null && mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
+        mLocationClient = new LocationClient(aty);
+        mLocationClient.registerLocationListener(locationListener);
+
         LocationClientOption mOption = new LocationClientOption();
-        mOption = new LocationClientOption();
         mOption.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy);
         mOption.setCoorType("bd09ll");
         mOption.setOpenGps(true);
         mOption.setIsNeedAddress(true);
         mLocationClient.setLocOption(mOption);
+
+        mLocationClient.start();
     }
 
-    public BDLocationListener myListener = new BDLocationListener() {
+    //定位结果监听
+    private BDLocationListener locationListener = new BDLocationListener() {
 
         @Override
         public void onReceiveLocation(BDLocation location) {
@@ -405,11 +369,12 @@ public class WebViewActivity extends Activity implements OnClickListener {
 
             if (longitude == Constants.UNKNOW_VALUE) {
                 longitude = 999;
+                isSuccess = false;
             }
 
             if (location.getLocType() == BDLocation.TypeGpsLocation) {// GPS定位结果
 
-                if (altitude != Constants.UNKNOW_VALUE) {
+                if (location.getAltitude() != Constants.UNKNOW_VALUE) {
                     altitude = location.getAltitude();// 单位：米
                 }
                 gpsType = Constants.GPS_GPS;
@@ -420,178 +385,170 @@ public class WebViewActivity extends Activity implements OnClickListener {
                 gpsType = Constants.GPRS_GPS;
             }
             String address = location.getAddrStr();
-
-            Map<String, Object> params = new HashMap<String, Object>();
-            params.put("gpsType", gpsType);
-            params.put("gpsHeight", String.valueOf(altitude));
-            params.put("gpsLongitude", String.valueOf(longitude));
-            params.put("gpsLatitude", String.valueOf(latitude));
-            if (isSuccess) {
-                if (StringUtils.isNotBlank(address)) {
-                    params.put("gpsAddress", address);
-                } else {
-                    isSuccess = false;
-                    params.put("gpsAddress", "");
-                }
-
-            } else {
-                params.put("gpsAddress", "");
+            if (TextUtils.isEmpty(address)) {
+                address = "";
             }
-            params.put("isSuccess", isSuccess);
-            String dataJson = JSONObject.toJSONString(params);
-
-            LogUtils.d("test", dataJson);
-            JsConnectManager.loadJavascript(moonWebView, locationCallbackName, dataJson);
-
+            LocationParam param = new LocationParam();
+            param.setGpsType(gpsType);
+            param.setGpsHeight(altitude);
+            param.setGpsLatitude(latitude);
+            param.setGpsLongitude(longitude);
+            param.setGpsAddress(address);
+            param.setResult(isSuccess);
+            //反馈信息给web端
+            requestLocation(param);
         }
 
     };
 
-    private void callback(String result) {
-        if (scanCallbackName != null) {
-            JsConnectManager.loadJavascript(moonWebView, scanCallbackName, result);
-        }
+
+    @Override
+    protected void onBeforeSetContentLayout() {
+        super.onBeforeSetContentLayout();
+        ActivityManager.getInstance().pushOneActivity(this);
     }
 
-    public void onResume() {
-        super.onResume();
-        MobclickAgent.onPageStart(TAG);
+    @Override
+    protected void initView() {
+        EventBus.getDefault().register(this);
+        super.initView();
     }
 
     public void onPause() {
         super.onPause();
-        MobclickAgent.onPageEnd(TAG);
-        if (progressDialog != null)
-            progressDialog.dismiss();
+        MobclickAgent.onPause(this);
+    }
+
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);
     }
 
     @Override
     protected void onDestroy() {
-        super.onDestroy();
-        progressDialog = null;
-        if (map != null) {
-            map.clear();
-            map = null;
-        }
         if (mLocationClient != null && mLocationClient.isStarted()) {
             mLocationClient.stop();
-            mLocationClient.unRegisterLocationListener(myListener);
-            mLocationClient = null;
         }
+        if (isCancelAllRequest()) {
+            ApiHttpClient.cancelAll(this);
+        }
+        EventBus.getDefault().unregister(this);
+        //释放语音播放资源
+        SpeakManager.getInstance().destroy();
+        super.onDestroy();
+        ActivityManager.getInstance().popOneActivity(this);
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        // TODO Auto-generated method stub
-        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
-            if (isBackByJs && viewNowify.getVisibility() == View.VISIBLE) {
-                finish();
-            } else if (isBackByJs) {
-                JsConnectManager.keyBack(moonWebView);
-            } else if (moonWebView.canGoBack()) {
-                moonWebView.goBack();
-                popTitle();
-            } else {
-                finish();
-            }
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(ScanEvent event) {
+        requestScanCode(event.code);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-        if (resultCode == RESULT_CANCELED) {
-            if (requestCode == Constants.REQUEST_SCAN) {
-                callback("CANCELED");
+    /****************网络请求******************/
+
+    /**
+     * 在调用Api的方法时使用
+     *
+     * @param clazz 解析转义json的data.class
+     */
+    final public WithContextTextHttpResponseHandler getNewHandler(final int requestcode, final
+    Class clazz) {
+        return getHandler(requestcode, clazz, this, true);
+    }
+
+    private WithContextTextHttpResponseHandler getHandler(final int requestcode, Class clazz,
+                                                          final IHttpResponse iHttpResponse,
+                                                          final boolean isShowDialog) {
+        WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
+                HTTP.UTF_8, this, requestcode, clazz) {
+
+            @Override
+            public void onFinish() {
+                super.onFinish();
+                if (isShowDialog) {
+                    hideWaitDialog();
+                }
+                onFinishResponse(getReqCode());
             }
-            cancelReceiveValue();
-            return;
-        }
-        if (resultCode == RESULT_OK) {
-            switch (requestCode) {
-                case Constants.REQUEST_SCAN:
-                    if (data == null) return;
-                    callback(data.getStringExtra(LibConstants.SCAN_RESULT));
-                    break;
-                case Constants.CHOSE_PIC_RESULT:
-                    if (!isFiveAbove && mUploadMessage == null) return;
-                    if (isFiveAbove && mFilePathCallback == null) return;
-                    Uri result = data == null || resultCode != RESULT_OK ? null : data.getData();
-                    if (result == null) {
-                        cancelReceiveValue();
-                        return;
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, String responseString) {
+                if (iHttpResponse == null) {
+                    return;
+                }
+                LogUtils.d(getDefaultTag(), "mainHandler requestCode:" + getReqCode() + " -->" +
+                        " " + "result = " + responseString);
+                try {
+                    Object resultObj;
+                    resultObj = JSON.parseObject(responseString, getClazz());
+                    if (resultObj instanceof ResultBase) {
+                        ResultBase resultBase = (ResultBase) resultObj;
+                        if (resultBase.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS) {
+                            iHttpResponse.onSuccessResponse(getReqCode(), responseString,
+                                    resultBase);
+                        } else {
+                            iHttpResponse.onErrorResponse(getReqCode(), resultBase);
+                        }
+                    } else {
+                        throw new IllegalArgumentException();
                     }
-                    String path = LibFileUtil.getPath(this, result);
-                    if (TextUtils.isEmpty(path)) {
-                        cancelReceiveValue();
-                        return;
-                    }
-                    Uri uri = Uri.fromFile(new File(path));
-                    setReceiveValue(uri);
-                    break;
-                case Constants.TAKE_PIC_RESULT:
-                    if (!isFiveAbove && mUploadMessage == null) return;
-                    if (isFiveAbove && mFilePathCallback == null) return;
-                    Uri uri2 = takePhotoPop.getTakeImageUri();
-                    setReceiveValue(uri2);
-                    break;
+                } catch (Exception e) {
+                    LogUtils.e(getDefaultTag(), e.getMessage());
+                    iHttpResponse.onSuccessException(getReqCode(), e);
+                }
             }
-        }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers,
+                                  String responseString, Throwable throwable) {
+                if (iHttpResponse == null) {
+                    return;
+                }
+                LogUtils.e(getDefaultTag(), throwable.getMessage());
+                iHttpResponse.onFailureResponse(getReqCode(), throwable);
+            }
+        };
+        return handler;
     }
 
-    private void setReceiveValue(Uri uri) {
-        LogUtils.i("UPFILE", "onActivityResult after parser uri:" + uri.toString());
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mFilePathCallback.onReceiveValue(new Uri[]{uri});
-            mFilePathCallback = null;
-        } else {
-            mUploadMessage.onReceiveValue(uri);
-            mUploadMessage = null;
-        }
+    /**
+     * 是否撤销所有请求
+     */
+    protected boolean isCancelAllRequest() {
+        return true;
     }
 
-    private void cancelReceiveValue() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (mFilePathCallback != null) {
-                mFilePathCallback.onReceiveValue(null);
-                mFilePathCallback = null;
-            }
-        } else {
-            if (mUploadMessage != null) {
-                mUploadMessage.onReceiveValue(null);
-                mUploadMessage = null;
-            }
-        }
+    /**
+     * 请求返回非OK
+     */
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        ViewUtil.showErrorMsg(result);
+    }
+
+    /**
+     * 请求失败
+     */
+    @Override
+    public void onFailureResponse(int requestCode, Throwable t) {
+        ViewUtil.toastOvertime();
     }
 
     @Override
-    public void onClick(View v) {
-        if (v == imgBack) {
-            if (isBackFinish || (isBackByJs && viewNowify.getVisibility() == View.VISIBLE)) {
-                finish();
-            } else if (isBackByJs) {
-                JsConnectManager.keyBack(moonWebView);
-            } else if (moonWebView.canGoBack()) {
-                moonWebView.goBack();
-                popTitle();
-            } else {
-                finish();
-            }
-        } else if (v == btnRefresh) {
-            load(url);
-        }
-    }
-
-    protected void initView() {
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
 
     }
 
-    //下载方法，可重写
-    protected void downClick(String url, String mimeType) {
-        PublicUtil.openUrl(this, url);
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        ViewUtil.toastBusy();
     }
+
+    public void onFinishResponse(int requestCode) {
+
+    }
+
+
 }
-  

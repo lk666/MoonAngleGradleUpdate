@@ -1689,4 +1689,8 @@
     <string name="btn_edit">编辑</string>
     <string name="btn_finish">完成</string>
     <string name="txt_quick">快捷功能</string>
+
+    <string name="down_start">开始下载</string>
+    <string name="down_success">下载成功</string>
+    <string name="down_fail">下载失败</string>
 </resources>

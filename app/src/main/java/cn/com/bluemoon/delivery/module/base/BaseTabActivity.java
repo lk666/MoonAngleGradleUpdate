@@ -37,7 +37,7 @@ import cn.com.bluemoon.delivery.entity.TabState;
 import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
-import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
@@ -51,7 +51,7 @@ import cn.com.bluemoon.lib.view.BmFragmentTabHost;
  * Created by lk on 2016/6/3.
  */
 public abstract class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
-        BaseMainInterface, IHttpRespone {
+        BaseMainInterface, IHttpResponse {
     @Bind(android.R.id.tabhost)
     protected BmFragmentTabHost tabhost;
     private static final int REQUESTCODE_MODE = 10;
@@ -177,7 +177,7 @@ public abstract class BaseTabActivity extends FragmentActivity implements BaseVi
     }
 
     private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
-                                                final IHttpRespone iHttpRespone) {
+                                                final IHttpResponse iHttpRespone) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
                 HTTP.UTF_8, this, requestcode, clazz) {
 

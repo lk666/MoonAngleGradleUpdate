@@ -111,6 +111,10 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
+            android:name=".common.qrcode.ContinuityScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
             android:name=".common.qrcode.InputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
@@ -783,18 +787,6 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".common.DownWebViewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity
-            android:name=".common.X5WebViewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
-        <activity
             android:name=".module.order.QuestionCallBackActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
@@ -917,6 +909,11 @@
         </activity>
         <activity
             android:name=".module.notice.NoticeShowActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+
+        <activity
+            android:name=".module.speech.VoiceActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
     </application>

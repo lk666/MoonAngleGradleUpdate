@@ -47,8 +47,9 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.card.TipsItem;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.common.DownWebViewActivity;
+import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.common.XScanActivity;
+import cn.com.bluemoon.delivery.common.qrcode.ContinuityScanActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanCodeActivity;
 import cn.com.bluemoon.delivery.common.qrcode.ScanInputActivity;
@@ -157,6 +158,18 @@ public class PublicUtil extends LibPublicUtil {
     public static void openScanView(Activity aty, Fragment fragment, String title, int
             requestCode) {
         ScanActivity.actStart(aty, fragment, title, requestCode);
+    }
+
+    /**
+     * 打开默认的扫描界面(目前只有网页调起扫描用到)
+     */
+    public static void openScanView(Activity aty, String title, boolean isContinue, int
+            requestCode) {
+        if (isContinue) {
+            ContinuityScanActivity.actStart(aty, title, requestCode);
+        } else {
+            ScanActivity.actStart(aty, title, requestCode);
+        }
     }
 
     /**
@@ -438,50 +451,12 @@ public class PublicUtil extends LibPublicUtil {
         return false;
     }
 
-
-    public static boolean jsConnect(WebView view, String url, JsConnectCallBack callBack) {
-        return JsConnectManager.jsConnect(JsConnectManager.URL_ANGEL, view, url, callBack);
-    }
-
-    public static boolean jsConnect(com.tencent.smtt.sdk.WebView view, String url, cn.com
-            .bluemoon.delivery.utils.tencentX5.JsConnectCallBack callBack) {
-        return cn.com.bluemoon.delivery.utils.tencentX5.JsConnectManager.jsConnect(
-                JsConnectManager.URL_ANGEL, view, url, callBack);
-    }
-
-    public static void openWebView(Context context, String url, String title, boolean isActionBar,
-                                   boolean isBackByJs) {
-        DownWebViewActivity.startAction(context, url, title, isActionBar, isBackByJs);
-    }
-
     public static void openWebView(Context context, String url, String title, boolean isBackByJs) {
-        openWebView(context, url, title, !JsConnectManager.isHideTitleByUrl(url), isBackByJs);
-    }
-
-    public static void openWebView(Context context, String url, String title) {
-        openWebView(context, url, title, false, false);
-    }
-
-    /**
-     * 获取app信息，转化为json对象
-     *
-     * @return
-     */
-    public static String getAppInfo() {
-        Map<String, String> params = new HashMap<String, String>();
-        params.put("version", AppContext.getInstance().getPackageInfo().versionName);
-        params.put("client", ApiClientHelper.CLIENT);
-        params.put("cuid", AppContext.getInstance().getAppId());
-        params.put("token", ClientStateManager.getLoginToken(AppContext.getInstance()));
-        return JSONObject.toJSONString(params);
+        WebViewActivity.startAction(context, url, title, isBackByJs, null);
     }
 
     /**
      * 获取空数据页
-     *
-     * @param content
-     * @param listener
-     * @return
      */
     public static CommonEmptyView getEmptyView(String content, CommonEmptyView.EmptyListener
             listener) {
@@ -495,9 +470,6 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 设置空数据页
-     *
-     * @param listview
-     * @param emptyView
      */
     public static void setEmptyView(View listview, View emptyView) {
         if (listview instanceof PullToRefreshListView) {
@@ -511,11 +483,6 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 设置空数据页（content只传入页面标题即可）
-     *
-     * @param listview
-     * @param content
-     * @param listener
-     * @return
      */
     public static CommonEmptyView setEmptyView(View listview, String content, CommonEmptyView
             .EmptyListener listener) {
@@ -529,11 +496,6 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 设置空数据页（content只传入页面标题id即可）
-     *
-     * @param listview
-     * @param ResId
-     * @param listener
-     * @return
      */
     public static CommonEmptyView setEmptyView(View listview, int ResId, CommonEmptyView
             .EmptyListener listener) {
@@ -543,10 +505,6 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 将textview设置为蓝色下划线，并添加点击拨打电话功能
-     *
-     * @param aty
-     * @param txtPhone
-     * @return
      */
     public static TextView getPhoneView(final Activity aty, final TextView txtPhone) {
         txtPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
@@ -589,10 +547,6 @@ public class PublicUtil extends LibPublicUtil {
 
     /**
      * 获取intent的值
-     *
-     * @param intent
-     * @param key
-     * @return
      */
     public static String getExtraValue(Intent intent, String key) {
         return intent == null ? null : intent.getStringExtra(key);
@@ -711,7 +665,7 @@ public class PublicUtil extends LibPublicUtil {
             public void shareStart(SHARE_MEDIA platform, String platformString, ShareModel
                     shareModel) {
                 //数据埋点
-                TrackManager.addBody(shareModel.getuMTargetUrl(),platformString);
+                TrackManager.addBody(shareModel.getuMTargetUrl(), platformString);
             }
 
             @Override

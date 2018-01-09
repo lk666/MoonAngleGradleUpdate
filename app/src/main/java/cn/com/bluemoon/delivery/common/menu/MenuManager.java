@@ -9,6 +9,7 @@ import android.util.SparseArray;
 import java.util.ArrayList;
 import java.util.List;
 
+import bluemoon.com.lib_x5.utils.JsBridgeUtil;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
@@ -46,6 +47,7 @@ import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.utils.WidgeUtil;
 
@@ -145,7 +147,8 @@ public class MenuManager {
             else if (!TextUtils.isEmpty(userRight.getUrl())) {
                 String url = userRight.getUrl() + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
-                PublicUtil.openWebView(main, url, userRight.getMenuName(), false);
+                PublicUtil.openWebView(main, url, JsBridgeUtil.getTitleType(url) == 0 ? null :
+                        userRight.getMenuName(), false);
             } else {
                 PublicUtil.showToast(main.getString(R.string.main_tab_no_data));
             }

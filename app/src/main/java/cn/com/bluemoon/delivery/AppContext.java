@@ -20,6 +20,7 @@ import org.apache.http.conn.scheme.SchemeRegistry;
 import java.util.Properties;
 import java.util.UUID;
 
+import bluemoon.com.lib_x5.X5SDk;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.EasySSLSocketFactory;
 import cn.com.bluemoon.delivery.common.AppConfig;
@@ -29,6 +30,7 @@ import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
+import cn.com.bluemoon.lib_iflytek.utils.SpeechUtil;
 import cn.com.bluemoon.liblog.NetLogUtils;
 
 public class AppContext extends BaseApplication {
@@ -49,43 +51,6 @@ public class AppContext extends BaseApplication {
         init();
     }
 
-    private void initX5Environment() {
-        //搜集本地tbs内核信息并上报服务器，服务器返回结果决定使用哪个内核。
-        //TbsDownloader.needDownload(getApplicationContext(), false);
-        QbSdk.PreInitCallback cb = new QbSdk.PreInitCallback() {
-
-            @Override
-            public void onViewInitFinished(boolean arg0) {
-                // TODO Auto-generated method stub
-                LogUtils.e("app", " onViewInitFinished is " + arg0);
-            }
-
-            @Override
-            public void onCoreInitFinished() {
-                // TODO Auto-generated method stub
-
-            }
-        };
-        QbSdk.setTbsListener(new TbsListener() {
-            @Override
-            public void onDownloadFinish(int i) {
-                LogUtils.d("app","onDownloadFinish");
-            }
-
-            @Override
-            public void onInstallFinish(int i) {
-                LogUtils.d("app","onInstallFinish");
-            }
-
-            @Override
-            public void onDownloadProgress(int i) {
-                LogUtils.d("app","onDownloadProgress:"+i);
-            }
-        });
-
-        QbSdk.initX5Environment(getApplicationContext(),  cb);
-    }
-
     public static AppContext getInstance() {
         return instance;
     }
@@ -104,7 +69,11 @@ public class AppContext extends BaseApplication {
         PlatformConfig.setSinaWeibo("4090679472", "e8d1ffe1012a89cb7e34a353d3693990","");
         PlatformConfig.setQQZone("1104979860", "Qkg4yWZ5Gr07K0K5");
         UMShareAPI.get(this);
-        initX5Environment();
+
+        //X5内核WebView初始化
+        X5SDk.init(this, BuildConfig.RELEASE);
+        //初始化科大讯飞语音合成sdk
+        SpeechUtil.init(this,FileUtil.getPathCache(),BuildConfig.RELEASE);
 
         ImageLoaderUtil.init(AppContext.getInstance(), FileUtil.getPathCache(), !BuildConfig.RELEASE);
 

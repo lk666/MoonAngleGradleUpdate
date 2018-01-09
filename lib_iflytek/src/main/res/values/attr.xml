@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--声音识别动画控件-->
+    <declare-styleable name="VoiceDecodeView">
+        <attr name="vd_width" format="reference|dimension"/>
+        <attr name="vd_min_height" format="reference|dimension"/>
+        <attr name="vd_max_height" format="reference|dimension"/>
+        <attr name="vd_radius" format="reference|dimension"/>
+        <attr name="vd_color" format="reference|color"/>
+        <attr name="vd_space" format="reference|dimension"/>
+        <attr name="vd_diff" format="reference|dimension"/>
+        <attr name="vd_delay" format="integer"/>
+        <attr name="vd_size" format="integer"/>
+    </declare-styleable>
+</resources>

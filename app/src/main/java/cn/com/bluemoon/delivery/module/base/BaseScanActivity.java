@@ -24,7 +24,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
@@ -40,7 +40,7 @@ import cn.com.bluemoon.lib.qrcode.BaseCaptureActivity;
  * Created by lk on 2016/6/14.
  */
 public abstract class BaseScanActivity extends BaseCaptureActivity implements BaseMainInterface,
-        IHttpRespone {
+        IHttpResponse {
 
     private ProgressDialog waitDialog;
     private Handler handler;
@@ -117,7 +117,7 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
     }
 
     private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
-                                                final IHttpRespone iHttpRespone,
+                                                final IHttpResponse iHttpRespone,
                                                 final boolean isShowDialog) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
                 HTTP.UTF_8, this, requestcode, clazz) {

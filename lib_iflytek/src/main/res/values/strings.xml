@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">lib_iflytek</string>
+    <string name="voice_end">我说完了</string>
+    <string name="voice_cancel">取 消</string>
+    <string name="voice_start">语音已开启，请说话</string>
+    <string name="voice_decode">正在识别，请稍后</string>
+
+    <string name="speak_progress">缓冲进度为%1$s%%，播放进度为%2$s%%</string>
+    <string name="speak_finish">播放完成</string>
+    <string name="speak_error">语音合成失败</string>
+
+    <string name="search_speak">按住 说出你想输入的关键词</string>
+    <string name="search_speak_normal">向上滑动取消</string>
+    <string name="search_speak_cancel">松开手指取消发送</string>
+    <string name="search_speak_error">没有识别到内容</string>
+    <string name="search_speak_success">识别成功</string>
+    <string name="search_speak_img">识别中&#8230;</string>
+    <string name="txt_hint">语音技术由科大讯飞提供</string>
+</resources>

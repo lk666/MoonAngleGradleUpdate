@@ -19,7 +19,6 @@ import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultToken;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
-import cn.com.bluemoon.delivery.common.X5WebViewActivity;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -35,7 +34,7 @@ public class LoginActivity extends BaseActivity {
     ClearEditText etUserName;
     @Bind(R.id.et_user_psw)
     ClearEditText etUserPsw;
-//    @Bind(R.id.txt_toast)
+    //    @Bind(R.id.txt_toast)
 //    TextView txtToast;
     @Bind(R.id.btn_login)
     Button btnLogin;
@@ -66,7 +65,7 @@ public class LoginActivity extends BaseActivity {
     public void onErrorResponse(int requestCode, ResultBase result) {
 //        txtToast.setText(result.getResponseMsg());
 //        ViewUtil.showSubmitAmin(btnLogin, txtToast);
-        super.onErrorResponse(requestCode,result);
+        super.onErrorResponse(requestCode, result);
         ViewUtil.showBtnAmin(btnLogin);
     }
 
@@ -140,8 +139,8 @@ public class LoginActivity extends BaseActivity {
                 ResetPswActivity.actStart(this, getUserName());
                 break;
             case R.id.txt_apply:
-                X5WebViewActivity.startAction(this, String.format(BuildConfig.API_URL, URL_APPLY)
-                        , null, false, false);
+                PublicUtil.openWebView(this, String.format(BuildConfig.API_URL, URL_APPLY), "",
+                        false);
                 break;
         }
     }
