@@ -1689,4 +1689,13 @@
     <string name="btn_edit">编辑</string>
     <string name="btn_finish">完成</string>
     <string name="txt_quick">快捷功能</string>
+    <string name="create_sign_title">创建签名</string>
+    <string name="use_signature">采用</string>
+    <string name="auth_user_info_title">实名认证</string>
+    <string name="contract_user_name">姓名</string>
+    <string name="contract_card_id">身份证号</string>
+    <string name="contract_user_mobile">手机号</string>
+    <string name="import_tips">特别提醒</string>
+    <string name="apply_auth_info">申请实名认证</string>
+    <string name="contract_cb_content">以上信息无误</string>
 </resources>

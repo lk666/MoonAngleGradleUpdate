@@ -919,6 +919,14 @@
             android:name=".module.notice.NoticeShowActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.contract.SignatureActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/Lib.Signature.Fullscreen"/>
+        <activity
+            android:name=".module.contract.AuthUserInfoActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
     </application>
 
 </manifest>

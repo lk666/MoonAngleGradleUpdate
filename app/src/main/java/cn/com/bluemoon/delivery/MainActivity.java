@@ -2,22 +2,17 @@ package cn.com.bluemoon.delivery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.os.Environment;
 import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.FrameLayout;
-import android.widget.ImageView;
 
+import com.bluemoon.signature.lib.AbstractSignatureActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.chad.library.adapter.base.callback.ItemDragAndSwipeCallback;
-import com.chad.library.adapter.base.listener.OnItemDragListener;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -27,26 +22,24 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
-import cn.com.bluemoon.delivery.app.api.model.UserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
+import cn.com.bluemoon.delivery.app.api.model.contract.ResultCheckPersonReal;
 import cn.com.bluemoon.delivery.app.api.model.message.Info;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultInfos;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
 import cn.com.bluemoon.delivery.app.api.model.other.ResultAngelQr;
 import cn.com.bluemoon.delivery.common.menu.MenuAdapter;
-import cn.com.bluemoon.delivery.common.menu.MenuBgAdapter;
 import cn.com.bluemoon.delivery.common.menu.MenuCode;
-import cn.com.bluemoon.delivery.common.menu.MenuEditAdapter;
 import cn.com.bluemoon.delivery.common.menu.MenuManager;
-import cn.com.bluemoon.delivery.common.menu.MenuQuickAdapter;
 import cn.com.bluemoon.delivery.common.menu.MenuSection;
 import cn.com.bluemoon.delivery.module.base.BaseSlidingActivity;
+import cn.com.bluemoon.delivery.module.contract.AuthUserInfoActivity;
+import cn.com.bluemoon.delivery.module.contract.SignatureActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeShowActivity;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
@@ -286,7 +279,17 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 }
                 break;
             case R.id.img_scan:
-                PublicUtil.openXScanView(this, null, null, 0);
+                //TODO 修改调试入口
+                //PublicUtil.openXScanView(this, null, null, 0);
+                ResultCheckPersonReal bean = new ResultCheckPersonReal();
+                bean.empName = "梁江立";
+                bean.idCard = "440881198910151634";
+                bean.mobileNo = "13726945031";
+                List<String> list = new ArrayList<>();
+                list.add("1、莱克斯顿付了款了看是否罗凯说洛克菲勒看卢卡申科立方来看罗凯时空裂缝");
+                list.add("2、黄金时代发但是开始大富科技看开始疯狂开始开发看");
+                bean.remarkText = list;
+                AuthUserInfoActivity.startAct(this, bean, 1);
                 break;
             case R.id.txt_tips:
                 ViewUtil.showActivity(this, MessageListActivity.class);

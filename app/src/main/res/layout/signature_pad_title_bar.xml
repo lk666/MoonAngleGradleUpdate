@@ -1,0 +1,46 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/title_background">
+
+    <cn.com.bluemoon.lib_widget.module.other.ImageViewForClick
+        android:id="@+id/img_back"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="15dp"
+        android:paddingTop="10dp"
+        android:src="@mipmap/icon_back" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxWidth="300dp"
+        android:minWidth="150dp"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:text="@string/create_sign_title"
+        android:textSize="18sp" />
+
+    <cn.com.bluemoon.lib_widget.module.other.TextViewForClick
+        android:id="@+id/tv_right"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:textColor="#fff"
+        android:text="@string/use_signature"
+        android:textSize="16sp"
+        />
+</RelativeLayout>
