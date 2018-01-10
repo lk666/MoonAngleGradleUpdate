@@ -25,7 +25,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
@@ -40,7 +40,8 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
  * Created by lk on 2016/6/14.
  */
 public abstract class BaseActivity extends FragmentActivity implements BaseMainInterface, BaseViewInterface,
-        IHttpRespone {
+
+        IHttpResponse {
 
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
@@ -116,7 +117,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseMainI
     }
 
     private AsyncHttpResponseHandler getHandler(final int requestcode, Class clazz,
-                                                final IHttpRespone iHttpRespone,
+                                                final IHttpResponse iHttpRespone,
                                                 final boolean isShowDialog) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
                 HTTP.UTF_8, this, requestcode, clazz) {

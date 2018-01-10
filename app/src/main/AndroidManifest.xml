@@ -111,6 +111,10 @@
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
+            android:name=".common.qrcode.ContinuityScanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.NoTitleBar"/>
+        <activity
             android:name=".common.qrcode.InputCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
@@ -668,16 +672,16 @@
             android:name="UMENG_CHANNEL"
             android:value="bluemoon"/>
 
-        <!--银行卡 身份证ocr-->
+        <!-- 银行卡 身份证ocr -->
         <meta-data
             android:name="OCR_APP_KEY"
-            android:value="10105847" />
+            android:value="10105847"/>
         <meta-data
             android:name="OCR_SECRET_ID"
-            android:value="AKID059qcOIwDTiw9XeRtLoGiAb1jVfq8BKN" />
+            android:value="AKID059qcOIwDTiw9XeRtLoGiAb1jVfq8BKN"/>
         <meta-data
             android:name="OCR_SECRET_KEY"
-            android:value="4xgDZllZBezA8uUwCF9sQmyymOo23sUv" />
+            android:value="4xgDZllZBezA8uUwCF9sQmyymOo23sUv"/>
 
         <activity
             android:name=".ui.selectordialog.SampleActivity"
@@ -782,18 +786,6 @@
             android:name=".module.wash.appointment.AppointmentTabActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
-        <activity
-            android:name=".common.DownWebViewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="adjustResize"/>
-        <activity
-            android:name=".common.X5WebViewActivity"
-            android:configChanges="orientation|screenSize|keyboardHidden"
-            android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar"
-            android:windowSoftInputMode="stateHidden|adjustResize"/>
         <activity
             android:name=".module.order.QuestionCallBackActivity"
             android:screenOrientation="portrait"
@@ -927,6 +919,21 @@
             android:name=".module.contract.AuthUserInfoActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.speech.VoiceActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.document.PactSignPDFActivity"
+            android:label="电子合同"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

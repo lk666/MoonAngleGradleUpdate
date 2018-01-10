@@ -243,7 +243,7 @@ public class RecordCardFragment extends BasePullToRefreshListViewFragment {
                         //跳转网页
                         String url = String.format(BuildConfig.H5_DOMAIN, "angel/#/punchDetails?token="
                                 + getToken() + "&punchCardId=" + punchCard.getPunchCardId());
-                        PublicUtil.openWebView(context, url, null, true, false);
+                        PublicUtil.openWebView(context, url, "", false);
                     }
                 });
             }

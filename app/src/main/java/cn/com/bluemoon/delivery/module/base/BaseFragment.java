@@ -29,7 +29,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.module.base.interf.IHttpRespone;
+import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -42,7 +42,7 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
  * Created by lk on 2016/7/29.
  */
 public abstract class BaseFragment extends Fragment implements BaseMainInterface, BaseViewInterface,
-        IHttpRespone {
+        IHttpResponse {
 
     /**
      * 给fragment使用的bundle数据
@@ -158,7 +158,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     }
 
     private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,
-                                                final IHttpRespone iHttpRespone) {
+                                                final IHttpResponse iHttpRespone) {
         WithContextTextHttpResponseHandler handler = new WithContextTextHttpResponseHandler(
                 HTTP.UTF_8, getActivity(), requestcode, clazz) {
 
