@@ -279,17 +279,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 }
                 break;
             case R.id.img_scan:
-                //TODO 修改调试入口
-                //PublicUtil.openXScanView(this, null, null, 0);
-                ResultCheckPersonReal bean = new ResultCheckPersonReal();
-                bean.empName = "梁江立";
-                bean.idCard = "440881198910151634";
-                bean.mobileNo = "13726945031";
-                List<String> list = new ArrayList<>();
-                list.add("1、莱克斯顿付了款了看是否罗凯说洛克菲勒看卢卡申科立方来看罗凯时空裂缝");
-                list.add("2、黄金时代发但是开始大富科技看开始疯狂开始开发看");
-                bean.remarkText = list;
-                AuthUserInfoActivity.startAct(this, bean, 1);
+                PublicUtil.openXScanView(this, null, null, 0);
                 break;
             case R.id.txt_tips:
                 ViewUtil.showActivity(this, MessageListActivity.class);
