@@ -101,4 +101,6 @@
 
     <color name="grep_ededed">#ededed</color>
 
+    <color name="black_30">#4c000000</color>
+
 </resources>

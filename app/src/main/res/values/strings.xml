@@ -1693,4 +1693,11 @@
     <string name="down_start">开始下载</string>
     <string name="down_success">下载成功</string>
     <string name="down_fail">下载失败</string>
+
+    <string name="down_reload">重新加载</string>
+    <string name="load_fail">加载失败</string>
+    <string name="down_loading">数据加载中&#8230;</string>
+    <string name="down_progress">%s%%</string>
+    <string name="btn_doc_sign">签署</string>
+    <string name="doc_pdf_detail">合同/协议详情</string>
 </resources>
