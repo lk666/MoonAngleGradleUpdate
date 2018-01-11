@@ -14,10 +14,11 @@
     </FrameLayout>
 
 
-    <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View
+    <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View
         android:id="@+id/btn_sign"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
         app:btn_enable="false"
         app:btn_text="@string/btn_doc_sign"
     />

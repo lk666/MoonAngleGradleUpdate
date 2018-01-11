@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.document;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
@@ -11,7 +12,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
+import com.github.barteksc.pdfviewer.listener.OnPageScrollListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
 
 import java.io.File;
@@ -36,15 +39,15 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
  */
 
 public abstract class BasePDFActivity extends BaseActivity implements View.OnClickListener,
-        X5DownLoadListener, OnErrorListener,OnRenderListener {
+        X5DownLoadListener, OnErrorListener,OnRenderListener,OnDrawListener {
 
     //文档页间隙
     protected final static int SPACING = 10;
-    private PDFView pdfView;
-    TextView txtProgress;
-    TextView txtLoad;
-    TextView txtContent;
-    RelativeLayout layoutProgress;
+    protected PDFView pdfView;
+    protected TextView txtProgress;
+    protected TextView txtLoad;
+    protected TextView txtContent;
+    protected RelativeLayout layoutProgress;
 
     private X5DownloadManager downloadManager;
     private long downloadId;
@@ -144,6 +147,7 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
                 .onError(this)
                 .spacing(SPACING) // in dp
                 .onRender(this)
+                .onDraw(this)
                 .load();
     }
 
@@ -250,6 +254,16 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         }
     }
 
+    /**
+     * 获取pdf页数
+     */
+    protected int getPageCount(){
+        if(pdfView!=null){
+            return pdfView.getPageCount();
+        }
+        return 0;
+    }
+
     @Override
     protected void onDestroy() {
         releasePdf();
@@ -265,6 +279,11 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
     public void onInitiallyRendered(int nbPages, float pageWidth, float pageHeight) {
         ViewUtil.setViewVisibility(layoutProgress, View.GONE);
         isLoadFinish = true;
+    }
+
+    @Override
+    public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
+
     }
 
     @Override

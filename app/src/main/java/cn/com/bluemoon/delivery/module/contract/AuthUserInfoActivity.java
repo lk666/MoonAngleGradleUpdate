@@ -86,9 +86,7 @@ public class AuthUserInfoActivity extends BaseActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 1 && resultCode == RESULT_OK && data != null) {
-            toast(data.getStringExtra(AbstractSignatureActivity.FILE_PATH));
-            //TODO 跳到劳动合同详情
-            setResult(RESULT_OK);
+            setResult(RESULT_OK, data);
             finish();
         }
     }

@@ -1709,4 +1709,8 @@
     <string name="import_tips">特别提醒</string>
     <string name="apply_auth_info">申请实名认证</string>
     <string name="contract_cb_content">以上信息无误</string>
+    <string name="input_valid_code">请输入短信验证码</string>
+    <string name="send_message">已向%s发送短信</string>
+    <string name="err_valid_code_empty">验证码不能为空</string>
+    <string name="your_number">您的号码</string>
 </resources>

@@ -3,13 +3,18 @@ package cn.com.bluemoon.delivery.app.api;
 import android.content.Context;
 
 import com.alibaba.fastjson.JSONObject;
+import com.loopj.android.http.AsyncHttpResponseHandler;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.http.Header;
 
 import java.util.List;
 import java.util.Map;
 
+import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
@@ -76,5 +81,12 @@ class BaseApi {
             return true;
         }
         return false;
+    }
+
+    protected static void onError(AsyncHttpResponseHandler handler) {
+        if (handler != null)
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param)));
     }
 }
