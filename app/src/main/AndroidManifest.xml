@@ -922,17 +922,11 @@
         <activity
             android:name=".module.speech.VoiceActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
-            android:name=".module.document.PactSignPDFActivity"
-            android:label="电子合同"
+            android:name=".module.contract.PactSignPDFActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
     </application>
 

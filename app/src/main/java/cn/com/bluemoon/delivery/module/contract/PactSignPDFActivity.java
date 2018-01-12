@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.document;
+package cn.com.bluemoon.delivery.module.contract;
 
 import android.content.Context;
 import android.content.DialogInterface;
@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.text.InputType;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,18 +18,14 @@ import com.bluemoon.signature.lib.AbstractSignatureActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
-import cn.com.bluemoon.delivery.MenuFragment;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ContractApi;
-import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultCheckPersonReal;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultContractDetail;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultPDFPosition;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
-import cn.com.bluemoon.delivery.module.contract.AuthUserInfoActivity;
-import cn.com.bluemoon.delivery.module.contract.SignatureActivity;
+import cn.com.bluemoon.delivery.module.document.BasePDFActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
@@ -48,15 +43,14 @@ public class PactSignPDFActivity extends BasePDFActivity {
     private String contractId;
     private Paint paint;
     private CommonActionBar mActionBar;
+    private String phone = "";
 
     private String test = "http://pubfile.bluemoon.com" +
-            ".cn/group1/M00/02/DB/wKgwb1pVes-EJCI4AAAAACNWajk941" +
-            ".pdf?name=%E5%8A%B3%E5%8A%A8%E5%90%88%E5%90%8C-%E7%AD%BE%E8%AE%A2%E7%94%B5%E5%AD%90" +
-            "%E5%90%88%E5%90%8C%E4%BD%BF%E7%94%A820171228.pdf";
+            ".cn/group1/M00/02/E7/wKgwb1pW36iEG2QYAAAAAEN9q1g680.pdf?name=test-dst.pdf";
 
     public static void actStart(Context context, String contractId) {
         Intent intent = new Intent(context, PactSignPDFActivity.class);
-        intent.putExtra("contractId", contractId);
+        intent.putExtra("id", contractId);
         context.startActivity(intent);
     }
 
@@ -95,6 +89,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
     public void initView() {
         super.initView();
         initPaint();
+        // TODO: 2018/1/11 暂时用测试数据
 //        ContractApi.getPDFPosition(getToken(), contractId, (WithContextTextHttpResponseHandler)
 //                getNewHandler(2, ResultPDFPosition.class));
     }
@@ -134,6 +129,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
             }
         } else if (requestCode == 1) {
             final ResultCheckPersonReal resultBean = (ResultCheckPersonReal) result;
+            phone = resultBean.mobileNo;
             if (!resultBean.isNeedReal) {
                 //跳转创建签名页
                 SignatureActivity.startAct(PactSignPDFActivity.this, FileUtil.getPathTemp(), 1);
@@ -153,11 +149,13 @@ public class PactSignPDFActivity extends BasePDFActivity {
         } else if (requestCode == 2) {
             ResultPDFPosition resultPDFPosition = (ResultPDFPosition) result;
             widthP = resultPDFPosition.signX / resultPDFPosition.width;
-            heightP = 1 - (resultPDFPosition.signY / resultPDFPosition.height);
+            heightP = (resultPDFPosition.height - resultPDFPosition.signY) / resultPDFPosition
+                    .height;
         } else if (requestCode == 3) {
             submitSign();
         } else if (requestCode == 4) {
             pwdDialog.dismiss();
+            setResult(RESULT_OK);
             finish();
         }
     }
@@ -170,8 +168,6 @@ public class PactSignPDFActivity extends BasePDFActivity {
     private void submitSign() {
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_send_msg_content, null);
         TextView txtMsg = (TextView) view.findViewById(R.id.txt_msg);
-        String phone = MenuFragment.user != null ? MenuFragment.user.getMobileNo() : getString(R
-                .string.your_number);
         txtMsg.setText(getString(R.string.send_message, phone));
         final EditText etCode = (EditText) view.findViewById(R.id.et_psw);
 
@@ -227,8 +223,8 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 filePath = data.getStringExtra(AbstractSignatureActivity.FILE_PATH);
                 //生成可绘制的小签名bitmap
                 bitmap = BitmapFactory.decodeFile(filePath);
-                int width = bitmap.getWidth() / 6;
-                int height = bitmap.getHeight() / 6;
+                int width = bitmap.getWidth() / 7;
+                int height = bitmap.getHeight() / 7;
                 bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
                 mActionBar.getTvRightView().setVisibility(View.VISIBLE);
             }
@@ -252,12 +248,13 @@ public class PactSignPDFActivity extends BasePDFActivity {
         btnSign.setEnabled(true);
     }
 
-    private float widthP = 0.63f;
-    private float heightP = 0.83f;
+    //签名显示的坐标比例
+    private float widthP = 0.677f;
+    private float heightP = 0.657f;
 
     @Override
     public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
-        if (displayedPage == pdfView.getPageCount() - 1 && bitmap != null) {
+        if (displayedPage == getPageCount() - 1 && bitmap != null) {
 //            canvas.drawBitmap(bitmap, pageWidth * 0.8f, pageHeight * 0.8f, null);
 
             Rect srcRect = new Rect(0, 0, (int) pageWidth, (int) pageHeight);

@@ -145,6 +145,7 @@ public class MenuManager {
 
             //下面是网页跳转
             else if (!TextUtils.isEmpty(userRight.getUrl())) {
+                LogUtils.d("url==>" + userRight.getUrl());
                 String url = userRight.getUrl() + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
                 PublicUtil.openWebView(main, url, JsBridgeUtil.getTitleType(url) == 0 ? null :

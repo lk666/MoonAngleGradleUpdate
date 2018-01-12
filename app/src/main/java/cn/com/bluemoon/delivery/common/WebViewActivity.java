@@ -27,6 +27,7 @@ import bluemoon.com.lib_x5.base.BaseX5WebViewActivity;
 import bluemoon.com.lib_x5.bean.LocationParam;
 import bluemoon.com.lib_x5.bean.TitleStyle;
 import bluemoon.com.lib_x5.utils.JsBridgeUtil;
+import bluemoon.com.lib_x5.utils.JsUtil;
 import bluemoon.com.lib_x5.utils.ToastUtil;
 import cn.com.bluemoon.cardocr.lib.CaptureActivity;
 import cn.com.bluemoon.cardocr.lib.bean.BankInfo;
@@ -65,9 +66,10 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      * @param isBackByJs 是否把回退按钮交给web端
      * @param style      标题栏的样式
      */
-    public static void startAction(Context context, String url, String title, boolean isBackByJs,
+    public static void startAction(Context context, String url, String title, boolean isFull,
+                                   boolean isBackByJs,
                                    TitleStyle style) {
-        startAction(context, url, title, isBackByJs, style, WebViewActivity.class);
+        startAction(context, url, title, isBackByJs, isFull, style, null, WebViewActivity.class);
     }
 
     /**
@@ -112,18 +114,26 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
 
     /**
      * 新建网页界面
+     *
      * @param url        网页链接
      * @param title      网页标题
      * @param isBackByJs 是否把返回键交给web端
      * @param titleStyle title类型
      */
     @Override
-    public void newWebView(String url, String title, boolean isBackByJs, TitleStyle titleStyle) {
-        WebViewActivity.startAction(aty, url, title, isBackByJs, titleStyle);
+    public void newWebView(String url, String title, boolean isFull, boolean isBackByJs,
+                           TitleStyle titleStyle) {
+        WebViewActivity.startAction(aty, url, title, isFull, isBackByJs, titleStyle);
+    }
+
+    @Override
+    public boolean isFixTop() {
+        return true;
     }
 
     /**
      * 打开扫描界面操作
+     *
      * @param requestCode 请求用到的requestCode（必须用这个）
      */
     @Override
@@ -225,40 +235,12 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      */
     @Override
     public void voiceReminder(WebView view, String content, String callback) {
-        SpeakManager.getInstance().startSpeaking(this,content);
+        SpeakManager.getInstance().startSpeaking(this, content);
     }
 
     @Override
     public void toast(String content, String milliSec, String callback) {
         ToastUtil.toast(this, content);
-    }
-
-    /**
-     * 开始采集轨迹
-     *
-     * @param entityId 设备名（唯一标识）
-     */
-    @Override
-    public void startLBSTrack(String entityId, String callback) {
-    }
-
-    /**
-     * 结束采集轨迹
-     *
-     * @param entityId 设备名（唯一标识）
-     */
-    @Override
-    public void closeLBSTrack(String entityId, String callback) {
-    }
-
-    @Override
-    public void sfaPersonal(String callback) {
-
-    }
-
-    @Override
-    public void sfaScan(String callback) {
-
     }
 
     @Override
@@ -283,6 +265,13 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public void mapNavigation(WebView view, float gpsLongitude, float gpsLatitude, String
             placeName, String address, String callback) {
         // 地图导航
+    }
+
+    @Override
+    public void publicLink(WebView view, String data, String event, int requestCode) {
+        if (!PublicLinkManager.gotoPage(this, data, event, requestCode)) {
+            requestLinkResult(getLinkResult(false, null));
+        }
     }
 
     @Override
