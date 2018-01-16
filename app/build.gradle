@@ -184,7 +184,7 @@ dependencies {
 
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
 
-    compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    compile 'com.github.barteksc:android-pdf-viewer:2.7.0'
     compile 'com.bluemoon.x5:lib_x5:1.7.1'
 }
 
