@@ -49,6 +49,7 @@ public class SignatureActivity extends AbstractSignatureActivity implements View
     public void initView(View mainView) {
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.tv_right).setOnClickListener(this);
+        setBitmapSize(800);
     }
 
     @Override

@@ -126,11 +126,6 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
         WebViewActivity.startAction(aty, url, title, isFull, isBackByJs, titleStyle);
     }
 
-    @Override
-    public boolean isFixTop() {
-        return true;
-    }
-
     /**
      * 打开扫描界面操作
      *

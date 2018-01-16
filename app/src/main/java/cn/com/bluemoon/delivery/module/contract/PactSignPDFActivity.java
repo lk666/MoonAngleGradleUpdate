@@ -18,18 +18,21 @@ import com.bluemoon.signature.lib.AbstractSignatureActivity;
 
 import butterknife.Bind;
 import butterknife.OnClick;
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ContractApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultCheckPersonReal;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultContractDetail;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultPDFPosition;
+import cn.com.bluemoon.delivery.common.PublicLinkManager;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.module.document.BasePDFActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
 
@@ -50,15 +53,14 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     public static void actStart(Context context, String contractId) {
         Intent intent = new Intent(context, PactSignPDFActivity.class);
-        intent.putExtra("id", contractId);
+        intent.putExtra(PublicLinkManager.ID, contractId);
         context.startActivity(intent);
     }
 
     @Override
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
-        contractId = getIntent().getStringExtra("contractId");
-        contractId = "123";
+        contractId = getIntent().getStringExtra(PublicLinkManager.ID);
     }
 
     @Override
@@ -134,16 +136,17 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 //跳转创建签名页
                 SignatureActivity.startAct(PactSignPDFActivity.this, FileUtil.getPathTemp(), 1);
             } else {
-                DialogUtil.getCommonDialog(this, null, resultBean.getResponseMsg(), "暂不", "好的",
-                        null, new DialogInterface.OnClickListener() {
+                DialogUtil.getCommonDialog(this, null, resultBean.getResponseMsg(), getString(R
+                        .string.btn_no), getString(R.string.btn_goods), null, new DialogInterface
+                        .OnClickListener() {
 
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //跳转实名认证页
-                                AuthUserInfoActivity.startAct(PactSignPDFActivity.this,
-                                        resultBean, 2);
-                            }
-                        }).show();
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //跳转实名认证页
+                        AuthUserInfoActivity.startAct(PactSignPDFActivity.this,
+                                resultBean, 2);
+                    }
+                }).show();
 
             }
         } else if (requestCode == 2) {
@@ -223,9 +226,8 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 filePath = data.getStringExtra(AbstractSignatureActivity.FILE_PATH);
                 //生成可绘制的小签名bitmap
                 bitmap = BitmapFactory.decodeFile(filePath);
-                int width = bitmap.getWidth() / 7;
-                int height = bitmap.getHeight() / 7;
-                bitmap = Bitmap.createScaledBitmap(bitmap, width, height, false);
+                int size = AppContext.getInstance().getDisplayWidth()/5;
+                bitmap = LibImageUtil.scaleBitmap(bitmap,size,true);
                 mActionBar.getTvRightView().setVisibility(View.VISIBLE);
             }
         }

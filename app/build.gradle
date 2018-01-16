@@ -172,7 +172,7 @@ dependencies {
     compile 'org.greenrobot:greendao-generator:3.2.0'
 
     compile 'com.bluemoon.cardocr:lib_cardocr:1.0.3'
-    compile 'com.bluemoon.signature:lib_signature_pad:0.0.3'
+    compile 'com.bluemoon.signature:lib_signature_pad:0.0.4'
 
     compile 'com.android.support:recyclerview-v7:23.4.0'
 

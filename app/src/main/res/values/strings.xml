@@ -1578,7 +1578,7 @@
     <string name="offline_unsign">未签到</string>
     <string name="offline_not_yet_been_rated">您还没有给该学员打分哦</string>
     <string name="login_apply">
-        <u>申请合作伙伴</u>
+        <u>线上申请</u>
     </string>
     <string name="offline_date_compare">所选月份不能大于当前月份</string>
     <string name="offline_sign_enable">当前教室无可签到课程</string>
@@ -1713,4 +1713,6 @@
     <string name="send_message">已向%s发送短信</string>
     <string name="err_valid_code_empty">验证码不能为空</string>
     <string name="your_number">您的号码</string>
+    <string name="btn_no">暂不</string>
+    <string name="btn_goods">好的</string>
 </resources>
