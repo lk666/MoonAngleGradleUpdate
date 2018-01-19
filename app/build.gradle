@@ -172,12 +172,12 @@ dependencies {
     compile 'org.greenrobot:greendao-generator:3.2.0'
 
     compile 'com.bluemoon.cardocr:lib_cardocr:1.0.3'
-    compile 'com.bluemoon.signature:lib_signature_pad:0.0.4'
+    compile 'com.bluemoon.signature:lib_signature_pad:0.0.7'
 
     compile 'com.android.support:recyclerview-v7:23.4.0'
 
     compile ('com.android.support:support-v4:23.4.0') {
-        force = true;
+        force = true
     }
 
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
