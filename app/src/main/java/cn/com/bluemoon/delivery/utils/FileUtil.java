@@ -15,14 +15,14 @@ public class FileUtil extends LibFileUtil {
     /*************************
      * file path
      *******************************/
-    private static final String NAME        = "BMDelivery";
-    private static final String PATH_MAIN   = Environment.getExternalStorageDirectory() + "/" + NAME;
-    private static final String PATH_PHOTO  = PATH_MAIN + "/images";
-    private static final String PATH_TEMP   = PATH_MAIN + "/temp";
-    private static final String PATH_CACHE  = PATH_MAIN + "/cache";
+    private static final String NAME = "BMDelivery";
+    private static final String PATH_MAIN = Environment.getExternalStorageDirectory() + "/" + NAME;
+    private static final String PATH_PHOTO = PATH_MAIN + "/images";
+    private static final String PATH_TEMP = PATH_MAIN + "/temp";
+    private static final String PATH_CACHE = PATH_MAIN + "/cache";
     private static final String PATH_CAMERA = Environment.getExternalStorageDirectory() +
             "/DCIM/Camera";
-    private static final String PATH_DOWN   = PATH_MAIN + "/download";
+    private static final String PATH_DOWN = PATH_MAIN + "/download";
 
     public static String getPathCache() {
         return PATH_CACHE;
@@ -56,7 +56,7 @@ public class FileUtil extends LibFileUtil {
         if (file.exists()) {
             if (file.isFile()) {
                 file.delete();
-            }else if (file.isDirectory()) {
+            } else if (file.isDirectory()) {
                 java.io.File files[] = file.listFiles();
                 for (int i = 0; i < files.length; i++) {
                     deleteFile(files[i].getPath());
@@ -80,8 +80,11 @@ public class FileUtil extends LibFileUtil {
             f.mkdirs();
             f = new File(PATH_CAMERA);
             f.mkdirs();
+            f = new File(PATH_DOWN);
+            f.mkdirs();
         }
     }
+
     /**
      * 递归删除目录
      */

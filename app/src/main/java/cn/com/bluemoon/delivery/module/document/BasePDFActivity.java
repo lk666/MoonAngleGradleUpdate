@@ -44,9 +44,8 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
  */
 
 public abstract class BasePDFActivity extends BaseActivity implements View.OnClickListener,
-        X5DownLoadListener, OnErrorListener,OnRenderListener,OnDrawListener {
+        X5DownLoadListener, OnErrorListener, OnRenderListener, OnDrawListener {
 
-    private String IMAGE_PDF_PATH = FileUtil.getPathTemp() + "/contract.pdf";
     //文档页间隙
     protected final static int SPACING = 10;
     protected PDFView pdfView;
@@ -118,8 +117,14 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
      * @param imgUrls
      */
     protected void openFile(List<String> imgUrls) {
-        if (imgUrls == null || imgUrls.isEmpty() || !PublicUtil.hasIntenet(this)) {
+        if (imgUrls == null || imgUrls.isEmpty()) {
             downResult(false);
+            return;
+        }
+        //pdf命名是根据第一张图片地址生成，如果pdf存在，则直接打开，否则去下载图片
+        String path = getPdfPath(imgUrls);
+        if(X5DownUtil.checkFilePathExists(path)){
+            openFile(null,path,0);
             return;
         }
         showDownView();
@@ -144,19 +149,19 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         fileUrl = url;
         filePath = path;
         page = defaultPage;
-            isLoadFinish = false;
-            if (!TextUtils.isEmpty(path)) {
-                displayFromPath(path);
-            } else if (!TextUtils.isEmpty(url) && PublicUtil.hasIntenet(this)) {
-                if (downloadManager == null) {
-                    downloadManager = new X5DownloadManager(this, this);
-                    //注册下载广播
-                    downloadManager.registerReceiver();
-                }
-                down(url);
-            } else {
-                downResult(false);
+        isLoadFinish = false;
+        if (!TextUtils.isEmpty(path)) {
+            displayFromPath(path);
+        } else if (!TextUtils.isEmpty(url) && PublicUtil.hasIntenet(this)) {
+            if (downloadManager == null) {
+                downloadManager = new X5DownloadManager(this, this);
+                //注册下载广播
+                downloadManager.registerReceiver();
             }
+            down(url);
+        } else {
+            downResult(false);
+        }
     }
 
     /**
@@ -216,8 +221,11 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onDownFinish(long downloadId, String url, boolean isSuccess) {
-        stopTimer();
-        downResult(isSuccess);
+        // TODO: 2018/1/22 ID 相等时才执行操作，防止接收到其他页面的下载结果，这里需要优化
+        if(this.downloadId==downloadId){
+            stopTimer();
+            downResult(isSuccess);
+        }
     }
 
     /**
@@ -231,7 +239,8 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
                 } else if (index == imgUrls.size() - 1) {
                     createPDF(imgUrls);
                 } else {
-                    int progress = (int) ((float) (index + 1) / (float) imgUrls.size() * (float) 100);
+                    int progress = (int) ((float) (index + 1) / (float) imgUrls.size() * (float)
+                            100);
                     txtProgress.setText(getString(R.string.down_progress, String.valueOf
                             (progress)));
                     index++;
@@ -328,8 +337,8 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
     /**
      * 获取pdf页数
      */
-    protected int getPageCount(){
-        if(pdfView!=null){
+    protected int getPageCount() {
+        if (pdfView != null) {
             return pdfView.getPageCount();
         }
         return 0;
@@ -372,6 +381,8 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         if (imgUrls == null || imgUrls.isEmpty()) {
             return;
         }
+        //根据第一张图片路径生成pdf
+        String pdfPath = getPdfPath(imgUrls);
         try {
             Image img = Image.getInstance(X5DownUtil.getFilePath(FileUtil.getPathDown(),
                     imgUrls.get(0)));
@@ -381,7 +392,7 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
 //            rect.setBackgroundColor(BaseColor.GRAY);
             Document document = new Document(rect);
             document.setMargins(0.0F, 0.0F, 0.0F, 0.0F);
-            FileOutputStream outputStream = new FileOutputStream(IMAGE_PDF_PATH);
+            FileOutputStream outputStream = new FileOutputStream(pdfPath);
             PdfWriter.getInstance(document, outputStream);
             document.open();
             document.add(img);
@@ -396,6 +407,18 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         } catch (Exception e) {
             e.printStackTrace();
         }
-        openFile(null, IMAGE_PDF_PATH, 0);
+        openFile(null, pdfPath, 0);
+    }
+
+    /**
+     * 根据第一张图片地址生成pdf命名。
+     */
+    public String getPdfPath(List<String> imgUrls) {
+        if (imgUrls == null || imgUrls.isEmpty()) {
+            return null;
+        }
+        //根据第一张图片路径生成pdf
+        return FileUtil.getPathDown() + File.separator + X5DownUtil.getMd5Url(imgUrls.get(0)) + "" +
+                ".pdf";
     }
 }
