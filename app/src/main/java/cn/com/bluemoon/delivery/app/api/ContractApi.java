@@ -34,7 +34,7 @@ public class ContractApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        postMockRequest("进行实名认证", params, "bmhr-control/contract/doRealNameCheck%s", handler);
+        postRequest("进行实名认证", params, "bmhr-control/contract/doRealNameCheck%s", handler);
     }
 
     /**
@@ -50,7 +50,7 @@ public class ContractApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        postMockRequest("检查人员是否已经实名认证", params, "bmhr-control/contract/checkPersonReal%s", handler);
+        postRequest("检查人员是否已经实名认证", params, "bmhr-control/contract/checkPersonReal%s", handler);
     }
 
     /**
@@ -68,7 +68,7 @@ public class ContractApi extends BaseApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("contractId", contractId);
-        postMockRequest("获取合同详情", params, "bmhr-control/contract/getContractDetail%s", handler);
+        postRequest("获取合同详情", params, "bmhr-control/contract/getContractDetail%s", handler);
     }
 
     /**
@@ -86,7 +86,7 @@ public class ContractApi extends BaseApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("contractId", contractId);
-        postMockRequest("获得pdf的签名的定位信息", params, "bmhr-control/contract/getPDFPosition%s", handler);
+        postRequest("获得pdf的签名的定位信息", params, "bmhr-control/contract/getPDFPosition%s", handler);
     }
 
     /**
@@ -100,16 +100,16 @@ public class ContractApi extends BaseApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        postMockRequest("合同签署发送短信验证码", params, "bmhr-control/contract/sendSmsBySign%s", handler);
+        postRequest("合同签署发送短信验证码", params, "bmhr-control/contract/sendSmsBySign%s", handler);
     }
 
     /**
      * 7.合同签署
      * @param token token身份检验码 String
      */
-    public static void doContractSign(String token, String validCode, String filePath,
+    public static void doContractSign(String contractId, String token, String validCode, String filePath,
                                       WithContextTextHttpResponseHandler handler) {
-        if (isEmpty(token,validCode,filePath)) {
+        if (isEmpty(contractId,token,validCode,filePath)) {
             onError(handler);
             return;
         }
@@ -124,8 +124,27 @@ public class ContractApi extends BaseApi {
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("vailCode", validCode);
+        params.put("contractId", contractId);
+        params.put("validCode", validCode);
         params.put("signFile", signFile);
-        postMockRequest("合同签署", params, "bmhr-control/contract/doContractSign%s", handler);
+        postRequest("合同签署", params, "bmhr-control/contract/doContractSign%s", handler);
+    }
+
+    /**
+     * 8.ios专用获取合同详情
+     *
+     * @param token token身份检验码 String
+     */
+    public static void getContractDetailToIOS(String token, String contractId,
+                                              WithContextTextHttpResponseHandler handler) {
+        if (isEmpty(token,contractId)) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("contractId", contractId);
+        postRequest("ios专用获取合同详情", params, "bmhr-control/contract/getContractDetailToIOS%s",
+                handler);
     }
 }

@@ -48,9 +48,6 @@ public class PactSignPDFActivity extends BasePDFActivity {
     private CommonActionBar mActionBar;
     private String phone = "";
 
-    private String test = "http://pubfile.bluemoon.com" +
-            ".cn/group1/M00/02/E7/wKgwb1pW36iEG2QYAAAAAEN9q1g680.pdf?name=test-dst.pdf";
-
     public static void actStart(Context context, String contractId) {
         Intent intent = new Intent(context, PactSignPDFActivity.class);
         intent.putExtra(PublicLinkManager.ID, contractId);
@@ -73,6 +70,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
+        showWaitDialog();
         ContractApi.sendSmsBySign(getToken(), (WithContextTextHttpResponseHandler) getNewHandler
                 (3, ResultBase.class));
     }
@@ -91,18 +89,24 @@ public class PactSignPDFActivity extends BasePDFActivity {
     public void initView() {
         super.initView();
         initPaint();
-        // TODO: 2018/1/11 暂时用测试数据
-//        ContractApi.getPDFPosition(getToken(), contractId, (WithContextTextHttpResponseHandler)
-//                getNewHandler(2, ResultPDFPosition.class));
+        // 2018/1/11 暂时用测试数据
+        ContractApi.getPDFPosition(getToken(), contractId, (WithContextTextHttpResponseHandler)
+                getNewHandler(2, ResultPDFPosition.class));
     }
 
     @Override
     public void initData() {
         super.initData();
         showWaitDialog();
-        ContractApi.getContractDetail(getToken(), contractId,
+        ContractApi.getContractDetailToIOS(getToken(), contractId,
                 (WithContextTextHttpResponseHandler) getNewHandler(0, ResultContractDetail.class));
     }
+
+    @Override
+    protected boolean isImageType() {
+        return true;
+    }
+
 
     private void initPaint() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -122,8 +126,8 @@ public class PactSignPDFActivity extends BasePDFActivity {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == 0) {
             ResultContractDetail resultContractDetail = (ResultContractDetail) result;
-            // TODO: 2018/1/10 打开文档,暂时用测试地址
-            openFile(test, null, 0);
+//            openFile(resultContractDetail.fileUrl, null, 0);
+            openFile(resultContractDetail.photoList);
             if (STATUS_HAD.equals(resultContractDetail.contractStatus)) {
                 ViewUtil.setViewVisibility(btnSign, View.GONE);
             } else {
@@ -136,7 +140,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 //跳转创建签名页
                 SignatureActivity.startAct(PactSignPDFActivity.this, FileUtil.getPathTemp(), 1);
             } else {
-                DialogUtil.getCommonDialog(this, null, resultBean.getResponseMsg(), getString(R
+                DialogUtil.getCommonDialog(this, null, resultBean.checkContent, getString(R
                         .string.btn_no), getString(R.string.btn_goods), null, new DialogInterface
                         .OnClickListener() {
 
@@ -191,7 +195,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                                 } else {
                                     showWaitDialog(false);
                                     //提交签名
-                                    ContractApi.doContractSign(getToken(), pwd, filePath,
+                                    ContractApi.doContractSign(contractId,getToken(), pwd, filePath,
                                             (WithContextTextHttpResponseHandler) getNewHandler(4,
                                                     ResultBase.class));
                                     ViewUtil.hideKeyboard(etCode);
@@ -250,7 +254,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
         btnSign.setEnabled(true);
     }
 
-    //签名显示的坐标比例
+    //签名显示的坐标比例（默认）
     private float widthP = 0.677f;
     private float heightP = 0.657f;
 

@@ -13,21 +13,25 @@ public class CacheManager extends LibCacheUtil {
 
 	public static String getBlueMoonCacheSize(Context context) throws Exception {
 		long size = 0;
-		File file_cache = context.getCacheDir();
-		File file_webview = context.getDir("webview", Context.MODE_PRIVATE);
-		File file_temp = new File(FileUtil.getPathTemp());
-		File file_cache2 = new File(FileUtil.getPathCache());
-		if (file_cache.exists()) {
-			size = getFolderSize(file_cache);
+		File fileCache = context.getCacheDir();
+		File fileWebView = context.getDir("webview", Context.MODE_PRIVATE);
+		File fileTemp = new File(FileUtil.getPathTemp());
+		File fileCache2 = new File(FileUtil.getPathCache());
+		File fileDown = new File(FileUtil.getPathDown());
+		if (fileCache.exists()) {
+			size = getFolderSize(fileCache);
 		}
-		if (file_webview.exists()) {
-			size = size + getFolderSize(file_webview);
+		if (fileWebView.exists()) {
+			size = size + getFolderSize(fileWebView);
 		}
-		if (file_temp.exists()) {
-			size = size + getFolderSize(file_temp);
+		if (fileTemp.exists()) {
+			size = size + getFolderSize(fileTemp);
 		}
-		if (file_cache2.exists()) {
-			size = size + getFolderSize(file_cache2);
+		if (fileCache2.exists()) {
+			size = size + getFolderSize(fileCache2);
+		}
+		if (fileDown.exists()) {
+			size = size + getFolderSize(fileDown);
 		}
 		return getFormatSize(size);
 	}
@@ -37,6 +41,7 @@ public class CacheManager extends LibCacheUtil {
 		cleanWebViewCache(context);
 		deleteFolderFile(FileUtil.getPathTemp(), false);
 		deleteFolderFile(FileUtil.getPathCache(), false);
+		deleteFolderFile(FileUtil.getPathDown(), false);
 	}
 
 }

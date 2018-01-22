@@ -156,6 +156,7 @@ dependencies {
     compile project(':BlueMoonSDK')
     compile project(':lib_badger')
     compile project(':lib_iflytek')
+    compile files('libs/iTextpdf.jar')
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'junit:junit:4.12'
     compile 'org.greenrobot:eventbus:3.0.0'
@@ -170,26 +171,20 @@ dependencies {
     compile 'com.bluemoon.widget:lib_widget:1.0.32'
     compile 'org.greenrobot:greendao:3.2.0'
     compile 'org.greenrobot:greendao-generator:3.2.0'
-
     compile 'com.bluemoon.cardocr:lib_cardocr:1.0.3'
     compile 'com.bluemoon.signature:lib_signature_pad:0.0.7'
-
     compile 'com.android.support:recyclerview-v7:23.4.0'
-
-    compile ('com.android.support:support-v4:23.4.0') {
+    compile('com.android.support:support-v4:23.4.0') {
         force = true
     }
-
     compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
     compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
-
     /*compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-12'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-alpha-12'*/
-
+        compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-alpha-12'*/
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
-
     compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
     compile 'com.bluemoon.x5:lib_x5:1.7.1'
+
 }
 
 

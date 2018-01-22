@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.app.api.model.contract;
 
+import java.util.List;
+
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
 /**
@@ -15,4 +17,5 @@ public class ResultContractDetail extends ResultBase {
 
     public String contractStatus;
     public String fileUrl;
+    public List<String> photoList;
 }

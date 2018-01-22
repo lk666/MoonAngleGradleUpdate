@@ -15,8 +15,14 @@ import com.github.barteksc.pdfviewer.PDFView;
 import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnErrorListener;
 import com.github.barteksc.pdfviewer.listener.OnRenderListener;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfWriter;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.util.List;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -40,6 +46,7 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
 public abstract class BasePDFActivity extends BaseActivity implements View.OnClickListener,
         X5DownLoadListener, OnErrorListener,OnRenderListener,OnDrawListener {
 
+    private String IMAGE_PDF_PATH = FileUtil.getPathTemp() + "/contract.pdf";
     //文档页间隙
     protected final static int SPACING = 10;
     protected PDFView pdfView;
@@ -52,11 +59,14 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
     private long downloadId;
     private ScheduledExecutorService scheduledExecutorService;
 
+    protected List<String> imgUrls;
     protected String fileUrl;
     protected String filePath;
     protected int page = 0;
 
     protected boolean isLoadFinish;
+
+    private int index = -1;
 
     public static void actStart(Context context, String fileUrl, String filePath, int page,
                                 Class cls) {
@@ -95,7 +105,32 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
      * 打开已有的pdf
      */
     private void openFile() {
-        openFile(fileUrl, filePath, page);
+        if (imgUrls != null && !imgUrls.isEmpty()) {
+            openFile(imgUrls);
+        } else {
+            openFile(fileUrl, filePath, page);
+        }
+    }
+
+    /**
+     * 通过图片列表生成pdf打开
+     *
+     * @param imgUrls
+     */
+    protected void openFile(List<String> imgUrls) {
+        if (imgUrls == null || imgUrls.isEmpty() || !PublicUtil.hasIntenet(this)) {
+            downResult(false);
+            return;
+        }
+        showDownView();
+        this.imgUrls = imgUrls;
+        index = 0;
+        if (downloadManager == null) {
+            downloadManager = new X5DownloadManager(this, this);
+            //注册下载广播
+            downloadManager.registerReceiver();
+        }
+        down(imgUrls.get(0));
     }
 
     /**
@@ -122,6 +157,13 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
             } else {
                 downResult(false);
             }
+    }
+
+    /**
+     * 是否用图片拼凑的pdf
+     */
+    protected boolean isImageType() {
+        return false;
     }
 
     private void down(String url) {
@@ -183,8 +225,23 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
      */
     private void downResult(boolean isSuccess) {
         if (isSuccess) {
-            filePath = X5DownUtil.getFilePath(FileUtil.getPathDown(), fileUrl);
-            displayFromPath(filePath);
+            if (isImageType() && imgUrls != null) {
+                if (index < 0) {
+                    downResult(false);
+                } else if (index == imgUrls.size() - 1) {
+                    createPDF(imgUrls);
+                } else {
+                    int progress = (int) ((float) (index + 1) / (float) imgUrls.size() * (float) 100);
+                    txtProgress.setText(getString(R.string.down_progress, String.valueOf
+                            (progress)));
+                    index++;
+                    down(imgUrls.get(index));
+
+                }
+            } else {
+                filePath = X5DownUtil.getFilePath(FileUtil.getPathDown(), fileUrl);
+                displayFromPath(filePath);
+            }
         } else {
             filePath = null;
             ViewUtil.setViewVisibility(txtProgress, View.INVISIBLE);
@@ -194,8 +251,20 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         }
     }
 
+    private void showDownView() {
+        ViewUtil.setViewVisibility(layoutProgress, View.VISIBLE);
+        ViewUtil.setViewVisibility(txtProgress, View.VISIBLE);
+        ViewUtil.setViewVisibility(txtLoad, View.GONE);
+        txtProgress.setText(getString(R.string.down_progress, "0"));
+        txtContent.setText(R.string.down_loading);
+    }
+
     private void startTimer() {
+        if (isImageType()) {
+            return;
+        }
         if (downloadManager != null) {
+            showDownView();
             ViewUtil.setViewVisibility(layoutProgress, View.VISIBLE);
             ViewUtil.setViewVisibility(txtProgress, View.VISIBLE);
             ViewUtil.setViewVisibility(txtLoad, View.GONE);
@@ -215,6 +284,9 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
     }
 
     private void stopTimer() {
+        if (isImageType()) {
+            return;
+        }
         if (scheduledExecutorService != null) {
             scheduledExecutorService.shutdown();
             scheduledExecutorService = null;
@@ -290,5 +362,40 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         if (v == txtLoad) {
             openFile();
         }
+    }
+
+
+    /**
+     * 图片生成pdf
+     */
+    private void createPDF(List<String> imgUrls) {
+        if (imgUrls == null || imgUrls.isEmpty()) {
+            return;
+        }
+        try {
+            Image img = Image.getInstance(X5DownUtil.getFilePath(FileUtil.getPathDown(),
+                    imgUrls.get(0)));
+//            //页面大小
+            Rectangle rect = new Rectangle(img.getWidth(), img.getHeight());
+            //页面背景色
+//            rect.setBackgroundColor(BaseColor.GRAY);
+            Document document = new Document(rect);
+            document.setMargins(0.0F, 0.0F, 0.0F, 0.0F);
+            FileOutputStream outputStream = new FileOutputStream(IMAGE_PDF_PATH);
+            PdfWriter.getInstance(document, outputStream);
+            document.open();
+            document.add(img);
+            for (int i = 1; i < imgUrls.size(); i++) {
+                document.newPage();
+                Image imgI = Image.getInstance(X5DownUtil.getFilePath(FileUtil.getPathDown(),
+                        imgUrls.get(i)));
+                document.add(imgI);
+            }
+            document.close();
+            outputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        openFile(null, IMAGE_PDF_PATH, 0);
     }
 }
