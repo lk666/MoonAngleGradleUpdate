@@ -125,6 +125,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == 0) {
+            //获取详情
             ResultContractDetail resultContractDetail = (ResultContractDetail) result;
 //            openFile(resultContractDetail.fileUrl, null, 0);
             openFile(resultContractDetail.photoList);
@@ -161,6 +162,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
         } else if (requestCode == 3) {
             submitSign();
         } else if (requestCode == 4) {
+            //合同签署
             pwdDialog.dismiss();
             back(true);
         }
@@ -168,12 +170,12 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        //如果电子合同已经撤销，需要刷新列表，则返回这个
-        if (requestCode == 13008) {
-            back(false);
-            return;
-        }
         super.onErrorResponse(requestCode, result);
+        //如果电子合同已经撤销，需要刷新列表，则返回这个
+        if ((requestCode == 0 && result.getResponseCode() == 13002) || (requestCode == 4 &&
+                result.getResponseCode() == 13008)) {
+            back(false);
+        }
     }
 
     /**
@@ -183,7 +185,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
      */
     private void back(boolean isSuccess) {
         Intent intent = new Intent();
-        intent.putExtra(PublicLinkManager.CODE, isSuccess ? 1 : 2);
+        intent.putExtra(PublicLinkManager.PDF_CODE, isSuccess ? 1 : 2);
         setResult(RESULT_OK, intent);
         finish();
     }

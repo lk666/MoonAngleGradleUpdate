@@ -21,7 +21,7 @@ import cn.com.bluemoon.lib_iflytek.utils.JsonParser;
 public class PublicLinkManager {
 
     public static final String ID = "id";
-    public static final String CODE = "code";
+    public static final String PDF_CODE = "pdfCode";
 
     public static final Map<String, Class> PAGE_EVENT = new HashMap<String, Class>() {
         {
@@ -42,11 +42,11 @@ public class PublicLinkManager {
      * 2 表示执行失败，电子合同已经被取消，需要刷新列表
      */
     public static class ResultBean extends BaseParam{
-        public int code;
+        public int pdfCode;
 
-        public ResultBean(boolean isSuccess,int code){
+        public ResultBean(boolean isSuccess,int pdfCode){
             this.isSuccess = isSuccess;
-            this.code = code;
+            this.pdfCode = pdfCode;
         }
     }
 

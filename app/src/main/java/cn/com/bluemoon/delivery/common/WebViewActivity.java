@@ -273,13 +273,9 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     }
 
     @Override
-    protected String getLinkResult(boolean isSuccess, Intent data) {
-        //如果有返回，需要判断是否执行成功
-        if (isSuccess) {
-            int code = data.getIntExtra(PublicLinkManager.CODE, 0);
-            return JSONObject.toJSONString(new PublicLinkManager.ResultBean(true, code));
-        }
-        return super.getLinkResult(false, data);
+    protected String getLinkResult(Intent data) {
+        int code = data.getIntExtra(PublicLinkManager.PDF_CODE, 0);
+        return JSONObject.toJSONString(new PublicLinkManager.ResultBean(true, code));
     }
 
     @Override
