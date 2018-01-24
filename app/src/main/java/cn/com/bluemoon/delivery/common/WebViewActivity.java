@@ -24,6 +24,7 @@ import java.io.File;
 import java.util.List;
 
 import bluemoon.com.lib_x5.base.BaseX5WebViewActivity;
+import bluemoon.com.lib_x5.bean.BaseParam;
 import bluemoon.com.lib_x5.bean.LocationParam;
 import bluemoon.com.lib_x5.bean.TitleStyle;
 import bluemoon.com.lib_x5.utils.JsBridgeUtil;
@@ -249,7 +250,7 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     @Override
     public void onDownFinish(long downloadId, String url, boolean isSuccess) {
         // TODO: 2018/1/22 如果已经跳转到其他页面，就不做下载完成处理 ，这里需要考虑更优方案
-        if(isStop) return;
+        if (isStop) return;
         super.onDownFinish(downloadId, url, isSuccess);
         ToastUtil.toast(this, getString(isSuccess ? R.string.down_success : R.string.down_fail));
     }
@@ -268,9 +269,17 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
 
     @Override
     public void publicLink(WebView view, String data, String event, int requestCode) {
-        if (!PublicLinkManager.gotoPage(this, data, event, requestCode)) {
-            requestLinkResult(getLinkResult(false, null));
+        PublicLinkManager.gotoPage(this, data, event, requestCode);
+    }
+
+    @Override
+    protected String getLinkResult(boolean isSuccess, Intent data) {
+        //如果有返回，需要判断是否执行成功
+        if (isSuccess) {
+            int code = data.getIntExtra(PublicLinkManager.CODE, 0);
+            return JSONObject.toJSONString(new PublicLinkManager.ResultBean(true, code));
         }
+        return super.getLinkResult(false, data);
     }
 
     @Override
