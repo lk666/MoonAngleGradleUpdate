@@ -242,10 +242,16 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     }
 
     @Override
+    public void onDownFile(String url, String mimetype, boolean isOpen, String callbackName) {
+        // TODO: 2018/1/25 如果有调用下载方法，就设为true
+        isReceived = true;
+        super.onDownFile(url, mimetype, isOpen, callbackName);
+    }
+
+    @Override
     public void onDownStart(long downloadId, String url, String path) {
         super.onDownStart(downloadId, url, path);
         ToastUtil.toast(this, getString(R.string.down_start));
-        isReceived = true;
     }
 
     @Override

@@ -123,8 +123,8 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         }
         //pdf命名是根据第一张图片地址生成，如果pdf存在，则直接打开，否则去下载图片
         String path = getPdfPath(imgUrls);
-        if(X5DownUtil.checkFilePathExists(path)){
-            openFile(null,path,0);
+        if (X5DownUtil.checkFilePathExists(path)) {
+            openFile(null, path, 0);
             return;
         }
         showDownView();
@@ -222,9 +222,9 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
     @Override
     public void onDownFinish(long downloadId, String url, boolean isSuccess) {
         // TODO: 2018/1/22 ID 相等时才执行操作，防止接收到其他页面的下载结果，这里需要优化
-        if(this.downloadId==downloadId){
-            this.downloadId = -1;//下载完成之后需要重置id
+        if (this.downloadId == downloadId) {
             stopTimer();
+            this.downloadId = -1;//下载完成之后需要重置id
             downResult(isSuccess);
         }
     }
@@ -314,7 +314,7 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
     };
 
     private void updateView() {
-        if (downloadManager != null && downloadId != 0) {
+        if (downloadManager != null && downloadId != -1) {
             int[] ints = downloadManager.getBytesAndStatus(downloadId);
             int progress = (int) ((float) ints[0] / (float) ints[1] * (float) 100);
             Message msg = new Message();
