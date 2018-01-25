@@ -5,14 +5,12 @@ import android.content.Intent;
 
 import com.alibaba.fastjson.JSON;
 
-import org.json.JSONObject;
-
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
 import bluemoon.com.lib_x5.bean.BaseParam;
 import cn.com.bluemoon.delivery.module.contract.PactSignPDFActivity;
-import cn.com.bluemoon.lib_iflytek.utils.JsonParser;
 
 /**
  * Created by bm on 2018/1/12.
@@ -41,13 +39,24 @@ public class PublicLinkManager {
      * 1 表示执行成功，跳转到已完成列表
      * 2 表示执行失败，电子合同已经被取消，需要刷新列表
      */
-    public static class ResultBean extends BaseParam{
-        public int pdfCode;
+    public static class ResultBean extends BaseParam {
 
-        public ResultBean(boolean isSuccess,int pdfCode){
+        public ResultData data;
+
+        public ResultBean(boolean isSuccess, int pdfCode) {
             this.isSuccess = isSuccess;
-            this.pdfCode = pdfCode;
+            this.data = new ResultData(pdfCode);
         }
+
+        public static class ResultData implements Serializable {
+            public int pdfCode;
+
+            public ResultData(int pdfCode) {
+                this.pdfCode = pdfCode;
+            }
+        }
+
+
     }
 
     /**

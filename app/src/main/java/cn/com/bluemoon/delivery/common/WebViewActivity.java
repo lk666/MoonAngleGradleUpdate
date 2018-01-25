@@ -57,8 +57,8 @@ import cn.com.bluemoon.lib_iflytek.SpeakManager;
 public class WebViewActivity extends BaseX5WebViewActivity implements IHttpResponse {
 
     public LocationClient mLocationClient = null;
-    //是否跳转到其他页面
-    private boolean isStop;
+    //是否接收下载完成监听
+    private boolean isReceived;
 
     /**
      * 网页界面启动方法
@@ -245,12 +245,13 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public void onDownStart(long downloadId, String url, String path) {
         super.onDownStart(downloadId, url, path);
         ToastUtil.toast(this, getString(R.string.down_start));
+        isReceived = true;
     }
 
     @Override
     public void onDownFinish(long downloadId, String url, boolean isSuccess) {
         // TODO: 2018/1/22 如果已经跳转到其他页面，就不做下载完成处理 ，这里需要考虑更优方案
-        if (isStop) return;
+        if (!isReceived) return;
         super.onDownFinish(downloadId, url, isSuccess);
         ToastUtil.toast(this, getString(isSuccess ? R.string.down_success : R.string.down_fail));
     }
@@ -415,14 +416,13 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     @Override
     protected void onStop() {
         super.onStop();
-        isStop = true;
+        isReceived = false;
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         MobclickAgent.onResume(this);
-        isStop = false;
     }
 
     @Override
