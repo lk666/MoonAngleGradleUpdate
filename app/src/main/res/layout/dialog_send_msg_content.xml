@@ -26,6 +26,7 @@
         android:gravity="center"
         android:padding="5dp"
         android:singleLine="true"
+        android:inputType="number"
         android:textColor="#333333"
         android:textColorHint="@color/hint"
         android:hint="@string/input_valid_code"

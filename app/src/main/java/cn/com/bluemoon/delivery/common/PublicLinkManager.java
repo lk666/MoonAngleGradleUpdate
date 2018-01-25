@@ -5,13 +5,12 @@ import android.content.Intent;
 
 import com.alibaba.fastjson.JSON;
 
-import org.json.JSONObject;
-
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import bluemoon.com.lib_x5.bean.BaseParam;
 import cn.com.bluemoon.delivery.module.contract.PactSignPDFActivity;
-import cn.com.bluemoon.lib_iflytek.utils.JsonParser;
 
 /**
  * Created by bm on 2018/1/12.
@@ -20,6 +19,7 @@ import cn.com.bluemoon.lib_iflytek.utils.JsonParser;
 public class PublicLinkManager {
 
     public static final String ID = "id";
+    public static final String PDF_CODE = "pdfCode";
 
     public static final Map<String, Class> PAGE_EVENT = new HashMap<String, Class>() {
         {
@@ -30,6 +30,33 @@ public class PublicLinkManager {
 
     public static class EventBean {
         public String id;
+    }
+
+    /**
+     * 返回结果，必须继承BaseParam
+     * 电子合同：
+     * 0 表示不执行
+     * 1 表示执行成功，跳转到已完成列表
+     * 2 表示执行失败，电子合同已经被取消，需要刷新列表
+     */
+    public static class ResultBean extends BaseParam {
+
+        public ResultData data;
+
+        public ResultBean(boolean isSuccess, int pdfCode) {
+            this.isSuccess = isSuccess;
+            this.data = new ResultData(pdfCode);
+        }
+
+        public static class ResultData implements Serializable {
+            public int pdfCode;
+
+            public ResultData(int pdfCode) {
+                this.pdfCode = pdfCode;
+            }
+        }
+
+
     }
 
     /**
@@ -45,7 +72,7 @@ public class PublicLinkManager {
                 if (bean != null) {
                     Intent intent = new Intent(aty, PublicLinkManager.PAGE_EVENT.get(pageEvent));
                     intent.putExtra(PublicLinkManager.ID, bean.id);
-                    aty.startActivityForResult(intent, requestCode );
+                    aty.startActivityForResult(intent, requestCode);
                     return true;
                 }
             }

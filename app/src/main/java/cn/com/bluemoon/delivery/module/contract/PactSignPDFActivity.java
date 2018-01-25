@@ -125,6 +125,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
         if (requestCode == 0) {
+            //获取详情
             ResultContractDetail resultContractDetail = (ResultContractDetail) result;
 //            openFile(resultContractDetail.fileUrl, null, 0);
             openFile(resultContractDetail.photoList);
@@ -161,10 +162,32 @@ public class PactSignPDFActivity extends BasePDFActivity {
         } else if (requestCode == 3) {
             submitSign();
         } else if (requestCode == 4) {
+            //合同签署
             pwdDialog.dismiss();
-            setResult(RESULT_OK);
-            finish();
+            back(true);
         }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        //如果电子合同已经撤销，需要刷新列表，则返回这个
+        if ((requestCode == 0 && result.getResponseCode() == 13002) || (requestCode == 4 &&
+                result.getResponseCode() == 13008)) {
+            back(false);
+        }
+    }
+
+    /**
+     * 带状态返回
+     * 1 表示执行成功
+     * 2 表示执行失败，电子合同已经被取消，需要刷新列表
+     */
+    private void back(boolean isSuccess) {
+        Intent intent = new Intent();
+        intent.putExtra(PublicLinkManager.PDF_CODE, isSuccess ? 1 : 2);
+        setResult(RESULT_OK, intent);
+        finish();
     }
 
     private CommonAlertDialog pwdDialog;
@@ -195,7 +218,8 @@ public class PactSignPDFActivity extends BasePDFActivity {
                                 } else {
                                     showWaitDialog(false);
                                     //提交签名
-                                    ContractApi.doContractSign(contractId,getToken(), pwd, filePath,
+                                    ContractApi.doContractSign(contractId, getToken(), pwd,
+                                            filePath,
                                             (WithContextTextHttpResponseHandler) getNewHandler(4,
                                                     ResultBase.class));
                                     ViewUtil.hideKeyboard(etCode);
@@ -230,8 +254,8 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 filePath = data.getStringExtra(AbstractSignatureActivity.FILE_PATH);
                 //生成可绘制的小签名bitmap
                 bitmap = BitmapFactory.decodeFile(filePath);
-                int size = AppContext.getInstance().getDisplayWidth()/5;
-                bitmap = LibImageUtil.scaleBitmap(bitmap,size,true);
+                int size = AppContext.getInstance().getDisplayWidth() / 5;
+                bitmap = LibImageUtil.scaleBitmap(bitmap, size, true);
                 mActionBar.getTvRightView().setVisibility(View.VISIBLE);
             }
         }
