@@ -97,6 +97,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void initView() {
+        // TODO: 2018/1/25 这里需要判断一下需不需要
         FileUtil.init();
         //初始化侧滑栏
         initMenu();

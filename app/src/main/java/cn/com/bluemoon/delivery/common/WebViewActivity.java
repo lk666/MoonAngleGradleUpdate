@@ -330,6 +330,13 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
         return JSONObject.toJSONString(new ResultBankInfo(bankInfo));
     }
 
+    @Override
+    public void onReceivedTitle(WebView view, String title) {
+        // TODO: 2018/1/25 如果标题返回网址，就不设置
+        if (title != null && !title.startsWith("http://") && !title.startsWith("https://")) {
+            super.onReceivedTitle(view, title);
+        }
+    }
 
     //初始化定位
     private void startLocation() {
