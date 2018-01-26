@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.app.api;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -69,7 +70,7 @@ class BaseApi {
 
     protected static boolean isEmpty(String... str) {
         for (String s : str) {
-            if (!StringUtils.isNoneBlank(s)) {
+            if (TextUtils.isEmpty(s)) {
                 return true;
             }
         }

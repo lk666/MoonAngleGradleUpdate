@@ -102,6 +102,7 @@ public class AppStartActivity extends Activity {
 
     private void init() {
 
+        FileUtil.init();
         //获取推送内容
         view = PublicUtil.getPushView(getIntent());
         url = PublicUtil.getPushUrl(getIntent());

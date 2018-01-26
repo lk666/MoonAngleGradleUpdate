@@ -104,7 +104,7 @@ public class TakeFragment extends BasePullHeadToRefreshListViewFragment implemen
                     break;
 
             }
-            PublicUtil.openWebView(getActivity(), url, "", false);
+            PublicUtil.openWebView(getActivity(), url, null, false);
         }
     }
 

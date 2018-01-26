@@ -46,6 +46,7 @@ import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
+import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -96,6 +97,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void initView() {
+        // TODO: 2018/1/25 这里需要判断一下需不需要
+        FileUtil.init();
         //初始化侧滑栏
         initMenu();
         //兼容沉浸式
