@@ -452,7 +452,7 @@ public class PublicUtil extends LibPublicUtil {
     }
 
     public static void openWebView(Context context, String url, String title, boolean isBackByJs) {
-        WebViewActivity.startAction(context, url, title,false, isBackByJs, null);
+        WebViewActivity.startAction(context, url, title, isBackByJs, false, null);
     }
 
     /**

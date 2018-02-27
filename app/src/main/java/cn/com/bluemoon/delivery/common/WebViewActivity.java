@@ -69,8 +69,8 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      * @param isBackByJs 是否把回退按钮交给web端
      * @param style      标题栏的样式
      */
-    public static void startAction(Context context, String url, String title, boolean isFull,
-                                   boolean isBackByJs,
+    public static void startAction(Context context, String url, String title, boolean isBackByJs,
+                                   boolean isFull,
                                    TitleStyle style) {
         startAction(context, url, title, isBackByJs, isFull, style, null, WebViewActivity.class);
     }
@@ -124,9 +124,9 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      * @param titleStyle title类型
      */
     @Override
-    public void newWebView(String url, String title, boolean isFull, boolean isBackByJs,
+    public void newWebView(String url, String title, boolean isBackByJs, boolean isFull,
                            TitleStyle titleStyle) {
-        WebViewActivity.startAction(aty, url, title, isFull, isBackByJs, titleStyle);
+        startAction(aty, url, title, isBackByJs, isFull, titleStyle);
     }
 
     /**

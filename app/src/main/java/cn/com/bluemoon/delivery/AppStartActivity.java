@@ -90,7 +90,7 @@ public class AppStartActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //暂时处理点击home键会重新启动问题
-        if((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0){
+        if ((getIntent().getFlags() & Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT) != 0) {
             finish();
             return;
         }
@@ -122,11 +122,11 @@ public class AppStartActivity extends Activity {
 
     private void initAlarm() {
         try {
-            if(!StringUtil.isEmptyString(ClientStateManager.getLoginToken())) {
+            if (!StringUtil.isEmptyString(ClientStateManager.getLoginToken())) {
                 Reminds.SynAlarm(this);
             }
-        }catch (Exception ex){
-            LogUtils.e("AppContext","Syn Alarms Error",ex);
+        } catch (Exception ex) {
+            LogUtils.e("AppContext", "Syn Alarms Error", ex);
         }
     }
 
@@ -164,7 +164,8 @@ public class AppStartActivity extends Activity {
             gotoNextActivity();
         } else {
             if (lastSuccessfulCheckVersionResponse != null && SystemClock.elapsedRealtime()
-                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants.FORCE_CHECK_VERSION_TIME) {
+                    - lastSuccessfulCheckVersionResponse.getTimestamp() < Constants
+                    .FORCE_CHECK_VERSION_TIME) {
                 LogUtils.i("Has checked version before, but are forced to update");
                 //已经check version 属于强制更新 !
                 showDialog(lastSuccessfulCheckVersionResponse);
@@ -177,7 +178,7 @@ public class AppStartActivity extends Activity {
     @Override
     public void onPause() {
         super.onPause();
-        if (splashScreenTimerTask != null&& !splashScreenTimerTask.isCancelled()) {
+        if (splashScreenTimerTask != null && !splashScreenTimerTask.isCancelled()) {
             splashScreenTimerTask.cancel(false);
         }
     }
@@ -224,17 +225,22 @@ public class AppStartActivity extends Activity {
                               String responseString) {
             LogUtils.d("appStartCheckVersion result = "
                     + responseString);
-
-            ResultVersionInfo result = JSON.parseObject(responseString,
-                    ResultVersionInfo.class);
-            if (result != null && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS
-                    && result.getItemList()!=null) {
-                lastSuccessfulCheckVersionResponse = result.getItemList();
-                lastSuccessfulCheckVersionResponse.setTimestamp(SystemClock.elapsedRealtime());
-                showDialog(lastSuccessfulCheckVersionResponse);
-            } else {
+            try {
+                ResultVersionInfo result = JSON.parseObject(responseString,
+                        ResultVersionInfo.class);
+                if (result != null && result.getResponseCode() == Constants.RESPONSE_RESULT_SUCCESS
+                        && result.getItemList() != null) {
+                    lastSuccessfulCheckVersionResponse = result.getItemList();
+                    lastSuccessfulCheckVersionResponse.setTimestamp(SystemClock.elapsedRealtime());
+                    showDialog(lastSuccessfulCheckVersionResponse);
+                } else {
+                    gotoNextActivity();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
                 gotoNextActivity();
             }
+
 
         }
 
@@ -286,7 +292,7 @@ public class AppStartActivity extends Activity {
 
     private void gotoNextActivity() {
         //不可取消！
-        if (splashScreenTimerTask != null&& !splashScreenTimerTask.isCancelled()) {
+        if (splashScreenTimerTask != null && !splashScreenTimerTask.isCancelled()) {
             splashScreenTimerTask.cancel(false);
         }
         if (!isFinishing()) {
@@ -300,7 +306,7 @@ public class AppStartActivity extends Activity {
         @Override
         protected Void doInBackground(Void... v) {
             //欢迎界面显示至少1s
-            long waitTime = SystemClock.elapsedRealtime()- splashScreenStartTime;
+            long waitTime = SystemClock.elapsedRealtime() - splashScreenStartTime;
             if (waitTime < Constants.SPLASH_SCREEN_MIN_SHOW_TIME) {
                 try {
                     Thread.sleep(Constants.SPLASH_SCREEN_MIN_SHOW_TIME - waitTime);
@@ -314,7 +320,7 @@ public class AppStartActivity extends Activity {
         protected void onPostExecute(Void v) {
             if (!isCancelled() && !isFinishing()) {
                 try {
-                    String token = ClientStateManager .getLoginToken();
+                    String token = ClientStateManager.getLoginToken();
                     if (!StringUtil.isEmpty(token)) {
                         MainActivity.actStart(main, view, url);
                     } else {
