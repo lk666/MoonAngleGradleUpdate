@@ -149,7 +149,7 @@ public class MenuManager {
                 String url = userRight.getUrl() + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
                 PublicUtil.openWebView(main, url, JsBridgeUtil.getTitleType(url) == 0 ? null :
-                        userRight.getMenuName(), false);
+                        userRight.getMenuName());
             } else {
                 PublicUtil.showToast(main.getString(R.string.main_tab_no_data));
             }

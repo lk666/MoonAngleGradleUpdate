@@ -139,8 +139,7 @@ public class LoginActivity extends BaseActivity {
                 ResetPswActivity.actStart(this, getUserName());
                 break;
             case R.id.txt_apply:
-                PublicUtil.openWebView(this, String.format(BuildConfig.API_URL, URL_APPLY), "",
-                        false);
+                PublicUtil.openWebView(this, String.format(BuildConfig.API_URL, URL_APPLY), "");
                 break;
         }
     }

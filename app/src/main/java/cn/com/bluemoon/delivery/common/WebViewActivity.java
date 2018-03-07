@@ -66,13 +66,12 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      * @param context    调用的类
      * @param url        网页地址
      * @param title      网页标题 title为null时标题隐藏
-     * @param isBackByJs 是否把回退按钮交给web端
      * @param style      标题栏的样式
      */
-    public static void startAction(Context context, String url, String title, boolean isBackByJs,
+    public static void startAction(Context context, String url, String title,
                                    boolean isFull,
                                    TitleStyle style) {
-        startAction(context, url, title, isBackByJs, isFull, style, null, WebViewActivity.class);
+        startAction(context, url, title, isFull, style, null, WebViewActivity.class);
     }
 
     /**
@@ -115,18 +114,18 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
         return FileUtil.getPathDown();
     }
 
+
     /**
      * 新建网页界面
      *
      * @param url        网页链接
      * @param title      网页标题
-     * @param isBackByJs 是否把返回键交给web端
      * @param titleStyle title类型
      */
     @Override
-    public void newWebView(String url, String title, boolean isBackByJs, boolean isFull,
+    public void newWebView(String url, String title, boolean isFull,
                            TitleStyle titleStyle) {
-        startAction(aty, url, title, isBackByJs, isFull, titleStyle);
+        startAction(aty, url, title, isFull, titleStyle);
     }
 
     /**

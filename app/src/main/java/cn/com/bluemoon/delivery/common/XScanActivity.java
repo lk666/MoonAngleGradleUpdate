@@ -61,7 +61,7 @@ public class XScanActivity extends ScanActivity {
                         url = url + "?token=" + token;
                     }
                 }
-                PublicUtil.openWebView(this, url, "", false);
+                PublicUtil.openWebView(this, url, "");
             }
             finish();
         } else if (ResultScanService.TYPE_TEXT.equals(result.getType())) {
