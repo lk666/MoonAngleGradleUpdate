@@ -1593,7 +1593,6 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("source", "moonAngel");
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/message/getNewMessage%s",
                 ApiClientHelper.getParamUrl());
@@ -1610,7 +1609,6 @@ public class DeliveryApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("source", "moonAngel");
         params.put("pageSize", pageSize);
         params.put("timestamp", timestamp);
         String jsonString = JSONObject.toJSONString(params);
@@ -1629,7 +1627,6 @@ public class DeliveryApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("source", "moonAngel");
         params.put("pageSize", pageSize);
         params.put("timestamp", timestamp);
         String jsonString = JSONObject.toJSONString(params);
@@ -1647,7 +1644,6 @@ public class DeliveryApi {
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("source", "moonAngel");
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/message/getMustReadInfoList%s",
                 ApiClientHelper.getParamUrl());
@@ -1663,7 +1659,6 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("source", "moonAngel");
         params.put("infoId", infoId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/message/getInfoDetail%s",
@@ -1680,7 +1675,6 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("source", "moonAngel");
         params.put("infoId", infoId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/message/getInformation%s",
@@ -1697,7 +1691,6 @@ public class DeliveryApi {
         }
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("source", "moonAngel");
         params.put("infoId", infoId);
         String jsonString = JSONObject.toJSONString(params);
         String url = String.format("bluemoon-control/message/readInfo%s",
