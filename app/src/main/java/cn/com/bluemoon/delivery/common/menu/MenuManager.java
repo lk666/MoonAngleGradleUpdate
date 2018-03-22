@@ -149,7 +149,7 @@ public class MenuManager {
                 String url = userRight.getUrl() + (!userRight.getUrl().contains("?") ? "?" : "&")
                         + "token=" + ClientStateManager.getLoginToken();
                 PublicUtil.openWebView(main, url, JsBridgeUtil.getTitleType(url) == 0 ? null :
-                        userRight.getMenuName(), false);
+                        userRight.getMenuName());
             } else {
                 PublicUtil.showToast(main.getString(R.string.main_tab_no_data));
             }
@@ -239,7 +239,7 @@ public class MenuManager {
             for (UserRight right : resultUserRight.rightsList) {
                 boolean isExit = false;
                 for (ModelNum num : modelNum) {
-                    if (right.getMenuCode().equals(num.getMenuId())) {
+                    if (num != null && right.getMenuCode().equals(num.getMenuId())) {
                         right.setAmount(num.getNum());
                         sum += num.getNum();
                         isExit = true;

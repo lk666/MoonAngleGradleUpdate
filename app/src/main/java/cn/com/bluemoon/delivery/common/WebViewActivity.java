@@ -31,6 +31,7 @@ import bluemoon.com.lib_x5.utils.JsBridgeUtil;
 import bluemoon.com.lib_x5.utils.JsUtil;
 import bluemoon.com.lib_x5.utils.ToastUtil;
 import cn.com.bluemoon.cardocr.lib.CaptureActivity;
+import cn.com.bluemoon.cardocr.lib.bean.AssetTagInfo;
 import cn.com.bluemoon.cardocr.lib.bean.BankInfo;
 import cn.com.bluemoon.cardocr.lib.bean.IdCardInfo;
 import cn.com.bluemoon.cardocr.lib.common.CardType;
@@ -41,6 +42,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.scan.ResultBankInfo;
 import cn.com.bluemoon.delivery.app.api.model.scan.ResultIDCard;
 import cn.com.bluemoon.delivery.common.photopicker.PhotoPickerActivity;
+import cn.com.bluemoon.delivery.entity.ResultAsset;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
 import cn.com.bluemoon.delivery.module.event.ScanEvent;
@@ -66,13 +68,11 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      * @param context    调用的类
      * @param url        网页地址
      * @param title      网页标题 title为null时标题隐藏
-     * @param isBackByJs 是否把回退按钮交给web端
      * @param style      标题栏的样式
      */
-    public static void startAction(Context context, String url, String title, boolean isBackByJs,
-                                   boolean isFull,
-                                   TitleStyle style) {
-        startAction(context, url, title, isBackByJs, isFull, style, null, WebViewActivity.class);
+    public static void startAction(Context context, String url, String title,
+                                   boolean isFull,TitleStyle style) {
+        startAction(context, url, title, isFull, style, null, WebViewActivity.class);
     }
 
     /**
@@ -120,13 +120,11 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      *
      * @param url        网页链接
      * @param title      网页标题
-     * @param isBackByJs 是否把返回键交给web端
      * @param titleStyle title类型
      */
     @Override
-    public void newWebView(String url, String title, boolean isBackByJs, boolean isFull,
-                           TitleStyle titleStyle) {
-        startAction(aty, url, title, isBackByJs, isFull, titleStyle);
+    public void newWebView(String url, String title, boolean isFull, TitleStyle titleStyle) {
+        startAction(aty, url, title, isFull, titleStyle);
     }
 
     /**
@@ -285,11 +283,6 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
         return JSONObject.toJSONString(new PublicLinkManager.ResultBean(true, code));
     }
 
-    @Override
-    public void onLoadUrl(String url) {
-        //打开网页的监听
-    }
-
     /**
      * 处理定位操作
      */
@@ -324,10 +317,22 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     }
 
     @Override
+    public void openAsset(int requestCode) {
+        CaptureActivity.startAction(this, CardType.TYPE_ASSET_TAG_OCR, requestCode);
+    }
+
+    @Override
     protected String getBankCardResult(Intent data) {
         //处理银行卡返回结果
         BankInfo bankInfo = (BankInfo) data.getSerializableExtra(CaptureActivity.BUNDLE_DATA);
         return JSONObject.toJSONString(new ResultBankInfo(bankInfo));
+    }
+
+    @Override
+    protected String getAssetResult(Intent data) {
+        //处理资产标签识别界面返回
+        AssetTagInfo assetTagInfo = (AssetTagInfo) data.getSerializableExtra(CaptureActivity.BUNDLE_DATA);
+        return JSONObject.toJSONString(new ResultAsset(assetTagInfo));
     }
 
     @Override

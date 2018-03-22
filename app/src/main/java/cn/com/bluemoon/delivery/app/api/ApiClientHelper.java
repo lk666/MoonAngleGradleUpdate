@@ -46,7 +46,7 @@ public class ApiClientHelper {
         params.add(new BasicNameValuePair("time", timeStamp));
         params.add(new BasicNameValuePair("appType", APP_TYPE));
         params.add(new BasicNameValuePair("lng", ClientStateManager.getLongitude()));
-        params.add(new BasicNameValuePair("lat", ClientStateManager.getLatitude()));
+        params.add(new BasicNameValuePair("lat=", ClientStateManager.getLatitude()));
         params.add(new BasicNameValuePair("hig", ClientStateManager.getAltitude()));
         return GetUrlParam(params, sign);
     }
