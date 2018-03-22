@@ -115,6 +115,7 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
         return FileUtil.getPathDown();
     }
 
+
     /**
      * 新建网页界面
      *
