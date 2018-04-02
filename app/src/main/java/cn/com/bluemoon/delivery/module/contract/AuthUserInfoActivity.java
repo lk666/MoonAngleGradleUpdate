@@ -30,10 +30,6 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn1View;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
-/**
- * Created by liangjiangli on 2018/1/10.
- */
-
 public class AuthUserInfoActivity extends BaseActivity {
 
     @Bind(R.id.txt_name)
@@ -142,7 +138,17 @@ public class AuthUserInfoActivity extends BaseActivity {
         } else if (requestCode == 4) {
             // 发送短信后，进行银行四要素认证
             toast(result.getResponseMsg());
+            pwdDialog.dismiss();
             SignatureActivity.startAct(AuthUserInfoActivity.this, FileUtil.getPathTemp(), 1);
+        }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        // 三次失败过后不弹窗了 todo code待定
+        if (requestCode == 4 && result.getResponseCode() == 13020) {
+            pwdDialog.dismiss();
         }
     }
 

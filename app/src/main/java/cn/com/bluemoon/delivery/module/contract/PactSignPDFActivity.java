@@ -20,6 +20,7 @@ import com.bluemoon.signature.lib.AbstractSignatureActivity;
 
 import java.io.File;
 
+import bluemoon.com.lib_x5.utils.download.X5DownUtil;
 import bluemoon.com.lib_x5.utils.download.X5DownloadManager;
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -134,6 +135,15 @@ public class PactSignPDFActivity extends BasePDFActivity {
             //注册下载广播
             downloadManager.registerReceiver();
         }
+
+        // 先删掉之前存在的
+        String fileName = X5DownUtil.getFileName(resultContractDetail.fileUrl);
+        String path = X5DownUtil.getFilePathWithName(FileUtil.getPathDown(), fileName);
+        File f = new File(path);
+        if (f.exists()) {
+            f.delete();
+        }
+
         downloadManager.downClick(resultContractDetail.fileUrl, FileUtil.getPathDown(), false);
     }
 
