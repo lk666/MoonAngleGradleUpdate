@@ -6,6 +6,15 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <ProgressBar
+        android:id="@+id/pb"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="4dp"
+        android:background="@color/white"
+        android:max="100"
+        android:visibility="gone"
+        android:progressDrawable="@drawable/pb_green"/>
     <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"

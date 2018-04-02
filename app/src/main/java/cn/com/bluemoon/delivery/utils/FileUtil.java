@@ -1,5 +1,8 @@
 package cn.com.bluemoon.delivery.utils;
 
+import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 import android.text.TextUtils;
 
@@ -113,5 +116,10 @@ public class FileUtil extends LibFileUtil {
         }
     }
 
-
+    public static void openFile(File file, Context context) {
+        Intent intent = new Intent();
+        intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
+        intent.setDataAndType(Uri.fromFile(file), "*/*");
+        context.startActivity(intent);
+    }
 }

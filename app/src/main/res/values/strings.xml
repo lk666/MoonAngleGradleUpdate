@@ -1715,4 +1715,8 @@
     <string name="your_number">您的号码</string>
     <string name="btn_no">暂不</string>
     <string name="btn_goods">好的</string>
+    <string name="download">下载</string>
+    <string name="open_file">打开文件所在位置</string>
+    <string name="download_contract">确认下载此合同？</string>
+    <string name="download_contract_again">该文件已存在，是否覆盖？</string>
 </resources>

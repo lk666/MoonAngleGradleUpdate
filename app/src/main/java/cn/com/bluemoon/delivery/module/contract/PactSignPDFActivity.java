@@ -8,22 +8,29 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.os.AsyncTask;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bluemoon.signature.lib.AbstractSignatureActivity;
 
+import java.io.File;
+
+import bluemoon.com.lib_x5.utils.download.X5DownloadManager;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.MenuFragment;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ContractApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultCheckPersonReal;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultContractDetail;
+import cn.com.bluemoon.delivery.app.api.model.contract.ResultContractDetailIOS;
 import cn.com.bluemoon.delivery.app.api.model.contract.ResultPDFPosition;
 import cn.com.bluemoon.delivery.common.PublicLinkManager;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
@@ -43,10 +50,22 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     @Bind(R.id.btn_sign)
     BMAngleBtn3View btnSign;
+    @Bind(R.id.pb)
+    ProgressBar pb;
     private String contractId;
     private Paint paint;
     private CommonActionBar mActionBar;
     private String phone = "";
+
+    /**
+     * 0--未签署
+     * 1--已签署，未提交
+     * 2--已签署，未下载
+     * 3--已签署，下载中
+     * 4--已签署，已下载
+     */
+    private int status = 0;
+    private final static int REQUEST_CODE_GET_CONTRACT_DETAIL = 0x777;
 
     public static void actStart(Context context, String contractId) {
         Intent intent = new Intent(context, PactSignPDFActivity.class);
@@ -63,16 +82,162 @@ public class PactSignPDFActivity extends BasePDFActivity {
     @Override
     protected void setActionBar(CommonActionBar titleBar) {
         super.setActionBar(titleBar);
-        titleBar.getTvRightView().setText(R.string.btn_submit);
         mActionBar = titleBar;
     }
-
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
-        showWaitDialog();
-        ContractApi.sendSmsBySign(getToken(), (WithContextTextHttpResponseHandler) getNewHandler
-                (3, ResultBase.class));
+
+        switch (status) {
+            // 已签署，未提交
+            case 1:
+                // 提交签名
+                showWaitDialog();
+                ContractApi.sendSmsBySign(getToken(), (WithContextTextHttpResponseHandler)
+                        getNewHandler
+                                (3, ResultBase.class));
+                break;
+            // 已签署，未下载
+            case 2:
+                DialogUtil.getCommonDialog(this, getString(R.string.title_tips),
+                        getString(R.string.download_contract),
+                        getString(R.string.btn_cancel),
+                        getString(R.string.btn_ok), null, new DialogInterface
+                                .OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                downloadPdf();
+                            }
+                        }).show();
+                break;
+            // 已签署，已下载
+            case 4:
+                DialogUtil.getCommonDialog(this, getString(R.string.title_tips),
+                        getString(R.string.download_contract_again),
+                        getString(R.string.btn_cancel),
+                        getString(R.string.btn_ok), null, new DialogInterface
+                                .OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                downloadPdf();
+                            }
+                        }).show();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void downloadPdf() {
+        if (downloadManager == null) {
+            downloadManager = new X5DownloadManager(this, this);
+            //注册下载广播
+            downloadManager.registerReceiver();
+        }
+        downloadManager.downClick(resultContractDetail.fileUrl, FileUtil.getPathDown(), false);
+    }
+
+    private long pdfId;
+
+    @Override
+    public void onDownStart(long downloadId, String url, String path) {
+        if (resultContractDetail != null && resultContractDetail.fileUrl != null &&
+                resultContractDetail.fileUrl.equals(url)) {
+            // 下载pdf
+            this.pdfId = downloadId;
+            startPdfTimer();
+        } else {
+            super.onDownStart(downloadId, url, path);
+        }
+    }
+
+    @Override
+    public void onLoading(long downloadId, String url, String path) {
+        if (resultContractDetail != null && resultContractDetail.fileUrl != null &&
+                resultContractDetail.fileUrl.equals(url)) {
+            // 下载pdf
+            this.pdfId = downloadId;
+            startPdfTimer();
+        } else {
+            super.onLoading(downloadId, url, path);
+        }
+    }
+
+    @Override
+    public void onDownFinish(long downloadId, String url, boolean isSuccess) {
+        if (this.pdfId == downloadId) {
+            stopPdfTimer();
+            this.pdfId = -1;//下载完成之后需要重置id
+            setPdfView(4);
+        } else {
+            super.onDownFinish(downloadId, url, isSuccess);
+        }
+    }
+
+    private volatile boolean isDownloading = false;
+
+    private void startPdfTimer() {
+        if (isImageType()) {
+            return;
+        }
+        if (downloadManager != null) {
+            isDownloading = false;
+            setPdfView(3);
+            pb.setProgress(0);
+            if (downloadTask != null && !downloadTask.isCancelled()) {
+                downloadTask.cancel(true);
+            }
+            downloadTask = new DownloadTask();
+            pb.postDelayed(new Runnable() {
+                @Override
+                public void run() {
+                    isDownloading = true;
+                    downloadTask.execute();
+                }
+            }, 100);
+        }
+    }
+
+
+    private void stopPdfTimer() {
+        isDownloading = true;
+        if (downloadTask != null && !downloadTask.isCancelled()) {
+            downloadTask.cancel(true);
+        }
+    }
+
+    /**
+     * 监听进度的任务
+     */
+    private DownloadTask downloadTask;
+
+    private class DownloadTask extends AsyncTask<Void, Integer, Void> {
+
+        @Override
+        protected Void doInBackground(Void... voids) {
+            while (isDownloading) {
+                if (downloadManager != null && pdfId != -1) {
+                    int[] ints = downloadManager.getBytesAndStatus(pdfId);
+                    int progress = (int) ((float) ints[0] / (float) ints[1] * (float) 100);
+                    publishProgress(progress);
+                }
+
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+            if (values != null && values.length > 0) {
+                pb.setProgress(values[0]);
+            }
+        }
     }
 
     @Override
@@ -89,7 +254,6 @@ public class PactSignPDFActivity extends BasePDFActivity {
     public void initView() {
         super.initView();
         initPaint();
-        // 2018/1/11 暂时用测试数据
         ContractApi.getPDFPosition(getToken(), contractId, (WithContextTextHttpResponseHandler)
                 getNewHandler(2, ResultPDFPosition.class));
     }
@@ -97,16 +261,25 @@ public class PactSignPDFActivity extends BasePDFActivity {
     @Override
     public void initData() {
         super.initData();
+        setPdfView(0);
         showWaitDialog();
         ContractApi.getContractDetailToIOS(getToken(), contractId,
-                (WithContextTextHttpResponseHandler) getNewHandler(0, ResultContractDetail.class));
+                (WithContextTextHttpResponseHandler) getNewHandler(0, ResultContractDetailIOS
+                        .class, false));
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        super.onSuccessException(requestCode, t);
+        if (requestCode == 0) {
+            hideWaitDialog();
+        }
     }
 
     @Override
     protected boolean isImageType() {
         return true;
     }
-
 
     private void initPaint() {
         paint = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -116,27 +289,142 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     @OnClick(R.id.btn_sign)
     public void onClick() {
-        showWaitDialog();
-        ContractApi.checkPersonReal(getToken(),
-                (WithContextTextHttpResponseHandler) getNewHandler(1, ResultCheckPersonReal.class));
+        switch (status) {
+            // 未签署
+            case 0:
+                showWaitDialog();
+                ContractApi.checkPersonReal(getToken(),
+                        (WithContextTextHttpResponseHandler) getNewHandler(1,
+                                ResultCheckPersonReal.class));
+                break;
+            // 已签署，已下载，打开文件夹
+            case 4:
+                FileUtil.openFile(getPdfFilePath(), this);
+                break;
+            default:
+                break;
+        }
     }
 
+
+    /**
+     * 0--未签署
+     * 1--已签署，未提交
+     * 2--已签署，未下载
+     * 3--已签署，下载中
+     * 4--已签署，已下载
+     */
+    private void setPdfView(int status) {
+        this.status = status;
+        switch (status) {
+            // 未签署
+            case 0:
+                // 设置右上角按钮
+                mActionBar.getTvRightView().setVisibility(View.GONE);
+                // 设置进度条
+                pb.setVisibility(View.GONE);
+                // 设置下方按钮
+                ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
+                btnSign.setText(getString(R.string.btn_doc_sign));
+                break;
+            // 已签署，未提交
+            case 1:
+                // 设置右上角按钮
+                mActionBar.getTvRightView().setVisibility(View.VISIBLE);
+                mActionBar.getTvRightView().setText(R.string.btn_submit);
+                // 设置进度条
+                pb.setVisibility(View.GONE);
+                // 设置下方按钮
+                ViewUtil.setViewVisibility(btnSign, View.GONE);
+                break;
+            // 已签署，未下载
+            case 2:
+                // 设置右上角按钮
+                mActionBar.getTvRightView().setVisibility(View.VISIBLE);
+                mActionBar.getTvRightView().setText(R.string.download);
+                // 设置进度条
+                pb.setVisibility(View.GONE);
+                // 设置下方按钮
+                ViewUtil.setViewVisibility(btnSign, View.GONE);
+                break;
+            // 已签署，下载中
+            case 3:
+                // 设置右上角按钮
+                mActionBar.getTvRightView().setVisibility(View.GONE);
+                // 设置进度条
+                pb.setVisibility(View.VISIBLE);
+                // 设置下方按钮
+                ViewUtil.setViewVisibility(btnSign, View.GONE);
+                break;
+            // 已签署，已下载
+            case 4:
+                // 设置右上角按钮
+                mActionBar.getTvRightView().setVisibility(View.VISIBLE);
+                mActionBar.getTvRightView().setText(R.string.download);
+                // 设置进度条
+                pb.setVisibility(View.GONE);
+                // 设置下方按钮
+                ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
+                btnSign.setText(getString(R.string.open_file));
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void handleSign() {
+        // 接口判断，已签署,已提交，判断是否已下载
+        if (isDownload()) {
+            setPdfView(4);
+        } else {
+            setPdfView(2);
+        }
+    }
+
+    private String getPdfFilePath() {
+        StringBuilder sb = new StringBuilder(FileUtil.getPathDown())
+                .append(File.separator).append(contractId).append("-")
+                .append(resultContractDetail.contractType);
+        if (MenuFragment.user != null) {
+            sb.append("-")
+                    .append(MenuFragment.user.getRealName()).append("-")
+                    .append(MenuFragment.user.getAccount());
+        }
+        sb.append(".pdf");
+        return sb.toString();
+    }
+
+    private boolean isDownload() {
+        return (new File(getPdfFilePath())).exists();
+    }
+
+    private ResultContractDetailIOS resultContractDetailIOS;
+    private ResultContractDetail resultContractDetail;
     @Override
     public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
         super.onSuccessResponse(requestCode, jsonString, result);
-        if (requestCode == 0) {
-            //获取详情
-            ResultContractDetail resultContractDetail = (ResultContractDetail) result;
-//            openFile(resultContractDetail.fileUrl, null, 0);
-            openFile(resultContractDetail.photoList);
-            if (STATUS_HAD.equals(resultContractDetail.contractStatus)) {
-                ViewUtil.setViewVisibility(btnSign, View.GONE);
+        //  已签署,已提交后，获取合同详情
+        if (requestCode == REQUEST_CODE_GET_CONTRACT_DETAIL) {
+            resultContractDetail = (ResultContractDetail) result;
+            // 判断是否已下载
+            handleSign();
+        } else if (requestCode == 0) {
+            // 获取详情
+            resultContractDetailIOS = (ResultContractDetailIOS) result;
+            //            openFile(resultContractDetailIOS.fileUrl, null, 0);
+            openFile(resultContractDetailIOS.photoList);
+            if (STATUS_HAD.equals(resultContractDetailIOS.contractStatus)) {
+                // 已签署,已提交，获取合同详情
+                ContractApi.getContractDetail(getToken(), contractId,
+                        (WithContextTextHttpResponseHandler) getNewHandler
+                                (REQUEST_CODE_GET_CONTRACT_DETAIL, ResultContractDetail.class));
             } else {
-                ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
+                setPdfView(0);
             }
         } else if (requestCode == 1) {
             final ResultCheckPersonReal resultBean = (ResultCheckPersonReal) result;
             phone = resultBean.mobileNo;
+
             if (!resultBean.isNeedReal) {
                 //跳转创建签名页
                 SignatureActivity.startAct(PactSignPDFActivity.this, FileUtil.getPathTemp(), 1);
@@ -148,7 +436,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         //跳转实名认证页
-                        AuthUserInfoActivity.startAct(PactSignPDFActivity.this,
+                        AuthUserInfoActivity.startAct(PactSignPDFActivity.this, contractId,
                                 resultBean, 2);
                     }
                 }).show();
@@ -171,6 +459,9 @@ public class PactSignPDFActivity extends BasePDFActivity {
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
+        if (requestCode == 0) {
+            hideWaitDialog();
+        }
         //如果电子合同已经撤销，需要刷新列表，则返回这个
         if ((requestCode == 0 && result.getResponseCode() == 13002) || (requestCode == 4 &&
                 result.getResponseCode() == 13008)) {
@@ -256,7 +547,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 bitmap = BitmapFactory.decodeFile(filePath);
                 int size = AppContext.getInstance().getDisplayWidth() / 5;
                 bitmap = LibImageUtil.scaleBitmap(bitmap, size, true);
-                mActionBar.getTvRightView().setVisibility(View.VISIBLE);
+                setPdfView(1);
             }
         }
 
@@ -268,8 +559,12 @@ public class PactSignPDFActivity extends BasePDFActivity {
             bitmap.recycle();
         }
         bitmap = null;
-        super.onDestroy();
+        if (pwdDialog != null) {
+            pwdDialog.dismiss();
+        }
 
+        stopPdfTimer();
+        super.onDestroy();
     }
 
     @Override
@@ -298,3 +593,4 @@ public class PactSignPDFActivity extends BasePDFActivity {
     }
 
 }
+

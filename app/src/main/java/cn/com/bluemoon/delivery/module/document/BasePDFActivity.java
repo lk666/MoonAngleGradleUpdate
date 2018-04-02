@@ -54,7 +54,7 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
     protected TextView txtContent;
     protected RelativeLayout layoutProgress;
 
-    private X5DownloadManager downloadManager;
+    protected X5DownloadManager downloadManager;
     private long downloadId = -1;
     private ScheduledExecutorService scheduledExecutorService;
 
@@ -171,7 +171,7 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         return false;
     }
 
-    private void down(String url) {
+    protected void down(String url) {
         if (downloadManager != null) {
             downloadManager.downClick(url, FileUtil.getPathDown(), false);
         }
@@ -221,7 +221,6 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
 
     @Override
     public void onDownFinish(long downloadId, String url, boolean isSuccess) {
-        // TODO: 2018/1/22 ID 相等时才执行操作，防止接收到其他页面的下载结果，这里需要优化
         if (this.downloadId == downloadId) {
             stopTimer();
             this.downloadId = -1;//下载完成之后需要重置id
@@ -351,6 +350,8 @@ public abstract class BasePDFActivity extends BaseActivity implements View.OnCli
         if (downloadManager != null) {
             //注销下载广播
             downloadManager.unregisterReceiver();
+            downloadManager.release();
+            downloadManager = null;
         }
         stopTimer();
         super.onDestroy();

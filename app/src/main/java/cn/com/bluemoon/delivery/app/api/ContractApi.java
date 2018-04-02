@@ -3,16 +3,11 @@ package cn.com.bluemoon.delivery.app.api;
 import android.text.TextUtils;
 import android.util.Base64;
 
-import org.apache.http.Header;
-
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 
 /**
@@ -22,18 +17,42 @@ import cn.com.bluemoon.lib.utils.LibFileUtil;
 public class ContractApi extends BaseApi {
 
     /**
-     * 4.进行实名认证
+     * 5.发送短信后，进行银行四要素认证
      *
-     * @param token token身份检验码 String
+     * @param token      token身份检验码 String
+     * @param contractId 合同编码 String
+     * @param validCode  验证码 String
      */
-    public static void doRealNameCheck(String token,
+    public static void doBankCardCheck(String token, String contractId, String validCode,
                                        WithContextTextHttpResponseHandler handler) {
-        if (TextUtils.isEmpty(token)) {
+        if (TextUtils.isEmpty(token) || TextUtils.isEmpty(contractId) || TextUtils.isEmpty
+                (validCode)) {
             onError(handler);
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
+        params.put("contractId", contractId);
+        params.put("validCode", contractId);
+        postRequest("5.发送短信后，进行银行四要素认证", params, "/bmhr-control/contract/doBankCardCheck%s",
+                handler);
+    }
+
+    /**
+     * 4.进行实名认证
+     *
+     * @param token token身份检验码 String
+     * @param contractId 合同编码 String
+     */
+    public static void doRealNameCheck(String token, String contractId,
+                                       WithContextTextHttpResponseHandler handler) {
+        if (TextUtils.isEmpty(token) || TextUtils.isEmpty(contractId)) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("contractId", contractId);
         postRequest("进行实名认证", params, "bmhr-control/contract/doRealNameCheck%s", handler);
     }
 
