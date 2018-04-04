@@ -656,6 +656,7 @@
             android:name="com.baidu.location.f"
             android:enabled="true"
             android:process=":remote"/>
+        <service android:name=".module.contract.DownLoadPdfService"/>
 
         <!-- 在百度开发者中心查询应用的API Key -->
         <meta-data

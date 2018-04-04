@@ -146,7 +146,7 @@ public class AuthUserInfoActivity extends BaseActivity {
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
-        // 三次失败过后不弹窗了 todo code待定
+        // 三次失败过后不弹窗了
         if (requestCode == 4 && result.getResponseCode() == 13020) {
             pwdDialog.dismiss();
         }
@@ -176,6 +176,8 @@ public class AuthUserInfoActivity extends BaseActivity {
                                 String pwd = etCode.getText().toString();
                                 if (TextUtils.isEmpty(pwd)) {
                                     toast(R.string.err_valid_code_empty);
+                                } else if (pwd.length() != 6) {
+                                    toast(R.string.err_valid_code_empty_6);
                                 } else {
                                     showWaitDialog(false);
                                     ContractApi.doBankCardCheck(getToken(), contractId, pwd,

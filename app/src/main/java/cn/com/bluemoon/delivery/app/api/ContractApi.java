@@ -33,7 +33,7 @@ public class ContractApi extends BaseApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("contractId", contractId);
-        params.put("validCode", contractId);
+        params.put("validCode", validCode);
         postRequest("5.发送短信后，进行银行四要素认证", params, "/bmhr-control/contract/doBankCardCheck%s",
                 handler);
     }

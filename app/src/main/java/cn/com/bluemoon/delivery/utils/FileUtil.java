@@ -7,6 +7,10 @@ import android.os.Environment;
 import android.text.TextUtils;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 
@@ -72,20 +76,18 @@ public class FileUtil extends LibFileUtil {
      * 初始化文件夹
      */
     public static void init() {
-        if (checkExternalSDExists()) {
-            File f = new File(PATH_PHOTO);
-            f.mkdirs();
-            f = new File(PATH_TEMP);
-            if (!f.mkdirs()) {
-                deleteFolderFile(PATH_TEMP, false);
-            }
-            f = new File(PATH_CACHE);
-            f.mkdirs();
-            f = new File(PATH_CAMERA);
-            f.mkdirs();
-            f = new File(PATH_DOWN);
-            f.mkdirs();
+        File f = new File(PATH_PHOTO);
+        f.mkdirs();
+        f = new File(PATH_TEMP);
+        if (!f.mkdirs()) {
+            deleteFolderFile(PATH_TEMP, false);
         }
+        f = new File(PATH_CACHE);
+        f.mkdirs();
+        f = new File(PATH_CAMERA);
+        f.mkdirs();
+        f = new File(PATH_DOWN);
+        f.mkdirs();
     }
 
     /**
@@ -116,10 +118,34 @@ public class FileUtil extends LibFileUtil {
         }
     }
 
-    public static void openFile(File file, Context context) {
+    public static void openFileDir(File file, Context context) {
         Intent intent = new Intent();
         intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
         intent.setDataAndType(Uri.fromFile(file), "*/*");
         context.startActivity(intent);
+    }
+
+    /**
+     * 复制文件（非目录）
+     *
+     * @param srcFile  要复制的源文件
+     * @param destFile 复制到的目标文件
+     * @return
+     */
+    public static boolean copyFile(String srcFile, String destFile) {
+        try {
+            InputStream streamFrom = new FileInputStream(srcFile);
+            OutputStream streamTo = new FileOutputStream(destFile);
+            byte buffer[] = new byte[1024];
+            int len;
+            while ((len = streamFrom.read(buffer)) > 0) {
+                streamTo.write(buffer, 0, len);
+            }
+            streamFrom.close();
+            streamTo.close();
+            return true;
+        } catch (Exception ex) {
+            return false;
+        }
     }
 }

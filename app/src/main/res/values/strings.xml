@@ -1719,4 +1719,5 @@
     <string name="open_file">打开文件所在位置</string>
     <string name="download_contract">确认下载此合同？</string>
     <string name="download_contract_again">该文件已存在，是否覆盖？</string>
+    <string name="err_valid_code_empty_6">请输入6位数字验证码</string>
 </resources>

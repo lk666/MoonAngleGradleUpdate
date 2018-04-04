@@ -8,7 +8,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.os.AsyncTask;
+import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,10 +18,11 @@ import android.widget.TextView;
 
 import com.bluemoon.signature.lib.AbstractSignatureActivity;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.io.File;
 
-import bluemoon.com.lib_x5.utils.download.X5DownUtil;
-import bluemoon.com.lib_x5.utils.download.X5DownloadManager;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.AppContext;
@@ -129,124 +130,56 @@ public class PactSignPDFActivity extends BasePDFActivity {
         }
     }
 
+    /**
+     * 文件名（不含.pdf）
+     */
+    private String getPdfFileName() {
+        StringBuilder sb = new StringBuilder(contractId).append("-")
+                .append(resultContractDetail.contractType);
+        if (MenuFragment.user != null) {
+            sb.append("-")
+                    .append(MenuFragment.user.getRealName()).append("-")
+                    .append(MenuFragment.user.getAccount());
+        }
+        return sb.toString();
+    }
+
     private void downloadPdf() {
-        if (downloadManager == null) {
-            downloadManager = new X5DownloadManager(this, this);
-            //注册下载广播
-            downloadManager.registerReceiver();
-        }
-
-        // 先删掉之前存在的
-        String fileName = X5DownUtil.getFileName(resultContractDetail.fileUrl);
-        String path = X5DownUtil.getFilePathWithName(FileUtil.getPathDown(), fileName);
-        File f = new File(path);
-        if (f.exists()) {
-            f.delete();
-        }
-
-        downloadManager.downClick(resultContractDetail.fileUrl, FileUtil.getPathDown(), false);
-    }
-
-    private long pdfId;
-
-    @Override
-    public void onDownStart(long downloadId, String url, String path) {
-        if (resultContractDetail != null && resultContractDetail.fileUrl != null &&
-                resultContractDetail.fileUrl.equals(url)) {
-            // 下载pdf
-            this.pdfId = downloadId;
-            startPdfTimer();
-        } else {
-            super.onDownStart(downloadId, url, path);
-        }
+        setPdfView(3);
+        Intent i = new Intent(this, DownLoadPdfService.class);
+        i.putExtra("url", resultContractDetail.fileUrl);
+        i.putExtra("name", getPdfFileName());
+        startService(i);
     }
 
     @Override
-    public void onLoading(long downloadId, String url, String path) {
-        if (resultContractDetail != null && resultContractDetail.fileUrl != null &&
-                resultContractDetail.fileUrl.equals(url)) {
-            // 下载pdf
-            this.pdfId = downloadId;
-            startPdfTimer();
-        } else {
-            super.onLoading(downloadId, url, path);
-        }
+    protected boolean isUseEventBus() {
+        return true;
     }
 
-    @Override
-    public void onDownFinish(long downloadId, String url, boolean isSuccess) {
-        if (this.pdfId == downloadId) {
-            stopPdfTimer();
-            this.pdfId = -1;//下载完成之后需要重置id
-            setPdfView(4);
-        } else {
-            super.onDownFinish(downloadId, url, isSuccess);
-        }
-    }
-
-    private volatile boolean isDownloading = false;
-
-    private void startPdfTimer() {
-        if (isImageType()) {
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(DownLoadPdfService.DownloadEvent event) {
+        if (event == null) {
             return;
         }
-        if (downloadManager != null) {
-            isDownloading = false;
-            setPdfView(3);
-            pb.setProgress(0);
-            if (downloadTask != null && !downloadTask.isCancelled()) {
-                downloadTask.cancel(true);
-            }
-            downloadTask = new DownloadTask();
-            pb.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    isDownloading = true;
-                    downloadTask.execute();
-                }
-            }, 100);
-        }
-    }
 
-
-    private void stopPdfTimer() {
-        isDownloading = true;
-        if (downloadTask != null && !downloadTask.isCancelled()) {
-            downloadTask.cancel(true);
-        }
-    }
-
-    /**
-     * 监听进度的任务
-     */
-    private DownloadTask downloadTask;
-
-    private class DownloadTask extends AsyncTask<Void, Integer, Void> {
-
-        @Override
-        protected Void doInBackground(Void... voids) {
-            while (isDownloading) {
-                if (downloadManager != null && pdfId != -1) {
-                    int[] ints = downloadManager.getBytesAndStatus(pdfId);
-                    int progress = (int) ((float) ints[0] / (float) ints[1] * (float) 100);
-                    publishProgress(progress);
-                }
-
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-
-            return null;
-        }
-
-        @Override
-        protected void onProgressUpdate(Integer... values) {
-            if (values != null && values.length > 0) {
-                pb.setProgress(values[0]);
-            }
+        switch (event.progress) {
+            // 开始下载，用于记录downloadId
+            case -1:
+                //                event.downloadId
+                break;
+            // 下载完成
+            case -2:
+                setPdfView(4);
+                break;
+            // 下载失败
+            case -3:
+                setPdfView(2);
+                break;
+            // 进度报告
+            default:
+                pb.setProgress(event.progress);
+                break;
         }
     }
 
@@ -309,7 +242,11 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 break;
             // 已签署，已下载，打开文件夹
             case 4:
-                FileUtil.openFile(getPdfFilePath(), this);
+                Intent intent = new Intent();
+                intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
+                intent.setDataAndType(Uri.fromFile(new File(FileUtil.getPathDown())),
+                        "application/pdf");
+                startActivity(intent);
                 break;
             default:
                 break;
@@ -516,6 +453,8 @@ public class PactSignPDFActivity extends BasePDFActivity {
                                 String pwd = etCode.getText().toString();
                                 if (TextUtils.isEmpty(pwd)) {
                                     toast(R.string.err_valid_code_empty);
+                                } else if (pwd.length() != 6) {
+                                    toast(R.string.err_valid_code_empty_6);
                                 } else {
                                     showWaitDialog(false);
                                     //提交签名
@@ -572,8 +511,6 @@ public class PactSignPDFActivity extends BasePDFActivity {
         if (pwdDialog != null) {
             pwdDialog.dismiss();
         }
-
-        stopPdfTimer();
         super.onDestroy();
     }
 
