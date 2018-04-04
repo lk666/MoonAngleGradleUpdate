@@ -45,6 +45,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseMainI
 
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
+    private CommonActionBar mActionBar;
 
     @Override
     protected void onDestroy() {
@@ -81,7 +82,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseMainI
 
     private void initCustomActionBar() {
         if (!TextUtils.isEmpty(getTitleString())) {
-            CommonActionBar titleBar = new CommonActionBar(getActionBar(), new IActionBarListener
+            mActionBar = new CommonActionBar(getActionBar(), new IActionBarListener
                     () {
 
                 @Override
@@ -100,7 +101,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseMainI
                 }
 
             });
-            setActionBar(titleBar);
+            setActionBar(mActionBar);
         }
     }
 
@@ -350,6 +351,12 @@ public abstract class BaseActivity extends FragmentActivity implements BaseMainI
      * 设置自定义ActionBar，如右图标
      */
     protected void setActionBar(CommonActionBar titleBar) {
+    }
+
+
+    final public void updateTitle(String title) {
+        if (mActionBar != null)
+            mActionBar.getTitleView().setText(title);
     }
 
     /**

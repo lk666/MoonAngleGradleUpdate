@@ -14,7 +14,7 @@ public class ResultContractDetailIOS extends ResultBase {
      * contractStatus : 测试内容54ah
      * fileUrl : 测试内容g3l4
      */
-
+    public String contractType;
     public String contractStatus;
     public List<String> photoList;
 }

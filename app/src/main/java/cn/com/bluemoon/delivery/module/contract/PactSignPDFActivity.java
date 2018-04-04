@@ -185,7 +185,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.doc_pdf_detail);
+        return "";
     }
 
     @Override
@@ -359,6 +359,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
             // 获取详情
             resultContractDetailIOS = (ResultContractDetailIOS) result;
             //            openFile(resultContractDetailIOS.fileUrl, null, 0);
+            updateTitle(getString(R.string.doc_pdf_detail, resultContractDetailIOS.contractType));
             openFile(resultContractDetailIOS.photoList);
             if (STATUS_HAD.equals(resultContractDetailIOS.contractStatus)) {
                 // 已签署,已提交，获取合同详情

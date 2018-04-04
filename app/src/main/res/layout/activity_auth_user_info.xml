@@ -24,6 +24,13 @@
         android:layout_height="wrap_content"
         app:cell_text_txt_title="@string/contract_user_mobile" />
 
+    <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+        android:id="@+id/txt_bank"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:cell_text_txt_title="@string/contract_bank"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

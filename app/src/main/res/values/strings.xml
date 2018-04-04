@@ -1699,13 +1699,14 @@
     <string name="down_loading">数据加载中&#8230;</string>
     <string name="down_progress">%s%%</string>
     <string name="btn_doc_sign">签署</string>
-    <string name="doc_pdf_detail">合同/协议详情</string>
+    <string name="doc_pdf_detail">%s详情</string>
     <string name="create_sign_title">创建签名</string>
     <string name="use_signature">采用</string>
     <string name="auth_user_info_title">实名认证</string>
     <string name="contract_user_name">姓名</string>
     <string name="contract_card_id">身份证号</string>
     <string name="contract_user_mobile">手机号</string>
+    <string name="contract_bank">银行卡号</string>
     <string name="import_tips">特别提醒</string>
     <string name="apply_auth_info">申请实名认证</string>
     <string name="contract_cb_content">以上信息无误</string>

@@ -38,6 +38,8 @@ public class AuthUserInfoActivity extends BaseActivity {
     BmCellTextView txtCardId;
     @Bind(R.id.txt_phone)
     BmCellTextView txtPhone;
+    @Bind(R.id.txt_bank)
+    BmCellTextView txtBank;
     @Bind(R.id.cb_tnc)
     CheckBox cbTnc;
     @Bind(R.id.btn_confirm)
@@ -117,6 +119,9 @@ public class AuthUserInfoActivity extends BaseActivity {
         txtName.setContentText(resultCheckPersonReal.empName);
         txtCardId.setContentText(resultCheckPersonReal.idCard);
         txtPhone.setContentText(resultCheckPersonReal.mobileNo);
+        txtBank.setContentText(resultCheckPersonReal.bankCard);
+        ViewUtil.setViewVisibility(txtBank, TextUtils.isEmpty(resultCheckPersonReal.bankCard) ?
+                View.GONE : View.VISIBLE);
         RemarkAdapter adapter = new RemarkAdapter(this);
         adapter.setList(resultCheckPersonReal.remarkText);
         lvRemark.setAdapter(adapter);
