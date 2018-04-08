@@ -45,7 +45,7 @@ public abstract class BaseActivity extends FragmentActivity implements BaseMainI
 
     private ProgressDialog waitDialog;
     protected LayoutInflater mInflater;
-    private CommonActionBar mActionBar;
+    protected CommonActionBar mActionBar;
 
     @Override
     protected void onDestroy() {

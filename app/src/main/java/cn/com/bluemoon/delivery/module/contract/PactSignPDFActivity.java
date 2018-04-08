@@ -56,7 +56,6 @@ public class PactSignPDFActivity extends BasePDFActivity {
     ProgressBar pb;
     private String contractId;
     private Paint paint;
-    private CommonActionBar mActionBar;
     private String phone = "";
 
     /**
@@ -81,11 +80,6 @@ public class PactSignPDFActivity extends BasePDFActivity {
         contractId = getIntent().getStringExtra(PublicLinkManager.ID);
     }
 
-    @Override
-    protected void setActionBar(CommonActionBar titleBar) {
-        super.setActionBar(titleBar);
-        mActionBar = titleBar;
-    }
     @Override
     protected void onActionBarBtnRightClick() {
         super.onActionBarBtnRightClick();
@@ -185,7 +179,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     @Override
     protected String getTitleString() {
-        return "";
+        return "详情";
     }
 
     @Override
