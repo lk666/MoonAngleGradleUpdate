@@ -1721,4 +1721,6 @@
     <string name="download_contract">确认下载此合同？</string>
     <string name="download_contract_again">该文件已存在，是否覆盖？</string>
     <string name="err_valid_code_empty_6">请输入6位数字验证码</string>
+    <string name="download_file">下载文件</string>
+    <string name="no_file_manager">未安装文件管理器</string>
 </resources>
