@@ -37,7 +37,6 @@ import cn.com.bluemoon.delivery.app.api.model.contract.ResultPDFPosition;
 import cn.com.bluemoon.delivery.common.PublicLinkManager;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.module.document.BasePDFActivity;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -49,6 +48,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     private final static String STATUS_WAIT = "wait_sign";
     private final static String STATUS_HAD = "had_sign";
+    private static final int REQUEST_CODE_GET_PDF = 0x7777;
 
     @Bind(R.id.btn_sign)
     BMAngleBtn3View btnSign;
@@ -236,11 +236,17 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 break;
             // 已签署，已下载，打开文件夹
             case 4:
-                Intent intent = new Intent();
-                intent.setAction(android.content.Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.addCategory(Intent.CATEGORY_OPENABLE);
                 intent.setDataAndType(Uri.fromFile(new File(FileUtil.getPathDown())),
                         "application/pdf");
-                startActivity(intent);
+                try {
+                    startActivityForResult(Intent.createChooser(intent,
+                            getString(R.string.download_file)),
+                            REQUEST_CODE_GET_PDF);
+                } catch (android.content.ActivityNotFoundException ex) {
+                    toast(getString(R.string.no_file_manager));
+                }
                 break;
             default:
                 break;
@@ -492,9 +498,13 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 int size = AppContext.getInstance().getDisplayWidth() / 5;
                 bitmap = LibImageUtil.scaleBitmap(bitmap, size, true);
                 setPdfView(1);
+            } else if (REQUEST_CODE_GET_PDF == requestCode) {
+                // 获取pdf
+                Uri selectedMediaUri = data.getData();
+                String path = FileUtil.getPath(this, selectedMediaUri);
+                FileUtil.openFile(this, path, "application/pdf");
             }
         }
-
     }
 
     @Override
