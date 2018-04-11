@@ -65,7 +65,7 @@ public class NoticeNewShowActivity extends WebViewActivity {
             return;
         }
         isRead = false;
-        String url = String.format(BuildConfig.H5_DOMAIN,"FE/angue/noticeDetail/"+ids.get(0));
+        String url = String.format(BuildConfig.H5_DOMAIN,"FE/angue/noticeDetail/"+ids.get(0))+"?isRequire=true";
         webView.loadUrl(url);
     }
 
