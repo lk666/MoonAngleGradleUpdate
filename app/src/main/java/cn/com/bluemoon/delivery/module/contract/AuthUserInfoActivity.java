@@ -156,11 +156,18 @@ public class AuthUserInfoActivity extends BaseActivity {
         super.onErrorResponse(requestCode, result);
         // 三次失败过后不弹窗了
         if (requestCode == 4 && pwdDialog != null) {
+            final EditText etCode = (EditText) pwdDialog.getWindow().findViewById(R.id.et_psw);
             if (result.getResponseCode() == 13020) {
+                // 验证失败
+                etCode.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ViewUtil.hideKeyboard(etCode);
+                    }
+                });
                 pwdDialog.dismiss();
             } else if (result.getResponseCode() == 13010) {
                 // 验证失败
-                final EditText etCode = (EditText) pwdDialog.getWindow().findViewById(R.id.et_psw);
                 etCode.post(new Runnable() {
                     @Override
                     public void run() {
@@ -202,7 +209,7 @@ public class AuthUserInfoActivity extends BaseActivity {
                                     ContractApi.doBankCardCheck(getToken(), contractId, pwd,
                                             (WithContextTextHttpResponseHandler) getNewHandler(4,
                                                     ResultBase.class));
-                                   }
+                                }
                             }
                         })
                 .setPositiveButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
