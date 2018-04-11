@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Environment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,7 +10,6 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.FrameLayout;
 
-import com.bluemoon.signature.lib.AbstractSignatureActivity;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -28,7 +26,6 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.card.ResultIsPunchCard;
-import cn.com.bluemoon.delivery.app.api.model.contract.ResultCheckPersonReal;
 import cn.com.bluemoon.delivery.app.api.model.message.Info;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultInfos;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultNewInfo;
@@ -38,10 +35,8 @@ import cn.com.bluemoon.delivery.common.menu.MenuCode;
 import cn.com.bluemoon.delivery.common.menu.MenuManager;
 import cn.com.bluemoon.delivery.common.menu.MenuSection;
 import cn.com.bluemoon.delivery.module.base.BaseSlidingActivity;
-import cn.com.bluemoon.delivery.module.contract.AuthUserInfoActivity;
-import cn.com.bluemoon.delivery.module.contract.SignatureActivity;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
-import cn.com.bluemoon.delivery.module.notice.NoticeShowActivity;
+import cn.com.bluemoon.delivery.module.notice.NoticeNewShowActivity;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
 import cn.com.bluemoon.delivery.utils.Constants;
@@ -258,7 +253,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     for (Info info : list) {
                         unReadList.add(info.getInfoId());
                     }
-                    NoticeShowActivity.startAction(this, unReadList);
+                    NoticeNewShowActivity.startAction(this,  "通知详情", unReadList);
                 }
                 break;
         }

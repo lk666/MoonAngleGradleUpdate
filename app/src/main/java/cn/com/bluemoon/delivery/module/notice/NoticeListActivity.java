@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.notice;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,18 +24,19 @@ import org.apache.http.protocol.HTTP;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.AppContext;
+import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.message.Info;
 import cn.com.bluemoon.delivery.app.api.model.message.ResultInfos;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.common.WebViewActivity;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
@@ -252,8 +252,11 @@ public class NoticeListActivity extends Activity {
             convertView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    NoticeDetailActivity.startAction((Activity) context, lists.get(position)
-                            .getInfoId(),Constants.TYPE_NOTICE, 0);
+                    String url = String.format(BuildConfig.H5_DOMAIN,"FE/angue/noticeDetail/"+lists.get(position)
+                            .getInfoId());
+                    WebViewActivity.startAction(context, url, "通知详情",false, null);
+                    /*NoticeDetailActivity.startAction((Activity) context, lists.get(position)
+                            .getInfoId(),Constants.TYPE_NOTICE, 0);*/
                     lists.get(position).isRead = true;
                     adapter.notifyDataSetChanged();
                 }
