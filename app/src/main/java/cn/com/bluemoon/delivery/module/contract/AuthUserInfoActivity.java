@@ -188,6 +188,7 @@ public class AuthUserInfoActivity extends BaseActivity {
                                     ContractApi.doBankCardCheck(getToken(), contractId, pwd,
                                             (WithContextTextHttpResponseHandler) getNewHandler(4,
                                                     ResultBase.class));
+                                    ViewUtil.hideKeyboard(etCode);
                                 }
                             }
                         })
