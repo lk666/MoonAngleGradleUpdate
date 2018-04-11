@@ -8,11 +8,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.net.Uri;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,6 +40,7 @@ import cn.com.bluemoon.delivery.module.document.BasePDFActivity;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
@@ -48,8 +49,9 @@ public class PactSignPDFActivity extends BasePDFActivity {
 
     private final static String STATUS_WAIT = "wait_sign";
     private final static String STATUS_HAD = "had_sign";
-    private static final int REQUEST_CODE_GET_PDF = 0x7777;
 
+    @Bind(R.id.ll_open)
+    LinearLayout llOpen;
     @Bind(R.id.btn_sign)
     BMAngleBtn3View btnSign;
     @Bind(R.id.pb)
@@ -151,6 +153,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
         return true;
     }
 
+    private boolean isFinishDialogShow = false;
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onMessageEvent(DownLoadPdfService.DownloadEvent event) {
         if (event == null) {
@@ -164,7 +167,19 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 break;
             // 下载完成
             case -2:
-                setPdfView(4);
+                if (!isFinishDialogShow) {
+                    isFinishDialogShow = true;
+                    DialogUtil.getCommonDialog(this, getString(R.string.title_tips),
+                            getString(R.string.download_to, getPdfFilePath()),
+                            getString(R.string.btn_ok_space), null, new DialogInterface
+                                    .OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    isFinishDialogShow = false;
+                                }
+                            }, null).show();
+                    setPdfView(4);
+                }
                 break;
             // 下载失败
             case -3:
@@ -191,6 +206,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
     public void initView() {
         super.initView();
         initPaint();
+        llOpen.setBackgroundDrawable(new CircleShadowDrawable());
         ContractApi.getPDFPosition(getToken(), contractId, (WithContextTextHttpResponseHandler)
                 getNewHandler(2, ResultPDFPosition.class));
     }
@@ -224,31 +240,24 @@ public class PactSignPDFActivity extends BasePDFActivity {
         paint.setDither(true);
     }
 
-    @OnClick(R.id.btn_sign)
-    public void onClick() {
-        switch (status) {
-            // 未签署
-            case 0:
-                showWaitDialog();
-                ContractApi.checkPersonReal(getToken(),
-                        (WithContextTextHttpResponseHandler) getNewHandler(1,
-                                ResultCheckPersonReal.class));
-                break;
-            // 已签署，已下载，打开文件夹
-            case 4:
-                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                intent.addCategory(Intent.CATEGORY_OPENABLE);
-                intent.setDataAndType(Uri.fromFile(new File(FileUtil.getPathDown())),
-                        "application/pdf");
+
+    @OnClick({R.id.ll_open, R.id.btn_sign})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.ll_open:
+                // 已签署，已下载，打开文件夹
                 try {
-                    startActivityForResult(Intent.createChooser(intent,
-                            getString(R.string.download_file)),
-                            REQUEST_CODE_GET_PDF);
+                    LibFileUtil.openFile(this, getPdfFilePath(), "application/pdf");
                 } catch (android.content.ActivityNotFoundException ex) {
                     toast(getString(R.string.no_file_manager));
                 }
                 break;
-            default:
+            case R.id.btn_sign:
+                // 未签署
+                showWaitDialog();
+                ContractApi.checkPersonReal(getToken(),
+                        (WithContextTextHttpResponseHandler) getNewHandler(1,
+                                ResultCheckPersonReal.class));
                 break;
         }
     }
@@ -272,6 +281,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 pb.setVisibility(View.GONE);
                 // 设置下方按钮
                 ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
+                ViewUtil.setViewVisibility(llOpen, View.GONE);
                 btnSign.setText(getString(R.string.btn_doc_sign));
                 break;
             // 已签署，未提交
@@ -283,6 +293,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 pb.setVisibility(View.GONE);
                 // 设置下方按钮
                 ViewUtil.setViewVisibility(btnSign, View.GONE);
+                ViewUtil.setViewVisibility(llOpen, View.GONE);
                 break;
             // 已签署，未下载
             case 2:
@@ -293,6 +304,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 pb.setVisibility(View.GONE);
                 // 设置下方按钮
                 ViewUtil.setViewVisibility(btnSign, View.GONE);
+                ViewUtil.setViewVisibility(llOpen, View.GONE);
                 break;
             // 已签署，下载中
             case 3:
@@ -302,6 +314,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 pb.setVisibility(View.VISIBLE);
                 // 设置下方按钮
                 ViewUtil.setViewVisibility(btnSign, View.GONE);
+                ViewUtil.setViewVisibility(llOpen, View.GONE);
                 break;
             // 已签署，已下载
             case 4:
@@ -311,7 +324,8 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 // 设置进度条
                 pb.setVisibility(View.GONE);
                 // 设置下方按钮
-                ViewUtil.setViewVisibility(btnSign, View.VISIBLE);
+                ViewUtil.setViewVisibility(btnSign, View.GONE);
+                ViewUtil.setViewVisibility(llOpen, View.VISIBLE);
                 btnSign.setText(getString(R.string.open_file));
                 break;
             default:
@@ -498,11 +512,6 @@ public class PactSignPDFActivity extends BasePDFActivity {
                 int size = AppContext.getInstance().getDisplayWidth() / 5;
                 bitmap = LibImageUtil.scaleBitmap(bitmap, size, true);
                 setPdfView(1);
-            } else if (REQUEST_CODE_GET_PDF == requestCode) {
-                // 获取pdf
-                Uri selectedMediaUri = data.getData();
-                String path = FileUtil.getPath(this, selectedMediaUri);
-                FileUtil.openFile(this, path, "application/pdf");
             }
         }
     }
@@ -532,7 +541,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
     @Override
     public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
         if (displayedPage == getPageCount() - 1 && bitmap != null) {
-//            canvas.drawBitmap(bitmap, pageWidth * 0.8f, pageHeight * 0.8f, null);
+            //            canvas.drawBitmap(bitmap, pageWidth * 0.8f, pageHeight * 0.8f, null);
 
             Rect srcRect = new Rect(0, 0, (int) pageWidth, (int) pageHeight);
             int left = (int) (pageWidth * widthP);

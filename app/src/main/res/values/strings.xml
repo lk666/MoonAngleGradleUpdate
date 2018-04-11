@@ -1716,11 +1716,14 @@
     <string name="your_number">您的号码</string>
     <string name="btn_no">暂不</string>
     <string name="btn_goods">好的</string>
+
     <string name="download">下载</string>
     <string name="open_file">打开文件所在位置</string>
     <string name="download_contract">确认下载此合同？</string>
     <string name="download_contract_again">该文件已存在，是否覆盖？</string>
     <string name="err_valid_code_empty_6">请输入6位数字验证码</string>
-    <string name="download_file">下载文件</string>
-    <string name="no_file_manager">未安装文件管理器</string>
+    <string name="no_file_manager">无法打开此pdf文件</string>
+    <string name="download_to">已成功下载到%s</string>
+    <string name="open">打开</string>
+
 </resources>

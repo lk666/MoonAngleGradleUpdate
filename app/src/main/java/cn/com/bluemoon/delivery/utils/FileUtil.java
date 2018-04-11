@@ -12,6 +12,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 
 /**
@@ -143,9 +144,31 @@ public class FileUtil extends LibFileUtil {
             }
             streamFrom.close();
             streamTo.close();
+            notifyFile(AppContext.getInstance(), new File(destFile));
             return true;
         } catch (Exception ex) {
             return false;
         }
+    }
+
+
+    /**
+     * 删除文件并通知媒体库更新
+     */
+    public static void deleteFile(Context context, File file) {
+        if (file == null || !file.exists()) {
+            return;
+        }
+        file.delete();
+        notifyFile(context, file);
+    }
+
+    /**
+     * 通知媒体库更新
+     */
+    public static void notifyFile(Context context, File file) {
+        Intent intent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        intent.setData(Uri.fromFile(file));
+        context.sendBroadcast(intent);
     }
 }
