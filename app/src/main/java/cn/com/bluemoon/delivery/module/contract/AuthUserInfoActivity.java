@@ -143,10 +143,7 @@ public class AuthUserInfoActivity extends BaseActivity {
         } else if (requestCode == 4) {
             // 发送短信后，进行银行四要素认证
             toast(result.getResponseMsg());
-            if (pwdDialog != null) {
-                ViewUtil.hideKeyboard(pwdDialog.getWindow().findViewById(R.id.et_psw));
-                pwdDialog.dismiss();
-            }
+            pwdDialog.dismiss();
             SignatureActivity.startAct(AuthUserInfoActivity.this, FileUtil.getPathTemp(), 1);
         }
     }
@@ -155,26 +152,8 @@ public class AuthUserInfoActivity extends BaseActivity {
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
         // 三次失败过后不弹窗了
-        if (requestCode == 4 && pwdDialog != null) {
-            final EditText etCode = (EditText) pwdDialog.getWindow().findViewById(R.id.et_psw);
-            if (result.getResponseCode() == 13020) {
-                // 验证失败
-                etCode.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ViewUtil.hideKeyboard(etCode);
-                    }
-                });
-                pwdDialog.dismiss();
-            } else if (result.getResponseCode() == 13010) {
-                // 验证失败
-                etCode.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        ViewUtil.showKeyboard(etCode);
-                    }
-                });
-            }
+        if (requestCode == 4 && result.getResponseCode() == 13020) {
+            pwdDialog.dismiss();
         }
     }
 
