@@ -46,6 +46,10 @@ public class DownLoadPdfService extends IntentService {
         @Override
         public void onReceive(Context context, Intent intent) {
             long downloadId = intent.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1);
+            if (!DownUtil.containId(downloadId)) {
+                // 过滤别的广播
+                return;
+            }
             int status = getStatusById(downloadId);
             DownloadEvent event = new DownloadEvent(downloadId);
             switch (status) {
@@ -54,8 +58,10 @@ public class DownLoadPdfService extends IntentService {
                     String path = DownUtil.getPathById(downloadId);
                     File f = new File(path);
                     try {
-                        FileUtil.copyFile(path, FileUtil.getPathDown() + File.separator + f
-                                .getName());
+                        String des = FileUtil.getPathDown() + File.separator + f .getName();
+                        FileUtil.deleteFile(DownLoadPdfService.this, new File(des));
+                        FileUtil.copyFile(path, des);
+                        FileUtil.deleteFile(DownLoadPdfService.this, f);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }

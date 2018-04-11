@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Build;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
@@ -197,5 +198,9 @@ public class ViewUtil extends LibViewUtil {
         }
     }
 
+    public static int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp,
+                AppContext.getInstance().getResources().getDisplayMetrics());
+    }
 
 }

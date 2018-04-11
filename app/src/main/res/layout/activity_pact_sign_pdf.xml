@@ -20,6 +20,34 @@
         android:layout_height="0dp"
         android:layout_weight="1">
         <include layout="@layout/layout_pdfview"/>
+        <LinearLayout
+            android:id="@+id/ll_open"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:visibility="gone"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="12dp"
+            android:gravity="center_horizontal"
+            android:layerType="software"
+            android:orientation="vertical">
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="6dp"
+                android:scaleType="centerInside"
+                android:src="@mipmap/send"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                android:text="@string/open"
+                android:layout_marginBottom="2dp"
+                android:textColor="@color/white"
+                android:textSize="@dimen/sp_12"/>
+
+        </LinearLayout>
     </FrameLayout>
 
 

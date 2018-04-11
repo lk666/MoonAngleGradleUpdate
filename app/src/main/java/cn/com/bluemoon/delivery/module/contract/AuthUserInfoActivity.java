@@ -143,7 +143,10 @@ public class AuthUserInfoActivity extends BaseActivity {
         } else if (requestCode == 4) {
             // 发送短信后，进行银行四要素认证
             toast(result.getResponseMsg());
-            pwdDialog.dismiss();
+            if (pwdDialog != null) {
+                ViewUtil.hideKeyboard(pwdDialog.getWindow().findViewById(R.id.et_psw));
+                pwdDialog.dismiss();
+            }
             SignatureActivity.startAct(AuthUserInfoActivity.this, FileUtil.getPathTemp(), 1);
         }
     }
@@ -152,8 +155,19 @@ public class AuthUserInfoActivity extends BaseActivity {
     public void onErrorResponse(int requestCode, ResultBase result) {
         super.onErrorResponse(requestCode, result);
         // 三次失败过后不弹窗了
-        if (requestCode == 4 && result.getResponseCode() == 13020) {
-            pwdDialog.dismiss();
+        if (requestCode == 4 && pwdDialog != null) {
+            if (result.getResponseCode() == 13020) {
+                pwdDialog.dismiss();
+            } else if (result.getResponseCode() == 13010) {
+                // 验证失败
+                final EditText etCode = (EditText) pwdDialog.getWindow().findViewById(R.id.et_psw);
+                etCode.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        ViewUtil.showKeyboard(etCode);
+                    }
+                });
+            }
         }
     }
 
@@ -188,8 +202,7 @@ public class AuthUserInfoActivity extends BaseActivity {
                                     ContractApi.doBankCardCheck(getToken(), contractId, pwd,
                                             (WithContextTextHttpResponseHandler) getNewHandler(4,
                                                     ResultBase.class));
-                                    ViewUtil.hideKeyboard(etCode);
-                                }
+                                   }
                             }
                         })
                 .setPositiveButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {

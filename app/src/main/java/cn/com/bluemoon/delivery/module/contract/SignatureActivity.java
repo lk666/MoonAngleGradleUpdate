@@ -7,6 +7,8 @@ import android.view.View;
 import com.bluemoon.signature.lib.AbstractSignatureActivity;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.utils.StatusBarUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * Created by liangjiangli on 2018/1/9.
@@ -50,17 +52,26 @@ public class SignatureActivity extends AbstractSignatureActivity implements View
         findViewById(R.id.img_back).setOnClickListener(this);
         findViewById(R.id.tv_right).setOnClickListener(this);
         setBitmapSize(800);
+        ViewUtil.initTop(this);
+        StatusBarUtil.setPaddingSmart(this,findViewById(R.id.layout_title));
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.img_back:
+                setResult(2);
                 finish();
                 break;
             case R.id.tv_right:
                 onSaveClick();
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        setResult(2);
+        finish();
     }
 }
