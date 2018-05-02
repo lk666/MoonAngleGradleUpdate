@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.utils;
 
+import java.text.DecimalFormat;
+
 import cn.com.bluemoon.lib.utils.LibStringUtil;
 
 public class StringUtil extends LibStringUtil {
@@ -70,6 +72,24 @@ public class StringUtil extends LibStringUtil {
             strBuff.insert(length - 3, ",");
         }
         return strBuff.toString();
+    }
+
+    /**
+     * 3000返回¥30.00, 123456789返回¥1,234,567.89
+     *
+     * @param priceFen 分
+     */
+    public static String getPriceFormatAddPrefix(long priceFen) {
+        return new StringBuffer().append("¥").append(getPriceFormat(priceFen)).toString();
+    }
+
+    /**
+     * 3000返回30.00, 123456789返回1,234,567.89
+     *
+     * @param priceFen 分
+     */
+    public static String getPriceFormat(long priceFen) {
+        return new DecimalFormat(",##0.00").format(priceFen / 100.0);
     }
 }
   

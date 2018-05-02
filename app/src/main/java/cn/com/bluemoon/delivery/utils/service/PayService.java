@@ -1,8 +1,10 @@
 package cn.com.bluemoon.delivery.utils.service;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Handler;
@@ -14,6 +16,7 @@ import com.alipay.sdk.app.PayTask;
 import com.tencent.mm.sdk.modelpay.PayReq;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.unionpay.UPPayAssistEx;
 
 import java.util.Map;
 
@@ -112,6 +115,38 @@ public class PayService {
         Thread payThread = new Thread(payRunnable);
         payThread.start();
 
+    }
+
+    public void unionPay(String tn) {
+        if (UPPayAssistEx.checkInstalled(mContext)) {
+            cn.com.bluemoon.liblog.LogUtils.e(TAG, " plugin not found or need upgrade!!!");
+            AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+            builder.setTitle(mContext.getString(R.string.prompt_title));
+            builder.setMessage(mContext.getString(R.string.pay_online_unionpay_not_exist));
+
+            builder.setNegativeButton(mContext.getString(R.string.btn_ok),
+                    new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            UPPayAssistEx.installUPPayPlugin(mContext);
+                            dialog.dismiss();
+                        }
+                    });
+
+            builder.setPositiveButton(mContext.getString(R.string.btn_cancel),
+                    new DialogInterface.OnClickListener() {
+
+                        @Override
+                        public void onClick(DialogInterface dialog,
+                                            int which) {
+                            dialog.dismiss();
+                        }
+                    });
+            builder.create().show();
+
+        } else {
+            UPPayAssistEx.startPay(mContext, null, null, tn, "00");
+        }
     }
 
     private boolean verify(String msg, String sign64, String mode) {

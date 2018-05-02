@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:focusableInTouchMode="true"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="12dp"
+                android:text="@string/pay_money"
+                android:textColor="@color/text_grep"
+                android:textSize="@dimen/text_size_large_14"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="82dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginRight="12dp"
+                android:layout_marginTop="12dp"
+                android:background="@drawable/group_booking_pay_group_bg"
+                android:gravity="center"
+                >
+
+                <TextView
+                    android:id="@+id/txt_money"
+                    android:layout_width="wrap_content"
+                    android:layout_height="82dp"
+                    android:gravity="center"
+                    android:textColor="@color/text_red"
+                    android:textSize="@dimen/text_size_large_14"
+                    android:textStyle="bold"/>
+            </LinearLayout>
+
+            <bluemoon.com.cn.libsdk.view.NoScrollListView
+                android:id="@+id/lv_payment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="12dp"
+                android:background="@drawable/group_booking_pay_group_bg"
+                android:divider="@null"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp"/>
+        </LinearLayout>
+    </ScrollView>
+
+    <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View
+        android:id="@+id/btn_confirm_pay"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        app:btn_text="@string/confirm_payment"/>
+</LinearLayout>

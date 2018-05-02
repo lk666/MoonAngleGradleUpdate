@@ -20,6 +20,7 @@
     <dimen name="account_order_home_icon_width">30sp</dimen>
     <dimen name="account_order_home_icon_height">30sp</dimen>
 
+    <dimen name="text_size_large_10">10sp</dimen>
     <dimen name="text_size_large_14">14sp</dimen>
     <dimen name="text_size_large_16">16sp</dimen>
     <dimen name="text_size_large_18">18sp</dimen>

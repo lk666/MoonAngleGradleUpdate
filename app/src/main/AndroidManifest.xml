@@ -619,6 +619,10 @@
             android:name=".module.wash.collect.ClothScanCodeActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.group_booking.pay.PayActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
 
         <service android:name=".module.card.LocationSvc"/>
 
