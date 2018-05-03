@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bluemoon.com.lib_x5.utils.JsBridgeUtil;
-import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
@@ -27,7 +26,7 @@ import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.module.offline.MyCoursesActivity;
 import cn.com.bluemoon.delivery.module.offline.MyTrainActivity;
-import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
+import cn.com.bluemoon.delivery.module.ptxs60.GroupBuyListActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
@@ -47,9 +46,7 @@ import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
-import cn.com.bluemoon.lib.utils.JsConnectManager;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib_widget.utils.WidgeUtil;
 
 /**
  * 菜单管理类
@@ -80,7 +77,10 @@ public class MenuManager {
         LogUtils.d("view:" + menuCode);
         try {
             if (compare(MenuCode.dispatch, menuCode)) {
-                OrdersTabActivity.actionStart(main);
+
+                GroupBuyListActivity.actStart(main);
+
+//         todo       OrdersTabActivity.actionStart(main);
             } else if (compare(MenuCode.site_sign, menuCode)) {
                 ExtractTabActivity.actionStart(main);
             } else if (compare(MenuCode.check_in, menuCode)) {
@@ -139,6 +139,8 @@ public class MenuManager {
                 MyTrainActivity.actionStart(main);
             } else if (compare(MenuCode.offline_training_teacher, menuCode)) {
                 MyCoursesActivity.actionStart(main);
+            }else if (compare(MenuCode.ptxs_60, menuCode)) {
+                GroupBuyListActivity.actStart(main);
             }
 
             // TODO: 2017/11/16 在这里添加原生模块

@@ -58,7 +58,7 @@ android {
     buildTypes {
         debug {
             buildConfigField("boolean", "RELEASE", "false")
-            buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/80/%s\""
+            buildConfigField "String", "MOCK_URL", "\"http://192.168.236.1:9002/mockjsdata/5/%s\""
             buildConfigField "String", "HOST", "\"angelapi.bluemoon.com.cn\""
             buildConfigField "String", "API_URL", "\"https://angelapi.bluemoon.com.cn/%s\""
             buildConfigField "String", "H5_DOMAIN", "\"https://tmallapi.bluemoon.com.cn/%s\""
@@ -184,6 +184,7 @@ dependencies {
     compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
     compile 'com.bluemoon.x5:lib_x5:1.7.11'
     compile 'com.bluemoon.badger:lib_badger:0.0.1'
+    compile "com.android.support:cardview-v7:22.2.1"
 
 }
 
