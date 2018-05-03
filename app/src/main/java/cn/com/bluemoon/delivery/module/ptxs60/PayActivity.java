@@ -154,7 +154,8 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
             final PaymentBean bean = payment;
             if (bean != null) {
                 showWaitDialog();
-                PTXS60Api.pay(orderCode, transId, bean.type, getToken(), (WithContextTextHttpResponseHandler) getNewHandler(bean
+                PTXS60Api.pay(transId, bean.type, getToken(),
+                        (WithContextTextHttpResponseHandler) getNewHandler(bean
                         .requestCode, ResultPay.class));
             } else {
                 isSubmit = false;
