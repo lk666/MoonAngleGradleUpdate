@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.commons.lang3.StringUtils;
 import org.apache.http.Header;
 
 import java.util.List;
@@ -40,8 +39,8 @@ class BaseApi {
             String url = String.format(subUrl, ApiClientHelper.getParamUrl());
 
             Context context = handler.getContext();
-            //            ApiHttpClient.postMock(name, context, url, jsonString, handler);
-            ApiHttpClient.postNewBase(name, context, url, jsonString, handler);
+                        ApiHttpClient.postMock(context, url, jsonString, handler);
+//            ApiHttpClient.postNewBase(name, context, url, jsonString, handler);
         } catch (Exception ex) {
             ViewUtil.longToast("系统配置发生变化，请重新启动应用。");
         }

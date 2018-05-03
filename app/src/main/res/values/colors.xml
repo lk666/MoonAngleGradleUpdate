@@ -104,6 +104,7 @@
     <color name="black_30">#4c000000</color>
     <color name="green_0dd66f">#0dd66f</color>
     <color name="transparent_40">#64000000</color>
+    <color name="transparent_20">#32000000</color>
     <color name="orange_ff6c47">#ff6c47</color>
 
 </resources>

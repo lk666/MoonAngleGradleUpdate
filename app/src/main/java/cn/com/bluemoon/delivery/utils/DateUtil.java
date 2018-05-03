@@ -50,6 +50,24 @@ public class DateUtil extends LibDateUtil {
         return getTime(t, "yyyy-MM-dd HH:mm");
     }
 
+    /**
+     * @param t 精确到毫秒
+     */
+    public static String getTimeToYMDHMS(long t) {
+        return getTimeMill(t, "yyyy-MM-dd HH:mm:ss");
+    }
+
+    /**
+     * @param t 精确到毫秒
+     */
+    public static String getTimeMill(long t, String format) {
+        SimpleDateFormat formatter = new SimpleDateFormat(format);
+        Date curDate = new Date(t);
+        String time = formatter.format(curDate);
+        return time;
+    }
+
+
     public static String getTimeToYM(long t) {
         return getTime(t, "yyyy-MM");
     }

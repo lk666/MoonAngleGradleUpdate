@@ -934,6 +934,10 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme">
         </activity>
+        <activity
+            android:name=".module.ptxs60.GroupBuyListActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
 
         <meta-data
             android:name="android.max_aspect"

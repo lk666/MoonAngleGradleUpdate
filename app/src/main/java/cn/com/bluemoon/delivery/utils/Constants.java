@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.utils;
 
 import android.net.Uri;
-import android.os.Environment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -205,4 +204,6 @@ public class Constants {
     public static final String RESPONSE_RESULT_SUCCESS_TRACK = "100";
     public static final String RESPONSE_RESULT_TOO_LONG_TRACK = "101";
     public static final String RESPONSE_RESULT_ERROR_TRACK = "102";
+
+    public static final int PAGE_SIZE = 10;
 }
