@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.utils;
 
+import java.text.DecimalFormat;
+
 import cn.com.bluemoon.lib.utils.LibStringUtil;
 
 public class StringUtil extends LibStringUtil {

@@ -620,7 +620,7 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
         <activity
-            android:name=".module.group_booking.pay.PayActivity"
+            android:name=".module.ptxs60.PayActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"/>
 

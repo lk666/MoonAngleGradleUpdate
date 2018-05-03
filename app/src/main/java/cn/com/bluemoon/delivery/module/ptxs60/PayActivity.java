@@ -1,12 +1,10 @@
-package cn.com.bluemoon.delivery.module.group_booking.pay;
+package cn.com.bluemoon.delivery.module.ptxs60;
 
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
-import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,16 +23,16 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.GroupBookingApi;
+import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.group_booking.PaymentBean;
-import cn.com.bluemoon.delivery.app.api.model.group_booking.ResultPay;
+import cn.com.bluemoon.delivery.app.api.model.ptxs60.PaymentBean;
+import cn.com.bluemoon.delivery.app.api.model.ptxs60.ResultPay;
 import cn.com.bluemoon.delivery.entity.IPayOnlineResult;
 import cn.com.bluemoon.delivery.entity.WXPayInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.service.PayService;
 import cn.com.bluemoon.delivery.utils.service.UnionPayInfo;
@@ -156,7 +154,7 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
             final PaymentBean bean = payment;
             if (bean != null) {
                 showWaitDialog();
-                GroupBookingApi.pay(orderCode, transId, bean.type, getToken(), getNewHandler(bean
+                PTXS60Api.pay(orderCode, transId, bean.type, getToken(), (WithContextTextHttpResponseHandler) getNewHandler(bean
                         .requestCode, ResultPay.class));
             } else {
                 isSubmit = false;

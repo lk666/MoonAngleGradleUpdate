@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.app.api.model.group_booking;
+package cn.com.bluemoon.delivery.app.api.model.ptxs60;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 

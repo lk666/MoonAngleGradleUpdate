@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.group_booking.pay;
+package cn.com.bluemoon.delivery.module.ptxs60;
 
 import java.io.Serializable;
 
