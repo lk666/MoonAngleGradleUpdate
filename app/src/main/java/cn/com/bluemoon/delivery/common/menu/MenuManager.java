@@ -26,6 +26,7 @@ import cn.com.bluemoon.delivery.module.notice.NoticeListActivity;
 import cn.com.bluemoon.delivery.module.notice.PaperListActivity;
 import cn.com.bluemoon.delivery.module.offline.MyCoursesActivity;
 import cn.com.bluemoon.delivery.module.offline.MyTrainActivity;
+import cn.com.bluemoon.delivery.module.order.OrdersTabActivity;
 import cn.com.bluemoon.delivery.module.ptxs60.GroupBuyListActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
@@ -77,10 +78,7 @@ public class MenuManager {
         LogUtils.d("view:" + menuCode);
         try {
             if (compare(MenuCode.dispatch, menuCode)) {
-
-                GroupBuyListActivity.actStart(main);
-
-//         todo       OrdersTabActivity.actionStart(main);
+                OrdersTabActivity.actionStart(main);
             } else if (compare(MenuCode.site_sign, menuCode)) {
                 ExtractTabActivity.actionStart(main);
             } else if (compare(MenuCode.check_in, menuCode)) {

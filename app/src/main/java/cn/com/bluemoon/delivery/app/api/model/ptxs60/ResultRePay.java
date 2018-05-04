@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.ptxs60;
 
+import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -13,7 +14,7 @@ public class ResultRePay extends ResultBase {
      */
     public PayInfo payInfo;
 
-    public static class PayInfo {
+    public static class PayInfo implements Serializable{
         /**
          * 订单支付金额（分）
          */
@@ -27,7 +28,7 @@ public class ResultRePay extends ResultBase {
          */
         public List<Payment> paymentList;
 
-        public static class Payment {
+        public static class Payment implements Serializable{
             /**
              * 支付平台名称
              */

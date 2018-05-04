@@ -127,8 +127,8 @@ public class GroupBuyItemView extends RelativeLayout implements View.OnClickList
     @Override
     public void onClick(View v) {
         if (data != null && ResultQueryOrderList.PAY_STATUS_WAIT.equals(data.payStatus)) {
-            // todo 待支付的，跳到支付页面
-            //            order.orderCode,order.orderSeq
+            // 待支付的，跳到支付页面
+            PayActivity.actStart(getContext(), data.orderCode, data.orderTotalMoney);
         }
     }
 

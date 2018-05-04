@@ -82,15 +82,13 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
     /**
      * @param context
      * @param transId     流水号
-     * @param orderCode   订单号
      * @param paymentList 支付方式
      */
-    public static void actStart(Context context, String orderCode, String transId, long totalPay,
+    public static void actStart(Context context,  String transId, long totalPay,
                                 List<ResultRePay.PayInfo.Payment> paymentList) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra("transId", transId);
         intent.putExtra("totalPay", totalPay);
-        intent.putExtra("orderCode", orderCode);
         intent.putExtra("payments", (Serializable) paymentList);
         context.startActivity(intent);
     }

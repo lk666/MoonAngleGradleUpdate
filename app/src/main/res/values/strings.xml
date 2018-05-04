@@ -1744,5 +1744,18 @@
     <string name="success">已付款</string>
     <string name="cancel">已取消</string>
     <string name="total_count">共%d件，</string>
+    <string name="count">结算</string>
+
+    <string name="mendian_name">门店名称</string>
+    <string name="store">仓库名称</string>
+    <string name="phone">联系电话</string>
+    <string name="area">省市区</string>
+    <string name="recommend_code">推荐人编码</string>
+    <string name="recommend_name">推荐人姓名</string>
+    <string name="hint_input_phone">请输入收货人联系电话</string>
+    <string name="hint_input_recommend_code">请输入推荐人编码</string>
+    <string name="group_buy_info">拼团信息(支)</string>
+    <string name="unit_price">单价(元)</string>
+    <string name="total_count_zhi">总支数：%d支</string>
 
 </resources>

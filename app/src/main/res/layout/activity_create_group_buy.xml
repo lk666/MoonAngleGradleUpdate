@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:layout_width="match_parent"
+             android:focusableInTouchMode="true"
+             android:focusable="true"
+             android:id="@+id/main_click"
+             android:layout_height="match_parent">
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="58dp"
+        android:overScrollMode="never">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/field_mendian"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/mendian_name"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/field_store"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/store"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+                android:id="@+id/field_receiver_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:field_text1_hint="@string/order_filter_name_hint"
+                app:field_text1_title="@string/order_filter_name"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text="@string/phone"
+                    android:minWidth="58dp"
+                    android:textColor="#666666"
+                    android:textSize="11sp"/>
+
+                <EditText
+                    android:id="@+id/field_receiver_phone"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#0000"
+                    android:hint="@string/hint_input_phone"
+                    android:ellipsize="start"
+                    android:inputType="phone"
+                    android:imeOptions="actionDone"
+                    android:gravity="right|center_vertical"
+                    android:singleLine="true"
+                    android:textColor="#333333"
+                    android:textColorHint="#999999"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+            <include layout="@layout/line_solid_view_e5"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
+                android:id="@+id/field_area"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:field_arrow_title="@string/area"
+                app:field_text1_hint="@string/please_select"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
+                android:id="@+id/field_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:field_text1_hint="@string/text_store_address_detail_hint"
+                app:field_text1_title="@string/card_input_address_detail"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:text="@string/recommend_code"
+                    android:minWidth="58dp"
+                    android:textColor="#666666"
+                    android:textSize="11sp"/>
+
+                <EditText
+                    android:id="@+id/field_recommend_code"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#0000"
+                    android:hint="@string/hint_input_recommend_code"
+                    android:ellipsize="start"
+                    android:imeOptions="actionDone"
+                    android:gravity="right|center_vertical"
+                    android:singleLine="true"
+                    android:textColor="#333333"
+                    android:textColorHint="#999999"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_e5"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/field_recommend_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/recommend_name"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/group_buy_info"
+                android:textColor="@color/txt_999"
+                android:textSize="@dimen/text_size_12"/>
+
+            <cn.com.bluemoon.delivery.ui.NoScrollListView
+                android:id="@+id/lv_order_detail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:background="@color/white"
+                android:divider="@color/transparent"
+                android:dividerHeight="0dp"
+                android:footerDividersEnabled="true"
+                android:headerDividersEnabled="false"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/field_unit_price"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:visibility="gone"
+                app:cell_text_txt_title="@string/unit_price"/>
+        </LinearLayout>
+
+    </ScrollView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="58dp"
+        android:layout_gravity="bottom"
+        android:background="@color/white">
+
+        <include layout="@layout/line_solid_view_e5"/>
+
+        <Button
+            android:id="@+id/btn_submit"
+            style="@style/btn_red0"
+            android:layout_width="80dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:enabled="false"
+            android:text="@string/count"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/with_order_collect_title_pay_total"
+            android:textColor="@color/txt_333"
+            android:textSize="@dimen/text_size_14"/>
+
+        <TextView
+            android:id="@+id/tv_price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="75dp"
+            android:layout_marginRight="92dp"
+            android:layout_marginTop="10dp"
+            android:singleLine="true"
+            android:textColor="@color/orange_ff6c47"
+            android:textSize="@dimen/text_size_14"/>
+
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="92dp"
+            android:singleLine="true"
+            android:textColor="@color/txt_999"
+            android:textSize="@dimen/text_size_10"/>
+    </FrameLayout>
+</FrameLayout>

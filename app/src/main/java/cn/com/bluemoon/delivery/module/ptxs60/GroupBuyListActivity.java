@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
@@ -45,7 +48,7 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
 
     @Override
     protected void onActionBarBtnRightClick() {
-        // TODO: lk 2018/5/ 新增订单
+        CreateGroupBuyActivity.actStart(this);
     }
 
     @Override
@@ -96,11 +99,6 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
         if (!list.isEmpty()) {
             timestamp = list.get(list.size() - 1).orderPayTime;
         }
-
-
-        list.addAll(list);
-        list.addAll(list);
-        list.addAll(list);
 
         if (list.size() < Constants.PAGE_SIZE) {
             ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);
@@ -158,5 +156,15 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
             GroupBuyItemView view = getViewById(R.id.gbiv);
             view.setData(item);
         }
+    }
+
+    @Override
+    protected boolean isUseEventBus() {
+        return true;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onMessageEvent(PayResult event) {
+       initData();
     }
 }
