@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.ptxs60;
 
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -33,6 +34,7 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.service.PayService;
 import cn.com.bluemoon.delivery.utils.service.UnionPayInfo;
@@ -79,10 +81,25 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
     protected int getLayoutId() {
         return R.layout.activity_pay_group_booking;
     }
+
     @Override
     protected String getTitleString() {
         return getString(R.string.pay_title);
     }
+
+    @Override
+    public void onBackPressed() {
+        DialogUtil.getCommonDialog(this, null, getString(R.string.pay_back_hint), getString(R
+                .string.dialog_confirm), getString(R.string.dialog_cancel), new DialogInterface
+                .OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                EventBus.getDefault().post(new PayResult(false));
+                PayActivity.super.onBackPressed();
+            }
+        }, null).show();
+    }
+
     @Override
     public void initView() {
         orderCode = getIntent().getStringExtra("orderCode");
@@ -163,7 +180,7 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
                 showWaitDialog();
                 PTXS60Api.pay(transId, bean.type, getToken(),
                         (WithContextTextHttpResponseHandler) getNewHandler(bean
-                        .requestCode, ResultPay.class));
+                                .requestCode, ResultPay.class));
             } else {
                 isSubmit = false;
                 longToast(R.string.pay_type_empty);
