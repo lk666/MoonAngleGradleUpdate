@@ -1726,4 +1726,16 @@
     <string name="download_to">已成功下载到%s</string>
     <string name="open">打开</string>
 
+    <string name="transfer_des">转派说明</string>
+    <string name="transfer_person">转派人</string>
+    <string name="transfer_other">转派他人</string>
+    <string name="transfer_person_name">%1$s&#160;&#160;%2$s</string>
+    <string name="txt_query">查询&#8194;&#8194;</string>
+    <string name="admin_transfer">指派</string>
+    <string name="angel_transfer">转派</string>
+    <string name="transfer_code_input">请输入员工号</string>
+    <string name="transfer_input_code">被指派人编号(必填)</string>
+    <string name="transfer_name_input">被转派人姓名</string>
+    <string name="transfer_mobile_input">被转派人电话</string>
+
 </resources>

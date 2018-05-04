@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.DispachInfo;
 
 /**
  * 7.6预约收衣记录
@@ -93,6 +94,8 @@ public class ResultAppointmentQueryList extends ResultBase {
          * 社区/村
          */
         private String village;
+
+        public DispachInfo dispachInfo;
 
         public String getAddress() {
             return address;

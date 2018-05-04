@@ -23,6 +23,36 @@
             android:visibility="gone"/>
 
         <TextView
+            android:id="@+id/tv_admin_dipach"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/admin_transfer"
+            android:width="40dp"
+            android:height="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/admin_dispach"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginRight="4dp"
+            android:visibility="gone"/>
+
+        <TextView
+            android:id="@+id/tv_angel_transfer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/angel_transfer"
+            android:width="40dp"
+            android:height="20dp"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:background="@drawable/angel_transfer"
+            android:textColor="@color/white"
+            android:textSize="12sp"
+            android:layout_marginRight="4dp"
+            android:visibility="gone"/>
+
+        <TextView
             android:id="@+id/tv_number"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

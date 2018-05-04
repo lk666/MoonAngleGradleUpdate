@@ -12,7 +12,7 @@ public class WithOrderClothingCollectOrder {
     /**
      * 订单类型(收衣单号:washOrder)
      */
-    public final static String OUTERCODE_TYPE_WASHORDER = "washOrder";
+    public final static String  OUTERCODE_TYPE_WASHORDER = "washOrder";
 
     /**
      * 订单状态:待派单(客户端无用)
@@ -49,6 +49,11 @@ public class WithOrderClothingCollectOrder {
      * 洗衣服务订单号
      */
     private String outerCode;
+
+    /**
+     * 派单信息
+     */
+    public DispachInfo dispachInfo;
 
     private String customerName;
 

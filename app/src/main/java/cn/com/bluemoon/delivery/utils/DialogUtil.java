@@ -1,14 +1,18 @@
 package cn.com.bluemoon.delivery.utils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.Gravity;
+import android.view.View;
+import android.widget.TextView;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.DispachInfo;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.delivery.utils.manager.CacheManager;
 import cn.com.bluemoon.lib.utils.LibDialogUtil;
@@ -178,6 +182,32 @@ public class DialogUtil extends LibDialogUtil {
         dialog.setPositiveButton(R.string.btn_cancel_space, null);
         dialog.show();
     }
+
+    /**
+     * 转派说明
+     *
+     * @param aty
+     */
+    @SuppressLint("StringFormatInvalid")
+    public static void showTransferDialog(final Activity aty, DispachInfo info) {
+        View v = aty.getLayoutInflater().inflate(R.layout.dialog_angel_transfer, null);
+        TextView tvTransferTime = (TextView) v.findViewById(R.id.tv_transfer_time);
+        tvTransferTime.setText(DateUtil.getTime(info.getOpTime(), "yyyy-MM-dd HH:mm"));
+        TextView tvTransferPerson = (TextView) v.findViewById(R.id.tv_transfer_person);
+        tvTransferPerson.setText(aty.getResources().getString(R.string.transfer_person_name, info.getOpName(), info.getOpCode()));
+        TextView tvRemark = (TextView) v.findViewById(R.id.tv_remark);
+        if (TextUtils.isEmpty(info.getRemark())) {
+            tvRemark.setVisibility(View.GONE);
+            v.findViewById(R.id.tv_remark_title).setVisibility(View.GONE);
+        } else {
+            tvRemark.setText(info.getRemark());
+        }
+        CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(aty).setView(v)
+                .setPositiveButton(R.string.btn_ok_with_space, null);
+        dialog.setClearPadding(true);
+        dialog.show();
+    }
+
 
     public static CommonAlertDialog.Builder getExitDialog(final Activity aty) {
         CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(aty);

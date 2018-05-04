@@ -1,7 +1,9 @@
 package cn.com.bluemoon.delivery.module.wash.appointment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Paint;
 import android.text.TextUtils;
@@ -10,24 +12,34 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
+import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.DispachInfo;
+import cn.com.bluemoon.delivery.app.api.model.clothing.collect.WithOrderClothingCollectOrder;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentOrderScan;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentQueryList;
+import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentQueryList.AppointmentListBean;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.collect.withorder.ManualInputCodeActivity;
+import cn.com.bluemoon.delivery.module.wash.collect.withorder.TransferOrderActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
+import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**
  * 预约收衣界面
@@ -40,6 +52,8 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     private static final int REQUEST_CODE_MANUAL = 0x66;
     private static final int REQUEST_CODE_SCAN_CREATE_COLLECT = 0x55;
     private static final int REQUEST_CODE_QUERY = 0x666;
+    private static final int REQUEST_APPOINTMENT_REFUSAL = 0x6666;
+    private static final int REQUEST_CODE_TRAMSFER = 0x46;
     /**
      * 分页标识
      */
@@ -92,10 +106,86 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     }
 
     @Override
-    protected List<ResultAppointmentQueryList.AppointmentListBean> getGetDataList(
+    protected List<AppointmentListBean> getGetDataList(
             ResultBase result) {
         ResultAppointmentQueryList resultObj = (ResultAppointmentQueryList) result;
         timestamp = resultObj.getTimestamp();
+        //TODO
+        List<AppointmentListBean> list = new ArrayList<>();
+        AppointmentListBean o = new AppointmentListBean();
+        DispachInfo dispachInfo = new DispachInfo();
+        dispachInfo.setDispachType("ADMIN_DISPACH");
+        dispachInfo.setOpCode("opCode");
+        dispachInfo.setOpName("OpName");
+        dispachInfo.setOpTime(0);
+        dispachInfo.setRemark("Remark");
+        o.dispachInfo = dispachInfo;
+        o.setAppointmentStatus("APPOINTMENT_WAIT_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
+        o.setAddress("Address");
+        o.setCity("City");
+        o.setAppointmentCode("AppointmentCode");
+        o.setCounty("County");
+        o.setCustomerName("CustomerName");
+        o.setCustomerPhone("CustomerPhone");
+        o.setProvince("Province");
+        o.setStreet("Street");
+        o.setVillage("Village");
+        list.add(o);
+
+        o = new AppointmentListBean();
+        dispachInfo = new DispachInfo();
+        dispachInfo.setDispachType("ANGEL_TRANSFER");
+        dispachInfo.setOpCode("opCode");
+        dispachInfo.setOpName("OpName");
+        dispachInfo.setOpTime(0);
+        dispachInfo.setRemark("Remark");
+        o.dispachInfo = dispachInfo;
+        o.setAppointmentStatus("APPOINTMENT_WAIT_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
+        o.setAddress("Address");
+        o.setCity("City");
+        o.setAppointmentCode("AppointmentCode");
+        o.setCounty("County");
+        o.setCustomerName("CustomerName");
+        o.setCustomerPhone("CustomerPhone");
+        o.setProvince("Province");
+        o.setStreet("Street");
+        o.setVillage("Village");
+        list.add(o);
+
+        o = new AppointmentListBean();
+        o.setAppointmentStatus("APPOINTMENT_WAIT_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
+        o.setAddress("Address");
+        o.setCity("City");
+        o.setAppointmentCode("AppointmentCode");
+        o.setCounty("County");
+        o.setCustomerName("CustomerName");
+        o.setCustomerPhone("CustomerPhone");
+        o.setProvince("Province");
+        o.setStreet("Street");
+        o.setVillage("Village");
+        list.add(o);
+
+
+        o = new AppointmentListBean();
+        o.setAppointmentStatus("APPOINTMENT_ALREADY_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
+        dispachInfo = new DispachInfo();
+        dispachInfo.setDispachType("ANGEL_TRANSFER");
+        dispachInfo.setOpCode("opCode");
+        dispachInfo.setOpName("OpName");
+        dispachInfo.setOpTime(0);
+        dispachInfo.setRemark("Remark");
+        o.setAddress("Address");
+        o.setCity("City");
+        o.setAppointmentCode("AppointmentCode");
+        o.setCounty("County");
+        o.setCustomerName("CustomerName");
+        o.setCustomerPhone("CustomerPhone");
+        o.setProvince("Province");
+        o.setStreet("Street");
+        o.setVillage("Village");
+        list.add(o);
+        resultObj.setAppointmentList(list);
+
         return resultObj.getAppointmentList();
     }
 
@@ -106,7 +196,7 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     }
 
     @Override
-    protected List<ResultAppointmentQueryList.AppointmentListBean> getGetMoreList(
+    protected List<AppointmentListBean> getGetMoreList(
             ResultBase result) {
         return getGetDataList(result);
     }
@@ -116,11 +206,14 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
         return new ItemAdapter(getActivity(), this);
     }
 
-    class ItemAdapter extends BaseListAdapter<ResultAppointmentQueryList.AppointmentListBean> {
-
+    class ItemAdapter extends BaseListAdapter<AppointmentListBean> {
+        private int colorTxtBtnBlue;
+        private int colorTxtBtnGray;
 
         public ItemAdapter(Context context, OnListItemClickListener listener) {
             super(context, listener);
+            colorTxtBtnBlue = getResources().getColor(R.color.btn_blue);
+            colorTxtBtnGray = getResources().getColor(R.color.text_black_light);
         }
 
         @Override
@@ -130,8 +223,8 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
         @Override
         protected void setView(int position, View convertView, ViewGroup parent, boolean isNew) {
-            ResultAppointmentQueryList.AppointmentListBean item =
-                    (ResultAppointmentQueryList.AppointmentListBean) getItem(position);
+            AppointmentListBean item =
+                    (AppointmentListBean) getItem(position);
 
             if (item == null) {
                 return;
@@ -145,6 +238,21 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
             TextView tvTime = getViewById(R.id.tv_time);
             View divRemark = getViewById(R.id.div_remark);
             TextView tvRemark = getViewById(R.id.tv_remark);
+            TextView tvRightAction = ViewHolder.get(convertView, R.id.tv_right_action);
+
+            TextView tvAdminDipach = ViewHolder.get(convertView, R.id.tv_admin_dipach);
+            TextView tvAngelTransfer = ViewHolder.get(convertView, R.id.tv_angel_transfer);
+            tvAdminDipach.setVisibility(View.GONE);
+            tvAngelTransfer.setVisibility(View.GONE);
+            //添加指派转派标签
+            if (item.dispachInfo != null
+                    && AppointmentListBean.APPOINTMENT_WAIT_ORDERS.equals(item.getAppointmentStatus())) {
+                if ("ANGEL_TRANSFER".equals(item.dispachInfo.getDispachType())) {
+                    tvAngelTransfer.setVisibility(View.VISIBLE);
+                } else if ("ADMIN_DISPACH".equals(item.dispachInfo.getDispachType())) {
+                    tvAdminDipach.setVisibility(View.VISIBLE);
+                }
+            }
 
             // 预约单号
             tvNumber.setText(getString(R.string.appointment_code, item.getAppointmentCode()));
@@ -175,19 +283,32 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                 tvRemark.setText(getString(R.string.manage_remark, item.getRemark()));
             }
 
+            tvRightAction.setVisibility(View.GONE);
             // 右边按钮
             switch (item.getAppointmentStatus()) {
                 // 待接单
-                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
+                case AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
                     btnRightAction.setVisibility(View.VISIBLE);
                     btnRightAction.setText(getString(R.string.appointment_accept));
+                    if (item.dispachInfo != null
+                            && ("ANGEL_TRANSFER".equals(item.dispachInfo.getDispachType())
+                            || "ADMIN_DISPACH".equals(item.dispachInfo.getDispachType()))) {
+                        //右边文本按钮
+                        tvRightAction.setVisibility(View.VISIBLE);
+                        tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept));
+                        tvRightAction.setTextColor(colorTxtBtnGray);
+
+                    }
                     break;
 
                 // 已接单
-                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
+                case AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
                     btnRightAction.setVisibility(View.VISIBLE);
                     btnRightAction.setText(
                             getString(R.string.with_order_collect_btn_start_collect));
+                    tvRightAction.setVisibility(View.VISIBLE);
+                    tvRightAction.setText(getString(R.string.transfer_other));
+                    tvRightAction.setTextColor(colorTxtBtnBlue);
                     break;
 
                 default:
@@ -198,37 +319,88 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
             if (isNew) {
                 tvCustomerPhone.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
                 tvCustomerPhone.getPaint().setAntiAlias(true);
+                tvRightAction.getPaint().setFlags(Paint.UNDERLINE_TEXT_FLAG);
+                tvRightAction.getPaint().setAntiAlias(true);
             }
 
-            setClickEvent(isNew, position, btnRightAction);
+            setClickEvent(isNew, position, btnRightAction, tvAngelTransfer, tvRightAction);
         }
     }
 
     private int acceptPosition;
 
+    @SuppressLint("StringFormatInvalid")
     @Override
     public void onItemClick(Object obj, View view, int position) {
-        ResultAppointmentQueryList.AppointmentListBean item =
-                (ResultAppointmentQueryList.AppointmentListBean) obj;
+        AppointmentListBean item =
+                (AppointmentListBean) obj;
         if (null != item) {
-            // 点击按钮
-            // 右边按钮
-            switch (item.getAppointmentStatus()) {
-                // 待接单
-                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
-                    showWaitDialog();
-                    acceptPosition = position;
-                    AppointmentApi.appointmentReceived(item.getAppointmentCode(), getToken(),
-                            getNewHandler(REQUEST_CODE_RECEIVE, ResultBase.class));
+            switch (view.getId()) {
+                case R.id.tv_angel_transfer:
+                    DialogUtil.showTransferDialog(getActivity(), item.dispachInfo);
                     break;
+                case R.id.btn_right_action:
+                    // 点击按钮
+                    // 右边按钮
+                    switch (item.getAppointmentStatus()) {
+                        // 待接单
+                        case AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
+                            showWaitDialog();
+                            acceptPosition = position;
+                            AppointmentApi.appointmentReceived(item.getAppointmentCode(), getToken(),
+                                    getNewHandler(REQUEST_CODE_RECEIVE, ResultBase.class));
+                            break;
 
-                // 已接单
-                case ResultAppointmentQueryList.AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
-                    CreateAppointmentCollectOrderActivity.actionStart(this, item,
-                            REQUEST_CODE_CREATE_COLLECT);
+                        // 已接单
+                        case AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
+                            CreateAppointmentCollectOrderActivity.actionStart(this, item,
+                                    REQUEST_CODE_CREATE_COLLECT);
+                            break;
+                    }
+                    break;
+                case R.id.tv_right_action:
+                    switch (item.getAppointmentStatus()) {
+                        //取消
+                        case AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
+                            cancelOrder(item.getAppointmentCode());
+                            break;
+                        //转派
+                        case AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
+                            TransferOrderActivity.startAct(this, item.getAppointmentCode(),
+                                    TransferOrderActivity.APPOINTMENT_TYPE, REQUEST_CODE_TRAMSFER);
+                            break;
+                    }
                     break;
             }
+
+
         }
+    }
+
+    private void cancelOrder(final String appointmentCode) {
+        Context context = getActivity();
+        new CommonAlertDialog.Builder(context)
+                .setCancelable(true)
+                .setMessage(context.getString(R.string.pending_order_get_or_not))
+                .setPositiveButton(R.string.btn_cancel,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                            }
+                        })
+                .setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog,
+                                        int which) {
+                        showWaitDialog();
+                        DeliveryApi.appointmentRefusal(getToken(), appointmentCode, getNewHandler(REQUEST_APPOINTMENT_REFUSAL, ResultBase.class));
+
+                    }
+                })
+                .show();
+
+
     }
 
     @Override
@@ -238,10 +410,10 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
             // 接单
             case REQUEST_CODE_RECEIVE:
                 toast(getString(R.string.appoint_receive_success));
-                ResultAppointmentQueryList.AppointmentListBean item =
-                        (ResultAppointmentQueryList.AppointmentListBean) getList().get
+                AppointmentListBean item =
+                        (AppointmentListBean) getList().get
                                 (acceptPosition);
-                item.setAppointmentStatus(ResultAppointmentQueryList.AppointmentListBean
+                item.setAppointmentStatus(AppointmentListBean
                         .APPOINTMENT_ALREADY_ORDERS);
                 getAdapter().notifyDataSetChanged();
                 break;
@@ -253,6 +425,10 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                             REQUEST_CODE_SCAN_CREATE_COLLECT);
                 }
                 break;
+            //取消成功
+            case REQUEST_APPOINTMENT_REFUSAL:
+                getData();
+                break;
         }
     }
 
@@ -262,6 +438,10 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
         if (requestCode == REQUEST_CODE_SCAN_CREATE_COLLECT) {
             initData();
+        }
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_TRAMSFER) {
+            getData();//转派他人后刷新列表
         }
 
         if (resultCode == Activity.RESULT_CANCELED) {

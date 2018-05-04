@@ -40,6 +40,8 @@
     <color name="text_white_light">#ccfefefe</color>
     <color name="text_green">#66bb6a</color>
     <color name="text_orange">#f5a623</color>
+    <color name="text_green_dark">#17C37B</color><!--指派-->
+    <color name="text_blue_dark">#33A3FF</color><!--转派-->
 
     <color name="text_back_white">#f8f8f8</color><!--幽灵白 -->
     <color name="text_back_grep">#f3f3f3</color><!--幽灵白 -->

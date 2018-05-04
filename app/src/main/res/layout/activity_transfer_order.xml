@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white_f9"
+    android:orientation="vertical">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:layout_height="0dp">
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldStatusView
+            android:id="@+id/person_opcode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:field_btn1_btn_txt="@string/txt_query"
+            app:field_btn1_title="@string/transfer_input_code"
+            app:field_btn1_hint="@string/transfer_code_input"/>
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/transfer_name_input"/>
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/cell_mobile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/transfer_mobile_input"/>
+        <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
+            android:id="@+id/field_remark"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            app:field_content_maxLength="50"
+            app:field_title="@string/team_member_detail_content"
+            app:field_hint="@string/clothing_deliver_mark_hint"/>
+        
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_marginBottom="20dp"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/btn_cancel"
+            style="@style/btn_red"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:background="@drawable/btn_border_red_middle"
+            android:text="@string/btn_cancel_space"
+            android:textColor="@color/text_red" />
+
+        <Button
+            android:id="@+id/btn_ok"
+            style="@style/btn_red4"
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:layout_marginLeft="28dp"
+            android:text="@string/ok" />
+    </LinearLayout>
+
+</LinearLayout>
