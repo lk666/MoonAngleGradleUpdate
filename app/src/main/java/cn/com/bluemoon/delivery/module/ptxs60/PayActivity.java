@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Spannable;
 import android.text.SpannableString;
+import android.text.TextUtils;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +19,7 @@ import com.alibaba.fastjson.JSONObject;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -28,6 +30,7 @@ import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ptxs60.PaymentBean;
 import cn.com.bluemoon.delivery.app.api.model.ptxs60.ResultPay;
+import cn.com.bluemoon.delivery.app.api.model.ptxs60.ResultRePay;
 import cn.com.bluemoon.delivery.entity.IPayOnlineResult;
 import cn.com.bluemoon.delivery.entity.WXPayInfo;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
@@ -49,6 +52,7 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
     private static final int PAY_WX_CONFIRM = 0x666;
     private static final int PAY_ALIPAY_CONFIRM = 0x555;
     private static final int PAY_UNIONPAY_CONFIRM = 0x333;
+    private static final int PAY_REPAY = 0x111;
 
     @Bind(R.id.txt_money)
     TextView txtMoney;
@@ -66,14 +70,28 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
 
     /**
      * @param context
-     * @param transId   流水号
      * @param orderCode 订单号
      */
-    public static void actStart(Context context, String orderCode, String transId, long totalPay) {
+    public static void actStart(Context context, String orderCode, long totalPay) {
+        Intent intent = new Intent(context, PayActivity.class);
+        intent.putExtra("totalPay", totalPay);
+        intent.putExtra("orderCode", orderCode);
+        context.startActivity(intent);
+    }
+
+    /**
+     * @param context
+     * @param transId     流水号
+     * @param orderCode   订单号
+     * @param paymentList 支付方式
+     */
+    public static void actStart(Context context, String orderCode, String transId, long totalPay,
+                                List<ResultRePay.PayInfo.Payment> paymentList) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra("transId", transId);
         intent.putExtra("totalPay", totalPay);
         intent.putExtra("orderCode", orderCode);
+        intent.putExtra("payments", (Serializable) paymentList);
         context.startActivity(intent);
     }
 
@@ -105,17 +123,24 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
         orderCode = getIntent().getStringExtra("orderCode");
         transId = getIntent().getStringExtra("transId");
         totalPay = getIntent().getLongExtra("totalPay", 0);
-        List<PaymentBean> temps;
+        List<ResultRePay.PayInfo.Payment> temps;
         try {
-            temps = (List<PaymentBean>) getIntent().getSerializableExtra("payments");
+            temps = (List<ResultRePay.PayInfo.Payment>) getIntent().getSerializableExtra
+                    ("payments");
         } catch (Exception ex) {
             temps = null;
         }
-        setData(temps);
         payService = new PayService(this, this);
+        if (TextUtils.isEmpty(transId)) {
+            showWaitDialog();
+            PTXS60Api.rePay(orderCode, getToken(), (WithContextTextHttpResponseHandler)
+                    getNewHandler(PAY_REPAY, ResultRePay.class));
+        } else {
+            setData(temps);
+        }
     }
 
-    private void setData(List<PaymentBean> temps) {
+    private void setData(List<ResultRePay.PayInfo.Payment> temps) {
 
         payments = new ArrayList<>();
         if (null == temps || temps.size() < 1) {
@@ -126,14 +151,14 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
             payments.add(new PaymentBean(R.mipmap.payment_online, R.string.pay_unionpay,
                     PAY_UNIONPAY_CONFIRM, "unionpay"));
         } else {
-            for (PaymentBean item : temps) {
-                if (item.type.equals("alipay")) {
+            for (ResultRePay.PayInfo.Payment item : temps) {
+                if (item.platform.equals("alipay")) {
                     payments.add(new PaymentBean(R.mipmap.alipay, R.string.pay_alipay,
                             PAY_ALIPAY_CONFIRM, "alipay"));
-                } else if (item.type.equals("wxpay")) {
+                } else if (item.platform.equals("wxpay")) {
                     payments.add(new PaymentBean(R.mipmap.wxpay, R.string.pay_wxpay,
                             PAY_WX_CONFIRM, "wxpay"));
-                } else if (item.type.equals("unionpay")) {
+                } else if (item.platform.equals("unionpay")) {
                     payments.add(new PaymentBean(R.mipmap.payment_online, R.string.pay_unionpay,
                             PAY_UNIONPAY_CONFIRM, "unionpay"));
                 }
@@ -212,6 +237,11 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
                 payService.unionPay(JSONObject.parseObject(resultUnionPayInfo.payInfo,
                         UnionPayInfo.class).tn);
             }
+        } else if (requestCode == PAY_REPAY) {
+            //支付查询流水号
+            ResultRePay pay = (ResultRePay) result;
+            transId = pay.payInfo.paymentTransaction;
+            setData(pay.payInfo.paymentList);
         }
     }
 

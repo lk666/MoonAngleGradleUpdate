@@ -58,4 +58,25 @@ public class PTXS60Api extends BaseApi {
         postRequest("【05】支付接口，并校验库存,返回payinfo", params, "bluemoon-control/sqMoonOrder/pay%s",
                 handler);
     }
+
+    /**
+     * 【06】订单列表发起支付查询
+     *
+     * @param orderCode 订单编号 String
+     * @param token     当前用户token String
+     */
+    public static void rePay(String orderCode, String token, WithContextTextHttpResponseHandler
+            handler) {
+        if (null == orderCode || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param) + ":" + (null == orderCode ? " null=orderCode" :
+                            "") + (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderCode", orderCode);
+        params.put(TOKEN, token);
+        postRequest("【06】订单列表发起支付查询", params, "bluemoon-control/sqMoonOrder/rePay%s", handler);
+    }
 }
