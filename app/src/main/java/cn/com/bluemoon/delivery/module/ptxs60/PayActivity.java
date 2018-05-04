@@ -47,7 +47,6 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
     private static final int PAY_WX_CONFIRM = 0x666;
     private static final int PAY_ALIPAY_CONFIRM = 0x555;
     private static final int PAY_UNIONPAY_CONFIRM = 0x333;
-    private static final int QUERY_PAY_LIST_REQUEST = 0x111;
 
     @Bind(R.id.txt_money)
     TextView txtMoney;
@@ -76,6 +75,14 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
         context.startActivity(intent);
     }
 
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_pay_group_booking;
+    }
+    @Override
+    protected String getTitleString() {
+        return getString(R.string.pay_title);
+    }
     @Override
     public void initView() {
         orderCode = getIntent().getStringExtra("orderCode");
@@ -209,10 +216,6 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
         isSubmit = false;
     }
 
-    @Override
-    protected int getLayoutId() {
-        return R.layout.activity_pay_group_booking;
-    }
 
     @Override
     public void onItemClick(Object item, View view, int position) {

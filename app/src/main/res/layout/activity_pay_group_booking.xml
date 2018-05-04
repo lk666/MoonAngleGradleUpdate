@@ -45,7 +45,7 @@
                     android:textStyle="bold"/>
             </LinearLayout>
 
-            <bluemoon.com.cn.libsdk.view.NoScrollListView
+            <cn.com.bluemoon.delivery.ui.NoScrollListView
                 android:id="@+id/lv_payment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

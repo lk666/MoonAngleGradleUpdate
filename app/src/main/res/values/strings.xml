@@ -1387,6 +1387,7 @@
     <string name="pay_type_empty">支付方式不能为空哦！</string>
     <string name="group_booking_pay_success">支付成功</string>
     <string name="group_booking_pay_failed">支付失败</string>
+    <string name="pay_title">支付</string>
 
     <!--换衣管理优化-->
     <string name="returning_fasttips_title">快速查询</string>
