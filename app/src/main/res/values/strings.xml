@@ -1746,6 +1746,7 @@
     <string name="total_count">共%d件，</string>
     <string name="count">结算</string>
 
+    <string name="title_create_group_buy">拼团提报</string>
     <string name="mendian_name">门店名称</string>
     <string name="store">仓库名称</string>
     <string name="phone">联系电话</string>

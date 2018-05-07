@@ -93,7 +93,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
 
     @Override
     protected String getTitleString() {
-        return getString(R.string.title_group_buy_list);
+        return getString(R.string.title_create_group_buy);
     }
 
     private ItemAdapter adapter;
