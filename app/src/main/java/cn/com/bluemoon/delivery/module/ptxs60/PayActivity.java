@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.module.ptxs60;
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -41,6 +42,7 @@ import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.service.PayService;
 import cn.com.bluemoon.delivery.utils.service.UnionPayInfo;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
 
 /**
  * 拼团销售  支付界面
@@ -58,6 +60,8 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
     TextView txtMoney;
     @Bind(R.id.lv_payment)
     ListView lvPayment;
+    @Bind(R.id.btn_confirm_pay)
+    BMAngleBtn3View btnConfirmPay;
     private long totalPay;
     private String transId;
     private String orderCode;
@@ -84,7 +88,7 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
      * @param transId     流水号
      * @param paymentList 支付方式
      */
-    public static void actStart(Context context,  String transId, long totalPay,
+    public static void actStart(Context context, String transId, long totalPay,
                                 List<ResultRePay.PayInfo.Payment> paymentList) {
         Intent intent = new Intent(context, PayActivity.class);
         intent.putExtra("transId", transId);
@@ -101,6 +105,12 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
     @Override
     protected String getTitleString() {
         return getString(R.string.pay_title);
+    }
+
+    @Override
+    protected void onActionBarBtnLeftClick() {
+        setResult(Activity.RESULT_CANCELED);
+        onBackPressed();
     }
 
     @Override
@@ -268,10 +278,12 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
         if (data != null) {
             String str = data.getExtras().getString("pay_result");
             EventBus.getDefault().post(new PayResult(str.equalsIgnoreCase("success")));
-            toast(str.equalsIgnoreCase("success") ? R.string.group_booking_pay_success : R.string.group_booking_pay_failed);
+            toast(str.equalsIgnoreCase("success") ? R.string.group_booking_pay_success : R.string
+                    .group_booking_pay_failed);
             finish();
         }
     }
+
     @Override
     public void onItemClick(Object item, View view, int position) {
         int size = payments.size();
@@ -279,6 +291,7 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
             payments.get(i).isSelect = (i == position);
         }
         adapter.notifyDataSetChanged();
+        btnConfirmPay.setEnabled(true);
     }
 
     @Override
