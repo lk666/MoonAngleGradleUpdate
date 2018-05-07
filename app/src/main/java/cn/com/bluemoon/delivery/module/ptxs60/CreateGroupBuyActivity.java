@@ -216,7 +216,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             details.add(new RequestOrderDetail(bean));
         }
 
-        PTXS60Api.commitOrder(data.addressInfo, fieldMendian.getContentText(),
+        PTXS60Api.commitOrder(data.addressInfo, data.mendianCode,
                 details, data.recommendCode, data.recommendName, data.storeCode, getToken(),
                 (WithContextTextHttpResponseHandler) getNewHandler
                         (REQUEST_CODE_COMMIT_ORDER, ResultRePay.class));
@@ -366,7 +366,12 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         // 判断是否相同
         String newCode = fieldRecommendCode.getText().toString();
 
-        if (data == null || data.recommendCode == null || newCode.equals(data.recommendCode)) {
+        if (TextUtils.isEmpty(newCode)) {
+            fieldRecommendName.setContentText("");
+            return;
+        }
+
+        if (data == null || newCode.equals(data.recommendCode)) {
             return;
         }
 

@@ -34,6 +34,7 @@
             <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
                 android:id="@+id/field_receiver_name"
                 android:layout_width="match_parent"
+                app:field_text1_content_maxLength="10"
                 android:layout_height="wrap_content"
                 app:field_text1_hint="@string/order_filter_name_hint"
                 app:field_text1_title="@string/order_filter_name"/>
@@ -67,6 +68,7 @@
                     android:hint="@string/hint_input_phone"
                     android:ellipsize="start"
                     android:inputType="phone"
+                    android:maxLength="11"
                     android:imeOptions="actionDone"
                     android:gravity="right|center_vertical"
                     android:singleLine="true"
@@ -89,6 +91,7 @@
                 android:id="@+id/field_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                app:field_text1_content_maxLength="30"
                 app:field_text1_hint="@string/text_store_address_detail_hint"
                 app:field_text1_title="@string/card_input_address_detail"/>
 
