@@ -189,7 +189,7 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
 
     //发起支付
     private void actPay() {
-        if (!StringUtil.isEmpty(transId) && !StringUtil.isEmpty(orderCode) && !isSubmit) {
+        if (!StringUtil.isEmpty(transId) && !isSubmit) {
             isSubmit = true;
             PaymentBean payment = null;
             for (PaymentBean bean : payments) {
