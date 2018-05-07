@@ -1381,6 +1381,7 @@
     <string name="pay_online_unionpay_not_exist">完成购买需要安装银联支付控件，是否安装？</string>
     <string name="confirm_payment">确认支付</string>
     <string name="pay_money">支付金额</string>
+    <string name="pay_type">支付方式</string>
     <string name="pay_alipay">支付宝支付</string>
     <string name="pay_wxpay">微信支付</string>
     <string name="pay_unionpay">银联在线支付</string>
