@@ -261,7 +261,17 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
         isSubmit = false;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
+        if (data != null) {
+            String str = data.getExtras().getString("pay_result");
+            EventBus.getDefault().post(new PayResult(str.equalsIgnoreCase("success")));
+            toast(str.equalsIgnoreCase("success") ? R.string.group_booking_pay_success : R.string.group_booking_pay_failed);
+            finish();
+        }
+    }
     @Override
     public void onItemClick(Object item, View view, int position) {
         int size = payments.size();
