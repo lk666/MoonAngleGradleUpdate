@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -35,6 +34,7 @@ import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
@@ -73,7 +73,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     @Bind(R.id.field_unit_price)
     BmCellTextView fieldUnitPrice;
     @Bind(R.id.btn_submit)
-    Button btnSubmit;
+    BMAngleBtn3View btnSubmit;
     @Bind(R.id.tv_price)
     TextView tvPrice;
     @Bind(R.id.tv_count)
@@ -262,8 +262,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     private void setInitData(ResultGetBaseInfo result) {
         data = result;
 
-        fieldMendian.setContentText(data.mendianName);
-        fieldStore.setContentText(data.storeName);
+        fieldMendian.setContentText(TextUtils.isEmpty(data.mendianName) ? getString(R.string
+                .promote_none) : data.mendianName);
+        fieldStore.setContentText(TextUtils.isEmpty(data.storeName) ? getString(R.string
+                .promote_none) : data.storeName);
 
         if (data.addressInfo != null) {
             fieldReceiverName.setContent(data.addressInfo.receiverName);
@@ -277,6 +279,12 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         btnSubmit.setEnabled(false);
         adapter.setList(data.orderDetail);
         adapter.notifyDataSetChanged();
+
+        tvPrice.setText(getResources().getString(R.string.order_money,
+                StringUtil.getPriceFormat(0)));
+        tvCount.setText(getResources().getString(R.string.total_count_zhi, 0));
+
+
         // 推荐人姓名以及价钱相关的在后续更新
         handleRecommendCodeChange();
         refreshPrice();
@@ -312,7 +320,12 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             tvTitle.setText(item.productDesc);
 
             EditText etCount = getViewById(R.id.et_count);
-            etCount.setText("" + item.curCount);
+
+            if (item.curCount < 0) {
+                etCount.setText("");
+            } else {
+                etCount.setText("" + item.curCount);
+            }
             etCount.setTag(R.id.tag_obj, item);
             if (isNew) {
                 etCount.setOnFocusChangeListener(CreateGroupBuyActivity.this);
@@ -332,7 +345,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
 
             Object obj = v.getTag(R.id.tag_obj);
             if (obj instanceof ResultGetBaseInfo.OrderDetailBean) {
-                handleCountChange(((EditText) v).getText().toString(),
+                handleCountChange((EditText) v,
                         (ResultGetBaseInfo.OrderDetailBean) obj);
             }
         }
@@ -349,7 +362,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
 
             Object obj = v.getTag(R.id.tag_obj);
             if (obj instanceof ResultGetBaseInfo.OrderDetailBean) {
-                handleCountChange(((EditText) v).getText().toString(),
+                handleCountChange((EditText) v,
                         (ResultGetBaseInfo.OrderDetailBean) obj);
             }
         }
@@ -392,16 +405,24 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     /**
      * 处理拼团商品数量修改
      */
-    private void handleCountChange(String curNumTxt, ResultGetBaseInfo.OrderDetailBean item) {
+    private void handleCountChange(EditText curNumTxt, ResultGetBaseInfo.OrderDetailBean item) {
         int num = 0;
+        String numStr = curNumTxt.getText().toString();
         try {
-            num = Integer.parseInt(curNumTxt);
+            num = Integer.parseInt(numStr);
         } catch (Exception e) {
             LogUtils.e("拼团商品数量输入错误" + curNumTxt);
-            return;
+            num = item.curCount;
         }
+        num = num > -1 ? num : 0;
+
+        // 乱填数字的
+        if (!numStr.equals(num + "") && item.curCount == num) {
+            curNumTxt.setText(num + "");
+        }
+
         // 拼团商品数量变化
-        if (num > -1 && item.curCount != num) {
+        if (item.curCount != num) {
             item.curCount = num;
             refreshPrice();
         }
