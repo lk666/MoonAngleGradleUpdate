@@ -262,8 +262,9 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     private void setInitData(ResultGetBaseInfo result) {
         data = result;
 
-        fieldMendian.setContentText(TextUtils.isEmpty(data.mendianName) ? getString(R.string
-                .promote_none) : data.mendianName);
+        String name = data.mendianCode + " " + data.mendianName;
+        fieldMendian.setContentText(TextUtils.isEmpty(name) ? getString(R.string.promote_none) :
+                name);
         fieldStore.setContentText(TextUtils.isEmpty(data.storeName) ? getString(R.string
                 .promote_none) : data.storeName);
 
