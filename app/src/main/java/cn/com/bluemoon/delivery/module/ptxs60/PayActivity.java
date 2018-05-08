@@ -139,6 +139,7 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
             temps = null;
         }
         payService = new PayService(this, this);
+        registerReceiver(payService.getWXResutReceiver(), payService.getWXIntentFilter());
         if (TextUtils.isEmpty(transId)) {
             showWaitDialog();
             PTXS60Api.rePay(orderCode, getToken(), (WithContextTextHttpResponseHandler)
@@ -323,5 +324,11 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
             txtName.setText(bean.name);
             setClickEvent(isNew, position, convertView, cbPay);
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(payService.getWXResutReceiver());
     }
 }
