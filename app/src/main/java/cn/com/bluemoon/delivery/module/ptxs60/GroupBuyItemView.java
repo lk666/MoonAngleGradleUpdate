@@ -13,9 +13,14 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ptxs60.ResultQueryOrderList;
+import cn.com.bluemoon.delivery.app.api.model.ptxs60.ResultRePay;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -128,7 +133,11 @@ public class GroupBuyItemView extends RelativeLayout implements View.OnClickList
     public void onClick(View v) {
         if (data != null && ResultQueryOrderList.PAY_STATUS_WAIT.equals(data.payStatus)) {
             // 待支付的，跳到支付页面
-            PayActivity.actStart(getContext(), data.orderCode, data.orderTotalMoney);
+            BaseActivity aty = (BaseActivity) getContext();
+            aty.showWaitDialog();
+            PTXS60Api.rePay(data.orderCode, ClientStateManager.getLoginToken(),
+                    (WithContextTextHttpResponseHandler) aty.getNewHandler
+                            (GroupBuyListActivity.REQUEST_CODE_RE_PAY, ResultRePay.class));
         }
     }
 

@@ -100,6 +100,16 @@ public class ViewUtil extends LibViewUtil {
     }
 
     /**
+     * 获得屏幕高度
+     */
+    public static int getScreenHeight(Context context) {
+        WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
+        DisplayMetrics outMetrics = new DisplayMetrics();
+        wm.getDefaultDisplay().getMetrics(outMetrics);
+        return outMetrics.heightPixels;
+    }
+
+    /**
      * 跳转页面
      *
      * @param aty

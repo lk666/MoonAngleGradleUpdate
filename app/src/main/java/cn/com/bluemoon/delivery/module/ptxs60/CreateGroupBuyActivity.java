@@ -10,7 +10,6 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -32,9 +31,9 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
@@ -73,7 +72,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     @Bind(R.id.field_unit_price)
     BmCellTextView fieldUnitPrice;
     @Bind(R.id.btn_submit)
-    Button btnSubmit;
+    BMAngleBtn3View btnSubmit;
     @Bind(R.id.tv_price)
     TextView tvPrice;
     @Bind(R.id.tv_count)
@@ -109,6 +108,14 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             }
         }
         return super.dispatchTouchEvent(ev);
+    }
+
+    private void setUnitePriceDisable() {
+        fieldUnitPrice.setVisibility(View.GONE);
+        tvPrice.setText(getResources().getString(R.string.order_money,
+                StringUtil.getPriceFormat(0)));
+        tvCount.setText(getResources().getString(R.string.total_count_zhi, 0));
+        btnSubmit.setEnabled(false);
     }
 
     /**
@@ -183,8 +190,13 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int
             oldTop, int oldRight, int oldBottom) {
-        handleRecommendCodeChange();
-        refreshPrice();
+        int keyHeight = ViewUtil.getScreenHeight(this) / 4;
+        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+            // 弹起
+        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+            // 关闭
+            mainClick.requestFocus();
+        }
     }
 
 
@@ -262,8 +274,12 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     private void setInitData(ResultGetBaseInfo result) {
         data = result;
 
-        fieldMendian.setContentText(data.mendianName);
-        fieldStore.setContentText(data.storeName);
+        String name = data.mendianCode + " " + data.mendianName;
+        name = name.trim();
+        fieldMendian.setContentText(TextUtils.isEmpty(name) ? getString(R.string.promote_none) :
+                name);
+        fieldStore.setContentText(TextUtils.isEmpty(data.storeName) ? getString(R.string
+                .promote_none) : data.storeName);
 
         if (data.addressInfo != null) {
             fieldReceiverName.setContent(data.addressInfo.receiverName);
@@ -277,6 +293,12 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         btnSubmit.setEnabled(false);
         adapter.setList(data.orderDetail);
         adapter.notifyDataSetChanged();
+
+        tvPrice.setText(getResources().getString(R.string.order_money,
+                StringUtil.getPriceFormat(0)));
+        tvCount.setText(getResources().getString(R.string.total_count_zhi, 0));
+
+
         // 推荐人姓名以及价钱相关的在后续更新
         handleRecommendCodeChange();
         refreshPrice();
@@ -312,7 +334,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             tvTitle.setText(item.productDesc);
 
             EditText etCount = getViewById(R.id.et_count);
-            etCount.setText("" + item.curCount);
+            etCount.setText(item.curCount);
             etCount.setTag(R.id.tag_obj, item);
             if (isNew) {
                 etCount.setOnFocusChangeListener(CreateGroupBuyActivity.this);
@@ -332,7 +354,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
 
             Object obj = v.getTag(R.id.tag_obj);
             if (obj instanceof ResultGetBaseInfo.OrderDetailBean) {
-                handleCountChange(((EditText) v).getText().toString(),
+                handleCountChange((EditText) v,
                         (ResultGetBaseInfo.OrderDetailBean) obj);
             }
         }
@@ -349,7 +371,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
 
             Object obj = v.getTag(R.id.tag_obj);
             if (obj instanceof ResultGetBaseInfo.OrderDetailBean) {
-                handleCountChange(((EditText) v).getText().toString(),
+                handleCountChange((EditText) v,
                         (ResultGetBaseInfo.OrderDetailBean) obj);
             }
         }
@@ -357,7 +379,6 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         // 返回false表示点击后，隐藏软键盘。返回true表示保留软键盘。
         return false;
     }
-
 
     /**
      * 处理推荐人编码修改
@@ -392,19 +413,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     /**
      * 处理拼团商品数量修改
      */
-    private void handleCountChange(String curNumTxt, ResultGetBaseInfo.OrderDetailBean item) {
-        int num = 0;
-        try {
-            num = Integer.parseInt(curNumTxt);
-        } catch (Exception e) {
-            LogUtils.e("拼团商品数量输入错误" + curNumTxt);
-            return;
-        }
-        // 拼团商品数量变化
-        if (num > -1 && item.curCount != num) {
-            item.curCount = num;
-            refreshPrice();
-        }
+    private void handleCountChange(EditText curNumTxt, ResultGetBaseInfo.OrderDetailBean item) {
+        String numStr = curNumTxt.getText().toString();
+        item.curCount = numStr;
+        refreshPrice();
     }
 
     private long lastNum = 0;
@@ -416,24 +428,36 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         if (data != null && data.orderDetail != null && !data.orderDetail.isEmpty()) {
             int num = 0;
             for (ResultGetBaseInfo.OrderDetailBean bean : data.orderDetail) {
-                num += bean.curCount;
+                int orderNum = 0;
+                try {
+                    if (!TextUtils.isEmpty(bean.curCount)) {
+                        orderNum = Integer.parseInt(bean.curCount);
+                    }
+                } catch (Exception e) {
+                    orderNum = -1;
+                }
+
+                if (orderNum > -1) {
+                    num += orderNum;
+                } else {
+                    toast("请输入正确的商品数量");
+                    setUnitePriceDisable();
+                    return;
+                }
             }
             if (num < 1) {
-                fieldUnitPrice.setVisibility(View.GONE);
-                checkBtn();
+                setUnitePriceDisable();
             } else {
                 if (lastNum != num) {
+                    lastNum = num;
                     showWaitDialog();
                     PTXS60Api.getUnitPriceByNum(num, getToken(),
                             (WithContextTextHttpResponseHandler)
-
                                     getNewHandler(REQUEST_CODE_GET_UNIT_PRICE_BY_NUM,
-                                            ResultGetUnitPriceByNum
-                                                    .class));
+                                            ResultGetUnitPriceByNum.class));
                 }
             }
 
-            lastNum = num;
         }
     }
 
@@ -443,19 +467,36 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
      * 查价钱返回
      */
     private void setPriceInfo(ResultGetUnitPriceByNum result) {
-        if (result.orderUnitPrice < 1) {
-            fieldUnitPrice.setVisibility(View.GONE);
-        } else {
-            fieldUnitPrice.setVisibility(View.VISIBLE);
-            fieldUnitPrice.setContentText(StringUtil.getPriceFormat(result.orderUnitPrice));
-        }
+        fieldUnitPrice.setVisibility(View.VISIBLE);
+        fieldUnitPrice.setContentText(StringUtil.getPriceFormat(result.orderUnitPrice));
 
         tvPrice.setText(getResources().getString(R.string.order_money,
                 StringUtil.getPriceFormat(result.orderTotalMoney)));
         totalMoney = result.orderTotalMoney;
         tvCount.setText(getResources().getString(R.string.total_count_zhi, result.orderTotalNum));
-        adapter.notifyDataSetChanged();
         checkBtn();
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        super.onSuccessException(requestCode, t);
+        switch (requestCode) {
+            // 查询单价
+            case REQUEST_CODE_GET_UNIT_PRICE_BY_NUM:
+                setUnitePriceDisable();
+                break;
+        }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        switch (requestCode) {
+            // 查询单价
+            case REQUEST_CODE_GET_UNIT_PRICE_BY_NUM:
+                setUnitePriceDisable();
+                break;
+        }
     }
 
     /**

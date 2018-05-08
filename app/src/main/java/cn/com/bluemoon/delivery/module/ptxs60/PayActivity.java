@@ -74,17 +74,6 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
 
     /**
      * @param context
-     * @param orderCode 订单号
-     */
-    public static void actStart(Context context, String orderCode, long totalPay) {
-        Intent intent = new Intent(context, PayActivity.class);
-        intent.putExtra("totalPay", totalPay);
-        intent.putExtra("orderCode", orderCode);
-        context.startActivity(intent);
-    }
-
-    /**
-     * @param context
      * @param transId     流水号
      * @param paymentList 支付方式
      */
