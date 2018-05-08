@@ -60,40 +60,45 @@
         android:footerDividersEnabled="false"
         android:headerDividersEnabled="false"/>
 
-    <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View
-        android:id="@+id/btn_pay"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/lv_order_detail"
-        android:layout_marginTop="12dp"
-        app:btn_marginBottom="4dp"
-        app:btn_marginLeft="4dp"
-        app:btn_marginRight="4dp"
-        app:btn_marginTop="4dp"
-        app:btn_text="@string/pay"/>
-
-    <TextView
-        android:id="@+id/tv_count"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
         android:layout_alignLeft="@+id/tv_order_code"
         android:layout_below="@+id/lv_order_detail"
-        android:layout_marginTop="22dp"
-        android:textColor="@color/txt_333"
-        android:textSize="@dimen/text_size_14"/>
+        android:paddingTop="12dp"
+        android:paddingBottom="16dp"
+        android:gravity="center_vertical"
+        android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/tvprice"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignTop="@+id/tv_count"
-        android:layout_marginRight="12dp"
-        android:layout_toLeftOf="@+id/btn_pay"
-        android:layout_toRightOf="@+id/tv_count"
-        android:singleLine="true"
-        android:textColor="@color/orange_ff6c47"
-        android:textSize="@dimen/text_size_14"
-        android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/txt_333"
+            android:textSize="@dimen/text_size_14"/>
+
+        <TextView
+            android:id="@+id/tvprice"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="12dp"
+            android:singleLine="true"
+            android:textColor="@color/orange_ff6c47"
+            android:textSize="@dimen/text_size_14"
+            android:textStyle="bold"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View
+            android:id="@+id/btn_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            app:btn_marginBottom="4dp"
+            app:btn_marginLeft="4dp"
+            app:btn_marginRight="4dp"
+            app:btn_marginTop="4dp"
+            app:btn_text="@string/pay"/>
+    </LinearLayout>
+
+
 </RelativeLayout>

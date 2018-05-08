@@ -33,7 +33,7 @@ public class ResultGetBaseInfo extends ResultBase {
         public String productDesc;
         public String productNo;
         @JSONField(serialize = false)
-        public int curCount = -1;
+        public String curCount = "";
     }
 }
   
