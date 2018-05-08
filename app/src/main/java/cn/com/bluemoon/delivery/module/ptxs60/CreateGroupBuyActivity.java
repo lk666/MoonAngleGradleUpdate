@@ -183,8 +183,15 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int
             oldTop, int oldRight, int oldBottom) {
+        //        int keyHeight = ViewUtil.getStatusHeight(this) / 3;
+        //        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+        //            // 弹起
+        //            mainClick.requestFocus();
+        //        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+        //            // 关闭
         handleRecommendCodeChange();
         refreshPrice();
+        //        }
     }
 
 
@@ -263,8 +270,8 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         data = result;
 
         String name = data.mendianCode + " " + data.mendianName;
-        fieldMendian.setContentText(TextUtils.isEmpty(name) ? getString(R.string.promote_none) :
-                name);
+        name = name.trim();
+        fieldMendian.setContentText(TextUtils.isEmpty(name) ? getString(R.string.promote_none) : name);
         fieldStore.setContentText(TextUtils.isEmpty(data.storeName) ? getString(R.string
                 .promote_none) : data.storeName);
 
