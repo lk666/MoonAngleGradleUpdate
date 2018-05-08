@@ -183,15 +183,15 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     @Override
     public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int
             oldTop, int oldRight, int oldBottom) {
-        //        int keyHeight = ViewUtil.getStatusHeight(this) / 3;
-        //        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
-        //            // 弹起
-        //            mainClick.requestFocus();
-        //        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
-        //            // 关闭
+        int keyHeight = ViewUtil.getStatusHeight(this) / 4;
+        if (oldBottom != 0 && bottom != 0 && (oldBottom - bottom > keyHeight)) {
+            // 弹起
+            mainClick.requestFocus();
+        } else if (oldBottom != 0 && bottom != 0 && (bottom - oldBottom > keyHeight)) {
+            // 关闭
         handleRecommendCodeChange();
         refreshPrice();
-        //        }
+        }
     }
 
 
@@ -379,7 +379,6 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         return false;
     }
 
-
     /**
      * 处理推荐人编码修改
      */
@@ -411,6 +410,13 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     }
 
     /**
+     * 临时存储要改变得项
+     */
+    private ResultGetBaseInfo.OrderDetailBean item;
+    private EditText curNumTxt;
+    private int oldNum;
+
+    /**
      * 处理拼团商品数量修改
      */
     private void handleCountChange(EditText curNumTxt, ResultGetBaseInfo.OrderDetailBean item) {
@@ -422,16 +428,25 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             LogUtils.e("拼团商品数量输入错误" + curNumTxt);
             num = item.curCount;
         }
-        num = num > -1 ? num : 0;
+
+        if (num < 0) {
+            num = item.curCount;
+        }
+
 
         // 乱填数字的
         if (!numStr.equals(num + "") && item.curCount == num) {
-            curNumTxt.setText(num + "");
+            this.curNumTxt = curNumTxt;
+            setCurNumTxt();
         }
 
         // 拼团商品数量变化
         if (item.curCount != num) {
+            this.curNumTxt = curNumTxt;
+            // 先赋值了，后面错误时再改回来就行了
+            oldNum = item.curCount;
             item.curCount = num;
+            this.item = item;
             refreshPrice();
         }
     }
@@ -455,14 +470,18 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
                     showWaitDialog();
                     PTXS60Api.getUnitPriceByNum(num, getToken(),
                             (WithContextTextHttpResponseHandler)
-
                                     getNewHandler(REQUEST_CODE_GET_UNIT_PRICE_BY_NUM,
-                                            ResultGetUnitPriceByNum
-                                                    .class));
+                                            ResultGetUnitPriceByNum.class));
+                    return;
                 }
             }
 
             lastNum = num;
+        }
+
+        if (this.item != null) {
+            this.item.curCount = oldNum;
+            setCurNumTxt();
         }
     }
 
@@ -483,8 +502,55 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
                 StringUtil.getPriceFormat(result.orderTotalMoney)));
         totalMoney = result.orderTotalMoney;
         tvCount.setText(getResources().getString(R.string.total_count_zhi, result.orderTotalNum));
-        adapter.notifyDataSetChanged();
+
+        if (curNumTxt != null) {
+            setCurNumTxt();
+        } else {
+            adapter.notifyDataSetChanged();
+        }
+
         checkBtn();
+    }
+
+    private void setCurNumTxt() {
+        if (item == null || curNumTxt == null) {
+            return;
+        }
+        if (item.curCount < 0) {
+            curNumTxt.setText("");
+        } else {
+            curNumTxt.setText("" + item.curCount);
+        }
+
+        this.curNumTxt = null;
+    }
+
+    @Override
+    public void onSuccessException(int requestCode, Throwable t) {
+        super.onSuccessException(requestCode, t);
+        switch (requestCode) {
+            // 查询单价
+            case REQUEST_CODE_GET_UNIT_PRICE_BY_NUM:
+                if (this.item != null) {
+                    this.item.curCount = oldNum;
+                    setCurNumTxt();
+                }
+                break;
+        }
+    }
+
+    @Override
+    public void onErrorResponse(int requestCode, ResultBase result) {
+        super.onErrorResponse(requestCode, result);
+        switch (requestCode) {
+            // 查询单价
+            case REQUEST_CODE_GET_UNIT_PRICE_BY_NUM:
+                if (this.item != null) {
+                    this.item.curCount = oldNum;
+                    setCurNumTxt();
+                }
+                break;
+        }
     }
 
     /**

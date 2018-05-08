@@ -14,6 +14,7 @@ import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ptxs60.ResultQueryOrderList;
+import cn.com.bluemoon.delivery.app.api.model.ptxs60.ResultRePay;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -33,6 +34,7 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
 
     private long timestamp = 0;
     private View footView;
+    public static final int REQUEST_CODE_RE_PAY = 0x333;
 
     public static void actStart(Context context) {
         Intent intent = new Intent(context, GroupBuyListActivity.class);
@@ -74,6 +76,19 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
     }
 
     @Override
+    public void onSuccessResponse(int requestCode, String jsonString, ResultBase result) {
+        super.onSuccessResponse(requestCode, jsonString, result);
+        switch (requestCode) {
+            //支付查询流水号
+            case REQUEST_CODE_RE_PAY:
+                ResultRePay resultPay = (ResultRePay) result;
+                PayActivity.actStart(this, resultPay.payInfo.paymentTransaction, resultPay
+                        .payInfo.payTotal, resultPay.payInfo.paymentList);
+                break;
+        }
+    }
+
+    @Override
     protected BaseListAdapter getNewAdapter() {
         return new ItemAdapter(this, this);
     }
@@ -96,9 +111,7 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
             return null;
         }
 
-        if (!list.isEmpty()) {
-            timestamp = list.get(list.size() - 1).orderPayTime;
-        }
+        timestamp = order.timestamp;
 
         if (list.size() < Constants.PAGE_SIZE) {
             ptrlv.setMode(PullToRefreshBase.Mode.PULL_FROM_START);

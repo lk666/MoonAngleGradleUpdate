@@ -14,7 +14,7 @@ public class RequestOrderDetail implements Serializable {
 
     public RequestOrderDetail(ResultGetBaseInfo.OrderDetailBean bean) {
         if (bean != null) {
-            orderNum = bean.curCount;
+            orderNum = bean.curCount < 0 ? 0 : bean.curCount;
             productNo = bean.productNo;
         }
     }

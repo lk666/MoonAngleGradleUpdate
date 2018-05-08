@@ -11,6 +11,7 @@ public class ResultQueryOrderList extends ResultBase {
     public static final String PAY_STATUS_FAIL = "fail";
     public static final String PAY_STATUS_CANCEL  = "cancel ";
     public List<OrderListBean> orderList;
+    public long timestamp;
 
     public static class OrderListBean implements Serializable{
         public String orderCode;

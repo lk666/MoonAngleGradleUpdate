@@ -24,6 +24,7 @@
         android:layout_marginRight="12dp"
         android:layout_toRightOf="@+id/tv_title"
         android:background="#0000"
+        android:numeric="integer"
         android:ellipsize="start"
         android:imeOptions="actionDone"
         android:gravity="right|center_vertical"
