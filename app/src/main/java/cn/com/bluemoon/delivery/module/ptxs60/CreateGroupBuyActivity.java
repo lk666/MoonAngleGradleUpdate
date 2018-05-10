@@ -222,6 +222,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         // 提交结算
         data.addressInfo.receiverAddress = fieldAddress.getContent();
         data.addressInfo.receiverName = fieldReceiverName.getContent();
+        data.addressInfo.contactPhone = phone;
 
         ArrayList<RequestOrderDetail> details = new ArrayList<>();
         for (ResultGetBaseInfo.OrderDetailBean bean : data.orderDetail) {
