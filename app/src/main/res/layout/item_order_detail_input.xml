@@ -17,7 +17,7 @@
         android:textColor="#666666"
         android:textSize="11sp"/>
 
-    <EditText
+    <TextView
         android:id="@+id/et_count"
         android:layout_width="match_parent"
         android:layout_height="50dp"

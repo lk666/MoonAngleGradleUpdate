@@ -1,15 +1,15 @@
 package cn.com.bluemoon.delivery.module.ptxs60;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
 
@@ -33,6 +33,7 @@ import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.ui.dialog.AddressSelectPopWindow;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
@@ -42,10 +43,10 @@ import cn.com.bluemoon.lib_widget.module.form.interf.BMFieldListener;
 /**
  * 新建拼团销售
  */
-public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocusChangeListener,
-        OnListItemClickListener,
-        TextView.OnEditorActionListener, BMFieldArrow1View.FieldArrowListener, BMFieldListener,
-        View.OnLayoutChangeListener, AddressSelectPopWindow.IAddressSelectDialog {
+public class CreateGroupBuyActivity extends BaseActivity implements OnListItemClickListener,
+        BMFieldArrow1View.FieldArrowListener, BMFieldListener,
+        View.OnLayoutChangeListener, AddressSelectPopWindow.IAddressSelectDialog, View
+                .OnClickListener {
 
     private static final int REQUEST_CODE_GET_BASE_INFO = 0x777;
     private static final int REQUEST_CODE_GET_UNIT_PRICE_BY_NUM = 0x666;
@@ -64,7 +65,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
     @Bind(R.id.field_address)
     BMFieldText1View fieldAddress;
     @Bind(R.id.field_recommend_code)
-    EditText fieldRecommendCode;
+    TextView fieldRecommendCode;
     @Bind(R.id.field_recommend_name)
     BmCellTextView fieldRecommendName;
     @Bind(R.id.lv_order_detail)
@@ -147,8 +148,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         adapter = new ItemAdapter(this, this);
         lvOrderDetail.setAdapter(adapter);
 
-        fieldRecommendCode.setOnFocusChangeListener(this);
-        fieldRecommendCode.setOnEditorActionListener(this);
+        fieldRecommendCode.setOnClickListener(this);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -312,11 +312,6 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         refreshPrice();
     }
 
-    @Override
-    public void onItemClick(Object item, View view, int position) {
-
-    }
-
     class ItemAdapter extends BaseListAdapter<ResultGetBaseInfo.OrderDetailBean> {
 
         public ItemAdapter(Context context, OnListItemClickListener listener) {
@@ -341,90 +336,59 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             TextView tvTitle = getViewById(R.id.tv_title);
             tvTitle.setText(item.productDesc);
 
-            EditText etCount = getViewById(R.id.et_count);
+            TextView etCount = getViewById(R.id.et_count);
             etCount.setText(item.curCount);
-            etCount.setTag(R.id.tag_obj, item);
-            if (isNew) {
-                etCount.setOnFocusChangeListener(CreateGroupBuyActivity.this);
-                etCount.setOnEditorActionListener(CreateGroupBuyActivity.this);
-            }
+
+            setClickEvent(isNew, position, etCount);
+
         }
-    }
-
-
-    @Override
-    public void onFocusChange(View v, boolean hasFocus) {
-        if (!hasFocus) {
-            if (fieldRecommendCode == v) {
-                handleRecommendCodeChange();
-                return;
-            }
-
-            Object obj = v.getTag(R.id.tag_obj);
-            if (obj instanceof ResultGetBaseInfo.OrderDetailBean) {
-                handleCountChange((EditText) v,
-                        (ResultGetBaseInfo.OrderDetailBean) obj);
-            }
-        }
-    }
-
-    @Override
-    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-        // 点击键盘的完成
-        if (actionId == EditorInfo.IME_ACTION_DONE) {
-            if (fieldRecommendCode == v) {
-                handleRecommendCodeChange();
-                return false;
-            }
-
-            Object obj = v.getTag(R.id.tag_obj);
-            if (obj instanceof ResultGetBaseInfo.OrderDetailBean) {
-                handleCountChange((EditText) v,
-                        (ResultGetBaseInfo.OrderDetailBean) obj);
-            }
-        }
-
-        // 返回false表示点击后，隐藏软键盘。返回true表示保留软键盘。
-        return false;
     }
 
     /**
-     * 处理推荐人编码修改
+     * 数量修改
      */
-    private void handleRecommendCodeChange() {
-        // 判断是否相同
-        String newCode = fieldRecommendCode.getText().toString();
+    private CommonAlertDialog dialogCount;
 
-        if (TextUtils.isEmpty(newCode)) {
-            fieldRecommendName.setContentText("");
-            return;
+    @Override
+    public void onItemClick(final Object item, final View v, int position) {
+        // 输入框点击
+        if (item instanceof ResultGetBaseInfo.OrderDetailBean) {
+            View view = LayoutInflater.from(this).inflate(R.layout.dialog_set_count, null);
+            final EditText etPsw = (EditText) view.findViewById(R.id.et_psw);
+            etPsw.setText(((ResultGetBaseInfo.OrderDetailBean) item).curCount);
+            dialogCount = new CommonAlertDialog.Builder(this)
+                    .setCancelable(false)
+                    .setView(view)
+                    .setDismissable(false)
+                    .setNegativeButton(R.string.btn_ok,
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    String pwd = etPsw.getText().toString();
+                                    if (v instanceof TextView) {
+                                        ((TextView) v).setText(pwd);
+                                        ((ResultGetBaseInfo.OrderDetailBean) item).curCount = pwd;
+                                        refreshPrice();
+                                    }
+                                    ViewUtil.hideKeyboard(etPsw);
+                                    dialogCount.dismiss();
+                                }
+                            })
+                    .setPositiveButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            ViewUtil.hideKeyboard(etPsw);
+                            dialogCount.dismiss();
+                        }
+                    }).create();
+            dialogCount.show();
+            etPsw.post(new Runnable() {
+                @Override
+                public void run() {
+                    ViewUtil.showKeyboard(etPsw);
+                }
+            });
         }
-
-        if (data == null || newCode.equals(data.recommendCode)) {
-            return;
-        }
-
-        // 查数据
-        showWaitDialog();
-        PTXS60Api.getRecommendInfo(newCode, getToken(), (WithContextTextHttpResponseHandler)
-                getNewHandler(REQUEST_CODE_GET_RECOMMEND_INFO, ResultGetRecommendInfo.class));
-    }
-
-    private void setRecommendInfo(ResultGetRecommendInfo result) {
-        fieldRecommendCode.setText(result.recommendCode);
-        fieldRecommendName.setContentText(result.recommendName);
-        data.recommendCode = result.recommendCode;
-        data.recommendName = result.recommendName;
-        checkBtn();
-    }
-
-    /**
-     * 处理拼团商品数量修改
-     */
-    private void handleCountChange(EditText curNumTxt, ResultGetBaseInfo.OrderDetailBean item) {
-        String numStr = curNumTxt.getText().toString();
-        item.curCount = numStr;
-        refreshPrice();
     }
 
     private long lastNum = 0;
@@ -485,6 +449,89 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         checkBtn();
     }
 
+
+    /**
+     * 数量修改
+     */
+    private CommonAlertDialog dialogRecommend;
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            // 点击推荐人
+            case R.id.field_recommend_code:
+                setRecommend();
+                break;
+        }
+    }
+
+    private void setRecommend() {
+        // 输入框点击
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_set_recommend, null);
+        final EditText etPsw = (EditText) view.findViewById(R.id.et_psw);
+        etPsw.setText(fieldRecommendCode.getText().toString());
+        dialogRecommend = new CommonAlertDialog.Builder(this)
+                .setCancelable(false)
+                .setView(view)
+                .setDismissable(false)
+                .setNegativeButton(R.string.btn_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String pwd = etPsw.getText().toString();
+                                fieldRecommendCode.setText(pwd);
+                                handleRecommendCodeChange();
+                                ViewUtil.hideKeyboard(etPsw);
+                                dialogRecommend.dismiss();
+                            }
+                        })
+                .setPositiveButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ViewUtil.hideKeyboard(etPsw);
+                        dialogRecommend.dismiss();
+                    }
+                }).create();
+        dialogRecommend.show();
+        etPsw.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewUtil.showKeyboard(etPsw);
+            }
+        });
+    }
+
+    /**
+     * 处理推荐人编码修改
+     */
+    private void handleRecommendCodeChange() {
+        // 判断是否相同
+        String newCode = fieldRecommendCode.getText().toString();
+
+        if (TextUtils.isEmpty(newCode)) {
+            fieldRecommendName.setContentText("");
+            return;
+        }
+
+        if (data == null || newCode.equals(data.recommendCode)) {
+            return;
+        }
+
+        // 查数据
+        showWaitDialog();
+        PTXS60Api.getRecommendInfo(newCode, getToken(), (WithContextTextHttpResponseHandler)
+                getNewHandler(REQUEST_CODE_GET_RECOMMEND_INFO, ResultGetRecommendInfo.class));
+    }
+
+    private void setRecommendInfo(ResultGetRecommendInfo result) {
+        fieldRecommendCode.setText(result.recommendCode);
+        fieldRecommendName.setContentText(result.recommendName);
+        data.recommendCode = result.recommendCode;
+        data.recommendName = result.recommendName;
+        checkBtn();
+    }
+
+
     @Override
     public void onSuccessException(int requestCode, Throwable t) {
         super.onSuccessException(requestCode, t);
@@ -492,6 +539,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             // 查询单价
             case REQUEST_CODE_GET_UNIT_PRICE_BY_NUM:
                 setUnitePriceDisable();
+                break;
+            // 查询推荐人
+            case REQUEST_CODE_GET_RECOMMEND_INFO:
+                fieldRecommendName.setContentText("");
                 break;
         }
     }
@@ -504,6 +555,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
             case REQUEST_CODE_GET_UNIT_PRICE_BY_NUM:
                 setUnitePriceDisable();
                 break;
+            // 查询推荐人
+            case REQUEST_CODE_GET_RECOMMEND_INFO:
+                fieldRecommendName.setContentText("");
+                break;
         }
     }
 
@@ -515,6 +570,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
                 TextUtils.isEmpty(fieldReceiverPhone.getText()) ||
                 TextUtils.isEmpty(fieldAddress.getContent()) ||
                 TextUtils.isEmpty(fieldArea.getContent()) ||
+                data == null || data.addressInfo == null ||
+                TextUtils.isEmpty(data.addressInfo.cityCode) ||
+                TextUtils.isEmpty(data.addressInfo.countryCode) ||
+                TextUtils.isEmpty(data.addressInfo.provinceCode) ||
                 TextUtils.isEmpty(fieldRecommendName.getContentText()) ||
                 TextUtils.isEmpty(fieldRecommendCode.getText()) ||
                 fieldUnitPrice.getVisibility() != View.VISIBLE) {

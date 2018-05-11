@@ -1760,5 +1760,6 @@
     <string name="unit_price">单价(元)</string>
     <string name="total_count_zhi">总支数：%d支</string>
     <string name="err_area">请填写完整的省市区</string>
+    <string name="hint_input_count">请输入支数</string>
 
 </resources>
