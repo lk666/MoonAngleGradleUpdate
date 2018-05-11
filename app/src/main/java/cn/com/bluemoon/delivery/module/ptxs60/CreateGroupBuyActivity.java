@@ -549,6 +549,8 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
             // 查询推荐人
             case REQUEST_CODE_GET_RECOMMEND_INFO:
                 fieldRecommendName.setContentText("");
+                data.recommendCode = fieldRecommendCode.getText().toString();
+                data.recommendName = "";
                 break;
         }
     }
@@ -564,6 +566,8 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
             // 查询推荐人
             case REQUEST_CODE_GET_RECOMMEND_INFO:
                 fieldRecommendName.setContentText("");
+                data.recommendCode = fieldRecommendCode.getText().toString();
+                data.recommendName = "";
                 break;
         }
     }
