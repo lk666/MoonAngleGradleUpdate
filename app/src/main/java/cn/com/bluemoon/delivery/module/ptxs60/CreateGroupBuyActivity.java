@@ -355,7 +355,11 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         if (item instanceof ResultGetBaseInfo.OrderDetailBean) {
             View view = LayoutInflater.from(this).inflate(R.layout.dialog_set_count, null);
             final EditText etPsw = (EditText) view.findViewById(R.id.et_psw);
-            etPsw.setText(((ResultGetBaseInfo.OrderDetailBean) item).curCount);
+
+            String s = ((ResultGetBaseInfo.OrderDetailBean) item).curCount;
+            etPsw.setText(s);
+            etPsw.setSelection(s.length());
+
             dialogCount = new CommonAlertDialog.Builder(this)
                     .setCancelable(false)
                     .setView(view)
@@ -469,7 +473,9 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         // 输入框点击
         View view = LayoutInflater.from(this).inflate(R.layout.dialog_set_recommend, null);
         final EditText etPsw = (EditText) view.findViewById(R.id.et_psw);
-        etPsw.setText(fieldRecommendCode.getText().toString());
+        String s = fieldRecommendCode.getText().toString();
+        etPsw.setText(s);
+        etPsw.setSelection(s.length());
         dialogRecommend = new CommonAlertDialog.Builder(this)
                 .setCancelable(false)
                 .setView(view)
@@ -635,5 +641,6 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
             data.addressInfo.provinceName = provinceName;
         }
         fieldArea.setContent(strBuf.toString());
+        checkBtn();
     }
 }
