@@ -30,7 +30,7 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
-import cn.com.bluemoon.delivery.ui.dialog.AddressSelectDialog;
+import cn.com.bluemoon.delivery.ui.dialog.AddressSelectPopWindow;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
@@ -44,8 +44,8 @@ import cn.com.bluemoon.lib_widget.module.form.interf.BMFieldListener;
  */
 public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocusChangeListener,
         OnListItemClickListener,
-        TextView.OnEditorActionListener, BMFieldArrow1View.FieldArrowListener,
-        AddressSelectDialog.IAddressSelectDialog, BMFieldListener, View.OnLayoutChangeListener {
+        TextView.OnEditorActionListener, BMFieldArrow1View.FieldArrowListener, BMFieldListener,
+        View.OnLayoutChangeListener, AddressSelectPopWindow.IAddressSelectDialog {
 
     private static final int REQUEST_CODE_GET_BASE_INFO = 0x777;
     private static final int REQUEST_CODE_GET_UNIT_PRICE_BY_NUM = 0x666;
@@ -222,6 +222,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
         // 提交结算
         data.addressInfo.receiverAddress = fieldAddress.getContent();
         data.addressInfo.receiverName = fieldReceiverName.getContent();
+        data.addressInfo.contactPhone = phone;
 
         ArrayList<RequestOrderDetail> details = new ArrayList<>();
         for (ResultGetBaseInfo.OrderDetailBean bean : data.orderDetail) {
@@ -528,9 +529,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
 
     @Override
     public void onClickLayout(View view) {
-        AddressSelectDialog dialog = AddressSelectDialog.newInstance(provinceId, cityId, countyId);
-        dialog.setListener(this);
-        dialog.show(getSupportFragmentManager(), "");
+        AddressSelectPopWindow window = AddressSelectPopWindow.newInstance(this, provinceId,
+                cityId, countyId);
+        window.setListener(this);
+        window.show(mainClick);
     }
 
     @Override
