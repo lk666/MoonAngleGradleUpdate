@@ -212,6 +212,13 @@ public class CreateGroupBuyActivity extends BaseActivity implements View.OnFocus
      * 提交数据结算
      */
     private void submit() {
+        if (TextUtils.isEmpty(data.addressInfo.cityCode)||
+                TextUtils.isEmpty(data.addressInfo.countryCode)||
+                TextUtils.isEmpty(data.addressInfo.provinceCode)) {
+            toast(getString(R.string.err_area));
+            return;
+        }
+
         String phone = fieldReceiverPhone.getText().toString();
         if (!StringUtil.isPhone(phone)) {
             toast(getString(R.string.error_message_input_phone));

@@ -1759,5 +1759,6 @@
     <string name="group_buy_info">拼团信息(支)</string>
     <string name="unit_price">单价(元)</string>
     <string name="total_count_zhi">总支数：%d支</string>
+    <string name="err_area">请填写完整的省市区</string>
 
 </resources>
