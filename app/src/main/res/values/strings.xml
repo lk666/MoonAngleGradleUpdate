@@ -1389,7 +1389,7 @@
     <string name="group_booking_pay_success">支付成功</string>
     <string name="group_booking_pay_failed">支付失败</string>
     <string name="pay_title">支付</string>
-    <string name="pay_back_hint">拼团订单未支付，7天内未进行付款，订单将自动取消</string>
+    <string name="pay_back_hint">拼团订单未支付，30分钟内未进行付款，订单将自动取消</string>
 
     <!--换衣管理优化-->
     <string name="returning_fasttips_title">快速查询</string>
