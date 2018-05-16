@@ -12,19 +12,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.DispachInfo;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.WithOrderClothingCollectOrder;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentOrderScan;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentQueryList;
 import cn.com.bluemoon.delivery.app.api.model.wash.appointment.ResultAppointmentQueryList.AppointmentListBean;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
@@ -54,10 +50,6 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     private static final int REQUEST_CODE_QUERY = 0x666;
     private static final int REQUEST_APPOINTMENT_REFUSAL = 0x6666;
     private static final int REQUEST_CODE_TRAMSFER = 0x46;
-    /**
-     * 分页标识
-     */
-    private long timestamp = 0;
 
     @Override
     protected String getTitleString() {
@@ -86,6 +78,7 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                 Constants.REQUEST_SCAN);
     }
 
+
     @Override
     protected void initPullToRefreshListView(PullToRefreshListView ptrlv) {
         ptrlv.getRefreshableView().setDivider(null);
@@ -94,13 +87,12 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
     @Override
     protected PullToRefreshBase.Mode getMode() {
-        return PullToRefreshBase.Mode.BOTH;
+        return PullToRefreshBase.Mode.PULL_FROM_START;
     }
 
     @Override
     protected void invokeGetDataDeliveryApi(int requestCode) {
-        timestamp = 0;
-        AppointmentApi.appointmentQueryList(0, getToken(),
+        AppointmentApi.appointmentQueryList(getToken(),
                 getNewHandler(requestCode, ResultAppointmentQueryList.class));
         setAmount();
     }
@@ -109,89 +101,12 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
     protected List<AppointmentListBean> getGetDataList(
             ResultBase result) {
         ResultAppointmentQueryList resultObj = (ResultAppointmentQueryList) result;
-        timestamp = resultObj.getTimestamp();
-        //TODO
-        List<AppointmentListBean> list = new ArrayList<>();
-        AppointmentListBean o = new AppointmentListBean();
-        DispachInfo dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ADMIN_DISPACH");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        o.dispachInfo = dispachInfo;
-        o.setAppointmentStatus("APPOINTMENT_WAIT_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setAppointmentCode("AppointmentCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setProvince("Province");
-        o.setStreet("Street");
-        o.setVillage("Village");
-        list.add(o);
-
-        o = new AppointmentListBean();
-        dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ANGEL_TRANSFER");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        o.dispachInfo = dispachInfo;
-        o.setAppointmentStatus("APPOINTMENT_WAIT_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setAppointmentCode("AppointmentCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setProvince("Province");
-        o.setStreet("Street");
-        o.setVillage("Village");
-        list.add(o);
-
-        o = new AppointmentListBean();
-        o.setAppointmentStatus("APPOINTMENT_WAIT_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setAppointmentCode("AppointmentCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setProvince("Province");
-        o.setStreet("Street");
-        o.setVillage("Village");
-        list.add(o);
-
-
-        o = new AppointmentListBean();
-        o.setAppointmentStatus("APPOINTMENT_ALREADY_ORDERS");//APPOINTMENT_WAIT_ORDERS","APPOINTMENT_ALREADY_ORDERS
-        dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ANGEL_TRANSFER");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setAppointmentCode("AppointmentCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setProvince("Province");
-        o.setStreet("Street");
-        o.setVillage("Village");
-        list.add(o);
-        resultObj.setAppointmentList(list);
-
         return resultObj.getAppointmentList();
     }
 
     @Override
     protected void invokeGetMoreDeliveryApi(int requestCode) {
-        AppointmentApi.appointmentQueryList(timestamp, getToken(),
+        AppointmentApi.appointmentQueryList(getToken(),
                 getNewHandler(requestCode, ResultAppointmentQueryList.class));
     }
 

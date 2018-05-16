@@ -9,7 +9,6 @@ import android.content.Intent;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -26,15 +24,11 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import org.apache.http.Header;
 import org.apache.http.protocol.HTTP;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.DispachInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultScanOrderInfo;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultWithOrderClothingCollectList;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.WithOrderClothingCollectOrder;
@@ -42,11 +36,10 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.oldbase.BaseFragment;
+import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
@@ -55,7 +48,6 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonAlertDialog.Builder;
 
 // 可参照dobago的BaseRefreshListFragment
@@ -147,134 +139,6 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
 
     private void setData(ResultWithOrderClothingCollectList resultOrder) {
-        //TODO
-        List<WithOrderClothingCollectOrder> list = new ArrayList();
-        WithOrderClothingCollectOrder o = new WithOrderClothingCollectOrder();
-        DispachInfo dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ADMIN_DISPACH");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        o.dispachInfo = dispachInfo;
-        o.setActualCount(5);
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setCollectCode("CollectCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setOuterCode("OuterCode");
-        o.setOuterCodeType("washOrder");
-        o.setPayTotal(999);
-        o.setProvince("Province");
-        o.setReceivableCount(3);
-        o.setStreet("Street");
-        o.setVillage("Village");
-        o.setWashStatus("WAIT_ACCEPT"); //'ALREADY_ACCEPT','ANGEL_LAUNDRYING','ANGEL_LAUNDRYING','RECEIVE','TRANSFER','WAIT_ACCEPT','WAIT_DISPATCH')
-        list.add(o);
-        o = new WithOrderClothingCollectOrder();
-        dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ANGEL_TRANSFER");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        o.dispachInfo = dispachInfo;
-        o.setActualCount(5);
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setCollectCode("CollectCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setOuterCode("OuterCode");
-        o.setOuterCodeType("washOrder");
-        o.setPayTotal(999);
-        o.setProvince("Province");
-        o.setReceivableCount(3);
-        o.setStreet("Street");
-        o.setVillage("Village");
-        o.setWashStatus("WAIT_ACCEPT");
-        list.add(o);
-
-        o = new WithOrderClothingCollectOrder();
-        dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ANGEL_TRANSFER");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        //o.dispachInfo = dispachInfo;
-        o.setActualCount(5);
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setCollectCode("CollectCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setOuterCode("OuterCode");
-        o.setOuterCodeType("washOrder");
-        o.setPayTotal(999);
-        o.setProvince("Province");
-        o.setReceivableCount(3);
-        o.setStreet("Street");
-        o.setVillage("Village");
-        o.setWashStatus("WAIT_ACCEPT");
-        list.add(o);
-
-        o = new WithOrderClothingCollectOrder();
-        dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ANGEL_LAUNDRYING");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        o.dispachInfo = dispachInfo;
-        o.setActualCount(5);
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setCollectCode("CollectCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setOuterCode("OuterCode");
-        o.setOuterCodeType("washOrder");
-        o.setPayTotal(999);
-        o.setProvince("Province");
-        o.setReceivableCount(3);
-        o.setStreet("Street");
-        o.setVillage("Village");
-        o.setWashStatus("ALREADY_ACCEPT");
-        list.add(o);
-
-        o = new WithOrderClothingCollectOrder();
-        dispachInfo = new DispachInfo();
-        dispachInfo.setDispachType("ANGEL_LAUNDRYING");
-        dispachInfo.setOpCode("opCode");
-        dispachInfo.setOpName("OpName");
-        dispachInfo.setOpTime(0);
-        dispachInfo.setRemark("Remark");
-        o.dispachInfo = dispachInfo;
-        o.setActualCount(5);
-        o.setAddress("Address");
-        o.setCity("City");
-        o.setCollectCode("CollectCode");
-        o.setCounty("County");
-        o.setCustomerName("CustomerName");
-        o.setCustomerPhone("CustomerPhone");
-        o.setOuterCode("OuterCode");
-        o.setOuterCodeType("washOrder");
-        o.setPayTotal(999);
-        o.setProvince("Province");
-        o.setReceivableCount(3);
-        o.setStreet("Street");
-        o.setVillage("Village");
-        o.setWashStatus("ANGEL_LAUNDRYING");
-        list.add(o);
-        resultOrder.setOrderInfos(list);
-
-
         adapter.setList(resultOrder.getOrderInfos());
         main.setAmountShow(manager, resultOrder.getOrderInfos().size());
         adapter.notifyDataSetChanged();
@@ -525,28 +389,28 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             tvCollectNumberTitle.setVisibility(View.GONE);
             tvAdminDipach.setVisibility(View.GONE);
             tvAngelTransfer.setVisibility(View.GONE);
-            //添加指派转派标签
-            //TODO
+
             if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
                     .OUTERCODE_TYPE_WASHORDER)) {
-                if (order.dispachInfo != null
-                        && WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT.equals(order.getWashStatus())) {
-                    if ("ANGEL_TRANSFER".equals(order.dispachInfo.getDispachType())) {
-                        tvAngelTransfer.setVisibility(View.VISIBLE);
-                    } else if ("ADMIN_DISPACH".equals(order.dispachInfo.getDispachType())) {
-                        tvAdminDipach.setVisibility(View.VISIBLE);
-                    } else {
-                        tvCollectNumberTitle.setVisibility(View.VISIBLE);
-                    }
-                } else {
-                    tvCollectNumberTitle.setVisibility(View.VISIBLE);
-                }
-
                 // 服务单号
                 tvNumber.setText(order.getCollectCode());
             } else {
                 // 收衣单号
                 tvNumber.setText(order.getOuterCode());
+            }
+
+            //添加指派转派标签
+            if (order.dispachInfo != null
+                    && WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT.equals(order.getWashStatus())) {
+                if ("ANGEL_TRANSFER".equals(order.dispachInfo.getDispachType())) {
+                    tvAngelTransfer.setVisibility(View.VISIBLE);
+                } else if ("ADMIN_DISPACH".equals(order.dispachInfo.getDispachType())) {
+                    tvAdminDipach.setVisibility(View.VISIBLE);
+                } else {
+                    tvCollectNumberTitle.setVisibility(View.VISIBLE);
+                }
+            } else {
+                tvCollectNumberTitle.setVisibility(View.VISIBLE);
             }
 
             // 名称

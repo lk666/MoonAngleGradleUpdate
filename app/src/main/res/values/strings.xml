@@ -1737,5 +1737,6 @@
     <string name="transfer_input_code">被指派人编号(必填)</string>
     <string name="transfer_name_input">被转派人姓名</string>
     <string name="transfer_mobile_input">被转派人电话</string>
+    <string name="order_transfer_success">转派成功！</string>
 
 </resources>

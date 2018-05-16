@@ -1,6 +1,5 @@
 package cn.com.bluemoon.delivery.module.wash.collect.withorder;
 
-import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
@@ -156,7 +155,7 @@ public class TransferOrderActivity extends BaseActivity {
             personOpcode.setSuccess();
             btnOk.setEnabled(true);
         } else if (requestCode == 2) {
-            toast(result.getResponseMsg());
+            toast(getString(R.string.order_transfer_success));
             setResult(RESULT_OK);
             finish();
         }
