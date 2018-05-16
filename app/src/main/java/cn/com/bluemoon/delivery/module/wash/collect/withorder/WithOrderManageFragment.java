@@ -36,10 +36,11 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.oldbase.BaseFragment;
+import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
@@ -47,7 +48,7 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
-import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.CommonAlertDialog.Builder;
 
 // 可参照dobago的BaseRefreshListFragment
 
@@ -61,6 +62,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     private static final int REQUEST_CODE_MANUAL = 0x43;
     private static final int REQUEST_CODE_DELIVER = 0x44;
     private static final int REQUEST_CODE_DELIVER_CONFIRM = 0x45;
+    private static final int REQUEST_CODE_TRAMSFER = 0x46;
     private ClothingTabActivity main;
     private OrderAdapter adapter;
     Dialog refuseDialog;
@@ -134,6 +136,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             DeliveryApi.getOrderInfos(token, withOrderListHandler);
         }
     }
+
 
     private void setData(ResultWithOrderClothingCollectList resultOrder) {
         adapter.setList(resultOrder.getOrderInfos());
@@ -230,6 +233,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
         if (resultCode == Activity.RESULT_CANCELED) {
             return;
+        }
+
+        if (resultCode == Activity.RESULT_OK && requestCode == REQUEST_CODE_TRAMSFER) {
+            getData();//转派他人后刷新列表
         }
 
         switch (requestCode) {
@@ -374,18 +381,36 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             TextView tvPayTotal = ViewHolder.get(convertView, R.id.tv_pay_total);
             TextView tvReceivableCount = ViewHolder.get(convertView, R.id.tv_receivable_count);
             TextView tvActualCount = ViewHolder.get(convertView, R.id.tv_actual_count);
+            TextView tvAdminDipach = ViewHolder.get(convertView, R.id.tv_admin_dipach);
+            TextView tvAngelTransfer = ViewHolder.get(convertView, R.id.tv_angel_transfer);
             View div = ViewHolder.get(convertView, R.id.div);
 
             // 订单编号开头
             tvCollectNumberTitle.setVisibility(View.GONE);
+            tvAdminDipach.setVisibility(View.GONE);
+            tvAngelTransfer.setVisibility(View.GONE);
+
             if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
                     .OUTERCODE_TYPE_WASHORDER)) {
-                tvCollectNumberTitle.setVisibility(View.VISIBLE);
                 // 服务单号
                 tvNumber.setText(order.getCollectCode());
             } else {
                 // 收衣单号
                 tvNumber.setText(order.getOuterCode());
+            }
+
+            //添加指派转派标签
+            if (order.dispachInfo != null
+                    && WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT.equals(order.getWashStatus())) {
+                if ("ANGEL_TRANSFER".equals(order.dispachInfo.getDispachType())) {
+                    tvAngelTransfer.setVisibility(View.VISIBLE);
+                } else if ("ADMIN_DISPACH".equals(order.dispachInfo.getDispachType())) {
+                    tvAdminDipach.setVisibility(View.VISIBLE);
+                } else {
+                    tvCollectNumberTitle.setVisibility(View.VISIBLE);
+                }
+            } else {
+                tvCollectNumberTitle.setVisibility(View.VISIBLE);
             }
 
             // 名称
@@ -406,12 +431,20 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
                     // 右边按钮
                     btnRightAction.setVisibility(View.VISIBLE);
-                    //右边文本按钮
-                    tvRightAction.setVisibility(View.VISIBLE);
 
                     btnRightAction.setText(getString(R.string.with_order_collect_btn_accept));
-                    tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept));
-                    tvRightAction.setTextColor(colorTxtBtnGray);
+                    if (order.dispachInfo != null
+                            && ("ANGEL_TRANSFER".equals(order.dispachInfo.getDispachType())
+                            || "ADMIN_DISPACH".equals(order.dispachInfo.getDispachType()))) {
+                        //右边文本按钮
+                        tvRightAction.setVisibility(View.VISIBLE);
+                        tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept));
+                        tvRightAction.setTextColor(colorTxtBtnGray);
+
+                    } else {
+                        tvRightAction.setVisibility(View.GONE);
+                    }
+
                     break;
 
                 // 开始收衣
@@ -420,6 +453,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     tvRightAction.setVisibility(View.GONE);
                     btnRightAction.setText(getString(R.string
                             .with_order_collect_btn_start_collect));
+                    tvRightAction.setVisibility(View.VISIBLE);
+                    tvRightAction.setText(getString(R.string
+                            .transfer_other));
+                    tvRightAction.setTextColor(colorTxtBtnBlue);
                     break;
 
                 // 收衣中
@@ -481,7 +518,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             }
 
             setClickEvent(isNew, position, tvDetail, btnRightAction, tvRightAction
-            );
+                    , tvAngelTransfer);
         }
     }
 
@@ -498,6 +535,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 REQUEST_CODE_WITH_ORDER_COLLECT_BOOK_IN_ACTIVITY);
     }
 
+    @SuppressLint("StringFormatInvalid")
     @Override
     public void onItemClick(Object item, View view, int position) {
         WithOrderClothingCollectOrder order = (WithOrderClothingCollectOrder) item;
@@ -571,9 +609,16 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         currentCollectCode = order.getCollectCode();
                         refuseDialogInit();
                         break;
+                    //转派他人
+                    case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
+                        TransferOrderActivity.startAct(this, order.getCollectCode(), TransferOrderActivity.WASH_TYPE, REQUEST_CODE_TRAMSFER);
+                        break;
                     default:
                         break;
                 }
+                break;
+            case R.id.tv_angel_transfer:
+                DialogUtil.showTransferDialog(getActivity(), order.dispachInfo);
                 break;
             default:
                 break;
@@ -615,7 +660,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
     private void cancelOrder() {
 
-        new CommonAlertDialog.Builder(main)
+        new Builder(main)
                 .setCancelable(true)
                 .setMessage(main.getString(R.string.pending_order_get_or_not))
                 .setPositiveButton(R.string.btn_cancel,

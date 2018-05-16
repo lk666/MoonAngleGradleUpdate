@@ -40,6 +40,8 @@
     <color name="text_white_light">#ccfefefe</color>
     <color name="text_green">#66bb6a</color>
     <color name="text_orange">#f5a623</color>
+    <color name="text_green_dark">#17C37B</color><!--指派-->
+    <color name="text_blue_dark">#33A3FF</color><!--转派-->
     <color name="text_pay_title">#071A47</color>
     <color name="text_pay_middle_title">#80848C</color>
     <color name="text_pay_little_title">#C0C4CD</color>

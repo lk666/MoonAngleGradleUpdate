@@ -47,11 +47,9 @@ public class AppointmentApi extends DeliveryApi {
 
     /**
      * 7.1已分派的预约单列表
-     *
-     * @param timestamp 分页标示 long
      * @param token     登录凭证(必填) String
      */
-    public static void appointmentQueryList(long timestamp, String token,
+    public static void appointmentQueryList(String token,
                                             AsyncHttpResponseHandler handler) {
         if (null == token) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1], null,
@@ -60,7 +58,6 @@ public class AppointmentApi extends DeliveryApi {
             return;
         }
         Map<String, Object> params = new HashMap<>();
-        params.put("timestamp", timestamp);
         params.put(TOKEN, token);
         postRequest(params, "washingService-controller/wash/appointment/appointmentQueryList%s",
                 handler);

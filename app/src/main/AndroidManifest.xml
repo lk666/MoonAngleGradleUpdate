@@ -966,6 +966,12 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.wash.collect.withorder.TransferOrderActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:theme="@style/App.Base.Theme"/>
 
         <meta-data
             android:name="android.max_aspect"

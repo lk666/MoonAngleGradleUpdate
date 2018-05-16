@@ -1986,6 +1986,69 @@ public class DeliveryApi {
         ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
     }
 
+    /*7.9预约单取消接单
+	/*返回：ResultBase*/
+    public static void appointmentRefusal(String token, String appointmentCode,
+                                     AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(appointmentCode) ) {
+            return;
+        }
+
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("appointmentCode", appointmentCode);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/appointment/appointmentRefusal%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+
+
+    /*2.10.洗衣单转派*/
+	/*返回：ResultBase*/
+    public static void washTransfer(String token, String collectCode, String receiverCode,
+                                     String receiverName, String receiverPhone, String remark,
+                                     AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(collectCode) || StringUtil.isEmpty(receiverCode)
+                || StringUtil.isEmpty(receiverName) || StringUtil.isEmpty(receiverPhone)) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("collectCode", collectCode);
+        params.put("receiverCode", receiverCode);
+        params.put("receiverName", receiverName);
+        params.put("receiverPhone", receiverPhone);
+        params.put("remark", remark);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/transfer%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
+    /*7.10.预约单转派他人*/
+	/*返回：ResultBase*/
+    public static void appointmentTransfer(String token, String appointmentCode, String receiverCode,
+                                String receiverName, String receiverPhone, String remark,
+                                AsyncHttpResponseHandler handler) {
+        if (null == token || StringUtil.isEmpty(appointmentCode) || StringUtil.isEmpty(receiverCode)
+                || StringUtil.isEmpty(receiverName) || StringUtil.isEmpty(receiverPhone)) {
+            return;
+        }
+        Map<String, String> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("appointmentCode", appointmentCode);
+        params.put("receiverCode", receiverCode);
+        params.put("receiverName", receiverName);
+        params.put("receiverPhone", receiverPhone);
+        params.put("remark", remark);
+        String jsonString = JSONObject.toJSONString(params);
+        String url = String.format("washingService-controller/wash/appointment/transfer%s",
+                ApiClientHelper.getParamUrl());
+        ApiHttpClient.post(AppContext.getInstance(), url, jsonString, handler);
+    }
+
 
     /*2.9查询衣物转交记录*/
 	/*返回：ResultClothesDeliverInfos*/
