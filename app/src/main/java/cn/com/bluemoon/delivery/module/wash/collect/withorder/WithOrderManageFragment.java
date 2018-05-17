@@ -568,7 +568,11 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
             case R.id.btn_right_action:
                 switch (order.getWashStatus()) {
-
+                    // 待派单
+                    case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
+                        acceptOrder(ClientStateManager.getLoginToken(getActivity()), order
+                                .getOuterCode());
+                        break;
                     // 待接单
                     case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
                         acceptOrder(ClientStateManager.getLoginToken(getActivity()), order

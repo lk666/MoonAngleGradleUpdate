@@ -262,11 +262,11 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                     // 右边按钮
                     switch (item.getAppointmentStatus()) {
                         // 待接单
+                        case AppointmentListBean.APPOINTMENT_WAIT_DISPATCH:
+                            receivedOrder(position, item);
+                            break;
                         case AppointmentListBean.APPOINTMENT_WAIT_ORDERS:
-                            showWaitDialog();
-                            acceptPosition = position;
-                            AppointmentApi.appointmentReceived(item.getAppointmentCode(), getToken(),
-                                    getNewHandler(REQUEST_CODE_RECEIVE, ResultBase.class));
+                            receivedOrder(position, item);
                             break;
 
                         // 已接单
@@ -293,6 +293,18 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
 
 
         }
+    }
+
+    /**
+     * 接单
+     * @param position
+     * @param item
+     */
+    private void receivedOrder(int position, AppointmentListBean item) {
+        showWaitDialog();
+        acceptPosition = position;
+        AppointmentApi.appointmentReceived(item.getAppointmentCode(), getToken(),
+                getNewHandler(REQUEST_CODE_RECEIVE, ResultBase.class));
     }
 
     private void cancelOrder(final String appointmentCode) {
