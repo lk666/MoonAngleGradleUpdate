@@ -15,7 +15,7 @@ public class WithOrderClothingCollectOrder {
     public final static String  OUTERCODE_TYPE_WASHORDER = "washOrder";
 
     /**
-     * 订单状态:待派单(客户端无用)
+     * 订单状态:待派单
      */
     public final static String WASH_STATUS_WAIT_DISPATCH = "WAIT_DISPATCH";
     /**

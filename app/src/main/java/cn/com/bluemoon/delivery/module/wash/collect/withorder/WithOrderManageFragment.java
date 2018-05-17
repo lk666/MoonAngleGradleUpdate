@@ -427,6 +427,12 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
 
             // 右边文本按钮
             switch (order.getWashStatus()) {
+                // 待派单
+                case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_DISPATCH:
+                    btnRightAction.setVisibility(View.VISIBLE);
+                    btnRightAction.setText(getString(R.string.with_order_collect_btn_accept));
+                    tvRightAction.setVisibility(View.GONE);
+                    break;
                 // 待接单
                 case WithOrderClothingCollectOrder.WASH_STATUS_WAIT_ACCEPT:
                     // 右边按钮
@@ -438,7 +444,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                             || "ADMIN_DISPACH".equals(order.dispachInfo.getDispachType()))) {
                         //右边文本按钮
                         tvRightAction.setVisibility(View.VISIBLE);
-                        tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept));
+                        tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept2));
                         tvRightAction.setTextColor(colorTxtBtnGray);
 
                     } else {

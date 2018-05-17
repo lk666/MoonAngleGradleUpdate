@@ -210,12 +210,15 @@ public class AppointmentFragment extends BasePullToRefreshListViewFragment {
                             || "ADMIN_DISPACH".equals(item.dispachInfo.getDispachType()))) {
                         //右边文本按钮
                         tvRightAction.setVisibility(View.VISIBLE);
-                        tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept));
+                        tvRightAction.setText(getString(R.string.with_order_collect_txt_cancle_accept2));
                         tvRightAction.setTextColor(colorTxtBtnGray);
 
                     }
                     break;
-
+                case AppointmentListBean.APPOINTMENT_WAIT_DISPATCH:
+                    btnRightAction.setVisibility(View.VISIBLE);
+                    btnRightAction.setText(getString(R.string.appointment_accept));
+                    break;
                 // 已接单
                 case AppointmentListBean.APPOINTMENT_ALREADY_ORDERS:
                     btnRightAction.setVisibility(View.VISIBLE);

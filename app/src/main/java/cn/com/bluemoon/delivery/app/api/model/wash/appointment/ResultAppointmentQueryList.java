@@ -47,6 +47,11 @@ public class ResultAppointmentQueryList extends ResultBase {
         public static final String APPOINTMENT_ALREADY_ORDERS = "APPOINTMENT_ALREADY_ORDERS";
 
         /**
+         * 预约单状态:待派单
+         */
+        public static final String APPOINTMENT_WAIT_DISPATCH = "APPOINTMENT_WAIT_DISPATCH";
+
+        /**
          * 地址详情
          */
         private String address;
