@@ -18,6 +18,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/with_order_collect_collect_number_text"
+            android:textStyle="bold"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_13"
             android:visibility="gone"/>
@@ -59,6 +60,7 @@
             android:layout_marginRight="10dp"
             android:layout_weight="1"
             android:singleLine="true"
+            android:textStyle="bold"
             android:textColor="@color/text_black"
             android:textSize="@dimen/text_size_13"/>
 
