@@ -2007,16 +2007,16 @@ public class DeliveryApi {
 
     /*2.10.洗衣单转派*/
 	/*返回：ResultBase*/
-    public static void washTransfer(String token, String collectCode, String receiverCode,
+    public static void washTransfer(String token, String outerCode, String receiverCode,
                                      String receiverName, String receiverPhone, String remark,
                                      AsyncHttpResponseHandler handler) {
-        if (null == token || StringUtil.isEmpty(collectCode) || StringUtil.isEmpty(receiverCode)
+        if (null == token || StringUtil.isEmpty(outerCode) || StringUtil.isEmpty(receiverCode)
                 || StringUtil.isEmpty(receiverName) || StringUtil.isEmpty(receiverPhone)) {
             return;
         }
         Map<String, String> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("collectCode", collectCode);
+        params.put("outerCode", outerCode);
         params.put("receiverCode", receiverCode);
         params.put("receiverName", receiverName);
         params.put("receiverPhone", receiverPhone);
