@@ -621,7 +621,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                         break;
                     //转派他人
                     case WithOrderClothingCollectOrder.WASH_STATUS_ALREADY_ACCEPT:
-                        TransferOrderActivity.startAct(this, order.getCollectCode(), TransferOrderActivity.WASH_TYPE, REQUEST_CODE_TRAMSFER);
+                        TransferOrderActivity.startAct(this, order.getOuterCode(), TransferOrderActivity.WASH_TYPE, REQUEST_CODE_TRAMSFER);
                         break;
                     default:
                         break;
