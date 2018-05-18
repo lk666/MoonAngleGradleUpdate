@@ -182,7 +182,7 @@ dependencies {
         compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-alpha-12'*/
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
-    compile 'com.bluemoon.x5:lib_x5:1.7.11'
+    compile 'com.bluemoon.x5:lib_x5:1.7.14'
     compile 'com.bluemoon.badger:lib_badger:0.0.1'
     compile "com.android.support:cardview-v7:22.2.1"
 
