@@ -17,23 +17,31 @@
             app:field_btn1_btn_txt="@string/txt_query"
             app:field_btn1_title="@string/transfer_input_code"
             app:field_btn1_hint="@string/transfer_code_input"/>
-        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
-            android:id="@+id/cell_name"
+        <LinearLayout
+            android:id="@+id/layout_other"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/transfer_name_input"/>
-        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
-            android:id="@+id/cell_mobile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:cell_text_txt_title="@string/transfer_mobile_input"/>
-        <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
-            android:id="@+id/field_remark"
-            android:layout_width="match_parent"
-            android:layout_height="120dp"
-            app:field_content_maxLength="50"
-            app:field_title="@string/team_member_detail_content"
-            app:field_hint="@string/clothing_deliver_mark_hint"/>
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/cell_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/transfer_name_input"/>
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/cell_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/transfer_mobile_input"/>
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
+                android:id="@+id/field_remark"
+                android:layout_width="match_parent"
+                android:layout_height="120dp"
+                app:field_content_maxLength="50"
+                app:field_title="@string/team_member_detail_content"
+                app:field_hint="@string/clothing_deliver_mark_hint"/>
+        </LinearLayout>
+
         
     </LinearLayout>
 

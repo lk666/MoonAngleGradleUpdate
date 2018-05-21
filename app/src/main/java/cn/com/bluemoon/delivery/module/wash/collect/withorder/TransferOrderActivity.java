@@ -3,9 +3,13 @@ package cn.com.bluemoon.delivery.module.wash.collect.withorder;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
+import android.view.KeyEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import butterknife.OnClick;
@@ -95,9 +99,41 @@ public class TransferOrderActivity extends BaseActivity {
                 }
             }
         });
+        EditText etNumber = (EditText) personOpcode.findViewById(R.id.et_content);
+        etNumber.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                btnOk.setEnabled(false);
+                return false;
+            }
+        });
+        fieldRemark.findViewById(R.id.et_content).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                checkInfo();
+                return false;
+            }
+        });
+
+        etNumber.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int i, KeyEvent keyEvent) {
+                if (i == EditorInfo.IME_ACTION_NEXT) {
+                    checkInfo();
+                }
+                return false;
+            }
+        });
     }
 
-    @OnClick({R.id.btn_cancel, R.id.btn_ok})
+    private void checkInfo() {
+        if (!TextUtils.isEmpty(personOpcode.getContent())
+                && personOpcode.findViewById(R.id.image_status).getVisibility() == View.GONE) {
+            personOpcode.onClick(findViewById(R.id.txt_btn));
+        }
+    }
+
+    @OnClick({R.id.btn_cancel, R.id.btn_ok, R.id.layout_other})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_ok:
@@ -116,6 +152,9 @@ public class TransferOrderActivity extends BaseActivity {
                 break;
             case R.id.btn_cancel:
                 finish();
+                break;
+            case R.id.layout_other:
+                checkInfo();
                 break;
         }
     }
