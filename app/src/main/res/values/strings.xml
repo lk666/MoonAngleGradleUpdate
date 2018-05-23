@@ -144,8 +144,8 @@
     <string name="user_general">通用</string>
     <string name="service_dialog_title">客服联系方式</string>
     <string name="service_dialog_title2">联系客服</string>
-    <string name="service_call2">拨打客服电话\n400-111-1118转3</string>
-    <string name="service_call">1.拨打客服电话400-111-1118转3</string>
+    <string name="service_call2">拨打客服电话\n400-111-1118转5</string>
+    <string name="service_call">1.拨打客服电话400-111-1118转5</string>
     <string name="service_weixin">2.关注微信公众号“蓝月亮的世界”进行在线咨询</string>
     <string name="service_weixin_btn">前往微信咨询</string>
     <string name="service_call_btn">拨打客服电话</string>
