@@ -543,7 +543,7 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
      */
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
-        ViewUtil.showErrorMsg(result);
+        PublicUtil.showErrorMsg(this, result);
     }
 
     /**
