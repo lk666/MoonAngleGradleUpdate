@@ -1,10 +1,12 @@
 package cn.com.bluemoon.delivery.app.api.model.clothing.collect;
 
+import java.io.Serializable;
+
 /**
  * Created by liangjiangli on 2018/5/3.
  */
 
-public class DispachInfo {
+public class DispachInfo implements Serializable {
 
     private String dispachType;	//派单类型	string	@mock=$order('ADMIN_DISPACH','ANGEL_TRANSFER')
     private String opCode;	//操作人编号	string
