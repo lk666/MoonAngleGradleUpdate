@@ -396,6 +396,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                 tvNumber.setText(order.getCollectCode());
             } else {
                 // 收衣单号
+                tvCollectNumberTitle.setVisibility(View.VISIBLE);
                 tvNumber.setText(order.getOuterCode());
             }
 
@@ -406,11 +407,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
                     tvAngelTransfer.setVisibility(View.VISIBLE);
                 } else if ("ADMIN_DISPACH".equals(order.dispachInfo.getDispachType())) {
                     tvAdminDipach.setVisibility(View.VISIBLE);
-                } else {
-                    tvCollectNumberTitle.setVisibility(View.VISIBLE);
                 }
-            } else {
-                tvCollectNumberTitle.setVisibility(View.VISIBLE);
             }
 
             // 名称
