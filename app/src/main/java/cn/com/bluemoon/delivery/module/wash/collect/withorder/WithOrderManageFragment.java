@@ -393,10 +393,10 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
             if (order.getOuterCodeType().equals(WithOrderClothingCollectOrder
                     .OUTERCODE_TYPE_WASHORDER)) {
                 // 服务单号
+                tvCollectNumberTitle.setVisibility(View.VISIBLE);
                 tvNumber.setText(order.getCollectCode());
             } else {
                 // 收衣单号
-                tvCollectNumberTitle.setVisibility(View.VISIBLE);
                 tvNumber.setText(order.getOuterCode());
             }
 
