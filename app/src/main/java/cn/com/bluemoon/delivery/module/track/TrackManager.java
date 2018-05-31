@@ -16,6 +16,7 @@ import cn.com.bluemoon.delivery.db.manager.ReqBodyDaoManager;
 import cn.com.bluemoon.delivery.module.track.api.ResultTrack;
 import cn.com.bluemoon.delivery.module.track.api.TrackApi;
 import cn.com.bluemoon.delivery.module.track.api.WithStatusTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.module.track.menu.Menu;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.liblog.LogUtils;
@@ -49,6 +50,17 @@ public class TrackManager {
         String param = JSON.toJSONString(list);
         ReqBodyDaoManager.addBody(TrackCode.CODE_SHARE, param);
         LogUtils.d(TAG, "add==> param:" + param);
+    }
+
+    /**
+     * 增加菜单埋点数据
+     */
+    public static void addMenu(String code,String url) {
+        List<Menu> list = new ArrayList<>();
+        list.add(new Menu(url));
+        String param = JSON.toJSONString(list);
+        ReqBodyDaoManager.addBody(code, param);
+        LogUtils.d(TAG, "add==> code:" + url + " param:" + param);
     }
 
     /**

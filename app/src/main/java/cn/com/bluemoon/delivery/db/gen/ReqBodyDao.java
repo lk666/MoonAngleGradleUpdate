@@ -34,6 +34,12 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
         public final static Property EventType = new Property(7, String.class, "eventType", false, "EVENT_TYPE");
         public final static Property EventParam = new Property(8, String.class, "eventParam", false, "EVENT_PARAM");
         public final static Property Status = new Property(9, long.class, "status", false, "STATUS");
+        public final static Property Ip = new Property(10, String.class, "ip", false, "IP");
+        public final static Property Lng = new Property(11, String.class, "lng", false, "LNG");
+        public final static Property Lat = new Property(12, String.class, "lat", false, "LAT");
+        public final static Property Mac = new Property(13, String.class, "mac", false, "MAC");
+        public final static Property UnitBrand = new Property(14, String.class, "unitBrand", false, "UNIT_BRAND");
+        public final static Property UnitModel = new Property(15, String.class, "unitModel", false, "UNIT_MODEL");
     }
 
 
@@ -58,7 +64,13 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
                 "\"CODE\" TEXT NOT NULL ," + // 6: code
                 "\"EVENT_TYPE\" TEXT NOT NULL ," + // 7: eventType
                 "\"EVENT_PARAM\" TEXT," + // 8: eventParam
-                "\"STATUS\" INTEGER NOT NULL );"); // 9: status
+                "\"STATUS\" INTEGER NOT NULL ," + // 9: status
+                "\"IP\" TEXT," + // 10: ip
+                "\"LNG\" TEXT," + // 11: lng
+                "\"LAT\" TEXT," + // 12: lat
+                "\"MAC\" TEXT," + // 13: mac
+                "\"UNIT_BRAND\" TEXT," + // 14: unitBrand
+                "\"UNIT_MODEL\" TEXT);"); // 15: unitModel
     }
 
     /** Drops the underlying database table. */
@@ -96,6 +108,36 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
             stmt.bindString(9, eventParam);
         }
         stmt.bindLong(10, entity.getStatus());
+ 
+        String ip = entity.getIp();
+        if (ip != null) {
+            stmt.bindString(11, ip);
+        }
+ 
+        String lng = entity.getLng();
+        if (lng != null) {
+            stmt.bindString(12, lng);
+        }
+ 
+        String lat = entity.getLat();
+        if (lat != null) {
+            stmt.bindString(13, lat);
+        }
+ 
+        String mac = entity.getMac();
+        if (mac != null) {
+            stmt.bindString(14, mac);
+        }
+ 
+        String unitBrand = entity.getUnitBrand();
+        if (unitBrand != null) {
+            stmt.bindString(15, unitBrand);
+        }
+ 
+        String unitModel = entity.getUnitModel();
+        if (unitModel != null) {
+            stmt.bindString(16, unitModel);
+        }
     }
 
     @Override
@@ -127,6 +169,36 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
             stmt.bindString(9, eventParam);
         }
         stmt.bindLong(10, entity.getStatus());
+ 
+        String ip = entity.getIp();
+        if (ip != null) {
+            stmt.bindString(11, ip);
+        }
+ 
+        String lng = entity.getLng();
+        if (lng != null) {
+            stmt.bindString(12, lng);
+        }
+ 
+        String lat = entity.getLat();
+        if (lat != null) {
+            stmt.bindString(13, lat);
+        }
+ 
+        String mac = entity.getMac();
+        if (mac != null) {
+            stmt.bindString(14, mac);
+        }
+ 
+        String unitBrand = entity.getUnitBrand();
+        if (unitBrand != null) {
+            stmt.bindString(15, unitBrand);
+        }
+ 
+        String unitModel = entity.getUnitModel();
+        if (unitModel != null) {
+            stmt.bindString(16, unitModel);
+        }
     }
 
     @Override
@@ -146,7 +218,13 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
             cursor.getString(offset + 6), // code
             cursor.getString(offset + 7), // eventType
             cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8), // eventParam
-            cursor.getLong(offset + 9) // status
+            cursor.getLong(offset + 9), // status
+            cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10), // ip
+            cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11), // lng
+            cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // lat
+            cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // mac
+            cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // unitBrand
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // unitModel
         );
         return entity;
     }
@@ -163,6 +241,12 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
         entity.setEventType(cursor.getString(offset + 7));
         entity.setEventParam(cursor.isNull(offset + 8) ? null : cursor.getString(offset + 8));
         entity.setStatus(cursor.getLong(offset + 9));
+        entity.setIp(cursor.isNull(offset + 10) ? null : cursor.getString(offset + 10));
+        entity.setLng(cursor.isNull(offset + 11) ? null : cursor.getString(offset + 11));
+        entity.setLat(cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12));
+        entity.setMac(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
+        entity.setUnitBrand(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
+        entity.setUnitModel(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
      }
     
     @Override

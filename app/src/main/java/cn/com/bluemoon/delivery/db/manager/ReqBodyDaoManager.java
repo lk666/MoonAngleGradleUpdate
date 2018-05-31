@@ -1,6 +1,7 @@
 package cn.com.bluemoon.delivery.db.manager;
 
 
+import android.os.Build;
 import android.text.TextUtils;
 
 import java.util.List;
@@ -11,6 +12,7 @@ import cn.com.bluemoon.delivery.app.api.ApiClientHelper;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.db.entity.ReqBody;
 import cn.com.bluemoon.delivery.db.gen.ReqBodyDao;
+import cn.com.bluemoon.delivery.utils.NetWorkUtil;
 import cn.com.bluemoon.liblog.LogUtils;
 
 /**
@@ -41,7 +43,9 @@ public class ReqBodyDaoManager {
         }
         ReqBody body = new ReqBody(System.currentTimeMillis(), AppContext.getInstance().getAppId(),
                 TRACK_APP_ID, BuildConfig.VERSION_NAME, ApiClientHelper.CLIENT, uid, code,
-                EVENT_TYPE, param, STATUS_NEW);
+                EVENT_TYPE, param, STATUS_NEW, NetWorkUtil.getLocalIpAddress(AppContext
+                .getInstance()), "", "", NetWorkUtil.getMacAddressFromIp(AppContext.getInstance()
+        ), Build.BRAND, Build.MODEL);
         DBHelper.getDaoSession().getReqBodyDao().insert(body);
         LogUtils.d(TAG, "insert==>" + body.getCode());
     }

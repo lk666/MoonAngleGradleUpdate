@@ -12,40 +12,26 @@ import org.greenrobot.greendao.annotation.NotNull;
 @Entity
 public class ReqBody {
 
-    @Id
-    private Long timestamp;
-    private String imei;
-    @NotNull
-    private String appId;
-    @NotNull
-    private String appVersion;
-    @NotNull
-    private String os;
-    private String uid;
-    @NotNull
-    private String code;
-    @NotNull
-    private String eventType;
-    private String eventParam;
-    private long status;
-    @Generated(hash = 341310080)
-    public ReqBody(Long timestamp, String imei, @NotNull String appId,
-                   @NotNull String appVersion, @NotNull String os, String uid,
-                   @NotNull String code, @NotNull String eventType, String eventParam,
-                   long status) {
-        this.timestamp = timestamp;
-        this.imei = imei;
-        this.appId = appId;
-        this.appVersion = appVersion;
-        this.os = os;
-        this.uid = uid;
-        this.code = code;
-        this.eventType = eventType;
-        this.eventParam = eventParam;
-        this.status = status;
-    }
-    @Generated(hash = 1323616520)
-    public ReqBody() {
+    @Override
+    public String toString() {
+        return "ReqBody{" +
+                "timestamp=" + timestamp +
+                ", imei='" + imei + '\'' +
+                ", appId='" + appId + '\'' +
+                ", appVersion='" + appVersion + '\'' +
+                ", os='" + os + '\'' +
+                ", uid='" + uid + '\'' +
+                ", code='" + code + '\'' +
+                ", eventType='" + eventType + '\'' +
+                ", eventParam='" + eventParam + '\'' +
+                ", status=" + status +
+                ", ip='" + ip + '\'' +
+                ", lng='" + lng + '\'' +
+                ", lat='" + lat + '\'' +
+                ", mac='" + mac + '\'' +
+                ", unitBrand='" + unitBrand + '\'' +
+                ", unitModel='" + unitModel + '\'' +
+                '}';
     }
     public Long getTimestamp() {
         return this.timestamp;
@@ -107,6 +93,92 @@ public class ReqBody {
     public void setStatus(long status) {
         this.status = status;
     }
+    public String getIp() {
+        return this.ip;
+    }
+    public void setIp(String ip) {
+        this.ip = ip;
+    }
+    public String getLng() {
+        return this.lng;
+    }
+    public void setLng(String lng) {
+        this.lng = lng;
+    }
+    public String getLat() {
+        return this.lat;
+    }
+    public void setLat(String lat) {
+        this.lat = lat;
+    }
+    public String getMac() {
+        return this.mac;
+    }
+    public void setMac(String mac) {
+        this.mac = mac;
+    }
+    public String getUnitBrand() {
+        return this.unitBrand;
+    }
+    public void setUnitBrand(String unitBrand) {
+        this.unitBrand = unitBrand;
+    }
+    public String getUnitModel() {
+        return this.unitModel;
+    }
+    public void setUnitModel(String unitModel) {
+        this.unitModel = unitModel;
+    }
+
+    @Id
+    private Long timestamp;
+    private String imei;
+    @NotNull
+    private String appId;
+    @NotNull
+    private String appVersion;
+    @NotNull
+    private String os;
+    private String uid;
+    @NotNull
+    private String code;
+    @NotNull
+    private String eventType;
+    private String eventParam;
+    private long status;
+    private String ip;
+    private String lng;
+    private String lat;
+    private String mac;
+    private String unitBrand;
+    private String unitModel;
+    @Generated(hash = 450258984)
+    public ReqBody(Long timestamp, String imei, @NotNull String appId,
+            @NotNull String appVersion, @NotNull String os, String uid,
+            @NotNull String code, @NotNull String eventType, String eventParam,
+            long status, String ip, String lng, String lat, String mac,
+            String unitBrand, String unitModel) {
+        this.timestamp = timestamp;
+        this.imei = imei;
+        this.appId = appId;
+        this.appVersion = appVersion;
+        this.os = os;
+        this.uid = uid;
+        this.code = code;
+        this.eventType = eventType;
+        this.eventParam = eventParam;
+        this.status = status;
+        this.ip = ip;
+        this.lng = lng;
+        this.lat = lat;
+        this.mac = mac;
+        this.unitBrand = unitBrand;
+        this.unitModel = unitModel;
+    }
+    @Generated(hash = 1323616520)
+    public ReqBody() {
+    }
+
 
 
 }
