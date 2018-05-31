@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout android:id="@+id/main_click"
+             xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
              android:layout_width="match_parent"
-             android:focusableInTouchMode="true"
+             android:layout_height="match_parent"
              android:background="#f2f2f2"
              android:focusable="true"
-             android:id="@+id/main_click"
-             android:layout_height="match_parent">
+             android:focusableInTouchMode="true">
 
 
     <ScrollView
@@ -22,10 +22,10 @@
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/field_mendian"
-                android:focusable="true"
-                android:focusableInTouchMode="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
                 app:cell_text_txt_title="@string/mendian_name"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
@@ -37,8 +37,8 @@
             <cn.com.bluemoon.lib_widget.module.form.BMFieldText1View
                 android:id="@+id/field_receiver_name"
                 android:layout_width="match_parent"
-                app:field_text1_content_maxLength="10"
                 android:layout_height="wrap_content"
+                app:field_text1_content_maxLength="10"
                 app:field_text1_hint="@string/order_filter_name_hint"
                 app:field_text1_title="@string/order_filter_name"/>
 
@@ -57,8 +57,8 @@
                     android:layout_marginRight="12dp"
                     android:gravity="center_vertical"
                     android:lines="1"
-                    android:text="@string/phone"
                     android:minWidth="58dp"
+                    android:text="@string/phone"
                     android:textColor="#666666"
                     android:textSize="11sp"/>
 
@@ -68,12 +68,12 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="#0000"
-                    android:hint="@string/hint_input_phone"
                     android:ellipsize="start"
+                    android:gravity="right|center_vertical"
+                    android:hint="@string/hint_input_phone"
+                    android:imeOptions="actionDone"
                     android:inputType="phone"
                     android:maxLength="11"
-                    android:imeOptions="actionDone"
-                    android:gravity="right|center_vertical"
                     android:singleLine="true"
                     android:textColor="#333333"
                     android:textColorHint="#999999"
@@ -113,8 +113,54 @@
                     android:layout_marginRight="12dp"
                     android:gravity="center_vertical"
                     android:lines="1"
-                    android:text="@string/recommend_code"
                     android:minWidth="58dp"
+                    android:text="@string/ptr_code"
+                    android:textColor="#666666"
+                    android:textSize="11sp"/>
+
+                <TextView
+                    android:id="@+id/field_ptr_code"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_weight="1"
+                    android:background="#0000"
+                    android:ellipsize="start"
+                    android:gravity="right|center_vertical"
+                    android:hint="@string/hint_input_ptr_code"
+                    android:imeOptions="actionDone"
+                    android:singleLine="true"
+                    android:textColor="#333333"
+                    android:textColorHint="#999999"
+                    android:textCursorDrawable="@null"
+                    android:textSize="14sp"/>
+
+            </LinearLayout>
+
+            <include layout="@layout/line_solid_view_e5"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/field_ptr_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/ptr_name"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#ffffff"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingLeft="12dp"
+                android:paddingRight="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="50dp"
+                    android:layout_marginRight="12dp"
+                    android:gravity="center_vertical"
+                    android:lines="1"
+                    android:minWidth="58dp"
+                    android:text="@string/recommend_code"
                     android:textColor="#666666"
                     android:textSize="11sp"/>
 
@@ -124,10 +170,10 @@
                     android:layout_height="50dp"
                     android:layout_weight="1"
                     android:background="#0000"
-                    android:hint="@string/hint_input_recommend_code"
                     android:ellipsize="start"
-                    android:imeOptions="actionDone"
                     android:gravity="right|center_vertical"
+                    android:hint="@string/hint_input_recommend_code"
+                    android:imeOptions="actionDone"
                     android:singleLine="true"
                     android:textColor="#333333"
                     android:textColorHint="#999999"
@@ -144,6 +190,45 @@
                 android:layout_height="wrap_content"
                 app:cell_text_txt_title="@string/recommend_name"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="4dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/mdzy"
+                android:textColor="@color/txt_999"
+                android:textSize="@dimen/text_size_12"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:gravity="center_vertical"
+                android:padding="12dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="@string/clothing_book_in_stain"
+                    android:textColor="#666"
+                    android:textSize="11sp"/>
+
+                <include
+                    android:id="@+id/sb"
+                    layout="@layout/widget_switch_button_has_none"/>
+            </LinearLayout>
+            <include layout="@layout/line_solid_view_e5"/>
+            <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
+                android:layout_width="match_parent"
+                app:field_title="@string/mdxx"
+                android:id="@+id/mdxx"
+                app:field_content_maxLength="500"
+                android:layout_height="wrap_content">
+
+            </cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

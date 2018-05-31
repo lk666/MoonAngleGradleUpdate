@@ -1776,4 +1776,10 @@
     <string name="transfer_mobile_input">被转派人电话</string>
     <string name="order_transfer_success">转派成功！</string>
 
+    <string name="ptr_code">拼团人编码</string>
+    <string name="ptr_name">拼团人姓名</string>
+    <string name="hint_input_ptr_code">请输入拼团人编码</string>
+    <string name="mdzy">门店资源</string>
+    <string name="mdxx">门店信息</string>
+
 </resources>

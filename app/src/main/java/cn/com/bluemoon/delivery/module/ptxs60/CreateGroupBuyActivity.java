@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.ptxs60;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -34,8 +36,10 @@ import cn.com.bluemoon.delivery.ui.dialog.AddressSelectPopWindow;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
+import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
+import cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
 import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 import cn.com.bluemoon.lib_widget.module.form.interf.BMFieldListener;
@@ -80,6 +84,15 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
     TextView tvCount;
     @Bind(R.id.main_click)
     View mainClick;
+
+    @Bind(R.id.mdxx)
+    BMFieldParagraphView mdxx;
+    @Bind(R.id.sb)
+    SwitchButton sb;
+    @Bind(R.id.field_ptr_code)
+    TextView fieldPtrCode;
+    @Bind(R.id.field_ptr_name)
+    BmCellTextView fieldPtrName;
 
     public static void actStart(Context context) {
         Intent intent = new Intent(context, CreateGroupBuyActivity.class);
@@ -212,8 +225,8 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
      * 提交数据结算
      */
     private void submit() {
-        if (TextUtils.isEmpty(data.addressInfo.cityCode)||
-                TextUtils.isEmpty(data.addressInfo.countryCode)||
+        if (TextUtils.isEmpty(data.addressInfo.cityCode) ||
+                TextUtils.isEmpty(data.addressInfo.countryCode) ||
                 TextUtils.isEmpty(data.addressInfo.provinceCode)) {
             toast(getString(R.string.err_area));
             return;
@@ -310,6 +323,13 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         // 推荐人姓名以及价钱相关的在后续更新
         handleRecommendCodeChange();
         refreshPrice();
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
     }
 
     class ItemAdapter extends BaseListAdapter<ResultGetBaseInfo.OrderDetailBean> {
