@@ -124,17 +124,19 @@ public class GroupBuyDetailActivity extends BaseActivity implements OnListItemCl
         name = name.trim();
 
         fieldOrderCode.setTitleText(data.orderCode);
-        fieldOrderCode.setContentText(data.payStatusDesc);
         TextView tv = (TextView) fieldOrderCode.findViewById(cn.com.bluemoon.lib_widget.R.id.txt_content);
         switch (data.payStatus){
             case "cancel":
                 tv.setTextColor(getResources().getColor(R.color.txt_999));
+                fieldOrderCode.setContentText(getString(R.string.cancel));
                 break;
             case "success":
                 tv.setTextColor(getResources().getColor(R.color.green_0dd66f));
+                fieldOrderCode.setContentText(getString(R.string.success));
                 break;
             default:
                 tv.setTextColor(getResources().getColor(R.color.orange_ff6c47));
+                fieldOrderCode.setContentText(getString(R.string.wait));
                 break;
         }
 
