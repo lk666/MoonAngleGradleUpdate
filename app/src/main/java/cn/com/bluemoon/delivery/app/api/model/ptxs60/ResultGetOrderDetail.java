@@ -24,6 +24,9 @@ public class ResultGetOrderDetail extends ResultBase {
     public long orderTotalMoney;
     public long orderTotalNum;
     public String storeResourceInfo;
+    public String orderCode;
+    public String payStatus;
+    public String payStatusDesc;
 
     public static class AddressInfoBean implements Serializable {
         public String cityCode;

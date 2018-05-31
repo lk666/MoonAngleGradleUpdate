@@ -3,6 +3,7 @@
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/sv_main"
             android:background="#f2f2f2"
             android:overScrollMode="never">
 
@@ -12,11 +13,16 @@
         android:orientation="vertical">
 
         <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_order_code"
+            app:cell_text_title_color="@color/txt_333"
+            android:layout_width="match_parent"
+            app:cell_text_title_isBold="true"
+            android:layout_height="wrap_content"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
             android:id="@+id/field_mendian"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
             app:cell_text_txt_content="@string/promote_none"
             app:cell_text_txt_title="@string/mendian_name"/>
 
@@ -124,7 +130,6 @@
 
         <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
             android:id="@+id/unit"
-            android:layout_marginTop="10dp"
             android:layout_width="match_parent"
             app:cell_text_txt_content="0"
             android:layout_height="wrap_content"
@@ -141,8 +146,8 @@
             android:id="@+id/price"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:cell_text_txt_content="0"
             android:layout_marginBottom="10dp"
+            app:cell_text_txt_content="0"
             app:cell_text_txt_title="@string/total_money"/>
     </LinearLayout>
 

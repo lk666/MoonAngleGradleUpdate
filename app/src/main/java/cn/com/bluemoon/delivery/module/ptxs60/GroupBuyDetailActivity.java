@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
@@ -29,6 +31,8 @@ public class GroupBuyDetailActivity extends BaseActivity implements OnListItemCl
 
     private static final String EXTRA_CODE = "EXTRA_CODE";
     private static final int REQUEST_CODE_GET_INFO = 0x777;
+    @Bind(R.id.field_order_code)
+    BmCellTextView fieldOrderCode;
     @Bind(R.id.field_mendian)
     BmCellTextView fieldMendian;
     @Bind(R.id.field_store)
@@ -59,6 +63,8 @@ public class GroupBuyDetailActivity extends BaseActivity implements OnListItemCl
     BmCellTextView count;
     @Bind(R.id.price)
     BmCellTextView price;
+    @Bind(R.id.sv_main)
+    ScrollView svMain;
 
     public static void actStart(Context context, String orderCode) {
         Intent intent = new Intent(context, GroupBuyDetailActivity.class);
@@ -117,6 +123,21 @@ public class GroupBuyDetailActivity extends BaseActivity implements OnListItemCl
         String name = data.mendianCode + " " + data.mendianName;
         name = name.trim();
 
+        fieldOrderCode.setTitleText(data.orderCode);
+        fieldOrderCode.setContentText(data.payStatusDesc);
+        TextView tv = (TextView) fieldOrderCode.findViewById(cn.com.bluemoon.lib_widget.R.id.txt_content);
+        switch (data.payStatus){
+            case "cancel":
+                tv.setTextColor(getResources().getColor(R.color.txt_999));
+                break;
+            case "success":
+                tv.setTextColor(getResources().getColor(R.color.green_0dd66f));
+                break;
+            default:
+                tv.setTextColor(getResources().getColor(R.color.orange_ff6c47));
+                break;
+        }
+
         fieldMendian.setContentText(TextUtils.isEmpty(name) ? getString(R.string.promote_none) :
                 name);
         fieldStore.setContentText(TextUtils.isEmpty(data.storeName) ? getString(R.string
@@ -149,6 +170,13 @@ public class GroupBuyDetailActivity extends BaseActivity implements OnListItemCl
 
         adapter.setList(data.orderDetail);
         adapter.notifyDataSetChanged();
+
+        svMain.post(new Runnable() {
+            @Override
+            public void run() {
+           svMain.scrollTo(0,0);
+            }
+        });
     }
 
 
@@ -175,7 +203,7 @@ public class GroupBuyDetailActivity extends BaseActivity implements OnListItemCl
             BmCellTextView tv = getViewById(R.id.tv);
 
             tv.setTitleText(item.productDesc);
-            tv.setContentText(item.productNo);
+            tv.setContentText(item.orderNum+"");
         }
     }
 
