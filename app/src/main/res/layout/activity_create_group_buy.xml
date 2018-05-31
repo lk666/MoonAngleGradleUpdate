@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout android:id="@+id/main_click"
-             xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
              xmlns:app="http://schemas.android.com/apk/res-auto"
+             android:id="@+id/main_click"
              android:layout_width="match_parent"
              android:layout_height="match_parent"
              android:background="#f2f2f2"
@@ -81,6 +81,7 @@
                     android:textSize="14sp"/>
 
             </LinearLayout>
+
             <include layout="@layout/line_solid_view_e5"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
@@ -200,35 +201,22 @@
                 android:textColor="@color/txt_999"
                 android:textSize="@dimen/text_size_12"/>
 
-            <LinearLayout
+            <cn.com.bluemoon.lib_widget.module.choice.BMRadioView
+                android:id="@+id/radio"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@color/white"
-                android:gravity="center_vertical"
-                android:padding="12dp"
-                android:orientation="horizontal">
+                app:radio_title="@string/has_mdxx"/>
 
-                <TextView
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:text="@string/clothing_book_in_stain"
-                    android:textColor="#666"
-                    android:textSize="11sp"/>
-
-                <include
-                    android:id="@+id/sb"
-                    layout="@layout/widget_switch_button_has_none"/>
-            </LinearLayout>
-            <include layout="@layout/line_solid_view_e5"/>
             <cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView
-                android:layout_width="match_parent"
-                app:field_title="@string/mdxx"
                 android:id="@+id/mdxx"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:field_hint="@string/hint_mdxx"
                 app:field_content_maxLength="500"
-                android:layout_height="wrap_content">
+                app:field_title="@string/mdxx">
 
             </cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

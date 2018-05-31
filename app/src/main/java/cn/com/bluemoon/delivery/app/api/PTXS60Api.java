@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.app.api;
 
+import android.text.TextUtils;
+
 import org.apache.http.Header;
 
 import java.util.ArrayList;
@@ -141,6 +143,26 @@ public class PTXS60Api extends BaseApi {
                 "bluemoon-control/sqMoonOrder/getRecommendInfo%s", handler);
     }
 
+
+    /**
+     * 【08】订单详情查看接口
+     */
+    public static void getOrderDetail(String orderCode, String token,
+                                      WithContextTextHttpResponseHandler handler) {
+        if (orderCode == null || null == token) {
+            handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
+                    (byte[]) null, new Exception(AppContext.getInstance().getString(R.string
+                            .error_local_param) + ":" + (null == orderCode ? " " +
+                            "null=orderCode" : "") + (null == token ? " null=token" : "")));
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put("orderCode", orderCode);
+        params.put(TOKEN, token);
+        postRequest("【08】订单详情查看接口", params,
+                "bluemoon-control/sqMoonOrder/getOrderDetail%s", handler);
+    }
+
     /**
      * 【04】订单结算按钮接口
      */
@@ -148,8 +170,11 @@ public class PTXS60Api extends BaseApi {
                                    String mendianCode, ArrayList<RequestOrderDetail> orderDetail,
                                    String recommendCode, String recommendName,
                                    String storeCode, String token,
-                                   WithContextTextHttpResponseHandler handler) {
-        if (addressInfo == null || orderDetail == null ||
+                                   WithContextTextHttpResponseHandler handler,
+                                   String storeResourceInfo, String pinTuanCode, String
+                                           pinTuanName) {
+        if (addressInfo == null || orderDetail == null || pinTuanCode == null || pinTuanName ==
+                null ||
                 recommendCode == null || recommendName == null || null == token) {
             handler.onFailure(Constants.RESPONSE_RESULT_LOCAL_PARAM_ERROR, new Header[1],
                     (byte[]) null, new Exception(
@@ -157,18 +182,26 @@ public class PTXS60Api extends BaseApi {
                                     + ":"
                                     + (null == addressInfo ? " " + "null=addressInfo" : "")
                                     + (null == orderDetail ? " " + "null=orderDetail" : "")
+                                    + (null == pinTuanCode ? " " + "null=pinTuanCode" : "")
+                                    + (null == pinTuanName ? " " + "null=pinTuanName" : "")
                                     + (null == recommendCode ? " " + "null=recommendCode" : "")
                                     + (null == recommendName ? " " + "null=recommendName" : "")
                                     + (null == token ? " null=token" : "")));
             return;
         }
+
         Map<String, Object> params = new HashMap<>();
         params.put("addressInfo", addressInfo);
         params.put("mendianCode", mendianCode);
         params.put("orderDetail", orderDetail);
         params.put("recommendCode", recommendCode);
         params.put("recommendName", recommendName);
+        params.put("pinTuanCode", pinTuanCode);
+        params.put("pinTuanName", pinTuanName);
         params.put("storeCode", storeCode);
+        if (!TextUtils.isEmpty(storeResourceInfo)) {
+            params.put("storeResourceInfo", storeResourceInfo);
+        }
         params.put(TOKEN, token);
         postRequest("【04】订单结算按钮接口", params,
                 "bluemoon-control/sqMoonOrder/commitOrder%s", handler);

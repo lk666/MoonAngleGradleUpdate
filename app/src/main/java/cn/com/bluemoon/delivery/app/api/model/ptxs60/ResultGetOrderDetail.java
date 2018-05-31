@@ -1,13 +1,14 @@
 package cn.com.bluemoon.delivery.app.api.model.ptxs60;
 
-import com.alibaba.fastjson.annotation.JSONField;
-
 import java.io.Serializable;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
-public class ResultGetBaseInfo extends ResultBase {
+/**
+ * 【08】订单详情查看接口
+ */
+public class ResultGetOrderDetail extends ResultBase {
     public AddressInfoBean addressInfo;
     public String mendianCode;
     public String mendianName;
@@ -17,7 +18,12 @@ public class ResultGetBaseInfo extends ResultBase {
     public String recommendName;
     public String storeCode;
     public String storeName;
+    public long ordeUnitPrice;
     public List<OrderDetailBean> orderDetail;
+    public boolean isStoreResource;
+    public long orderTotalMoney;
+    public long orderTotalNum;
+    public String storeResourceInfo;
 
     public static class AddressInfoBean implements Serializable {
         public String cityCode;
@@ -34,8 +40,7 @@ public class ResultGetBaseInfo extends ResultBase {
     public static class OrderDetailBean implements Serializable {
         public String productDesc;
         public String productNo;
-        @JSONField(serialize = false)
-        public String curCount = "";
+        public long orderNum;
     }
 }
   

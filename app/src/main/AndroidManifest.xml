@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest package="cn.com.bluemoon.delivery"
-          xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
+          package="cn.com.bluemoon.delivery">
 
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -966,12 +966,18 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
-            android:theme="@style/App.Base.Theme"/>
+
+        <activity
+            android:name=".module.ptxs60.GroupBuyDetailActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
+
         <activity
             android:name=".module.wash.collect.withorder.TransferOrderActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="adjustPan|stateHidden"
-            android:theme="@style/App.Base.Theme"/>
+            android:theme="@style/App.Base.Theme"
+            android:windowSoftInputMode="adjustPan|stateHidden"/>
 
         <meta-data
             android:name="android.max_aspect"

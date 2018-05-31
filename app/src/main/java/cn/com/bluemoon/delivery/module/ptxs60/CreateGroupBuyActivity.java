@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.ptxs60;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -15,9 +14,9 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -33,10 +32,13 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.ui.NoScrollListView;
 import cn.com.bluemoon.delivery.ui.dialog.AddressSelectPopWindow;
+import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
+import cn.com.bluemoon.lib_widget.module.choice.BMRadioItemView;
+import cn.com.bluemoon.lib_widget.module.choice.BMRadioView;
+import cn.com.bluemoon.lib_widget.module.choice.entity.RadioItem;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View;
 import cn.com.bluemoon.lib_widget.module.form.BMFieldParagraphView;
@@ -50,12 +52,13 @@ import cn.com.bluemoon.lib_widget.module.form.interf.BMFieldListener;
 public class CreateGroupBuyActivity extends BaseActivity implements OnListItemClickListener,
         BMFieldArrow1View.FieldArrowListener, BMFieldListener,
         View.OnLayoutChangeListener, AddressSelectPopWindow.IAddressSelectDialog, View
-                .OnClickListener {
+                .OnClickListener, BMRadioView.ClickListener {
 
     private static final int REQUEST_CODE_GET_BASE_INFO = 0x777;
     private static final int REQUEST_CODE_GET_UNIT_PRICE_BY_NUM = 0x666;
     private static final int REQUEST_CODE_GET_RECOMMEND_INFO = 0x555;
     private static final int REQUEST_CODE_COMMIT_ORDER = 0x444;
+    private static final int REQUEST_CODE_GET_PTR_INFO = 0x333;
     @Bind(R.id.field_mendian)
     BmCellTextView fieldMendian;
     @Bind(R.id.field_store)
@@ -87,8 +90,8 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
 
     @Bind(R.id.mdxx)
     BMFieldParagraphView mdxx;
-    @Bind(R.id.sb)
-    SwitchButton sb;
+    @Bind(R.id.radio)
+    BMRadioView radio;
     @Bind(R.id.field_ptr_code)
     TextView fieldPtrCode;
     @Bind(R.id.field_ptr_name)
@@ -162,6 +165,7 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         lvOrderDetail.setAdapter(adapter);
 
         fieldRecommendCode.setOnClickListener(this);
+        fieldPtrCode.setOnClickListener(this);
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -173,6 +177,15 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         fieldUnitPrice.setVisibility(View.GONE);
 
         fieldArea.setListener(this);
+
+
+        radio.setListener(this);
+        List<RadioItem> list = new ArrayList<>();
+        list.add(new RadioItem(0, "否", BMRadioItemView.TYPE_NORMAL));
+        list.add(new RadioItem(1, "是", BMRadioItemView.TYPE_NORMAL));
+        radio.setData(list);
+        mdxx.setVisibility(View.GONE);
+        mdxx.setListener(this);
 
         // 空输入判断
         fieldReceiverName.setListener(this);
@@ -195,6 +208,25 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         });
 
         mainClick.addOnLayoutChangeListener(this);
+    }
+
+    /**
+     * 有无门店资源
+     */
+    @Override
+    public void onSelected(int position, Object value) {
+        RadioItem i = (RadioItem) value;
+        if (i != null) {
+            // 否
+            if ((Integer)(i.value) == 0) {
+                mdxx.setVisibility(View.GONE);
+            }
+            // 是
+            else {
+                mdxx.setVisibility(View.VISIBLE);
+            }
+            checkBtn();
+        }
     }
 
     /**
@@ -232,28 +264,40 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
             return;
         }
 
-        String phone = fieldReceiverPhone.getText().toString();
+        final String phone = fieldReceiverPhone.getText().toString();
         if (!StringUtil.isPhone(phone)) {
             toast(getString(R.string.error_message_input_phone));
             return;
         }
-        showWaitDialog();
 
-        // 提交结算
-        data.addressInfo.receiverAddress = fieldAddress.getContent();
-        data.addressInfo.receiverName = fieldReceiverName.getContent();
-        data.addressInfo.contactPhone = phone;
+        DialogUtil.getCommonDialog(this, null, getString(R.string.hint_submit), getString(R
+                .string.btn_cancel), getString(R.string.btn_ok), null, new DialogInterface
+                .OnClickListener() {
 
-        ArrayList<RequestOrderDetail> details = new ArrayList<>();
-        for (ResultGetBaseInfo.OrderDetailBean bean : data.orderDetail) {
-            details.add(new RequestOrderDetail(bean));
-        }
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showWaitDialog();
 
-        PTXS60Api.commitOrder(data.addressInfo, data.mendianCode,
-                details, data.recommendCode, data.recommendName, data.storeCode, getToken(),
-                (WithContextTextHttpResponseHandler) getNewHandler
-                        (REQUEST_CODE_COMMIT_ORDER, ResultRePay.class));
+                // 提交结算
+                data.addressInfo.receiverAddress = fieldAddress.getContent();
+                data.addressInfo.receiverName = fieldReceiverName.getContent();
+                data.addressInfo.contactPhone = phone;
+
+                ArrayList<RequestOrderDetail> details = new ArrayList<>();
+                for (ResultGetBaseInfo.OrderDetailBean bean : data.orderDetail) {
+                    details.add(new RequestOrderDetail(bean));
+                }
+                String mdxxStr = mdxx.getVisibility() == View.VISIBLE ? mdxx.getContent() : "";
+
+                PTXS60Api.commitOrder(data.addressInfo, data.mendianCode,
+                        details, data.recommendCode, data.recommendName, data.storeCode, getToken(),
+                        (WithContextTextHttpResponseHandler) getNewHandler
+                                (REQUEST_CODE_COMMIT_ORDER, ResultRePay.class), mdxxStr,
+                        data.pinTuanCode, data.pinTuanName);
+            }
+        }).show();
     }
+
 
     @Override
     public void initData() {
@@ -278,6 +322,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
             // 查询推荐人
             case REQUEST_CODE_GET_RECOMMEND_INFO:
                 setRecommendInfo((ResultGetRecommendInfo) result);
+                break;
+            // 查询拼团人
+            case REQUEST_CODE_GET_PTR_INFO:
+                setPtrInfo((ResultGetRecommendInfo) result);
                 break;
 
             // 结算
@@ -311,6 +359,11 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         }
         fieldRecommendCode.setText(data.recommendCode);
         fieldRecommendName.setContentText(data.recommendName);
+
+
+        fieldPtrCode.setText(data.pinTuanCode);
+        fieldPtrName.setContentText(data.pinTuanName);
+
         btnSubmit.setEnabled(false);
         adapter.setList(data.orderDetail);
         adapter.notifyDataSetChanged();
@@ -323,13 +376,6 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
         // 推荐人姓名以及价钱相关的在后续更新
         handleRecommendCodeChange();
         refreshPrice();
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // TODO: add setContentView(...) invocation
-        ButterKnife.bind(this);
     }
 
     class ItemAdapter extends BaseListAdapter<ResultGetBaseInfo.OrderDetailBean> {
@@ -475,9 +521,13 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
 
 
     /**
-     * 数量修改
+     * 推荐人
      */
     private CommonAlertDialog dialogRecommend;
+    /**
+     * 拼团人
+     */
+    private CommonAlertDialog dialogPtr;
 
     @Override
     public void onClick(View v) {
@@ -486,7 +536,81 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
             case R.id.field_recommend_code:
                 setRecommend();
                 break;
+            // 点击拼团人
+            case R.id.field_ptr_code:
+                setPtr();
+                break;
         }
+    }
+
+
+    private void setPtr() {
+        // 输入框点击
+        View view = LayoutInflater.from(this).inflate(R.layout.dialog_set_ptr, null);
+        final EditText etPsw = (EditText) view.findViewById(R.id.et_psw);
+        String s = fieldPtrCode.getText().toString();
+        etPsw.setText(s);
+        etPsw.setSelection(s.length());
+        dialogPtr = new CommonAlertDialog.Builder(this)
+                .setCancelable(false)
+                .setView(view)
+                .setDismissable(false)
+                .setNegativeButton(R.string.btn_ok,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                String pwd = etPsw.getText().toString();
+                                fieldPtrCode.setText(pwd);
+                                handlePtrCodeChange();
+                                ViewUtil.hideKeyboard(etPsw);
+                                dialogPtr.dismiss();
+                            }
+                        })
+                .setPositiveButton(R.string.btn_cancel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        ViewUtil.hideKeyboard(etPsw);
+                        dialogPtr.dismiss();
+                    }
+                }).create();
+        dialogPtr.show();
+        etPsw.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewUtil.showKeyboard(etPsw);
+            }
+        });
+    }
+
+
+    /**
+     * 处理拼团人编码修改
+     */
+    private void handlePtrCodeChange() {
+        // 判断是否相同
+        String newCode = fieldPtrCode.getText().toString();
+
+        if (TextUtils.isEmpty(newCode)) {
+            fieldPtrName.setContentText("");
+            return;
+        }
+
+        if (data == null || newCode.equals(data.pinTuanCode)) {
+            return;
+        }
+
+        // 查数据
+        showWaitDialog();
+        PTXS60Api.getRecommendInfo(newCode, getToken(), (WithContextTextHttpResponseHandler)
+                getNewHandler(REQUEST_CODE_GET_PTR_INFO, ResultGetRecommendInfo.class));
+    }
+
+    private void setPtrInfo(ResultGetRecommendInfo result) {
+        fieldPtrCode.setText(result.recommendCode);
+        fieldPtrName.setContentText(result.recommendName);
+        data.pinTuanCode = result.recommendCode;
+        data.pinTuanName = result.recommendName;
+        checkBtn();
     }
 
     private void setRecommend() {
@@ -572,6 +696,13 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
                 data.recommendCode = fieldRecommendCode.getText().toString();
                 data.recommendName = "";
                 break;
+
+            // 查询拼团人
+            case REQUEST_CODE_GET_PTR_INFO:
+                fieldPtrName.setContentText("");
+                data.pinTuanCode = fieldPtrCode.getText().toString();
+                data.pinTuanName = "";
+                break;
         }
     }
 
@@ -588,6 +719,13 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
                 fieldRecommendName.setContentText("");
                 data.recommendCode = fieldRecommendCode.getText().toString();
                 data.recommendName = "";
+                break;
+
+            // 查询拼团人
+            case REQUEST_CODE_GET_PTR_INFO:
+                fieldPtrName.setContentText("");
+                data.pinTuanCode = fieldPtrCode.getText().toString();
+                data.pinTuanName = "";
                 break;
         }
     }
@@ -606,7 +744,10 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
                 TextUtils.isEmpty(data.addressInfo.provinceCode) ||
                 TextUtils.isEmpty(fieldRecommendName.getContentText()) ||
                 TextUtils.isEmpty(fieldRecommendCode.getText()) ||
-                fieldUnitPrice.getVisibility() != View.VISIBLE) {
+                TextUtils.isEmpty(fieldPtrCode.getText()) ||
+                TextUtils.isEmpty(fieldPtrName.getContentText()) ||
+                fieldUnitPrice.getVisibility() != View.VISIBLE ||
+                (mdxx.getVisibility() == View.VISIBLE && TextUtils.isEmpty(mdxx.getContent()))) {
             btnSubmit.setEnabled(false);
         } else {
             btnSubmit.setEnabled(true);

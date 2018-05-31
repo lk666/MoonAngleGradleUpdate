@@ -150,6 +150,11 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
 
     @Override
     public void onItemClick(Object item, View view, int position) {
+        ResultQueryOrderList.OrderListBean bean = (ResultQueryOrderList.OrderListBean) item;
+        if (bean!=null) {
+            // 点击进入详情
+            GroupBuyDetailActivity.actStart(this, bean.orderCode);
+        }
     }
 
     class ItemAdapter extends BaseListAdapter<ResultQueryOrderList.OrderListBean> {
@@ -168,6 +173,8 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
             ResultQueryOrderList.OrderListBean item = list.get(position);
             GroupBuyItemView view = getViewById(R.id.gbiv);
             view.setData(item);
+
+            setClickEvent(isNew, position, convertView);
         }
     }
 

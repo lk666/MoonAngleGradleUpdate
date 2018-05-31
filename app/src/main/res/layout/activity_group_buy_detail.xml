@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#f2f2f2"
+            android:overScrollMode="never">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_mendian"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            app:cell_text_txt_content="@string/promote_none"
+            app:cell_text_txt_title="@string/mendian_name"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_store"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_content="@string/promote_none"
+            app:cell_text_txt_title="@string/store"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_receiver_name"
+            android:layout_width="match_parent"
+            app:cell_text_txt_content="@string/promote_none"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/order_filter_name"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_receiver_phone"
+            android:layout_width="match_parent"
+            app:cell_text_txt_content="@string/promote_none"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/phone"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_address"
+            android:layout_width="match_parent"
+            app:cell_text_txt_content="@string/promote_none"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/receive_address"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_ptr_code"
+            app:cell_text_txt_content="@string/promote_none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/ptr_code"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_ptr_name"
+            app:cell_text_txt_content="@string/promote_none"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/ptr_name"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_recommend_code"
+            android:layout_width="match_parent"
+            app:cell_text_txt_content="@string/promote_none"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/recommend_code"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/field_recommend_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_content="@string/promote_none"
+            app:cell_text_txt_title="@string/recommend_name"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/mdzy"
+            android:textColor="@color/txt_999"
+            android:textSize="@dimen/text_size_12"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/radio"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_content="@string/promote_none"
+            app:cell_text_txt_title="@string/has_mdxx"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/mdxx"
+            android:layout_width="match_parent"
+            app:cell_text_txt_content="@string/promote_none"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/mdxx"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginTop="10dp"
+            android:text="@string/group_buy_info"
+            android:textColor="@color/txt_999"
+            android:textSize="@dimen/text_size_12"/>
+
+        <cn.com.bluemoon.delivery.ui.NoScrollListView
+            android:id="@+id/lv_order_detail"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white"
+            android:divider="@color/transparent"
+            android:dividerHeight="0dp"
+            android:footerDividersEnabled="true"
+            android:headerDividersEnabled="false"/>
+
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/unit"
+            android:layout_marginTop="10dp"
+            android:layout_width="match_parent"
+            app:cell_text_txt_content="0"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/unit_price"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/count"
+            android:layout_width="match_parent"
+            app:cell_text_txt_content="0"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_title="@string/total_count_zhi_shu"/>
+
+        <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cell_text_txt_content="0"
+            android:layout_marginBottom="10dp"
+            app:cell_text_txt_title="@string/total_money"/>
+    </LinearLayout>
+
+</ScrollView>

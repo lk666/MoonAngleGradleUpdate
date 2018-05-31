@@ -1781,5 +1781,10 @@
     <string name="hint_input_ptr_code">请输入拼团人编码</string>
     <string name="mdzy">门店资源</string>
     <string name="mdxx">门店信息</string>
+    <string name="has_mdxx">是否有门店资源</string>
+    <string name="hint_mdxx">请输入门店名称</string>
+    <string name="hint_submit">请在付款前谨慎核对地址，付款后您的  订单将进入系统，无法修改。</string>
+    <string name="receive_address">收货地址</string>
+    <string name="total_count_zhi_shu">总数(支)</string>
 
 </resources>
