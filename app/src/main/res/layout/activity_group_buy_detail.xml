@@ -16,6 +16,8 @@
             android:id="@+id/field_order_code"
             app:cell_text_title_color="@color/txt_333"
             android:layout_width="match_parent"
+            app:cell_text_title_size="@dimen/text_size_14"
+            app:cell_text_content_size="@dimen/text_size_12"
             app:cell_text_title_isBold="true"
             android:layout_height="wrap_content"/>
 
