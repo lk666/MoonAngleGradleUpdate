@@ -42,6 +42,7 @@ import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.NetWorkUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -151,6 +152,8 @@ public class AppStartActivity extends Activity {
             PushManager.getInstance().initialize(this.getApplicationContext());
         }
     }
+
+
 
     @Override
     protected void onResume() {

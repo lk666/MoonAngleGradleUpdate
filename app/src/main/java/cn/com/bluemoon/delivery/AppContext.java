@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.WindowManager;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -24,10 +25,12 @@ import bluemoon.com.lib_x5.X5SDk;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.EasySSLSocketFactory;
 import cn.com.bluemoon.delivery.common.AppConfig;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.db.manager.DBHelper;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.NetWorkUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib_iflytek.utils.SpeechUtil;
@@ -62,6 +65,7 @@ public class AppContext extends BaseApplication {
 
         //初始化数据库
         DBHelper.getInstance();
+
         //监听Activity的进程
         registerActivityLifecycleCallbacks(activityLifecycleCallbacks);
 
@@ -93,6 +97,14 @@ public class AppContext extends BaseApplication {
         client.setResponseTimeout(20000);
         ApiHttpClient.setHttpClient(client);
         ApiHttpClient.setCookie(ApiHttpClient.getCookie(AppContext.getInstance()));
+
+        initUserAgent();
+    }
+
+    private void initUserAgent(){
+        if(TextUtils.isEmpty(ClientStateManager.getUserAgent())){
+            ClientStateManager.setUserAgent(NetWorkUtil.getUserAgent(this));
+        }
     }
 
     public boolean containsProperty(String key) {

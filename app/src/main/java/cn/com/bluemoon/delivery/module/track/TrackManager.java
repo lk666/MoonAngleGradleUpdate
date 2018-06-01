@@ -9,13 +9,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.db.entity.BaseParam;
 import cn.com.bluemoon.delivery.db.entity.ReqBody;
 import cn.com.bluemoon.delivery.db.entity.ShareParam;
 import cn.com.bluemoon.delivery.db.manager.ReqBodyDaoManager;
 import cn.com.bluemoon.delivery.module.track.api.ResultTrack;
 import cn.com.bluemoon.delivery.module.track.api.TrackApi;
 import cn.com.bluemoon.delivery.module.track.api.WithStatusTextHttpResponseHandler;
+import cn.com.bluemoon.delivery.module.track.bean.Menu;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.liblog.LogUtils;
@@ -52,12 +52,11 @@ public class TrackManager {
     }
 
     /**
-     * 增加数据
-     * @param code 分享的code
+     * 增加菜单埋点数据
      */
-    public static void addBody(String code) {
-        List<BaseParam> list = new ArrayList<>();
-        list.add(new BaseParam());
+    public static void addMenu(String code,String url) {
+        List<Menu> list = new ArrayList<>();
+        list.add(new Menu(url));
         String param = JSON.toJSONString(list);
         ReqBodyDaoManager.addBody(code, param);
         LogUtils.d(TAG, "add==> code:" + code + " param:" + param);

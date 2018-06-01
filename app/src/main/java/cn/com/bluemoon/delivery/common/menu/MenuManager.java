@@ -31,6 +31,7 @@ import cn.com.bluemoon.delivery.module.ptxs60.GroupBuyListActivity;
 import cn.com.bluemoon.delivery.module.storage.StorageTabActivity;
 import cn.com.bluemoon.delivery.module.team.MyTeamActivity;
 import cn.com.bluemoon.delivery.module.ticket.TicketChooseActivity;
+import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.module.wash.appointment.AppointmentTabActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingTabActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.EnterpriseWashTabActivity;
@@ -74,6 +75,10 @@ public class MenuManager {
         if (PublicUtil.isFastDoubleClick(1000)) {
             return;
         }
+
+        //数据埋点
+        TrackManager.addMenu(userRight.getMenuCode(), userRight.getUrl());
+
         String menuCode = userRight.getMenuCode();
         LogUtils.d("view:" + menuCode);
         try {
