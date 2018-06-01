@@ -60,7 +60,7 @@ public class TrackManager {
         list.add(new Menu(url));
         String param = JSON.toJSONString(list);
         ReqBodyDaoManager.addBody(code, param);
-        LogUtils.d(TAG, "add==> code:" + url + " param:" + param);
+        LogUtils.d(TAG, "add==> code:" + code + " param:" + param);
     }
 
     /**

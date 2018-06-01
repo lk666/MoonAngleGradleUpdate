@@ -42,6 +42,7 @@ import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
+import cn.com.bluemoon.delivery.utils.NetWorkUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -118,6 +119,8 @@ public class AppStartActivity extends Activity {
         locationService.start();
 
         initAlarm();
+
+        initUserAgent();
     }
 
     private void initAlarm() {
@@ -149,6 +152,12 @@ public class AppStartActivity extends Activity {
         } else {
             // SDK初始化，第三方程序启动时，都要进行SDK初始化工作
             PushManager.getInstance().initialize(this.getApplicationContext());
+        }
+    }
+
+    private void initUserAgent(){
+        if(TextUtils.isEmpty(ClientStateManager.getUserAgent())){
+            ClientStateManager.setUserAgent(NetWorkUtil.getUserAgent(AppContext.getInstance()));
         }
     }
 

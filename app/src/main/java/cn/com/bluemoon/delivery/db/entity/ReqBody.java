@@ -31,6 +31,7 @@ public class ReqBody {
                 ", mac='" + mac + '\'' +
                 ", unitBrand='" + unitBrand + '\'' +
                 ", unitModel='" + unitModel + '\'' +
+                ", useAgent='" + useAgent + '\'' +
                 '}';
     }
     public Long getTimestamp() {
@@ -129,6 +130,12 @@ public class ReqBody {
     public void setUnitModel(String unitModel) {
         this.unitModel = unitModel;
     }
+    public String getUseAgent() {
+        return this.useAgent;
+    }
+    public void setUseAgent(String useAgent) {
+        this.useAgent = useAgent;
+    }
 
     @Id
     private Long timestamp;
@@ -152,12 +159,13 @@ public class ReqBody {
     private String mac;
     private String unitBrand;
     private String unitModel;
-    @Generated(hash = 450258984)
+    private String useAgent;
+    @Generated(hash = 2090141660)
     public ReqBody(Long timestamp, String imei, @NotNull String appId,
             @NotNull String appVersion, @NotNull String os, String uid,
             @NotNull String code, @NotNull String eventType, String eventParam,
             long status, String ip, String lng, String lat, String mac,
-            String unitBrand, String unitModel) {
+            String unitBrand, String unitModel, String useAgent) {
         this.timestamp = timestamp;
         this.imei = imei;
         this.appId = appId;
@@ -174,6 +182,7 @@ public class ReqBody {
         this.mac = mac;
         this.unitBrand = unitBrand;
         this.unitModel = unitModel;
+        this.useAgent = useAgent;
     }
     @Generated(hash = 1323616520)
     public ReqBody() {

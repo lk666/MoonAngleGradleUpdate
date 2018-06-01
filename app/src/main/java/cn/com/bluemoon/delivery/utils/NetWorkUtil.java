@@ -7,6 +7,9 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
+import com.tencent.smtt.sdk.WebSettings;
+import com.tencent.smtt.sdk.WebView;
+
 import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
@@ -155,7 +158,8 @@ public class NetWorkUtil {
     public static String get3GIpAddress() {
 
         try {
-            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en.hasMoreElements(); ) {
+            for (Enumeration<NetworkInterface> en = NetworkInterface.getNetworkInterfaces(); en
+                    .hasMoreElements(); ) {
                 NetworkInterface intf = en.nextElement();
                 for (Enumeration<InetAddress> enumIpAddr = intf
                         .getInetAddresses(); enumIpAddr.hasMoreElements(); ) {
@@ -178,11 +182,12 @@ public class NetWorkUtil {
      * 获取mac地址
      */
     public static String getMacAddressFromIp(Context context) {
-        String mac_s= "";
+        String mac_s = "";
         StringBuilder buf = new StringBuilder();
         try {
             byte[] mac;
-            NetworkInterface ne= NetworkInterface.getByInetAddress(InetAddress.getByName(getLocalIpAddress(context)));
+            NetworkInterface ne = NetworkInterface.getByInetAddress(InetAddress.getByName
+                    (getLocalIpAddress(context)));
             mac = ne.getHardwareAddress();
             for (byte b : mac) {
                 buf.append(String.format("%02X:", b));
@@ -196,5 +201,23 @@ public class NetWorkUtil {
         }
 
         return mac_s;
+    }
+
+    /**
+     * 获取用户代理
+     */
+    public static String getUserAgent(Context context) {
+        try {
+            WebView webView = new WebView(context);
+            // 得到WebSettings对象
+            WebSettings settings = webView.getSettings();
+            // 设置支持JavaScript
+            settings.setJavaScriptEnabled(true);
+            // 获取到UA
+            return settings.getUserAgentString();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 }

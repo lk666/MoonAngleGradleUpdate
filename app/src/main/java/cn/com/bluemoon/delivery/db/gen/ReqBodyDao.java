@@ -40,6 +40,7 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
         public final static Property Mac = new Property(13, String.class, "mac", false, "MAC");
         public final static Property UnitBrand = new Property(14, String.class, "unitBrand", false, "UNIT_BRAND");
         public final static Property UnitModel = new Property(15, String.class, "unitModel", false, "UNIT_MODEL");
+        public final static Property UseAgent = new Property(16, String.class, "useAgent", false, "USE_AGENT");
     }
 
 
@@ -70,7 +71,8 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
                 "\"LAT\" TEXT," + // 12: lat
                 "\"MAC\" TEXT," + // 13: mac
                 "\"UNIT_BRAND\" TEXT," + // 14: unitBrand
-                "\"UNIT_MODEL\" TEXT);"); // 15: unitModel
+                "\"UNIT_MODEL\" TEXT," + // 15: unitModel
+                "\"USE_AGENT\" TEXT);"); // 16: useAgent
     }
 
     /** Drops the underlying database table. */
@@ -138,6 +140,11 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
         if (unitModel != null) {
             stmt.bindString(16, unitModel);
         }
+ 
+        String useAgent = entity.getUseAgent();
+        if (useAgent != null) {
+            stmt.bindString(17, useAgent);
+        }
     }
 
     @Override
@@ -199,6 +206,11 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
         if (unitModel != null) {
             stmt.bindString(16, unitModel);
         }
+ 
+        String useAgent = entity.getUseAgent();
+        if (useAgent != null) {
+            stmt.bindString(17, useAgent);
+        }
     }
 
     @Override
@@ -224,7 +236,8 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
             cursor.isNull(offset + 12) ? null : cursor.getString(offset + 12), // lat
             cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13), // mac
             cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14), // unitBrand
-            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15) // unitModel
+            cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15), // unitModel
+            cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16) // useAgent
         );
         return entity;
     }
@@ -247,6 +260,7 @@ public class ReqBodyDao extends AbstractDao<ReqBody, Long> {
         entity.setMac(cursor.isNull(offset + 13) ? null : cursor.getString(offset + 13));
         entity.setUnitBrand(cursor.isNull(offset + 14) ? null : cursor.getString(offset + 14));
         entity.setUnitModel(cursor.isNull(offset + 15) ? null : cursor.getString(offset + 15));
+        entity.setUseAgent(cursor.isNull(offset + 16) ? null : cursor.getString(offset + 16));
      }
     
     @Override

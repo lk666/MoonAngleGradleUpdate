@@ -45,9 +45,9 @@ public class ReqBodyDaoManager {
                 TRACK_APP_ID, BuildConfig.VERSION_NAME, ApiClientHelper.CLIENT, uid, code,
                 EVENT_TYPE, param, STATUS_NEW, NetWorkUtil.getLocalIpAddress(AppContext
                 .getInstance()), "", "", NetWorkUtil.getMacAddressFromIp(AppContext.getInstance()
-        ), Build.BRAND, Build.MODEL);
+        ), Build.BRAND, Build.MODEL, ClientStateManager.getUserAgent());
         DBHelper.getDaoSession().getReqBodyDao().insert(body);
-        LogUtils.d(TAG, "insert==>" + body.getCode());
+        LogUtils.d(TAG, "insert==>" + body.toString());
     }
 
 

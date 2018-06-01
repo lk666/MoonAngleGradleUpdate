@@ -41,6 +41,7 @@ public class ClientStateManager {
     public static final String HISTORY_MEMBER = "HISTORY_MEMBER";
     public static final String HISTORY_SELECT_MEMBER = "HISTORY_SELECT_MEMBER";
     public static final String HISTORY_SELECT_AREA = "HISTORY_SELECT_AREA";
+    public static final String USER_AGENT = "USER_AGENT";
 
     public static void clearData() {
         ClientStateManager.setLoginToken("");
@@ -327,5 +328,27 @@ public class ClientStateManager {
         }
         return true;
     }
+
+    /**
+     * 用户代理
+     */
+    public static String getUserAgent() {
+
+        SharedPreferences pref = PreferenceManager
+                .getDefaultSharedPreferences(AppContext.getInstance());
+        return pref.getString(USER_AGENT,"");
+    }
+
+    public static boolean setUserAgent(String userAgent) {
+        try {
+            SharedPreferences pref = PreferenceManager
+                    .getDefaultSharedPreferences(AppContext.getInstance());
+            pref.edit().putString(USER_AGENT, userAgent).commit();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 
 }
