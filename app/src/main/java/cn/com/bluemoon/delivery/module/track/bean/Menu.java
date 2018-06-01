@@ -1,4 +1,4 @@
-package cn.com.bluemoon.delivery.module.track.menu;
+package cn.com.bluemoon.delivery.module.track.bean;
 
 /**
  * Created by tangqiwei on 2018/4/23.

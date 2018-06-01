@@ -119,8 +119,6 @@ public class AppStartActivity extends Activity {
         locationService.start();
 
         initAlarm();
-
-        initUserAgent();
     }
 
     private void initAlarm() {
@@ -155,11 +153,7 @@ public class AppStartActivity extends Activity {
         }
     }
 
-    private void initUserAgent(){
-        if(TextUtils.isEmpty(ClientStateManager.getUserAgent())){
-            ClientStateManager.setUserAgent(NetWorkUtil.getUserAgent(AppContext.getInstance()));
-        }
-    }
+
 
     @Override
     protected void onResume() {
