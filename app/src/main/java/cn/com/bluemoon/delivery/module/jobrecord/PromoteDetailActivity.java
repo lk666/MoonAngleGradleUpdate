@@ -21,7 +21,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.bitmap.BitmapCallBack;
 

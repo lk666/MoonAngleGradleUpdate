@@ -1,7 +1,7 @@
 package cn.com.bluemoon.delivery.db.manager;
 
-import org.apache.http.conn.util.InetAddressUtils;
 
+import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.NetworkInterface;
 import java.net.SocketException;
@@ -27,9 +27,7 @@ public class GreenDaoUtil {
                 Enumeration<InetAddress> enumIpAddr = nif.getInetAddresses();
                 while (enumIpAddr.hasMoreElements()) {
                     InetAddress mInetAddress = enumIpAddr.nextElement();
-                    if (!mInetAddress.isLoopbackAddress()
-                            && InetAddressUtils.isIPv4Address(mInetAddress
-                            .getHostAddress())) {
+                    if (!mInetAddress.isLoopbackAddress() && mInetAddress instanceof Inet4Address) {
                         return mInetAddress.getHostAddress().toString();
                     }
                 }

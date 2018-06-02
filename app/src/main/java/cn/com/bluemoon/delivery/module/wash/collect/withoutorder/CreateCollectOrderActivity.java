@@ -24,7 +24,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.commons.lang3.text.StrBuilder;
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;

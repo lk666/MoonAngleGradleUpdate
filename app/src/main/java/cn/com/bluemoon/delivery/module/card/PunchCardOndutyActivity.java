@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.card;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -26,6 +27,7 @@ import com.baidu.location.LocationClientOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -525,8 +527,24 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                 if (!checkSumbit()) {
                     return;
                 }
-                btnPunchCard.setClickable(false);
-                mLocationClient.start();
+                //先判断是否开了gps
+                boolean control = true;
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (!PublicUtil.isOPenLocation(this)) {
+                        control = false;
+                        PublicUtil.showLocationSettingDialog(this);
+                    }
+                } else {
+                    if (!X5PermissionsUtil.checkPermissions(this,
+                            X5PermissionsUtil.PERMISSION_LOCATION, 1)) {
+                        control = false;
+                    }
+                }
+                if (control) {
+                    btnPunchCard.setClickable(false);
+                    mLocationClient.start();
+                }
+
                 break;
             case R.id.layout_choose_address_code:
                 GetWorkPlaceActivity.startAct(this, txtAddressCode.getText().toString(), 1);

@@ -6,9 +6,6 @@ import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
-import org.apache.http.client.params.ClientPNames;
-import org.apache.http.entity.ByteArrayEntity;
-
 import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
@@ -22,6 +19,8 @@ import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.liblog.NetLogUtils;
+import cz.msebera.android.httpclient.client.params.ClientPNames;
+import cz.msebera.android.httpclient.entity.ByteArrayEntity;
 
 public class ApiHttpClient {
 

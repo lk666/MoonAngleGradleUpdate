@@ -97,13 +97,22 @@ public class AlarmReceiver extends BroadcastReceiver {
                 , 0, intent2, 0);
 
         NotificationManager manager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        Notification notification = new Notification(R.mipmap.icon, remind.getRemindTitle()
+        /*Notification notification = new Notification(R.mipmap.icon, remind.getRemindTitle()
                 , System.currentTimeMillis());
         notification.setLatestEventInfo(context, remind.getRemindTitle(),
                 remind.getRemindContent(), pi);
         notification.defaults = Notification.DEFAULT_SOUND;
         notification.defaults = Notification.DEFAULT_ALL;
-        notification.flags = Notification.FLAG_AUTO_CANCEL;
-        manager.notify((int) remind.getRemindId(), notification);
+        notification.flags = Notification.FLAG_AUTO_CANCEL;*/
+        Notification noti = new Notification.Builder(context)
+                .setContentTitle(remind.getRemindTitle())
+                .setContentText(remind.getRemindContent())
+                .setWhen(System.currentTimeMillis())
+                .setSmallIcon(R.mipmap.icon)
+                .setAutoCancel(true)
+                .setDefaults(Notification.DEFAULT_SOUND)
+                .setDefaults(Notification.DEFAULT_ALL)
+                .build();
+        manager.notify((int) remind.getRemindId(), noti);
     }
 }

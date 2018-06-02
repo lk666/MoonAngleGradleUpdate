@@ -3,6 +3,7 @@ package cn.com.bluemoon.delivery.module.card;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +19,7 @@ import com.baidu.location.LocationClientOption;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -293,11 +295,26 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                 control = false;
                 toast(R.string.log_not_input);
             } else {
-                isPunchCard = true;
-                if (mLocationClient.isStarted()) {
-                    mLocationClient.stop();
+                //先判断是否开了gps
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (!PublicUtil.isOPenLocation(getActivity())) {
+                        control = false;
+                        PublicUtil.showLocationSettingDialog(getActivity());
+                    }
+                } else {
+                    if (!X5PermissionsUtil.checkPermissions(getActivity(),
+                            X5PermissionsUtil.PERMISSION_LOCATION, 1)) {
+                        control = false;
+                    }
                 }
-                mLocationClient.start();
+                if (control) {
+                    isPunchCard = true;
+                    if (mLocationClient.isStarted()) {
+                        mLocationClient.stop();
+                    }
+                    mLocationClient.start();
+                }
+
             }
         } else {
             control = false;

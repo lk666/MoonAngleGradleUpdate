@@ -8,7 +8,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.google.zxing.common.StringUtils;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 
 import java.util.HashMap;
 import java.util.List;

@@ -2,7 +2,7 @@ package cn.com.bluemoon.delivery.module.track;
 
 import com.alibaba.fastjson.JSON;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;

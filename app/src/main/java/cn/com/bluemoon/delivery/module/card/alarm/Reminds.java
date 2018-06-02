@@ -13,7 +13,7 @@ import android.net.Uri;
 import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 
 import java.util.ArrayList;
 import java.util.Calendar;

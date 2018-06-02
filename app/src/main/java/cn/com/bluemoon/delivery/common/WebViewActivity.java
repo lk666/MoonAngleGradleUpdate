@@ -14,7 +14,7 @@ import com.baidu.location.LocationClientOption;
 import com.tencent.smtt.sdk.WebView;
 import com.umeng.analytics.MobclickAgent;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

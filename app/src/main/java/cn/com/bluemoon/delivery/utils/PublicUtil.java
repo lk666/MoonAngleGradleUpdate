@@ -29,7 +29,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.apache.http.NameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
