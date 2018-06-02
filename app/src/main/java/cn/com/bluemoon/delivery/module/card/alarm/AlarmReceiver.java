@@ -110,6 +110,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 .setWhen(System.currentTimeMillis())
                 .setSmallIcon(R.mipmap.icon)
                 .setAutoCancel(true)
+                .setContentIntent(pi)
                 .setDefaults(Notification.DEFAULT_SOUND)
                 .setDefaults(Notification.DEFAULT_ALL)
                 .build();

@@ -303,6 +303,8 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                     if (!PublicUtil.isOPenLocation(getActivity())) {
                         control = false;
                         PublicUtil.showLocationSettingDialog(getActivity());
+                    } else {
+                        startLocation();
                     }
                 } else {
                     if (PublicUtil.isOPenLocation(getActivity())) {
@@ -310,6 +312,8 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                         if (X5PermissionsUtil.lacksPermissions(getActivity(), permissions)) {
                             control = false;
                             this.requestPermissions(permissions,1);
+                        } else {
+                            startLocation();
                         }
                     } else {
                         control = false;
@@ -317,25 +321,29 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                     }
 
                 }
-                if (control) {
-                    isPunchCard = true;
-                    if (mLocationClient.isStarted()) {
-                        mLocationClient.stop();
-                    }
-                    mLocationClient.start();
-                }
-
             }
         } else {
             control = false;
         }
     }
 
+    private void startLocation() {
+        isPunchCard = true;
+        if (mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
+        mLocationClient.start();
+    }
+
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAll = true;
         for (int i = 0; i < grantResults.length; ++i) {
+            //oppo 锤子判断不了不再询问
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                hasAll = false;
                 //在用户已经拒绝授权的情况下，如果shouldShowRequestPermissionRationale返回false则
                 // 可以推断出用户选择了“不在提示”选项，在这种情况下需要引导用户至设置页手动授权
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[i])) {
@@ -343,6 +351,9 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                     break;
                 }
             }
+        }
+        if (hasAll) {
+            startLocation();
         }
     }
 

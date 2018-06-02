@@ -531,27 +531,24 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                     return;
                 }
                 //先判断是否开了gps
-                boolean control = true;
                 if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
                     if (!PublicUtil.isOPenLocation(this)) {
-                        control = false;
                         PublicUtil.showLocationSettingDialog(this);
+                    } else {
+                        startLocation();
                     }
                 } else {
                     if (PublicUtil.isOPenLocation(this)) {
-                        if (!X5PermissionsUtil.checkPermissions(this,
-                                X5PermissionsUtil.PERMISSION_LOCATION, 1)) {
-                            control = false;
+                        String[] permissions = X5PermissionsUtil.PERMISSION_LOCATION;
+                        if (X5PermissionsUtil.lacksPermissions(this, permissions)) {
+                            this.requestPermissions(permissions,1);
+                        } else {
+                            startLocation();
                         }
                     } else {
-                        control = false;
                         PublicUtil.showLocationSettingDialog(this);
                     }
 
-                }
-                if (control) {
-                    btnPunchCard.setClickable(false);
-                    mLocationClient.start();
                 }
 
                 break;
@@ -584,11 +581,18 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
         }
     }
 
+    private void startLocation() {
+        btnPunchCard.setClickable(false);
+        mLocationClient.start();
+    }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAll = true;
         for (int i = 0; i < grantResults.length; ++i) {
             if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                hasAll = false;
                 //在用户已经拒绝授权的情况下，如果shouldShowRequestPermissionRationale返回false则
                 // 可以推断出用户选择了“不在提示”选项，在这种情况下需要引导用户至设置页手动授权
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
@@ -596,6 +600,9 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                     break;
                 }
             }
+        }
+        if (hasAll) {
+            startLocation();
         }
     }
 
