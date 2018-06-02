@@ -9,6 +9,8 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.graphics.Paint;
 import android.location.LocationManager;
+import android.net.Uri;
+import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -29,7 +31,9 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.apache.commons.lang3.StringUtils;
+
 import cz.msebera.android.httpclient.Header;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
@@ -413,8 +417,18 @@ public class PublicUtil extends LibPublicUtil {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                aty.startActivity(new Intent("android.settings" +
-                                        ".LOCATION_SOURCE_SETTINGS"));
+                                Intent localIntent = new Intent();
+                                localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                if (Build.VERSION.SDK_INT >= 23) {
+                                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                    localIntent.setData(Uri.fromParts("package", aty.getPackageName(), null));
+                                    aty.startActivity(localIntent);
+                                } else {
+                                    aty.startActivity(new Intent("android.settings" +
+                                            ".LOCATION_SOURCE_SETTINGS"));
+                                }
+
+
                             }
                         })
                 .setPositiveButton(R.string.btn_later, null)

@@ -3,7 +3,10 @@ package cn.com.bluemoon.delivery.module.card;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -572,6 +575,21 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                 anim = CardUtils.startPropertyAnim(imgAddressRefresh);
                 mLocationClient.start();
                 break;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int i = 0; i < grantResults.length; ++i) {
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                //在用户已经拒绝授权的情况下，如果shouldShowRequestPermissionRationale返回false则
+                // 可以推断出用户选择了“不在提示”选项，在这种情况下需要引导用户至设置页手动授权
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
+                    PublicUtil.showLocationSettingDialog(this);
+                    break;
+                }
+            }
         }
     }
 

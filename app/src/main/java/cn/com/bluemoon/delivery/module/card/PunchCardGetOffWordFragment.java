@@ -3,7 +3,10 @@ package cn.com.bluemoon.delivery.module.card;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
 import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -302,9 +305,10 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                         PublicUtil.showLocationSettingDialog(getActivity());
                     }
                 } else {
-                    if (!X5PermissionsUtil.checkPermissions(getActivity(),
-                            X5PermissionsUtil.PERMISSION_LOCATION, 1)) {
+                    String[] permissions = X5PermissionsUtil.PERMISSION_LOCATION;
+                    if (X5PermissionsUtil.lacksPermissions(getActivity(), permissions)) {
                         control = false;
+                        this.requestPermissions(permissions,1);
                     }
                 }
                 if (control) {
@@ -318,6 +322,21 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
             }
         } else {
             control = false;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        for (int i = 0; i < grantResults.length; ++i) {
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                //在用户已经拒绝授权的情况下，如果shouldShowRequestPermissionRationale返回false则
+                // 可以推断出用户选择了“不在提示”选项，在这种情况下需要引导用户至设置页手动授权
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[i])) {
+                    PublicUtil.showLocationSettingDialog(getActivity());
+                    break;
+                }
+            }
         }
     }
 
