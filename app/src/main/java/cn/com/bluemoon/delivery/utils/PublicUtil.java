@@ -417,16 +417,31 @@ public class PublicUtil extends LibPublicUtil {
                             @Override
                             public void onClick(DialogInterface dialog,
                                                 int which) {
+
+                                aty.startActivity(new Intent("android.settings" +
+                                        ".LOCATION_SOURCE_SETTINGS"));
+
+
+                            }
+                        })
+                .setPositiveButton(R.string.btn_later, null)
+                .show();
+    }
+
+    public static void showAppSettingDialog(final Activity aty) {
+        new CommonAlertDialog.Builder(aty)
+                .setMessage(R.string.card_get_location_tips)
+                .setNegativeButton(R.string.btn_setting,
+                        new DialogInterface.OnClickListener() {
+
+                            @Override
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
                                 Intent localIntent = new Intent();
                                 localIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                                if (Build.VERSION.SDK_INT >= 23) {
-                                    localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
-                                    localIntent.setData(Uri.fromParts("package", aty.getPackageName(), null));
-                                    aty.startActivity(localIntent);
-                                } else {
-                                    aty.startActivity(new Intent("android.settings" +
-                                            ".LOCATION_SOURCE_SETTINGS"));
-                                }
+                                localIntent.setAction("android.settings.APPLICATION_DETAILS_SETTINGS");
+                                localIntent.setData(Uri.fromParts("package", aty.getPackageName(), null));
+                                aty.startActivity(localIntent);
 
 
                             }

@@ -538,10 +538,16 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                         PublicUtil.showLocationSettingDialog(this);
                     }
                 } else {
-                    if (!X5PermissionsUtil.checkPermissions(this,
-                            X5PermissionsUtil.PERMISSION_LOCATION, 1)) {
+                    if (PublicUtil.isOPenLocation(this)) {
+                        if (!X5PermissionsUtil.checkPermissions(this,
+                                X5PermissionsUtil.PERMISSION_LOCATION, 1)) {
+                            control = false;
+                        }
+                    } else {
                         control = false;
+                        PublicUtil.showLocationSettingDialog(this);
                     }
+
                 }
                 if (control) {
                     btnPunchCard.setClickable(false);
@@ -586,7 +592,7 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                 //在用户已经拒绝授权的情况下，如果shouldShowRequestPermissionRationale返回false则
                 // 可以推断出用户选择了“不在提示”选项，在这种情况下需要引导用户至设置页手动授权
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
-                    PublicUtil.showLocationSettingDialog(this);
+                    PublicUtil.showAppSettingDialog(this);
                     break;
                 }
             }
