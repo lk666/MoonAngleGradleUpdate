@@ -38,7 +38,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.io.File;

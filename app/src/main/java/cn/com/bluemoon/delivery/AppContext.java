@@ -14,9 +14,6 @@ import com.tencent.smtt.sdk.TbsListener;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
 
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
 
 import java.util.Properties;
 import java.util.UUID;
@@ -35,6 +32,9 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
 import cn.com.bluemoon.lib_iflytek.utils.SpeechUtil;
 import cn.com.bluemoon.liblog.NetLogUtils;
+import cz.msebera.android.httpclient.conn.scheme.PlainSocketFactory;
+import cz.msebera.android.httpclient.conn.scheme.Scheme;
+import cz.msebera.android.httpclient.conn.scheme.SchemeRegistry;
 
 public class AppContext extends BaseApplication {
 

@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSONObject;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 
 import java.util.List;
 import java.util.Map;

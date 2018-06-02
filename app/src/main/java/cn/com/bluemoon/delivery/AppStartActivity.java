@@ -23,10 +23,6 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.Header;
-import org.apache.http.conn.scheme.PlainSocketFactory;
-import org.apache.http.conn.scheme.Scheme;
-import org.apache.http.conn.scheme.SchemeRegistry;
 import org.apache.http.protocol.HTTP;
 
 import java.io.File;
@@ -53,6 +49,7 @@ import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.liblog.NetLogUtils;
+import cz.msebera.android.httpclient.Header;
 
 public class AppStartActivity extends Activity {
 

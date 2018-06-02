@@ -12,7 +12,7 @@ import com.google.zxing.Result;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.kymjs.kjframe.utils.StringUtils;
 

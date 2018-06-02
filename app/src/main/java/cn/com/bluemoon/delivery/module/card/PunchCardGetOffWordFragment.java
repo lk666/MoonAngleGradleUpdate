@@ -3,6 +3,10 @@ package cn.com.bluemoon.delivery.module.card;
 
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.View;
@@ -18,6 +22,7 @@ import com.baidu.location.LocationClientOption;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
+import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -293,14 +298,62 @@ public class PunchCardGetOffWordFragment extends BaseFragment {
                 control = false;
                 toast(R.string.log_not_input);
             } else {
-                isPunchCard = true;
-                if (mLocationClient.isStarted()) {
-                    mLocationClient.stop();
+                //先判断是否开了gps
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (!PublicUtil.isOPenLocation(getActivity())) {
+                        control = false;
+                        PublicUtil.showLocationSettingDialog(getActivity());
+                    } else {
+                        startLocation();
+                    }
+                } else {
+                    if (PublicUtil.isOPenLocation(getActivity())) {
+                        String[] permissions = X5PermissionsUtil.PERMISSION_LOCATION;
+                        if (X5PermissionsUtil.lacksPermissions(getActivity(), permissions)) {
+                            control = false;
+                            this.requestPermissions(permissions,1);
+                        } else {
+                            startLocation();
+                        }
+                    } else {
+                        control = false;
+                        PublicUtil.showLocationSettingDialog(getActivity());
+                    }
+
                 }
-                mLocationClient.start();
             }
         } else {
             control = false;
+        }
+    }
+
+    private void startLocation() {
+        isPunchCard = true;
+        if (mLocationClient.isStarted()) {
+            mLocationClient.stop();
+        }
+        mLocationClient.start();
+    }
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAll = true;
+        for (int i = 0; i < grantResults.length; ++i) {
+            //oppo 锤子判断不了不再询问
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                hasAll = false;
+                //在用户已经拒绝授权的情况下，如果shouldShowRequestPermissionRationale返回false则
+                // 可以推断出用户选择了“不在提示”选项，在这种情况下需要引导用户至设置页手动授权
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(getActivity(), permissions[i])) {
+                    PublicUtil.showAppSettingDialog(getActivity());
+                    break;
+                }
+            }
+        }
+        if (hasAll) {
+            startLocation();
         }
     }
 

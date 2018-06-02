@@ -4,7 +4,7 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSONObject;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 
 import java.util.HashMap;
 import java.util.Map;

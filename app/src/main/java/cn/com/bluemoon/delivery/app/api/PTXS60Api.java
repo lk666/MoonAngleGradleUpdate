@@ -2,7 +2,7 @@ package cn.com.bluemoon.delivery.app.api;
 
 import android.text.TextUtils;
 
-import org.apache.http.Header;
+import cz.msebera.android.httpclient.Header;
 
 import java.util.ArrayList;
 import java.util.HashMap;

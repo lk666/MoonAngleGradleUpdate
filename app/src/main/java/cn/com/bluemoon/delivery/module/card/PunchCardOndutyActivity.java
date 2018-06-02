@@ -3,6 +3,10 @@ package cn.com.bluemoon.delivery.module.card;
 import android.animation.ObjectAnimator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
+import android.support.annotation.NonNull;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
@@ -26,6 +30,7 @@ import com.baidu.location.LocationClientOption;
 import java.util.ArrayList;
 import java.util.List;
 
+import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
 import butterknife.Bind;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -525,8 +530,27 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                 if (!checkSumbit()) {
                     return;
                 }
-                btnPunchCard.setClickable(false);
-                mLocationClient.start();
+                //先判断是否开了gps
+                if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
+                    if (!PublicUtil.isOPenLocation(this)) {
+                        PublicUtil.showLocationSettingDialog(this);
+                    } else {
+                        startLocation();
+                    }
+                } else {
+                    if (PublicUtil.isOPenLocation(this)) {
+                        String[] permissions = X5PermissionsUtil.PERMISSION_LOCATION;
+                        if (X5PermissionsUtil.lacksPermissions(this, permissions)) {
+                            this.requestPermissions(permissions,1);
+                        } else {
+                            startLocation();
+                        }
+                    } else {
+                        PublicUtil.showLocationSettingDialog(this);
+                    }
+
+                }
+
                 break;
             case R.id.layout_choose_address_code:
                 GetWorkPlaceActivity.startAct(this, txtAddressCode.getText().toString(), 1);
@@ -554,6 +578,31 @@ public class PunchCardOndutyActivity extends BaseActivity implements IAddressSel
                 anim = CardUtils.startPropertyAnim(imgAddressRefresh);
                 mLocationClient.start();
                 break;
+        }
+    }
+
+    private void startLocation() {
+        btnPunchCard.setClickable(false);
+        mLocationClient.start();
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean hasAll = true;
+        for (int i = 0; i < grantResults.length; ++i) {
+            if (grantResults[i] == PackageManager.PERMISSION_DENIED) {
+                hasAll = false;
+                //在用户已经拒绝授权的情况下，如果shouldShowRequestPermissionRationale返回false则
+                // 可以推断出用户选择了“不在提示”选项，在这种情况下需要引导用户至设置页手动授权
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, permissions[i])) {
+                    PublicUtil.showAppSettingDialog(this);
+                    break;
+                }
+            }
+        }
+        if (hasAll) {
+            startLocation();
         }
     }
 
