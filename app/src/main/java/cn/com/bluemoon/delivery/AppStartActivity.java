@@ -17,19 +17,13 @@ import android.text.TextUtils;
 import com.alibaba.fastjson.JSON;
 import com.baidu.location.LocationClientOption;
 import com.igexin.sdk.PushManager;
-import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.protocol.HTTP;
 
-import java.io.File;
-
-import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
-import cn.com.bluemoon.delivery.app.api.EasySSLSocketFactory;
 import cn.com.bluemoon.delivery.app.api.model.ResultVersionInfo;
 import cn.com.bluemoon.delivery.app.api.model.Version;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
@@ -38,17 +32,13 @@ import cn.com.bluemoon.delivery.module.card.alarm.Reminds;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.NetWorkUtil;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.UpdateManager;
 import cn.com.bluemoon.delivery.utils.service.LocationService;
-import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
-import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.lib.utils.LibVersionUtils;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
-import cn.com.bluemoon.liblog.NetLogUtils;
 import cz.msebera.android.httpclient.Header;
 
 public class AppStartActivity extends Activity {
