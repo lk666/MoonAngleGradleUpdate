@@ -28,6 +28,8 @@ public class ReqBodyDaoManager {
     private static final String EVENT_TYPE = "btn";
     //状态标识，已上传时间为值，值为0表示还没有上传
     private static final long STATUS_NEW = 0;
+    private static final String BRAND = Build.BRAND;
+    private static final String MODEL = Build.MODEL;
 
 
     /**
@@ -44,8 +46,9 @@ public class ReqBodyDaoManager {
         ReqBody body = new ReqBody(System.currentTimeMillis(), AppContext.getInstance().getAppId(),
                 TRACK_APP_ID, BuildConfig.VERSION_NAME, ApiClientHelper.CLIENT, uid, code,
                 EVENT_TYPE, param, STATUS_NEW, NetWorkUtil.getLocalIpAddress(AppContext
-                .getInstance()), "", "", NetWorkUtil.getMacAddressFromIp(AppContext.getInstance()
-        ), Build.BRAND, Build.MODEL, ClientStateManager.getUserAgent());
+                .getInstance()), ClientStateManager.getLongitude(), ClientStateManager
+                .getLatitude(), NetWorkUtil.getMacAddressFromIp(AppContext.getInstance()
+        ), BRAND, MODEL, ClientStateManager.getUserAgent());
         DBHelper.getDaoSession().getReqBodyDao().insert(body);
         LogUtils.d(TAG, "insert==>" + body.toString());
     }
