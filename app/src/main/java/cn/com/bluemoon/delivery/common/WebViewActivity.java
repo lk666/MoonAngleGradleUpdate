@@ -425,7 +425,7 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
         super.onBeforeSetContentLayout();
         ActivityManager.getInstance().pushOneActivity(this);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !BuildConfig.RELEASE) {
-            if (0 != (getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE)) {
+            if (0 != (getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE)) {
                 WebView.setWebContentsDebuggingEnabled(true);
             }
         }
