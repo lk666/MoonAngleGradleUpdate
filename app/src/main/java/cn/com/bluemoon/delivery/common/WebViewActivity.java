@@ -2,7 +2,9 @@ package cn.com.bluemoon.delivery.common;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
@@ -14,7 +16,9 @@ import com.baidu.location.LocationClientOption;
 import com.tencent.smtt.sdk.WebView;
 import com.umeng.analytics.MobclickAgent;
 
+import cn.com.bluemoon.delivery.BuildConfig;
 import cz.msebera.android.httpclient.Header;
+
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -65,13 +69,13 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     /**
      * 网页界面启动方法
      *
-     * @param context    调用的类
-     * @param url        网页地址
-     * @param title      网页标题 title为null时标题隐藏
-     * @param style      标题栏的样式
+     * @param context 调用的类
+     * @param url     网页地址
+     * @param title   网页标题 title为null时标题隐藏
+     * @param style   标题栏的样式
      */
     public static void startAction(Context context, String url, String title,
-                                   boolean isFull,TitleStyle style) {
+                                   boolean isFull, TitleStyle style) {
         startAction(context, url, title, isFull, style, null, WebViewActivity.class);
     }
 
@@ -332,7 +336,8 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     @Override
     protected String getAssetResult(Intent data) {
         //处理资产标签识别界面返回
-        AssetTagInfo assetTagInfo = (AssetTagInfo) data.getSerializableExtra(CaptureActivity.BUNDLE_DATA);
+        AssetTagInfo assetTagInfo = (AssetTagInfo) data.getSerializableExtra(CaptureActivity
+                .BUNDLE_DATA);
         return JSONObject.toJSONString(new ResultAsset(assetTagInfo));
     }
 
@@ -419,6 +424,11 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     protected void onBeforeSetContentLayout() {
         super.onBeforeSetContentLayout();
         ActivityManager.getInstance().pushOneActivity(this);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT && !BuildConfig.RELEASE) {
+            if (0 != (getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE)) {
+                WebView.setWebContentsDebuggingEnabled(true);
+            }
+        }
     }
 
     @Override
