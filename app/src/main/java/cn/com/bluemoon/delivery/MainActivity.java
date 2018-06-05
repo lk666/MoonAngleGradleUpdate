@@ -2,6 +2,8 @@ package cn.com.bluemoon.delivery;
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
+import android.os.Looper;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -155,8 +157,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         getNoticeData();
         //处理推送消息数据
         MenuManager.getInstance().jump(this, getIntent());
-        //数据埋点
+
+        //数据埋点上传
         TrackManager.checkData();
+
     }
 
     @Override
@@ -253,7 +257,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     for (Info info : list) {
                         unReadList.add(info.getInfoId());
                     }
-                    NoticeNewShowActivity.startAction(this,  "通知详情", unReadList);
+                    NoticeNewShowActivity.startAction(this, "通知详情", unReadList);
                 }
                 break;
         }

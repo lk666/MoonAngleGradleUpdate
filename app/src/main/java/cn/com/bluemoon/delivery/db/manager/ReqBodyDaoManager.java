@@ -105,6 +105,18 @@ public class ReqBodyDaoManager {
     }
 
     /**
+     * 根据某个时间点获取该时间点及以前上传状态的数据埋点
+     *
+     * @param status 上传的时间点
+     */
+    public static List<ReqBody> getListBeforeStatus(long status) {
+        return DBHelper.getDaoSession().getReqBodyDao()
+                .queryBuilder()
+                .where(ReqBodyDao.Properties.Status.notEq(STATUS_NEW), ReqBodyDao.Properties
+                        .Status.le(status)).build().list();
+    }
+
+    /**
      * 获取上传状态下的所有
      *
      * @return
@@ -141,25 +153,15 @@ public class ReqBodyDaoManager {
     }
 
     /**
-     * 批量删除某种状态的所有数据
+     * 批量删除某个时间点以前的所有（已上传）数据
      *
      * @param status 上传的时间点
      */
     public static void deleteListByStatus(long status) {
-        List<ReqBody> list = getListByStatus(status);
+        List<ReqBody> list = getListBeforeStatus(status);
         for (ReqBody reqBody : list) {
             DBHelper.getDaoSession().getReqBodyDao().delete(reqBody);
         }
-    }
-
-
-    /**
-     * 批量删除某个时间点上传的数据
-     *
-     * @param status 上传的时间点
-     */
-    public static void deleteUploadList(long status) {
-        deleteListByStatus(status);
     }
 
 }

@@ -1,5 +1,7 @@
 package cn.com.bluemoon.delivery.module.track;
 
+import android.os.Handler;
+
 import com.alibaba.fastjson.JSON;
 
 import cz.msebera.android.httpclient.Header;
@@ -28,14 +30,21 @@ import cn.com.bluemoon.liblog.NetLogUtils;
 
 public class TrackManager {
 
-    private static final String TAG = "data_track";
+    private static final String TAG = "GreenDao";
 
     /**
      * 启动应用检测数据，如果还有上次未上传的就上传
      */
     public static void checkData() {
 //        LogUtils.d(TAG,getAllByJson());
-        uploadTracks(ReqBodyDaoManager.getUploadList());
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                //数据埋点上传
+                uploadTracks(ReqBodyDaoManager.getAllList());
+            }
+        });
+
     }
 
     /**
@@ -109,7 +118,7 @@ public class TrackManager {
                             || Constants.RESPONSE_RESULT_ERROR_TRACK.equals(result.getRespCode())) {
 
                         //删除这个时间点上传的数据
-                        ReqBodyDaoManager.deleteUploadList(status);
+                        ReqBodyDaoManager.deleteListByStatus(status);
                         LogUtils.d(TAG, "uploadTracks success==>"+ DateUtil.getTime(status));
 
                         NetLogUtils.dNetResponse(Constants.TAG_HTTP_RESPONSE_SUCCESS, getUuid(),

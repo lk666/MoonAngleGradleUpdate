@@ -77,7 +77,7 @@ public class MenuManager {
         }
 
         //数据埋点
-        TrackManager.addMenu(userRight.getMenuCode(), userRight.getUrl());
+        TrackManager.addMenu(userRight.getMenuId(), userRight.getUrl());
 
         String menuCode = userRight.getMenuCode();
         LogUtils.d("view:" + menuCode);
