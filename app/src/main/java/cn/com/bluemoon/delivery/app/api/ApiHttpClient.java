@@ -33,7 +33,6 @@ public class ApiHttpClient {
      * 设置host，并返回域名地址
      */
     public static String getAbsoluteApiUrl(String partUrl) {
-        client.addHeader("Host", BuildConfig.HOST);
         return String.format(BuildConfig.API_URL, partUrl);
     }
 
@@ -41,7 +40,6 @@ public class ApiHttpClient {
      * 获取埋点域名地址
      */
     public static String getTrackApiUrl() {
-        client.addHeader("Host", BuildConfig.TRACK_HOST);
         return BuildConfig.API_TRACK_URL;
     }
 
@@ -49,12 +47,12 @@ public class ApiHttpClient {
      * 获取模拟数据域名地址
      */
     public static String getMockUrl(String partUrl) {
-        client.addHeader("Host", BuildConfig.HOST);
         return String.format(BuildConfig.MOCK_URL, partUrl);
     }
 
     public static void post(Context context, String partUrl, String jsonString,
                             AsyncHttpResponseHandler handler) {
+        client.addHeader("Host", BuildConfig.HOST);
         client.post(context, getAbsoluteApiUrl(partUrl), getEntity(jsonString),
                 "application/json", handler);
         log(new StringBuilder("POST ").append(partUrl).append("----->")
@@ -66,6 +64,7 @@ public class ApiHttpClient {
      */
     public static void postTrack(Context context, String jsonString,
                                  WithStatusTextHttpResponseHandler handler) {
+        client.addHeader("Host", BuildConfig.TRACK_HOST);
         client.post(context, getTrackApiUrl(), getEntity(jsonString), "application/json", handler);
         log(new StringBuilder("POST ").append("").append("----->")
                 .append(jsonString).toString());
@@ -78,6 +77,7 @@ public class ApiHttpClient {
      */
     public static void postNewBase(String name, Context context, String partUrl, String jsonString,
                                    WithContextTextHttpResponseHandler handler) {
+        client.addHeader("Host", BuildConfig.HOST);
         client.post(context, getAbsoluteApiUrl(partUrl), getEntity(jsonString),
                 "application/json", handler);
         NetLogUtils.dNetRequest(Constants.TAG_HTTP_REQUEST, handler.getUuid(),
@@ -86,6 +86,7 @@ public class ApiHttpClient {
 
     public static void postMock(Context context, String partUrl, String jsonString,
                                 AsyncHttpResponseHandler handler) {
+        client.addHeader("Host", BuildConfig.HOST);
         client.post(context, getMockUrl(partUrl), getEntity(jsonString), "application/json",
                 handler);
         log(new StringBuilder("POST ").append(partUrl).append("----->")
@@ -99,6 +100,7 @@ public class ApiHttpClient {
      */
     public static void postNewMock(String name, Context context, String partUrl, String jsonString,
                                 WithContextTextHttpResponseHandler handler) {
+        client.addHeader("Host", BuildConfig.HOST);
         client.post(context, getMockUrl(partUrl), getEntity(jsonString), "application/json",
                 handler);
         NetLogUtils.dNetRequest(Constants.TAG_HTTP_REQUEST, handler.getUuid(),
@@ -108,7 +110,6 @@ public class ApiHttpClient {
     public static void setHttpClient(AsyncHttpClient c) {
         client = c;
         client.addHeader("Accept-Language", Locale.getDefault().toString());
-        client.addHeader("Host", BuildConfig.HOST);//默认host
         client.addHeader("Connection", "Keep-Alive");
 
         client.getHttpClient().getParams()

@@ -5,6 +5,7 @@ import android.os.Handler;
 import com.alibaba.fastjson.JSON;
 
 import cz.msebera.android.httpclient.Header;
+
 import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
@@ -37,24 +38,18 @@ public class TrackManager {
      */
     public static void checkData() {
 //        LogUtils.d(TAG,getAllByJson());
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                //数据埋点上传
-                uploadTracks(ReqBodyDaoManager.getAllList());
-            }
-        });
-
+        uploadTracks(ReqBodyDaoManager.getAllList());
     }
 
     /**
      * 增加分享数据
-     * @param url 分享的url
+     *
+     * @param url   分享的url
      * @param toTag 分享的平台
      */
-    public static void addBody(String url,String toTag) {
+    public static void addBody(String url, String toTag) {
         List<ShareParam> list = new ArrayList<>();
-        list.add(new ShareParam(url,toTag));
+        list.add(new ShareParam(url, toTag));
         String param = JSON.toJSONString(list);
         ReqBodyDaoManager.addBody(TrackCode.CODE_SHARE, param);
         LogUtils.d(TAG, "add==> param:" + param);
@@ -63,7 +58,7 @@ public class TrackManager {
     /**
      * 增加菜单埋点数据
      */
-    public static void addMenu(String code,String url) {
+    public static void addMenu(String code, String url) {
         List<Menu> list = new ArrayList<>();
         list.add(new Menu(url));
         String param = JSON.toJSONString(list);
@@ -80,6 +75,7 @@ public class TrackManager {
 
     /**
      * 上传指定的埋点数据
+     *
      * @param list
      */
     public static void uploadTracks(List<ReqBody> list) {
@@ -104,7 +100,6 @@ public class TrackManager {
 
     /**
      * 上传埋点数据
-     *
      */
     private static WithStatusTextHttpResponseHandler getHandler(final int requestCode, final long
             status) {
@@ -119,7 +114,7 @@ public class TrackManager {
 
                         //删除这个时间点上传的数据
                         ReqBodyDaoManager.deleteListByStatus(status);
-                        LogUtils.d(TAG, "uploadTracks success==>"+ DateUtil.getTime(status));
+                        LogUtils.d(TAG, "uploadTracks success==>" + DateUtil.getTime(status));
 
                         NetLogUtils.dNetResponse(Constants.TAG_HTTP_RESPONSE_SUCCESS, getUuid(),
                                 System.currentTimeMillis(), responseString);
