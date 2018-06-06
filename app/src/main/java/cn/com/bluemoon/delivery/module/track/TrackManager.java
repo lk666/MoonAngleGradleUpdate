@@ -38,7 +38,13 @@ public class TrackManager {
      */
     public static void checkData() {
 //        LogUtils.d(TAG,getAllByJson());
-        uploadTracks(ReqBodyDaoManager.getAllList());
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                uploadTracks(ReqBodyDaoManager.getAllList());
+            }
+        },2000);
+
     }
 
     /**

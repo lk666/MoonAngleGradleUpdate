@@ -94,8 +94,6 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
 
     @Override
     public void initView() {
-        //数据埋点上传,需放在所有请求前面，不然会引起其他host错乱
-        TrackManager.checkData();
         // TODO: 2018/1/25 这里需要判断一下需不需要
         FileUtil.init();
         //初始化侧滑栏
@@ -160,6 +158,9 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         //处理推送消息数据
         MenuManager.getInstance().jump(this, getIntent());
 
+
+        //数据埋点上传
+        TrackManager.checkData();
     }
 
     @Override

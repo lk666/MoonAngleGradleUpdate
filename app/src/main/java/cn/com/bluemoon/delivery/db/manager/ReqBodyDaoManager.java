@@ -43,11 +43,18 @@ public class ReqBodyDaoManager {
         if (TextUtils.isEmpty(uid)) {
             uid = "nologin";
         }
+        String lng = ClientStateManager.getLongitude();
+        if ("999".equals(lng) || "999.0".equals(lng)) {
+            lng = "";
+        }
+        String lat = ClientStateManager.getLatitude();
+        if ("999".equals(lat) || "999.0".equals(lat)) {
+            lat = "";
+        }
         ReqBody body = new ReqBody(System.currentTimeMillis(), AppContext.getInstance().getAppId(),
                 TRACK_APP_ID, BuildConfig.VERSION_NAME, ApiClientHelper.CLIENT, uid, code,
                 EVENT_TYPE, param, STATUS_NEW, NetWorkUtil.getLocalIpAddress(AppContext
-                .getInstance()), ClientStateManager.getLongitude(), ClientStateManager
-                .getLatitude(), NetWorkUtil.getMacAddressFromIp(AppContext.getInstance()
+                .getInstance()), lng, lat, NetWorkUtil.getMacAddressFromIp(AppContext.getInstance()
         ), BRAND, MODEL, ClientStateManager.getUserAgent());
         DBHelper.getDaoSession().getReqBodyDao().insert(body);
         LogUtils.d(TAG, "insert==>" + body.toString());
