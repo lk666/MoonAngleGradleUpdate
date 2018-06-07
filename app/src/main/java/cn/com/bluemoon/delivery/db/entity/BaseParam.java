@@ -31,7 +31,7 @@ public class BaseParam implements Serializable {
         if ("999".equals(lat) || "999.0".equals(lat)) {
             lat = "";
         }
-        this.ip = NetWorkUtil.getMacAddressFromIp(AppContext.getInstance());
+        this.ip = NetWorkUtil.getLocalIpAddress(AppContext.getInstance());
         this.lng = lng;
         this.lat = lat;
         this.mac = NetWorkUtil.getMacAddressFromIp(AppContext.getInstance());
