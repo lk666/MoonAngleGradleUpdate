@@ -1,14 +1,18 @@
 package cn.com.bluemoon.delivery.module.track.bean;
 
+import cn.com.bluemoon.delivery.db.entity.BaseParam;
+
 /**
- * Created by tangqiwei on 2018/4/23.
+ * 菜单埋点
+ * Created by bm on 2018/4/23.
  */
 
-public class Menu {
+public class MenuParam extends BaseParam{
 
     private String url;
 
-    public Menu(String url) {
+    public MenuParam(String url) {
+        super();
         this.url = url;
     }
 

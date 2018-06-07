@@ -25,13 +25,6 @@ public class ReqBody {
                 ", eventType='" + eventType + '\'' +
                 ", eventParam='" + eventParam + '\'' +
                 ", status=" + status +
-                ", ip='" + ip + '\'' +
-                ", lng='" + lng + '\'' +
-                ", lat='" + lat + '\'' +
-                ", mac='" + mac + '\'' +
-                ", unitBrand='" + unitBrand + '\'' +
-                ", unitModel='" + unitModel + '\'' +
-                ", useAgent='" + useAgent + '\'' +
                 '}';
     }
     public Long getTimestamp() {
@@ -94,48 +87,6 @@ public class ReqBody {
     public void setStatus(long status) {
         this.status = status;
     }
-    public String getIp() {
-        return this.ip;
-    }
-    public void setIp(String ip) {
-        this.ip = ip;
-    }
-    public String getLng() {
-        return this.lng;
-    }
-    public void setLng(String lng) {
-        this.lng = lng;
-    }
-    public String getLat() {
-        return this.lat;
-    }
-    public void setLat(String lat) {
-        this.lat = lat;
-    }
-    public String getMac() {
-        return this.mac;
-    }
-    public void setMac(String mac) {
-        this.mac = mac;
-    }
-    public String getUnitBrand() {
-        return this.unitBrand;
-    }
-    public void setUnitBrand(String unitBrand) {
-        this.unitBrand = unitBrand;
-    }
-    public String getUnitModel() {
-        return this.unitModel;
-    }
-    public void setUnitModel(String unitModel) {
-        this.unitModel = unitModel;
-    }
-    public String getUseAgent() {
-        return this.useAgent;
-    }
-    public void setUseAgent(String useAgent) {
-        this.useAgent = useAgent;
-    }
 
     @Id
     private Long timestamp;
@@ -153,19 +104,11 @@ public class ReqBody {
     private String eventType;
     private String eventParam;
     private long status;
-    private String ip;
-    private String lng;
-    private String lat;
-    private String mac;
-    private String unitBrand;
-    private String unitModel;
-    private String useAgent;
-    @Generated(hash = 2090141660)
+    @Generated(hash = 341310080)
     public ReqBody(Long timestamp, String imei, @NotNull String appId,
             @NotNull String appVersion, @NotNull String os, String uid,
             @NotNull String code, @NotNull String eventType, String eventParam,
-            long status, String ip, String lng, String lat, String mac,
-            String unitBrand, String unitModel, String useAgent) {
+            long status) {
         this.timestamp = timestamp;
         this.imei = imei;
         this.appId = appId;
@@ -176,13 +119,6 @@ public class ReqBody {
         this.eventType = eventType;
         this.eventParam = eventParam;
         this.status = status;
-        this.ip = ip;
-        this.lng = lng;
-        this.lat = lat;
-        this.mac = mac;
-        this.unitBrand = unitBrand;
-        this.unitModel = unitModel;
-        this.useAgent = useAgent;
     }
     @Generated(hash = 1323616520)
     public ReqBody() {
