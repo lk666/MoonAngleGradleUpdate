@@ -27,6 +27,7 @@ public class ProductLinearLayout extends LinearLayout {
     ImageView imgProduct;
     TextView txtContent;
     TextView txtCount;
+    TextView txtProductCode;
     KJBitmap kjb;
 
     public ProductLinearLayout(Context context, AttributeSet attrs, int defStyleAttr) {
@@ -49,11 +50,12 @@ public class ProductLinearLayout extends LinearLayout {
         imgProduct = (ImageView) findViewById(R.id.img_product);
         txtContent = (TextView) findViewById(R.id.txt_content);
         txtCount = (TextView) findViewById(R.id.txt_count);
+        txtProductCode = (TextView) findViewById(R.id.txt_product_code);
     }
 
     public void setData(final Product product, final Activity context) {
         txtCount.setText(context.getString(R.string.send_num, product.getBuyNum()));
-
+        txtProductCode.setText(product.getProductCode());
         txtContent.setText(product.getShopProName());
         if (kjb == null) kjb = new KJBitmap();
         kjb.display(imgProduct, product.getImg());

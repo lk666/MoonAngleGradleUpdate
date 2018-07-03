@@ -409,6 +409,7 @@ public class PactSignPDFActivity extends BasePDFActivity {
             widthP = resultPDFPosition.signX / resultPDFPosition.width;
             heightP = (resultPDFPosition.height - resultPDFPosition.signY) / resultPDFPosition
                     .height;
+            pageIndex = resultPDFPosition.pageIndex;
         } else if (requestCode == 3) {
             submitSign();
         } else if (requestCode == 4) {
@@ -537,10 +538,11 @@ public class PactSignPDFActivity extends BasePDFActivity {
     //签名显示的坐标比例（默认）
     private float widthP = 0.677f;
     private float heightP = 0.657f;
+    private int pageIndex = -1;
 
     @Override
     public void onLayerDrawn(Canvas canvas, float pageWidth, float pageHeight, int displayedPage) {
-        if (displayedPage == getPageCount() - 1 && bitmap != null) {
+        if (displayedPage == pageIndex - 1 && bitmap != null) {
             //            canvas.drawBitmap(bitmap, pageWidth * 0.8f, pageHeight * 0.8f, null);
 
             Rect srcRect = new Rect(0, 0, (int) pageWidth, (int) pageHeight);

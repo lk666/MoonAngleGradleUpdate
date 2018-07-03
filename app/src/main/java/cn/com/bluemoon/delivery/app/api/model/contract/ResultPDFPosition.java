@@ -19,4 +19,5 @@ public class ResultPDFPosition extends ResultBase {
     public float signX;
     public float signY;
     public float width;
+    public int pageIndex;
 }
