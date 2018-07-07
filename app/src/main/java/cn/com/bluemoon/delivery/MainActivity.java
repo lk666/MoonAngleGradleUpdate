@@ -124,6 +124,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             @Override
             public void onRefresh(RefreshLayout refreshlayout) {
                 getRightData();
+                getBannerList();
             }
         });
         //刷新转圈颜色变化
@@ -307,6 +308,14 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                 ViewUtil.setViewVisibility(txtTips, TextUtils.isEmpty(resultInfo.getMsgContent())
                         ? View.GONE : View.VISIBLE);
                 txtTips.setText(resultInfo.getMsgContent());
+                if (txtTips.getVisibility() == View.VISIBLE) {
+                    txtTips.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            txtTips.requestFocus();
+                        }
+                    }, 200);
+                }
                 break;
             case 3:
                 //设置角标数量
