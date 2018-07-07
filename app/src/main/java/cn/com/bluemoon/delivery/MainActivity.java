@@ -2,8 +2,9 @@ package cn.com.bluemoon.delivery;
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Handler;
-import android.os.Looper;
+import android.os.Build;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -17,6 +18,9 @@ import com.scwang.smartrefresh.header.MaterialHeader;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
+import com.youth.banner.Banner;
+import com.youth.banner.BannerConfig;
+import com.youth.banner.listener.OnBannerListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +28,7 @@ import java.util.List;
 import butterknife.Bind;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
+import cn.com.bluemoon.delivery.app.api.model.ResultBannerList;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
@@ -37,10 +42,12 @@ import cn.com.bluemoon.delivery.common.menu.MenuCode;
 import cn.com.bluemoon.delivery.common.menu.MenuManager;
 import cn.com.bluemoon.delivery.common.menu.MenuSection;
 import cn.com.bluemoon.delivery.module.base.BaseSlidingActivity;
+import cn.com.bluemoon.delivery.module.base.ReplaceImageLoader;
 import cn.com.bluemoon.delivery.module.notice.MessageListActivity;
 import cn.com.bluemoon.delivery.module.notice.NoticeNewShowActivity;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView;
+import cn.com.bluemoon.delivery.ui.ReplaceImageView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
@@ -52,7 +59,7 @@ import cn.com.bluemoon.lib.slidingmenu.SlidingMenu;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class MainActivity extends BaseSlidingActivity implements View.OnClickListener,
-        BaseQuickAdapter.OnItemClickListener {
+        BaseQuickAdapter.OnItemClickListener, OnBannerListener {
 
     @Bind(R.id.layout_title)
     FrameLayout layoutTitle;
@@ -64,6 +71,16 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
     RecyclerView recyclerView;
     @Bind(R.id.layout_refresh)
     SmartRefreshLayout layoutRefresh;
+    @Bind(R.id.collapsing_toolbar)
+    CollapsingToolbarLayout collapsingToolbar;
+    @Bind(R.id.app_bar)
+    AppBarLayout appBar;
+    @Bind(R.id.view_banner)
+    Banner banner;
+
+    private List<ResultBannerList.ListBean> bannerList;
+
+
     private SlidingMenu mMenu;
     private MenuFragment mMenuFragment;
     private ResultUserRight resultUserRight;
@@ -100,6 +117,8 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         initMenu();
         //兼容沉浸式
         ViewUtil.initTop(this, layoutTitle, false);
+        //初始化banner
+        initHeader();
         //初始化下拉控件
         layoutRefresh.setOnRefreshListener(new OnRefreshListener() {
             @Override
@@ -119,6 +138,7 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         menuAdapter.setEmptyView(emptyView);
         menuAdapter.replaceData(new ArrayList<MenuSection>());
         menuAdapter.openLoadAnimation();
+
     }
 
     /**
@@ -145,12 +165,53 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         mMenu.setFadeDegree(0.35f);
     }
 
+    /**
+     * 初始化banner控件
+     */
+    private void initHeader() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            // 去除收起后titlebar的阴影
+            appBar.setOutlineProvider(null);
+        }
+        bannerList = new ArrayList<>();
+        //设置指示器的位置
+        banner.setIndicatorGravity(BannerConfig.CENTER);
+        //设置指示器的样式（指示器，标题）
+        banner.setBannerStyle(BannerConfig.CIRCLE_INDICATOR);
+        //设置图片加载器
+        banner.setImageLoader(new ReplaceImageLoader() {
+            @Override
+            public void displayImage(Context context, Object path, ReplaceImageView imageView) {
+                imageView.setImageUrl(((ResultBannerList.ListBean) path).bannerImg);
+            }
+        });
+        //设置图片源
+        banner.setImages(bannerList);
+        //设置点击事件
+        banner.setOnBannerListener(this);
+        banner.start();
+    }
+
+    /**
+     * 更新banner数据
+     */
+    private void updateBanner() {
+        if (bannerList == null || bannerList.isEmpty()) {
+            ViewUtil.setViewVisibility(collapsingToolbar, View.GONE);
+            return;
+        }
+        ViewUtil.setViewVisibility(collapsingToolbar, View.VISIBLE);
+        banner.update(bannerList);
+
+    }
+
     @Override
     public void initData() {
         if (TextUtils.isEmpty(getToken())) {
             PublicUtil.showMessageTokenExpire(this);
             return;
         }
+        getBannerList();
         //请求菜单数据和消息数据
         getRightData();
         //请求必读消息数据
@@ -170,6 +231,13 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
         if (resultUserRight != null) {
             getNumData();
         }
+    }
+
+    /**
+     * 请求banner数据
+     */
+    private void getBannerList() {
+        DeliveryApi.getBannerList(getToken(), getNewHandler(6, ResultBannerList.class));
     }
 
     /**
@@ -260,6 +328,11 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
                     NoticeNewShowActivity.startAction(this, "通知详情", unReadList);
                 }
                 break;
+            case 6:
+                //更新banner数据
+                bannerList = ((ResultBannerList) result).list;
+                updateBanner();
+                break;
         }
     }
 
@@ -333,5 +406,10 @@ public class MainActivity extends BaseSlidingActivity implements View.OnClickLis
             resultUserRight = null;
         }
         initData();
+    }
+
+    @Override
+    public void OnBannerClick(int position) {
+        MenuManager.getInstance().clickBanner(this, bannerList.get(position));
     }
 }

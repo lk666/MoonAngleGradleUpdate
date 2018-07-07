@@ -12,6 +12,7 @@ import java.util.List;
 import bluemoon.com.lib_x5.utils.JsBridgeUtil;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.app.api.model.ResultBannerList;
 import cn.com.bluemoon.delivery.app.api.model.ModelNum;
 import cn.com.bluemoon.delivery.app.api.model.ResultUserRight;
 import cn.com.bluemoon.delivery.app.api.model.UserRight;
@@ -156,10 +157,10 @@ public class MenuManager {
                 PublicUtil.openWebView(main, url, JsBridgeUtil.getTitleType(url) == 0 ? null :
                         userRight.getMenuName());
             } else {
-                PublicUtil.showToast(main.getString(R.string.main_tab_no_data));
+                ViewUtil.toast(R.string.main_tab_no_data);
             }
         } catch (Exception ex) {
-            PublicUtil.showToast(main, ex.getMessage());
+            ViewUtil.toast(ex.getMessage());
         }
     }
 
@@ -272,11 +273,37 @@ public class MenuManager {
         if ((!TextUtils.isEmpty(view) && !Constants.PUSH_H5.equals(view))
                 || (Constants.PUSH_H5.equals(view) && !TextUtils.isEmpty(url))) {
             UserRight userRight = new UserRight();
+            userRight.setMenuId("");
             userRight.setMenuCode(view);
             userRight.setUrl(url);
             userRight.setMenuName("");
             onClickMenu(aty, userRight);
         }
+    }
+
+    /**
+     * 点击banner
+     */
+    public void clickBanner(MainActivity aty,ResultBannerList.ListBean item){
+        if(TextUtils.isEmpty(item.bannerUrl)){
+            return;
+        }
+        if("jump".equals(item.intentionType)){
+            UserRight userRight = new UserRight();
+            userRight.setMenuId("");
+            userRight.setMenuCode(item.bannerUrl);
+            userRight.setUrl("");
+            userRight.setMenuName("");
+            onClickMenu(aty, userRight);
+        }else if("link".equals(item.intentionType)){
+            UserRight userRight = new UserRight();
+            userRight.setMenuId("");
+            userRight.setMenuCode("");
+            userRight.setUrl(item.bannerUrl);
+            userRight.setMenuName("");
+            onClickMenu(aty, userRight);
+        }
+
     }
 
 }

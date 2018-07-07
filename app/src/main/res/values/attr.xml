@@ -95,4 +95,9 @@
         <attr name="is_draw_border" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="ReplaceImageView">
+        <attr name="img_isLarge" format="boolean"/>
+        <attr name="img_placeholder" format="reference"/>
+    </declare-styleable>
+
 </resources>

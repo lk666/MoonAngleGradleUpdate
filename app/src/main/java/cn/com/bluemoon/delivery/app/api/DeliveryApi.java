@@ -2980,4 +2980,16 @@ public class DeliveryApi {
         postRequest(params, "bluemoon-control/order/getFeedBackExpandInfo%s", handler);
     }
 
+    /**
+     * 获取banner轮播图列表
+     */
+    public static void getBannerList(String token,AsyncHttpResponseHandler handler) {
+        Map<String, Object> params = new HashMap<>();
+        if (null == token) {
+            return;
+        }
+        params.put(TOKEN, token);
+        postRequest(params, "bluemoon-control/banner/getBannerList%s", handler);
+    }
+
 }

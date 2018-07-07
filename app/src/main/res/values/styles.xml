@@ -304,7 +304,7 @@
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
     </style>
 
-    <style name="MainStyle" parent="android:Theme.Light.NoTitleBar">
+    <style name="MainStyle" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowAnimationStyle">@style/AnimFade</item>
     </style>
 

@@ -41,29 +41,6 @@
             android:src="@mipmap/scan_top_nav"/>
     </FrameLayout>
 
-    <cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView
-        android:id="@+id/txt_tips"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="#fffffe"
-        android:drawableLeft="@mipmap/notice"
-        android:drawablePadding="5dp"
-        android:drawableRight="@mipmap/arrow_top"
-        android:ellipsize="marquee"
-        android:focusable="true"
-        android:focusableInTouchMode="true"
-        android:gravity="center_vertical"
-        android:marqueeRepeatLimit="marquee_forever"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:scrollHorizontally="true"
-        android:singleLine="true"
-        android:textColor="@color/text_black_light"
-        android:textSize="@dimen/text_size_12"
-        android:visibility="gone"/>
-
-    <View style="@style/line_solid_style"/>
-
     <com.scwang.smartrefresh.layout.SmartRefreshLayout
         android:id="@+id/layout_refresh"
         android:layout_width="match_parent"
@@ -77,11 +54,90 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <android.support.v7.widget.RecyclerView
-            android:id="@+id/recycler_view"
+        <android.support.design.widget.CoordinatorLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/line_e5"/>
+            android:layout_height="match_parent">
+
+            <android.support.design.widget.AppBarLayout
+                android:id="@+id/app_bar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:elevation="0dp">
+
+                <android.support.design.widget.CollapsingToolbarLayout
+                    android:id="@+id/collapsing_toolbar"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:fitsSystemWindows="true"
+                    android:visibility="gone"
+                    app:contentScrim="@color/txt_0058f1"
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+
+                    <com.youth.banner.Banner
+                        android:id="@+id/view_banner"
+                        xmlns:app="http://schemas.android.com/apk/res-auto"
+                        android:layout_width="match_parent"
+                        android:layout_height="150dp"
+                        app:image_scale_type="fit_xy"
+                        app:indicator_drawable_selected="@drawable/banner_indicator_select"
+                        app:indicator_drawable_unselected="@drawable/banner_indicator_unselect"
+                        app:indicator_height="6dp"
+                        app:indicator_margin="4dp"
+                        app:indicator_width="6dp"
+                        app:is_auto_play="true"
+                        app:layout_collapseMode="parallax"
+                        app:layout_collapseParallaxMultiplier="0.8"
+                    />
+
+                </android.support.design.widget.CollapsingToolbarLayout>
+
+            </android.support.design.widget.AppBarLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+                <cn.com.bluemoon.delivery.ui.AlwaysMarqueeTextView
+                    android:id="@+id/txt_tips"
+                    android:layout_width="match_parent"
+                    android:layout_height="36dp"
+                    android:background="#1F88FF"
+                    android:drawableLeft="@mipmap/icon_message"
+                    android:drawablePadding="5dp"
+                    android:ellipsize="marquee"
+                    android:focusable="true"
+                    android:focusableInTouchMode="true"
+                    android:gravity="center_vertical"
+                    android:marqueeRepeatLimit="marquee_forever"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="15dp"
+                    android:scrollHorizontally="true"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/text_size_12"
+                    android:visibility="gone"/>
+
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/recycler_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/line_e5"/>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                    />
+
+                </FrameLayout>
+
+            </LinearLayout>
+
+        </android.support.design.widget.CoordinatorLayout>
 
     </com.scwang.smartrefresh.layout.SmartRefreshLayout>
 
