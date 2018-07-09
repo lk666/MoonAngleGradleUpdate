@@ -1,6 +1,6 @@
 package cn.com.bluemoon.delivery.module.base.interf;
 
-import android.app.ProgressDialog;
+import cn.com.bluemoon.delivery.ui.WaitingDialog;
 
 /**
  * Created by lk on 2016/6/13.
@@ -8,11 +8,11 @@ import android.app.ProgressDialog;
 public interface DialogControl {
     void hideWaitDialog();
 
-    ProgressDialog showWaitDialog();
+    WaitingDialog showWaitDialog();
 
-    ProgressDialog showWaitDialog(boolean isCancelable);
+    WaitingDialog showWaitDialog(boolean isCancelable);
 
-    ProgressDialog showWaitDialog(int resId, int viewId);
+    WaitingDialog showWaitDialog(int resId, int viewId);
 
-    ProgressDialog showWaitDialog(String text, int viewId);
+    WaitingDialog showWaitDialog(String text, int viewId);
 }

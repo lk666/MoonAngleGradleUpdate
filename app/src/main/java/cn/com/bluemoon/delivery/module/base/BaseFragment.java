@@ -17,6 +17,7 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
+import cn.com.bluemoon.delivery.ui.WaitingDialog;
 import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
@@ -281,7 +282,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     }
 
     @Override
-    final public ProgressDialog showWaitDialog() {
+    final public WaitingDialog showWaitDialog() {
         if(baseTabActivity!=null){
             return baseTabActivity.showWaitDialog();
         }else if(fragmentActivity!=null){
@@ -293,21 +294,21 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     }
 
     @Override
-    final public ProgressDialog showWaitDialog(int resId, int viewId) {
+    final public WaitingDialog showWaitDialog(int resId, int viewId) {
         return baseTabActivity.showWaitDialog(resId, viewId);
     }
 
     @Override
-    final public ProgressDialog showWaitDialog(String text, int viewId) {
+    final public WaitingDialog showWaitDialog(String text, int viewId) {
         return baseTabActivity.showWaitDialog(text, viewId);
     }
 
     @Override
-    final public ProgressDialog showWaitDialog(boolean isCancelable) {
+    final public WaitingDialog showWaitDialog(boolean isCancelable) {
         return showWaitDialog(getString(R.string.data_loading), R.layout.dialog_progress, isCancelable);
     }
 
-    final protected ProgressDialog showWaitDialog(String message, int viewId, boolean
+    final protected WaitingDialog showWaitDialog(String message, int viewId, boolean
             isCancelable) {
         return baseTabActivity.showWaitDialog(message, viewId, isCancelable);
     }

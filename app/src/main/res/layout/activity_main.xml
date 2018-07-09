@@ -71,7 +71,7 @@
                     android:fitsSystemWindows="true"
                     android:visibility="gone"
                     app:contentScrim="@color/txt_0058f1"
-                    app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                    app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
 
                     <com.youth.banner.Banner
                         android:id="@+id/view_banner"
@@ -86,7 +86,7 @@
                         app:indicator_width="6dp"
                         app:is_auto_play="true"
                         app:layout_collapseMode="parallax"
-                        app:layout_collapseParallaxMultiplier="0.8"
+                        app:layout_collapseParallaxMultiplier="0.3"
                     />
 
                 </android.support.design.widget.CollapsingToolbarLayout>

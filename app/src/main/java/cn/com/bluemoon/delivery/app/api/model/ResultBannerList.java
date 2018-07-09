@@ -16,6 +16,8 @@ public class ResultBannerList extends ResultBase{
         public String bannerImg;
         public String bannerUrl;
         public String intentionType;
+        public String menuCode;
+        public String menuId;
         public int sort;
     }
 }

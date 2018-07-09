@@ -13,6 +13,8 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
+
+import cn.com.bluemoon.delivery.ui.WaitingDialog;
 import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
@@ -42,7 +44,7 @@ import cn.com.bluemoon.lib.qrcode.BaseCaptureActivity;
 public abstract class BaseScanActivity extends BaseCaptureActivity implements BaseMainInterface,
         IHttpResponse {
 
-    private ProgressDialog waitDialog;
+    private WaitingDialog waitDialog;
     private Handler handler;
 
     protected void onBeforeSetContentLayout() {
@@ -238,33 +240,33 @@ public abstract class BaseScanActivity extends BaseCaptureActivity implements Ba
      * 展示默认等待dialog
      */
     @Override
-    final public ProgressDialog showWaitDialog() {
+    final public WaitingDialog showWaitDialog() {
         return showWaitDialog(true);
     }
 
     @Override
-    final public ProgressDialog showWaitDialog(boolean isCancelable) {
+    final public WaitingDialog showWaitDialog(boolean isCancelable) {
         return showWaitDialog(R.string.data_loading, R.layout.dialog_progress, isCancelable);
     }
 
     @Override
-    final public ProgressDialog showWaitDialog(int resId, int viewId) {
+    final public WaitingDialog showWaitDialog(int resId, int viewId) {
         return showWaitDialog(resId, viewId, true);
     }
 
-    final protected ProgressDialog showWaitDialog(int resId, int viewId, boolean isCancelable) {
+    final protected WaitingDialog showWaitDialog(int resId, int viewId, boolean isCancelable) {
         return showWaitDialog(getString(resId), viewId, isCancelable);
     }
 
     @Override
-    final public ProgressDialog showWaitDialog(String message, int viewId) {
+    final public WaitingDialog showWaitDialog(String message, int viewId) {
         return showWaitDialog(message, viewId, true);
     }
 
-    final protected ProgressDialog showWaitDialog(String message, int viewId, boolean
+    final protected WaitingDialog showWaitDialog(String message, int viewId, boolean
             isCancelable) {
         if (waitDialog == null) {
-            waitDialog = DialogUtil.getWaitDialog(this);
+            waitDialog = new WaitingDialog(this);
         }
 
         waitDialog.setMessage(message);

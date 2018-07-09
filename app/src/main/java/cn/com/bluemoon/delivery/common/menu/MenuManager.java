@@ -143,7 +143,7 @@ public class MenuManager {
                 MyTrainActivity.actionStart(main);
             } else if (compare(MenuCode.offline_training_teacher, menuCode)) {
                 MyCoursesActivity.actionStart(main);
-            }else if (compare(MenuCode.ptxs_60, menuCode)) {
+            } else if (compare(MenuCode.ptxs_60, menuCode)) {
                 GroupBuyListActivity.actStart(main);
             }
 
@@ -151,9 +151,16 @@ public class MenuManager {
 
             //下面是网页跳转
             else if (!TextUtils.isEmpty(userRight.getUrl())) {
-                LogUtils.d("url==>" + userRight.getUrl());
+                String param;
+                if ("ttly".equals(userRight.getMenuCode()) || "lhq".equals(userRight.getMenuCode
+                        ())) {
+                    param = "userId=" + ClientStateManager.getUserName();
+                } else {
+                    param = "token=" + ClientStateManager.getLoginToken();
+                }
                 String url = userRight.getUrl() + (!userRight.getUrl().contains("?") ? "?" : "&")
-                        + "token=" + ClientStateManager.getLoginToken();
+                        + param;
+                LogUtils.d("url==>" + url);
                 PublicUtil.openWebView(main, url, JsBridgeUtil.getTitleType(url) == 0 ? null :
                         userRight.getMenuName());
             } else {
@@ -284,24 +291,16 @@ public class MenuManager {
     /**
      * 点击banner
      */
-    public void clickBanner(MainActivity aty,ResultBannerList.ListBean item){
-        if(TextUtils.isEmpty(item.bannerUrl)){
-            return;
-        }
-        if("jump".equals(item.intentionType)){
+    public void clickBanner(MainActivity aty, ResultBannerList.ListBean item) {
+        if ("jump".equals(item.intentionType)||"h5_link".equals(item.intentionType)) {
             UserRight userRight = new UserRight();
-            userRight.setMenuId("");
-            userRight.setMenuCode(item.bannerUrl);
-            userRight.setUrl("");
+            userRight.setMenuId(item.menuId == null ? "" : item.menuId);
+            userRight.setMenuCode(item.menuCode);
+            userRight.setUrl(item.bannerUrl == null ? "" : item.bannerUrl);
             userRight.setMenuName("");
             onClickMenu(aty, userRight);
-        }else if("link".equals(item.intentionType)){
-            UserRight userRight = new UserRight();
-            userRight.setMenuId("");
-            userRight.setMenuCode("");
-            userRight.setUrl(item.bannerUrl);
-            userRight.setMenuName("");
-            onClickMenu(aty, userRight);
+        } else if ("link".equals(item.intentionType)) {
+            PublicUtil.openWebView(aty, item.bannerUrl, "");
         }
 
     }
