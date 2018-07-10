@@ -188,6 +188,8 @@ dependencies {
     compile "com.android.support:design:$rootProject.ext.supportVersion"
     compile 'com.youth.banner:banner:1.4.9'
 
+    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
 }
 
 

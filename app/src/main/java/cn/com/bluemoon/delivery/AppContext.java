@@ -9,11 +9,9 @@ import android.view.WindowManager;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.PersistentCookieStore;
-import com.tencent.smtt.sdk.QbSdk;
-import com.tencent.smtt.sdk.TbsListener;
+import com.squareup.leakcanary.LeakCanary;
 import com.umeng.socialize.PlatformConfig;
 import com.umeng.socialize.UMShareAPI;
-
 
 import java.util.Properties;
 import java.util.UUID;
@@ -26,7 +24,6 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.db.manager.DBHelper;
 import cn.com.bluemoon.delivery.module.track.TrackManager;
 import cn.com.bluemoon.delivery.utils.FileUtil;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.NetWorkUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib.utils.ImageLoaderUtil;
@@ -60,6 +57,12 @@ public class AppContext extends BaseApplication {
 
 
     private void init() {
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
 
         FileUtil.init();
 

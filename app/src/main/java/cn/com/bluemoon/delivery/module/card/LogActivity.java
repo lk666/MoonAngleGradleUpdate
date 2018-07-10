@@ -17,7 +17,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 
@@ -35,6 +34,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cz.msebera.android.httpclient.Header;
 
 /**
  *
@@ -51,6 +51,12 @@ public class LogActivity extends Activity {
         Intent intent = new Intent(mContext, LogActivity.class);
         intent.putExtra("hasWorkDiary", hasWorkDiary);
         mContext.startActivity(intent);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        ActivityManager.getInstance().popOneActivity(this);
     }
 
     @Override

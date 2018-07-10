@@ -22,7 +22,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.util.List;
@@ -45,6 +44,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonClearEditText;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by liangjiangli on 2016/4/1.
@@ -60,6 +60,11 @@ public class SearchProductActivity extends Activity {
     private List<Product> list;
     private long timestamp = 0;
     private TextView txtSearch;
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

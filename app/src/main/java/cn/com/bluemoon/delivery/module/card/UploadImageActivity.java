@@ -23,7 +23,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 import org.kymjs.kjframe.KJBitmap;
@@ -50,6 +49,7 @@ import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
 import cn.com.bluemoon.lib.view.TakePhotoPopView;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * Created by liangjiangli on 2016/3/30.
@@ -341,6 +341,7 @@ public class UploadImageActivity extends Activity{
     protected void onDestroy() {
         super.onDestroy();
         progressDialog = null;
+        ActivityManager.getInstance().popOneActivity(this);
     }
 
     class ImageAdapter extends BaseAdapter {

@@ -43,6 +43,12 @@ public class LoginActivity extends BaseActivity {
     private static final String URL_APPLY =
             "view/cooperation/#/index?_compaign=cooperationApply&_adTag=other";
 
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
     @Override
     protected int getLayoutId() {
         return R.layout.activity_login;
