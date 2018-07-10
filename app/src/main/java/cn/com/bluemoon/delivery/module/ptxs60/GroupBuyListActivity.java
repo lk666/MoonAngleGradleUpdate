@@ -80,8 +80,7 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
         ptrlv.getRefreshableView().addFooterView(footView);
         footView.setVisibility(View.GONE);
 
-        ((View)ptrlv.getParent()).findViewById(R.id.tv_url).setOnClickListener(new View.OnClickListener() {
-
+        findViewById(R.id.tv_url).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 PublicUtil.openWebView(GroupBuyListActivity.this, Constants.URL_LAN_YUE, "");
