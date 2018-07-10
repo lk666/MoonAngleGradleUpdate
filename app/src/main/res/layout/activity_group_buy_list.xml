@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/page_bg_f2"
+        android:orientation="vertical">
+
+    <ViewStub
+        android:id="@+id/viewstub_head"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+
+        <cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView
+            xmlns:ptr="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/ptrlv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/transparent"
+            android:divider="@drawable/div_left_padding_16"
+            android:dividerHeight="0.5dp"
+            android:scrollbars="none"
+            ptr:ptrAnimationStyle="flip"
+            ptr:ptrHeaderSubTextColor="@color/text_black"
+            ptr:ptrHeaderTextColor="@color/text_black"
+            ptr:ptrMode="pullFromStart"/>
+
+
+        <ViewStub
+            android:id="@+id/viewstub_error"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <ViewStub
+            android:id="@+id/viewstub_empty"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tv_url"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="bottom|right"
+        android:layout_margin="18dp"
+        android:background="@drawable/btn_round_shape_white"
+        android:elevation="8dp"
+        android:gravity="center"
+        android:text="查看揽\n月进度"
+        android:textColor="@color/white"
+        android:textSize="14sp"/>
+    </FrameLayout>
+
+

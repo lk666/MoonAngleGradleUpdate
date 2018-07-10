@@ -21,6 +21,7 @@ import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib_widget.module.form.BMListPaginationView;
@@ -31,6 +32,11 @@ import cn.com.bluemoon.lib_widget.module.form.BMListPaginationView;
  */
 
 public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
+
+    @Override
+    protected int getLayoutId() {
+        return R.layout.activity_group_buy_list;
+    }
 
     private long timestamp = 0;
     private View footView;
@@ -73,6 +79,13 @@ public class GroupBuyListActivity extends BasePullToRefreshListViewActivity {
         footView = new BMListPaginationView(this);
         ptrlv.getRefreshableView().addFooterView(footView);
         footView.setVisibility(View.GONE);
+
+        findViewById(R.id.tv_url).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                PublicUtil.openWebView(GroupBuyListActivity.this, Constants.URL_LAN_YUE, "");
+            }
+        });
     }
 
     @Override

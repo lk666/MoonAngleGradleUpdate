@@ -7,6 +7,7 @@ import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.common.ClientStateManager;
 
 public class Constants {
 
@@ -206,4 +207,6 @@ public class Constants {
     public static final String RESPONSE_RESULT_ERROR_TRACK = "102";
 
     public static final int PAGE_SIZE = 10;
+    public static final String URL_LAN_YUE = "http://118.24.162.181/lanyue20180709/index" +
+            ".php?userId=" + ClientStateManager.getUserName();
 }
