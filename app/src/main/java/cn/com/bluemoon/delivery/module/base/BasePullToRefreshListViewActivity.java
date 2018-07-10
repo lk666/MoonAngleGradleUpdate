@@ -28,7 +28,7 @@ public abstract class BasePullToRefreshListViewActivity<ADAPTER extends BaseList
     protected PullToRefreshListView ptrlv;
 
     @Override
-    final protected int getLayoutId() {
+     protected int getLayoutId() {
         return R.layout.activity_pull_to_refresh_list_view;
     }
 
