@@ -7,7 +7,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.view.WindowManager;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.HRApi;
@@ -30,11 +30,11 @@ public class ModifyPhoneFragment extends BaseFragment<CommonActionBar> implement
 
     private static final String EXTRA_PHONE = "EXTRA_PHONE";
     private static final int REQUEST_CODE_GET_VERIFY_CODE = 0x777;
-    @Bind(R.id.bctv_phone)
+    @BindView(R.id.bctv_phone)
     ModifyPhoneEditText bctvPhone;
-    @Bind(R.id.bfbv_verify)
+    @BindView(R.id.bfbv_verify)
     BMFieldBtn1View bfbvVerify;
-    @Bind(R.id.btn_submit)
+    @BindView(R.id.btn_submit)
     BMAngleBtn1View btnSubmit;
 
     private String phone;

@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -32,13 +32,13 @@ public class ManualQueriesActivity extends BaseActivity implements View.OnClickL
 
     private final String TYPE = "BACK_ORDER_WAIT_SIGN";
 
-    @Bind(R.id.et_name)
+    @BindView(R.id.et_name)
     CommonClearEditText etName;
-    @Bind(R.id.et_phone)
+    @BindView(R.id.et_phone)
     CommonClearEditText etPhone;
-    @Bind(R.id.llayout_scan_code_query)
+    @BindView(R.id.llayout_scan_code_query)
     LinearLayout llayoutScanCodeQuery;
-    @Bind(R.id.btn_queries)
+    @BindView(R.id.btn_queries)
     Button btnQueries;
 
     public static void actStart(Activity activity) {

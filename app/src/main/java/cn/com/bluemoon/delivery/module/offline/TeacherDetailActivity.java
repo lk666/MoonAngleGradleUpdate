@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -28,35 +28,35 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 
 public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1View.FieldArrowListener{
 
-    @Bind(R.id.ctxt_course_name)
+    @BindView(R.id.ctxt_course_name)
     BmCellTextView ctxtCourseName;
-    @Bind(R.id.ctxt_course_state)
+    @BindView(R.id.ctxt_course_state)
     BmCellTextView ctxtCourseState;
-    @Bind(R.id.ctxt_course_time)
+    @BindView(R.id.ctxt_course_time)
     BmCellTextView ctxtCourseTime;
-    @Bind(R.id.ctxt_course_actual_class_time)
+    @BindView(R.id.ctxt_course_actual_class_time)
     BmCellTextView ctxtCourseActualClassTime;
-    @Bind(R.id.ctxt_course_actual_finish_time)
+    @BindView(R.id.ctxt_course_actual_finish_time)
     BmCellTextView ctxtCourseActualFinishTime;
-    @Bind(R.id.far_sign_staff)
+    @BindView(R.id.far_sign_staff)
     BMFieldArrow1View farSignStaff;
-    @Bind(R.id.txt_course_info)
+    @BindView(R.id.txt_course_info)
     TextView txtCourseInfo;
-    @Bind(R.id.ctxt_course_code)
+    @BindView(R.id.ctxt_course_code)
     BmCellTextView ctxtCourseCode;
-    @Bind(R.id.ctxt_course_theme)
+    @BindView(R.id.ctxt_course_theme)
     BmCellTextView ctxtCourseTheme;
-    @Bind(R.id.ctxt_course_number_participants)
+    @BindView(R.id.ctxt_course_number_participants)
     BmCellTextView ctxtCourseNumberParticipants;
-    @Bind(R.id.ctxt_contacts)
+    @BindView(R.id.ctxt_contacts)
     BmCellTextView ctxtContacts;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     TextView txtPhone;
-    @Bind(R.id.ctxt_course_room)
+    @BindView(R.id.ctxt_course_room)
     BmCellTextView ctxtCourseRoom;
-    @Bind(R.id.ctxt_course_address)
+    @BindView(R.id.ctxt_course_address)
     BmCellTextView ctxtCourseAddress;
-    @Bind(R.id.ctxt_course_purpose)
+    @BindView(R.id.ctxt_course_purpose)
     BmCellParagraphView ctxtCoursePurpose;
 
     private String courseCode;

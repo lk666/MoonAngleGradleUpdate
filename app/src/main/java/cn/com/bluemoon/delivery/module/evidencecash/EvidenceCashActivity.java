@@ -7,7 +7,7 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EvidenceCashApi;
@@ -24,25 +24,25 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
  */
 public class EvidenceCashActivity extends BaseActivity {
 
-    @Bind(R.id.txt_cooperate_code)
+    @BindView(R.id.txt_cooperate_code)
     TextView txtCooperateCode;
-    @Bind(R.id.txt_name)
+    @BindView(R.id.txt_name)
     TextView txtName;
-    @Bind(R.id.txt_shop_amount)
+    @BindView(R.id.txt_shop_amount)
     TextView txtShopAmount;
-    @Bind(R.id.txt_total_amount)
+    @BindView(R.id.txt_total_amount)
     TextView txtTotalAmount;
-    @Bind(R.id.up_down)
+    @BindView(R.id.up_down)
     UpDownTextView upDown;
-    @Bind(R.id.layout_bank)
+    @BindView(R.id.layout_bank)
     LinearLayout layoutBank;
-    @Bind(R.id.txt_company)
+    @BindView(R.id.txt_company)
     TextView txtCompany;
-    @Bind(R.id.txt_number)
+    @BindView(R.id.txt_number)
     TextView txtNumber;
-    @Bind(R.id.txt_bank_name)
+    @BindView(R.id.txt_bank_name)
     TextView txtbankname;
-    @Bind(R.id.txt_remark)
+    @BindView(R.id.txt_remark)
     TextView txtRemark;
 
     @Override

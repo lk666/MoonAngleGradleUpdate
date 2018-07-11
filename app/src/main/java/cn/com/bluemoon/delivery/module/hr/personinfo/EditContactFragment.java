@@ -10,7 +10,7 @@ import android.view.WindowManager;
 
 import org.greenrobot.eventbus.EventBus;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -31,27 +31,27 @@ public class EditContactFragment extends BaseFragment<CommonActionBar> implement
     private static final int REQUEST_CODE_SAVE_CONTACT = 0x777;
     private static final String EXTRA_CONTACT_INFO = "EXTRA_CONTACT_INFO";
     private static final int REQUEST_CODE_GET_WORK_PLACE = 0x77;
-    @Bind(R.id.bctv_weichat)
+    @BindView(R.id.bctv_weichat)
     BMFieldText1View bctvWeichat;
-    @Bind(R.id.bctv_emailPers)
+    @BindView(R.id.bctv_emailPers)
     BMFieldText1View bctvEmailPers;
-    @Bind(R.id.bctv_officePlace)
+    @BindView(R.id.bctv_officePlace)
     BMFieldArrow1View bctvOfficePlace;
-    @Bind(R.id.bctv_officePhone)
+    @BindView(R.id.bctv_officePhone)
     BMFieldText1View bctvOfficePhone;
-    @Bind(R.id.bctv_officeSeat)
+    @BindView(R.id.bctv_officeSeat)
     BMFieldText1View bctvOfficeSeat;
-    @Bind(R.id.bctv_contactName)
+    @BindView(R.id.bctv_contactName)
     BMFieldText1View bctvContactName;
-    @Bind(R.id.bctv_contactRelation)
+    @BindView(R.id.bctv_contactRelation)
     BMFieldText1View bctvContactRelation;
-    @Bind(R.id.bctv_contactMobile)
+    @BindView(R.id.bctv_contactMobile)
     BMFieldText1View bctvContactMobile;
-    @Bind(R.id.bctv_contactName2)
+    @BindView(R.id.bctv_contactName2)
     BMFieldText1View bctvContactName2;
-    @Bind(R.id.bctv_contactRelation2)
+    @BindView(R.id.bctv_contactRelation2)
     BMFieldText1View bctvContactRelation2;
-    @Bind(R.id.bctv_contactMobile2)
+    @BindView(R.id.bctv_contactMobile2)
     BMFieldText1View bctvContactMobile2;
     private ResultGetContactInfo.ContactInfoBean initContactInfo;
 

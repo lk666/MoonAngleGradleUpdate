@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -97,29 +97,29 @@ public class ModifyClothesInfoActivity extends BaseActionBarActivity implements
      */
     private UploadClothesInfo extraUploadClothesInfo;
 
-    @Bind(R.id.ll_type)
+    @BindView(R.id.ll_type)
     LinearLayout llType;
-    @Bind(R.id.ll_clothes_name)
+    @BindView(R.id.ll_clothes_name)
     LinearLayout llClothesName;
-    @Bind(R.id.tv_number)
+    @BindView(R.id.tv_number)
     TextView tvNumber;
-    @Bind(R.id.et_flaw)
+    @BindView(R.id.et_flaw)
     EditText etFlaw;
-    @Bind(R.id.v_div_flaw)
+    @BindView(R.id.v_div_flaw)
     View vDivFlaw;
-    @Bind(R.id.et_backup)
+    @BindView(R.id.et_backup)
     EditText etBackup;
-    @Bind(R.id.sgv_photo)
+    @BindView(R.id.sgv_photo)
     ScrollGridView sgvPhoto;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
 
-    @Bind(R.id.sb_falw)
+    @BindView(R.id.sb_falw)
     SwitchButton sbFalw;
-    @Bind(R.id.sb_stain)
+    @BindView(R.id.sb_stain)
     SwitchButton sbStain;
 
-    @Bind(R.id.btn_delete)
+    @BindView(R.id.btn_delete)
     Button btnDelete;
 
 

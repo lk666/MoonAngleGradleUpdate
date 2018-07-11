@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -29,23 +29,23 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
  */
 public class RefuseDetailActivity extends BaseActivity {
 
-    @Bind(R.id.gridview_img)
+    @BindView(R.id.gridview_img)
     ImageGridView gridView;
-    @Bind(R.id.txt_code)
+    @BindView(R.id.txt_code)
     TextView txtCode;
-    @Bind(R.id.txt_time)
+    @BindView(R.id.txt_time)
     TextView txtTime;
-    @Bind(R.id.txt_reason)
+    @BindView(R.id.txt_reason)
     TextView txtReason;
-    @Bind(R.id.et_reason)
+    @BindView(R.id.et_reason)
     TextView etReason;
-    @Bind(R.id.btn_save)
+    @BindView(R.id.btn_save)
     Button btnSave;
-    @Bind(R.id.txt_upload_hint)
+    @BindView(R.id.txt_upload_hint)
     TextView txtUploadHint;
-    @Bind(R.id.star)
+    @BindView(R.id.star)
     TextView star;
-    @Bind(R.id.star1)
+    @BindView(R.id.star1)
     TextView star1;
     private String clothesCode;
     private List<String> imagePaths = new ArrayList<>();

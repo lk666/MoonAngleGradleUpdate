@@ -15,7 +15,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ContractApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -32,19 +32,19 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class AuthUserInfoActivity extends BaseActivity {
 
-    @Bind(R.id.txt_name)
+    @BindView(R.id.txt_name)
     BmCellTextView txtName;
-    @Bind(R.id.txt_card_id)
+    @BindView(R.id.txt_card_id)
     BmCellTextView txtCardId;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     BmCellTextView txtPhone;
-    @Bind(R.id.txt_bank)
+    @BindView(R.id.txt_bank)
     BmCellTextView txtBank;
-    @Bind(R.id.cb_tnc)
+    @BindView(R.id.cb_tnc)
     CheckBox cbTnc;
-    @Bind(R.id.btn_confirm)
+    @BindView(R.id.btn_confirm)
     BMAngleBtn1View btnConfirm;
-    @Bind(R.id.lv_remark)
+    @BindView(R.id.lv_remark)
     ListView lvRemark;
     private static final String DATA_RESULT = "dataResult";
     private static final String CONTRACT_ID = "contractId";

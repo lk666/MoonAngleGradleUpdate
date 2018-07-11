@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -19,15 +19,15 @@ import cn.com.bluemoon.delivery.R;
  * Created by lk on 2016/9/4.
  */
 public class TimeSelectDialog extends Dialog {
-    @Bind(R.id.btn_cancel)
+    @BindView(R.id.btn_cancel)
     View btnCancle;
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     View btnOk;
-    @Bind(R.id.nwv_hour)
+    @BindView(R.id.nwv_hour)
     ExtraTextNumberWheelView nwvHour;
-    @Bind(R.id.nwv_minute)
+    @BindView(R.id.nwv_minute)
     ExtraTextNumberWheelView nwvMinute;
 
     private OnButtonClickListener listener;

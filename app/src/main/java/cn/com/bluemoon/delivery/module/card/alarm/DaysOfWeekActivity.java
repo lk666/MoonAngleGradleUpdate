@@ -15,7 +15,7 @@ import java.text.DateFormatSymbols;
 import java.util.Arrays;
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
@@ -30,7 +30,7 @@ import cn.com.bluemoon.delivery.utils.ViewHolder;
  */
 public class DaysOfWeekActivity extends BaseActivity implements OnListItemClickListener {
 
-    @Bind(R.id.list_day_of_week)
+    @BindView(R.id.list_day_of_week)
     ListView listDays;
 
     DaysOfWeek newDays;

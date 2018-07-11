@@ -7,7 +7,7 @@ import android.widget.LinearLayout;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetCooperationList;
@@ -18,7 +18,7 @@ import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetCooperati
 
 public class ClothesSelectTypeHeader extends LinearLayout {
 
-    @Bind(R.id.gv_wash)
+    @BindView(R.id.gv_wash)
     ClothesSelectTypeGrid gvWash;
 
     public ClothesSelectTypeHeader(Context context, AttributeSet attrs) {

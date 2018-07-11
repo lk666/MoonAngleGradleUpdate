@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -18,9 +18,9 @@ import cn.com.bluemoon.delivery.R;
  */
 public class SingleOptionSelectDialog extends Dialog {
 
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.wheel)
+    @BindView(R.id.wheel)
     SimpleWheelView wheel;
     /**
      * 设置数据

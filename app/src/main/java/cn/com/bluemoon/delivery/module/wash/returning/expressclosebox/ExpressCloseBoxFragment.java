@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -36,21 +36,21 @@ import cn.com.bluemoon.lib.view.ClearEditText;
  */
 public class ExpressCloseBoxFragment extends BaseFragment {
 
-    @Bind(R.id.et_delivery_num)
+    @BindView(R.id.et_delivery_num)
     ClearEditText etExpressCode;
-    @Bind(R.id.et_emy_num)
+    @BindView(R.id.et_emy_num)
     ClearEditText etEmpNum;
-    @Bind(R.id.txt_delivery_name)
+    @BindView(R.id.txt_delivery_name)
     TextView txtDeliveryName;
-    @Bind(R.id.txt_company)
+    @BindView(R.id.txt_company)
     TextView txtCompany;
-    @Bind(R.id.list_return_number)
+    @BindView(R.id.list_return_number)
     SwipeMenuListView listReturnNumber;
-    @Bind(R.id.btn_query)
+    @BindView(R.id.btn_query)
     Button btnQuery;
-    @Bind(R.id.line_dotted)
+    @BindView(R.id.line_dotted)
     View lineDotted;
-    @Bind(R.id.txt_amount)
+    @BindView(R.id.txt_amount)
     TextView txtAmount;
 
     private String companyCode;

@@ -10,7 +10,7 @@ import android.widget.ListView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -42,17 +42,17 @@ public class EvaluateStaffActivity extends BaseActivity implements OnListItemCli
     private static final int HTTP_REQUEST_CODE_GET_DATA = 0x1001;
     private static final int HTTP_REQUEST_CODE_GET_NUM = 0x1002;
     private static int SIZE = 10;
-    @Bind(R.id.ctxt_course_name)
+    @BindView(R.id.ctxt_course_name)
     BmCellTextView ctxtCourseName;
-    @Bind(R.id.ctxt_course_state)
+    @BindView(R.id.ctxt_course_state)
     BmCellTextView ctxtCourseState;
-    @Bind(R.id.ctxt_course_time)
+    @BindView(R.id.ctxt_course_time)
     BmCellTextView ctxtCourseTime;
-    @Bind(R.id.ctxt_sign_number)
+    @BindView(R.id.ctxt_sign_number)
     BmCellTextView ctxtSignNumber;
-    @Bind(R.id.ptrlv)
+    @BindView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
-    @Bind(R.id.segment_tab)
+    @BindView(R.id.segment_tab)
     BmSegmentView segmentTab;
 
 

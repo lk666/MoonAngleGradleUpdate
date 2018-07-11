@@ -8,7 +8,7 @@ import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -31,39 +31,39 @@ public class GroupBuyDetailActivity extends BaseActivity implements OnListItemCl
 
     private static final String EXTRA_CODE = "EXTRA_CODE";
     private static final int REQUEST_CODE_GET_INFO = 0x777;
-    @Bind(R.id.field_order_code)
+    @BindView(R.id.field_order_code)
     BmCellTextView fieldOrderCode;
-    @Bind(R.id.field_mendian)
+    @BindView(R.id.field_mendian)
     BmCellTextView fieldMendian;
-    @Bind(R.id.field_store)
+    @BindView(R.id.field_store)
     BmCellTextView fieldStore;
-    @Bind(R.id.field_receiver_name)
+    @BindView(R.id.field_receiver_name)
     BmCellTextView fieldReceiverName;
-    @Bind(R.id.field_receiver_phone)
+    @BindView(R.id.field_receiver_phone)
     BmCellTextView fieldReceiverPhone;
-    @Bind(R.id.field_address)
+    @BindView(R.id.field_address)
     BmCellTextView fieldAddress;
-    @Bind(R.id.field_ptr_code)
+    @BindView(R.id.field_ptr_code)
     BmCellTextView fieldPtrCode;
-    @Bind(R.id.field_ptr_name)
+    @BindView(R.id.field_ptr_name)
     BmCellTextView fieldPtrName;
-    @Bind(R.id.field_recommend_code)
+    @BindView(R.id.field_recommend_code)
     BmCellTextView fieldRecommendCode;
-    @Bind(R.id.field_recommend_name)
+    @BindView(R.id.field_recommend_name)
     BmCellTextView fieldRecommendName;
-    @Bind(R.id.radio)
+    @BindView(R.id.radio)
     BmCellTextView radio;
-    @Bind(R.id.mdxx)
+    @BindView(R.id.mdxx)
     BmCellTextView mdxx;
-    @Bind(R.id.lv_order_detail)
+    @BindView(R.id.lv_order_detail)
     NoScrollListView lvOrderDetail;
-    @Bind(R.id.unit)
+    @BindView(R.id.unit)
     BmCellTextView unit;
-    @Bind(R.id.count)
+    @BindView(R.id.count)
     BmCellTextView count;
-    @Bind(R.id.price)
+    @BindView(R.id.price)
     BmCellTextView price;
-    @Bind(R.id.sv_main)
+    @BindView(R.id.sv_main)
     ScrollView svMain;
 
     public static void actStart(Context context, String orderCode) {

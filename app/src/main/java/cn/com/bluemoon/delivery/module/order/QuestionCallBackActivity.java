@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -39,9 +39,9 @@ import cn.com.bluemoon.lib.utils.LibStringUtil;
  * 配送问题反馈
  */
 public class QuestionCallBackActivity extends BaseActivity{
-    @Bind(R.id.list_reason)
+    @BindView(R.id.list_reason)
     ListView listReason;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
     private String orderId;
     private String orderSource;

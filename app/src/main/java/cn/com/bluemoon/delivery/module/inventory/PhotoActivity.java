@@ -23,7 +23,7 @@ import android.widget.ProgressBar;
 import org.kymjs.kjframe.KJBitmap;
 import org.kymjs.kjframe.bitmap.BitmapCallBack;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -32,9 +32,9 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class PhotoActivity extends BaseActivity {
 
-    @Bind(R.id.iv_image)
+    @BindView(R.id.iv_image)
     ImageView ivImage;
-    @Bind(R.id.pb_image)
+    @BindView(R.id.pb_image)
     ProgressBar pbImage;
     private String imgUrl;
     KJBitmap kjb;

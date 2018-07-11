@@ -77,6 +77,7 @@ public class AppContext extends BaseApplication {
         PlatformConfig.setQQZone("1104979860", "Qkg4yWZ5Gr07K0K5");
         UMShareAPI.get(this);
 
+
         //X5内核WebView初始化
         X5SDk.init(this, BuildConfig.RELEASE);
         //初始化科大讯飞语音合成sdk

@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -38,13 +38,13 @@ public class CloseBoxListActivity extends BaseActivity implements OnListItemClic
     private static final int REQUEST_CODE_QUERY_LIST = 0x777;
     private static final int REQUEST_CODE_SCAN_CODE = 0x778;
     private static final String EXTRA_LIST = "EXTRA_LIST";
-    @Bind(R.id.tv_count)
+    @BindView(R.id.tv_count)
     TextView tvCount;
-    @Bind(R.id.btn_print_tag)
+    @BindView(R.id.btn_print_tag)
     Button btnPrintTag;
-    @Bind(R.id.lv)
+    @BindView(R.id.lv)
     ListView lv;
-    @Bind(R.id.btn_scan)
+    @BindView(R.id.btn_scan)
     Button btnScan;
 
     private String boxCode;

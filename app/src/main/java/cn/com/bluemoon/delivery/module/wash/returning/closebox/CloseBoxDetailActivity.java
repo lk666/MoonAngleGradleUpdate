@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -32,19 +32,19 @@ public class CloseBoxDetailActivity extends BaseActivity {
 
     private final static String EXTRA_TAG_ID = "EXTRA_TAG_ID";
     private final static int REQUEST_CODE_QUERY = 0x777;
-    @Bind(R.id.iv_code_bar)
+    @BindView(R.id.iv_code_bar)
     ImageView ivCodeBar;
-    @Bind(R.id.tv_tag_code_title)
+    @BindView(R.id.tv_tag_code_title)
     TextView tvTagCodeTitle;
-    @Bind(R.id.tv_tag_code)
+    @BindView(R.id.tv_tag_code)
     TextView tvTagCode;
-    @Bind(R.id.tv_main_address)
+    @BindView(R.id.tv_main_address)
     TextView tvMainAddress;
-    @Bind(R.id.tv_detail_address)
+    @BindView(R.id.tv_detail_address)
     TextView tvDetailAddress;
-    @Bind(R.id.tv_back_order_num)
+    @BindView(R.id.tv_back_order_num)
     TextView tvBackOrderNum;
-    @Bind(R.id.tv_box_code)
+    @BindView(R.id.tv_box_code)
     TextView tvBoxCode;
 
 

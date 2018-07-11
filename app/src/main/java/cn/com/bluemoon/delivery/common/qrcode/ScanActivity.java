@@ -5,7 +5,7 @@ import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -16,7 +16,7 @@ import cn.com.bluemoon.delivery.module.base.BaseScanActivity;
  */
 public class ScanActivity extends BaseScanActivity {
 
-    @Bind(R.id.txt_title)
+    @BindView(R.id.txt_title)
     TextView txtTitle;
 
     public static void actStart(Activity context,Fragment fragment,String title,int requestCode){

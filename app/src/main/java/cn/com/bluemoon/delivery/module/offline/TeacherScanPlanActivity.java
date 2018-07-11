@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -30,25 +30,25 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class TeacherScanPlanActivity extends BaseActivity implements CheckListener {
 
-    @Bind(R.id.view_all)
+    @BindView(R.id.view_all)
     BMRadioItemView viewAll;
-    @Bind(R.id.btn_sign)
+    @BindView(R.id.btn_sign)
     BMAngleBtn3View btnSign;
-    @Bind(R.id.layout_bottom)
+    @BindView(R.id.layout_bottom)
     LinearLayout layoutBottom;
-    @Bind(R.id.view_info)
+    @BindView(R.id.view_info)
     BmCellTextView viewInfo;
-    @Bind(R.id.view_code)
+    @BindView(R.id.view_code)
     BmCellTextView viewCode;
-    @Bind(R.id.view_theme)
+    @BindView(R.id.view_theme)
     BmCellTextView viewTheme;
-    @Bind(R.id.list_check)
+    @BindView(R.id.list_check)
     BMCheckList2View listCheck;
-    @Bind(R.id.activity_teacher_scan_plan)
+    @BindView(R.id.activity_teacher_scan_plan)
     RelativeLayout activityTeacherScanPlan;
-    @Bind(R.id.view_empty)
+    @BindView(R.id.view_empty)
     TextView viewEmpty;
-    @Bind(R.id.view_title)
+    @BindView(R.id.view_title)
     TextView viewTitle;
 
     private String planCode;

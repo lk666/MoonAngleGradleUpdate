@@ -15,7 +15,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -44,9 +44,9 @@ public abstract class OfflineListBaseActivity extends BaseActivity implements On
 
     private static final int HTTP_REQUEST_CODE_GET_NUM = 0x1000;
 
-    @Bind(R.id.segment_tab)
+    @BindView(R.id.segment_tab)
     BmSegmentView segmentTab;
-    @Bind(R.id.listview_offline)
+    @BindView(R.id.listview_offline)
     PullToRefreshListView listviewOffline;
 
     private View llayoutHeadview;

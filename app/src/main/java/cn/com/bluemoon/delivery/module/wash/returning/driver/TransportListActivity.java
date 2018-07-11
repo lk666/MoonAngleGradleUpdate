@@ -14,7 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -34,19 +34,19 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class TransportListActivity extends BaseActivity {
 
-    @Bind(R.id.txt_transport_code)
+    @BindView(R.id.txt_transport_code)
     TextView txtTransportCode;
-    @Bind(R.id.txt_box_num)
+    @BindView(R.id.txt_box_num)
     TextView txtBoxNum;
-    @Bind(R.id.txt_real_box_num)
+    @BindView(R.id.txt_real_box_num)
     TextView txtRealBoxNum;
-    @Bind(R.id.btn_load_finish)
+    @BindView(R.id.btn_load_finish)
     Button btnLoadFinish;
-    @Bind(R.id.ptrlv)
+    @BindView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
-    @Bind(R.id.layout_title)
+    @BindView(R.id.layout_title)
     RelativeLayout layoutTitle;
-    @Bind(R.id.layout_empty)
+    @BindView(R.id.layout_empty)
     CommonEmptyView layoutEmpty;
     private String carriageCode;
     private CarriageDetailAdapter adapter;

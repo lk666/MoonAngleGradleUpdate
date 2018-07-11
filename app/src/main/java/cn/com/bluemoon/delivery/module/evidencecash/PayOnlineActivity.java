@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EvidenceCashApi;
@@ -28,9 +28,9 @@ import cn.com.bluemoon.delivery.utils.service.PayService;
  * Created by ljl on 2016/11/16.
  */
 public class PayOnlineActivity extends BaseActivity {
-    @Bind(R.id.gridview_package)
+    @BindView(R.id.gridview_package)
     GridView gridviewPackage;
-    @Bind(R.id.et_recharge_money)
+    @BindView(R.id.et_recharge_money)
     EditText etRechargeMoney;
 
     private PayService payService;

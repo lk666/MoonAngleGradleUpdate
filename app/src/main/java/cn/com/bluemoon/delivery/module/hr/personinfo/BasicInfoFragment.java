@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -20,29 +20,29 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class BasicInfoFragment extends BaseFragment<CommonActionBar> {
     private static final int REQUEST_CODE_GET_INFO = 0x777;
-    @Bind(R.id.bctv_inDate)
+    @BindView(R.id.bctv_inDate)
     BmCellTextView bctvInDate;
-    @Bind(R.id.bctv_educationHighest)
+    @BindView(R.id.bctv_educationHighest)
     BmCellTextView bctvEducationHighest;
-    @Bind(R.id.bctv_gradSchool)
+    @BindView(R.id.bctv_gradSchool)
     BmCellTextView bctvGradSchool;
-    @Bind(R.id.bctv_major)
+    @BindView(R.id.bctv_major)
     BmCellTextView bctvMajor;
-    @Bind(R.id.bctv_blood)
+    @BindView(R.id.bctv_blood)
     BmCellTextView bctvBlood;
-    @Bind(R.id.bctv_marriage)
+    @BindView(R.id.bctv_marriage)
     BmCellTextView bctvMarriage;
-    @Bind(R.id.bctv_idcard)
+    @BindView(R.id.bctv_idcard)
     BmCellTextView bctvIdcard;
-    @Bind(R.id.bctv_bankNo)
+    @BindView(R.id.bctv_bankNo)
     BmCellTextView bctvBankNo;
-    @Bind(R.id.bctv_emailComp)
+    @BindView(R.id.bctv_emailComp)
     BmCellTextView bctvEmailComp;
-    @Bind(R.id.bctv_hkAddress)
+    @BindView(R.id.bctv_hkAddress)
     BmCellTextView bctvHkAddress;
-    @Bind(R.id.bctv_txAddress)
+    @BindView(R.id.bctv_txAddress)
     BmCellTextView bctvTxAddress;
-    @Bind(R.id.bctv_idcard_type)
+    @BindView(R.id.bctv_idcard_type)
     BmCellTextView bctvIdcardType;
 
     public static Fragment newInstance() {

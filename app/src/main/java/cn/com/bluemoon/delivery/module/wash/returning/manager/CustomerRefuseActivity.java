@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -25,9 +25,9 @@ import cn.com.bluemoon.delivery.app.api.model.wash.manager.ResultRefuseSign;
  * Created by ljl on 2016/9/21.
  */
 public class CustomerRefuseActivity extends BaseActivity {
-    @Bind(R.id.listview_refuse)
+    @BindView(R.id.listview_refuse)
     ListView listviewRefuse;
-    @Bind(R.id.btn_finish)
+    @BindView(R.id.btn_finish)
     Button btnFinish;
     private String backOrderCode;
     private int clickPostion;

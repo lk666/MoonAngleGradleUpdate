@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.module.base;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -17,12 +16,11 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import cn.com.bluemoon.delivery.ui.WaitingDialog;
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -33,10 +31,12 @@ import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
 import cn.com.bluemoon.delivery.module.newbase.BaseFragmentActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
+import cn.com.bluemoon.delivery.ui.WaitingDialog;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 基础Fragment，必须属于{@link BaseTabActivity}
@@ -55,6 +55,8 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     private BaseActivity baseActivity;
     private FragmentActivity act;
     private View mainView;
+
+    private Unbinder unbinder;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
         initCustomActionBar();
 
         View v = inflater.inflate(getLayoutId(), container, false);
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
         mainView = v;
         return v;
     }
@@ -155,7 +157,7 @@ public abstract class BaseFragment extends Fragment implements BaseMainInterface
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     private AsyncHttpResponseHandler getHandler(int requestcode, Class clazz,

@@ -30,7 +30,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.MainActivity;
 import cn.com.bluemoon.delivery.R;
@@ -44,9 +44,9 @@ import cn.com.bluemoon.lib.utils.LibImageUtil;
  * Created by liangjiangli on 2016/9/5.
  */
 public class ManualSignActivity extends BaseActivity implements OnGesturePerformedListener,GestureOverlayView.OnGestureListener {
-    @Bind(R.id.gesture)
+    @BindView(R.id.gesture)
     GestureOverlayView mDrawGestureView;
-    @Bind(R.id.layout_sign)
+    @BindView(R.id.layout_sign)
     LinearLayout layoutSign;
     private boolean hasSign;
 

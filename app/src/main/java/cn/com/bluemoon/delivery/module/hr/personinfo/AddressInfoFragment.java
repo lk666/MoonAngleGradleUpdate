@@ -8,7 +8,7 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -32,21 +32,21 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
  */
 
 public class AddressInfoFragment extends BaseFragment<CommonActionBar> implements FieldArrowListener, IAddressSelectDialog {
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     BmCellTextView txtAddress;
-    @Bind(R.id.txt_detail_address)
+    @BindView(R.id.txt_detail_address)
     BmCellTextView txtDetailAddress;
-    @Bind(R.id.txt_cart_address)
+    @BindView(R.id.txt_cart_address)
     BmCellTextView txtCartAddress;
-    @Bind(R.id.layout_info)
+    @BindView(R.id.layout_info)
     LinearLayout layoutInfo;
-    @Bind(R.id.field_address)
+    @BindView(R.id.field_address)
     BMFieldArrow1View fieldAddress;
-    @Bind(R.id.field_detail_address)
+    @BindView(R.id.field_detail_address)
     BMFieldText1View fieldDetailAddress;
-    @Bind(R.id.field_cart_address)
+    @BindView(R.id.field_cart_address)
     BMFieldText1View fieldCartAddress;
-    @Bind(R.id.layout_edit)
+    @BindView(R.id.layout_edit)
     LinearLayout layoutEdit;
     private String type;
     public final static String LIVE_TYPE = "live";

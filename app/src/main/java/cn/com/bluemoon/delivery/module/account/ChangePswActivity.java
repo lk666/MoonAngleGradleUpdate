@@ -5,7 +5,7 @@ import android.widget.TextView;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -17,15 +17,15 @@ import cn.com.bluemoon.lib.view.ClearEditText;
 
 public class ChangePswActivity extends BaseActivity {
 
-    @Bind(R.id.ed_old_psw)
+    @BindView(R.id.ed_old_psw)
     ClearEditText edOldPsw;
-    @Bind(R.id.ed_new_psw)
+    @BindView(R.id.ed_new_psw)
     ClearEditText edNewPsw;
-    @Bind(R.id.ed_new_con_psw)
+    @BindView(R.id.ed_new_con_psw)
     ClearEditText edNewConPsw;
-    @Bind(R.id.txt_toast)
+    @BindView(R.id.txt_toast)
     TextView txtToast;
-    @Bind(R.id.btn_submit)
+    @BindView(R.id.btn_submit)
     Button btnSubmit;
 
     @Override

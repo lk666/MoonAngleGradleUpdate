@@ -21,11 +21,11 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -49,6 +49,7 @@ import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog.Builder;
+import cz.msebera.android.httpclient.Header;
 
 // 可参照dobago的BaseRefreshListFragment
 
@@ -71,10 +72,11 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     Button btnCancel;
     String currentCollectCode;
     String currentOuterCode;
-    @Bind(R.id.list_view_main)
+    @BindView(R.id.list_view_main)
     PullToRefreshListView listViewMain;
 
     private String manager;
+    private Unbinder unbinder;
 
 
     /**
@@ -95,7 +97,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
         View v = inflater.inflate(R.layout.fragment_tab_with_order_clothing_collect, container,
                 false);
 
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
         return v;
     }
 
@@ -338,7 +340,7 @@ public class WithOrderManageFragment extends BaseFragment implements OnListItemC
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        ButterKnife.unbind(this);
+        unbinder.unbind();
     }
 
     /**

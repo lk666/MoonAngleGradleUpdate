@@ -25,11 +25,11 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -45,25 +45,27 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 打卡主页（扫码打卡，手动打卡，今日休息）
  */
 public class PunchCardFragment extends Fragment implements OnClickListener {
+    private Unbinder unbinder;
     private String TAG = "PunchCardFragment";
     private CardTabActivity mContext;
-    @Bind(R.id.img_banner)
+    @BindView(R.id.img_banner)
     ImageView imgBanner;
-    @Bind(R.id.txt_date)
+    @BindView(R.id.txt_date)
     TextView txtDate;
-    @Bind(R.id.txt_week)
+    @BindView(R.id.txt_week)
     TextView txtWeek;
 
-    @Bind(R.id.layout_scan)
+    @BindView(R.id.layout_scan)
     LinearLayout layoutScan;
-    @Bind(R.id.layout_input)
+    @BindView(R.id.layout_input)
     LinearLayout layoutInput;
-    @Bind(R.id.layout_reset)
+    @BindView(R.id.layout_reset)
     LinearLayout layoutReset;
     private CommonProgressDialog progressDialog;
     private FragmentActivity main;
@@ -83,7 +85,7 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
         initCustomActionBar();
         View v = inflater.inflate(R.layout.fragment_tab_card_scan,
                 container, false);
-        ButterKnife.bind(this, v);
+        unbinder = ButterKnife.bind(this, v);
         progressDialog = new CommonProgressDialog(main);
         txtDate.setText(DateUtil.getTime(System.currentTimeMillis(), "MM.dd"));
         txtWeek.setText(DateUtil.getTime(System.currentTimeMillis(), "EEEE"));
@@ -109,6 +111,7 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
             mLocationClient.unRegisterLocationListener(myListener);
             mLocationClient = null;
         }
+        unbinder.unbind();
     }
 
     private void setImgBanner() {

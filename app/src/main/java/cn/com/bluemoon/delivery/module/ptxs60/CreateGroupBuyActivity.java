@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.PTXS60Api;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -59,42 +59,42 @@ public class CreateGroupBuyActivity extends BaseActivity implements OnListItemCl
     private static final int REQUEST_CODE_GET_RECOMMEND_INFO = 0x555;
     private static final int REQUEST_CODE_COMMIT_ORDER = 0x444;
     private static final int REQUEST_CODE_GET_PTR_INFO = 0x333;
-    @Bind(R.id.field_mendian)
+    @BindView(R.id.field_mendian)
     BmCellTextView fieldMendian;
-    @Bind(R.id.field_store)
+    @BindView(R.id.field_store)
     BmCellTextView fieldStore;
-    @Bind(R.id.field_receiver_name)
+    @BindView(R.id.field_receiver_name)
     BMFieldText1View fieldReceiverName;
-    @Bind(R.id.field_receiver_phone)
+    @BindView(R.id.field_receiver_phone)
     EditText fieldReceiverPhone;
-    @Bind(R.id.field_area)
+    @BindView(R.id.field_area)
     BMFieldArrow1View fieldArea;
-    @Bind(R.id.field_address)
+    @BindView(R.id.field_address)
     BMFieldText1View fieldAddress;
-    @Bind(R.id.field_recommend_code)
+    @BindView(R.id.field_recommend_code)
     TextView fieldRecommendCode;
-    @Bind(R.id.field_recommend_name)
+    @BindView(R.id.field_recommend_name)
     BmCellTextView fieldRecommendName;
-    @Bind(R.id.lv_order_detail)
+    @BindView(R.id.lv_order_detail)
     NoScrollListView lvOrderDetail;
-    @Bind(R.id.field_unit_price)
+    @BindView(R.id.field_unit_price)
     BmCellTextView fieldUnitPrice;
-    @Bind(R.id.btn_submit)
+    @BindView(R.id.btn_submit)
     BMAngleBtn3View btnSubmit;
-    @Bind(R.id.tv_price)
+    @BindView(R.id.tv_price)
     TextView tvPrice;
-    @Bind(R.id.tv_count)
+    @BindView(R.id.tv_count)
     TextView tvCount;
-    @Bind(R.id.main_click)
+    @BindView(R.id.main_click)
     View mainClick;
 
-    @Bind(R.id.mdxx)
+    @BindView(R.id.mdxx)
     BMFieldParagraphView mdxx;
-    @Bind(R.id.radio)
+    @BindView(R.id.radio)
     BMRadioView radio;
-    @Bind(R.id.field_ptr_code)
+    @BindView(R.id.field_ptr_code)
     TextView fieldPtrCode;
-    @Bind(R.id.field_ptr_name)
+    @BindView(R.id.field_ptr_name)
     BmCellTextView fieldPtrName;
 
     public static void actStart(Context context) {

@@ -7,7 +7,7 @@ import android.text.InputType;
 import android.text.TextUtils;
 import android.view.View;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -25,19 +25,19 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 
 public class EvaluateEditTeacherActivity extends BaseActivity implements BMFieldListener {
 
-    @Bind(R.id.view_student)
+    @BindView(R.id.view_student)
     BmCellTextView viewStudent;
-    @Bind(R.id.view_name)
+    @BindView(R.id.view_name)
     BmCellTextView viewName;
-    @Bind(R.id.view_time)
+    @BindView(R.id.view_time)
     BmCellTextView viewTime;
-    @Bind(R.id.view_sign_time)
+    @BindView(R.id.view_sign_time)
     BmCellTextView viewSignTime;
-    @Bind(R.id.view_score)
+    @BindView(R.id.view_score)
     BMFieldText1View viewScore;
-    @Bind(R.id.view_suggest)
+    @BindView(R.id.view_suggest)
     BMFieldParagraphView viewSuggest;
-    @Bind(R.id.btn_submit)
+    @BindView(R.id.btn_submit)
     BMAngleBtn1View btnSubmit;
     private String courseCode;
     private String planCode;

@@ -20,7 +20,7 @@ import com.alibaba.fastjson.JSON;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -38,26 +38,26 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
  */
 public class AlarmModifyActivity extends BaseActivity {
 
-    @Bind(R.id.wheel_hour)
+    @BindView(R.id.wheel_hour)
     SimpleWheelView wheelHour;
 
-    @Bind(R.id.wheel_minute)
+    @BindView(R.id.wheel_minute)
     SimpleWheelView wheelMinute;
-    @Bind(R.id.txt_repeat_content)
+    @BindView(R.id.txt_repeat_content)
     TextView txtRepeat;
-    @Bind(R.id.layout_repeat)
+    @BindView(R.id.layout_repeat)
     RelativeLayout repeatLayout;
 
-    @Bind(R.id.ed_title)
+    @BindView(R.id.ed_title)
     EditText edTitle;
 
-    @Bind(R.id.ed_content)
+    @BindView(R.id.ed_content)
     EditText edContent;
 
-    @Bind(R.id.text_error_msg)
+    @BindView(R.id.text_error_msg)
     TextView txtError;
 
-    @Bind(R.id.btn_save)
+    @BindView(R.id.btn_save)
     Button btnSave;
 
 

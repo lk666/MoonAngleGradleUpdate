@@ -8,7 +8,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -26,21 +26,21 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class CourseSignActivity extends BaseActivity implements View.OnClickListener{
 
-    @Bind(R.id.cell_text_student_info)
+    @BindView(R.id.cell_text_student_info)
     BmCellTextView cellTextStudentInfo;
-    @Bind(R.id.cell_text_course__name)
+    @BindView(R.id.cell_text_course__name)
     BmCellTextView cellTextCourseName;
-    @Bind(R.id.cell_text_record_date)
+    @BindView(R.id.cell_text_record_date)
     BmCellTextView cellTextRecordDate;
-    @Bind(R.id.cell_text_evaluate_time)
+    @BindView(R.id.cell_text_evaluate_time)
     BmCellTextView cellTextEvaluateTime;
-    @Bind(R.id.cell_text_course_room)
+    @BindView(R.id.cell_text_course_room)
     BmCellTextView cellTextCourseRoom;
-    @Bind(R.id.cell_text_course_state)
+    @BindView(R.id.cell_text_course_state)
     BmCellTextView cellTextCourseState;
-    @Bind(R.id.cell_text_sign_time)
+    @BindView(R.id.cell_text_sign_time)
     BmCellTextView cellTextSignTime;
-    @Bind(R.id.angle_btn3_sign)
+    @BindView(R.id.angle_btn3_sign)
     BMAngleBtn3View angleBtn3Sign;
 
     private String courseCode;

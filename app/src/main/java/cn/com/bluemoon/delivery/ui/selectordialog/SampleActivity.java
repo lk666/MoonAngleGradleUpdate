@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -21,19 +21,19 @@ import cn.com.bluemoon.delivery.R;
  * 简单选择弹窗示例
  */
 public class SampleActivity extends Activity {
-    @Bind(R.id.btn1)
+    @BindView(R.id.btn1)
     Button btn1;
-    @Bind(R.id.btn2)
+    @BindView(R.id.btn2)
     Button btn2;
-    @Bind(R.id.btn3)
+    @BindView(R.id.btn3)
     Button btn3;
-    @Bind(R.id.btn4)
+    @BindView(R.id.btn4)
     Button btn4;
-    @Bind(R.id.btn5)
+    @BindView(R.id.btn5)
     Button btn5;
-    @Bind(R.id.btn6)
+    @BindView(R.id.btn6)
     Button btn6;
-    @Bind(R.id.wheel)
+    @BindView(R.id.wheel)
     SimpleWheelView wheel;
 
     public static void actionStart(Context context) {

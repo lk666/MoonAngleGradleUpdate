@@ -15,7 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -25,7 +25,7 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.app.api.model.wash.expressclosebox.ResultExpressCompany;
 
 public class ExpressCompanyActivity extends BaseActivity {
-    @Bind(R.id.list_company)
+    @BindView(R.id.list_company)
     ListView listCompany;
 
     @Override

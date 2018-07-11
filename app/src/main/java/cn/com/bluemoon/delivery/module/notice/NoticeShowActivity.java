@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -26,11 +26,11 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 
 public class NoticeShowActivity extends BaseActivity {
-    @Bind(R.id.txt_notice_title)
+    @BindView(R.id.txt_notice_title)
     TextView txtNoticeTitle;
-    @Bind(R.id.txt_notice_date)
+    @BindView(R.id.txt_notice_date)
     TextView txtNoticeDate;
-    @Bind(R.id.wv_notice)
+    @BindView(R.id.wv_notice)
     WebView wvNotice;
     private ArrayList<String> ids;
 

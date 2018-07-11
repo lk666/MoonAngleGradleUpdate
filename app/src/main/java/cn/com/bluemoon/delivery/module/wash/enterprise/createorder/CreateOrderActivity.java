@@ -18,7 +18,7 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
@@ -50,25 +50,25 @@ public class CreateOrderActivity extends BaseActivity {
     private static final int REQUEST_CODE_SCAN = 0x777;
     private static final int REQUEST_CODE_SAVE = 0x666;
     private static final int REQUEST_CODE_ADD = 0x555;
-    @Bind(R.id.tv_employee_name)
+    @BindView(R.id.tv_employee_name)
     TextView tvEmployeeName;
-    @Bind(R.id.tv_employee_phone)
+    @BindView(R.id.tv_employee_phone)
     TextView tvEmployeePhone;
-    @Bind(R.id.et_employee_extension)
+    @BindView(R.id.et_employee_extension)
     ClearEditText etEmployeeExtension;
-    @Bind(R.id.tv_return_address)
+    @BindView(R.id.tv_return_address)
     TextView tvReturnAddress;
-    @Bind(R.id.ll_branch_code)
+    @BindView(R.id.ll_branch_code)
     LinearLayout llBranchCode;
-    @Bind(R.id.et_collect_brcode)
+    @BindView(R.id.et_collect_brcode)
     EditText etCollectBrcode;
-    @Bind(R.id.et_backup)
+    @BindView(R.id.et_backup)
     EditText etBackup;
-    @Bind(R.id.tv_balance)
+    @BindView(R.id.tv_balance)
     TextView tvBalance;
-    @Bind(R.id.tv_point)
+    @BindView(R.id.tv_point)
     TextView tvPoint;
-    @Bind(R.id.btn_send)
+    @BindView(R.id.btn_send)
     Button btnAddCloth;
 
     private ResultGetWashEnterpriseScan info;

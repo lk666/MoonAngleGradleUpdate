@@ -15,7 +15,7 @@ import android.widget.FrameLayout;
 import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.UMShareAPI;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
@@ -37,12 +37,12 @@ public abstract class BaseFragmentActivity extends FragmentActivity {
      * 此Fragment容器只能有一层fragment，即不可addToBackStack
      * 总的来说，此容器就是用来存放Activity模块的主fragmtent的，此fragmtent不会被放到栈中，即不会被重绘。
      */
-    @Bind(R.id.fl_content)
+    @BindView(R.id.fl_content)
     FrameLayout flContent;
     /**
      * 栈节点的容器，所有非主的子fragment模块都应该在此容器上堆叠。
      */
-    @Bind(R.id.fl_mask)
+    @BindView(R.id.fl_mask)
     FrameLayout flMask;
 
     private static final String TAG_MAIN = "MAIN";

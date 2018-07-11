@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -33,7 +33,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 public class FamilyInfoFragment extends BaseFragment<CommonActionBar> implements OnListItemClickListener {
 
 
-    @Bind(R.id.lv_family)
+    @BindView(R.id.lv_family)
     ListView lvFamily;
 
     public static Fragment newInstance() {

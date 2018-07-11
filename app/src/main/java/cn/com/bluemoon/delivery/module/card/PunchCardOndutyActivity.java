@@ -31,7 +31,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -62,19 +62,19 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 public class PunchCardOndutyActivity extends BaseActivity implements IAddressSelectDialog,
         OnPageChangeListener, View.OnClickListener {
 
-    @Bind(R.id.layout_tab)
+    @BindView(R.id.layout_tab)
     TabSelector layoutTab;
-    @Bind(R.id.btn_punch_card)
+    @BindView(R.id.btn_punch_card)
     Button btnPunchCard;
-    @Bind(R.id.text_address)
+    @BindView(R.id.text_address)
     TextView txtCurrentAddress;
-    @Bind(R.id.img_address_refresh)
+    @BindView(R.id.img_address_refresh)
     ImageView imgAddressRefresh;
-    @Bind(R.id.viewpager)
+    @BindView(R.id.viewpager)
     ViewPager viewPager;
-    @Bind(R.id.layout_main)
+    @BindView(R.id.layout_main)
     LinearLayout mainView;
-    @Bind(R.id.layout_address)
+    @BindView(R.id.layout_address)
     LinearLayout layoutAddress;
     private TagListView tagListViewCode;
     private TagListView tagListViewOther;

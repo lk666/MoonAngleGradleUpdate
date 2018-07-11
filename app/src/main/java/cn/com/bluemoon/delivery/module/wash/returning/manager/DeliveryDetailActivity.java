@@ -6,7 +6,7 @@ import android.view.ViewGroup;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -20,11 +20,11 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * Created by ljl on 2016/9/22.
  */
 public class DeliveryDetailActivity extends BaseActivity {
-    @Bind(R.id.txt_code)
+    @BindView(R.id.txt_code)
     TextView txtCode;
-    @Bind(R.id.txt_count)
+    @BindView(R.id.txt_count)
     TextView txtCount;
-    @Bind(R.id.listView)
+    @BindView(R.id.listView)
     ListView listView;
     private String expressCode;
     private String expressName;

@@ -18,7 +18,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
@@ -48,13 +48,13 @@ public class EmployOrderQueryActivity extends BaseActivity implements OnListItem
         context.startActivity(intent);
     }
 
-    @Bind(R.id.search_view)
+    @BindView(R.id.search_view)
     CommonSearchView searchView;
-    @Bind(R.id.image_search)
+    @BindView(R.id.image_search)
     ImageView imageSearch;
-    @Bind(R.id.lv_query)
+    @BindView(R.id.lv_query)
     ListView lvQuery;
-    @Bind(R.id.layout_scan)
+    @BindView(R.id.layout_scan)
     LinearLayout layoutScan;
     private ItemAdapter adapter;
     private List<BranchBean> items = new ArrayList<>();

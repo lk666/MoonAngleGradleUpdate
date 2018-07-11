@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -33,15 +33,15 @@ public class BackOrderListDetailActivity extends BaseActivity implements
     private static final String EXTRA_LIST = "EXTRA_LIST";
     private static final int REQUEST_CODE_SCAN = 0x666;
     private static final int REQUEST_CODE_FINISH = 0x444;
-    @Bind(R.id.tv_tag_code)
+    @BindView(R.id.tv_tag_code)
     TextView tvTagCode;
-    @Bind(R.id.tv_count)
+    @BindView(R.id.tv_count)
     TextView tvCount;
-    @Bind(R.id.lv)
+    @BindView(R.id.lv)
     NoScrollListView lv;
-    @Bind(R.id.sc_main)
+    @BindView(R.id.sc_main)
     ScrollView scMain;
-    @Bind(R.id.btn_finish)
+    @BindView(R.id.btn_finish)
     Button btnFinish;
 
     private String tagCode;

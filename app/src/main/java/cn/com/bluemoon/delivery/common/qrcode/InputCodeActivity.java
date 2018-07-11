@@ -19,7 +19,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -35,15 +35,15 @@ import cn.com.bluemoon.lib.view.ClearEditText;
  * 手动输入条形码界面
  */
 public class InputCodeActivity extends BaseActivity {
-    @Bind(R.id.btn_sign)
+    @BindView(R.id.btn_sign)
     Button btnSign;
-    @Bind(R.id.btn_scan)
+    @BindView(R.id.btn_scan)
     IconButton btnScan;
-    @Bind(R.id.et_number)
+    @BindView(R.id.et_number)
     ClearEditText etNumber;
-    @Bind(R.id.txt_code)
+    @BindView(R.id.txt_code)
     TextView txtCode;
-    @Bind(R.id.layout_code)
+    @BindView(R.id.layout_code)
     RelativeLayout layoutCode;
     private String title;
     private String hint;

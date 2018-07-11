@@ -19,7 +19,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.BuildConfig;
@@ -41,13 +41,13 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class SettingInfoActivity extends BaseActivity {
 
-    @Bind(R.id.txt_cache)
+    @BindView(R.id.txt_cache)
     TextView txtCache;
-    @Bind(R.id.lin_general)
+    @BindView(R.id.lin_general)
     LinearLayout linGeneral;
-    @Bind(R.id.txt_check)
+    @BindView(R.id.txt_check)
     TextView txtCheck;
-    @Bind(R.id.lin_about)
+    @BindView(R.id.lin_about)
     LinearLayout linAbout;
     private String size;
     private String curVersion;

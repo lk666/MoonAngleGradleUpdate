@@ -17,7 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -39,11 +39,11 @@ public class GetWorkPlaceActivity extends BaseActivity implements OnListItemClic
 
 
     public static final String EXTRA_WORK_PLACE = "EXTRA_WORK_PLACE";
-    @Bind(R.id.search_view)
+    @BindView(R.id.search_view)
     CommonSearchView searchView;
-    @Bind(R.id.listView_history)
+    @BindView(R.id.listView_history)
     PullToRefreshListView listViewHistory;
-    @Bind(R.id.listview_workplace)
+    @BindView(R.id.listview_workplace)
     PullToRefreshListView listviewWorkplace;
     private GetWordPlaceAdapter getWordPlaceAdapter;
     private GetHistoryAdapter getHistoryAdapter;

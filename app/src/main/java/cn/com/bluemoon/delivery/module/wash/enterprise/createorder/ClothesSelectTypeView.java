@@ -12,7 +12,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetCooperationList;
@@ -25,13 +25,13 @@ import cn.com.bluemoon.lib.view.SquareLayout;
 
 public class ClothesSelectTypeView extends SquareLayout {
 
-    @Bind(R.id.iv_selected)
+    @BindView(R.id.iv_selected)
     ImageView ivSelected;
-    @Bind(R.id.iv)
+    @BindView(R.id.iv)
     ImageView iv;
-    @Bind(R.id.tv)
+    @BindView(R.id.tv)
     TextView tv;
-    @Bind(R.id.ll)
+    @BindView(R.id.ll)
     LinearLayout ll;
 
     public ClothesSelectTypeView(Context context, AttributeSet attrs) {

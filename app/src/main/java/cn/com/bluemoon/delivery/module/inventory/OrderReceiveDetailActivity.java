@@ -47,7 +47,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -68,19 +68,19 @@ import cn.com.bluemoon.lib.utils.LibImageUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class OrderReceiveDetailActivity extends BaseActivity implements OnClickListener {
-    @Bind(R.id.listview_product)
+    @BindView(R.id.listview_product)
     ListView listView;
-    @Bind(R.id.txt_need)
+    @BindView(R.id.txt_need)
     TextView txtNeed;
-    @Bind(R.id.txt_should_deliver_box)
+    @BindView(R.id.txt_should_deliver_box)
     TextView txtShouldDeliverBox;
-    @Bind(R.id.txt_actual)
+    @BindView(R.id.txt_actual)
     TextView txtActual;
-    @Bind(R.id.txt_real_deliver_box)
+    @BindView(R.id.txt_real_deliver_box)
     TextView txtRealDeliverBox;
-    @Bind(R.id.txt_diff_nums)
+    @BindView(R.id.txt_diff_nums)
     TextView txtDiffNums;
-    @Bind(R.id.btn_settle_deliver)
+    @BindView(R.id.btn_settle_deliver)
     Button btnSettleDeliver;
     private OrderProductAdapter adapter;
     private List<ProductPreReceiveVo> lists;

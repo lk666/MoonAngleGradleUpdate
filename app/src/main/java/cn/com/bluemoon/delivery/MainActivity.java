@@ -25,7 +25,7 @@ import com.youth.banner.listener.OnBannerListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBannerList;
@@ -61,21 +61,21 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 public class MainActivity extends BaseSlidingActivity implements View.OnClickListener,
         BaseQuickAdapter.OnItemClickListener, OnBannerListener {
 
-    @Bind(R.id.layout_title)
+    @BindView(R.id.layout_title)
     FrameLayout layoutTitle;
-    @Bind(R.id.txt_tips)
+    @BindView(R.id.txt_tips)
     AlwaysMarqueeTextView txtTips;
-    @Bind(R.id.refresh_head)
+    @BindView(R.id.refresh_head)
     MaterialHeader refreshHead;
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @Bind(R.id.layout_refresh)
+    @BindView(R.id.layout_refresh)
     SmartRefreshLayout layoutRefresh;
-    @Bind(R.id.collapsing_toolbar)
+    @BindView(R.id.collapsing_toolbar)
     CollapsingToolbarLayout collapsingToolbar;
-    @Bind(R.id.app_bar)
+    @BindView(R.id.app_bar)
     AppBarLayout appBar;
-    @Bind(R.id.view_banner)
+    @BindView(R.id.view_banner)
     Banner banner;
 
     private List<ResultBannerList.ListBean> bannerList;

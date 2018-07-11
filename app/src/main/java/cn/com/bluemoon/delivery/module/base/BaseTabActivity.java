@@ -1,6 +1,5 @@
 package cn.com.bluemoon.delivery.module.base;
 
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.StateListDrawable;
@@ -16,15 +15,13 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import cn.com.bluemoon.delivery.ui.WaitingDialog;
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -39,13 +36,14 @@ import cn.com.bluemoon.delivery.entity.WashModeType;
 import cn.com.bluemoon.delivery.module.base.interf.BaseMainInterface;
 import cn.com.bluemoon.delivery.module.base.interf.BaseViewInterface;
 import cn.com.bluemoon.delivery.module.base.interf.IHttpResponse;
+import cn.com.bluemoon.delivery.ui.WaitingDialog;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.BmFragmentTabHost;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 基础FragmentActivity，用于各fragment集合的界面
@@ -53,7 +51,7 @@ import cn.com.bluemoon.lib.view.BmFragmentTabHost;
  */
 public abstract class BaseTabActivity extends FragmentActivity implements BaseViewInterface,
         BaseMainInterface, IHttpResponse {
-    @Bind(android.R.id.tabhost)
+    @BindView(android.R.id.tabhost)
     protected BmFragmentTabHost tabhost;
     private static final int REQUESTCODE_MODE = 10;
 

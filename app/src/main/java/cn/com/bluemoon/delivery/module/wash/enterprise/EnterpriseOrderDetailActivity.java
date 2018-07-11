@@ -14,7 +14,7 @@ import com.bumptech.glide.Glide;
 
 import org.apache.commons.lang3.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -36,54 +36,54 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 
 public class EnterpriseOrderDetailActivity extends BaseActivity {
 
-    @Bind(R.id.txt_total_price2)
+    @BindView(R.id.txt_total_price2)
     TextView txtTotalPrice2;
-    @Bind(R.id.txt_preferential)
+    @BindView(R.id.txt_preferential)
     TextView txtPreferential;
-    @Bind(R.id.layout_preferential)
+    @BindView(R.id.layout_preferential)
     LinearLayout layoutPreferential;
-    @Bind(R.id.txt_actual_price)
+    @BindView(R.id.txt_actual_price)
     TextView txtActualPrice;
-    @Bind(R.id.layout_total_price2)
+    @BindView(R.id.layout_total_price2)
     LinearLayout layoutTotalPrice2;
-    @Bind(R.id.txt_order_time)
+    @BindView(R.id.txt_order_time)
     TextView txtOrderTime;
-    @Bind(R.id.txt_cancel_time)
+    @BindView(R.id.txt_cancel_time)
     TextView txtCancelTime;
-    @Bind(R.id.layout_cancel_time)
+    @BindView(R.id.layout_cancel_time)
     LinearLayout layoutCancelTime;
-    @Bind(R.id.txt_pay_time)
+    @BindView(R.id.txt_pay_time)
     TextView txtPayTime;
-    @Bind(R.id.layout_pay_time)
+    @BindView(R.id.layout_pay_time)
     LinearLayout layoutPayTime;
     private String type;
-    @Bind(R.id.txt_order_code)
+    @BindView(R.id.txt_order_code)
     TextView txtOrderCode;
-    @Bind(R.id.txt_state)
+    @BindView(R.id.txt_state)
     TextView txtState;
-    @Bind(R.id.txt_name)
+    @BindView(R.id.txt_name)
     TextView txtName;
-    @Bind(R.id.txt_name_code)
+    @BindView(R.id.txt_name_code)
     TextView txtNameCode;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     TextView txtPhone;
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
-    @Bind(R.id.txt_collect_bag)
+    @BindView(R.id.txt_collect_bag)
     TextView txtCollectBag;
-    @Bind(R.id.txt_collect_remark)
+    @BindView(R.id.txt_collect_remark)
     TextView txtCollectRemark;
-    @Bind(R.id.txt_collect_num)
+    @BindView(R.id.txt_collect_num)
     TextView txtCollectNum;
-    @Bind(R.id.lv_clothes)
+    @BindView(R.id.lv_clothes)
     ListView lvClothes;
-    @Bind(R.id.txt_total_price)
+    @BindView(R.id.txt_total_price)
     TextView txtTotalPrice;
-    @Bind(R.id.layout_total_price)
+    @BindView(R.id.layout_total_price)
     LinearLayout layoutTotalPrice;
-    @Bind(R.id.line_clothes)
+    @BindView(R.id.line_clothes)
     View lineClothes;
-    @Bind(R.id.line_price)
+    @BindView(R.id.line_price)
     View linePrice;
     private final String FORMAT_TIME = "yyyy/MM/dd HH:mm:ss";
     private boolean isHistory;

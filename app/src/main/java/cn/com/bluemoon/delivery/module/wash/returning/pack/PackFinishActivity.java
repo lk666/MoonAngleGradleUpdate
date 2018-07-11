@@ -7,7 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
@@ -18,13 +18,13 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  */
 public class PackFinishActivity extends BaseActivity {
 
-    @Bind(R.id.txt_pack_box_code)
+    @BindView(R.id.txt_pack_box_code)
     TextView txtPackBoxCode;
-    @Bind(R.id.txt_box_code)
+    @BindView(R.id.txt_box_code)
     TextView txtBoxCode;
-    @Bind(R.id.btn_back)
+    @BindView(R.id.btn_back)
     Button btnBack;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
     private String backOrderCode;
     private String boxCode;

@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -47,39 +47,39 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
  * 下班卡
  */
 public class PunchCardGetOffWordFragment extends BaseFragment {
-    @Bind(R.id.text_address)
+    @BindView(R.id.text_address)
     TextView txtCurrentAddress;
-    @Bind(R.id.img_address_refresh)
+    @BindView(R.id.img_address_refresh)
     ImageView imgAddressRefresh;
-    @Bind(R.id.layout_address)
+    @BindView(R.id.layout_address)
     LinearLayout layoutAddress;
-    @Bind(R.id.tv_start_time)
+    @BindView(R.id.tv_start_time)
     TextView txtStartTime;
-    @Bind(R.id.txt_name_and_mobile)
+    @BindView(R.id.txt_name_and_mobile)
     TextView txtNameAndMobile;
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
-    @Bind(R.id.img_address_down)
+    @BindView(R.id.img_address_down)
     ImageView imgAddressDown;
-    @Bind(R.id.line_view_address)
+    @BindView(R.id.line_view_address)
     View lineAddressView;
-    @Bind(R.id.txt_start_time)
+    @BindView(R.id.txt_start_time)
     TextView txtAddressStartTime;
-    @Bind(R.id.txt_start_address)
+    @BindView(R.id.txt_start_address)
     TextView txtAddressStart;
-    @Bind(R.id.layout_start_address)
+    @BindView(R.id.layout_start_address)
     LinearLayout layoutStartAddress;
-    @Bind(R.id.img_down)
+    @BindView(R.id.img_down)
     ImageView imgDown;
-    @Bind(R.id.line_view)
+    @BindView(R.id.line_view)
     View lineView;
-    @Bind(R.id.tag_listview)
+    @BindView(R.id.tag_listview)
     TagListView tagListView;
-    @Bind(R.id.txt_log_content)
+    @BindView(R.id.txt_log_content)
     TextView txtLogContent;
-    @Bind(R.id.txt_diary_content)
+    @BindView(R.id.txt_diary_content)
     TextView txtDiaryContent;
-    @Bind(R.id.txt_img_content)
+    @BindView(R.id.txt_img_content)
     TextView txtImgContent;
 
     private final int REQUEST_ADD_PUNCH_CARD_OUT = 1;

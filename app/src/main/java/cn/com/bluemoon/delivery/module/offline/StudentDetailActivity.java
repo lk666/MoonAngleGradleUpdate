@@ -10,7 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -33,39 +33,39 @@ import cn.com.bluemoon.lib_widget.module.form.BmRankStar2;
 public class StudentDetailActivity extends BaseActivity implements BMFieldArrow1View
         .FieldArrowListener {
 
-    @Bind(R.id.view_name)
+    @BindView(R.id.view_name)
     BmCellTextView viewName;
-    @Bind(R.id.view_state)
+    @BindView(R.id.view_state)
     BmCellTextView viewState;
-    @Bind(R.id.view_time)
+    @BindView(R.id.view_time)
     BmCellTextView viewTime;
-    @Bind(R.id.view_code)
+    @BindView(R.id.view_code)
     BmCellTextView viewCode;
-    @Bind(R.id.view_theme)
+    @BindView(R.id.view_theme)
     BmCellTextView viewTheme;
-    @Bind(R.id.view_contacts)
+    @BindView(R.id.view_contacts)
     BmCellTextView viewContacts;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     TextView txtPhone;
-    @Bind(R.id.view_room)
+    @BindView(R.id.view_room)
     BmCellTextView viewRoom;
-    @Bind(R.id.view_address)
+    @BindView(R.id.view_address)
     BmCellTextView viewAddress;
-    @Bind(R.id.view_purpose)
+    @BindView(R.id.view_purpose)
     BmCellParagraphView viewPurpose;
-    @Bind(R.id.btn_evaluate)
+    @BindView(R.id.btn_evaluate)
     BMAngleBtn3View btnEvaluate;
-    @Bind(R.id.view_sign_time)
+    @BindView(R.id.view_sign_time)
     BmCellTextView viewSignTime;
-    @Bind(R.id.view_content_star)
+    @BindView(R.id.view_content_star)
     BmRankStar2 viewContentStar;
-    @Bind(R.id.view_teacher_star)
+    @BindView(R.id.view_teacher_star)
     BmRankStar2 viewTeacherStar;
-    @Bind(R.id.view_suggest)
+    @BindView(R.id.view_suggest)
     BmCellParagraphView viewSuggest;
-    @Bind(R.id.layout_evaluate)
+    @BindView(R.id.layout_evaluate)
     LinearLayout layoutEvaluate;
-    @Bind(R.id.view_teacher)
+    @BindView(R.id.view_teacher)
     BMFieldArrow1View viewTeacher;
     private TextView txtRight;
 

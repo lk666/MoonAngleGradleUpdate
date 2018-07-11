@@ -16,7 +16,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
@@ -35,13 +35,13 @@ public class SelectClothesTypeActivity extends BaseActivity implements
     private static final int REQUEST_CODE_QUERY = 0x777;
     private static final int REQUEST_CODE_SAVE = 0x666;
     public static final String EXTRA_CLOTHES = "EXTRA_CLOTHES";
-    @Bind(R.id.elv)
+    @BindView(R.id.elv)
     ExpandableListView elv;
-    @Bind(R.id.btn_cancel)
+    @BindView(R.id.btn_cancel)
     Button btnCancel;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
-    @Bind(R.id.divList)
+    @BindView(R.id.divList)
     View divList;
 
     private String outerCode;

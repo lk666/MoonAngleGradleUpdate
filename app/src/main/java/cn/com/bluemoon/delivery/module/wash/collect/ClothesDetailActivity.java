@@ -13,10 +13,9 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -30,6 +29,7 @@ import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.view.ScrollGridView;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 衣物详情
@@ -42,37 +42,37 @@ public class ClothesDetailActivity extends BaseActionBarActivity implements
      * 衣物编码
      */
     public static final String EXTRA_CLOTHES_CODE = "EXTRA_CLOTHES_CODE";
-    @Bind(R.id.tv_collect_code)
+    @BindView(R.id.tv_collect_code)
     TextView tvCollectCode;
-    @Bind(R.id.tv_urgent)
+    @BindView(R.id.tv_urgent)
     TextView tvUrgent;
-    @Bind(R.id.tv_collect_brcode)
+    @BindView(R.id.tv_collect_brcode)
     TextView tvCollectBrcode;
-    @Bind(R.id.tv_op_name)
+    @BindView(R.id.tv_op_name)
     TextView tvOpName;
-    @Bind(R.id.tv_op_number)
+    @BindView(R.id.tv_op_number)
     TextView tvOpNumber;
-    @Bind(R.id.tv_op_phone)
+    @BindView(R.id.tv_op_phone)
     TextView tvOpPhone;
-    @Bind(R.id.tv_collect_time)
+    @BindView(R.id.tv_collect_time)
     TextView tvCollectTime;
-    @Bind(R.id.tv_collect_appoint_back_time)
+    @BindView(R.id.tv_collect_appoint_back_time)
     TextView tvCollectAppointBackTime;
-    @Bind(R.id.tv_clotnes_code)
+    @BindView(R.id.tv_clotnes_code)
     TextView tvClotnesCode;
-    @Bind(R.id.tv_clothes_name)
+    @BindView(R.id.tv_clothes_name)
     TextView tvClothesName;
-    @Bind(R.id.tv_type_name)
+    @BindView(R.id.tv_type_name)
     TextView tvTypeName;
-    @Bind(R.id.tv_flaw_dec)
+    @BindView(R.id.tv_flaw_dec)
     TextView tvFlawDec;
-    @Bind(R.id.tv_backup)
+    @BindView(R.id.tv_backup)
     TextView tvBackup;
-    @Bind(R.id.iv_stain)
+    @BindView(R.id.iv_stain)
     ImageView ivStain;
-    @Bind(R.id.iv_flaw)
+    @BindView(R.id.iv_flaw)
     ImageView ivFlaw;
-    @Bind(R.id.sgv_photo)
+    @BindView(R.id.sgv_photo)
     ScrollGridView sgvPhoto;
 
     /**

@@ -28,7 +28,7 @@ import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -65,39 +65,39 @@ public class MainCopyActivity extends BaseSlidingActivity implements View.OnClic
         OnItemDragListener, View.OnTouchListener {
 
 
-    @Bind(R.id.img_edit_arrow)
+    @BindView(R.id.img_edit_arrow)
     ImageView imgEditArrow;
-    @Bind(R.id.layout_title)
+    @BindView(R.id.layout_title)
     FrameLayout layoutTitle;
-    @Bind(R.id.txt_tips)
+    @BindView(R.id.txt_tips)
     AlwaysMarqueeTextView txtTips;
-    @Bind(R.id.refresh_head)
+    @BindView(R.id.refresh_head)
     MaterialHeader refreshHead;
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
-    @Bind(R.id.layout_refresh)
+    @BindView(R.id.layout_refresh)
     SmartRefreshLayout layoutRefresh;
-    @Bind(R.id.recycler_quick)
+    @BindView(R.id.recycler_quick)
     RecyclerView recyclerQuick;
-    @Bind(R.id.recycler_bg)
+    @BindView(R.id.recycler_bg)
     RecyclerView recyclerBg;
-    @Bind(R.id.layout_quick)
+    @BindView(R.id.layout_quick)
     FrameLayout layoutQuick;
-    @Bind(R.id.txt_edit)
+    @BindView(R.id.txt_edit)
     TextView txtEdit;
-    @Bind(R.id.txt_edit_hint)
+    @BindView(R.id.txt_edit_hint)
     TextView txtEditHint;
-    @Bind(R.id.txt_finish)
+    @BindView(R.id.txt_finish)
     TextView txtFinish;
-    @Bind(R.id.recycler_edit)
+    @BindView(R.id.recycler_edit)
     RecyclerView recyclerEdit;
-    @Bind(R.id.layout_edit)
+    @BindView(R.id.layout_edit)
     FrameLayout layoutEdit;
-    @Bind(R.id.layout_edit_title)
+    @BindView(R.id.layout_edit_title)
     FrameLayout layoutEditTitle;
-    @Bind(R.id.layout_bottom)
+    @BindView(R.id.layout_bottom)
     FrameLayout layoutBottom;
-    @Bind(R.id.top_head)
+    @BindView(R.id.top_head)
     LinearLayout topHead;
     private SlidingMenu mMenu;
     private MenuFragment mMenuFragment;

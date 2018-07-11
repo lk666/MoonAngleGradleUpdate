@@ -17,7 +17,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.HRApi;
@@ -48,19 +48,19 @@ import cn.com.bluemoon.lib_widget.module.form.BMFieldText1View;
 public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
 
 
-    @Bind(R.id.item_radio)
+    @BindView(R.id.item_radio)
     BMRadioView itemRadio;
-    @Bind(R.id.layout_relationship)
+    @BindView(R.id.layout_relationship)
     BMFieldArrow1View layoutRelationship;
-    @Bind(R.id.layout_birthday)
+    @BindView(R.id.layout_birthday)
     BMFieldArrow1View layoutBirthday;
-    @Bind(R.id.layout_name)
+    @BindView(R.id.layout_name)
     BMFieldText1View layoutName;
-    @Bind(R.id.layout_sur_name)
+    @BindView(R.id.layout_sur_name)
     BMFieldText1View layoutSurName;
-    @Bind(R.id.layout_workplace)
+    @BindView(R.id.layout_workplace)
     BMFieldText1View layoutWorkplace;
-    @Bind(R.id.layout_position)
+    @BindView(R.id.layout_position)
     BMFieldText1View layoutPosition;
     private String type;
     public final static String MODIFY_TYPE = "modify";

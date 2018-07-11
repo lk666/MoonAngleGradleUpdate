@@ -23,7 +23,7 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.io.File;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.MenuFragment;
@@ -50,11 +50,11 @@ public class PactSignPDFActivity extends BasePDFActivity {
     private final static String STATUS_WAIT = "wait_sign";
     private final static String STATUS_HAD = "had_sign";
 
-    @Bind(R.id.ll_open)
+    @BindView(R.id.ll_open)
     LinearLayout llOpen;
-    @Bind(R.id.btn_sign)
+    @BindView(R.id.btn_sign)
     BMAngleBtn3View btnSign;
-    @Bind(R.id.pb)
+    @BindView(R.id.pb)
     ProgressBar pb;
     private String contractId;
     private Paint paint;

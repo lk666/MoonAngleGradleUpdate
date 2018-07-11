@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -34,43 +34,43 @@ import cn.com.bluemoon.lib.view.ClearEditText;
 public class WarehouseAddressEditActivity extends BaseActivity {
 
 
-    @Bind(R.id.txt_store)
+    @BindView(R.id.txt_store)
     TextView txtStore;
-    @Bind(R.id.text_store_id)
+    @BindView(R.id.text_store_id)
     TextView textStoreId;
-    @Bind(R.id.edit_receiver)
+    @BindView(R.id.edit_receiver)
     ClearEditText editReceiver;
-    @Bind(R.id.edit_user_phone)
+    @BindView(R.id.edit_user_phone)
     ClearEditText editUserPhone;
-    @Bind(R.id.cb_is_lift)
+    @BindView(R.id.cb_is_lift)
     CheckBox cbIsLift;
-    @Bind(R.id.edit_floor)
+    @BindView(R.id.edit_floor)
     ClearEditText editFloor;
-    @Bind(R.id.text_title)
+    @BindView(R.id.text_title)
     TextView textTitle;
-    @Bind(R.id.txt_region)
+    @BindView(R.id.txt_region)
     TextView txtRegion;
-    @Bind(R.id.region_layout)
+    @BindView(R.id.region_layout)
     RelativeLayout regiogLayout;
-    @Bind(R.id.text_town_title)
+    @BindView(R.id.text_town_title)
     TextView textTownTitle;
-    @Bind(R.id.txt_town)
+    @BindView(R.id.txt_town)
     TextView txtTown;
-    @Bind(R.id.town_layout)
+    @BindView(R.id.town_layout)
     RelativeLayout townLayout;
-    @Bind(R.id.text_village_title)
+    @BindView(R.id.text_village_title)
     TextView txtVillageTitle;
-    @Bind(R.id.txt_village)
+    @BindView(R.id.txt_village)
     TextView txtVillage;
-    @Bind(R.id.village_layout)
+    @BindView(R.id.village_layout)
     RelativeLayout villageLayout;
-    @Bind(R.id.edit_address)
+    @BindView(R.id.edit_address)
     ClearEditText editAddress;
-    @Bind(R.id.cb_default)
+    @BindView(R.id.cb_default)
     CheckBox cbIsDefault;
-    @Bind(R.id.btn_submit)
+    @BindView(R.id.btn_submit)
     Button btnSubmit;
-    @Bind(R.id.v_disable_cb_default)
+    @BindView(R.id.v_disable_cb_default)
     View vDisableCbDefault;
     private String storeId;
     private String storeName;

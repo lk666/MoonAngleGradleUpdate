@@ -5,7 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.view.View;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -24,19 +24,19 @@ public class EvaluateEditStudentActivity extends BaseActivity implements BMField
         BmRankStar1
         .RatingListener {
 
-    @Bind(R.id.view_name)
+    @BindView(R.id.view_name)
     BmCellTextView viewName;
-    @Bind(R.id.view_time)
+    @BindView(R.id.view_time)
     BmCellTextView viewTime;
-    @Bind(R.id.view_teacher)
+    @BindView(R.id.view_teacher)
     BmCellTextView viewTeacher;
-    @Bind(R.id.view_star_content)
+    @BindView(R.id.view_star_content)
     BmRankStar1 viewStarContent;
-    @Bind(R.id.view_star_teacher)
+    @BindView(R.id.view_star_teacher)
     BmRankStar1 viewStarTeacher;
-    @Bind(R.id.view_suggest)
+    @BindView(R.id.view_suggest)
     BMFieldParagraphView viewSuggest;
-    @Bind(R.id.btn_submit)
+    @BindView(R.id.btn_submit)
     BMAngleBtn1View btnSubmit;
     private String courseCode;
     private String planCode;

@@ -13,7 +13,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EvidenceCashApi;
@@ -33,11 +33,11 @@ import cn.com.bluemoon.delivery.utils.TextWatcherUtils;
  */
 public class TransferVoucherActivity extends BaseActivity {
 
-    @Bind(R.id.et_tranfer_money)
+    @BindView(R.id.et_tranfer_money)
     EditText etTranferMoney;
-    @Bind(R.id.img_add)
+    @BindView(R.id.img_add)
     ImageView imgAdd;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
     private List<String> imagePaths;
     private String money;

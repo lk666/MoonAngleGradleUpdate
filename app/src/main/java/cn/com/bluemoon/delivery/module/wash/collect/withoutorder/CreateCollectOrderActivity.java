@@ -32,7 +32,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -102,50 +102,50 @@ public class CreateCollectOrderActivity extends BaseActionBarActivity implements
      */
     private final static String EXTRA_ACTIVITY_CODE = "EXTRA_ACTIVITY_CODE";
 
-    @Bind(R.id.et_name)
+    @BindView(R.id.et_name)
     EditText etName;
-    @Bind(R.id.et_phone)
+    @BindView(R.id.et_phone)
     EditText etPhone;
 
-    @Bind(R.id.tv_province_city_country)
+    @BindView(R.id.tv_province_city_country)
     TextView tvProvinceCityCountry;
 
-    @Bind(R.id.tv_street_village)
+    @BindView(R.id.tv_street_village)
     TextView tvStreetVillage;
-    @Bind(R.id.v_div_street_village)
+    @BindView(R.id.v_div_street_village)
     View vDivStreetVillage;
-    @Bind(R.id.ll_street_village)
+    @BindView(R.id.ll_street_village)
     LinearLayout llStreetVillage;
 
-    @Bind(R.id.et_address)
+    @BindView(R.id.et_address)
     EditText etAddress;
 
-    @Bind(R.id.tv_collect_brcode)
+    @BindView(R.id.tv_collect_brcode)
     TextView tvCollectBrcode;
 
-    @Bind(R.id.sb_is_urgent)
+    @BindView(R.id.sb_is_urgent)
     SwitchButton sbIsUrgent;
-    @Bind(R.id.tv_appoint_back_time)
+    @BindView(R.id.tv_appoint_back_time)
     TextView tvAppointBackTime;
-    @Bind(R.id.v_div_appoint_back_time)
+    @BindView(R.id.v_div_appoint_back_time)
     View vDivAppointBackTime;
-    @Bind(R.id.ll_appoint_back_time)
+    @BindView(R.id.ll_appoint_back_time)
     LinearLayout llAppointBackTime;
 
-    @Bind(R.id.tv_actual_collect_count)
+    @BindView(R.id.tv_actual_collect_count)
     TextView tvActualCollectCount;
-    @Bind(R.id.btn_add)
+    @BindView(R.id.btn_add)
     ImageButton btnAdd;
 
-    @Bind(R.id.v_div_order_receive)
+    @BindView(R.id.v_div_order_receive)
     View vDivOrderReceive;
-    @Bind(R.id.lv_order_receive)
+    @BindView(R.id.lv_order_receive)
     NoScrollListView lvOrderReceive;
 
-    @Bind(R.id.btn_finish)
+    @BindView(R.id.btn_finish)
     Button btnFinish;
 
-    @Bind(R.id.sb_is_fee)
+    @BindView(R.id.sb_is_fee)
     SwitchButton sbIsFee;
 
     /**

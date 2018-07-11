@@ -10,7 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -23,23 +23,23 @@ import cn.com.bluemoon.delivery.ui.ImageGridView;
  */
 public class ClothesDetailActivity extends BaseActivity {
 
-    @Bind(R.id.txt_code)
+    @BindView(R.id.txt_code)
     TextView txtCode;
-    @Bind(R.id.txt_stain_info)
+    @BindView(R.id.txt_stain_info)
     TextView txtStainInfo;
-    @Bind(R.id.txt_flaw_info)
+    @BindView(R.id.txt_flaw_info)
     TextView txtFlawInfo;
-    @Bind(R.id.img_stain)
+    @BindView(R.id.img_stain)
     ImageView imgStain;
-    @Bind(R.id.img_flaw)
+    @BindView(R.id.img_flaw)
     ImageView imgFlaw;
-    @Bind(R.id.txt_remark)
+    @BindView(R.id.txt_remark)
     TextView txtRemark;
-    @Bind(R.id.txt_type)
+    @BindView(R.id.txt_type)
     TextView txtType;
-    @Bind(R.id.gridview_img)
+    @BindView(R.id.gridview_img)
     ImageGridView gridviewImg;
-    @Bind(R.id.btn_clean)
+    @BindView(R.id.btn_clean)
     Button btnClean;
     private String clothesCode;
     private List<String> paths;

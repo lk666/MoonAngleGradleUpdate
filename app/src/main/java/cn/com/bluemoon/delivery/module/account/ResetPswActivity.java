@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -26,21 +26,21 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.view.ClearEditText;
 
 public class ResetPswActivity extends BaseActivity {
-    @Bind(R.id.ed_userid)
+    @BindView(R.id.ed_userid)
     ClearEditText edUserid;
-    @Bind(R.id.ed_phone)
+    @BindView(R.id.ed_phone)
     ClearEditText edPhone;
-    @Bind(R.id.ed_code)
+    @BindView(R.id.ed_code)
     ClearEditText edCode;
-    @Bind(R.id.btn_code)
+    @BindView(R.id.btn_code)
     Button btnCode;
-    @Bind(R.id.ed_psw)
+    @BindView(R.id.ed_psw)
     ClearEditText edPsw;
-    @Bind(R.id.ed_con_psw)
+    @BindView(R.id.ed_con_psw)
     ClearEditText edConPsw;
-    @Bind(R.id.txt_toast)
+    @BindView(R.id.txt_toast)
     TextView txtToast;
-    @Bind(R.id.btn_submit)
+    @BindView(R.id.btn_submit)
     Button btnSubmit;
     private ResetPswActivity aty;
     private String userid;

@@ -12,7 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -32,13 +32,13 @@ public class ClothesBoxBackOrderListActivity extends BaseActivity implements
     private static final String EXTRA_BOX_CODE = "EXTRA_BOX_CODE";
     private static final int REQUEST_CODE_QUERY_LIST = 0x777;
     private static final int REQUEST_CODE_SCANE_BACK_ORDER = 0x778;
-    @Bind(R.id.tv_code_box)
+    @BindView(R.id.tv_code_box)
     TextView tvCodeBox;
-    @Bind(R.id.tv_back_num)
+    @BindView(R.id.tv_back_num)
     TextView tvBackNum;
-    @Bind(R.id.lv_back_order)
+    @BindView(R.id.lv_back_order)
     ListView lvBackOrder;
-    @Bind(R.id.btn_print)
+    @BindView(R.id.btn_print)
     Button btnPrint;
     private String boxCode;
 

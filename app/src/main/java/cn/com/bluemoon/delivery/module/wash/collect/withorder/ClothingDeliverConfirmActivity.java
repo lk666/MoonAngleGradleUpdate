@@ -19,7 +19,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -46,25 +46,25 @@ import cn.com.bluemoon.lib.utils.LibConstants;
 public class ClothingDeliverConfirmActivity extends BaseActionBarActivity implements
         OnListItemClickListener {
     private static final int REQUEST_CODE_MANUAL = 0x33;
-    @Bind(R.id.txt_deliver_name)
+    @BindView(R.id.txt_deliver_name)
     TextView txtDeliverName;
-    @Bind(R.id.txt_deliver_phone)
+    @BindView(R.id.txt_deliver_phone)
     TextView txtDeliverPhone;
-    @Bind(R.id.txt_deliver_remark)
+    @BindView(R.id.txt_deliver_remark)
     TextView txtDeliverRemark;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnConforim;
-    @Bind(R.id.btn_cancel)
+    @BindView(R.id.btn_cancel)
     Button btnCancel;
-    @Bind(R.id.listview_info)
+    @BindView(R.id.listview_info)
     ListView listViewInfo;
-    @Bind(R.id.txt_collect_num)
+    @BindView(R.id.txt_collect_num)
     TextView txtCollectNum;
-    @Bind(R.id.txt_actual)
+    @BindView(R.id.txt_actual)
     TextView txtActual;
-    @Bind(R.id.txt_scan_code)
+    @BindView(R.id.txt_scan_code)
     TextView txtScanCode;
-    @Bind(R.id.txt_urgent)
+    @BindView(R.id.txt_urgent)
     TextView txtUrgent;
     ClothesInfoAdapter adapter;
     private String collectCode;

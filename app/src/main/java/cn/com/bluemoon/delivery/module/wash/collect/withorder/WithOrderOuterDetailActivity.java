@@ -18,7 +18,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -55,23 +55,23 @@ public class WithOrderOuterDetailActivity extends BaseActionBarActivity implemen
      */
     private String outerCode;
 
-    @Bind(R.id.tv_number)
+    @BindView(R.id.tv_number)
     TextView tvNumber;
-    @Bind(R.id.tv_customer_name)
+    @BindView(R.id.tv_customer_name)
     TextView tvCustomerName;
-    @Bind(R.id.tv_customer_phone)
+    @BindView(R.id.tv_customer_phone)
     TextView tvCustomerPhone;
-    @Bind(R.id.tv_address)
+    @BindView(R.id.tv_address)
     TextView tvAddress;
-    @Bind(R.id.tv_pay_total)
+    @BindView(R.id.tv_pay_total)
     TextView tvPayTotal;
-    @Bind(R.id.tv_receivable_count)
+    @BindView(R.id.tv_receivable_count)
     TextView tvReceivableCount;
-    @Bind(R.id.lv_order_detail)
+    @BindView(R.id.lv_order_detail)
     NoScrollListView lvOrderDetail;
-    @Bind(R.id.lv_order_receive)
+    @BindView(R.id.lv_order_receive)
     NoScrollListView lvOrderReceive;
-    @Bind(R.id.main)
+    @BindView(R.id.main)
     ScrollView main;
 
     private OrderDetailAdapter orderDetailAdapter;

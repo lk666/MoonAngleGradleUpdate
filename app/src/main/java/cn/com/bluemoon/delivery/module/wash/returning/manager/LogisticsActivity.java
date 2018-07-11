@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import org.apache.commons.lang3.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -26,13 +26,13 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * Created by ljl on 2016/9/20.
  */
 public class LogisticsActivity extends BaseActivity {
-    @Bind(R.id.txt_status)
+    @BindView(R.id.txt_status)
     TextView txtStatus;
-    @Bind(R.id.txt_source)
+    @BindView(R.id.txt_source)
     TextView txtSource;
-    @Bind(R.id.txt_no)
+    @BindView(R.id.txt_no)
     TextView txtNo;
-    @Bind(R.id.listview_express)
+    @BindView(R.id.listview_express)
     ListView listviewExpress;
     private String companyCode;
     private String expressCode;

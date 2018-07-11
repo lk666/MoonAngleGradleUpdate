@@ -8,7 +8,7 @@ import android.widget.Button;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
@@ -35,7 +35,7 @@ public class EnterpriseScanInputActivity extends BaseScanActivity {
         context.startActivity(intent);
     }
 
-    @Bind(R.id.btn_input)
+    @BindView(R.id.btn_input)
     Button btnInput;
 
     @Override

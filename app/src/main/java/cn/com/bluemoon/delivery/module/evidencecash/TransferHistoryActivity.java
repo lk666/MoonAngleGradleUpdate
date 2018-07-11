@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EvidenceCashApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -37,7 +37,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
  * Created by ljl on 2016/11/18.
  */
 public class TransferHistoryActivity extends BaseActivity implements PinnedSectionListView.OnLoadingMoreLinstener {
-    @Bind(R.id.listview)
+    @BindView(R.id.listview)
     PullToRefreshSectionListView listview;
     private List<CashListDataset> dataSet;
     private List<String> dates;

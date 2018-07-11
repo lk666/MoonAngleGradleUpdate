@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -39,49 +39,49 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  * Created by ljl on 2016/9/21.
  */
 public class BackOrderDetailActivity extends BaseActivity {
-    @Bind(R.id.txt_no)
+    @BindView(R.id.txt_no)
     TextView txtNo;
-    @Bind(R.id.txt_customerName)
+    @BindView(R.id.txt_customerName)
     TextView txtCustomerName;
-    @Bind(R.id.txt_mobilePhone)
+    @BindView(R.id.txt_mobilePhone)
     TextView txtMobilePhone;
-    @Bind(R.id.txt_urgent)
+    @BindView(R.id.txt_urgent)
     TextView txtUrgent;
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
-    @Bind(R.id.txt_count)
+    @BindView(R.id.txt_count)
     TextView txtCount;
-    @Bind(R.id.txt_open1)
+    @BindView(R.id.txt_open1)
     UpDownTextView txtOpen1;
-    @Bind(R.id.listview_clothes)
+    @BindView(R.id.listview_clothes)
     ListView listviewClothes;
-    @Bind(R.id.txt_remark)
+    @BindView(R.id.txt_remark)
     TextView txtRemark;
-    @Bind(R.id.txt_open2)
+    @BindView(R.id.txt_open2)
     UpDownTextView txtOpen2;
-    @Bind(R.id.layout_sign_refuse)
+    @BindView(R.id.layout_sign_refuse)
     LinearLayout layoutSignRefuse;
-    @Bind(R.id.layout_sign_info)
+    @BindView(R.id.layout_sign_info)
     LinearLayout layoutSignInfo;
-    @Bind(R.id.txt_type)
+    @BindView(R.id.txt_type)
     TextView txtType;
-    @Bind(R.id.txt_time)
+    @BindView(R.id.txt_time)
     TextView txtTime;
-    @Bind(R.id.txt_sign)
+    @BindView(R.id.txt_sign)
     TextView txtSign;
-    @Bind(R.id.img_sign)
+    @BindView(R.id.img_sign)
     ImageView imgSign;
-    @Bind(R.id.txt_open3)
+    @BindView(R.id.txt_open3)
     UpDownTextView txtOpen3;
-    @Bind(R.id.listview_refuse)
+    @BindView(R.id.listview_refuse)
     ListView listviewRefuse;
-    @Bind(R.id.layout_refuse)
+    @BindView(R.id.layout_refuse)
     LinearLayout layoutRefuse;
-    @Bind(R.id.layout_open1)
+    @BindView(R.id.layout_open1)
     LinearLayout layoutOpen1;
-    @Bind(R.id.layout_open2)
+    @BindView(R.id.layout_open2)
     LinearLayout layoutOpen2;
-    @Bind(R.id.layout_open3)
+    @BindView(R.id.layout_open3)
     LinearLayout layoutOpen3;
     private String backOrderCode;
     private boolean isHistory;

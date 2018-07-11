@@ -20,14 +20,13 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -39,11 +38,11 @@ import cn.com.bluemoon.delivery.app.api.model.clothing.ResultRegisterCollectInfo
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ResultRegisterClothesCode;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
+import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.module.wash.collect.AddPhotoAdapter;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothesNameView;
 import cn.com.bluemoon.delivery.module.wash.collect.ClothingPic;
 import cn.com.bluemoon.delivery.module.wash.collect.SavedClothingPic;
-import cn.com.bluemoon.delivery.module.oldbase.BaseActionBarActivity;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.FileUtil;
@@ -54,6 +53,7 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ScrollGridView;
 import cn.com.bluemoon.lib.view.TakePhotoPopView;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 衣物登记
@@ -181,34 +181,34 @@ public class ClothingBookInActivity extends BaseActionBarActivity implements
      */
     private List<ClothingPic> clothesImg;
 
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.ll_clothes_name)
+    @BindView(R.id.ll_clothes_name)
     LinearLayout llClothingName;
-    @Bind(R.id.tv_number)
+    @BindView(R.id.tv_number)
     TextView tvNumber;
-    @Bind(R.id.sb_falw)
+    @BindView(R.id.sb_falw)
     SwitchButton sbFalw;
-    @Bind(R.id.et_flaw)
+    @BindView(R.id.et_flaw)
     EditText etFlaw;
-    @Bind(R.id.v_div_flaw)
+    @BindView(R.id.v_div_flaw)
     View vDivFlaw;
-    @Bind(R.id.sb_stain)
+    @BindView(R.id.sb_stain)
     SwitchButton sbStain;
-    @Bind(R.id.et_backup)
+    @BindView(R.id.et_backup)
     EditText etBackup;
-    @Bind(R.id.sgv_photo)
+    @BindView(R.id.sgv_photo)
     ScrollGridView sgvPhoto;
 
-    @Bind(R.id.v_div_btn_left)
+    @BindView(R.id.v_div_btn_left)
     View vDivLeft;
-    @Bind(R.id.btn_delete)
+    @BindView(R.id.btn_delete)
     Button btnDelete;
-    @Bind(R.id.v_div_btn)
+    @BindView(R.id.v_div_btn)
     View vDivBtn;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
-    @Bind(R.id.v_div_btn_right)
+    @BindView(R.id.v_div_btn_right)
     View vDivRight;
 
     /**

@@ -17,7 +17,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
@@ -86,38 +86,38 @@ public class ModifyClothesInfoActivity extends BaseActivity implements
     private static final int REQUEST_CODE_UPLOAD_IMG = 0x555;
     private static final int REQUEST_CODE_VALIDATE_CLOTHES_CODE = 0x444;
     private static final int REQUEST_CODE_DELETE_PIC = 0x333;
-    @Bind(R.id.ll_type)
+    @BindView(R.id.ll_type)
     LinearLayout llType;
-    @Bind(R.id.ll_clothes_name)
+    @BindView(R.id.ll_clothes_name)
     LinearLayout llClothesName;
-    @Bind(R.id.tv_number)
+    @BindView(R.id.tv_number)
     TextView tvNumber;
-    @Bind(R.id.iv_number)
+    @BindView(R.id.iv_number)
     ImageView ivNumber;
-    @Bind(R.id.et_flaw)
+    @BindView(R.id.et_flaw)
     EditText etFlaw;
-    @Bind(R.id.v_div_flaw)
+    @BindView(R.id.v_div_flaw)
     View vDivFlaw;
-    @Bind(R.id.et_backup)
+    @BindView(R.id.et_backup)
     EditText etBackup;
-    @Bind(R.id.sgv_photo)
+    @BindView(R.id.sgv_photo)
     ScrollGridView sgvPhoto;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
-    @Bind(R.id.rb_not_falw)
+    @BindView(R.id.rb_not_falw)
     RadioButton rbNotFalw;
-    @Bind(R.id.rb_falw)
+    @BindView(R.id.rb_falw)
     RadioButton rbFalw;
-    @Bind(R.id.rg_falw)
+    @BindView(R.id.rg_falw)
     RadioGroup rgFalw;
-    @Bind(R.id.rb_not_stain)
+    @BindView(R.id.rb_not_stain)
     RadioButton rbNotStain;
-    @Bind(R.id.rb_stain)
+    @BindView(R.id.rb_stain)
     RadioButton rbStain;
-    @Bind(R.id.rg_stain)
+    @BindView(R.id.rg_stain)
     RadioGroup rgStain;
 
-    @Bind(R.id.btn_delete)
+    @BindView(R.id.btn_delete)
     Button btnDelete;
 
     /**

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
@@ -38,105 +38,105 @@ public class AppointmentDetailActivity extends BaseActivity implements OnListIte
     /**
      * 洗衣中心名称，状态
      */
-    @Bind(R.id.txt_log)
+    @BindView(R.id.txt_log)
     TextView txtLog;
     /**
      * 日期
      */
-    @Bind(R.id.txt_time)
+    @BindView(R.id.txt_time)
     TextView txtTime;
     /**
      * 洗衣中心名称，状态/n日期 收起、展开
      */
-    @Bind(R.id.txt_log_open)
+    @BindView(R.id.txt_log_open)
     TextView txtLogOpen;
     /**
      * 动作历史layout
      */
-    @Bind(R.id.layout_logs)
+    @BindView(R.id.layout_logs)
     LinearLayout layoutLogs;
     /**
      * 动作历史layout分割线
      */
-    @Bind(R.id.line_logs)
+    @BindView(R.id.line_logs)
     View lineLogs;
     /**
      * 动作历史列表
      */
-    @Bind(R.id.list_view_log)
+    @BindView(R.id.list_view_log)
     NoScrollListView listViewLog;
     /**
      * 洗衣订单号
      */
-    @Bind(R.id.txt_outer_code)
+    @BindView(R.id.txt_outer_code)
     TextView txtOuterCode;
     /**
      * 洗衣订单详情分割线
      */
-    @Bind(R.id.div_outer_code)
+    @BindView(R.id.div_outer_code)
     View divOuterCode;
     /**
      * 洗衣订单详情layout
      */
-    @Bind(R.id.ll_outer_detail)
+    @BindView(R.id.ll_outer_detail)
     LinearLayout llOuterDetail;
     /**
      * 洗衣订单标题
      */
-    @Bind(R.id.ll_outer_code)
+    @BindView(R.id.ll_outer_code)
     LinearLayout llOuterCode;
     /**
      * 洗衣订单号 收起、展开
      */
-    @Bind(R.id.txt_type_open)
+    @BindView(R.id.txt_type_open)
     TextView txtOuterOpen;
     /**
      * 预约单号
      */
-    @Bind(R.id.tv_appointment_code)
+    @BindView(R.id.tv_appointment_code)
     TextView tvAppointmentCode;
     /**
      * 消费者姓名
      */
-    @Bind(R.id.txt_username)
+    @BindView(R.id.txt_username)
     TextView txtUsername;
     /**
      * 消费者电话
      */
-    @Bind(R.id.txt_user_phone)
+    @BindView(R.id.txt_user_phone)
     TextView txtUserPhone;
     /**
      * 消费者地址
      */
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
     /**
      * 收衣单号
      */
-    @Bind(R.id.txt_collect_code)
+    @BindView(R.id.txt_collect_code)
     TextView txtCollectCode;
     /**
      * 收衣列表分割线
      */
-    @Bind(R.id.div_listview_info)
+    @BindView(R.id.div_listview_info)
     View divListviewInfo;
     /**
      * 收衣列表
      */
-    @Bind(R.id.listview_info)
+    @BindView(R.id.listview_info)
     NoScrollListView listviewInfo;
     /**
      * 实收数量
      */
-    @Bind(R.id.tv_actual_sum)
+    @BindView(R.id.tv_actual_sum)
     TextView tvActualSum;
     /**
      * 订单总价
      */
-    @Bind(R.id.tv_fee_total)
+    @BindView(R.id.tv_fee_total)
     TextView tvFeeTotal;
 
-    @Bind(R.id.sc_main)
+    @BindView(R.id.sc_main)
     ScrollView scMain;
     private String collectCode;
 

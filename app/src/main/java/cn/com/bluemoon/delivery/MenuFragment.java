@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.HRApi;
@@ -39,15 +39,15 @@ import cn.com.bluemoon.lib.view.CommonAlertDialog;
  * Created by liangjiangli on 2016/5/5.
  */
 public class MenuFragment extends BaseFragment implements View.OnClickListener {
-    @Bind(R.id.txt_userid)
+    @BindView(R.id.txt_userid)
     TextView txtUserid;
-    @Bind(R.id.txt_username)
+    @BindView(R.id.txt_username)
     TextView txtUsername;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     TextView txtPhone;
-    @Bind(R.id.btn_user_info)
+    @BindView(R.id.btn_user_info)
     Button btnUserInfo;
-    @Bind(R.id.main_left_fragment)
+    @BindView(R.id.main_left_fragment)
     LinearLayout topHead;
     public static User user;
 

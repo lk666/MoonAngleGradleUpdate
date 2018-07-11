@@ -10,7 +10,7 @@ import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -29,15 +29,15 @@ public class BackOrderCheckHistoryDetailActivity extends BaseActivity implements
         OnListItemClickListener {
     private static final String EXTRA_CHECK_LOG_ID = "EXTRA_CHECK_LOG_ID";
     private static final int REQUEST_CODE = 0x777;
-    @Bind(R.id.tv_tag_code)
+    @BindView(R.id.tv_tag_code)
     TextView tvTagCode;
-    @Bind(R.id.tv_count)
+    @BindView(R.id.tv_count)
     TextView tvCount;
-    @Bind(R.id.tv_time)
+    @BindView(R.id.tv_time)
     TextView tvTime;
-    @Bind(R.id.lv)
+    @BindView(R.id.lv)
     NoScrollListView lv;
-    @Bind(R.id.sc_main)
+    @BindView(R.id.sc_main)
     ScrollView scMain;
 
 

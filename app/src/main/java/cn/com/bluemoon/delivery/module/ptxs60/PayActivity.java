@@ -24,7 +24,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.PTXS60Api;
@@ -56,11 +56,11 @@ public class PayActivity extends BaseActivity implements OnListItemClickListener
     private static final int PAY_UNIONPAY_CONFIRM = 0x333;
     private static final int PAY_REPAY = 0x111;
 
-    @Bind(R.id.txt_money)
+    @BindView(R.id.txt_money)
     TextView txtMoney;
-    @Bind(R.id.lv_payment)
+    @BindView(R.id.lv_payment)
     ListView lvPayment;
-    @Bind(R.id.btn_confirm_pay)
+    @BindView(R.id.btn_confirm_pay)
     BMAngleBtn3View btnConfirmPay;
     private long totalPay;
     private String transId;

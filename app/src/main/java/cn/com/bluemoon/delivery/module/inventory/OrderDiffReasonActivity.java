@@ -8,7 +8,7 @@ import android.widget.EditText;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -28,9 +28,9 @@ public class OrderDiffReasonActivity extends BaseActivity {
     public static String KEY_DICTID = "dictId";
     public static String KEY_DICTNAME = "dictName";
     public static String KEY_DIFFREASONDETAIL = "diffReasonDetail";
-    @Bind(R.id.tag_listview)
+    @BindView(R.id.tag_listview)
     TagListView tagListview;
-    @Bind(R.id.ed_content)
+    @BindView(R.id.ed_content)
     EditText edContent;
     private List<Dict> listDict;
     private String dictId;

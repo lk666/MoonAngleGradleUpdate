@@ -6,7 +6,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -23,15 +23,15 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class RealRecordActivity extends BaseActivity {
 
-    @Bind(R.id.view_name)
+    @BindView(R.id.view_name)
     BmCellTextView viewName;
-    @Bind(R.id.view_date)
+    @BindView(R.id.view_date)
     BmCellTextView viewDate;
-    @Bind(R.id.time_start)
+    @BindView(R.id.time_start)
     TextView timeStart;
-    @Bind(R.id.time_end)
+    @BindView(R.id.time_end)
     TextView timeEnd;
-    @Bind(R.id.view_comment)
+    @BindView(R.id.view_comment)
     BMFieldParagraphView viewComment;
     private String courseCode;
     private String planCode;

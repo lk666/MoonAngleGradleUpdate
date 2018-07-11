@@ -27,7 +27,7 @@ import org.apache.http.protocol.HTTP;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -51,7 +51,7 @@ import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 public class WarehouseFragment extends BaseFragment {
 
-    @Bind(R.id.listview_main)
+    @BindView(R.id.listview_main)
     PullToRefreshListView listView;
     private StoreAdapter adapter;
 

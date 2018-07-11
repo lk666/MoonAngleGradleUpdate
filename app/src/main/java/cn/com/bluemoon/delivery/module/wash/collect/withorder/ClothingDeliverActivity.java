@@ -23,7 +23,7 @@ import org.apache.http.protocol.HTTP;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -46,29 +46,29 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
  */
 public class ClothingDeliverActivity extends BaseActionBarActivity {
 
-    @Bind(R.id.ed_user_id)
+    @BindView(R.id.ed_user_id)
     EditText editDeliverId;
-    @Bind(R.id.txt_deliver_name)
+    @BindView(R.id.txt_deliver_name)
     TextView txtDeliverName;
-    @Bind(R.id.txt_deliver_phone)
+    @BindView(R.id.txt_deliver_phone)
     TextView txtDeliverPhone;
-    @Bind(R.id.txt_deliver_remark)
+    @BindView(R.id.txt_deliver_remark)
     EditText txtDeliverRemark;
-    @Bind(R.id.btn_search)
+    @BindView(R.id.btn_search)
     Button btnSearch;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnConforim;
-    @Bind(R.id.btn_cancel)
+    @BindView(R.id.btn_cancel)
     Button btnCancel;
-    @Bind(R.id.layout_name)
+    @BindView(R.id.layout_name)
     RelativeLayout layoutName;
-    @Bind(R.id.layout_phone)
+    @BindView(R.id.layout_phone)
     RelativeLayout layoutPhone;
-    @Bind(R.id.listview_log)
+    @BindView(R.id.listview_log)
     ListView listViewLog;
-    @Bind(R.id.line_name)
+    @BindView(R.id.line_name)
     View lineName;
-    @Bind(R.id.line_phone)
+    @BindView(R.id.line_phone)
     View linePhone;
     private String collectCode;
 

@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
@@ -27,21 +27,21 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View;
 
 public class GroupBuyItemView extends RelativeLayout implements View.OnClickListener, OnListItemClickListener {
-    @Bind(R.id.tv_status)
+    @BindView(R.id.tv_status)
     TextView tvStatus;
-    @Bind(R.id.tv_order_code)
+    @BindView(R.id.tv_order_code)
     TextView tvOrderCode;
-    @Bind(R.id.tv_order_pay_time)
+    @BindView(R.id.tv_order_pay_time)
     TextView tvOrderPayTime;
-    @Bind(R.id.div)
+    @BindView(R.id.div)
     View div;
-    @Bind(R.id.lv_order_detail)
+    @BindView(R.id.lv_order_detail)
     NoScrollListView lvOrderDetail;
-    @Bind(R.id.btn_pay)
+    @BindView(R.id.btn_pay)
     BMAngleBtn2View btnPay;
-    @Bind(R.id.tv_count)
+    @BindView(R.id.tv_count)
     TextView tvCount;
-    @Bind(R.id.tvprice)
+    @BindView(R.id.tvprice)
     TextView tvprice;
 
     public GroupBuyItemView(Context context) {

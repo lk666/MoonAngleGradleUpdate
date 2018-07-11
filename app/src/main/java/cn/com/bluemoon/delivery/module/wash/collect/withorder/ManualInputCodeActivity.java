@@ -18,7 +18,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -34,11 +34,11 @@ import cn.com.bluemoon.lib.view.ClearEditText;
  * 手动输入条形码界面
  */
 public class ManualInputCodeActivity extends BaseActivity implements OnClickListener {
-    @Bind(R.id.btn_sign)
+    @BindView(R.id.btn_sign)
     Button btnSign;
-    @Bind(R.id.btn_scan)
+    @BindView(R.id.btn_scan)
     IconButton btnScan;
-    @Bind(R.id.et_number)
+    @BindView(R.id.et_number)
     ClearEditText etNumber;
 
     /**

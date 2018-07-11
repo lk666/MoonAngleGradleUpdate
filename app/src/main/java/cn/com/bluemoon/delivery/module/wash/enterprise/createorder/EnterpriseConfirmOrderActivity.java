@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
@@ -44,31 +44,31 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
 public class EnterpriseConfirmOrderActivity extends BaseActivity {
 
     public static final int RESULT_CANCEL_CONFIRM = 0x7777;
-    @Bind(R.id.txt_order_code)
+    @BindView(R.id.txt_order_code)
     TextView txtOrderCode;
-    @Bind(R.id.txt_state)
+    @BindView(R.id.txt_state)
     TextView txtState;
-    @Bind(R.id.txt_name)
+    @BindView(R.id.txt_name)
     TextView txtName;
-    @Bind(R.id.txt_name_code)
+    @BindView(R.id.txt_name_code)
     TextView txtNameCode;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     TextView txtPhone;
-    @Bind(R.id.lv_clothes)
+    @BindView(R.id.lv_clothes)
     NoScrollListView lvClothes;
-    @Bind(R.id.txt_collect_bag)
+    @BindView(R.id.txt_collect_bag)
     TextView txtCollectBag;
-    @Bind(R.id.et_backup)
+    @BindView(R.id.et_backup)
     EditText etBackup;
-    @Bind(R.id.llayout_screen_bottom)
+    @BindView(R.id.llayout_screen_bottom)
     LinearLayout layoutScreenBottom;
-    @Bind(R.id.llayout_scroll)
+    @BindView(R.id.llayout_scroll)
     LinearLayout layoutScroll;
-    @Bind(R.id.llayout_order_details)
+    @BindView(R.id.llayout_order_details)
     LinearLayout layoutOrderDetails;
-    @Bind(R.id.llayout_listview)
+    @BindView(R.id.llayout_listview)
     LinearLayout llayoutListview;
-    @Bind(R.id.flayout_parent)
+    @BindView(R.id.flayout_parent)
     FrameLayout flayoutParent;
 
 

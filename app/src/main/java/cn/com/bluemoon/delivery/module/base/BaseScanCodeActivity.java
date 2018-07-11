@@ -10,7 +10,7 @@ import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -23,11 +23,11 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
  */
 public abstract class BaseScanCodeActivity extends BaseScanActivity {
 
-    @Bind(R.id.btn_input)
+    @BindView(R.id.btn_input)
     Button btnInput;
-    @Bind(R.id.txt_code)
+    @BindView(R.id.txt_code)
     TextView txtCode;
-    @Bind(R.id.layout_code)
+    @BindView(R.id.layout_code)
     RelativeLayout layoutCode;
 
     private static void actStart(Activity context, Fragment fragment, String title, String

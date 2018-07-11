@@ -21,7 +21,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
@@ -44,28 +44,28 @@ public class AddClothesActivity extends BaseActivity implements OnListItemClickL
     private static final String EXTRA_INFO = "EXTRA_INFO";
     private static final int REQUEST_CODE_QUERY = 0x777;
     private static final int REQUEST_CODE_DELETE = 0x666;
-    @Bind(R.id.txt_order_code)
+    @BindView(R.id.txt_order_code)
     TextView txtOrderCode;
-    @Bind(R.id.txt_name)
+    @BindView(R.id.txt_name)
     TextView txtName;
-    @Bind(R.id.txt_name_code)
+    @BindView(R.id.txt_name_code)
     TextView txtNameCode;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     TextView txtPhone;
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
-    @Bind(R.id.txt_collect_bag)
+    @BindView(R.id.txt_collect_bag)
     TextView txtCollectBag;
-    @Bind(R.id.txt_collect_num)
+    @BindView(R.id.txt_collect_num)
     TextView txtCollectNum;
-    @Bind(R.id.lv_clothes)
+    @BindView(R.id.lv_clothes)
     NoScrollListView lvClothes;
-    @Bind(R.id.div_list)
+    @BindView(R.id.div_list)
     View divList;
-    @Bind(R.id.et_backup)
+    @BindView(R.id.et_backup)
     EditText etBackup;
 
-    @Bind(R.id.btn_send)
+    @BindView(R.id.btn_send)
     Button btnSend;
 
     private String outerCode;

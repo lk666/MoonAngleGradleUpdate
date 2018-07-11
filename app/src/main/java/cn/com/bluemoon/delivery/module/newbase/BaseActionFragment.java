@@ -12,6 +12,7 @@ import com.umeng.analytics.MobclickAgent;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 
@@ -21,6 +22,7 @@ import cn.com.bluemoon.delivery.common.ClientStateManager;
  */
 public abstract class BaseActionFragment extends BaseAbstractFragment {
 
+    private Unbinder unbinder;
     protected View titleBar;
     protected View mainView;
 
@@ -115,7 +117,7 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         onGetArguments();
-        ButterKnife.bind(this, view);
+        unbinder = ButterKnife.bind(this, view);
         initTitleBarView(titleBar);
         initContentView(mainView);
     }
@@ -146,7 +148,7 @@ public abstract class BaseActionFragment extends BaseAbstractFragment {
 
     @Override
     public void onDestroyView() {
-        ButterKnife.unbind(this);
+        unbinder.unbind();
         super.onDestroyView();
         // 跳转到其他页面会调用，可能在此保存数据
         saveStateToArguments();

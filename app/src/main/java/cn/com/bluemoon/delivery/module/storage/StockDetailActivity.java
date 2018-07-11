@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -28,17 +28,17 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class StockDetailActivity extends BaseActivity {
 
-    @Bind(R.id.txt_store_id)
+    @BindView(R.id.txt_store_id)
     TextView txtStoreId;
-    @Bind(R.id.linear_tab_selector)
+    @BindView(R.id.linear_tab_selector)
     TabSelector tabSelector;
-    @Bind(R.id.txt_category_count)
+    @BindView(R.id.txt_category_count)
     TextView txtCategoryCount;
-    @Bind(R.id.txt_total_money)
+    @BindView(R.id.txt_total_money)
     TextView txtTotalMoney;
-    @Bind(R.id.txt_total_boxes)
+    @BindView(R.id.txt_total_boxes)
     TextView txtTotalBoxes;
-    @Bind(R.id.listview_main)
+    @BindView(R.id.listview_main)
     PullToRefreshListView listView;
 
     private StockDetailAdapter adapter;

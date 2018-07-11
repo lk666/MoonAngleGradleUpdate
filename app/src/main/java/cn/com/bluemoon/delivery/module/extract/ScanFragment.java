@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -31,15 +31,15 @@ import cn.com.bluemoon.lib.view.ClearEditText;
 
 public class ScanFragment extends BaseFragment {
 
-    @Bind(R.id.et_number)
+    @BindView(R.id.et_number)
     ClearEditText etNumber;
-    @Bind(R.id.btn_sign)
+    @BindView(R.id.btn_sign)
     Button btnSign;
-    @Bind(R.id.txt_shop)
+    @BindView(R.id.txt_shop)
     TextView txtShop;
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
-    @Bind(R.id.txt_person)
+    @BindView(R.id.txt_person)
     TextView txtPerson;
     private Activity context;
     private String signType = "digital";

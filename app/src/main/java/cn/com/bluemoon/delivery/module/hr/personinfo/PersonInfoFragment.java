@@ -3,7 +3,7 @@ package cn.com.bluemoon.delivery.module.hr.personinfo;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -23,21 +23,21 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 public class PersonInfoFragment extends BaseFragment<CommonActionBar> implements
         BMFieldArrow1View.FieldArrowListener {
     private static final int REQUEST_CODE_GET_INFO = 0x777;
-    @Bind(R.id.bctv_info)
+    @BindView(R.id.bctv_info)
     BmCellTextView bctvInfo;
-    @Bind(R.id.bfav_phone)
+    @BindView(R.id.bfav_phone)
     BMFieldArrow1View bfavPhone;
-    @Bind(R.id.bfav_base_info)
+    @BindView(R.id.bfav_base_info)
     BMCellArrowView bfavBaseInfo;
-    @Bind(R.id.bfav_contact)
+    @BindView(R.id.bfav_contact)
     BMCellArrowView bfavContact;
-    @Bind(R.id.bfav_tx_address)
+    @BindView(R.id.bfav_tx_address)
     BMCellArrowView bfavTxAddress;
-    @Bind(R.id.bfav_hk_address)
+    @BindView(R.id.bfav_hk_address)
     BMCellArrowView bfavHkAddress;
-    @Bind(R.id.bfav_family)
+    @BindView(R.id.bfav_family)
     BMCellArrowView bfavFamily;
-    @Bind(R.id.bfav_favorite)
+    @BindView(R.id.bfav_favorite)
     BMCellArrowView bfavFavorite;
 
     public static Fragment newInstance() {

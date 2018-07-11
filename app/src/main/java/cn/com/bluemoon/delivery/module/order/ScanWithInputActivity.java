@@ -9,7 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -21,7 +21,7 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
  */
 public class ScanWithInputActivity extends BaseScanActivity {
 
-    @Bind(R.id.btn_input)
+    @BindView(R.id.btn_input)
     Button btnInput;
 
     public static void actStart(Activity context, String title, String btnString, int requestCode) {

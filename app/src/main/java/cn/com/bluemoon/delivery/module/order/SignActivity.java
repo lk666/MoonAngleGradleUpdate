@@ -15,7 +15,7 @@ import android.text.Editable;
 import android.view.View;
 import android.widget.Button;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -24,9 +24,9 @@ import cn.com.bluemoon.lib.callback.CommonEditTextCallBack;
 import cn.com.bluemoon.lib.view.ClearEditText;
 
 public class SignActivity extends BaseActivity {
-    @Bind(R.id.et_number)
+    @BindView(R.id.et_number)
     ClearEditText etNumber;
-    @Bind(R.id.btn_sign)
+    @BindView(R.id.btn_sign)
     Button btnSign;
 
     @Override

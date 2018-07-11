@@ -3,7 +3,7 @@ package cn.com.bluemoon.delivery.module.wash.returning.clothescheck;
 import android.view.View;
 import android.widget.Button;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -14,9 +14,9 @@ import cn.com.bluemoon.delivery.module.base.BaseFragment;
  * Created by lk on 2016/9/14.
  */
 public class ClothesCheckFragment extends BaseFragment {
-    @Bind(R.id.btn_back_order_check)
+    @BindView(R.id.btn_back_order_check)
     Button btnBackOrderCheck;
-    @Bind(R.id.btn_clothes_check)
+    @BindView(R.id.btn_clothes_check)
     Button btnClothesCheck;
 
     @Override

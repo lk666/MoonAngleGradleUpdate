@@ -6,7 +6,7 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -18,9 +18,9 @@ import cn.com.bluemoon.delivery.module.base.BaseActivity;
  */
 public class PayResultActivity extends BaseActivity {
 
-    @Bind(R.id.img_result)
+    @BindView(R.id.img_result)
     ImageView imgResult;
-    @Bind(R.id.txt_result)
+    @BindView(R.id.txt_result)
     TextView txtResult;
 
     public static void actStart(Context context, boolean isSuccess) {

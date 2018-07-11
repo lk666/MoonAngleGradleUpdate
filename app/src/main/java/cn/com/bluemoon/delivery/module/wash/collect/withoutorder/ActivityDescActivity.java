@@ -13,7 +13,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -46,11 +46,11 @@ public class ActivityDescActivity extends BaseActionBarActivity {
      */
     private String activityCode;
 
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.tv_desc)
+    @BindView(R.id.tv_desc)
     TextView tvDesc;
-    @Bind(R.id.btn_start)
+    @BindView(R.id.btn_start)
     Button btnStart;
 
     @Override

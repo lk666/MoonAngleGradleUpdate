@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -25,15 +25,15 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class CarriageDetailActivity extends BaseActivity {
 
-    @Bind(R.id.txt_transport_code)
+    @BindView(R.id.txt_transport_code)
     TextView txtTransportCode;
-    @Bind(R.id.txt_box_num)
+    @BindView(R.id.txt_box_num)
     TextView txtBoxNum;
-    @Bind(R.id.ptrlv)
+    @BindView(R.id.ptrlv)
     PullToRefreshListView ptrlv;
-    @Bind(R.id.layout_title)
+    @BindView(R.id.layout_title)
     RelativeLayout layoutTitle;
-    @Bind(R.id.layout_empty)
+    @BindView(R.id.layout_empty)
     CommonEmptyView layoutEmpty;
     private String carriageCode;
     private CarriageDetailAdapter adapter;

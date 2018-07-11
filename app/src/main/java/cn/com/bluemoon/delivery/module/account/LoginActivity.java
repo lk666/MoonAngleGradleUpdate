@@ -10,7 +10,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.MainActivity;
@@ -30,13 +30,13 @@ import cn.com.bluemoon.lib.view.ClearEditText;
 
 public class LoginActivity extends BaseActivity {
 
-    @Bind(R.id.et_user_name)
+    @BindView(R.id.et_user_name)
     ClearEditText etUserName;
-    @Bind(R.id.et_user_psw)
+    @BindView(R.id.et_user_psw)
     ClearEditText etUserPsw;
-    //    @Bind(R.id.txt_toast)
+    //    @BindView(R.id.txt_toast)
 //    TextView txtToast;
-    @Bind(R.id.btn_login)
+    @BindView(R.id.btn_login)
     Button btnLogin;
     private String view;
     private String url;

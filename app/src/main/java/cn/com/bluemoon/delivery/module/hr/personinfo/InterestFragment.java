@@ -10,7 +10,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.HRApi;
@@ -37,23 +37,23 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView;
 
 public class InterestFragment extends BaseFragment<CommonActionBar> implements ClickListener {
 
-    @Bind(R.id.txt_interest)
+    @BindView(R.id.txt_interest)
     BmCellParagraphView txtInterest;
-    @Bind(R.id.layout_info)
+    @BindView(R.id.layout_info)
     LinearLayout layoutInfo;
-    @Bind(R.id.field_interest)
+    @BindView(R.id.field_interest)
     BMFieldParagraphView fieldInterest;
-    @Bind(R.id.field_interest2)
+    @BindView(R.id.field_interest2)
     BMSelectorView fieldInterest2;
-    @Bind(R.id.field_interest_detail)
+    @BindView(R.id.field_interest_detail)
     BMFieldParagraphView fieldInterestDetail;
-    @Bind(R.id.layout_edit)
+    @BindView(R.id.layout_edit)
     LinearLayout layoutEdit;
-    @Bind(R.id.field_other)
+    @BindView(R.id.field_other)
     BMFieldText1View fieldOther;
-    @Bind(R.id.txt_specialty)
+    @BindView(R.id.txt_specialty)
     TextView txtSpecialty;
-    @Bind(R.id.txt_perform_experience)
+    @BindView(R.id.txt_perform_experience)
     TextView txtPerformExperience;
     private boolean isEdit;
     private String specialty;

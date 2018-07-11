@@ -11,7 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -31,15 +31,15 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class TransferOrderActivity extends BaseActivity {
 
-    @Bind(R.id.person_opcode)
+    @BindView(R.id.person_opcode)
     BMFieldStatusView personOpcode;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
-    @Bind(R.id.cell_name)
+    @BindView(R.id.cell_name)
     BmCellTextView cellName;
-    @Bind(R.id.cell_mobile)
+    @BindView(R.id.cell_mobile)
     BmCellTextView cellMobile;
-    @Bind(R.id.field_remark)
+    @BindView(R.id.field_remark)
     BMFieldParagraphView fieldRemark;
     public static final int WASH_TYPE = 0;
     public static final int APPOINTMENT_TYPE = 1;

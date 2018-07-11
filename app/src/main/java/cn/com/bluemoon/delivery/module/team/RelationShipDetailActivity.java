@@ -8,7 +8,7 @@ import android.widget.TextView;
 
 import org.kymjs.kjframe.utils.StringUtils;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -24,35 +24,35 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 public class RelationShipDetailActivity extends BaseActivity {
 
-    @Bind(R.id.txt_name)
+    @BindView(R.id.txt_name)
     TextView txtName;
-    @Bind(R.id.txt_phone)
+    @BindView(R.id.txt_phone)
     TextView txtPhone;
-    @Bind(R.id.txt_type)
+    @BindView(R.id.txt_type)
     TextView txtType;
-    @Bind(R.id.txt_community)
+    @BindView(R.id.txt_community)
     TextView txtCommunity;
-    @Bind(R.id.line2)
+    @BindView(R.id.line2)
     View line2;
-    @Bind(R.id.txt_service)
+    @BindView(R.id.txt_service)
     TextView txtService;
-    @Bind(R.id.txt_work_type)
+    @BindView(R.id.txt_work_type)
     TextView txtWorkType;
-    @Bind(R.id.txt_work_lengh)
+    @BindView(R.id.txt_work_lengh)
     TextView txtWorkLengh;
-    @Bind(R.id.layout_work_lengh)
+    @BindView(R.id.layout_work_lengh)
     RelativeLayout layoutWorkLengh;
-    @Bind(R.id.layout_work_type)
+    @BindView(R.id.layout_work_type)
     RelativeLayout layoutWorkType;
-    @Bind(R.id.line)
+    @BindView(R.id.line)
     View line;
-    @Bind(R.id.txt_start_date)
+    @BindView(R.id.txt_start_date)
     TextView txtStartDate;
-    @Bind(R.id.txt_end_date)
+    @BindView(R.id.txt_end_date)
     TextView txtEndDate;
-    @Bind(R.id.txt_remark)
+    @BindView(R.id.txt_remark)
     TextView txtRemark;
-    @Bind(R.id.layout_remark)
+    @BindView(R.id.layout_remark)
     RelativeLayout layoutRemark;
 
     @Override

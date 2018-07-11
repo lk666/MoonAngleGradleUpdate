@@ -12,7 +12,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -29,9 +29,9 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
  */
 public class ActivityDetailActivity extends BaseActionBarActivity {
 
-    @Bind(R.id.txt_activity_name)
+    @BindView(R.id.txt_activity_name)
     TextView txtActivityName;
-    @Bind(R.id.txt_activity_desc)
+    @BindView(R.id.txt_activity_desc)
     TextView txtActivityDesc;
 
     private String activityCode;

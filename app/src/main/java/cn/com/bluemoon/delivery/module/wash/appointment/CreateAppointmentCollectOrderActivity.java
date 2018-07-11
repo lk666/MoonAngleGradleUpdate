@@ -19,7 +19,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.AppointmentApi;
@@ -54,41 +54,41 @@ public class CreateAppointmentCollectOrderActivity extends BaseActivity implemen
     private static final int REQUEST_CODE_MODIFY_CLOTHES_INFO = 0x55;
     private final long minTime = System.currentTimeMillis() / 1000 + 49 * 3600;
 
-    @Bind(R.id.tv_number)
+    @BindView(R.id.tv_number)
     TextView tvNumber;
-    @Bind(R.id.iv_customer)
+    @BindView(R.id.iv_customer)
     ImageView ivCustomer;
-    @Bind(R.id.tv_customer_name)
+    @BindView(R.id.tv_customer_name)
     TextView tvCustomerName;
-    @Bind(R.id.tv_customer_phone)
+    @BindView(R.id.tv_customer_phone)
     TextView tvCustomerPhone;
-    @Bind(R.id.iv_address)
+    @BindView(R.id.iv_address)
     ImageView ivAddress;
-    @Bind(R.id.tv_address)
+    @BindView(R.id.tv_address)
     TextView tvAddress;
-    @Bind(R.id.tv_collect_brcode)
+    @BindView(R.id.tv_collect_brcode)
     TextView tvCollectBrcode;
-    @Bind(R.id.iv_collect_brcode)
+    @BindView(R.id.iv_collect_brcode)
     ImageView ivCollectBrcode;
-    @Bind(R.id.rb_not_urgent)
+    @BindView(R.id.rb_not_urgent)
     RadioButton rbNotUrgent;
-    @Bind(R.id.rg_urgent)
+    @BindView(R.id.rg_urgent)
     RadioGroup rgUrgent;
-    @Bind(R.id.v_div_appoint_back_time)
+    @BindView(R.id.v_div_appoint_back_time)
     View vDivAppointBackTime;
-    @Bind(R.id.tv_appoint_back_time)
+    @BindView(R.id.tv_appoint_back_time)
     TextView tvAppointBackTime;
-    @Bind(R.id.ll_appoint_back_time)
+    @BindView(R.id.ll_appoint_back_time)
     LinearLayout llAppointBackTime;
-    @Bind(R.id.tv_actual_collect_count)
+    @BindView(R.id.tv_actual_collect_count)
     TextView tvActualCollectCount;
-    @Bind(R.id.btn_add)
+    @BindView(R.id.btn_add)
     ImageButton btnAdd;
-    @Bind(R.id.lv_order_receive)
+    @BindView(R.id.lv_order_receive)
     NoScrollListView lvOrderReceive;
-    @Bind(R.id.btn_finish)
+    @BindView(R.id.btn_finish)
     Button btnFinish;
-    @Bind(R.id.div)
+    @BindView(R.id.div)
     View div;
 
     private ResultAppointmentQueryList.AppointmentListBean appointmentListBean;

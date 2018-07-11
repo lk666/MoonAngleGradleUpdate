@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -20,27 +20,27 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class ContactFragment extends BaseFragment<CommonActionBar> {
     private static final int REQUEST_CODE_GET_CONTACT_INFO = 0x777;
-    @Bind(R.id.bctv_weichat)
+    @BindView(R.id.bctv_weichat)
     BmCellTextView bctvWeichat;
-    @Bind(R.id.bctv_emailPers)
+    @BindView(R.id.bctv_emailPers)
     BmCellTextView bctvEmailPers;
-    @Bind(R.id.bctv_officePlace)
+    @BindView(R.id.bctv_officePlace)
     BmCellTextView bctvOfficePlace;
-    @Bind(R.id.bctv_officePhone)
+    @BindView(R.id.bctv_officePhone)
     BmCellTextView bctvOfficePhone;
-    @Bind(R.id.bctv_officeSeat)
+    @BindView(R.id.bctv_officeSeat)
     BmCellTextView bctvOfficeSeat;
-    @Bind(R.id.bctv_contactName)
+    @BindView(R.id.bctv_contactName)
     BmCellTextView bctvContactName;
-    @Bind(R.id.bctv_contactRelation)
+    @BindView(R.id.bctv_contactRelation)
     BmCellTextView bctvContactRelation;
-    @Bind(R.id.bctv_contactMobile)
+    @BindView(R.id.bctv_contactMobile)
     BmCellTextView bctvContactMobile;
-    @Bind(R.id.bctv_contactName2)
+    @BindView(R.id.bctv_contactName2)
     BmCellTextView bctvContactName2;
-    @Bind(R.id.bctv_contactRelation2)
+    @BindView(R.id.bctv_contactRelation2)
     BmCellTextView bctvContactRelation2;
-    @Bind(R.id.bctv_contactMobile2)
+    @BindView(R.id.bctv_contactMobile2)
     BmCellTextView bctvContactMobile2;
 
     public static Fragment newInstance() {

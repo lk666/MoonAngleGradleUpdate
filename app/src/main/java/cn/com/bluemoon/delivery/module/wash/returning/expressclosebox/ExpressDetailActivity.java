@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -18,17 +18,17 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 
 public class ExpressDetailActivity extends BaseActivity {
 
-    @Bind(R.id.txt_company)
+    @BindView(R.id.txt_company)
     TextView txtCompany;
-    @Bind(R.id.txt_delivery_num)
+    @BindView(R.id.txt_delivery_num)
     TextView txtDeliveryNum;
-    @Bind(R.id.txt_emy_num)
+    @BindView(R.id.txt_emy_num)
     TextView txtEmyNum;
-    @Bind(R.id.txt_delivery_name)
+    @BindView(R.id.txt_delivery_name)
     TextView txtDeliveryName;
-    @Bind(R.id.txt_amount)
+    @BindView(R.id.txt_amount)
     TextView txtAmount;
-    @Bind(R.id.list_return_number)
+    @BindView(R.id.list_return_number)
     ListView listReturnNumber;
     private String companyName;
     private String expressCode;

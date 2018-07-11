@@ -14,13 +14,12 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -38,6 +37,7 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 收衣订单页面
@@ -50,54 +50,54 @@ public class ClothingRecordDetailActivity extends BaseActionBarActivity implemen
     private String collectCode;
     private DeliverLogAdapter deliveryAdapter;
     private ClothesInfoAdapter clothingInfoAdapter;
-    @Bind(R.id.txt_log)
+    @BindView(R.id.txt_log)
     TextView txtLog;
-    @Bind(R.id.line_logs)
+    @BindView(R.id.line_logs)
     View lineLog;
-    @Bind(R.id.txt_log_open)
+    @BindView(R.id.txt_log_open)
     TextView txtLogOpen;
-    @Bind(R.id.list_view_log)
+    @BindView(R.id.list_view_log)
     NoScrollListView listViewLog;
 
-    @Bind(R.id.txt_outer_code)
+    @BindView(R.id.txt_outer_code)
     TextView txtOutCode;
-    @Bind(R.id.txt_type_open)
+    @BindView(R.id.txt_type_open)
     TextView txtTypeOpen;
-    @Bind(R.id.layout_type)
+    @BindView(R.id.layout_type)
     LinearLayout layoutType;
 
-    @Bind(R.id.txt_username)
+    @BindView(R.id.txt_username)
     TextView txtUserName;
-    @Bind(R.id.txt_user_phone)
+    @BindView(R.id.txt_user_phone)
     TextView txtUserPhone;
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
-    @Bind(R.id.txt_total_money)
+    @BindView(R.id.txt_total_money)
     TextView txtTotalMoney;
 
 
-    @Bind(R.id.txt_need_lab)
+    @BindView(R.id.txt_need_lab)
     TextView txtNeedLab;
-    @Bind(R.id.txt_need)
+    @BindView(R.id.txt_need)
     TextView txtNeed;
-    @Bind(R.id.list_view_type)
+    @BindView(R.id.list_view_type)
     NoScrollListView listViewType;
 
-    @Bind(R.id.txt_collect_num)
+    @BindView(R.id.txt_collect_num)
     TextView txtCollectNum;
-    @Bind(R.id.txt_actual)
+    @BindView(R.id.txt_actual)
     TextView txtActual;
-    @Bind(R.id.txt_scan_code)
+    @BindView(R.id.txt_scan_code)
     TextView txtScanCode;
-    @Bind(R.id.txt_urgent)
+    @BindView(R.id.txt_urgent)
     TextView txtUrgent;
-    @Bind(R.id.listview_info)
+    @BindView(R.id.listview_info)
     NoScrollListView listViewInfo;
 
-    @Bind(R.id.txt_scan_code_lab)
+    @BindView(R.id.txt_scan_code_lab)
     TextView txtScanLab;
 
-    @Bind(R.id.sc_main)
+    @BindView(R.id.sc_main)
     ScrollView scMain;
 
     @Override

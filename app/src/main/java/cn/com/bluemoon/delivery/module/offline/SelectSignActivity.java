@@ -7,7 +7,7 @@ import android.view.View;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -23,13 +23,13 @@ import cn.com.bluemoon.lib_widget.module.form.BmCellTextView;
 
 public class SelectSignActivity extends BaseActivity implements CheckListener {
 
-    @Bind(R.id.view_radio)
+    @BindView(R.id.view_radio)
     BMRadioListView viewRadio;
-    @Bind(R.id.layout_room)
+    @BindView(R.id.layout_room)
     BmCellTextView layoutRoom;
-    @Bind(R.id.layout_sign_date)
+    @BindView(R.id.layout_sign_date)
     BmCellTextView layoutSignDate;
-    @Bind(R.id.btn_sign)
+    @BindView(R.id.btn_sign)
     BMAngleBtn1View btnSign;
 
     private ResultSignDetail.SignDetailData data;

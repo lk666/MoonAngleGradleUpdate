@@ -9,11 +9,10 @@ import android.widget.TextView;
 
 import java.util.Calendar;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
@@ -21,17 +20,17 @@ import cn.com.bluemoon.delivery.utils.ViewUtil;
  * Created by lk on 2016/9/4.
  */
 public class DateSelectDialog extends Dialog {
-    @Bind(R.id.btn_cancel)
+    @BindView(R.id.btn_cancel)
     View btnCancle;
-    @Bind(R.id.tv_title)
+    @BindView(R.id.tv_title)
     TextView tvTitle;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     View btnOk;
-    @Bind(R.id.nwv_year)
+    @BindView(R.id.nwv_year)
     ExtraTextNumberWheelView nwvYear;
-    @Bind(R.id.nwv_month)
+    @BindView(R.id.nwv_month)
     ExtraTextNumberWheelView nwvMonth;
-    @Bind(R.id.nwv_date)
+    @BindView(R.id.nwv_date)
     ExtraTextNumberWheelView nwvDate;
 
     private OnButtonClickListener listener;

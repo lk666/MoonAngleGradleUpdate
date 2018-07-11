@@ -11,7 +11,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.Dict;
@@ -28,9 +28,9 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
  * 取消接单原因
  */
 public class CancelOrderActivity extends BaseActivity{
-    @Bind(R.id.list_reason)
+    @BindView(R.id.list_reason)
     ListView listReason;
-    @Bind(R.id.btn_ok)
+    @BindView(R.id.btn_ok)
     Button btnOk;
     private String orderId;
     private List<String> reasonList;

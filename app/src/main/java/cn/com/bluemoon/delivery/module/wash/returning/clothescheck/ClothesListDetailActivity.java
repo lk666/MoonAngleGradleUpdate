@@ -20,7 +20,7 @@ import com.bumptech.glide.Glide;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ReturningApi;
@@ -51,26 +51,26 @@ public class ClothesListDetailActivity extends BaseActivity implements
     private static final int REQUEST_CODE_SCAN = 0x666;
     private static final int REQUEST_CODE_UPLOAD_IMG = 0x555;
     private static final int REQUEST_CODE_FINISH = 0x444;
-    @Bind(R.id.tv_back_order_code)
+    @BindView(R.id.tv_back_order_code)
     TextView tvBackOrderCode;
-    @Bind(R.id.tv_count)
+    @BindView(R.id.tv_count)
     TextView tvCount;
-    @Bind(R.id.lv)
+    @BindView(R.id.lv)
     NoScrollListView lv;
-    @Bind(R.id.et_abnormal)
+    @BindView(R.id.et_abnormal)
     EditText etAbnormal;
-    @Bind(R.id.ll_abnormal_txt)
+    @BindView(R.id.ll_abnormal_txt)
     LinearLayout llAbnormalTxt;
-    @Bind(R.id.gridview_img)
+    @BindView(R.id.gridview_img)
     ImageGridView gridviewImg;
-    @Bind(R.id.ll_abnormal_img)
+    @BindView(R.id.ll_abnormal_img)
     LinearLayout llAbnormalImg;
-    @Bind(R.id.sc_main)
+    @BindView(R.id.sc_main)
     ScrollView scMain;
-    @Bind(R.id.btn_finish)
+    @BindView(R.id.btn_finish)
     Button btnFinish;
 
-    @Bind(R.id.cb_abnormal)
+    @BindView(R.id.cb_abnormal)
     SwitchButton cbAbnormal;
 
     private String backOrderCode;

@@ -12,7 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EvidenceCashApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -27,29 +27,29 @@ import cn.com.bluemoon.delivery.utils.StringUtil;
  */
 public class TransferDetailActivity extends BaseActivity {
 
-    @Bind(R.id.txt_transfer_type)
+    @BindView(R.id.txt_transfer_type)
     TextView txtTransferType;
-    @Bind(R.id.txt_transfer_money)
+    @BindView(R.id.txt_transfer_money)
     TextView txtTransferMoney;
-    @Bind(R.id.txt_transfer_status)
+    @BindView(R.id.txt_transfer_status)
     TextView txtTransferStatus;
-    @Bind(R.id.txt_reason)
+    @BindView(R.id.txt_reason)
     TextView txtReason;
-    @Bind(R.id.layout_reason)
+    @BindView(R.id.layout_reason)
     LinearLayout layoutReason;
-    @Bind(R.id.txt_time)
+    @BindView(R.id.txt_time)
     TextView txtTime;
-    @Bind(R.id.txt_transaction_code)
+    @BindView(R.id.txt_transaction_code)
     TextView txtTransactionCode;
-    @Bind(R.id.layout_transaction)
+    @BindView(R.id.layout_transaction)
     LinearLayout layoutTransaction;
-    @Bind(R.id.txt_voucher_money)
+    @BindView(R.id.txt_voucher_money)
     TextView txtVoucherMoney;
-    @Bind(R.id.txt_voucher_time)
+    @BindView(R.id.txt_voucher_time)
     TextView txtVoucherTime;
-    @Bind(R.id.img_voucher)
+    @BindView(R.id.img_voucher)
     ImageView imgVoucher;
-    @Bind(R.id.layout_transfer_voucher)
+    @BindView(R.id.layout_transfer_voucher)
     LinearLayout layoutTransferVoucher;
 
     @Override

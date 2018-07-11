@@ -19,13 +19,12 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import cz.msebera.android.httpclient.Header;
 import org.apache.http.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
@@ -49,6 +48,7 @@ import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewHolder;
 import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.switchbutton.SwitchButton;
+import cz.msebera.android.httpclient.Header;
 
 /**
  * 收衣登记
@@ -70,37 +70,37 @@ public class WithOrderCollectBookInActivity extends BaseActionBarActivity implem
      * 收衣单号
      */
     public final static String EXTRA_COLLECTCODE = "EXTRA_COLLECTCODE";
-    @Bind(R.id.tv_number)
+    @BindView(R.id.tv_number)
     TextView tvNumber;
-    @Bind(R.id.tv_customer_name)
+    @BindView(R.id.tv_customer_name)
     TextView tvCustomerName;
-    @Bind(R.id.tv_customer_phone)
+    @BindView(R.id.tv_customer_phone)
     TextView tvCustomerPhone;
-    @Bind(R.id.tv_address)
+    @BindView(R.id.tv_address)
     TextView tvAddress;
-    @Bind(R.id.tv_pay_total)
+    @BindView(R.id.tv_pay_total)
     TextView tvPayTotal;
-    @Bind(R.id.tv_receivable_count)
+    @BindView(R.id.tv_receivable_count)
     TextView tvReceivableCount;
-    @Bind(R.id.tv_actual_count)
+    @BindView(R.id.tv_actual_count)
     TextView tvActualCount;
-    @Bind(R.id.tv_collect_brcode)
+    @BindView(R.id.tv_collect_brcode)
     TextView tvCollectBrcode;
-    @Bind(R.id.sb_urgent)
+    @BindView(R.id.sb_urgent)
     SwitchButton sbUrgent;
-    @Bind(R.id.tv_appoint_back_time)
+    @BindView(R.id.tv_appoint_back_time)
     TextView tvAppointBackTime;
-    @Bind(R.id.v_div_appoint_back_time)
+    @BindView(R.id.v_div_appoint_back_time)
     View vDivAppointBackTime;
-    @Bind(R.id.ll_appoint_back_time)
+    @BindView(R.id.ll_appoint_back_time)
     LinearLayout llAppointBackTime;
-    @Bind(R.id.lv_order_detail)
+    @BindView(R.id.lv_order_detail)
     NoScrollListView lvOrderDetail;
-    @Bind(R.id.tv_actual_collect_count)
+    @BindView(R.id.tv_actual_collect_count)
     TextView tvActualCollectCount;
-    @Bind(R.id.lv_order_receive)
+    @BindView(R.id.lv_order_receive)
     NoScrollListView lvOrderReceive;
-    @Bind(R.id.main)
+    @BindView(R.id.main)
     ScrollView main;
 
     /**

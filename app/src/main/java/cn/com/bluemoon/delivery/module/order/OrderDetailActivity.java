@@ -20,7 +20,7 @@ import org.kymjs.kjframe.KJBitmap;
 
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.Package;
@@ -41,45 +41,45 @@ import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 public class OrderDetailActivity extends BaseActivity {
-	@Bind(R.id.txt_orderid)
+	@BindView(R.id.txt_orderid)
 	TextView txtOrderid;
-	@Bind(R.id.txt_source)
+	@BindView(R.id.txt_source)
 	TextView txtSource;
-	@Bind(R.id.txt_payOrdertime)
+	@BindView(R.id.txt_payOrdertime)
 	TextView txtPayOrderTime;
-	@Bind(R.id.txt_subscribetime)
+	@BindView(R.id.txt_subscribetime)
 	TextView txtSubscribeTime;
-	@Bind(R.id.txt_deliverytime)
+	@BindView(R.id.txt_deliverytime)
 	TextView txtDeliveryTime;
-	@Bind(R.id.txt_signtime)
+	@BindView(R.id.txt_signtime)
 	TextView txtSignTime;
-	@Bind(R.id.txt_warehouse)
+	@BindView(R.id.txt_warehouse)
 	TextView txtWarehouse;
-	@Bind(R.id.layout_warehouse)
+	@BindView(R.id.layout_warehouse)
 	LinearLayout layoytWarehouse;
-	@Bind(R.id.layout_subscribe)
+	@BindView(R.id.layout_subscribe)
 	LinearLayout layoutSubscribe;
-	@Bind(R.id.layout_delivery)
+	@BindView(R.id.layout_delivery)
 	LinearLayout layoutDelivery;
-	@Bind(R.id.layout_sign)
+	@BindView(R.id.layout_sign)
 	LinearLayout layoutSign;
-	@Bind(R.id.txt_customername)
+	@BindView(R.id.txt_customername)
 	TextView txtCustomerName;
-	@Bind(R.id.txt_phone)
+	@BindView(R.id.txt_phone)
 	TextView txtPhone;
-	@Bind(R.id.txt_question_response)
+	@BindView(R.id.txt_question_response)
 	TextView txtQuestionResponse;
-	@Bind(R.id.txt_address)
+	@BindView(R.id.txt_address)
 	TextView txtAddress;
-	@Bind(R.id.txt_totalprice)
+	@BindView(R.id.txt_totalprice)
 	TextView txtTotalPrice;
-	@Bind(R.id.txt_totalnum)
+	@BindView(R.id.txt_totalnum)
 	TextView txtTotalnum;
-	@Bind(R.id.btn_send)
+	@BindView(R.id.btn_send)
 	Button btnSendSms;
-	@Bind(R.id.layout_product)
+	@BindView(R.id.layout_product)
 	LinearLayout layoutProduct;
-	@Bind(R.id.layout_question)
+	@BindView(R.id.layout_question)
 	LinearLayout layoutQuestion;
 
 	private String orderId;

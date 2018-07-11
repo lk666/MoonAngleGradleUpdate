@@ -68,15 +68,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('debug.apk')) {
-                        def fileName = "月亮天使_${buildTime()}_测试版_${defaultConfig.versionName}(${gitNum}).apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
-                }
-            }
+//            使用 Variant API 操作变体输出在新插件中已不再受支持
         }
         release {
             buildConfigField("boolean", "RELEASE", "true")
@@ -90,16 +82,6 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
-            applicationVariants.all { variant ->
-                variant.outputs.each { output ->
-                    def outputFile = output.outputFile
-                    if (outputFile != null && outputFile.name.endsWith('release.apk')) {
-                        def fileName = "月亮天使_${buildTime()}_正式版_${defaultConfig.versionName}(${gitNum}).apk"
-                        output.outputFile = new File(outputFile.parent, fileName)
-                    }
-                }
-            }
-
         }
     }
 
@@ -117,7 +99,7 @@ android {
     }
 
     dexOptions {
-        incremental true
+//        incremental true  // 已弃用
         javaMaxHeapSize "2048m"
         jumboMode true
         preDexLibraries false
@@ -151,46 +133,78 @@ greendao {
 //    generateTests
 }
 
+// 各个libs引用关系的输出：
+// gradlew -q app:dependencies
+
 dependencies {
-    compile fileTree(include: ['*.*'], dir: 'libs')
-    compile project(':BlueMoonSDK')
-    compile project(':lib_iflytek')
-    compile files('libs/iTextpdf.jar')
-    compile 'org.apache.httpcomponents:httpcore:4.4.2'
-    compile 'junit:junit:4.12'
-    compile 'org.greenrobot:eventbus:3.0.0'
-    compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.github.chrisbanes.photoview:library:1.2.4'
-    compile 'com.getui:sdk:2.9.3.0'
+    implementation fileTree(include: ['*.*'], dir: 'libs')
+    implementation project(':BlueMoonSDK')
+    implementation project(':lib_iflytek')
+    implementation files('libs/iTextpdf.jar')
+    implementation 'org.apache.httpcomponents:httpcore:4.4.2'
+    implementation 'junit:junit:4.12'
+    implementation 'org.greenrobot:eventbus:3.0.0'
+    implementation 'com.github.bumptech.glide:glide:3.6.1'
+    implementation 'com.github.chrisbanes.photoview:library:1.2.4'
+    implementation 'com.getui:sdk:2.9.3.0'
     //compile project(':lib_umengshare')
-    compile 'com.umeng.analytics:analytics:latest.integration'
-    compile 'com.bluemoon.umengshare:lib_umengshare:1.0.10'
-    compile 'com.bluemoon.liblog:lib_log:1.0.1'
-    compile 'com.bluemoon.widget:lib_widget:1.0.74'
-    compile 'org.greenrobot:greendao:3.2.0'
-    compile 'org.greenrobot:greendao-generator:3.2.0'
-    compile 'com.bluemoon.cardocr:lib_cardocr:1.0.10'
-    compile 'com.bluemoon.signature:lib_signature_pad:1.0.5'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile('com.android.support:support-v4:23.4.0') {
-        force = true
-    }
-    compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
+    implementation 'com.umeng.analytics:analytics:latest.integration'
+    implementation 'com.bluemoon.umengshare:lib_umengshare:1.0.10'
+    implementation 'com.bluemoon.liblog:lib_log:1.0.1'
+    implementation 'com.bluemoon.widget:lib_widget:1.0.74'
+    implementation 'org.greenrobot:greendao:3.2.0'
+    implementation 'org.greenrobot:greendao-generator:3.2.0'
+    implementation 'com.bluemoon.cardocr:lib_cardocr:1.0.10'
+    implementation 'com.bluemoon.signature:lib_signature_pad:1.0.5'
+
+    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
+    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
     /*compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-12'
         compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-alpha-12'*/
-    compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
-    compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
-    compile 'com.bluemoon.x5:lib_x5:1.7.16'
-    compile 'com.bluemoon.badger:lib_badger:0.0.1'
-    compile "com.android.support:cardview-v7:23.4.0"
-    compile "com.android.support:design:$rootProject.ext.supportVersion"
-    compile 'com.youth.banner:banner:1.4.9'
+    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
+    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'  // 引入了25.3.1
+    implementation 'com.bluemoon.x5:lib_x5:1.7.16'
+    implementation 'com.bluemoon.badger:lib_badger:0.0.1'
 
-    debugCompile 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    // v4包，指定强制使用此版本
+    implementation( "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"){
+        exclude group:'com.android.support', module:'recyclerview-v7'
+    }
+    implementation( "com.android.support:cardview-v7:$rootProject.ext.supportVersion"){
+        exclude group:'com.android.support', module:'cardview-v7'
+    }
+    implementation( "com.android.support:design:$rootProject.ext.supportVersion"){
+        exclude group:'com.android.support', module:'design'
+    }
+    implementation("com.android.support:appcompat-v7:$rootProject.ext.supportVersion"){
+        exclude group:'com.android.support', module:'appcompat-v7'
+    }
+    compileOnly( "com.android.support:support-v4:$rootProject.ext.supportVersion"){
+        exclude group:'com.android.support', module:'support-v4'
+    }
+
+    implementation 'com.youth.banner:banner:1.4.9'
+
+    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
+    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+
+    implementation 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }
 
+android.applicationVariants.all { variant ->
+    variant.outputs.all {
+        if (outputFile != null) {
+            if (outputFile.name.endsWith('debug.apk')) {
+                outputFileName = "月亮天使_${buildTime()}_测试版_${android.defaultConfig.versionName}" +
+                        "(${gitNum}).apk"
+            } else if (outputFile != null && outputFile.name.endsWith('release.apk')) {
+                outputFileName = "月亮天使_${buildTime()}_正式版_${android.defaultConfig.versionName}" +
+                        "(${gitNum}).apk"
+            }
+        }
+    }
+}
 
 

@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -26,7 +26,7 @@ import cn.com.bluemoon.lib.view.CommonEmptyView;
 
 public class StockFragment extends BaseFragment {
 
-    @Bind(R.id.listview_main)
+    @BindView(R.id.listview_main)
     PullToRefreshListView listView;
     private StockAdapter adapter;
     private FragmentActivity main;

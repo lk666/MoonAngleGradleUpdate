@@ -8,18 +8,16 @@ import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.lib_widget.module.form.BMAngleBtn2View;
 
 /**
  * Created by tangqiwei on 2017/6/1.
@@ -27,53 +25,53 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
 
 public class OfflineTrainingItemView extends FrameLayout {
 
-    @Bind(R.id.txt_course_title)
+    @BindView(R.id.txt_course_title)
     TextView txtCourseTitle;
-    @Bind(R.id.txt_state)
+    @BindView(R.id.txt_state)
     TextView txtState;
-    @Bind(R.id.txt_ytd)
+    @BindView(R.id.txt_ytd)
     TextView txtYtd;
-    @Bind(R.id.txt_time_quantum)
+    @BindView(R.id.txt_time_quantum)
     TextView txtTimeQuantum;
-    @Bind(R.id.txt_sign_in_time)
+    @BindView(R.id.txt_sign_in_time)
     TextView txtSignInTime;
-    @Bind(R.id.llayout_sign_in_time)
+    @BindView(R.id.llayout_sign_in_time)
     LinearLayout llayoutSignInTime;
-    @Bind(R.id.txt_lecturer_name)
+    @BindView(R.id.txt_lecturer_name)
     TextView txtLecturerName;
-    @Bind(R.id.llayout_lecturer_name)
+    @BindView(R.id.llayout_lecturer_name)
     LinearLayout llayoutLecturerName;
-    @Bind(R.id.txt_classroom)
+    @BindView(R.id.txt_classroom)
     TextView txtClassroom;
-    @Bind(R.id.layout_classroom)
+    @BindView(R.id.layout_classroom)
     LinearLayout layoutClassroom;
-    @Bind(R.id.txt_address)
+    @BindView(R.id.txt_address)
     TextView txtAddress;
-    @Bind(R.id.llayout_address)
+    @BindView(R.id.llayout_address)
     LinearLayout llayoutAddress;
-    @Bind(R.id.txt_willnum)
+    @BindView(R.id.txt_willnum)
     TextView txtWillnum;
-    @Bind(R.id.llayout_willnum)
+    @BindView(R.id.llayout_willnum)
     LinearLayout llayoutWillnum;
-    @Bind(R.id.txt_signed_in_the_number_of)
+    @BindView(R.id.txt_signed_in_the_number_of)
     TextView txtSignedInTheNumberOf;
-    @Bind(R.id.llayout_signed_in_the_number_of)
+    @BindView(R.id.llayout_signed_in_the_number_of)
     LinearLayout llayoutSignedInTheNumberOf;
-    @Bind(R.id.txt_evaluate_the_number_of)
+    @BindView(R.id.txt_evaluate_the_number_of)
     TextView txtEvaluateTheNumberOf;
-    @Bind(R.id.llayout_evaluate_the_number_of)
+    @BindView(R.id.llayout_evaluate_the_number_of)
     LinearLayout llayoutEvaluateTheNumberOf;
-    @Bind(R.id.btn_btn)
+    @BindView(R.id.btn_btn)
     BMAngleBtn2View btnBtn;
-    @Bind(R.id.txt_btn)
+    @BindView(R.id.txt_btn)
     TextView txtBtn;
-    @Bind(R.id.llayout_btn)
+    @BindView(R.id.llayout_btn)
     LinearLayout llayoutBtn;
-    @Bind(R.id.llayout_parent)
+    @BindView(R.id.llayout_parent)
     LinearLayout llayoutParent;
-    @Bind(R.id.img_qcode)
+    @BindView(R.id.img_qcode)
     ImageView imgQcode;
-    @Bind(R.id.offline_qcode_click)
+    @BindView(R.id.offline_qcode_click)
     View offlineQcodeClick;
 
     public OfflineTrainingItemView(Context context) {

@@ -33,7 +33,7 @@ import org.kymjs.kjframe.KJBitmap;
 import java.util.ArrayList;
 import java.util.List;
 
-import butterknife.Bind;
+import butterknife.BindView;
 import butterknife.OnClick;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
@@ -49,11 +49,11 @@ import cn.com.bluemoon.lib.view.TakePhotoPopView;
 
 public class OrderTicketUploadActivity extends BaseActivity {
 
-    @Bind(R.id.iv_add_pic)
+    @BindView(R.id.iv_add_pic)
     ImageView ivAddPic;
-    @Bind(R.id.gridview_ticket_pic)
+    @BindView(R.id.gridview_ticket_pic)
     ScrollGridView gridviewTicketPic;
-    @Bind(R.id.ll_ok)
+    @BindView(R.id.ll_ok)
     LinearLayout llOk;
     private String type;
     private Activity main;
