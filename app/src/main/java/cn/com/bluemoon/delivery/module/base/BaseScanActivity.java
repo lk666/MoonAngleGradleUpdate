@@ -16,7 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import cn.com.bluemoon.delivery.ui.WaitingDialog;
 import cz.msebera.android.httpclient.Header;
-import org.apache.http.protocol.HTTP;
+import cz.msebera.android.httpclient.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;

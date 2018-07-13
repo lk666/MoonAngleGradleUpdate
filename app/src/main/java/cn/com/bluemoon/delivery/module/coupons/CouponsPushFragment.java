@@ -25,7 +25,7 @@ import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
 import cz.msebera.android.httpclient.Header;
-import org.apache.http.protocol.HTTP;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,0 +1,88 @@
+ext {
+    android = [
+            compileSdkVersion: 27,
+            buildToolsVersion: "27.0.3",
+            minSdkVersion    : 16,
+            targetSdkVersion : 27,
+    ]
+
+    version = [
+            // 下拉列表框架
+            smartRefresh                 : "1.0.3",
+            baseRecyclerViewAdapterHelper: "2.9.22",
+
+            // 通用
+            eventbus                     : "3.0.0",
+            glide                        : "3.6.1",
+            greendao                     : "3.2.0",
+            leakcanary                   : "1.5.4",
+            butterknifeVersion           : "8.8.1",
+            androidAsyncHttp             : "1.4.9",
+
+            // 国内
+            getui                        : "2.9.3.0",
+            umengAnalytics               : "latest.integration", // 6.1.4
+
+            // 杂类库
+            photoview                    : "1.2.4",
+            androidPdfViewer             : "2.8.2", // 引入了25.3.1
+            banner                       : "1.4.9",
+
+            // 自有
+            lib_log                      : "1.0.1",
+            lib_widget                   : "1.0.74",
+            lib_umengshare               : "1.0.10",
+            lib_cardocr                  : "1.0.10",
+            lib_signature_pad            : "1.0.5",
+            lib_x5                       : "1.7.16",
+            lib_badger                   : "0.0.1",
+
+            // support包
+            supportVersion               : "27.1.1",
+            multidex                     : "1.0.2",
+    ]
+
+    dependencies = [
+            // 下拉列表框架
+            "smartRefreshLayout"           : "com.scwang.smartrefresh:SmartRefreshLayout:${version["smartRefresh"]}",
+            "smartRefreshHeader"           : "com.scwang.smartrefresh:SmartRefreshHeader:${version["smartRefresh"]}",
+            "baseRecyclerViewAdapterHelper": "com.github.CymChad:BaseRecyclerViewAdapterHelper:${version["baseRecyclerViewAdapterHelper"]}",
+
+            // 通用
+            "eventbus"                     : "org.greenrobot:eventbus:${version["eventbus"]}",
+            "glide"                        : "com.github.bumptech.glide:glide:${version["glide"]}",
+            "greendao"                     : "org.greenrobot:greendao:${version["greendao"]}",
+            "greendaoGenerator"            : "org.greenrobot:greendao-generator:${version["greendao"]}",
+            "leakcanary-android"           : "com.squareup.leakcanary:leakcanary-android:${version["leakcanary"]}",
+            "leakcanary-android-no-op"     : "com.squareup.leakcanary:leakcanary-android-no-op:${version["leakcanary"]}",
+            "butterknife"                  : "com.jakewharton:butterknife:${version["butterknifeVersion"]}",
+            "butterknife-compiler"         : "com.jakewharton:butterknife-compiler:${version["butterknifeVersion"]}",
+
+            // 国内
+            "getui"                        : "com.getui:sdk:${version["getui"]}",
+            "umengAnalytics"               : "com.umeng.analytics:analytics:${version["umengAnalytics"]}",
+
+            // 杂类库
+            "photoview"                    : "com.github.chrisbanes.photoview:library:${version["photoview"]}",
+            "android-pdf-viewer"           : "com.github.barteksc:android-pdf-viewer:${version["androidPdfViewer"]}", // 引入了25.3.1
+            "banner"                       : "com.youth.banner:banner:${version["banner"]}",
+
+            // 自有
+            "lib_log"                      : "com.bluemoon.liblog:lib_log:${version["lib_log"]}",
+            "lib_widget"                   : "com.bluemoon.widget:lib_widget:${version["lib_widget"]}",
+            "lib_umengshare"               : "com.bluemoon.umengshare:lib_umengshare:${version["lib_umengshare"]}",
+            "lib_cardocr"                  : "com.bluemoon.cardocr:lib_cardocr:${version["lib_cardocr"]}",
+            "lib_signature_pad"            : "com.bluemoon.signature:lib_signature_pad:${version["lib_signature_pad"]}",
+            "lib_x5"                       : "com.bluemoon.x5:lib_x5:${version["lib_x5"]}",
+            "lib_badger"                   : "com.bluemoon.badger:lib_badger:${version["lib_badger"]}",
+            "android-async-http"           : "com.loopj.android:android-async-http:${version["androidAsyncHttp"]}",
+
+            // support包
+            "recyclerview-v7"              : "com.android.support:recyclerview-v7:${version["supportVersion"]}",
+            "cardview-v7"                  : "com.android.support:cardview-v7:${version["supportVersion"]}",
+            "design"                       : "com.android.support:design:${version["supportVersion"]}",
+            "appcompat-v7"                 : "com.android.support:appcompat-v7:${version["supportVersion"]}",
+            "support-v4"                   : "com.android.support:support-v4:${version["supportVersion"]}",
+            "multidex"                     : "com.android.support:multidex:${version["multidex"]}",
+    ]
+}

@@ -20,7 +20,7 @@ import com.alibaba.fastjson.JSON;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import cz.msebera.android.httpclient.Header;
-import org.apache.http.protocol.HTTP;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;

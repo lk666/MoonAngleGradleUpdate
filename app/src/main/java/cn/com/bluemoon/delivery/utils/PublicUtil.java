@@ -10,7 +10,6 @@ import android.content.pm.ResolveInfo;
 import android.graphics.Paint;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.support.v4.app.Fragment;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,11 +30,6 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 
 import org.apache.commons.lang3.StringUtils;
-
-import cz.msebera.android.httpclient.Header;
-
-import org.apache.http.NameValuePair;
-import org.apache.http.protocol.HTTP;
 import org.xmlpull.v1.XmlPullParser;
 
 import java.io.StringReader;
@@ -65,6 +59,9 @@ import cn.com.bluemoon.lib.utils.LibPublicUtil;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.NameValuePair;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class PublicUtil extends LibPublicUtil {
 

@@ -6,9 +6,6 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 
-import cz.msebera.android.httpclient.Header;
-import org.apache.http.protocol.HTTP;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +21,8 @@ import cn.com.bluemoon.lib_widget.module.jdaddressselectdialog.IItem;
 import cn.com.bluemoon.lib_widget.module.jdaddressselectdialog.JdAddressSelectPopDialog;
 import cn.com.bluemoon.liblog.LogUtils;
 import cn.com.bluemoon.liblog.NetLogUtils;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 /**
  * 高仿ios京东地址选择弹窗。没有做onSaveInstanceState，所以需要每次都新建一个dialog（不应将dialog保存到内存）

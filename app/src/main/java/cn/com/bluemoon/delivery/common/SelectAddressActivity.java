@@ -15,9 +15,6 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
-import cz.msebera.android.httpclient.Header;
-import org.apache.http.protocol.HTTP;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -32,6 +29,8 @@ import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.view.CommonProgressDialog;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 public class SelectAddressActivity extends ListActivity {
 	private CommonProgressDialog progressDialog;

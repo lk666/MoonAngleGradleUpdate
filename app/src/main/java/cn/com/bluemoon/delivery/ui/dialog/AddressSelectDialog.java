@@ -5,14 +5,10 @@ import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
 
-import cz.msebera.android.httpclient.Header;
-import org.apache.http.protocol.HTTP;
-
 import java.util.ArrayList;
 import java.util.List;
 
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
-import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.HRApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.address.Area;
@@ -25,6 +21,8 @@ import cn.com.bluemoon.lib_widget.module.jdaddressselectdialog.IItem;
 import cn.com.bluemoon.lib_widget.module.jdaddressselectdialog.JdAddressSelectDialog;
 import cn.com.bluemoon.liblog.LogUtils;
 import cn.com.bluemoon.liblog.NetLogUtils;
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.protocol.HTTP;
 
 
 /**

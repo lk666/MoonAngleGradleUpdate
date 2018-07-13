@@ -17,7 +17,7 @@ import com.loopj.android.http.TextHttpResponseHandler;
 import com.umeng.analytics.MobclickAgent;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.http.protocol.HTTP;
+import cz.msebera.android.httpclient.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 
 import cn.com.bluemoon.delivery.R;

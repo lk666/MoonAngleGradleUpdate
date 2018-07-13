@@ -19,7 +19,7 @@ import com.umeng.analytics.MobclickAgent;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cz.msebera.android.httpclient.Header;
 
-import org.apache.http.protocol.HTTP;
+import cz.msebera.android.httpclient.protocol.HTTP;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;

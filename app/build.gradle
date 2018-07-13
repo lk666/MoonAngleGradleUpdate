@@ -1,26 +1,21 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
+
 def gitNum = 'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
 
-def buildTime() {
-    def df = new SimpleDateFormat("yyyyMMdd'_'HH")
-    df.setTimeZone(TimeZone.getDefault())
-    return df.format(new Date())
-}
-
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    compileSdkVersion rootProject.ext.android["compileSdkVersion"]
+    buildToolsVersion rootProject.ext.android["buildToolsVersion"]
     signingConfigs {
         release {
+            // 密钥配置在多人项目中需放到非git文件
             storeFile file('./BlueMoon.keystore')
             storePassword "bluemoon"
             keyAlias "bluemoon"
-
             keyPassword "!12345678"
         }
-        //debug签名是友盟分享要求添加的
+        // debug签名是友盟分享要求添加的
         debug {
             storeFile file('debug.keystore')
             storePassword "android"
@@ -31,12 +26,12 @@ android {
 
     defaultConfig {
         applicationId "cn.com.bluemoon.delivery"
-        minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion rootProject.ext.targetSdkVersion
+        minSdkVersion rootProject.ext.android["minSdkVersion"]
+        targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode 51
         versionName "4.9.8"
-        buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
+        buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
         buildConfigField("String", "DES_KEY", "\"19490101\"")
 
         /*个推*/
@@ -52,7 +47,6 @@ android {
         }
 
         multiDexEnabled true
-
     }
 
     buildTypes {
@@ -85,6 +79,7 @@ android {
         }
     }
 
+    // 解决导入了很多的三方库或者框架，在项目编译的时候会报重复文件错误
     packagingOptions {
         exclude 'META-INF/DEPENDENCIES.txt'
         exclude 'META-INF/LICENSE.txt'
@@ -133,7 +128,7 @@ greendao {
 //    generateTests
 }
 
-// 各个libs引用关系的输出：
+// 查看各个libs引用关系的输出：
 // gradlew -q app:dependencies
 
 dependencies {
@@ -141,56 +136,65 @@ dependencies {
     implementation project(':BlueMoonSDK')
     implementation project(':lib_iflytek')
     implementation files('libs/iTextpdf.jar')
-    implementation 'org.apache.httpcomponents:httpcore:4.4.2'
-    implementation 'junit:junit:4.12'
-    implementation 'org.greenrobot:eventbus:3.0.0'
-    implementation 'com.github.bumptech.glide:glide:3.6.1'
-    implementation 'com.github.chrisbanes.photoview:library:1.2.4'
-    implementation 'com.getui:sdk:2.9.3.0'
-    //compile project(':lib_umengshare')
-    implementation 'com.umeng.analytics:analytics:latest.integration'
-    implementation 'com.bluemoon.umengshare:lib_umengshare:1.0.10'
-    implementation 'com.bluemoon.liblog:lib_log:1.0.1'
-    implementation 'com.bluemoon.widget:lib_widget:1.0.74'
-    implementation 'org.greenrobot:greendao:3.2.0'
-    implementation 'org.greenrobot:greendao-generator:3.2.0'
-    implementation 'com.bluemoon.cardocr:lib_cardocr:1.0.10'
-    implementation 'com.bluemoon.signature:lib_signature_pad:1.0.5'
-
-    implementation 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.3'
-    implementation 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.3'
-    /*compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-12'
-        compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-alpha-12'*/
-    implementation 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
-    implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'  // 引入了25.3.1
-    implementation 'com.bluemoon.x5:lib_x5:1.7.16'
-    implementation 'com.bluemoon.badger:lib_badger:0.0.1'
 
 
     // v4包，指定强制使用此版本
-    implementation( "com.android.support:recyclerview-v7:$rootProject.ext.supportVersion"){
+    implementation(rootProject.ext.dependencies["recyclerview-v7"]){
         exclude group:'com.android.support', module:'recyclerview-v7'
     }
-    implementation( "com.android.support:cardview-v7:$rootProject.ext.supportVersion"){
+    implementation(rootProject.ext.dependencies["cardview-v7"]){
         exclude group:'com.android.support', module:'cardview-v7'
     }
-    implementation( "com.android.support:design:$rootProject.ext.supportVersion"){
+    implementation(rootProject.ext.dependencies["design"]){
         exclude group:'com.android.support', module:'design'
     }
-    implementation("com.android.support:appcompat-v7:$rootProject.ext.supportVersion"){
+    implementation(rootProject.ext.dependencies["appcompat-v7"]){
         exclude group:'com.android.support', module:'appcompat-v7'
     }
-    compileOnly( "com.android.support:support-v4:$rootProject.ext.supportVersion"){
+    implementation(rootProject.ext.dependencies["support-v4"]){
         exclude group:'com.android.support', module:'support-v4'
     }
+    implementation(rootProject.ext.dependencies["multidex"]){
+        exclude group:'com.android.support', module:'multidex'
+    }
 
-    implementation 'com.youth.banner:banner:1.4.9'
+    implementation rootProject.ext.dependencies["eventbus"]
+    implementation rootProject.ext.dependencies["glide"]
+    implementation rootProject.ext.dependencies["photoview"]
+    implementation rootProject.ext.dependencies["getui"]
+    //compile project(':lib_umengshare')
+    implementation rootProject.ext.dependencies["umengAnalytics"]
+    implementation rootProject.ext.dependencies["lib_umengshare"]
+    implementation rootProject.ext.dependencies["lib_log"]
+    implementation rootProject.ext.dependencies["lib_widget"]
+    implementation rootProject.ext.dependencies["greendao"]
+    implementation rootProject.ext.dependencies["greendaoGenerator"]
+    implementation rootProject.ext.dependencies["lib_cardocr"]
+    implementation rootProject.ext.dependencies["lib_signature_pad"]
 
-    debugImplementation 'com.squareup.leakcanary:leakcanary-android:1.5.4'
-    releaseImplementation 'com.squareup.leakcanary:leakcanary-android-no-op:1.5.4'
+    implementation rootProject.ext.dependencies["smartRefreshLayout"]
+    implementation rootProject.ext.dependencies["smartRefreshHeader"]
+    /*compile 'com.scwang.smartrefresh:SmartRefreshLayout:1.0.4-alpha-12'
+        compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-alpha-12'*/
+    implementation rootProject.ext.dependencies["baseRecyclerViewAdapterHelper"]
+    implementation rootProject.ext.dependencies["android-pdf-viewer"]  // 引入了25.3.1
+    implementation rootProject.ext.dependencies["lib_x5"]
+    implementation rootProject.ext.dependencies["lib_badger"]
 
-    implementation 'com.jakewharton:butterknife:8.8.1'
-    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    implementation rootProject.ext.dependencies["banner"]
+
+    debugImplementation rootProject.ext.dependencies["leakcanary-android"]
+    releaseImplementation rootProject.ext.dependencies["leakcanary-android-no-op"]
+
+    implementation rootProject.ext.dependencies["butterknife"]
+    annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+}
+
+// 包名设置
+def buildTime() {
+    def df = new SimpleDateFormat("yyyyMMdd'_'HH")
+    df.setTimeZone(TimeZone.getDefault())
+    return df.format(new Date())
 }
 
 android.applicationVariants.all { variant ->
