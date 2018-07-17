@@ -59,10 +59,15 @@ android {
             buildConfigField "String", "SHARE_TO_SHORT", "\"http://192.168.236.3:8085/%s\""
             buildConfigField "String", "TRACK_HOST", "\"testbmtracking.bluemoon.com.cn\""
             buildConfigField "String", "API_TRACK_URL", "\"https://testbmtracking.bluemoon.com.cn/bd-api-tracking/app/reportData\""
-            minifyEnabled false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
 //            使用 Variant API 操作变体输出在新插件中已不再受支持
+
+            zipAlignEnabled true
+            // 资源压缩必须与代码压缩一起使用
+            shrinkResources true
+            minifyEnabled true
         }
         release {
             buildConfigField("boolean", "RELEASE", "true")
@@ -73,9 +78,13 @@ android {
             buildConfigField "String", "SHARE_TO_SHORT", "\"http://192.168.236.3:8085/%s\""
             buildConfigField "String", "TRACK_HOST", "\"bmtracking.bluemoon.com.cn\""
             buildConfigField "String", "API_TRACK_URL", "\"https://bmtracking.bluemoon.com.cn/bd-api-tracking/app/reportData\""
-            minifyEnabled false
+
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.release
+
+            zipAlignEnabled true
+            shrinkResources true
+            minifyEnabled true
         }
     }
 
@@ -109,6 +118,10 @@ android {
             assets.srcDirs = ['src/main/assets', 'src/main/assets/']
             jniLibs.srcDirs = ['libs']
         }
+    }
+
+    productFlavors {
+
     }
 }
 
