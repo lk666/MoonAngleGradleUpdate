@@ -13,9 +13,9 @@ import android.text.TextUtils;
 import android.widget.Toast;
 
 import com.alipay.sdk.app.PayTask;
-import com.tencent.mm.sdk.modelpay.PayReq;
-import com.tencent.mm.sdk.openapi.IWXAPI;
-import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.tencent.mm.opensdk.modelpay.PayReq;
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.unionpay.UPPayAssistEx;
 
 import java.util.Map;
@@ -75,7 +75,7 @@ public class PayService {
 
 
     public void wxPay(WXPayInfo wxPayInfo) {
-        msgApi = WXAPIFactory.createWXAPI(mContext, Constants.APP_ID, false);
+        msgApi = WXAPIFactory.createWXAPI(mContext, Constants.APP_ID);
         if (!msgApi.isWXAppInstalled()) {
             Toast.makeText(mContext,mContext.getString(R.string.pay_online_wechat_not_exist), Toast.LENGTH_SHORT).show();
             return;
