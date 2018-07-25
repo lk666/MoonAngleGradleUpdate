@@ -17,6 +17,8 @@ import com.tencent.smtt.sdk.WebView;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.com.bluemoon.delivery.BuildConfig;
+import cn.com.bluemoon.delivery.module.wxmini.WXMiniItem;
+import cn.com.bluemoon.delivery.module.wxmini.WXMiniManager;
 import cz.msebera.android.httpclient.Header;
 
 import org.apache.http.protocol.HTTP;
@@ -65,6 +67,8 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public LocationClient mLocationClient = null;
     //是否接收下载完成监听
     private boolean isReceived;
+
+    private WXMiniManager miniManager;
 
     /**
      * 网页界面启动方法
@@ -275,6 +279,22 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public void mapNavigation(WebView view, float gpsLongitude, float gpsLatitude, String
             placeName, String address, String callback) {
         // 地图导航
+    }
+
+    @Override
+    public void miniProgram(WebView view, String type, int miniprogramType, String userName,
+                            String path, String webpageUrl, String title, String description,
+                            String thumbUrl, String callback) {
+        if (miniManager == null) {
+            miniManager = new WXMiniManager(this);
+        }
+        if ("open".equals(type)) {
+            miniManager.openWxMini(new WXMiniItem(miniprogramType, userName, path));
+        } else if ("share".equals(type)) {
+            miniManager.shareWXMiniWithUrl(new WXMiniItem(miniprogramType, userName, path,
+                    webpageUrl, title, description, thumbUrl));
+        }
+
     }
 
     @Override

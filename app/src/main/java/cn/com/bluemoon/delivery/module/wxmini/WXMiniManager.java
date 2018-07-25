@@ -31,19 +31,6 @@ public class WXMiniManager {
         this.mContext = context;
     }
 
-    //默认测试数据
-    public WXMiniItem getItem() {
-        WXMiniItem item = new WXMiniItem();
-        item.miniprogramType = WXMiniProgramObject.MINIPROGRAM_TYPE_TEST;
-        item.userName = "gh_880580ab416b";
-        item.path = "pages/index/index?userId=" + ClientStateManager.getUserName();
-        item.title = "分享小程序title";
-        item.description = "小程序描述";
-        item.thumbUrl = "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2030065636," +
-                "303385792&fm=27&gp=0.jpg";
-        return item;
-    }
-
     /**
      * 打开微信小程序
      */
@@ -65,6 +52,10 @@ public class WXMiniManager {
      * 分享微信小程序(带图片地址)
      */
     public void shareWXMiniWithUrl(final WXMiniItem item) {
+        if(TextUtils.isEmpty(item.thumbUrl)){
+            shareWXMini(item);
+            return;
+        }
         Glide.with(mContext.getApplicationContext())
                 .load(item.thumbUrl)
                 .asBitmap()
@@ -99,7 +90,9 @@ public class WXMiniManager {
         WXMediaMessage msg = new WXMediaMessage(miniProgram);
         msg.title = item.title;// 小程序消息title
         msg.description = item.description;// 小程序消息desc
-        msg.thumbData = item.bytes;// 小程序消息封面图片，小于128k
+        if(item.bytes!=null){
+            msg.thumbData = item.bytes;// 小程序消息封面图片，小于128k
+        }
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = WXMiniUtil.buildTransaction("webpage");
