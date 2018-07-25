@@ -1786,5 +1786,6 @@
     <string name="hint_submit">请在付款前谨慎核对地址，付款后您的  订单将进入系统，无法修改。</string>
     <string name="receive_address">收货地址</string>
     <string name="total_count_zhi_shu">总数(支)</string>
+    <string name="mini_share_fail">分享图片加载失败！</string>
 
 </resources>

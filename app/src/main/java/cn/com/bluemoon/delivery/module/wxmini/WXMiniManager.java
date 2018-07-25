@@ -2,6 +2,7 @@ package cn.com.bluemoon.delivery.module.wxmini;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
 
 import com.bumptech.glide.Glide;
@@ -14,8 +15,9 @@ import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 
-import cn.com.bluemoon.delivery.common.ClientStateManager;
+import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.Constants;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * app与小程序交互
@@ -52,10 +54,6 @@ public class WXMiniManager {
      * 分享微信小程序(带图片地址)
      */
     public void shareWXMiniWithUrl(final WXMiniItem item) {
-        if(TextUtils.isEmpty(item.thumbUrl)){
-            shareWXMini(item);
-            return;
-        }
         Glide.with(mContext.getApplicationContext())
                 .load(item.thumbUrl)
                 .asBitmap()
@@ -66,6 +64,12 @@ public class WXMiniManager {
                         item.bytes = WXMiniUtil.bmpToByteArray(resource, true);
                         shareWXMini(item);
                     }
+
+                    @Override
+                    public void onLoadFailed(Exception e, Drawable errorDrawable) {
+                        super.onLoadFailed(e, errorDrawable);
+                        ViewUtil.toast(R.string.mini_share_fail);
+                    }
                 });
     }
 
@@ -74,6 +78,10 @@ public class WXMiniManager {
      */
     public void shareWXMini(WXMiniItem item) {
         if (item == null) {
+            return;
+        }
+        if (item.bytes == null || item.bytes.length <= 0) {
+            ViewUtil.toast(R.string.mini_share_fail);
             return;
         }
         if (wxApi == null) {
@@ -90,9 +98,7 @@ public class WXMiniManager {
         WXMediaMessage msg = new WXMediaMessage(miniProgram);
         msg.title = item.title;// 小程序消息title
         msg.description = item.description;// 小程序消息desc
-        if(item.bytes!=null){
-            msg.thumbData = item.bytes;// 小程序消息封面图片，小于128k
-        }
+        msg.thumbData = item.bytes;// 小程序消息封面图片，小于128k
 
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = WXMiniUtil.buildTransaction("webpage");
