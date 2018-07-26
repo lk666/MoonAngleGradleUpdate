@@ -19,6 +19,8 @@ import com.umeng.analytics.MobclickAgent;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.module.wxmini.WXMiniItem;
 import cn.com.bluemoon.delivery.module.wxmini.WXMiniManager;
+import cn.com.bluemoon.mapnavigation.lib.MapActivity;
+import cn.com.bluemoon.mapnavigation.lib.model.MapMarker;
 import cz.msebera.android.httpclient.Header;
 
 import org.apache.http.protocol.HTTP;
@@ -279,6 +281,7 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public void mapNavigation(WebView view, float gpsLongitude, float gpsLatitude, String
             placeName, String address, String callback) {
         // 地图导航
+        MapActivity.startAct(this, new MapMarker(placeName, address, gpsLatitude, gpsLongitude));
     }
 
     @Override
