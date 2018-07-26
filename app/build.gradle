@@ -188,8 +188,7 @@ dependencies {
     compile "com.android.support:design:$rootProject.ext.supportVersion"
     compile 'com.youth.banner:banner:1.4.9'
     compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
-
-
+    compile 'com.bluemoon.map:lib_map_navigation:1.0.0'
 }
 
 
