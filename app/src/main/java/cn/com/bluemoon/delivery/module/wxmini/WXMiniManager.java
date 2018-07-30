@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.wxmini;
 
+import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
@@ -61,7 +62,7 @@ public class WXMiniManager {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>
                             glideAnimation) {
-                        item.bytes = WXMiniUtil.bmpToByteArray(resource, true);
+                        item.bytes = WXMiniUtil.bmpToByteArray(resource, false);
                         shareWXMini(item);
                     }
 
