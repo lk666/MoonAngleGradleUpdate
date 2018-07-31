@@ -15,7 +15,9 @@ import com.tencent.mm.opensdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.opensdk.modelmsg.WXMiniProgramObject;
 import com.tencent.mm.opensdk.openapi.IWXAPI;
 import com.tencent.mm.opensdk.openapi.WXAPIFactory;
+import com.tencent.smtt.sdk.WebView;
 
+import bluemoon.com.lib_x5.utils.JsUtil;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -37,9 +39,9 @@ public class WXMiniManager {
     /**
      * 打开微信小程序
      */
-    public void openWxMini(WXMiniItem item) {
+    public boolean openWxMini(WXMiniItem item) {
         if (item == null) {
-            return;
+            return false;
         }
         if (wxApi == null) {
             wxApi = WXAPIFactory.createWXAPI(mContext, Constants.APP_ID);
@@ -48,13 +50,21 @@ public class WXMiniManager {
         req.userName = item.userName; // 填小程序原始id
         req.path = item.path;//拉起小程序页面的可带参路径，不填默认拉起小程序首页
         req.miniprogramType = item.miniprogramType;// 正式版:0，测试版:1，体验版:2
-        wxApi.sendReq(req);
+        return wxApi.sendReq(req);
     }
 
     /**
      * 分享微信小程序(带图片地址)
      */
     public void shareWXMiniWithUrl(final WXMiniItem item) {
+        shareWXMiniWithUrl(item, null, null);
+    }
+
+    /**
+     * 通过WebView分享微信小程序(带图片地址)
+     */
+    public void shareWXMiniWithUrl(final WXMiniItem item, final WebView view, final String
+            callback) {
         Glide.with(mContext.getApplicationContext())
                 .load(item.thumbUrl)
                 .asBitmap()
@@ -63,7 +73,7 @@ public class WXMiniManager {
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap>
                             glideAnimation) {
                         item.bytes = WXMiniUtil.bmpToByteArray(resource, false);
-                        shareWXMini(item);
+                        shareWXMiniByWeb(item, view, callback);
                     }
 
                     @Override
@@ -75,15 +85,26 @@ public class WXMiniManager {
     }
 
     /**
+     * 通过WebView桥接分享小程序
+     */
+    public boolean shareWXMiniByWeb(WXMiniItem item, WebView view, String callback) {
+        boolean result = shareWXMini(item);
+        if (view != null) {
+            JsUtil.runJsMethod(view, callback, result);
+        }
+        return result;
+    }
+
+    /**
      * 分享微信小程序（带byte数组）
      */
-    public void shareWXMini(WXMiniItem item) {
+    public boolean shareWXMini(WXMiniItem item) {
         if (item == null) {
-            return;
+            return false;
         }
         if (item.bytes == null || item.bytes.length <= 0) {
             ViewUtil.toast(R.string.mini_share_fail);
-            return;
+            return false;
         }
         if (wxApi == null) {
             wxApi = WXAPIFactory.createWXAPI(mContext, Constants.APP_ID);
@@ -105,7 +126,7 @@ public class WXMiniManager {
         req.transaction = WXMiniUtil.buildTransaction("webpage");
         req.message = msg;
         req.scene = SendMessageToWX.Req.WXSceneSession;  // 目前支持会话
-        wxApi.sendReq(req);
+        return wxApi.sendReq(req);
     }
 
 }

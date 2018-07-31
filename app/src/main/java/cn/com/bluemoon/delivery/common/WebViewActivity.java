@@ -295,7 +295,7 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
             miniManager.openWxMini(new WXMiniItem(miniprogramType, userName, path));
         } else if ("share".equals(type)) {
             miniManager.shareWXMiniWithUrl(new WXMiniItem(miniprogramType, userName, path,
-                    webpageUrl, title, description, thumbUrl));
+                    webpageUrl, title, description, thumbUrl),view,callback);
         }
 
     }
