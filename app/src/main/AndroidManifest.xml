@@ -656,6 +656,11 @@
         </receiver>
         <!-- push结束 -->
 
+        <!--高德地图key-->
+        <meta-data
+            android:name="com.amap.api.v2.apikey"
+            android:value="be56d15a5b0ca0ea607fdc02d713a45d"/>
+
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
