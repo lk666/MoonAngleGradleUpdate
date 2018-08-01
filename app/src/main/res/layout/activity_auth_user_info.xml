@@ -59,7 +59,7 @@
                 android:textColor="@color/txt_666"
                 android:textSize="11sp"/>
 
-            <ListView
+            <cn.com.bluemoon.lib.view.NoScrollListView
                 android:id="@+id/lv_remark"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
