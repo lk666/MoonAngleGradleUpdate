@@ -288,11 +288,16 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public void miniProgram(WebView view, String type, int miniprogramType, String userName,
                             String path, String webpageUrl, String title, String description,
                             String thumbUrl, String callback) {
+        if(!PublicUtil.isExistWeiXin(this)){
+            ToastUtil.toast(this, R.string.not_found_weixin);
+            return;
+        }
         if (miniManager == null) {
             miniManager = new WXMiniManager(this);
         }
         if ("open".equals(type)) {
-            miniManager.openWxMini(new WXMiniItem(miniprogramType, userName, path));
+            boolean result = miniManager.openWxMini(new WXMiniItem(miniprogramType, userName, path));
+            JsUtil.runJsMethod(view, callback, result);
         } else if ("share".equals(type)) {
             miniManager.shareWXMiniWithUrl(new WXMiniItem(miniprogramType, userName, path,
                     webpageUrl, title, description, thumbUrl),view,callback);
