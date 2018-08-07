@@ -1,5 +1,3 @@
-import java.text.SimpleDateFormat
-
 apply plugin: 'com.android.application'
 
 def gitNum = 'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
@@ -29,7 +27,7 @@ android {
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
         versionCode 51
-        versionName "4.9.8"
+        versionName "4.10.0"
 
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
         buildConfigField("String", "DES_KEY", "\"19490101\"")
@@ -198,6 +196,10 @@ dependencies {
 
     debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     releaseImplementation rootProject.ext.dependencies["leakcanary-android-no-op"]
+
+
+    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
+    implementation 'com.bluemoon.map:lib_map_navigation:1.0.0'
 
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]

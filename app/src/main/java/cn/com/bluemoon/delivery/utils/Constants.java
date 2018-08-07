@@ -207,6 +207,6 @@ public class Constants {
     public static final String RESPONSE_RESULT_ERROR_TRACK = "102";
 
     public static final int PAGE_SIZE = 10;
-    public static final String URL_LAN_YUE = "http://118.24.162.181/lanyue20180709/index" +
+    public static final String URL_LAN_YUE = "http://193.112.194.73/lanyueTS/index" +
             ".php?userId=" + ClientStateManager.getUserName();
 }

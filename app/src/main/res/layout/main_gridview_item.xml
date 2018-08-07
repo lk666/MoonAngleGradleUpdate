@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:gravity="center">
 
-        <ImageView
+        <cn.com.bluemoon.delivery.ui.ReplaceImageView
             android:id="@+id/img_menu_item"
             android:layout_width="22dp"
             android:layout_height="22dp"

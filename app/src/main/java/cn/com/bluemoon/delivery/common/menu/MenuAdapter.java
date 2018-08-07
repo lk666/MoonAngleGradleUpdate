@@ -8,6 +8,7 @@ import com.chad.library.adapter.base.BaseSectionQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import cn.com.bluemoon.delivery.R;
+import cn.com.bluemoon.delivery.ui.ReplaceImageView;
 import cn.com.bluemoon.delivery.utils.ImageLoaderUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 
@@ -40,8 +41,8 @@ public class MenuAdapter extends BaseSectionQuickAdapter<MenuSection, BaseViewHo
             helper.setText(R.id.txt_menu_item, item.t.getMenuName());
 
             //根据返回的颜色设置图片
-            ImageView imgView = helper.getView(R.id.img_menu_item);
-            ImageLoaderUtil.displayImage(mContext, item.t.getIconImg(), imgView);
+            ReplaceImageView imgView = helper.getView(R.id.img_menu_item);
+            imgView.setImageUrl(item.t.getIconImg());
 
             //设置角标
             int num = item.t.getAmount();

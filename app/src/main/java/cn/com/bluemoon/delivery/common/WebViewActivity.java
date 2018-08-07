@@ -17,6 +17,10 @@ import com.tencent.smtt.sdk.WebView;
 import com.umeng.analytics.MobclickAgent;
 
 import cn.com.bluemoon.delivery.BuildConfig;
+import cn.com.bluemoon.delivery.module.wxmini.WXMiniItem;
+import cn.com.bluemoon.delivery.module.wxmini.WXMiniManager;
+import cn.com.bluemoon.mapnavigation.lib.MapActivity;
+import cn.com.bluemoon.mapnavigation.lib.model.MapMarker;
 import cz.msebera.android.httpclient.Header;
 
 import cz.msebera.android.httpclient.protocol.HTTP;
@@ -65,6 +69,8 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public LocationClient mLocationClient = null;
     //是否接收下载完成监听
     private boolean isReceived;
+
+    private WXMiniManager miniManager;
 
     /**
      * 网页界面启动方法
@@ -275,6 +281,28 @@ public class WebViewActivity extends BaseX5WebViewActivity implements IHttpRespo
     public void mapNavigation(WebView view, float gpsLongitude, float gpsLatitude, String
             placeName, String address, String callback) {
         // 地图导航
+        MapActivity.startAct(this, new MapMarker(placeName, address, gpsLatitude, gpsLongitude));
+    }
+
+    @Override
+    public void miniProgram(WebView view, String type, int miniprogramType, String userName,
+                            String path, String webpageUrl, String title, String description,
+                            String thumbUrl, String callback) {
+        if(!PublicUtil.isExistWeiXin(this)){
+            ToastUtil.toast(this, R.string.not_found_weixin);
+            return;
+        }
+        if (miniManager == null) {
+            miniManager = new WXMiniManager(this);
+        }
+        if ("open".equals(type)) {
+            boolean result = miniManager.openWxMini(new WXMiniItem(miniprogramType, userName, path));
+            JsUtil.runJsMethod(view, callback, result);
+        } else if ("share".equals(type)) {
+            miniManager.shareWXMiniWithUrl(new WXMiniItem(miniprogramType, userName, path,
+                    webpageUrl, title, description, thumbUrl),view,callback);
+        }
+
     }
 
     @Override
