@@ -1,2 +1,1 @@
-include ':app', ':lib_iflytek'
-include ':BlueMoonSDK'
+include ':app', ':lib_iflytek', ':BlueMoonSDK'
