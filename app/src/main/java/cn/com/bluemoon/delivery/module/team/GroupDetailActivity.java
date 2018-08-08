@@ -170,7 +170,7 @@ public class GroupDetailActivity extends KJActivity {
             @Override
             public void onBtnRight(View v) {
                 PublicUtil.openScanOrder(aty,null,getString(R.string.team_group_add_member),
-                        getString(R.string.team_group_add_member_code),Constants.REQUEST_SCAN,4);
+                        getString(R.string.team_group_add_member_code), Constants.REQUEST_SCAN,4);
             }
 
             @Override
@@ -277,7 +277,8 @@ public class GroupDetailActivity extends KJActivity {
                     if(data==null) return;
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
                     if(progressDialog!=null) progressDialog.show();
-                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), resultStr,Constants.TYPE_SCAN, getEmpListHandler);
+                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(aty), resultStr,
+                            Constants.TYPE_SCAN, getEmpListHandler);
                     break;
                 case 4:
                     Intent intent2 = new Intent(aty,SelectEmpActivity.class);
@@ -348,7 +349,7 @@ public class GroupDetailActivity extends KJActivity {
         public void callBack(String bpCode, String commonityCode, long endTime) {
             if(progressDialog!=null) progressDialog.show();
             DeliveryApi.deleteRelationShip(commonityCode,bpCode,endTime,
-                    ClientStateManager.getLoginToken(aty),Constants.RELTYPE_GROUP,deleteRelationShipHandler);
+                    ClientStateManager.getLoginToken(aty), Constants.RELTYPE_GROUP,deleteRelationShipHandler);
         }
 
     };

@@ -1,7 +1,6 @@
 package cn.com.bluemoon.delivery.app.api.model.offline;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.utils.Constants;
 
 /**
  * Created by bm on 2017/6/2.

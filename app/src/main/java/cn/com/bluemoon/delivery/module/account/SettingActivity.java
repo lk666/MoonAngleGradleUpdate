@@ -39,10 +39,10 @@ public class SettingActivity extends BaseActivity {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.re_general:
-                SettingInfoActivity.actStart(this,Constants.MODE_GENERAL);
+                SettingInfoActivity.actStart(this, Constants.MODE_GENERAL);
                 break;
             case R.id.re_about:
-                SettingInfoActivity.actStart(this,Constants.MODE_CHECK);
+                SettingInfoActivity.actStart(this, Constants.MODE_CHECK);
                 break;
         }
     }

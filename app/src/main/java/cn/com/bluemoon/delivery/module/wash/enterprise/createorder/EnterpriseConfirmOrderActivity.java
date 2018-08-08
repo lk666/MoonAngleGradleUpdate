@@ -23,7 +23,6 @@ import java.util.Map;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.EnterpriseApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;

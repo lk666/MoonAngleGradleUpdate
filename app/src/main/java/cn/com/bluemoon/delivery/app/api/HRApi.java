@@ -10,9 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetAddressInfo.AddressInfoBean;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetFamilyInfo.FamilyListBean;
 import cn.com.bluemoon.delivery.app.api.model.personalinfo.ResultGetInterstInfo;

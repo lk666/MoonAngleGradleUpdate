@@ -2,7 +2,6 @@ package cn.com.bluemoon.delivery.module.base;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 import android.view.View;

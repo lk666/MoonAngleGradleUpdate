@@ -19,7 +19,6 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import cn.com.bluemoon.delivery.R;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.ViewUtil;

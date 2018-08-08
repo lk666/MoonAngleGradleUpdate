@@ -5,7 +5,6 @@ import com.alibaba.fastjson.JSON;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.protocol.HTTP;
 
-import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.utils.Constants;

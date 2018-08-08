@@ -1,4 +1,6 @@
+import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
 def gitNum = 'git rev-list --count HEAD'.execute([], project.rootDir).text.trim()
 
@@ -103,7 +105,9 @@ android {
     dexOptions {
 //        incremental true  // 已弃用
         javaMaxHeapSize "2048m"
+        // 忽略方法数限制的检查
         jumboMode true
+        // 是否对依赖的库进行dex 预处理来使你的增量构建更快速，因为这个特性可能会使你的clean 构建变慢，因此在你的持续集成服务器上你可能想关闭这个特性
         preDexLibraries false
     }
 
@@ -118,8 +122,27 @@ android {
         }
     }
 
-    productFlavors {
+    // webp是Android 原生4.0就开始支持的，它能提供和JPEG和PNG相同质量的图片但是size更小。没有任何适配问题
 
+    // 为开发环境创建一个变体，关闭开发版本不需要的配置
+    flavorDimensions("env")
+    productFlavors {
+        // 本地开发版本
+        dev {
+            // 避免编译不必要的资源
+//          resConfigs "en", "xxhdpi"
+            // 本地开发环境可以停止友盟统计等不需要的工具
+//          buildConfigField("boolean", "UM_FLAG", "false")
+
+            // 禁止每次构建app都自动压缩图片
+            aaptOptions {
+                cruncherEnabled false
+            }
+        }
+
+        // jekins、正式环境，使用assembleProdxxx命令编译
+        prod {
+        }
     }
 }
 
@@ -197,12 +220,12 @@ dependencies {
     debugImplementation rootProject.ext.dependencies["leakcanary-android"]
     releaseImplementation rootProject.ext.dependencies["leakcanary-android-no-op"]
 
-
-    implementation 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:5.1.4'
-    implementation 'com.bluemoon.map:lib_map_navigation:1.0.0'
-
     implementation rootProject.ext.dependencies["butterknife"]
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
+
+    implementation rootProject.ext.dependencies["opensdk"]
+    implementation rootProject.ext.dependencies["lib_map_navigation"]
+    implementation rootProject.ext.dependencies["kotlin"]
 }
 
 // 包名设置
@@ -225,5 +248,14 @@ android.applicationVariants.all { variant ->
         }
     }
 }
+repositories {
+    mavenCentral()
+}
 
-
+// gradlew clean
+// --profile: 开启profiling
+// --recompile-scripts: 强制脚本重新编译跳过cache
+// --offline:禁止 Gradle获取离线依赖，这是确保任何的延迟都是Gradle试图更新依赖而导致，不会误导你的分析数据。
+// 你应该先准备好构建一次工程确保Gradle 已经下载好并且缓存依赖。
+// --rerun-tasks:强制Gradle返回所有task 并且忽略任何task 优化。
+// gradlew --profile --recompile-scripts --offline --rerun-tasks assembleDevDebug

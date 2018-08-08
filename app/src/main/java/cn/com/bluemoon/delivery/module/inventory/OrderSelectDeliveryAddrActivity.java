@@ -14,35 +14,22 @@ package cn.com.bluemoon.delivery.module.inventory;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.protocol.HTTP;
 
 import java.util.List;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.clothing.collect.ActivityInfo;
 import cn.com.bluemoon.delivery.app.api.model.storage.MallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.app.api.model.storage.ResultMallStoreRecieverAddress;
 import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewActivity;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.StringUtil;
-import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 
 public class OrderSelectDeliveryAddrActivity extends BasePullToRefreshListViewActivity {

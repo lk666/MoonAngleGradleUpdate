@@ -12,7 +12,6 @@ import java.util.List;
 import java.util.Map;
 
 import cn.com.bluemoon.delivery.AppContext;
-import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.ApiHttpClient;
 import cn.com.bluemoon.delivery.db.entity.ReqBody;

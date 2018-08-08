@@ -91,7 +91,7 @@ public class UploadImageActivity extends Activity{
 
 
         takePhotoPop = new TakePhotoPopView(this,
-                Constants.TAKE_PIC_RESULT,Constants.CHOSE_PIC_RESULT);
+                Constants.TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
         btnOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -191,7 +191,7 @@ public class UploadImageActivity extends Activity{
             LogUtils.d("test", "getImgListHandler result = " + responseString);
             try {
                 ResultImage result = JSON.parseObject(responseString, ResultImage.class);
-                if(null!=result && result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
+                if(null!=result && result.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
                     List<ImageBean> imgList = result.getImgList();
                     images = new ArrayList<>();
                     if (imgList != null && imgList.size() > 0) {

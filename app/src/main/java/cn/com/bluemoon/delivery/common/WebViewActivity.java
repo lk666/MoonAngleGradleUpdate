@@ -32,7 +32,6 @@ import java.io.File;
 import java.util.List;
 
 import bluemoon.com.lib_x5.base.BaseX5WebViewActivity;
-import bluemoon.com.lib_x5.bean.BaseParam;
 import bluemoon.com.lib_x5.bean.LocationParam;
 import bluemoon.com.lib_x5.bean.TitleStyle;
 import bluemoon.com.lib_x5.utils.JsBridgeUtil;

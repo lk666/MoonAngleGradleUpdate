@@ -1,8 +1,6 @@
 package cn.com.bluemoon.delivery.module.wash.enterprise;
 
-import android.app.Activity;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.view.View;
 
@@ -17,11 +15,9 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList;
 import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultEnterpriseList
         .EnterpriseOrderListBean;
-import cn.com.bluemoon.delivery.app.api.model.wash.enterprise.ResultGetWashEnterpriseScan;
 import cn.com.bluemoon.delivery.module.base.BasePullToRefreshListViewFragment;
 import cn.com.bluemoon.delivery.module.event.EnterpriseListChangeEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.AddClothesActivity;
-import cn.com.bluemoon.delivery.module.wash.enterprise.createorder.CreateOrderActivity;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ClothesChangedEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.ConfirmEvent;
 import cn.com.bluemoon.delivery.module.wash.enterprise.event.CreateOrderEvent;
@@ -29,7 +25,6 @@ import cn.com.bluemoon.delivery.ui.CommonActionBar;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
-import cn.com.bluemoon.lib.utils.LibConstants;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 
 /**

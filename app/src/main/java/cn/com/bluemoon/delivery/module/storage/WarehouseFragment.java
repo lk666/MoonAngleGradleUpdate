@@ -4,49 +4,28 @@ import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.ForegroundColorSpan;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
-import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.alibaba.fastjson.JSON;
-import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.TextHttpResponseHandler;
-import com.umeng.analytics.MobclickAgent;
-
-import cz.msebera.android.httpclient.Header;
-import cz.msebera.android.httpclient.protocol.HTTP;
-
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
-import cn.com.bluemoon.delivery.app.api.model.storage.ResultStock;
 import cn.com.bluemoon.delivery.app.api.model.storage.ResultStore;
 import cn.com.bluemoon.delivery.app.api.model.storage.Store;
-import cn.com.bluemoon.delivery.common.ClientStateManager;
 import cn.com.bluemoon.delivery.module.base.BaseFragment;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
-import cn.com.bluemoon.delivery.module.base.interf.IActionBarListener;
-import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.LogUtils;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.view.CommonEmptyView;
-import cn.com.bluemoon.lib.view.CommonProgressDialog;
 
 
 public class WarehouseFragment extends BaseFragment {

@@ -4,7 +4,6 @@ import android.content.Context;
 
 import java.io.File;
 
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.FileUtil;
 import cn.com.bluemoon.lib.utils.LibCacheUtil;
 

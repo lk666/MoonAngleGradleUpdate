@@ -1,13 +1,11 @@
 package cn.com.bluemoon.delivery.common;
 
 import android.app.Activity;
-import android.content.Intent;
 import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.text.TextUtils;
 
 import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONArray;
 
 import cn.com.bluemoon.delivery.app.api.DeliveryApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -15,9 +13,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultScanService;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.module.offline.CourseSignActivity;
 import cn.com.bluemoon.delivery.module.offline.TeacherScanPlanActivity;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.ViewUtil;
 
 /**
  * 主菜单统一扫码界面，统一处理

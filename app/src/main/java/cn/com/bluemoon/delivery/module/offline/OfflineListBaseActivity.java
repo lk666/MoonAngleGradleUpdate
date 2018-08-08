@@ -28,7 +28,6 @@ import cn.com.bluemoon.delivery.module.offline.adapter.OfflineAdapter;
 import cn.com.bluemoon.lib_widget.module.form.BmSegmentView;
 import cn.com.bluemoon.delivery.ui.selectordialog.DateSelectDialog;
 import cn.com.bluemoon.delivery.ui.selectordialog.OnButtonClickListener;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.DateUtil;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshBase;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;

@@ -212,7 +212,7 @@ public class MemberFragment extends BackHandledFragment {
                     if(data==null) return;
                     String resultStr = data.getStringExtra(LibConstants.SCAN_RESULT);
                     if(progressDialog!=null) progressDialog.show();
-                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(mContext), resultStr,Constants.TYPE_SCAN, getEmpListHandler);
+                    DeliveryApi.getEmpList(ClientStateManager.getLoginToken(mContext), resultStr, Constants.TYPE_SCAN, getEmpListHandler);
                     break;
                 case 4:
                     Intent intent2 = new Intent(mContext,SelectEmpActivity.class);
@@ -222,7 +222,7 @@ public class MemberFragment extends BackHandledFragment {
         }else if(requestCode == 1&&resultCode == Activity.RESULT_OK
                 &&data!=null&&data.hasExtra("emp")){
             Emp emp = (Emp)data.getSerializableExtra("emp");
-            openRelationInfo(emp,Constants.TYPE_ADD);
+            openRelationInfo(emp, Constants.TYPE_ADD);
         }else if(requestCode == 2&&resultCode == Activity.RESULT_OK){
             isRefresh = true;
             pullDown = false;
@@ -276,7 +276,7 @@ public class MemberFragment extends BackHandledFragment {
                     if(result.getItemList()!=null&&result.getItemList().size()>0){
                         Emp emp = result.getItemList().get(0);
                         if(StringUtils.isEmpty(emp.getBpCode())){
-                            openRelationInfo(emp,Constants.TYPE_ADD);
+                            openRelationInfo(emp, Constants.TYPE_ADD);
                         }else{
                             PublicUtil.showMessageNoTitle(mContext,getString(R.string.team_member_add_existed));
                         }

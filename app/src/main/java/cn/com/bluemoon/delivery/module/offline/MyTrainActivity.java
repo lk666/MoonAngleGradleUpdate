@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.PopupWindow;
-import android.widget.Toast;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
@@ -14,7 +13,6 @@ import cn.com.bluemoon.delivery.app.api.model.offline.CurriculumsTable;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultTeacherAndStudentList;
 import cn.com.bluemoon.delivery.module.offline.adapter.OfflineAdapter;
 import cn.com.bluemoon.delivery.ui.CourseQcodeView;
-import cn.com.bluemoon.delivery.ui.TeacherInfoView;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 

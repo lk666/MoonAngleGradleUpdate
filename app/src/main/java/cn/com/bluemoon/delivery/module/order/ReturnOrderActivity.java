@@ -66,7 +66,7 @@ public class ReturnOrderActivity extends Activity implements OnClickListener{
 		ActivityManager.getInstance().pushOneActivity(this);
 		progressDialog = new CommonProgressDialog(this);
 		takePhotoPop = new TakePhotoPopView(this,
-				Constants.TAKE_PIC_RESULT,Constants.CHOSE_PIC_RESULT);
+				Constants.TAKE_PIC_RESULT, Constants.CHOSE_PIC_RESULT);
 		edContent = (EditText) findViewById(R.id.ed_content);
 		btnSubmit = (Button) findViewById(R.id.btn_submit);
 		btnSubmit.setOnClickListener(this);

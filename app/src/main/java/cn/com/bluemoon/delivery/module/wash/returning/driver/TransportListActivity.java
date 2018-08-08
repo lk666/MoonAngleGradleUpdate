@@ -26,7 +26,6 @@ import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.module.base.OnListItemClickListener;
 import cn.com.bluemoon.delivery.module.wash.returning.cupboard.CupboardScanActivity;
 import cn.com.bluemoon.delivery.ui.CommonActionBar;
-import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.lib.pulltorefresh.PullToRefreshListView;
 import cn.com.bluemoon.lib.utils.LibViewUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;

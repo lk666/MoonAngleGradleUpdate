@@ -4,20 +4,16 @@ import android.content.Context;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
-import com.loopj.android.http.RequestParams;
 
-import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 
-import Decoder.BASE64Encoder;
 import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.BuildConfig;
 import cn.com.bluemoon.delivery.module.base.WithContextTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.module.track.api.WithStatusTextHttpResponseHandler;
 import cn.com.bluemoon.delivery.utils.Constants;
 import cn.com.bluemoon.delivery.utils.LogUtils;
-import cn.com.bluemoon.lib.utils.LibFileUtil;
 import cn.com.bluemoon.liblog.NetLogUtils;
 import cz.msebera.android.httpclient.client.params.ClientPNames;
 import cz.msebera.android.httpclient.entity.ByteArrayEntity;

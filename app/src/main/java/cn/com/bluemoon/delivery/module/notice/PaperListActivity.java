@@ -182,7 +182,7 @@ public class PaperListActivity extends Activity {
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
                 Intent intent = new Intent(main, NoticeDetailActivity.class);
                 intent.putExtra("id",list.get(groupPosition).getPaperList().get(childPosition).getPaperId());
-                intent.putExtra("type",Constants.TYPE_KNOWLEDGE);
+                intent.putExtra("type", Constants.TYPE_KNOWLEDGE);
                 main.startActivity(intent);
                 return true;
             }
@@ -456,7 +456,7 @@ public class PaperListActivity extends Activity {
                 public void onClick(View v) {
                     Intent intent = new Intent(main, NoticeDetailActivity.class);
                     intent.putExtra("id",lists.get(position).getPaperId());
-                    intent.putExtra("type",Constants.TYPE_KNOWLEDGE);
+                    intent.putExtra("type", Constants.TYPE_KNOWLEDGE);
                     main.startActivityForResult(intent,0);
                 }
             });

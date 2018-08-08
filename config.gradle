@@ -22,6 +22,7 @@ ext {
             // 国内
             getui                        : "2.9.3.0",
             umengAnalytics               : "latest.integration", // 6.1.4
+            opensdk                      : "5.1.4",
 
             // 杂类库
             photoview                    : "1.2.4",
@@ -34,12 +35,14 @@ ext {
             lib_umengshare               : "1.0.10",
             lib_cardocr                  : "1.0.10",
             lib_signature_pad            : "1.0.5",
-            lib_x5                       : "1.7.16",
+            lib_x5                       : "1.7.19",
             lib_badger                   : "0.0.1",
+            lib_map_navigation           : "1.0.0",
 
             // support包
             supportVersion               : "27.1.1",
             multidex                     : "1.0.2",
+            kotlin_version               : "1.2.60"
     ]
 
     dependencies = [
@@ -61,6 +64,7 @@ ext {
             // 国内
             "getui"                        : "com.getui:sdk:${version["getui"]}",
             "umengAnalytics"               : "com.umeng.analytics:analytics:${version["umengAnalytics"]}",
+            "opensdk"                      : "com.tencent.mm.opensdk:wechat-sdk-android-with-mta:${version["opensdk"]}",
 
             // 杂类库
             "photoview"                    : "com.github.chrisbanes.photoview:library:${version["photoview"]}",
@@ -76,6 +80,7 @@ ext {
             "lib_x5"                       : "com.bluemoon.x5:lib_x5:${version["lib_x5"]}",
             "lib_badger"                   : "com.bluemoon.badger:lib_badger:${version["lib_badger"]}",
             "android-async-http"           : "com.loopj.android:android-async-http:${version["androidAsyncHttp"]}",
+            "lib_map_navigation"           : "com.bluemoon.map:lib_map_navigation:${version["lib_map_navigation"]}",
 
             // support包
             "recyclerview-v7"              : "com.android.support:recyclerview-v7:${version["supportVersion"]}",
@@ -84,5 +89,6 @@ ext {
             "appcompat-v7"                 : "com.android.support:appcompat-v7:${version["supportVersion"]}",
             "support-v4"                   : "com.android.support:support-v4:${version["supportVersion"]}",
             "multidex"                     : "com.android.support:multidex:${version["multidex"]}",
+            "kotlin"                       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${version["kotlin_version"]}"
     ]
 }

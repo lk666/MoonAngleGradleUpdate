@@ -20,8 +20,6 @@ import cn.com.bluemoon.delivery.app.api.model.ResultDict;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.base.BaseListAdapter;
 import cn.com.bluemoon.delivery.utils.Constants;
-import cn.com.bluemoon.delivery.utils.PublicUtil;
-import cn.com.bluemoon.delivery.utils.StringUtil;
 
 /**
  * Created by ljl on 2016/12/5.

@@ -14,7 +14,6 @@ import cn.com.bluemoon.delivery.AppContext;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.clothing.collect.DispachInfo;
 import cn.com.bluemoon.delivery.utils.manager.ActivityManager;
-import cn.com.bluemoon.delivery.utils.manager.CacheManager;
 import cn.com.bluemoon.lib.utils.LibDialogUtil;
 import cn.com.bluemoon.lib.view.CommonAlertDialog;
 import cn.com.bluemoon.lib.view.ImageDialog;

@@ -147,7 +147,7 @@ public class SelectStoreHouseActivity extends Activity implements OnClickListene
 			progressDialog.dismiss();
 			try {
 				ResultStorehouse result = JSON.parseObject(responseString, ResultStorehouse.class);
-				if(result.getResponseCode()==Constants.RESPONSE_RESULT_SUCCESS){
+				if(result.getResponseCode()== Constants.RESPONSE_RESULT_SUCCESS){
 					//PublicUtil.showToast(SelectStoreHouseActivity.this, result.getResponseMsg());
 					Intent intent = new Intent();
 					Bundle bundle = new Bundle();

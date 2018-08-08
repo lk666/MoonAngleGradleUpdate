@@ -1,6 +1,5 @@
 package cn.com.bluemoon.delivery.module.offline.adapter;
 
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.text.TextUtils;
 import android.view.View;
