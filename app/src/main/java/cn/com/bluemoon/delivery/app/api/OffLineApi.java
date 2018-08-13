@@ -60,16 +60,16 @@ public class OffLineApi extends DeliveryApi {
      * @param planCode
      * @param handler
      */
-    public static void sign(String token, String courseCode, String planCode,
-                              AsyncHttpResponseHandler handler) {
-        if (null == token || null == courseCode || null == planCode) {
+    public static void sign(String token, String courseCode, List<String> courseCodeList, String
+            planCode, AsyncHttpResponseHandler handler) {
+        if (null == token || (null == courseCode && null == courseCodeList) || null == planCode) {
             onError(handler);
             return;
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new AssignData(courseCode, planCode));
+        params.put("data", new AssignData(courseCode, courseCodeList, planCode));
         postRequest(params, "training-web/course/student/sign%s", handler);
     }
 
@@ -81,8 +81,9 @@ public class OffLineApi extends DeliveryApi {
      * @param status
      * @param handler
      */
-    public static void studentTrainlist(String token, long date, String status, AsyncHttpResponseHandler
-            handler) {
+    public static void studentTrainlist(String token, long date, String status,
+                                        AsyncHttpResponseHandler
+                                                handler) {
         if (null == token || null == status) {
             onError(handler);
             return;
@@ -95,10 +96,10 @@ public class OffLineApi extends DeliveryApi {
     }
 
     /**
-     * 1.4获取签到信息
+     * 1.4获取签到信息（V2.3修改  增加排课编码）
      *
      * @param token
-     * @param roomCode
+     * @param roomCode 培训室编号或排课编码
      * @param handler
      */
     public static void signDetail(String token, String roomCode, AsyncHttpResponseHandler
@@ -116,6 +117,7 @@ public class OffLineApi extends DeliveryApi {
 
     /**
      * 1.5获取课程详情
+     *
      * @param token
      * @param courseCode
      * @param planCode
@@ -162,13 +164,14 @@ public class OffLineApi extends DeliveryApi {
 
     /**
      * 1.5获取评价信息
+     *
      * @param token
      * @param courseCode
      * @param planCode
      * @param handler
      */
     public static void evaluateDetail(String token, String courseCode, String planCode,
-                                    AsyncHttpResponseHandler handler) {
+                                      AsyncHttpResponseHandler handler) {
         if (null == token || null == courseCode || null == planCode) {
             onError(handler);
             return;
@@ -189,8 +192,9 @@ public class OffLineApi extends DeliveryApi {
      * @param planCode
      * @param handler
      */
-    public static void startCourse(String token, String courseCode, String planCode, AsyncHttpResponseHandler
-                                        handler) {
+    public static void startCourse(String token, String courseCode, String planCode,
+                                   AsyncHttpResponseHandler
+                                           handler) {
         if (null == token || null == courseCode || null == planCode) {
             onError(handler);
             return;
@@ -201,6 +205,7 @@ public class OffLineApi extends DeliveryApi {
         params.put("data", new StartOrEndCourseData(courseCode, planCode));
         postRequest(params, "training-web/course/teacher/start%s", handler);
     }
+
     /**
      * 2.2 教师结束上课
      *
@@ -209,8 +214,9 @@ public class OffLineApi extends DeliveryApi {
      * @param planCode
      * @param handler
      */
-    public static void endCourse(String token, String courseCode, String planCode, AsyncHttpResponseHandler
-            handler) {
+    public static void endCourse(String token, String courseCode, String planCode,
+                                 AsyncHttpResponseHandler
+                                         handler) {
         if (null == token || null == courseCode || null == planCode) {
             onError(handler);
             return;
@@ -224,6 +230,7 @@ public class OffLineApi extends DeliveryApi {
 
     /**
      * 2.3 教师评价
+     *
      * @param token
      * @param comment
      * @param courseCode
@@ -233,21 +240,24 @@ public class OffLineApi extends DeliveryApi {
      * @param studentName
      * @param handler
      */
-    public static void teacherEvaluate(String token, String comment, String courseCode, String planCode, int score, String studentCode, String studentName, AsyncHttpResponseHandler
-            handler) {
-        if (null == token || null == comment || null == courseCode||null == planCode) {
+    public static void teacherEvaluate(String token, String comment, String courseCode, String
+            planCode, int score, String studentCode, String studentName, AsyncHttpResponseHandler
+                                               handler) {
+        if (null == token || null == comment || null == courseCode || null == planCode) {
             onError(handler);
             return;
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherEvaluateData(comment,courseCode,planCode,score,studentCode,studentName));
+        params.put("data", new TeacherEvaluateData(comment, courseCode, planCode, score,
+                studentCode, studentName));
         postRequest(params, "training-web/course/teacher/evaluate%s", handler);
     }
 
     /**
      * 2.4 教师评价学员列表
+     *
      * @param token
      * @param courseCode
      * @param pageSize
@@ -256,28 +266,34 @@ public class OffLineApi extends DeliveryApi {
      * @param type
      * @param handler
      */
-    public static void teacherEvaluateStudentList(String token, String courseCode, int pageSize, String planCode, long timeStamp, int type, AsyncHttpResponseHandler
-            handler) {
-        if (null == token || null == courseCode || pageSize<=0||null==planCode||(type!=1&&type!=2&&type!=3)) {
+    public static void teacherEvaluateStudentList(String token, String courseCode, int pageSize,
+                                                  String planCode, long timeStamp, int type,
+                                                  AsyncHttpResponseHandler
+                                                          handler) {
+        if (null == token || null == courseCode || pageSize <= 0 || null == planCode || (type !=
+                1 && type != 2 && type != 3)) {
             onError(handler);
             return;
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherEvaluateStudentListData(courseCode, pageSize, planCode, timeStamp, type));
+        params.put("data", new TeacherEvaluateStudentListData(courseCode, pageSize, planCode,
+                timeStamp, type));
         postRequest(params, "training-web/course/teacher/student/list%s", handler);
     }
 
     /**
      * 2.5 教师课程详情
+     *
      * @param token
      * @param courseCode
      * @param planCode
      * @param handler
      */
-    public static void teacherCourseDetail(String token, String courseCode, String planCode, AsyncHttpResponseHandler
-            handler) {
+    public static void teacherCourseDetail(String token, String courseCode, String planCode,
+                                           AsyncHttpResponseHandler
+                                                   handler) {
         if (null == token || null == courseCode || null == planCode) {
             onError(handler);
             return;
@@ -285,20 +301,22 @@ public class OffLineApi extends DeliveryApi {
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherDetailData(courseCode, planCode,true));
+        params.put("data", new TeacherDetailData(courseCode, planCode, true));
         postRequest(params, "training-web/course/teacher/detail%s", handler);
     }
 
     /**
      * 2.6 获取讲师的课程列表
+     *
      * @param token
      * @param date
      * @param status
      * @param handler
      */
-    public static void teacherCourseList(String token, long date, String status, AsyncHttpResponseHandler
-            handler) {
-        if (null == token  || null == status) {
+    public static void teacherCourseList(String token, long date, String status,
+                                         AsyncHttpResponseHandler
+                                                 handler) {
+        if (null == token || null == status) {
             onError(handler);
             return;
         }
@@ -311,51 +329,58 @@ public class OffLineApi extends DeliveryApi {
 
     /**
      * 2.7 教师获取评价信息
+     *
      * @param token
      * @param courseCode
      * @param planCode
      * @param studentCode
      * @param handler
      */
-    public static void teacherGetEvaluateDetail(String token, String courseCode,String planCode,String studentCode, AsyncHttpResponseHandler
-            handler) {
-        if (null == token || null==courseCode || null == planCode|| null == studentCode) {
+    public static void teacherGetEvaluateDetail(String token, String courseCode, String planCode,
+                                                String studentCode, AsyncHttpResponseHandler
+                                                        handler) {
+        if (null == token || null == courseCode || null == planCode || null == studentCode) {
             onError(handler);
             return;
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TaecherGetEvaluateDetailData(courseCode,planCode,studentCode));
+        params.put("data", new TaecherGetEvaluateDetailData(courseCode, planCode, studentCode));
         postRequest(params, "training-web/course/teacher/evaluate/detail%s", handler);
     }
+
     /**
      * 2.8 获取评价学员页面的评价数量
+     *
      * @param token
      * @param courseCode
      * @param planCode
      * @param handler
      */
-    public static void taecherEvaluateNum(String token, String courseCode,String planCode,AsyncHttpResponseHandler
-            handler) {
-        if (null == token || null==courseCode || null == planCode) {
+    public static void taecherEvaluateNum(String token, String courseCode, String planCode,
+                                          AsyncHttpResponseHandler
+                                                  handler) {
+        if (null == token || null == courseCode || null == planCode) {
             onError(handler);
             return;
         }
 
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new StartOrEndCourseData(courseCode,planCode));
+        params.put("data", new StartOrEndCourseData(courseCode, planCode));
         postRequest(params, "training-web/course/teacher/evaluate/num%s", handler);
     }
+
     /**
      * 2.9 获取列表角标
+     *
      * @param type
      * @param handler
      */
-    public static void listNum(String token,String type,AsyncHttpResponseHandler
+    public static void listNum(String token, String type, AsyncHttpResponseHandler
             handler) {
-        if (null==token||null==type) {
+        if (null == token || null == type) {
             onError(handler);
             return;
         }
@@ -403,42 +428,49 @@ public class OffLineApi extends DeliveryApi {
     /**
      * 2.12 教师扫码排课信息
      */
-    public static void teacherScanPlan(String token, String planCode,String userMark,String userType, AsyncHttpResponseHandler handler) {
-        if (null == token || TextUtils.isEmpty(planCode)|| TextUtils.isEmpty(userMark)|| TextUtils.isEmpty(userType)) {
+    public static void teacherScanPlan(String token, String planCode, String userMark, String
+            userType, AsyncHttpResponseHandler handler) {
+        if (null == token || TextUtils.isEmpty(planCode) || TextUtils.isEmpty(userMark) ||
+                TextUtils.isEmpty(userType)) {
             onError(handler);
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherScanPlanData(planCode,userMark,userType));
+        params.put("data", new TeacherScanPlanData(planCode, userMark, userType));
         postRequest(params, "training-web/plan/teacher/scan%s", handler);
     }
 
     /**
      * 2.13 教师扫码课程详情
      */
-    public static void teacherScanCourse(String token, String planCode,String courseCode,String userMark,String userType, AsyncHttpResponseHandler handler) {
-        if (null == token || TextUtils.isEmpty(planCode)|| TextUtils.isEmpty(courseCode)|| TextUtils.isEmpty(userMark)|| TextUtils.isEmpty(userType)) {
+    public static void teacherScanCourse(String token, String planCode, String courseCode, String
+            userMark, String userType, AsyncHttpResponseHandler handler) {
+        if (null == token || TextUtils.isEmpty(planCode) || TextUtils.isEmpty(courseCode) ||
+                TextUtils.isEmpty(userMark) || TextUtils.isEmpty(userType)) {
             onError(handler);
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherScanCourseData(planCode,courseCode,userMark,userType));
+        params.put("data", new TeacherScanCourseData(planCode, courseCode, userMark, userType));
         postRequest(params, "training-web/course/teacher/scan%s", handler);
     }
 
     /**
      * 2.14 教师签到（扫学员二维码签到）
      */
-    public static void teacherSign(String token, String planCode, List<String> courseCodes, String userMark, String userType, AsyncHttpResponseHandler handler) {
-        if (null == token || null == courseCodes||courseCodes.size()==0|| TextUtils.isEmpty(userMark)|| TextUtils.isEmpty(userType)) {
+    public static void teacherSign(String token, String planCode, List<String> courseCodes,
+                                   String userMark, String userType, AsyncHttpResponseHandler
+                                           handler) {
+        if (null == token || null == courseCodes || courseCodes.size() == 0 || TextUtils.isEmpty
+                (userMark) || TextUtils.isEmpty(userType)) {
             onError(handler);
             return;
         }
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
-        params.put("data", new TeacherSignData(planCode,courseCodes,userMark,userType));
+        params.put("data", new TeacherSignData(planCode, courseCodes, userMark, userType));
         postRequest(params, "training-web/course/teacher/sign%s", handler);
     }
 }

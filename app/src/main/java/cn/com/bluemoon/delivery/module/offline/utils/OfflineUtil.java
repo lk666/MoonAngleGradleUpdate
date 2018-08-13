@@ -42,7 +42,11 @@ public class OfflineUtil {
                 .offline_unsign));
     }
 
-    //提取二维码的roomCode
+    /**
+     * 提取二维码的链接参数 只会有其一
+     * roomCode 培训室编码
+     * planCode 排课编码
+     */
     public static String getUrlParamsByCode(String url) {
         String code = null;
         if (url != null) {
@@ -53,6 +57,10 @@ public class OfflineUtil {
                     String key = strs[x].substring(0, strs[x].indexOf("="));
                     String value = strs[x].substring(strs[x].indexOf("=") + 1);
                     if ("roomCode".equals(key)) {
+                        code = value;
+                        break;
+                    }
+                    if ("planCode".equals(key)) {
                         code = value;
                         break;
                     }

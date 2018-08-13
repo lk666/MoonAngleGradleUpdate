@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    android:id="@+id/activity_teacher_scan_plan"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/page_bg_f2">
+
+    <LinearLayout
+        android:id="@+id/layout_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_alignParentBottom="true"
+        android:visibility="gone"
+        android:orientation="horizontal">
+        <cn.com.bluemoon.lib_widget.module.choice.BMRadioItemView
+            android:id="@+id/view_all"
+            android:layout_width="94dp"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            app:radio_item_drawable_disable="@drawable/bm_check_disable"
+            app:radio_item_drawable_normal="@drawable/bm_check_normal"
+            app:radio_item_drawable_select="@drawable/bm_check_selected"
+            app:radio_item_img_margin_right="4dp"
+            app:radio_item_text="@string/btn_select_all"/>
+        <cn.com.bluemoon.lib_widget.module.form.BMAngleBtn3View
+            android:id="@+id/btn_sign"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:btn_enable="false"
+            app:btn_text="@string/btn_sign_blank"
+        />
+
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/layout_bottom">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/view_theme"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_theme"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/view_date"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_record_date"/>
+
+            <TextView
+                android:id="@+id/view_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:layout_marginLeft="12dp"
+                android:layout_marginTop="10dp"
+                android:text="@string/offline_select_sign_course"
+                android:textColor="@color/text_grep"
+                android:visibility="gone"
+                android:textSize="@dimen/text_size_12"/>
+
+            <cn.com.bluemoon.lib_widget.module.choice.BMCheckList2View
+                android:id="@+id/list_check"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:check_disable="true"
+                android:visibility="gone"/>
+
+            <TextView
+                android:id="@+id/view_empty"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="70dp"
+                android:gravity="center_horizontal"
+                android:textColor="@color/text_grep"
+                android:textSize="@dimen/text_size_14"
+                android:text="@string/offline_no_course_info"
+            />
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>
