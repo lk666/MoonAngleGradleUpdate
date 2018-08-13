@@ -1,9 +1,9 @@
 ext {
     android = [
-            compileSdkVersion: 27,
-            buildToolsVersion: "27.0.3",
+            compileSdkVersion: 26,
+            buildToolsVersion: "26.0.2",
             minSdkVersion    : 16,
-            targetSdkVersion : 27,
+            targetSdkVersion : 26,
     ]
 
     version = [
@@ -40,7 +40,7 @@ ext {
             lib_map_navigation           : "1.0.0",
 
             // support包
-            supportVersion               : "27.1.1",
+            supportVersion               : "26.1.0",
             multidex                     : "1.0.2",
             kotlin_version               : "1.2.60"
     ]
