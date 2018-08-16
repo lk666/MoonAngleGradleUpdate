@@ -71,10 +71,27 @@
         android:id="@+id/txt_course_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_course_time"
         android:layout_below="@+id/txt_course_time"
-        android:layout_marginLeft="15dp"
-        android:layout_toRightOf="@+id/bottom_line"
         android:textColor="@color/txt_333"
         android:textSize="@dimen/text_size_14"/>
 
+    <TextView
+        android:id="@+id/txt_teacher_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_course_time"
+        android:layout_below="@+id/txt_course_name"
+        android:textColor="@color/txt_333"
+        android:textSize="@dimen/text_size_14"/>
+
+    <TextView
+        android:id="@+id/txt_classroom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/txt_course_time"
+        android:layout_below="@+id/txt_teacher_name"
+        android:layout_marginBottom="9dp"
+        android:textColor="@color/txt_333"
+        android:textSize="@dimen/text_size_14"/>
 </RelativeLayout>
