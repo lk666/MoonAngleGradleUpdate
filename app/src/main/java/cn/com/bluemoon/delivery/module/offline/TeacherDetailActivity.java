@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import butterknife.Bind;
@@ -26,7 +27,8 @@ import cn.com.bluemoon.delivery.utils.DateUtil;
  * Created by tangqiwei on 2017/6/4.
  */
 
-public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1View.FieldArrowListener{
+public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1View
+        .FieldArrowListener, View.OnClickListener {
 
     @Bind(R.id.ctxt_course_name)
     BmCellTextView ctxtCourseName;
@@ -42,8 +44,10 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
     BMFieldArrow1View farSignStaff;
     @Bind(R.id.txt_course_info)
     TextView txtCourseInfo;
-    @Bind(R.id.ctxt_course_code)
-    BmCellTextView ctxtCourseCode;
+    @Bind(R.id.rl_course_code)
+    RelativeLayout rlCourseCode;
+    @Bind(R.id.txt_course)
+    TextView txtCourse;
     @Bind(R.id.ctxt_course_theme)
     BmCellTextView ctxtCourseTheme;
     @Bind(R.id.ctxt_course_number_participants)
@@ -94,9 +98,9 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
 
     @Override
     public void initData() {
-        OffLineApi.teacherCourseDetail(getToken(), courseCode, planCode, getNewHandler(0, ResultTeacherDetail.class));
+        OffLineApi.teacherCourseDetail(getToken(), courseCode, planCode, getNewHandler(0,
+                ResultTeacherDetail.class));
     }
-
 
 
     /**
@@ -106,7 +110,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
      * @param evaluateNumber
      * @return
      */
-    private String signAndEvaluateNumberToString(int signNumber, int evaluateNumber,String state) {
+    private String signAndEvaluateNumberToString(int signNumber, int evaluateNumber, String state) {
         signNumber = signNumber < 0 ? 0 : signNumber;
         evaluateNumber = evaluateNumber < 0 ? 0 : evaluateNumber;
         StringBuffer buffer = new StringBuffer();
@@ -122,29 +126,35 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
     public void initNetWordData() {
         ctxtCourseName.setContentText(teacherDetail.data.courseName);
         ctxtCourseState.setContentText(OfflineUtil.stateToString(teacherDetail.data.status));
-        ctxtCourseTime.setContentText(DateUtil.getTimes(teacherDetail.data.startTime, teacherDetail.data.endTime));
+        ctxtCourseTime.setContentText(DateUtil.getTimes(teacherDetail.data.startTime,
+                teacherDetail.data.endTime));
         if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
             ctxtCourseActualClassTime.setVisibility(View.VISIBLE);
-            ctxtCourseActualClassTime.setContentText(teacherDetail.data.realStartTime==0?"无":DateUtil.getTimeToYMDHM(teacherDetail.data.realStartTime));
+            ctxtCourseActualClassTime.setContentText(teacherDetail.data.realStartTime == 0 ? "无"
+                    : DateUtil.getTimeToYMDHM(teacherDetail.data.realStartTime));
         } else {
             ctxtCourseActualClassTime.setVisibility(View.GONE);
         }
-        if (teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_END_CLASS) || teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)) {
+        if (teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_END_CLASS) || teacherDetail
+                .data.status.equals(Constants.OFFLINE_STATUS_CLOSE_CLASS)) {
             ctxtCourseActualFinishTime.setVisibility(View.VISIBLE);
-            ctxtCourseActualFinishTime.setContentText(teacherDetail.data.realEndTime==0?"无":DateUtil.getTimeToYMDHM(teacherDetail.data.realEndTime));
+            ctxtCourseActualFinishTime.setContentText(teacherDetail.data.realEndTime == 0 ? "无" :
+                    DateUtil.getTimeToYMDHM(teacherDetail.data.realEndTime));
         } else {
             ctxtCourseActualFinishTime.setVisibility(View.GONE);
         }
         if (!teacherDetail.data.status.equals(Constants.OFFLINE_STATUS_WAITING_CLASS)) {
             farSignStaff.setVisibility(View.VISIBLE);
             farSignStaff.setListener(this);
-            farSignStaff.setContent(signAndEvaluateNumberToString(teacherDetail.data.signNum,teacherDetail.data.evaluateNum,teacherDetail.data.status));
-        }else{
+            farSignStaff.setContent(signAndEvaluateNumberToString(teacherDetail.data.signNum,
+                    teacherDetail.data.evaluateNum, teacherDetail.data.status));
+        } else {
             farSignStaff.setVisibility(View.GONE);
         }
-        ctxtCourseCode.setContentText(teacherDetail.data.courseCode);
+        txtCourse.setText(teacherDetail.data.courseCode);
+        rlCourseCode.setOnClickListener(this);
         ctxtCourseTheme.setContentText(teacherDetail.data.topic);
-        ctxtCourseNumberParticipants.setContentText(teacherDetail.data.enrollNum+"人");
+        ctxtCourseNumberParticipants.setContentText(teacherDetail.data.enrollNum + "人");
         ctxtContacts.setContentText(teacherDetail.data.contactsName);
         txtPhone.setText(teacherDetail.data.contactsPhone);
         ctxtCourseRoom.setContentText(teacherDetail.data.room);
@@ -157,15 +167,16 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         switch (requestCode) {
             case 0:
                 teacherDetail = (ResultTeacherDetail) result;
-                if(teacherDetail.data!=null)
-                initNetWordData();
+                if (teacherDetail.data != null)
+                    initNetWordData();
                 break;
         }
     }
 
     @Override
     public void onClickLayout(View v) {
-        SignStaffListActivity.actionStart(this,teacherDetail.data.courseCode,teacherDetail.data.planCode,teacherDetail.data.status);
+        SignStaffListActivity.actionStart(this, teacherDetail.data.courseCode, teacherDetail.data
+                .planCode, teacherDetail.data.status);
     }
 
     @Override
@@ -173,4 +184,13 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
 
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.rl_course_code:
+                //点击排课编码
+
+                break;
+        }
+    }
 }

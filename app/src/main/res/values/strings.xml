@@ -1549,7 +1549,7 @@
     <string name="offline_course_detail_sign_time">签到时间</string>
     <string name="offline_course_detail_sign_staff">签到人员</string>
     <string name="offline_course_detail_info">培训安排信息</string>
-    <string name="offline_course_detail_code">课程编码</string>
+    <string name="offline_course_detail_code">排课编码</string>
     <string name="offline_course_detail_theme">培训主题</string>>
     <string name="offline_course_detail_number_participants">报名人数</string>
     <string name="offline_course_detail_contacts">联系人</string>

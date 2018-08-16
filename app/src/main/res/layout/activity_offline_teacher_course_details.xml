@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/page_bg_f2">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/page_bg_f2">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -19,40 +19,46 @@
                 android:id="@+id/ctxt_course_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_name" />
+                app:cell_text_txt_title="@string/offline_course_detail_name"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_state"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_state" />
+                app:cell_text_txt_title="@string/offline_course_detail_state"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_time" />
+                app:cell_text_txt_title="@string/offline_course_detail_time"/>
+
+            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
+                android:id="@+id/ctxt_course_room"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cell_text_txt_title="@string/offline_course_detail_room"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_actual_class_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:cell_text_txt_title="@string/offline_course_detail_actual_class_time" />
+                app:cell_text_txt_title="@string/offline_course_detail_actual_class_time"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_actual_finish_time"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:cell_text_txt_title="@string/offline_course_detail_actual_finish_time" />
+                app:cell_text_txt_title="@string/offline_course_detail_actual_finish_time"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BMFieldArrow1View
                 android:id="@+id/far_sign_staff"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:visibility="gone"
-                app:field_arrow_title="@string/offline_course_detail_sign_staff" />
+                app:field_arrow_title="@string/offline_course_detail_sign_staff"/>
 
             <TextView
                 android:id="@+id/txt_course_info"
@@ -63,25 +69,67 @@
                 android:paddingLeft="12dp"
                 android:text="@string/offline_course_detail_info"
                 android:textColor="@color/text_grep"
-                android:textSize="@dimen/text_size_12" />
+                android:textSize="@dimen/text_size_12"/>
 
-            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
-                android:id="@+id/ctxt_course_code"
+            <RelativeLayout
+                android:id="@+id/rl_course_code"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_code" />
+                android:layout_height="50dp"
+                android:background="@color/white">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="10dp"
+                    android:text="@string/offline_course_detail_code"
+                    android:textColor="@color/txt_666"
+                    android:textSize="@dimen/text_size_11"/>
+
+                <ImageView
+                    android:id="@+id/img_right"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="10dp"
+                    android:src="@mipmap/ic_arrow"/>
+
+                <ImageView
+                    android:id="@+id/img_code"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@+id/img_right"
+                    android:src="@mipmap/offline_qcode"/>
+
+                <TextView
+                    android:id="@+id/txt_course"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_toLeftOf="@+id/img_code"
+                    android:textColor="@color/txt_333"
+                    android:textSize="@dimen/text_size_14"/>
+
+                <View
+                    style="@style/line_dotted_style"
+                    android:layout_alignParentBottom="true"
+                    android:background="@color/line_e9"/>
+            </RelativeLayout>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_theme"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_theme" />
+                app:cell_text_txt_title="@string/offline_course_detail_theme"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_number_participants"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_number_participants" />
+                app:cell_text_txt_title="@string/offline_course_detail_number_participants"/>
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -97,7 +145,7 @@
                     android:layout_weight="1"
                     app:cell_text_line_isshow="false"
                     app:cell_text_paddingright="8dp"
-                    app:cell_text_txt_title="@string/offline_course_detail_contacts" />
+                    app:cell_text_txt_title="@string/offline_course_detail_contacts"/>
 
                 <TextView
                     android:id="@+id/txt_phone"
@@ -110,31 +158,26 @@
                     android:text="                                 "
                     android:textColor="@color/text_blue"
                     android:textColorLink="@color/text_blue"
-                    android:textSize="@dimen/text_size_14" />
+                    android:textSize="@dimen/text_size_14"/>
 
                 <View
                     style="@style/line_solid_style"
-                    android:layout_alignParentBottom="true" />
+                    android:layout_alignParentBottom="true"/>
             </RelativeLayout>
 
-            <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
-                android:id="@+id/ctxt_course_room"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_room" />
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellTextView
                 android:id="@+id/ctxt_course_address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cell_text_txt_title="@string/offline_course_detail_address" />
+                app:cell_text_txt_title="@string/offline_course_detail_address"/>
 
             <cn.com.bluemoon.lib_widget.module.form.BmCellParagraphView
                 android:id="@+id/ctxt_course_purpose"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
-                app:cell_paragraph_txt_title="@string/offline_course_detail_purpose" />
+                app:cell_paragraph_txt_title="@string/offline_course_detail_purpose"/>
         </LinearLayout>
 
     </ScrollView>
