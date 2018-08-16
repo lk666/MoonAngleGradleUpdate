@@ -2,7 +2,12 @@ package cn.com.bluemoon.delivery.module.offline;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.text.TextUtils;
+import android.text.style.AbsoluteSizeSpan;
+import android.text.style.StyleSpan;
 import android.view.View;
 import android.widget.TextView;
 
@@ -144,14 +149,20 @@ public class StudentScanPlanActivity extends BaseActivity implements CheckListen
     private List<RadioItem> getListData(List<ResultSignDetail.SignDetailData.Course> courses) {
         List<RadioItem> list = new ArrayList<>();
         for (ResultSignDetail.SignDetailData.Course course : courses) {
-            String text = DateUtil.getTimeToHours(course.startTime) + "-" + DateUtil
-                    .getTimeToHours(course.endTime) + "\n"
+            String dateString = DateUtil.getTimeToHours(course.startTime) + "-" + DateUtil
+                    .getTimeToHours(course.endTime);
+            String text = dateString + "\n"
                     + getString(R.string.offline_sign_course, course.courseName) + "\n"
                     + getString(R.string.offline_sign_teacher, course.teacherName) + "\n"
                     + getString(R.string.offline_sign_room, course.room);
             int type = course.isSign == 1 ? BMRadioItemView.TYPE_DISABLE : BMRadioItemView
                     .TYPE_NORMAL;
-            list.add(new RadioItem(course, text, type));
+            Spannable spannable = new SpannableString(text);
+            spannable.setSpan(new StyleSpan(Typeface.BOLD), 0, dateString.length(), Spannable
+                    .SPAN_EXCLUSIVE_EXCLUSIVE);
+            spannable.setSpan(new AbsoluteSizeSpan(15,true),0,dateString.length(),Spannable
+                    .SPAN_EXCLUSIVE_EXCLUSIVE);
+            list.add(new RadioItem(course, spannable, type));
         }
         return list;
     }
