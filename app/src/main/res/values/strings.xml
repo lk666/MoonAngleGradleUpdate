@@ -1697,6 +1697,7 @@
     <string name="offline_sign">签到课程</string>
     <string name="btn_good">好的</string>
     <string name="offline_plan_code">排课编码</string>
+    <string name="offline_plan_detail">排课详情</string>
     <string name="offline_no_course_info">暂无课程信息</string>
     <string name="edit_txt_empty">未设置快捷功能</string>
     <string name="edit_limit_8">最多添加8个快捷功能</string>

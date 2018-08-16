@@ -13,6 +13,7 @@ import cn.com.bluemoon.delivery.app.api.model.offline.request.CancelData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.CourseListData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.EvaluateData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.ListNumData;
+import cn.com.bluemoon.delivery.app.api.model.offline.request.PlanscanData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.RecordData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.SignDetailData;
 import cn.com.bluemoon.delivery.app.api.model.offline.request.StartOrEndCourseData;
@@ -440,5 +441,19 @@ public class OffLineApi extends DeliveryApi {
         params.put(TOKEN, token);
         params.put("data", new TeacherSignData(planCode,courseCodes,userMark,userType));
         postRequest(params, "training-web/course/teacher/sign%s", handler);
+    }
+
+    /**
+     * 教师排课详情
+     */
+    public static void planscan(String token, String planCode,AsyncHttpResponseHandler handler) {
+        if (null == token || TextUtils.isEmpty(planCode)) {
+            onError(handler);
+            return;
+        }
+        Map<String, Object> params = new HashMap<>();
+        params.put(TOKEN, token);
+        params.put("data", new PlanscanData(planCode));
+        postRequest(params, "course/teacher/planscan%s", handler);
     }
 }

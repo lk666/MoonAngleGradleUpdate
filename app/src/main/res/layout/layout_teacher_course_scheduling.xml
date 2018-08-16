@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+    <View
+        android:id="@+id/top_line"
+        android:layout_width="1dp"
+        android:layout_height="8dp"
+        android:layout_marginLeft="67dp"
+        android:background="@color/line_e9"/>
+
+    <cn.com.bluemoon.delivery.module.offline.view.WrapDot
+        android:id="@+id/wrap_dot"
+        android:layout_width="11dp"
+        android:layout_height="11dp"
+        android:layout_marginLeft="62dp"
+        android:layout_marginTop="8dp"/>
+
+    <View
+        android:id="@+id/bottom_line"
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_marginLeft="67dp"
+        android:layout_marginTop="11dp"/>
+
+    <TextView
+        android:id="@+id/txt_date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_toLeftOf="@+id/bottom_line"
+        android:textColor="@color/text_blue_1fb8ff"
+        android:textSize="@dimen/text_size_18"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txt_month"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="20dp"
+        android:layout_toLeftOf="@+id/bottom_line"
+        android:textColor="@color/text_blue_1fb8ff"
+        android:textSize="@dimen/text_size_10"/>
+
+    <TextView
+        android:id="@+id/txt_year"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="33dp"
+        android:layout_toLeftOf="@+id/bottom_line"
+        android:textColor="@color/text_blue_1fb8ff"
+        android:textSize="@dimen/text_size_9"/>
+
+    <TextView
+        android:id="@+id/txt_course_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="3dp"
+        android:layout_toRightOf="@+id/bottom_line"
+        android:textColor="@color/txt_333"
+        android:textSize="@dimen/text_size_15"
+        android:textStyle="bold"/>
+
+    <TextView
+        android:id="@+id/txt_course_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/txt_course_time"
+        android:layout_marginLeft="15dp"
+        android:layout_toRightOf="@+id/bottom_line"
+        android:textColor="@color/txt_333"
+        android:textSize="@dimen/text_size_14"/>
+
+</RelativeLayout>

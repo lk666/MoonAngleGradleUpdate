@@ -151,7 +151,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         } else {
             farSignStaff.setVisibility(View.GONE);
         }
-        txtCourse.setText(teacherDetail.data.courseCode);
+        txtCourse.setText(teacherDetail.data.planCode);
         rlCourseCode.setOnClickListener(this);
         ctxtCourseTheme.setContentText(teacherDetail.data.topic);
         ctxtCourseNumberParticipants.setContentText(teacherDetail.data.enrollNum + "人");
@@ -189,7 +189,7 @@ public class TeacherDetailActivity extends BaseActivity implements BMFieldArrow1
         switch (v.getId()) {
             case R.id.rl_course_code:
                 //点击排课编码
-
+                TeacherCourseSchedulingActivity.startAction(this,teacherDetail.data.planCode);
                 break;
         }
     }
