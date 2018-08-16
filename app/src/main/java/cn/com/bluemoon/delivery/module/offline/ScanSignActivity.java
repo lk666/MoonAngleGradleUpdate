@@ -26,14 +26,14 @@ public class ScanSignActivity extends ScanActivity {
 
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
-        String roomCode = OfflineUtil.getUrlParamsByCode(str);
-        if (TextUtils.isEmpty(roomCode)) {
+        String code = OfflineUtil.getUrlParamsByCode(str);
+        if (TextUtils.isEmpty(code)){
             toast(getString(R.string.scan_fail));
             startDelay();
             return;
         }
         showWaitDialog();
-        OffLineApi.signDetail(getToken(), roomCode, getNewHandler(0, ResultSignDetail.class));
+        OffLineApi.signDetail(getToken(), code, getNewHandler(0, ResultSignDetail.class));
     }
 
     @Override
@@ -44,7 +44,12 @@ public class ScanSignActivity extends ScanActivity {
         }
         ResultSignDetail.SignDetailData data = ((ResultSignDetail) result).data;
         if (data.courses != null && !data.courses.isEmpty()) {
-            SelectSignActivity.actionStart(ScanSignActivity.this, data, 1);
+            if("room".equals(data.type)){
+                SelectSignActivity.actionStart(ScanSignActivity.this, data, 1);
+            }else if("plan".equals(data.type)){
+                //排课签到
+                StudentScanPlanActivity.actionStart(this,data,1);
+            }
         } else {
             DialogUtil.getMessageDialog(this, null, getString(R.string.offline_sign_enable),
                     getString(R.string.btn_ok),

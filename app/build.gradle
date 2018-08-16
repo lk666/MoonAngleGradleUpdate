@@ -33,8 +33,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 53
-        versionName "4.10.0"
+        versionCode 54
+        versionName "4.10.1"
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
 
         buildConfigField("String", "DES_KEY", "\"19490101\"")
@@ -182,7 +182,7 @@ dependencies {
         compile 'com.scwang.smartrefresh:SmartRefreshHeader:1.0.4-alpha-12'*/
     compile 'com.github.CymChad:BaseRecyclerViewAdapterHelper:2.9.22'
     compile 'com.github.barteksc:android-pdf-viewer:2.8.2'
-    compile 'com.bluemoon.x5:lib_x5:1.7.19'
+    compile 'com.bluemoon.x5:lib_x5:1.7.20'
     compile 'com.bluemoon.badger:lib_badger:0.0.1'
     compile "com.android.support:cardview-v7:23.4.0"
     compile "com.android.support:design:$rootProject.ext.supportVersion"

@@ -1,9 +1,7 @@
 package cn.com.bluemoon.delivery.app.api.model.offline;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 
@@ -15,21 +13,35 @@ public class ResultSignDetail extends ResultBase {
 
     public SignDetailData data;
 
-    public class SignDetailData implements Serializable{
+    public static class SignDetailData implements Serializable{
+
         public long date;
+        public PlanInfo planInfo;
         public String room;
+        public String type;
         public List<Course> courses;
 
-        public class Course implements Serializable{
+        public static class PlanInfo implements Serializable{
+
+            public int endTime;
+            public long nowDate;
+            public String planCode;
+            public int startTime;
+            public String topic;
+        }
+
+        public static class Course implements Serializable{
+
             public String courseCode;
             public String courseName;
-            public String planCode;
-            public String teacherName;
-            public long startTime;
             public long endTime;
             public int isSign;
             public String message;
-
+            public String planCode;
+            public String room;
+            public long startTime;
+            public String status;
+            public String teacherName;
         }
     }
 }
