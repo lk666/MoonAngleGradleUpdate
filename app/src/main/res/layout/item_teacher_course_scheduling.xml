@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
@@ -8,30 +9,32 @@
     <View
         android:id="@+id/top_line"
         android:layout_width="1dp"
-        android:layout_height="8dp"
+        android:layout_height="20dp"
         android:layout_marginLeft="67dp"
         android:background="@color/line_e9"/>
 
     <cn.com.bluemoon.delivery.module.offline.view.WrapDot
-        android:id="@+id/wrap_dot"
         android:layout_width="11dp"
         android:layout_height="11dp"
         android:layout_marginLeft="62dp"
-        android:layout_marginTop="8dp"/>
+        android:layout_marginTop="20dp"/>
 
     <View
         android:id="@+id/bottom_line"
         android:layout_width="1dp"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/txt_classroom"
         android:layout_marginLeft="67dp"
-        android:layout_marginTop="11dp"/>
+        android:layout_marginTop="31dp"
+        android:background="@color/line_e9"/>
 
     <TextView
         android:id="@+id/txt_date"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_toLeftOf="@+id/bottom_line"
+        android:layout_alignRight="@+id/bottom_line"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="16dp"
         android:textColor="@color/text_blue_1fb8ff"
         android:textSize="@dimen/text_size_18"
         android:textStyle="bold"/>
@@ -40,9 +43,9 @@
         android:id="@+id/txt_month"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="20dp"
-        android:layout_toLeftOf="@+id/bottom_line"
+        android:layout_alignRight="@+id/txt_date"
+        android:layout_below="@+id/txt_date"
+        android:layout_marginTop="1dp"
         android:textColor="@color/text_blue_1fb8ff"
         android:textSize="@dimen/text_size_10"/>
 
@@ -50,18 +53,19 @@
         android:id="@+id/txt_year"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="33dp"
-        android:layout_toLeftOf="@+id/bottom_line"
+        android:layout_alignRight="@+id/txt_date"
+        android:layout_below="@+id/txt_month"
+        android:layout_marginTop="2dp"
         android:textColor="@color/text_blue_1fb8ff"
         android:textSize="@dimen/text_size_9"/>
 
     <TextView
         android:id="@+id/txt_course_time"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="15dp"
-        android:layout_marginTop="3dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="18dp"
         android:layout_toRightOf="@+id/bottom_line"
         android:textColor="@color/txt_333"
         android:textSize="@dimen/text_size_15"
@@ -69,29 +73,41 @@
 
     <TextView
         android:id="@+id/txt_course_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txt_course_time"
         android:layout_below="@+id/txt_course_time"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
+        android:ellipsize="end"
+        android:lineSpacingExtra="6dp"
+        android:maxLines="2"
         android:textColor="@color/txt_333"
         android:textSize="@dimen/text_size_14"/>
 
-    <TextView
+    <cn.com.bluemoon.lib_widget.module.form.BMPrefixTextView
         android:id="@+id/txt_teacher_name"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txt_course_time"
         android:layout_below="@+id/txt_course_name"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
         android:textColor="@color/txt_333"
-        android:textSize="@dimen/text_size_14"/>
+        android:textSize="@dimen/text_size_14"
+        app:prefix_null_data_is_show="true"
+        app:prefix_text="@string/offline_type_lecturer"/>
 
-    <TextView
+    <cn.com.bluemoon.lib_widget.module.form.BMPrefixTextView
         android:id="@+id/txt_classroom"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/txt_course_time"
         android:layout_below="@+id/txt_teacher_name"
-        android:layout_marginBottom="9dp"
+        android:layout_marginRight="12dp"
+        android:layout_marginTop="6dp"
         android:textColor="@color/txt_333"
-        android:textSize="@dimen/text_size_14"/>
+        android:textSize="@dimen/text_size_14"
+        app:prefix_null_data_is_show="true"
+        app:prefix_text="@string/offline_type_classroom"/>
 </RelativeLayout>

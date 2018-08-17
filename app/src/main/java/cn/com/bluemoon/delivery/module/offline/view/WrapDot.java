@@ -36,6 +36,8 @@ public class WrapDot extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         paint.setColor(fillColor);
+        paint.setStrokeWidth(0);
+        paint.setStyle(Paint.Style.FILL);
         canvas.drawCircle(cx, cy, fillR, paint);
         paint.setColor(borderColor);
         paint.setStrokeWidth(strokeWidth);

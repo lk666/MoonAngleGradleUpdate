@@ -1789,5 +1789,7 @@
     <string name="receive_address">收货地址</string>
     <string name="total_count_zhi_shu">总数(支)</string>
     <string name="mini_share_fail">分享图片加载失败！</string>
+    <string name="scan_code_hint">学员扫一扫下方二维码可进行课程签到</string>
+    <string name="save_to_album">保存到相册</string>
 
 </resources>

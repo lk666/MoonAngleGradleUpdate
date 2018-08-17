@@ -41,6 +41,9 @@ public class DateUtil extends LibDateUtil {
     public static String getTime(long t) {
         return getTime(t, "yyyy-MM-dd");
     }
+    public static String getDotTime(long t) {
+        return getTime(t, "yyyy.MM.dd");
+    }
 
     public static String getTimeToHours(long t) {
         return getTime(t, "HH:mm");
