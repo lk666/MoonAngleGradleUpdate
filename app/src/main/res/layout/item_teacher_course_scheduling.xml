@@ -4,12 +4,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@color/white"
+                android:id="@+id/root"
                 android:orientation="vertical">
 
     <View
         android:id="@+id/top_line"
         android:layout_width="1dp"
-        android:layout_height="20dp"
+        android:layout_height="23dp"
         android:layout_marginLeft="67dp"
         android:background="@color/line_e9"/>
 
@@ -17,15 +18,14 @@
         android:layout_width="11dp"
         android:layout_height="11dp"
         android:layout_marginLeft="62dp"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="23dp"/>
 
     <View
         android:id="@+id/bottom_line"
         android:layout_width="1dp"
-        android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/txt_classroom"
+        android:layout_height="0dp"
         android:layout_marginLeft="67dp"
-        android:layout_marginTop="31dp"
+        android:layout_marginTop="34dp"
         android:background="@color/line_e9"/>
 
     <TextView

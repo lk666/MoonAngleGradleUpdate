@@ -23,8 +23,10 @@ import cn.com.bluemoon.delivery.app.api.model.offline.ResultPlanscan;
 import cn.com.bluemoon.delivery.module.base.BaseActivity;
 import cn.com.bluemoon.delivery.module.offline.adapter.TeacherCourseSchedulingAdapter;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.PublicUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib.qrcode.utils.BarcodeUtil;
+import cn.com.bluemoon.lib.utils.LibImageUtil;
 
 /**
  * 排课详情
@@ -76,26 +78,7 @@ public class TeacherCourseSchedulingActivity extends BaseActivity {
 
     @Override
     public void initData() {
-//        OffLineApi.planscan(getToken(), planCode, getNewHandler(0, ResultPlanscan.class));
-        ResultPlanscan.PlanInfo planInfo = new ResultPlanscan.PlanInfo();
-        planInfo.endTime = System.currentTimeMillis();
-        planInfo.planCode = "SDFFDFD";
-        planInfo.startTime = System.currentTimeMillis();
-        planInfo.topic = "人有多大胆，地有多大产";
-        List<ResultPlanscan.Course> list = new ArrayList<>();
-        for (int i = 0; i < 3; i++) {
-            ResultPlanscan.Course course = new ResultPlanscan.Course();
-            course.courseName = "课程名称";
-            course.endTime = System.currentTimeMillis();
-            course.planCode = "SC1654";
-            course.room = "2106";
-            course.signTime = System.currentTimeMillis();
-            course.startTime = System.currentTimeMillis();
-            course.teacherName = "唐启炜";
-            list.add(course);
-        }
-        initHeadData(planInfo);
-        adapter.replaceData(list);
+        OffLineApi.planscan(getToken(), planCode, getNewHandler(0, ResultPlanscan.class));
     }
 
     @Override
@@ -105,13 +88,24 @@ public class TeacherCourseSchedulingActivity extends BaseActivity {
         adapter.replaceData(resultPlanscan.data.courses);
     }
 
-    public void initHeadData(ResultPlanscan.PlanInfo info) {
+    public void initHeadData(final ResultPlanscan.PlanInfo info) {
         txtCourseName.setText(info.topic);
         txtCourseSchedulingTime.setText(
                 new StringBuffer().append(DateUtil.getDotTime(info
                         .startTime)).append("-")
                         .append(DateUtil.getDotTime(info.endTime)).toString());
         imgQrCode.setImageBitmap(BarcodeUtil.createQRCode(info.planCode));
+        txtSaveToAlbum.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String fileName = PublicUtil.getPhotoPath();
+                if (LibImageUtil.savaBitmap(BarcodeUtil.createQRCode(info.planCode), fileName)) {
+                    longToast(String.format(getString(R.string.QR_code_save), fileName));
+                }
+            }
+        });
+
+
     }
 
     public View getHeadView() {

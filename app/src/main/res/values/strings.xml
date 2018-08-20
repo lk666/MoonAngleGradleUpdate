@@ -1791,5 +1791,6 @@
     <string name="mini_share_fail">分享图片加载失败！</string>
     <string name="scan_code_hint">学员扫一扫下方二维码可进行课程签到</string>
     <string name="save_to_album">保存到相册</string>
+    <string name="QR_code_save">二维码已保存至%s</string>
 
 </resources>
