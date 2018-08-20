@@ -1,5 +1,9 @@
 package cn.com.bluemoon.delivery.module.offline.adapter;
 
+import android.view.View;
+import android.view.ViewTreeObserver;
+import android.widget.RelativeLayout;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
@@ -8,6 +12,7 @@ import java.util.ArrayList;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultPlanscan;
 import cn.com.bluemoon.delivery.utils.DateUtil;
+import cn.com.bluemoon.delivery.utils.ViewUtil;
 import cn.com.bluemoon.lib_widget.module.form.BMPrefixTextView;
 
 /**
@@ -28,7 +33,7 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
     protected void convert(BaseViewHolder helper, ResultPlanscan.Course item) {
 //        @Bind(R.id.top_line) View topLine;
         int position = helper.getPosition();
-        helper.setVisible(R.id.top_line, position!=1);
+        helper.setVisible(R.id.top_line, position != 1);
         if (position == 1 || !DateUtil.getTime(getData().get(position - 1).startTime).equals
                 (DateUtil.getTime(item.startTime))) {
             helper.setVisible(R.id.txt_date, true);
@@ -61,5 +66,19 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
         txtTeacherName.setContentText(item.teacherName);
         BMPrefixTextView txtClassroom = helper.getView(R.id.txt_classroom);
         txtClassroom.setContentText(item.room);
+
+        final RelativeLayout layout = helper.getView(R.id.root);
+        final View bLine = helper.getView(R.id.bottom_line);
+        layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver
+                .OnGlobalLayoutListener() {
+            @Override
+            public void onGlobalLayout() {
+                layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
+                RelativeLayout.LayoutParams l = (RelativeLayout.LayoutParams) bLine
+                        .getLayoutParams();
+                l.height = layout.getHeight() - ViewUtil.dp2px(34);
+                bLine.setLayoutParams(l);
+            }
+        });
     }
 }

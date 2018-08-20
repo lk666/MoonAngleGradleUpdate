@@ -486,6 +486,6 @@ public class OffLineApi extends DeliveryApi {
         Map<String, Object> params = new HashMap<>();
         params.put(TOKEN, token);
         params.put("data", new PlanscanData(planCode));
-        postRequest(params, "course/teacher/planscan%s", handler);
+        postRequest(params, "training-web/course/teacher/planscan%s", handler);
     }
 }
