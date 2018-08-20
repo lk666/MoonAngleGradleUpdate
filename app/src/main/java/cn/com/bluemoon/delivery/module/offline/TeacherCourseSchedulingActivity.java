@@ -31,7 +31,7 @@ import cn.com.bluemoon.lib.utils.LibImageUtil;
 /**
  * 排课详情
  */
-public class TeacherCourseSchedulingActivity extends BaseActivity {
+public class TeacherCourseSchedulingActivity extends BaseActivity implements View.OnClickListener {
 
     @Bind(R.id.recycler_view)
     RecyclerView recyclerView;
@@ -95,18 +95,10 @@ public class TeacherCourseSchedulingActivity extends BaseActivity {
                         .startTime)).append("-")
                         .append(DateUtil.getDotTime(info.endTime)).toString());
         imgQrCode.setImageBitmap(BarcodeUtil.createQRCode(info.planCode));
-        txtSaveToAlbum.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String fileName = PublicUtil.getPhotoPath();
-                if (LibImageUtil.savaBitmap(BarcodeUtil.createQRCode(info.planCode), fileName)) {
-                    longToast(String.format(getString(R.string.QR_code_save), fileName));
-                }
-            }
-        });
-
-
+        txtSaveToAlbum.setTag(info.planCode);
+        txtSaveToAlbum.setOnClickListener(this);
     }
+
 
     public View getHeadView() {
         View headView = LayoutInflater.from(this).inflate(R.layout
@@ -130,4 +122,17 @@ public class TeacherCourseSchedulingActivity extends BaseActivity {
         return footView;
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.txt_save_to_album:
+                //保存到相册
+                String fileName = PublicUtil.getPhotoPath();
+                if (LibImageUtil.savaBitmap(BarcodeUtil.createQRCode((String) v.getTag()), fileName)) {
+                    LibImageUtil.refreshImg(this, fileName);
+                    longToast(String.format(getString(R.string.QR_code_save), fileName));
+                }
+                break;
+        }
+    }
 }
