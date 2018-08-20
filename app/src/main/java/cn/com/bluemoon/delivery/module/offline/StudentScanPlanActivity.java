@@ -53,14 +53,14 @@ public class StudentScanPlanActivity extends BaseActivity implements CheckListen
 
     public static void actionStart(Activity context, ResultSignDetail.SignDetailData data, int
             requestCode) {
-        Intent intent = new Intent(context, SelectSignActivity.class);
+        Intent intent = new Intent(context, StudentScanPlanActivity.class);
         intent.putExtra("data", data);
         context.startActivityForResult(intent, requestCode);
     }
 
     //统一扫一扫进来
     public static void actionStart(Activity context, String planCode, int requestCode) {
-        Intent intent = new Intent(context, SelectSignActivity.class);
+        Intent intent = new Intent(context, StudentScanPlanActivity.class);
         intent.putExtra("planCode", planCode);
         context.startActivityForResult(intent, requestCode);
     }
@@ -109,6 +109,7 @@ public class StudentScanPlanActivity extends BaseActivity implements CheckListen
             setData();
         } else if (requestCode == 1) {
             toast(result.getResponseMsg());
+            setResult(RESULT_OK);
             finish();
         }
     }
@@ -116,7 +117,7 @@ public class StudentScanPlanActivity extends BaseActivity implements CheckListen
     @Override
     public void onErrorResponse(int requestCode, ResultBase result) {
         // TODO: 2018/8/13 错误码需要更新
-        if (requestCode == 1 && result.getResponseCode() == 1) {
+        if (requestCode == 1 && result.getResponseCode() == 44104) {
             DialogUtil.getMsgDialog(this, result.getResponseMsg(), getString(R.string.btn_good))
                     .show();
             OffLineApi.signDetail(getToken(), planCode, getNewHandler(0,
@@ -155,7 +156,7 @@ public class StudentScanPlanActivity extends BaseActivity implements CheckListen
                     + getString(R.string.offline_sign_course, course.courseName) + "\n"
                     + getString(R.string.offline_sign_teacher, course.teacherName) + "\n"
                     + getString(R.string.offline_sign_room, course.room);
-            int type = course.isSign == 1 ? BMRadioItemView.TYPE_DISABLE : BMRadioItemView
+            int type = course.isDisable == 1 ? BMRadioItemView.TYPE_DISABLE : BMRadioItemView
                     .TYPE_NORMAL;
             Spannable spannable = new SpannableString(text);
             spannable.setSpan(new StyleSpan(Typeface.BOLD), 0, dateString.length(), Spannable

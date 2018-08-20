@@ -12,7 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="48dp"
         android:layout_alignParentBottom="true"
-        android:visibility="gone"
         android:orientation="horizontal">
         <cn.com.bluemoon.lib_widget.module.choice.BMRadioItemView
             android:id="@+id/view_all"
@@ -71,7 +70,6 @@
                 android:id="@+id/list_check"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:check_disable="true"
                 android:visibility="gone"/>
 
             <TextView

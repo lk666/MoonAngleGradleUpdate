@@ -11,8 +11,6 @@ import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultSignDetail;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
-import cn.com.bluemoon.delivery.module.base.BaseScanActivity;
-import cn.com.bluemoon.delivery.module.base.BaseScanCodeActivity;
 import cn.com.bluemoon.delivery.module.offline.utils.OfflineUtil;
 import cn.com.bluemoon.delivery.utils.DialogUtil;
 import cn.com.bluemoon.delivery.utils.ViewUtil;
@@ -27,7 +25,7 @@ public class ScanSignActivity extends ScanActivity {
     @Override
     protected void onResult(String str, String type, Bitmap barcode) {
         String code = OfflineUtil.getUrlParamsByCode(str);
-        if (TextUtils.isEmpty(code)){
+        if (TextUtils.isEmpty(code)) {
             toast(getString(R.string.scan_fail));
             startDelay();
             return;
@@ -44,11 +42,11 @@ public class ScanSignActivity extends ScanActivity {
         }
         ResultSignDetail.SignDetailData data = ((ResultSignDetail) result).data;
         if (data.courses != null && !data.courses.isEmpty()) {
-            if("room".equals(data.type)){
+            if ("room".equals(data.type)) {
                 SelectSignActivity.actionStart(ScanSignActivity.this, data, 1);
-            }else if("plan".equals(data.type)){
+            } else if ("plan".equals(data.type)) {
                 //排课签到
-                StudentScanPlanActivity.actionStart(this,data,1);
+                StudentScanPlanActivity.actionStart(ScanSignActivity.this, data, 1);
             }
         } else {
             DialogUtil.getMessageDialog(this, null, getString(R.string.offline_sign_enable),
