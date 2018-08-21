@@ -1,13 +1,16 @@
 package cn.com.bluemoon.delivery.module.offline.adapter;
 
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.model.offline.ResultPlanscan;
@@ -24,6 +27,8 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
         BaseViewHolder> {
 
     private boolean isOpenYear = false;
+    private String[] months = new String[]{"一", "二", "三", "四", "五", "六", "七", "八", "九", "十",
+            "十一", "十二"};
 
     public TeacherCourseSchedulingAdapter() {
         super(R.layout.item_teacher_course_scheduling);
@@ -33,13 +38,15 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
     protected void convert(BaseViewHolder helper, ResultPlanscan.Course item) {
 //        @Bind(R.id.top_line) View topLine;
         int position = helper.getPosition();
-        helper.setVisible(R.id.top_line, position != 1);
+        View tLine = helper.getView(R.id.top_line);
+        tLine.setVisibility(position == 1 ? View.INVISIBLE : View.VISIBLE);
         if (position == 1 || !DateUtil.getTime(getData().get(position - 1).startTime).equals
                 (DateUtil.getTime(item.startTime))) {
             helper.setVisible(R.id.txt_date, true);
             helper.setVisible(R.id.txt_month, true);
             helper.setText(R.id.txt_date, DateUtil.getTimeMill(item.startTime, "dd"));
-            helper.setText(R.id.txt_month, DateUtil.getTimeMill(item.startTime, "MM月"));
+            helper.setText(R.id.txt_month, months[Integer.valueOf(DateUtil.getTimeMill(item
+                    .startTime, "MM"))-1] + "月");
             if (isOpenYear) {
                 helper.setVisible(R.id.txt_year, true);
                 helper.setText(R.id.txt_year, DateUtil.getTime(item.startTime, "yyyy"));
@@ -66,27 +73,7 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
         txtTeacherName.setContentText(item.teacherName);
         BMPrefixTextView txtClassroom = helper.getView(R.id.txt_classroom);
         txtClassroom.setContentText(item.room);
-
-        final RelativeLayout layout = helper.getView(R.id.root);
-        final View bLine = helper.getView(R.id.bottom_line);
-        if(layout.getTag()==null||!(Boolean) layout.getTag()){
-            layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver
-                    .OnGlobalLayoutListener() {
-                @Override
-                public void onGlobalLayout() {
-                    reSetLinHeight(layout, bLine);
-                }
-            });
-            layout.setTag(true);
-        }
-
     }
 
-    public void reSetLinHeight(RelativeLayout layout, View bLine) {
-        RelativeLayout.LayoutParams l = (RelativeLayout.LayoutParams) bLine
-                .getLayoutParams();
-        l.height = layout.getHeight() - ViewUtil.dp2px(34);
-        bLine.setLayoutParams(l);
-    }
 
 }

@@ -26,6 +26,8 @@ public class ResultPlanscan extends ResultBase {
         public long startTime;
         //        topic	培训主题	string
         public String topic;
+        //   qrCodeUrl	排课二维码url	string
+        public String qrCodeUrl;
     }
 
     public static class Course {

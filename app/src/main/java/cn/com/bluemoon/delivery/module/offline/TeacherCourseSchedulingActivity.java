@@ -94,8 +94,8 @@ public class TeacherCourseSchedulingActivity extends BaseActivity implements Vie
                 new StringBuffer().append(DateUtil.getDotTime(info
                         .startTime)).append("-")
                         .append(DateUtil.getDotTime(info.endTime)).toString());
-        imgQrCode.setImageBitmap(BarcodeUtil.createQRCode(info.planCode));
-        txtSaveToAlbum.setTag(info.planCode);
+        imgQrCode.setImageBitmap(BarcodeUtil.createQRCode(info.qrCodeUrl));
+        txtSaveToAlbum.setTag(info.qrCodeUrl);
         txtSaveToAlbum.setOnClickListener(this);
     }
 
