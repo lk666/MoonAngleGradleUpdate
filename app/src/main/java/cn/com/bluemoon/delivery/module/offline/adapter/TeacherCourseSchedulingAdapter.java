@@ -69,16 +69,24 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
 
         final RelativeLayout layout = helper.getView(R.id.root);
         final View bLine = helper.getView(R.id.bottom_line);
-        layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver
-                .OnGlobalLayoutListener() {
-            @Override
-            public void onGlobalLayout() {
-                layout.getViewTreeObserver().removeOnGlobalLayoutListener(this);
-                RelativeLayout.LayoutParams l = (RelativeLayout.LayoutParams) bLine
-                        .getLayoutParams();
-                l.height = layout.getHeight() - ViewUtil.dp2px(34);
-                bLine.setLayoutParams(l);
-            }
-        });
+        if(layout.getTag()==null||!(Boolean) layout.getTag()){
+            layout.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver
+                    .OnGlobalLayoutListener() {
+                @Override
+                public void onGlobalLayout() {
+                    reSetLinHeight(layout, bLine);
+                }
+            });
+            layout.setTag(true);
+        }
+
     }
+
+    public void reSetLinHeight(RelativeLayout layout, View bLine) {
+        RelativeLayout.LayoutParams l = (RelativeLayout.LayoutParams) bLine
+                .getLayoutParams();
+        l.height = layout.getHeight() - ViewUtil.dp2px(34);
+        bLine.setLayoutParams(l);
+    }
+
 }
