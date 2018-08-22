@@ -63,8 +63,8 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
     LinearLayout layoutScan;
     @Bind(R.id.layout_input)
     LinearLayout layoutInput;
-    @Bind(R.id.layout_reset)
-    LinearLayout layoutReset;
+//    @Bind(R.id.layout_reset)
+//    LinearLayout layoutReset;
     private CommonProgressDialog progressDialog;
     private FragmentActivity main;
     public LocationClient mLocationClient = null;
@@ -89,7 +89,7 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
         txtWeek.setText(DateUtil.getTime(System.currentTimeMillis(), "EEEE"));
 
         layoutScan.setOnClickListener(this);
-        layoutReset.setOnClickListener(this);
+//        layoutReset.setOnClickListener(this);
         layoutInput.setOnClickListener(this);
         setImgBanner();
 
@@ -173,22 +173,23 @@ public class PunchCardFragment extends Fragment implements OnClickListener {
         } else if (v == layoutInput) {
             Intent intent = new Intent(mContext, PunchCardOndutyActivity.class);
             startActivityForResult(intent, 1);
-        }else  if(v == layoutReset){
-
-            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(getActivity());
-            dialog.setMessage(getString(R.string.btn_reset_confirm));
-            dialog.setPositiveButton(R.string.btn_cancel,null);
-            dialog.setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    progressDialog.show();
-                    mLocationClient.start();
-                }
-            });
-            dialog.show();
-
-
         }
+//        else  if(v == layoutReset){
+//
+//            CommonAlertDialog.Builder dialog = new CommonAlertDialog.Builder(getActivity());
+//            dialog.setMessage(getString(R.string.btn_reset_confirm));
+//            dialog.setPositiveButton(R.string.btn_cancel,null);
+//            dialog.setNegativeButton(R.string.btn_ok, new DialogInterface.OnClickListener() {
+//                @Override
+//                public void onClick(DialogInterface dialog, int which) {
+//                    progressDialog.show();
+//                    mLocationClient.start();
+//                }
+//            });
+//            dialog.show();
+//
+//
+//        }
     }
 
     @Override
