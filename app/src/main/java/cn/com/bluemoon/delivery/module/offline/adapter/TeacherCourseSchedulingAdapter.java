@@ -40,7 +40,7 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
         int position = helper.getPosition();
         View tLine = helper.getView(R.id.top_line);
         tLine.setVisibility(position == 1 ? View.INVISIBLE : View.VISIBLE);
-        if (position == 1 || !DateUtil.getTime(getData().get(position - 1).startTime).equals
+        if (position == 1 || !DateUtil.getTime(getData().get(position - 2).startTime).equals
                 (DateUtil.getTime(item.startTime))) {
             helper.setVisible(R.id.txt_date, true);
             helper.setVisible(R.id.txt_month, true);
