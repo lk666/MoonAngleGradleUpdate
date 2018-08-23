@@ -1,5 +1,6 @@
 package cn.com.bluemoon.delivery.module.offline.adapter;
 
+import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -46,7 +47,7 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
             helper.setVisible(R.id.txt_month, true);
             helper.setText(R.id.txt_date, DateUtil.getTimeMill(item.startTime, "dd"));
             helper.setText(R.id.txt_month, months[Integer.valueOf(DateUtil.getTimeMill(item
-                    .startTime, "MM"))-1] + "月");
+                    .startTime, "MM")) - 1] + "月");
             if (isOpenYear) {
                 helper.setVisible(R.id.txt_year, true);
                 helper.setText(R.id.txt_year, DateUtil.getTime(item.startTime, "yyyy"));
@@ -59,10 +60,16 @@ public class TeacherCourseSchedulingAdapter extends BaseQuickAdapter<ResultPlans
             helper.setVisible(R.id.txt_year, false);
         }
         //在没有打开显示年份时发现存在年份不同的，打开并且重新刷新
-        if (!isOpenYear && !DateUtil.getTime(getData().get(position - 1).startTime, "yyyy").equals
+        if (!isOpenYear && position > 1 && !DateUtil.getTime(getData().get(position - 2)
+                .startTime, "yyyy").equals
                 (DateUtil.getTime(item.startTime, "yyyy"))) {
             isOpenYear = true;
-            notifyDataSetChanged();
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    notifyDataSetChanged();
+                }
+            });
         }
 
         helper.setText(R.id.txt_course_time, new StringBuffer().append(DateUtil.getTimeToHours
