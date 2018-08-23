@@ -1,15 +1,9 @@
 package cn.com.bluemoon.delivery.module.offline;
 
-import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -20,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
@@ -51,8 +46,6 @@ public class TeacherCourseSchedulingActivity extends BaseActivity implements Vie
 
     private String planCode;
     private TeacherCourseSchedulingAdapter adapter;
-
-    private String qrCodeUrl;
 
     public static void startAction(Context context, String planCode) {
         Intent intent = new Intent(context, TeacherCourseSchedulingActivity.class);
@@ -103,7 +96,7 @@ public class TeacherCourseSchedulingActivity extends BaseActivity implements Vie
                         .startTime)).append("-")
                         .append(DateUtil.getDotTime(info.endTime)).toString());
         imgQrCode.setImageBitmap(BarcodeUtil.createQRCode(info.qrCodeUrl));
-        qrCodeUrl=info.qrCodeUrl;
+        txtSaveToAlbum.setTag(info.qrCodeUrl);
         txtSaveToAlbum.setOnClickListener(this);
     }
 
@@ -134,39 +127,18 @@ public class TeacherCourseSchedulingActivity extends BaseActivity implements Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.txt_save_to_album:
-                //检查版本是否大于M
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(this,
-                                new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                                1);
-                    }else {
-                        saveToAlbum();
-                    }
-                }else{
-                    saveToAlbum();
+                if (!X5PermissionsUtil.checkPermissionsUndo(this, X5PermissionsUtil
+                        .PERMISSION_FILE)) {
+                    return;
+                }
+                //保存到相册
+                String fileName = PublicUtil.getPhotoPath();
+                if (LibImageUtil.savaBitmap(BarcodeUtil.createQRCode((String) v.getTag()),
+                        fileName)) {
+                    LibImageUtil.refreshImg(this, fileName);
+                    longToast(String.format(getString(R.string.QR_code_save), fileName));
                 }
                 break;
         }
-    }
-
-    public void saveToAlbum(){
-        //保存到相册
-        String fileName = PublicUtil.getPhotoPath();
-        if (LibImageUtil.savaBitmap(BarcodeUtil.createQRCode(qrCodeUrl), fileName)) {
-            LibImageUtil.refreshImg(this, fileName);
-            longToast(String.format(getString(R.string.QR_code_save), fileName));
-        }
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
-                                           @NonNull int[] grantResults) {
-        if(requestCode==1){
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                saveToAlbum();
-            }
-        }
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 }
