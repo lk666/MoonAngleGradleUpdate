@@ -14,6 +14,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import cn.com.bluemoon.delivery.R;
@@ -126,9 +127,14 @@ public class TeacherCourseSchedulingActivity extends BaseActivity implements Vie
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.txt_save_to_album:
+                if (!X5PermissionsUtil.checkPermissionsUndo(this, X5PermissionsUtil
+                        .PERMISSION_FILE)) {
+                    return;
+                }
                 //保存到相册
                 String fileName = PublicUtil.getPhotoPath();
-                if (LibImageUtil.savaBitmap(BarcodeUtil.createQRCode((String) v.getTag()), fileName)) {
+                if (LibImageUtil.savaBitmap(BarcodeUtil.createQRCode((String) v.getTag()),
+                        fileName)) {
                     LibImageUtil.refreshImg(this, fileName);
                     longToast(String.format(getString(R.string.QR_code_save), fileName));
                 }
