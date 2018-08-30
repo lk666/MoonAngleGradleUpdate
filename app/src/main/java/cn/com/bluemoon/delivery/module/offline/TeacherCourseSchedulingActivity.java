@@ -3,7 +3,6 @@ package cn.com.bluemoon.delivery.module.offline;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,12 +10,8 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import bluemoon.com.lib_x5.utils.X5PermissionsUtil;
-import butterknife.Bind;
-import butterknife.ButterKnife;
+import butterknife.BindView;
 import cn.com.bluemoon.delivery.R;
 import cn.com.bluemoon.delivery.app.api.OffLineApi;
 import cn.com.bluemoon.delivery.app.api.model.ResultBase;
@@ -34,7 +29,7 @@ import cn.com.bluemoon.lib.utils.LibImageUtil;
  */
 public class TeacherCourseSchedulingActivity extends BaseActivity implements View.OnClickListener {
 
-    @Bind(R.id.recycler_view)
+    @BindView(R.id.recycler_view)
     RecyclerView recyclerView;
 
 
