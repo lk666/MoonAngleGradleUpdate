@@ -28,8 +28,8 @@ android {
         applicationId "cn.com.bluemoon.delivery"
         minSdkVersion rootProject.ext.android["minSdkVersion"]
         targetSdkVersion rootProject.ext.android["targetSdkVersion"]
-        versionCode 51
-        versionName "4.10.0"
+        versionCode 54
+        versionName "4.10.1"
 
         buildConfigField("String", "BUILD_CODE", "\"${gitNum}\"")
         buildConfigField("String", "DES_KEY", "\"19490101\"")

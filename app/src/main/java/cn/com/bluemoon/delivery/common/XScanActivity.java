@@ -12,6 +12,7 @@ import cn.com.bluemoon.delivery.app.api.model.ResultBase;
 import cn.com.bluemoon.delivery.app.api.model.ResultScanService;
 import cn.com.bluemoon.delivery.common.qrcode.ScanActivity;
 import cn.com.bluemoon.delivery.module.offline.CourseSignActivity;
+import cn.com.bluemoon.delivery.module.offline.StudentScanPlanActivity;
 import cn.com.bluemoon.delivery.module.offline.TeacherScanPlanActivity;
 import cn.com.bluemoon.delivery.utils.PublicUtil;
 
@@ -76,6 +77,9 @@ public class XScanActivity extends ScanActivity {
                 //跳转排课页面
                 TeacherScanPlanActivity.actStart(this, internal.data.planCode, internal.data
                         .userMark, internal.data.userType, 1);
+            } else if ("PLAN_USER".equals(internal.target)) {
+                //跳转排课签到页面
+                StudentScanPlanActivity.actionStart(this, internal.data.planCode, 2);
             }
         }
 

@@ -1514,6 +1514,7 @@
     <string name="offline_my_train">我的培训</string>
     <string name="offline_sign_course">课程：%s</string>
     <string name="offline_sign_teacher">讲师：%s</string>
+    <string name="offline_sign_room">教室：%s</string>
     <string name="offline_sign_status">状态：%s</string>
     <string name="offline_select_sign_course">选择签到课程</string>
 
@@ -1549,7 +1550,7 @@
     <string name="offline_course_detail_sign_time">签到时间</string>
     <string name="offline_course_detail_sign_staff">签到人员</string>
     <string name="offline_course_detail_info">培训安排信息</string>
-    <string name="offline_course_detail_code">课程编码</string>
+    <string name="offline_course_detail_code">排课编码</string>
     <string name="offline_course_detail_theme">培训主题</string>>
     <string name="offline_course_detail_number_participants">报名人数</string>
     <string name="offline_course_detail_contacts">联系人</string>
@@ -1595,7 +1596,7 @@
         <u>线上申请</u>
     </string>
     <string name="offline_date_compare">所选月份不能大于当前月份</string>
-    <string name="offline_sign_enable">当前教室无可签到课程</string>
+    <string name="offline_sign_enable">无可签到课程</string>
     <string name="offline_course_qcode">课程二维码</string>
 
     <string name="no_more_data">没有更多内容了</string>
@@ -1697,6 +1698,7 @@
     <string name="offline_sign">签到课程</string>
     <string name="btn_good">好的</string>
     <string name="offline_plan_code">排课编码</string>
+    <string name="offline_plan_detail">排课详情</string>
     <string name="offline_no_course_info">暂无课程信息</string>
     <string name="edit_txt_empty">未设置快捷功能</string>
     <string name="edit_limit_8">最多添加8个快捷功能</string>
@@ -1787,5 +1789,8 @@
     <string name="receive_address">收货地址</string>
     <string name="total_count_zhi_shu">总数(支)</string>
     <string name="mini_share_fail">分享图片加载失败！</string>
+    <string name="scan_code_hint">学员扫一扫下方二维码可进行课程签到</string>
+    <string name="save_to_album">保存到相册</string>
+    <string name="QR_code_save">二维码已保存至%s</string>
 
 </resources>

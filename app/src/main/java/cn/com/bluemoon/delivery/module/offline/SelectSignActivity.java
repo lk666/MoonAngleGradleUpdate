@@ -97,7 +97,7 @@ public class SelectSignActivity extends BaseActivity implements CheckListener {
     public void onClick() {
         if (!viewRadio.getValues().isEmpty()) {
             ResultSignDetail.SignDetailData.Course course = data.courses.get(viewRadio.getValues().get(0));
-            OffLineApi.sign(getToken(), course.courseCode, course.planCode, getNewHandler(0,
+            OffLineApi.sign(getToken(), course.courseCode,null, course.planCode, getNewHandler(0,
                     ResultBase.class));
         }
     }

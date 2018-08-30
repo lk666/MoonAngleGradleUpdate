@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          xmlns:tools="http://schemas.android.com/tools"
-          package="cn.com.bluemoon.delivery">
+<manifest package="cn.com.bluemoon.delivery"
+          xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools">
 
     <uses-feature android:name="android.hardware.camera.autofocus"/>
 
@@ -656,7 +656,8 @@
         </receiver>
         <!-- push结束 -->
 
-        <!--高德地图key-->
+
+        <!-- 高德地图key -->
         <meta-data
             android:name="com.amap.api.v2.apikey"
             android:value="be56d15a5b0ca0ea607fdc02d713a45d"/>
@@ -752,7 +753,6 @@
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustResize"/>
-
         <activity
             android:name="com.unionpay.UPPayWapActivity"
             android:configChanges="orientation|keyboardHidden"
@@ -873,6 +873,11 @@
             android:theme="@style/App.Base.Theme">
         </activity>
         <activity
+            android:name=".module.offline.TeacherCourseSchedulingActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme">
+        </activity>
+        <activity
             android:name=".module.offline.MyCoursesActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.TabTheme">
@@ -929,13 +934,15 @@
         <activity
             android:name=".common.XScanActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.NoTitleBar">
-        </activity>
+            android:theme="@android:style/Theme.NoTitleBar"/>
         <activity
             android:name=".module.offline.TeacherScanPlanActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/App.Base.Theme">
-        </activity>
+            android:theme="@style/App.Base.Theme"/>
+        <activity
+            android:name=".module.offline.StudentScanPlanActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/App.Base.Theme"/>
         <activity
             android:name=".module.notice.NoticeShowActivity"
             android:screenOrientation="portrait"
@@ -971,13 +978,11 @@
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
-
         <activity
             android:name=".module.ptxs60.GroupBuyDetailActivity"
             android:screenOrientation="portrait"
             android:theme="@style/App.Base.Theme"
             android:windowSoftInputMode="adjustPan|stateHidden"/>
-
         <activity
             android:name=".module.wash.collect.withorder.TransferOrderActivity"
             android:screenOrientation="portrait"
@@ -987,6 +992,8 @@
         <meta-data
             android:name="android.max_aspect"
             android:value="2.1"/>
+
+
     </application>
 
 </manifest>

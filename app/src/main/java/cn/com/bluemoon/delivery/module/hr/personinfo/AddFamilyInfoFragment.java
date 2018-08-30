@@ -222,7 +222,7 @@ public class AddFamilyInfoFragment extends BaseFragment<CommonActionBar> {
         itemRadio.setListener(new BMRadioView.ClickListener() {
             @Override
             public void onSelected(int position, Object value) {
-                gender = ((RadioItem) value).text;
+                gender = ((RadioItem) value).text.toString();
             }
         });
         itemRadio.setData(list);

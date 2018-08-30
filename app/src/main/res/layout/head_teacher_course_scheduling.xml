@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="12dp"
+        android:background="@drawable/offline_training_item_bg"
+        android:orientation="vertical"
+        android:translationZ="2dp">
+
+        <TextView
+            android:id="@+id/txt_course_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="12dp"
+            android:textColor="@color/txt_333"
+            android:textSize="@dimen/text_size_15"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/txt_course_scheduling_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="16dp"
+            android:layout_marginRight="16dp"
+            android:layout_marginTop="4dp"
+            android:textColor="@color/txt_666"
+            android:textSize="@dimen/text_size_12"/>
+
+        <View
+            style="@style/line_solid_style"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:layout_marginTop="10dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="12dp"
+            android:text="@string/scan_code_hint"
+            android:textColor="@color/txt_666"
+            android:textSize="@dimen/text_size_14"/>
+
+        <ImageView
+            android:id="@+id/img_code"
+            android:layout_width="170dp"
+            android:layout_height="170dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="8dp"/>
+
+        <TextView
+            android:id="@+id/txt_save_to_album"
+            android:layout_width="80dp"
+            android:layout_height="21dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:gravity="center"
+            android:text="@string/save_to_album"
+            android:textColor="@color/text_red"
+            android:textSize="@dimen/text_size_12"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="14dp"
+        android:background="@color/white"
+        />
+</LinearLayout>
