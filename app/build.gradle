@@ -104,7 +104,7 @@ android {
 
     dexOptions {
 //        incremental true  // 已弃用
-        javaMaxHeapSize "2048m"
+        javaMaxHeapSize "512m"
         // 忽略方法数限制的检查
         jumboMode true
         // 是否对依赖的库进行dex 预处理来使你的增量构建更快速，因为这个特性可能会使你的clean 构建变慢，因此在你的持续集成服务器上你可能想关闭这个特性
