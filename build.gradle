@@ -24,9 +24,9 @@ allprojects {
         maven {
             url "http://mvn.gt.igexin.com/nexus/content/repositories/releases/"
         }
-        maven {
-            url "http://192.168.236.7:8081/nexus/content/repositories/releases/"
-        }
+//        maven {
+//            url "http://192.168.236.7:8081/nexus/content/repositories/releases/"
+//        }
         maven {
             url "https://jitpack.io"
         }

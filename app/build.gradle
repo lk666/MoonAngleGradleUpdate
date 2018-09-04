@@ -198,20 +198,22 @@ dependencies {
     implementation rootProject.ext.dependencies["getui"]
     //compile project(':lib_umengshare')
     implementation rootProject.ext.dependencies["umengAnalytics"]
-    implementation rootProject.ext.dependencies["lib_umengshare"]
-    implementation rootProject.ext.dependencies["lib_log"]
-    implementation rootProject.ext.dependencies["lib_widget"]
     implementation rootProject.ext.dependencies["greendao"]
     implementation rootProject.ext.dependencies["greendaoGenerator"]
-    implementation rootProject.ext.dependencies["lib_cardocr"]
-    implementation rootProject.ext.dependencies["lib_signature_pad"]
 
     implementation rootProject.ext.dependencies["smartRefreshLayout"]
     implementation rootProject.ext.dependencies["smartRefreshHeader"]
     implementation rootProject.ext.dependencies["baseRecyclerViewAdapterHelper"]
     implementation rootProject.ext.dependencies["android-pdf-viewer"]  // 引入了25.3.1
-    implementation rootProject.ext.dependencies["lib_x5"]
-    implementation rootProject.ext.dependencies["lib_badger"]
+
+//    implementation rootProject.ext.dependencies["lib_x5"]
+//    implementation rootProject.ext.dependencies["lib_badger"]
+//    implementation rootProject.ext.dependencies["lib_map_navigation"]
+//    implementation rootProject.ext.dependencies["lib_umengshare"]
+//    implementation rootProject.ext.dependencies["lib_log"]
+//    implementation rootProject.ext.dependencies["lib_widget"]
+//    implementation rootProject.ext.dependencies["lib_cardocr"]
+//    implementation rootProject.ext.dependencies["lib_signature_pad"]
 
     implementation rootProject.ext.dependencies["banner"]
 
@@ -222,7 +224,6 @@ dependencies {
     annotationProcessor rootProject.ext.dependencies["butterknife-compiler"]
 
     implementation rootProject.ext.dependencies["opensdk"]
-    implementation rootProject.ext.dependencies["lib_map_navigation"]
     implementation rootProject.ext.dependencies["kotlin"]
 }
 
@@ -246,6 +247,7 @@ android.applicationVariants.all { variant ->
         }
     }
 }
+
 repositories {
     mavenCentral()
 }
