@@ -251,3 +251,6 @@ public static java.lang.String TABLENAME;
 
 # pdfview
 -keep class com.shockwave.**
+
+# 讯飞
+-keep class com.iflytek.** { *; }
